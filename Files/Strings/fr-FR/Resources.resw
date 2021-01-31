@@ -679,7 +679,7 @@
     <value>Copier vers {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Créer un raccourcis</value>
+    <value>Créer un raccourci</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
     <value>Ouvrir l'emplacement du fichier</value>
@@ -1022,9 +1022,6 @@
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Caché</value>
-  </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Chemin du dossier</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Type d'élément</value>
@@ -1402,7 +1399,7 @@
     <value>Ouvrir dans un panneau secondaire</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Double peanneau</value>
+    <value>Double panneau</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
     <value>Afficher l'élément de menu de copie de l'emplacement</value>

@@ -19,12 +19,14 @@ namespace Files.ViewModels.Properties
         /// <summary>
         /// The name to display
         /// </summary>
-        public string Name => NameResource.GetLocalized();
+        public string Name => LocalizedName ?? NameResource.GetLocalized();
 
         /// <summary>
         /// The name of the string resource for the property name
         /// </summary>
         public string NameResource { get; set; }
+
+        public string LocalizedName { get; set; }
 
         /// <summary>
         /// The name of the section to display

@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -41,6 +41,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -166,13 +167,22 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
+    <Compile Include="Converters\VisiblityInvertConverter.cs" />
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
+    <Compile Include="Dialogs\DynamicDialog.xaml.cs">
+      <DependentUpon>DynamicDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
+    <Compile Include="Filesystem\CloudDrivesManager.cs" />
+    <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -188,11 +198,36 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
+    <Compile Include="Helpers\ExtensionManager.cs" />
+    <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
+      <DependentUpon>CodePreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\HtmlPreview.xaml.cs">
+      <DependentUpon>HtmlPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\MarkdownPreview.xaml.cs">
+      <DependentUpon>MarkdownPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\MediaPreview.xaml.cs">
+      <DependentUpon>MediaPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\PDFPreview.xaml.cs">
+      <DependentUpon>PDFPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\RichTextPreview.xaml.cs">
+      <DependentUpon>RichTextPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\TextPreview.xaml.cs">
+      <DependentUpon>TextPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml.cs">
       <DependentUpon>TabItemControl.xaml</DependentUpon>
     </Compile>
@@ -201,8 +236,36 @@
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\InvertPreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
+    <Compile Include="UserControls\StringEncodedImage.xaml.cs">
+      <DependentUpon>StringEncodedImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
+      <DependentUpon>Bundles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
+    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\MarkdownPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\MediaPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
+    <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
+    <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
+    <Compile Include="UserControls\PreviewPane.xaml.cs">
+      <DependentUpon>PreviewPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
+      <DependentUpon>ImagePreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
@@ -217,7 +280,6 @@
     <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
     <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
@@ -254,7 +316,7 @@
     <Compile Include="Helpers\PostBannerHelpers.cs" />
     <Compile Include="Helpers\RecycleBinHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\BulkObservableCollection.cs" />
+    <Compile Include="Helpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
@@ -609,6 +671,9 @@
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <PRIResource Include="Strings\ar\Resources.resw" />
+    <PRIResource Include="Strings\da-DK\Resources.resw" />
+    <PRIResource Include="Strings\da\Resources.resw" />
     <PRIResource Include="Strings\cs-CZ\Resources.resw" />
     <PRIResource Include="Strings\hu-HU\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
@@ -628,7 +693,9 @@
     <PRIResource Include="Strings\de-DE\Resources.resw" />
     <PRIResource Include="Strings\es-ES\Resources.resw" />
     <PRIResource Include="Strings\fr-FR\Resources.resw" />
-    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -638,6 +705,10 @@
     <Page Include="Dialogs\BitlockerDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\DynamicDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -655,6 +726,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\DefaultGridSplitterStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionaries\PropertiesStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -663,9 +738,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\PreviewPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\FileIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\CodePreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\HtmlPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\MarkdownPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilePreviews\MediaPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilePreviews\PDFPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\RichTextPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\TextPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>
@@ -711,11 +818,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\FilePreviews\ImagePreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SidebarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Widgets\Bundles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\StringEncodedImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -882,10 +1001,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.6</Version>
+      <Version>4.7.7</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.6</Version>
+      <Version>4.7.7</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>
@@ -897,7 +1016,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <XliffResource Include="MultilingualResources\Files.ar.xlf" />
     <XliffResource Include="MultilingualResources\Files.cs-CZ.xlf" />
+    <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
+    <XliffResource Include="MultilingualResources\Files.da.xlf" />
     <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />

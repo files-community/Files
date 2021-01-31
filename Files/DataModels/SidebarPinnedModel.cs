@@ -179,7 +179,7 @@ namespace Files.DataModels
         {
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-            if (res)
+            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                 && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
@@ -189,7 +189,7 @@ namespace Files.DataModels
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
-                    Text = res.Result.DisplayName
+                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
 
                 if (!MainPage.SideBarItems.Contains(locationItem))

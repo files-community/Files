@@ -338,6 +338,19 @@ namespace Files.UserControls
             }
         }
 
+        public static readonly DependencyProperty PreviewPaneEnabledProperty = DependencyProperty.Register(
+            "PreviewPaneEnabled",
+            typeof(bool),
+            typeof(NavigationToolbar),
+            new PropertyMetadata(null)
+        );
+
+        public bool PreviewPaneEnabled
+        {
+            get => (bool)GetValue(PreviewPaneEnabledProperty);
+            set => SetValue(PreviewPaneEnabledProperty, value);
+        }
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
@@ -971,6 +984,11 @@ namespace Files.UserControls
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
+        }
+
+        private void PreviewPane_Click(object sender, RoutedEventArgs e)
+        {
+            PreviewPaneEnabled = !PreviewPaneEnabled;
         }
     }
 }

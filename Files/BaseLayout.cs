@@ -321,6 +321,7 @@ namespace Files
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            FolderSettings.SetLayoutInformation();
 
             if (!navigationArguments.IsSearchResultPage)
             {
@@ -331,7 +332,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot 
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -365,7 +366,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
+                    await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
                 }
             }
 
@@ -384,10 +385,7 @@ namespace Files
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-        }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
@@ -586,6 +584,18 @@ namespace Files
                     menuLayoutItem.CommandParameter = newEntry;
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
+            }
+            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+            if (isPinned)
+            {
+                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
+            }
+            else
+            {
+                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
+                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
             }
         }
 
@@ -972,6 +982,15 @@ namespace Files
                     element.Drop += Item_Drop;
                 }
             }
+        }
+
+        protected void UninitializeDrag(UIElement element)
+        {
+            element.AllowDrop = false;
+            element.DragStarting -= Item_DragStarting;
+            element.DragOver -= Item_DragOver;
+            element.DragLeave -= Item_DragLeave;
+            element.Drop -= Item_Drop;
         }
 
         // VirtualKey doesn't support / accept plus and minus by default.

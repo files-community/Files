@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,11 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             AppServiceConnection connection,
             CancellationToken cancellationToken,
+            List<string> skipItems,
             Func<List<ListedItem>, Task> intermediateAction
         )
         {
+            var sampler = new IntervalSampler(500);
             var tempList = new List<ListedItem>();
             var hasNextFile = false;
             var count = 0;
@@ -39,10 +42,17 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            var listedItem = await GetFile(findData, path, returnformat, connection, cancellationToken);
-                            if (listedItem != null)
+                            var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
+                            if (file != null)
                             {
-                                tempList.Add(listedItem);
+                                if (skipItems?.Contains(file.ItemPath) ?? false)
+                                {
+                                    skipItems.Remove(file.ItemPath);
+                                }
+                                else
+                                {
+                                    tempList.Add(file);
+                                }
                                 ++count;
                             }
                         }
@@ -50,10 +60,17 @@ namespace Files.Filesystem.StorageEnumerators
                         {
                             if (findData.cFileName != "." && findData.cFileName != "..")
                             {
-                                var listedItem = GetFolder(findData, path, returnformat, cancellationToken);
-                                if (listedItem != null)
+                                var folder = GetFolder(findData, path, returnformat, cancellationToken);
+                                if (folder != null)
                                 {
-                                    tempList.Add(listedItem);
+                                    if (skipItems?.Contains(folder.ItemPath) ?? false)
+                                    {
+                                        skipItems.Remove(folder.ItemPath);
+                                    }
+                                    else
+                                    {
+                                        tempList.Add(folder);
+                                    }
                                     ++count;
                                 }
                             }
@@ -66,9 +83,11 @@ namespace Files.Filesystem.StorageEnumerators
                 }
 
                 hasNextFile = FindNextFile(hFile, out findData);
-                if (intermediateAction != null && (count == 32 || count % 300 == 0))
+                if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
+                    // clear the temporary list every time we do an intermediate action
+                    tempList.Clear();
                 }
             } while (hasNextFile);
 
@@ -112,8 +131,6 @@ namespace Files.Filesystem.StorageEnumerators
                 opacity = 0.4;
             }
 
-            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
-
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -130,7 +147,6 @@ namespace Files.Filesystem.StorageEnumerators
                 FileSize = null,
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath),
-                IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
             };
         }

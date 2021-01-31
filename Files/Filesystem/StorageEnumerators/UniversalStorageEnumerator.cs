@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Helpers;
 using Files.Views.LayoutModes;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,11 @@ namespace Files.Filesystem.StorageEnumerators
             string returnformat,
             Type sourcePageType,
             CancellationToken cancellationToken,
+            List<string> skipItems,
             Func<List<ListedItem>, Task> intermediateAction
         )
         {
+            var sampler = new IntervalSampler(500);
             var tempList = new List<ListedItem>();
             uint count = 0;
             var firstRound = true;
@@ -70,7 +73,14 @@ namespace Files.Filesystem.StorageEnumerators
                         var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
-                            tempList.Add(folder);
+                            if (skipItems?.Contains(folder.ItemPath) ?? false)
+                            {
+                                skipItems.Remove(folder.ItemPath);
+                            }
+                            else
+                            {
+                                tempList.Add(folder);
+                            }
                         }
                     }
                     else
@@ -79,7 +89,14 @@ namespace Files.Filesystem.StorageEnumerators
                         var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
                         if (fileEntry != null)
                         {
-                            tempList.Add(fileEntry);
+                            if (skipItems?.Contains(fileEntry.ItemPath) ?? false)
+                            {
+                                skipItems.Remove(fileEntry.ItemPath);
+                            }
+                            else
+                            {
+                                tempList.Add(fileEntry);
+                            }
                         }
                     }
                     if (cancellationToken.IsCancellationRequested)
@@ -88,9 +105,11 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                 }
                 count += maxItemsToRetrieve;
-                if (intermediateAction != null && count % 300 == 32 && items.Count == maxItemsToRetrieve)
+                if (intermediateAction != null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
+                    // clear the temporary list every time we do an intermediate action
+                    tempList.Clear();
                 }
             }
             return tempList;
