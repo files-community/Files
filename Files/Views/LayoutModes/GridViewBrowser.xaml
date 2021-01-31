@@ -963,6 +963,15 @@
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="{x:Bind AppSettings.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
             Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+            <GridView.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush"  Color="{StaticResource SystemChromeMediumLowColor}"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </GridView.Resources>
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
