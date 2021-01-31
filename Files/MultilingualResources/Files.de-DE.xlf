@@ -1977,7 +1977,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details View</source>
-          <target state="translated>">Detailansicht</target>
+          <target state="translated">Detailansicht</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
