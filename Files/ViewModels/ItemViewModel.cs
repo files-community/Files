@@ -1218,7 +1218,7 @@ namespace Files.ViewModels
                 {
                     CurrentFolder = currentFolder;
                 }
-                await EnumFromStorageFolderAsync(path, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, skipItems, cacheOnly);
+                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, skipItems, cacheOnly);
                 return true;
             }
             else
@@ -1283,7 +1283,7 @@ namespace Files.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, skipItems, cacheOnly);
+                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, skipItems, cacheOnly);
                     return false;
                 }
                 else
@@ -1291,16 +1291,16 @@ namespace Files.ViewModels
                     List<ListedItem> fileList;
                     if (cacheOnly)
                     {
-                        fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, null);
+                        fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, 32, null);
                         await fileListCache.SaveFileListToCache(path, new CacheEntry
                         {
-                            CurrentFolder = CurrentFolder,
+                            CurrentFolder = currentFolder,
                             FileList = fileList
                         });
                     }
                     else
                     {
-                        fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, intermediateAction: async (intermediateList) =>
+                        fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, -1, intermediateAction: async (intermediateList) =>
                         {
                             filesAndFolders.AddRange(intermediateList);
                             await OrderFilesAndFoldersAsync();
@@ -1343,7 +1343,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, List<string> skipItems, bool cacheOnly)
+        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, List<string> skipItems, bool cacheOnly)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -1361,10 +1361,11 @@ namespace Files.ViewModels
                     sourcePageType,
                     cancellationToken,
                     null,
+                    32,
                     null);
                 await fileListCache.SaveFileListToCache(path, new CacheEntry
                 {
-                    CurrentFolder = CurrentFolder,
+                    CurrentFolder = currentFolder,
                     FileList = finalList
                 });
             }
@@ -1377,6 +1378,7 @@ namespace Files.ViewModels
                     sourcePageType,
                     cancellationToken,
                     skipItems,
+                    -1,
                     async (intermediateList) =>
                 {
                     filesAndFolders.AddRange(intermediateList);
@@ -1788,7 +1790,7 @@ namespace Files.ViewModels
             {
                 CurrentFolder = CurrentFolder,
                 // since filesAndFolders could be mutated, memory cache needs a copy of current list
-                FileList = filesAndFolders.ToList()
+                FileList = filesAndFolders.Take(32).ToList()
             });
         }
 

@@ -24,6 +24,7 @@ namespace Files.Filesystem.StorageEnumerators
             Type sourcePageType,
             CancellationToken cancellationToken,
             List<string> skipItems,
+            int countLimit,
             Func<List<ListedItem>, Task> intermediateAction
         )
         {
@@ -105,6 +106,12 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                 }
                 count += maxItemsToRetrieve;
+
+                if (countLimit > -1 && count >= countLimit)
+                {
+                    break;
+                }
+
                 if (intermediateAction != null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);

@@ -26,6 +26,7 @@ namespace Files.Filesystem.StorageEnumerators
             AppServiceConnection connection,
             CancellationToken cancellationToken,
             List<string> skipItems,
+            int countLimit,
             Func<List<ListedItem>, Task> intermediateAction
         )
         {
@@ -77,7 +78,7 @@ namespace Files.Filesystem.StorageEnumerators
                         }
                     }
                 }
-                if (cancellationToken.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested || count == countLimit)
                 {
                     break;
                 }
