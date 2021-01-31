@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
@@ -360,20 +361,22 @@ namespace Files.Views
                 tabLocationHeader = tabHeader;
             }
 
-            try
-            {
-                StorageFolder SelectedFolder = await StorageFolder.GetFolderFromPathAsync(currentPath);
+            FilesystemResult<StorageFolderWithPath> currentItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
 
-                if (SelectedFolder != null)
+            if (currentItem != null && currentItem.ErrorCode == FileSystemStatusCode.Success)
+            {
+                StorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, currentItem));
+
+                if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
                 {
-                    selectedTabItem.Header = SelectedFolder.DisplayName;
+                    selectedTabItem.Header = currentFolder.DisplayName;
                 }
                 else
                 {
                     selectedTabItem.Header = tabLocationHeader;
                 }
             }
-            catch (Exception)
+            else
             {
                 selectedTabItem.Header = tabLocationHeader;
             }
