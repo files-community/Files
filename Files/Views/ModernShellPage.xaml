@@ -311,8 +311,7 @@
                     InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
                     SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
                     SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
-                    MultiselectChangedCommand="{x:Bind InteractionOperations.SetPageMultiSelectEnabledCommand, Mode=OneWay}"/>
+                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}"/>
             </Grid>
         </Custom:DropShadowPanel>
 

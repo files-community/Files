@@ -636,6 +636,15 @@ namespace Files.ViewModels
             get => Get(true);
             set => Set(value);
         }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show a multiselect option in the selection menu flyout.
+        /// </summary>
+        public bool ShowMultiselectOption
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
         #endregion Experimental
 
@@ -758,6 +767,12 @@ namespace Files.ViewModels
         {
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
+        }
+
+        public bool MultiselectEnabled
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         #region ReadAndSaveSettings

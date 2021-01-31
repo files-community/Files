@@ -73,7 +73,8 @@
                         <ToggleMenuFlyoutItem
                             x:Name="MultiSelectMFI"
                             Text="Multi select"
-                            IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}">
+                            IsChecked="{x:Bind AppSettings.MultiselectEnabled, Mode=TwoWay}"
+                            Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
                             </MenuFlyoutItem.Icon>
