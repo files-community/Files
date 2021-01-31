@@ -12,13 +12,15 @@ bool MsgHandler_BitLocker::Unlock(LPCWSTR filepath, LPCWSTR password)
 	args += *filepath;
 	args += L"' -Password $SecureString\"";
 
-	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, 0);
+	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, FALSE);
 
 	return true;
 }
 
 bool MsgHandler_BitLocker::Lock(LPCWSTR filepath, LPCWSTR password)
 {
+	return false;
+
 	using namespace::std;
 
 	wstring args = L"-command \"$SecureString = ConvertTo-SecureString '";
@@ -27,7 +29,7 @@ bool MsgHandler_BitLocker::Lock(LPCWSTR filepath, LPCWSTR password)
 	args += *filepath;
 	args += L"' -Password $SecureString\"";
 
-	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, 0);
+	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, FALSE);
 
 	return true;
 }
