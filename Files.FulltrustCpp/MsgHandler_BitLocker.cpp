@@ -1,18 +1,35 @@
 #include "pch.h"
 #include "MsgHandler_BitLocker.h"
+#include <string>
 
 bool MsgHandler_BitLocker::Unlock(LPCWSTR filepath, LPCWSTR password)
 {
-	// run a powershell script here with unlockdrive params
+	using namespace::std;
 
-	return false;
+	wstring args = L"-command \"$SecureString = ConvertTo-SecureString '";
+	args += *password;
+	args += L"' -AsPlainText -Force; Unlock-BitLocker - MountPoint '";
+	args += *filepath;
+	args += L"' -Password $SecureString\"";
+
+	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, 0);
+
+	return true;
 }
 
 bool MsgHandler_BitLocker::Lock(LPCWSTR filepath, LPCWSTR password)
 {
-	// run a powershell script here with lockdrive params
+	using namespace::std;
 
-	return false;
+	wstring args = L"-command \"$SecureString = ConvertTo-SecureString '";
+	args += *password;
+	args += L"' -AsPlainText -Force; Lock-BitLocker - MountPoint '";
+	args += *filepath;
+	args += L"' -Password $SecureString\"";
+
+	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, 0);
+
+	return true;
 }
 
 IAsyncOperation<bool> MsgHandler_BitLocker::ParseArgumentsAsync(const AppServiceManager& manager, const AppServiceRequestReceivedEventArgs& args)
