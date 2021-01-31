@@ -1355,7 +1355,7 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
 
                 PreviewPaneRow.Height = new GridLength(0);
-                PreviewPaneColumn.Width = AppSettings.PreviewPaneHeight;
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
                 PreviewPane.IsHorizontal = false;
 
                 PreviewPane.Visibility = Visibility.Visible;
@@ -1363,7 +1363,7 @@ namespace Files.Views
             }
             else if (RootGrid.ActualWidth < 1000)
             {
-                PreviewPaneRow.Height = AppSettings.PreviewPaneSize_Horizontal;
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
                 PreviewPaneColumn.Width = new GridLength(0);
 
                 PreviewPane.SetValue(Grid.RowProperty, 4);
@@ -1389,10 +1389,10 @@ namespace Files.Views
 
             if(PreviewPane.IsHorizontal)
             {
-                AppSettings.PreviewPaneSize_Horizontal = new GridLength(PreviewPane.ActualHeight);
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
             } else
             {
-                AppSettings.PreviewPaneHeight = new GridLength(PreviewPane.ActualWidth);
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
             }
         }
     }
