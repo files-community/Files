@@ -59,27 +59,25 @@ namespace Files.ViewModels.Properties
 
                 if (Item.IsShortcutItem)
                 {
-                    var shortcutItem = (ShortcutItem)Item;
 
-                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-                        (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-                            || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-                            || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+                    var isApplication = !string.IsNullOrWhiteSpace(Item.TargetPath) &&
+                        (Item.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                            || Item.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
+                            || Item.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
-                    ViewModel.ShortcutItemType = isApplication ? "PropertiesShortcutTypeApplication".GetLocalized() :
+                    ViewModel.ItemType = isApplication ? "PropertiesShortcutTypeApplication".GetLocalized() :
                         Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalized() : "PropertiesShortcutTypeFile".GetLocalized();
-                    ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
-                    ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                    ViewModel.ShortcutItemPath = Item.TargetPath;
+                    ViewModel.ShortcutItemWorkingDir = Item.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
-                    ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                    ViewModel.ShortcutItemArguments = Item.Arguments;
                     ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
                     ViewModel.IsSelectedItemShortcut = Item.FileExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
                         if (Item.IsLinkItem)
                         {
-                            var tmpItem = (ShortcutItem)Item;
-                            await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                            await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, Item.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                         }
                         else
                         {
@@ -115,14 +113,14 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
                 ViewModel.LoadLinkIcon = Item.IsLinkItem;
-                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(Item.TargetPath))
                 {
                     // Can't show any other property
                     return;
                 }
             }
 
-            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Item.TargetPath ?? Item.ItemPath);
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -316,7 +314,6 @@ namespace Files.ViewModels.Properties
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
-                    var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
                     if (AppInstance.FilesystemViewModel.Connection != null)
@@ -329,7 +326,7 @@ namespace Files.ViewModels.Properties
                             { "targetpath", ViewModel.ShortcutItemPath },
                             { "arguments", ViewModel.ShortcutItemArguments },
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
+                            { "runasadmin", Item.RunAsAdmin },
                         };
                         await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }

@@ -133,7 +133,7 @@ namespace Files.Interacts
             var items = AssociatedInstance.ContentPage.SelectedItems;
             foreach (ListedItem listedItem in items)
             {
-                var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
+                var selectedItemPath = listedItem.TargetPath ?? listedItem.ItemPath;
                 var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
                 await Launcher.LaunchUriAsync(folderUri);
             }
@@ -144,7 +144,7 @@ namespace Files.Interacts
             var listedItem = AssociatedInstance.ContentPage.SelectedItems.FirstOrDefault();
             if (listedItem != null)
             {
-                AssociatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                AssociatedInstance.PaneHolder?.OpenPathInNewPane(listedItem.TargetPath ?? listedItem.ItemPath);
             }
         }
 
@@ -161,7 +161,7 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), listedItem.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
@@ -174,7 +174,7 @@ namespace Files.Interacts
                 {
                     if (Item.IsShortcutItem)
                     {
-                        OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem)?.TargetPath ?? Item.ItemPath);
                     }
                     else
                     {
@@ -393,7 +393,7 @@ namespace Files.Interacts
 
         public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
-            var item = AssociatedInstance.ContentPage.SelectedItem as ShortcutItem;
+            var item = AssociatedInstance.ContentPage.SelectedItem;
             var folderPath = Path.GetDirectoryName(item.TargetPath);
             // Check if destination path exists
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
@@ -813,7 +813,7 @@ namespace Files.Interacts
                     {
                         dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
                         dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
-                        dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
+                        dataRequest.Data.SetWebLink(new Uri(item.TargetPath));
                         dataRequestDeferral.Complete();
                         return;
                     }
@@ -1302,7 +1302,7 @@ namespace Files.Interacts
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
+            StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(fileItem.TargetPath ?? fileItem.ItemPath);
             if (itemFromPath == null)
             {
                 return "";

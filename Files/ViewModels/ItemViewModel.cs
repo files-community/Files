@@ -2051,7 +2051,7 @@ namespace Files.ViewModels
                             opacity = 0.4;
                         }
 
-                        return new ShortcutItem(null, dateReturnFormat)
+                        return new ListedItem(null, dateReturnFormat)
                         {
                             PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
@@ -2075,6 +2075,7 @@ namespace Files.ViewModels
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
                             ContainsFilesOrFolders = containsFilesOrFolders,
+                            IsShortcutItem = true,
                         };
                     }
                 }

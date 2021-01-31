@@ -845,7 +845,7 @@ namespace Files
 
             foreach (ListedItem item in ParentShellPageInstance.ContentPage.SelectedItems)
             {
-                if (item is ShortcutItem)
+                if (item.IsShortcutItem)
                 {
                     // Can't drag shortcut items
                     continue;
@@ -958,7 +958,7 @@ namespace Files
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {
-                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, rowItem.TargetPath ?? rowItem.ItemPath, true);
             }
             deferral.Complete();
         }

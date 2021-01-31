@@ -275,10 +275,18 @@ namespace Files.Filesystem
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;
-        public bool IsShortcutItem => this is ShortcutItem;
-        public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
         public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
+
+        #region ShortcutProperties
+        public bool IsShortcutItem { get; set; }
+        public bool IsLinkItem => IsShortcutItem && this.IsUrl;
+        public string TargetPath { get; set; }
+        public string Arguments { get; set; }
+        public string WorkingDirectory { get; set; }
+        public bool RunAsAdmin { get; set; }
+        public bool IsUrl { get; set; }
+        #endregion
     }
 
     public class RecycleBinItem : ListedItem
@@ -306,20 +314,5 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path)
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
-    }
-
-    public class ShortcutItem : ListedItem
-    {
-        public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
-        {
-        }
-
-        // For shortcut elements (.lnk and .url)
-        public string TargetPath { get; set; }
-
-        public string Arguments { get; set; }
-        public string WorkingDirectory { get; set; }
-        public bool RunAsAdmin { get; set; }
-        public bool IsUrl { get; set; }
     }
 }

@@ -50,12 +50,11 @@ namespace Files.ViewModels.Properties
 
                 if (Item.IsShortcutItem)
                 {
-                    var shortcutItem = (ShortcutItem)Item;
                     ViewModel.ShortcutItemType = "PropertiesShortcutTypeFolder".GetLocalized();
-                    ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
-                    ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                    ViewModel.ShortcutItemPath = Item.TargetPath;
+                    ViewModel.ShortcutItemWorkingDir = Item.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
-                    ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                    ViewModel.ShortcutItemArguments = Item.Arguments;
                     ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
@@ -86,7 +85,7 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
-                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(Item.TargetPath))
                 {
                     // Can't show any other property
                     return;
@@ -96,7 +95,7 @@ namespace Files.ViewModels.Properties
             StorageFolder storageFolder;
             try
             {
-                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(Item.TargetPath ?? Item.ItemPath);
             }
             catch (Exception ex)
             {
@@ -207,7 +206,6 @@ namespace Files.ViewModels.Properties
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
-                    var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                     {
                         return;
@@ -223,7 +221,7 @@ namespace Files.ViewModels.Properties
                             { "targetpath", ViewModel.ShortcutItemPath },
                             { "arguments", ViewModel.ShortcutItemArguments },
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
+                            { "runasadmin", Item.RunAsAdmin },
                         };
                         await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }

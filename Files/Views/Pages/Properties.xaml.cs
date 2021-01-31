@@ -51,7 +51,7 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            TabShorcut.Visibility = (args.Item as ListedItem).IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             listedItem = args.Item as ListedItem;
             TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             SetBackground();
