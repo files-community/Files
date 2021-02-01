@@ -83,7 +83,6 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        //public override bool MultiselectEnabled { get; set; }
         public GenericFileBrowser()
         {
             InitializeComponent();
