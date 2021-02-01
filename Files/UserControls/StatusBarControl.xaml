@@ -74,7 +74,7 @@
                             x:Name="MultiselectMFI"
                             x:Uid="StatusBarControlMultiselect"
                             Text="Multiselect"
-                            IsChecked="{x:Bind AppSettings.MultiselectEnabled, Mode=TwoWay}"
+                            IsChecked="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
                             Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />

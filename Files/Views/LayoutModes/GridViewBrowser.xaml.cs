@@ -441,7 +441,7 @@ namespace Files.Views.LayoutModes
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || AppSettings.MultiselectEnabled)
+            if (ctrlPressed || shiftPressed || InteractionViewModel.MultiselectEnabled)
             {
                 return;
             }

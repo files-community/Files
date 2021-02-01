@@ -110,5 +110,13 @@ namespace Files.ViewModels
                 }
             }
         }
+
+
+        private bool multiselectEnabled;
+        public bool MultiselectEnabled
+        {
+            get => multiselectEnabled;
+            set => SetProperty(ref multiselectEnabled, value);
+        }
     }
 }
