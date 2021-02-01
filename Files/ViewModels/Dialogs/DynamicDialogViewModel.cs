@@ -10,17 +10,17 @@ namespace Files.ViewModels.Dialogs
 {
     public enum DynamicResult
     {
-        Primary = 0,
-        Secondary = 1,
-        Cancel = 2
+        Primary = 1,
+        Secondary = 2,
+        Cancel = 4,
     }
 
     public enum DynamicButtons
     {
-        Primary = 0,
-        Secondary = 1,
-        Cancel = 2,
-        None = 3
+        Primary = 1,
+        Secondary = 2,
+        Cancel = 4,
+        None = 8
     }
 
     public class DynamicDialogViewModel : ObservableObject, IDisposable
@@ -160,7 +160,7 @@ namespace Files.ViewModels.Dialogs
             {
                 if (SetProperty(ref dynamicButtonsEnabled, value))
                 {
-                    if (value.HasFlag(DynamicButtons.Cancel))
+                    if (!value.HasFlag(DynamicButtons.Cancel))
                     {
                         throw new ArgumentException("Cannot disable Close button!");
                     }
@@ -293,9 +293,7 @@ namespace Files.ViewModels.Dialogs
         {
             // Create default implementation
             TitleText = "DynamicDialog";
-            PrimaryButtonText = "Yes";
-            SecondaryButtonText = "No";
-            CloseButtonText = "Cancel";
+            PrimaryButtonText = "Ok";
             PrimaryButtonAction = (vm, e) => HideDialog();
             SecondaryButtonAction = (vm, e) => HideDialog();
             CloseButtonAction = (vm, e) => HideDialog();
