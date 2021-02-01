@@ -300,7 +300,7 @@
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF108;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <!--<MenuFlyoutItem
+            <MenuFlyoutItem
                 x:Name="OpenFileLocation"
                 x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
                 Click="{x:Bind Interaction.OpenFileLocation_Click}"
@@ -309,7 +309,7 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
                 </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>-->
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="OpenInNewTab"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
@@ -332,7 +332,7 @@
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <!--<MenuFlyoutSubItem
+            <MenuFlyoutSubItem
                 x:Uid="BaseLayoutItemContextFlyoutSetAs"
                 Text="Set as"
                 Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
@@ -354,7 +354,7 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-            </MenuFlyoutSubItem>-->
+            </MenuFlyoutSubItem>
             <MenuFlyoutItem
                 x:Name="RunAsAdmin"
                 x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
@@ -449,7 +449,7 @@
             <MenuFlyoutItem
                 x:Name="RenameItem"
                 x:Uid="BaseLayoutItemContextFlyoutRename"
-                Click="{x:Bind Interaction.RenameItem_Click}"
+                Click="RenameItem_Click"
                 Text="Rename">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
@@ -601,7 +601,17 @@
                             Glyph="&#xF10A;" />
                             </Border>
                         </Grid>
-                        <TextBlock Margin="10,0" Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind ItemName}"></TextBlock>
+                        <TextBlock Margin="10,0" Grid.Column="1" VerticalAlignment="Center" x:Name="ItemName" Text="{x:Bind ItemName}"></TextBlock>
+                        <TextBox
+                        x:Name="ColumnViewTextBoxName" Grid.Column="1"
+                        Margin="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Text="{x:Bind ItemName}"
+                            TextAlignment="Left"
+                            Visibility="Collapsed"
+                        TextChanged="ColumnViewTextBoxName_TextChanged"
+                        TextWrapping="Wrap" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -623,5 +633,12 @@
                 Stroke="#FF0066cc"
                 StrokeThickness="1" />
         </Canvas>
+
+        <muxc:TeachingTip
+            x:Name="FileNameTeachingTip"
+            x:Uid="FileNameTeachingTip"
+            CloseButtonContent="OK"
+            PreferredPlacement="Auto"
+            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
     </Grid>
 </Page>

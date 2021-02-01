@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.UserControls.Selection;
+using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -41,6 +42,7 @@ namespace Files
         public ColumnViewBrowser()
         {
             this.InitializeComponent();
+            SelectedItemsPropertiesViewModel2 = SelectedItemsPropertiesViewModel;
             ColumnViewShellPage.SetSelectedItems += ColumnViewShellPage_SetSelectedItems;
             ColumnViewShellPage.NotifyRoot += ColumnViewShellPage_NotifyRoot;
             ColumnViewShellPage.GetCurrentColumnAndClearRest += ColumnViewShellPage_GetCurrentColumnAndClearRest; ;
@@ -109,6 +111,7 @@ namespace Files
                     Path = folder.Folder.ItemPath,
                     BladeNumber = ColumnBladeView.Items.IndexOf(bi),
                     CurrentInstance = ParentShellPageInstance,
+                    SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel2,
                     //ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders,
                     ItemsSource = viewmodel.FilesAndFolders,
                     //ViewModel = ParentShellPageInstance.FilesystemViewModel,
@@ -178,6 +181,7 @@ namespace Files
                     Path = NavParam,
                     BladeNumber = 0,
                     CurrentInstance = ParentShellPageInstance,
+                    SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel2,
                     ItemsSource = viewmodel.FilesAndFolders,
                     ViewModel = viewmodel,
                     Interaction = InteractionOperations
@@ -185,6 +189,7 @@ namespace Files
             }
         }
         private List<Frame> Frames;
+        public static SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel2;
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -223,6 +228,7 @@ namespace Files
                 Path = NavParam,
                 BladeNumber = 0,
                 CurrentInstance = ParentShellPageInstance,
+                SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel2,
                 ItemsSource = viewmodel.FilesAndFolders,
                 ViewModel = viewmodel,
                 Interaction = InteractionOperations
