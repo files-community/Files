@@ -1100,11 +1100,11 @@
         </trans-unit>
         <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="translated">Ja</target>
+          <target state="translated">Nej</target>
         </trans-unit>
         <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="translated">Nej</target>
+          <target state="translated">Ja</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
