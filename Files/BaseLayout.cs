@@ -179,8 +179,6 @@ namespace Files
 
         public abstract void ScrollIntoView(ListedItem item);
 
-        //public abstract bool MultiselectEnabled { get; set; }
-
         protected abstract void AddSelectedItem(ListedItem item);
 
         protected abstract IEnumerable GetAllItems();
