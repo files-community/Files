@@ -507,7 +507,7 @@
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <ListView ItemsSource="{x:Bind ListOfFiles}"
-            x:FieldModifier="public" Tag="{x:Bind CurrentFolderPath, Mode=OneWay}" x:Name="FileList" IsDoubleTapEnabled="True" Tapped="FileList_Tapped" DoubleTapped="FileList_DoubleTapped" IsRightTapEnabled="True" RightTapped="ListView_RightTapped" SelectionChanged="ListView_SelectionChanged" IsItemClickEnabled="True" SelectionMode="Extended" ItemClick="ListView_ItemClick">
+            x:FieldModifier="public" DataContext="{x:Bind CurrentFolderPath, Mode=OneWay}" x:Name="FileList" IsDoubleTapEnabled="True" Tapped="FileList_Tapped" DoubleTapped="FileList_DoubleTapped" IsRightTapEnabled="True" RightTapped="ListView_RightTapped" SelectionChanged="ListView_SelectionChanged" IsItemClickEnabled="True" SelectionMode="Extended" ItemClick="ListView_ItemClick">
 
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">

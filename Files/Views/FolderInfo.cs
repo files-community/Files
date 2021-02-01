@@ -6,5 +6,6 @@ namespace Files.Views.Pages
     {
         public int RootBladeNumber { get; set; }
         public ListedItem Folder { get; set; }
+        public string Path { get; set; }
     }
 }

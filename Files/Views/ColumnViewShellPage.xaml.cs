@@ -52,6 +52,7 @@ namespace Files.Views.Pages
         private string CurrentFolderPath;
 
         public static event EventHandler NotifyRoot;
+        public static event EventHandler GetCurrentColumnAndClearRest;
         public static event EventHandler SetSelectedItems;
         public ColumnViewShellPage()
         {
@@ -155,6 +156,10 @@ namespace Files.Views.Pages
             else
             {
                 ClearSelection();
+                if (((FrameworkElement)e.OriginalSource).DataContext == CurrentFolderPath)
+                {
+                    GetCurrentColumnAndClearRest?.Invoke(new FolderInfo { RootBladeNumber = RootBladeNumber, Path = ((FrameworkElement)e.OriginalSource).DataContext.ToString() }, EventArgs.Empty);
+                }
             }
         }
 
@@ -238,7 +243,10 @@ namespace Files.Views.Pages
 
         private void FileList_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            
+            if (((FrameworkElement)e.OriginalSource).DataContext == CurrentFolderPath)
+            {
+                GetCurrentColumnAndClearRest?.Invoke(new FolderInfo { RootBladeNumber = RootBladeNumber, Path = ((FrameworkElement)e.OriginalSource).DataContext.ToString() }, EventArgs.Empty);
+            }
         }
 
         private void Page_PointerPressed(object sender, PointerRoutedEventArgs e)

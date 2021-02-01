@@ -43,6 +43,27 @@ namespace Files
             this.InitializeComponent();
             ColumnViewShellPage.SetSelectedItems += ColumnViewShellPage_SetSelectedItems;
             ColumnViewShellPage.NotifyRoot += ColumnViewShellPage_NotifyRoot;
+            ColumnViewShellPage.GetCurrentColumnAndClearRest += ColumnViewShellPage_GetCurrentColumnAndClearRest; ;
+        }
+
+        private async void ColumnViewShellPage_GetCurrentColumnAndClearRest(object sender, EventArgs e)
+        {
+            var folder = sender as FolderInfo; 
+            while (ColumnBladeView.Items.Count > folder.RootBladeNumber + 1)
+            {
+                try
+                {
+                    ColumnBladeView.Items.RemoveAt(folder.RootBladeNumber + 1);
+                    ColumnBladeView.ActiveBlades.RemoveAt(folder.RootBladeNumber + 1);
+                }
+                catch
+                {
+                    break;
+                }
+            }
+            await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folder.Path);
+            MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(folder.Path).Name, folder.Path);
+            await ParentShellPageInstance.FilesystemViewModel.EnumerateItemsFromStandardFolderAsync(folder.Path);
         }
 
         private async void ColumnViewShellPage_NotifyRoot(object sender, EventArgs e)
