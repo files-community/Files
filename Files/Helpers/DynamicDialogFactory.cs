@@ -106,7 +106,7 @@ namespace Files.Helpers
                 CloseButtonText = "RenameDialog/SecondaryButtonText".GetLocalized(),
                 DynamicButtonsEnabled = DynamicButtons.Cancel,
                 DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
-            })
+            });
 
             return dialog;
         }

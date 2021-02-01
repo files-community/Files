@@ -52,6 +52,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Text="{Binding SubtitleText, Mode=OneWay}"
+            x:Load="{x:Bind ViewModel.SubtitleLoad, Mode=OneWay}"
+            x:Name="Subtitle"
             TextWrapping="WrapWholeWords" />
 
         <!--  The dynamic content control  -->

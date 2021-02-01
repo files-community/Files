@@ -99,7 +99,27 @@ namespace Files.ViewModels.Dialogs
         public string SubtitleText
         {
             get => subtitleText;
-            set => SetProperty(ref subtitleText, value);
+            set
+            {
+                if (SetProperty(ref subtitleText, value))
+                {
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        SubtitleLoad = true;
+                    }
+                    else
+                    {
+                        SubtitleLoad = false;
+                    }
+                }
+            }
+        }
+
+        private bool subtitleLoad;
+        public bool SubtitleLoad
+        {
+            get => subtitleLoad;
+            private set => SetProperty(ref subtitleLoad, value);
         }
 
         #region Primary Button
