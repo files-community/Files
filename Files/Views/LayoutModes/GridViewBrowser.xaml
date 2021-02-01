@@ -967,7 +967,7 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush"  Color="{StaticResource SystemChromeMediumLowColor}"/>
+                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush"  Color="{ThemeResource SystemChromeMediumLowColor}"/>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
