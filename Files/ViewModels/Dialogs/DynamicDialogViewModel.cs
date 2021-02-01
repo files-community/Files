@@ -177,9 +177,18 @@ namespace Files.ViewModels.Dialogs
                     {
                         IsPrimaryButtonEnabled = false; // Hides this option
                     }
+                    else
+                    {
+                        IsPrimaryButtonEnabled = true;
+                    }
+
                     if (!value.HasFlag(DynamicButtons.Secondary))
                     {
                         IsSecondaryButtonEnabled = false; // Hides this option
+                    }
+                    else
+                    {
+                        IsSecondaryButtonEnabled = true;
                     }
                 }
             }
