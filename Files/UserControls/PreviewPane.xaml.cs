@@ -188,10 +188,11 @@ namespace Files.UserControls
                 return new RichTextPreview(new RichTextPreviewViewModel(item));
             }
 
-            if (CodePreviewViewModel.Extensions.Contains(ext))
-            {
-                return new CodePreview(new CodePreviewViewModel(item));
-            }
+            // TODO: Fix code scroll issue and reimplement this in the future
+            //if (CodePreviewViewModel.Extensions.Contains(ext))
+            //{
+            //    return new CodePreview(new CodePreviewViewModel(item));
+            //}
 
             return null;
         }
