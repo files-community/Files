@@ -36,5 +36,79 @@ namespace Files.Helpers
             });
             return dialog;
         }
+
+        public static DynamicDialog GetFor_RenameDialog()
+        {
+            DynamicDialog dialog = null;
+            TextBox inputText = new TextBox()
+            {
+                Height = 35d,
+                PlaceholderText = "RenameDialogInputText/PlaceholderText".GetLocalized()
+            };
+
+            TextBlock tipText = new TextBlock()
+            {
+                Text = "RenameDialogSymbolsTip/Text".GetLocalized(),
+                Margin = new Windows.UI.Xaml.Thickness(0, 0, 4, 0),
+                TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
+                Visibility = Windows.UI.Xaml.Visibility.Collapsed
+            };
+
+            inputText.TextChanged += (s, e) =>
+            {
+                var textBox = s as TextBox;
+                dialog.ViewModel.AdditionalData = textBox.Text;
+
+                if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
+                {
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Cancel;
+                    tipText.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    return;
+                }
+                else if (!string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Primary | DynamicButtons.Cancel;
+                }
+                else
+                {
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Cancel;
+                }
+
+                tipText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            };
+
+            dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                TitleText = "RenameDialog/Title".GetLocalized(),
+                SubtitleText = null,
+                DisplayControl = new Grid()
+                {
+                    MinWidth = 300d,
+                    Children =
+                    {
+                        new StackPanel()
+                        {
+                            Orientation = Orientation.Vertical,
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
+                },
+                PrimaryButtonAction = (vm, e) =>
+                {
+                    vm.HideDialog(); // Rename successful
+                },
+                PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalized(),
+                CloseButtonText = "RenameDialog/SecondaryButtonText".GetLocalized(),
+                DynamicButtonsEnabled = DynamicButtons.Cancel,
+                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
+            })
+
+            return dialog;
+        }
     }
 }
