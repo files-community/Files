@@ -832,10 +832,10 @@
     <value>Mere</value>
   </data>
   <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Ja</value>
+    <value>Nej</value>
   </data>
   <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Nej</value>
+    <value>Ja</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Applikationen skal genstartes for at anvende sprogindstillingen. Vil du genstarte appen?</value>
