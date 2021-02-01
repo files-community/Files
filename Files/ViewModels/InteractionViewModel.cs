@@ -111,7 +111,6 @@ namespace Files.ViewModels
             }
         }
 
-
         private bool multiselectEnabled;
         public bool MultiselectEnabled
         {
