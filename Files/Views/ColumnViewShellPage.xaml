@@ -396,7 +396,7 @@
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator
                         Key="X"
-                        IsEnabled="False"
+                        IsEnabled="True"
                         Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
@@ -411,7 +411,7 @@
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator
                         Key="C"
-                        IsEnabled="False"
+                        IsEnabled="True"
                         Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
@@ -443,7 +443,7 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Delete" IsEnabled="False" />
+                    <KeyboardAccelerator Key="Delete" IsEnabled="True" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -455,7 +455,7 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F2" IsEnabled="False" />
+                    <KeyboardAccelerator Key="F2" IsEnabled="True" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />

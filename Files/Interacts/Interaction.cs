@@ -1035,6 +1035,7 @@ namespace Files.Interacts
             try
             {
                 Clipboard.Flush();
+                App.InteractionViewModel.IsPasteEnabled = true;
             }
             catch
             {
@@ -1103,6 +1104,7 @@ namespace Files.Interacts
                 try
                 {
                     Clipboard.Flush();
+                    App.InteractionViewModel.IsPasteEnabled = true;
                 }
                 catch
                 {
