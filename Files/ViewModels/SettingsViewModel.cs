@@ -111,7 +111,7 @@ namespace Files.ViewModels
         }
         
         /// <summary>
-        /// Gets or sets a value indicating the width that the preview pane should be opened to when the preview pane is in a vertical layout.
+        /// Gets or sets a value indicating the width of the preview pane in a vertical layout.
         /// </summary>
         public GridLength PreviewPaneSizeVertical
         {
