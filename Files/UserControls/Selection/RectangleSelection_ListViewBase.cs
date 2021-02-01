@@ -58,7 +58,7 @@ namespace Files.UserControls.Selection
                 base.DrawRectangle(currentPoint, originDragPointShifted);
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
-                foreach (var item in uiElement.Items.Except(itemsPosition.Keys))
+                foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
                 {
                     var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
                     if (listViewItem == null)
