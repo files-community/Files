@@ -129,7 +129,7 @@ namespace Files.Views.LayoutModes
         {
             if (!InstanceViewModel.IsPageTypeSearchResults)
             {
-                foreach (ListedItem listedItem in FileList.Items)
+                foreach (ListedItem listedItem in FileList.Items.ToList())
                 {
                     if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
                     {
