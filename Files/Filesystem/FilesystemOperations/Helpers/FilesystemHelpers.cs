@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Popups;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -707,11 +708,24 @@ namespace Files.Filesystem
             Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+            if(source.ItemType == FilesystemItemType.File && Path.GetExtension(source.Path) != Path.GetExtension(newName))
+			{
+                var dialog = new MessageDialog("If you change a file extension, the file might become unusable." 
+                                                + Environment.NewLine +
+                                                "Are you sure you want to change it?", "Rename");
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
-            {
-                App.HistoryWrapper.AddHistory(history);
+                dialog.Commands.Add(new UICommand("Yes", async delegate (IUICommand command)
+                {
+                    IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+
+                    if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+                    {
+                        App.HistoryWrapper.AddHistory(history);
+                    }
+                }));
+
+                dialog.Commands.Add(new UICommand("No", null));
+                await dialog.ShowAsync();
             }
 
             return returnCode.ToStatus();
