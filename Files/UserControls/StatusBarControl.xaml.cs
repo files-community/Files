@@ -10,6 +10,7 @@ namespace Files.UserControls
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
         public FolderSettingsViewModel FolderSettings { get; set; } = null;
         public ICommand SelectAllInvokedCommand { get; set; }
         public ICommand InvertSelectionInvokedCommand { get; set; }

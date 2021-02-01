@@ -653,6 +653,15 @@ namespace Files.ViewModels
             get => Get(true);
             set => Set(value);
         }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// </summary>
+        public bool ShowMultiselectOption
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
         #endregion Experimental
 
