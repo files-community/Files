@@ -101,7 +101,6 @@ namespace Files.ViewModels
             get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
-        
         /// <summary>
         /// Gets or sets a value indicating the height that the preview pane should be opened to when the preview pane is in a horizontal layout.
         /// </summary>
