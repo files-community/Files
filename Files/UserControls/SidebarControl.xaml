@@ -56,7 +56,7 @@
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind Path}">
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{x:Bind Font}"
@@ -80,7 +80,7 @@
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind Path, Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
@@ -100,7 +100,7 @@
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind Path, Mode=OneWay}">
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
                     <muxc:NavigationViewItem.Icon>
                         <BitmapIcon
                             Width="30"
@@ -156,8 +156,8 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewPane"
-                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 x:Uid="SideBarOpenInNewPane"
+                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 Click="OpenInNewPane_Click"
                                 Text="Open in new pane">
                                 <MenuFlyoutItem.Icon>

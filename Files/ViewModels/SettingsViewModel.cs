@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
@@ -28,23 +29,16 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public DrivesManager DrivesManager { get; }
+        public CloudDrivesManager CloudDrivesManager { get; private set; }
 
         public TerminalController TerminalController { get; set; }
 
-        public SettingsViewModel()
+        private async Task<SettingsViewModel> Initialize()
         {
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DrivesManager = new DrivesManager();
-
-            //DetectWSLDistros();
-            TerminalController = new TerminalController();
-
-            // Send analytics to AppCenter
-            TrackAnalytics();
 
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -53,6 +47,24 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+
+            //DetectWSLDistros();
+            TerminalController = await TerminalController.CreateInstance();
+
+            // Send analytics to AppCenter
+            TrackAnalytics();
+
+            return this;
+        }
+
+        public static Task<SettingsViewModel> CreateInstance()
+        {
+            var settings = new SettingsViewModel();
+            return settings.Initialize();
+        }
+
+        private SettingsViewModel()
+        {
         }
 
         private void TrackAnalytics()
@@ -87,6 +99,23 @@ namespace Files.ViewModels
         public GridLength SidebarWidth
         {
             get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+        /// <summary>
+        /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
+        /// </summary>
+        public GridLength PreviewPaneSizeHorizontal
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(300d), 50d), 600d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+        
+        /// <summary>
+        /// Gets or sets a value indicating the width of the preview pane in a vertical layout.
+        /// </summary>
+        public GridLength PreviewPaneSizeVertical
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(200d), 50d), 600d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
@@ -258,7 +287,7 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        #endregion
+        #endregion DetailsView Column Settings
 
         #region CommonPaths
 
@@ -453,6 +482,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the Bundles widget should be visible.
+        /// </summary>
+        public bool ShowBundlesWidget
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion Widgets
 
         #region Preferences
@@ -474,7 +512,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets an ObservableCollection of the support langauges.
         /// </summary>
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating the default language.
@@ -534,6 +572,15 @@ namespace Files.ViewModels
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the preview pane should adapt to the width of the view.
+        /// </summary>
+        public bool EnableAdaptivePreviewPane
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         #endregion Preferences
@@ -604,6 +651,15 @@ namespace Files.ViewModels
         public bool UseFileListCache
         {
             get => Get(true);
+            set => Set(value);
+        }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// </summary>
+        public bool ShowMultiselectOption
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -810,10 +866,5 @@ namespace Files.ViewModels
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         #endregion ReadAndSaveSettings
-
-        public void Dispose()
-        {
-            DrivesManager?.Dispose();
-        }
     }
 }

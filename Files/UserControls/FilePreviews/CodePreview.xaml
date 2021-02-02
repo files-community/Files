@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="Files.UserControls.FilePreviews.CodePreview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls.FilePreviews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer HorizontalScrollMode="Auto">
+            <controls:MarkdownTextBlock
+                x:Name="TextPreviewControl"
+                Background="Transparent"
+                CodeBackground="Transparent"
+                Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
+        </ScrollViewer>
+    </Grid>
+</UserControl>

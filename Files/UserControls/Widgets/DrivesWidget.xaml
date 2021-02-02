@@ -109,6 +109,16 @@
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
+                                            x:Name="PropertiesItem"
+                                            x:Uid="DrivesWidgetContextFlyoutPropertiesMenuItem"
+                                            Click="OpenDriveProperties_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Properties">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
                                             x:Name="EjectDevice"
                                             x:Uid="SideBarEjectDevice"
                                             x:Load="{x:Bind IsRemovable, Mode=OneWay}"

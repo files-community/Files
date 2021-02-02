@@ -46,6 +46,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public bool IsQuickLookEnabled { get; set; } = false;
@@ -332,7 +334,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot 
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -585,6 +587,18 @@ namespace Files
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
+            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+            if (isPinned)
+            {
+                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
+            }
+            else
+            {
+                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
+                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+            }
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
@@ -752,12 +766,12 @@ namespace Files
             ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
-        protected virtual async void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
                 char letterPressed = Convert.ToChar(args.KeyCode);
-                await ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
             }
         }
 
