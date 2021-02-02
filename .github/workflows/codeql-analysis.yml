@@ -49,7 +49,6 @@ jobs:
 
       - name: "NuGet Caching"
         uses: actions/cache@v2
-        id: cache
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/Files.Package/Package.appxmanifest') }}
@@ -57,7 +56,6 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: "Restore NuGets for Solution"
-        if: steps.cache.outputs.cache-hit != 'true'
         run: nuget restore -LockedMode Files.sln
 
       - name: "Perform Project Build"
