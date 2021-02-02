@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
-using Windows.ApplicationModel.Resources;
+using Microsoft.Toolkit.Uwp.Extensions;
 using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Filesystem
@@ -31,8 +31,6 @@ namespace Files.Filesystem
         private RecycleBinHelpers recycleBinHelpers;
 
         private readonly CancellationToken cancellationToken;
-
-        private ResourceLoader resourceLoader;
 
         #region Helpers Members
 
@@ -59,7 +57,6 @@ namespace Files.Filesystem
             this.cancellationToken = cancellationToken;
             filesystemOperations = new FilesystemOperations(this.associatedInstance);
             recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
-            resourceLoader = new ResourceLoader();
         }
 
         #endregion Constructor
@@ -713,7 +710,7 @@ namespace Files.Filesystem
 
             if(source.ItemType == FilesystemItemType.File && Path.GetExtension(source.Path) != Path.GetExtension(newName))
 			{
-                var renameDialogText = resourceLoader.GetString("RenameFileDialog/Text");
+                var renameDialogText = "RenameFileDialog/Text".GetLocalized();
 
                 var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
                 if(yesSelected)
