@@ -1656,4 +1656,7 @@
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
     <value>When Launching Files</value>
   </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+  </data>
 </root>

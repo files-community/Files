@@ -14,9 +14,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Popups;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using System.Resources;
+using Windows.ApplicationModel.Resources;
 
 namespace Files.Filesystem
 {
@@ -31,6 +32,8 @@ namespace Files.Filesystem
         private RecycleBinHelpers recycleBinHelpers;
 
         private readonly CancellationToken cancellationToken;
+
+        private ResourceLoader resourceLoader;
 
         #region Helpers Members
 
@@ -57,6 +60,7 @@ namespace Files.Filesystem
             this.cancellationToken = cancellationToken;
             filesystemOperations = new FilesystemOperations(this.associatedInstance);
             recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            resourceLoader = new ResourceLoader();
         }
 
         #endregion Constructor
@@ -710,22 +714,18 @@ namespace Files.Filesystem
 
             if(source.ItemType == FilesystemItemType.File && Path.GetExtension(source.Path) != Path.GetExtension(newName))
 			{
-                var dialog = new MessageDialog("If you change a file extension, the file might become unusable." 
-                                                + Environment.NewLine +
-                                                "Are you sure you want to change it?", "Rename");
+                var renameDialogText = resourceLoader.GetString("RenameFileDialog/Text");
 
-                dialog.Commands.Add(new UICommand("Yes", async delegate (IUICommand command)
-                {
+                var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
+                if(yesSelected)
+				{
                     IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
 
                     if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
                     {
                         App.HistoryWrapper.AddHistory(history);
                     }
-                }));
-
-                dialog.Commands.Add(new UICommand("No", null));
-                await dialog.ShowAsync();
+                }
             }
 
             return returnCode.ToStatus();
