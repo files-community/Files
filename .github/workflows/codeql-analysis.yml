@@ -12,6 +12,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: windows-latest
+    if: github.repository == 'files-community/Files'
 
     strategy:
       fail-fast: false
