@@ -8,7 +8,7 @@
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
-          <target state="translated">생성 날짜:</target>
+          <target state="translated">만든 날짜:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
@@ -16,7 +16,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
-          <target state="translated">경로:</target>
+          <target state="translated">위치:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
           <source>Size:</source>
@@ -24,7 +24,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
-          <target state="translated">파일 유형:</target>
+          <target state="translated">파일 형식:</target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
@@ -40,7 +40,7 @@
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="translated">파일 위치 열기</target>
+          <target state="translated">파일 경로 열기</target>
         </trans-unit>
         <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
           <source>Remove this item</source>
@@ -51,64 +51,28 @@
           <target state="translated">최근 파일</target>
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files UWP</source>
-          <target state="translated">Files UWP</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
-          <target state="translated">라이센스:</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
-          <source>Special thanks to:</source>
-          <target state="translated">특별히 고마우신 분들:</target>
+          <source>Files</source>
+          <target state="translated">Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
           <target state="translated">피드백 제출</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">개발자들에게 더 많은 정보가 담긴 리포트를 보내세요.</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="translated">개발자에게 자세한 정보가 담긴 오류 보고서를 전송합니다</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
-          <target state="translated">써드 파티 라이센스</target>
+          <target state="translated">외부 라이센스</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">정보</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
-          <target state="translated">웹사이트:</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Acrylic sidebar</source>
-          <target state="translated">아크릴 효과</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated">날짜 형식</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>App theme</source>
-          <target state="translated">테마</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
-          <target state="translated">개인 설정</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">드라이브 문자 표시</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
-          <source>Show extensions for known file types</source>
-          <target state="translated">파일 확장자 표시</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">숨긴 항목들 표시</target>
+          <target state="translated">모양</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -120,7 +84,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
-          <target state="translated">개인 설정</target>
+          <target state="translated">모양</target>
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -132,15 +96,11 @@
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
-          <target state="translated">설정</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">검색</target>
+          <target state="translated">환경 설정</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
-          <target state="translated">종료한 곳에서 다시 시작</target>
+          <target state="translated">마지막으로 사용한 위치에서 계속하기</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
@@ -154,25 +114,21 @@
           <source>On Startup</source>
           <target state="translated">시작 시</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">사이드바에 OneDrive 고정</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="translated">터미널 프로그램</target>
+          <target state="translated">터미널</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
-          <target state="translated">설정</target>
+          <target state="translated">환경 설정</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
-          <target state="translated">고정 해제</target>
+          <source>Unpin from sidebar</source>
+          <target state="translated">사이드바 고정 해제</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
-          <target state="translated">항목(들) 삭제</target>
+          <target state="translated">(여러) 항목 삭제</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -182,17 +138,9 @@
           <source>Delete</source>
           <target state="translated">삭제</target>
         </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogHeader.Text" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete the selected item(s)?</source>
-          <target state="translated">선택한 항목(들)을 삭제하시겠습니까?</target>
-        </trans-unit>
         <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
           <target state="translated">영구 삭제</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">파일 삭제시 한번 더 물어보기</target>
         </trans-unit>
         <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
@@ -212,7 +160,7 @@
         </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="translated">노래</target>
+          <target state="translated">음악</target>
         </trans-unit>
         <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
@@ -220,31 +168,11 @@
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="translated">비디오</target>
+          <target state="translated">동영상</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
           <source>New Tab</source>
           <target state="translated">새 탭</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
-          <source>Extract Compressed Archive</source>
-          <target state="translated">압축 해제</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">취소</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated">압축 해제</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">압축을 해제할 경로를 선택하세요. 압축 해제가 끝날 때까지 현재 폴더에 있어야 합니다. 압축 해제가 완료되면 새 탭에 표시됩니다.</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">찾아보기</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -280,7 +208,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="translated">붙여 넣기</target>
+          <target state="translated">붙여넣기</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
@@ -293,14 +221,6 @@
         <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">폴더</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
-          <source>Bitmap Image</source>
-          <target state="translated">비트맵 이미지</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
-          <source>Text Document</source>
-          <target state="translated">문서</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -324,7 +244,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
-          <target state="translated">공유하기</target>
+          <target state="translated">공유</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
@@ -340,7 +260,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
-          <target state="translated">이름 변경</target>
+          <target state="translated">이름 바꾸기</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin to sidebar</source>
@@ -359,12 +279,12 @@
           <target state="translated">새 창</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
-          <source>Copy Path</source>
+          <source>Copy location</source>
           <target state="translated">경로 복사</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="translated">붙혀넣기</target>
+          <target state="translated">붙여넣기</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
@@ -396,15 +316,7 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
-          <target state="translated">문서</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
-          <source>List View</source>
-          <target state="translated">리스트</target>
-        </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">설정</target>
+          <target state="translated">텍스트 문서</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -412,7 +324,7 @@
         </trans-unit>
         <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
           <source>Date modified</source>
-          <target state="translated">수정된 날짜</target>
+          <target state="translated">수정한 날짜</target>
         </trans-unit>
         <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -423,16 +335,16 @@
           <target state="translated">크기</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
-          <source>Welcome to Files</source>
-          <target state="translated">Files UWP를 선택해주셔서 감사합니다!</target>
+          <source>Welcome to Files!</source>
+          <target state="translated">환영합니다!</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
           <target state="translated">권한 부여</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
-          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
-          <target state="translated">계속하려면 파일을 표시하기 위해 권한을 부여해야 합니다. 설정이 열리면 권한을 부여하고 앱을 재시작해 주세요.</target>
+          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
+          <target state="translated">시작하려면 파일을 표시할 수 있는 권한이 필요합니다. 이 권한을 부여할 수 있는 설정 페이지가 열립니다. 이 단계를 완료하면 앱을 다시 실행해야 합니다. </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -440,15 +352,15 @@
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="translated">항목 이름 입력</target>
+          <target state="translated">항목 이름을 입력하세요</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter an item name without an extension</source>
-          <target state="translated">확장자를 제외한 파일명을 입력하세요.</target>
+          <source>Enter an item name</source>
+          <target state="translated">항목 이름 입력</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
-          <target state="translated">이름 정하기</target>
+          <target state="translated">이름 설정</target>
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -460,7 +372,7 @@
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated">시스템 기본값</target>
+          <target state="translated">Windows 기본값</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -472,7 +384,7 @@
         </trans-unit>
         <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="translated">앱</target>
+          <target state="translated">응용 프로그램</target>
         </trans-unit>
         <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
           <source>System</source>
@@ -482,17 +394,9 @@
           <source>New Folder</source>
           <target state="translated">새 폴더</target>
         </trans-unit>
-        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
-          <source>New Text Document</source>
-          <target state="translated">새 문서</target>
-        </trans-unit>
-        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
-          <source>New Bitmap Image</source>
-          <target state="translated">새 비트맵 이미지</target>
-        </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
-          <target state="translated">폴더가 비었습니다.</target>
+          <target state="translated">이 폴더는 비어 있습니다.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt + Left Arrow)</source>
@@ -504,15 +408,11 @@
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
-          <target state="translated">위로 (Alt + 윗화살표)</target>
+          <target state="translated">위로 (Alt + 위쪽 화살표)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
           <target state="translated">새로고침 (F5)</target>
-        </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="translated">새 항목 생성 (Ctrl + Shift + N)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -520,7 +420,7 @@
         </trans-unit>
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="translated">더 많은 옵션</target>
+          <target state="translated">추가 옵션</target>
         </trans-unit>
         <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
           <source>Drives</source>
@@ -536,7 +436,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="translated">이 작업은 완료될 수 없습니다.</target>
+          <target state="translated">작업을 수행할 수 없습니다</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
@@ -544,7 +444,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="translated">소스 폴더의 하위 폴더입니까</target>
+          <target state="translated">는 원본 폴더의 하위 폴더입니다</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
@@ -572,7 +472,7 @@
         </trans-unit>
         <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
           <source>Attributes:</source>
-          <target state="translated">태그:</target>
+          <target state="translated">특성:</target>
         </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -592,55 +492,35 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">주의: 실험적인 기능들 입니다!</target>
+          <target state="translated">경고: 아직 실험 중인 기능입니다!</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">실험실</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
-          <source>Double tap to rename files</source>
-          <target state="translated">두 번 클릭해서 이름 바꾸기</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="translated">샘플 프로파일 보기</target>
+          <target state="translated">프로필 예시 보기</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="translated">같은 이름의 파일이 이미 존재합니다.</target>
+          <target state="translated">폴더에 같은 이름의 항목이 이미 존재합니다.</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="translated">새 이름 생성</target>
+          <target state="translated">새로운 이름 생성</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
-          <target state="translated">파일이 이미 존재합니다.</target>
+          <target state="translated">이미 존재하는 항목입니다</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
-          <target state="translated">기존 파일 대체</target>
+          <target state="translated">기존 항목 대체</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
-          <target state="translated">잠금화면 배경으로 설정</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
-          <source>Grid View (Large)</source>
-          <target state="translated">그리드 뷰 (크게)</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
-          <source>Grid View (Medium)</source>
-          <target state="translated">그리드 뷰 (보통)</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
-          <source>Grid View (Small)</source>
-          <target state="translated">그리드 뷰 (작게)</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
-          <source>Tiles View</source>
-          <target state="translated">타일 뷰</target>
+          <target state="translated">잠금 화면 배경으로 설정</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -648,55 +528,51 @@
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
-          <target state="translated">파일을 삭제할 수 없습니다.</target>
+          <target state="translated">항목을 삭제할 수 없습니다</target>
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="translated">접근 거부됨</target>
+          <target state="translated">접근이 거부되었습니다</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
-          <target state="translated">드라이브를 삽입하세요.</target>
+          <target state="translated">파일에 접근하려면 드라이브를 삽입하세요</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
-          <target state="translated">드라이브 제거됨</target>
+          <target state="translated">드라이브가 분리되었습니다</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">파일이 이동되거나 삭제되었습니다.</target>
+          <target state="translated">파일이 이동되거나 삭제되었을 수 있습니다.</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
-          <target state="translated">파일이 존재하지 않음</target>
+          <target state="translated">파일을 찾을 수 없습니다</target>
         </trans-unit>
         <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to preview may have been moved or deleted.</source>
-          <target state="translated">파일이 이동되거나 삭제되었습니다.</target>
+          <target state="translated">파일이 이동되거나 삭제되었을 수 있습니다.</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The folder you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">폴더가 이동되거나 삭제되었습니다.</target>
+          <target state="translated">폴더가 이동되거나 삭제되었을 수 있습니다.</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
-          <target state="translated">이 폴더를 삭제했나요?</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Layout mode</source>
-          <target state="translated">레이아웃 모드</target>
+          <target state="translated">폴더를 삭제하셨나요?</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">옵션 선택</target>
+          <target state="translated">선택 옵션</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="translated">파일이 사용 중입니다.</target>
+          <target state="translated">다른 프로그램에서 열려 있으므로 제거할 수 없습니다.</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="translated">사용중인 파일</target>
+          <target state="translated">파일이 사용 중입니다</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
@@ -706,14 +582,6 @@
           <source>OK</source>
           <target state="translated">확인</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="translated">읽기 전용</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="translated">숨겨진 항목</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">휴지통 비우기</target>
@@ -721,10 +589,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
           <target state="translated">복원</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">사이드바에 휴지통 고정</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
@@ -760,7 +624,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
-          <target state="translated">해당 기능은 지원되지 않습니다.</target>
+          <target state="translated">해당 기능은 지원되지 않습니다</target>
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
@@ -768,11 +632,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
-          <target state="translated">연결 프로그램..</target>
+          <target state="translated">연결 프로그램</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="translated">파일 이름에는 다음 문자들을 사용할 수 없습니다: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">파일 이름에는 다음 문자를 사용할 수 없습니다. \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -780,11 +644,11 @@
         </trans-unit>
         <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="translated">파일 이름에는 다음 문자들을 사용할 수 없습니다: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">파일 이름에는 다음 문자를 사용할 수 없습니다. \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="translated">로그 위치 열기</target>
+          <target state="translated">로그 경로 열기</target>
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
@@ -792,11 +656,11 @@
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="translated">선택된 항목</target>
+          <target state="translated">항목 선택함</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="translated">선택된 항목들</target>
+          <target state="translated">항목 선택함</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
@@ -804,7 +668,7 @@
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="translated">파일</target>
+          <target state="translated">항목</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
@@ -818,57 +682,53 @@
           <source>Owner:</source>
           <target state="translated">소유자:</target>
         </trans-unit>
-        <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
-          <source>Show Owner in properties</source>
-          <target state="translated">속성에 소유자 표시</target>
-        </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">취소</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete all items?</source>
-          <target state="translated">모든 항목들을 삭제하시겠습니까?</target>
+          <source>Are you sure you want to permanently delete all these items?</source>
+          <target state="translated">모든 항목을 완전히 삭제하시겠습니까?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">휴지통 비우기</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">확인</target>
+          <source>Yes</source>
+          <target state="translated">예</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="no" xml:space="preserve">
           <source>bytes</source>
-          <target state="final">bytes</target>
+          <target state="translated">bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="no" xml:space="preserve">
           <source>KB</source>
-          <target state="final">KB</target>
+          <target state="translated">KB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="no" xml:space="preserve">
           <source>MB</source>
-          <target state="final">MB</target>
+          <target state="translated">MB</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="no" xml:space="preserve">
           <source>GB</source>
-          <target state="final">GB</target>
+          <target state="translated">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="no" xml:space="preserve">
           <source>TB</source>
-          <target state="final">TB</target>
+          <target state="translated">TB</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="no" xml:space="preserve">
           <source>PB</source>
-          <target state="final">PB</target>
+          <target state="translated">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="no" xml:space="preserve">
           <source>B</source>
-          <target state="final">B</target>
+          <target state="translated">B</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
-          <target state="translated">날짜 형식에 대해 더 알아보기</target>
+          <target state="translated">날짜 형식 자세히 알아보기</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -880,15 +740,15 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
-          <target state="translated">비밀번호를 입력하세요.</target>
+          <target state="translated">드라이브를 잠금 해제하려면 비밀번호를 입력하세요</target>
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
-          <target state="translated">암호</target>
+          <target state="translated">비밀번호</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
           <source>Please check the password and try again.</source>
-          <target state="translated">비밀번호를 다시 입력하세요.</target>
+          <target state="translated">비밀번호를 확인하고 다시 시도해 주세요.</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
           <source>BitLocker error</source>
@@ -896,11 +756,11 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
-          <target state="translated">포함:</target>
+          <target state="translated">내용:</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
-          <target state="translated">{0:#,##0}개 파일, {1:#,##0}개 폴더</target>
+          <target state="translated">파일 {0:#,##0}, 폴더 {1:#,##0}</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -908,23 +768,23 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="translated">다른 유저로 실행</target>
+          <target state="translated">다른 사용자로 실행</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
-          <target state="translated">{0}의 모든 형식</target>
+          <target state="translated">{0} 형식의 모든 파일</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypeDifferent" translate="yes" xml:space="preserve">
           <source>Different types</source>
-          <target state="translated">다른 종류</target>
+          <target state="translated">복수 종류</target>
         </trans-unit>
         <trans-unit id="PropertiesCombinedItemPath" translate="yes" xml:space="preserve">
           <source>All in {0}</source>
-          <target state="translated">{0}안의 모든 파일</target>
+          <target state="translated">{0}의 모든 파일</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
           <source>Used space:</source>
-          <target state="translated">사용 용량:</target>
+          <target state="translated">사용 중인 공간:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
           <source>Free space:</source>
@@ -932,7 +792,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
           <source>Capacity:</source>
-          <target state="translated">가용성:</target>
+          <target state="translated">용량:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
@@ -940,19 +800,15 @@
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
-          <target state="translated">삭제 중</target>
-        </trans-unit>
-        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
-          <source>Extracting files</source>
-          <target state="translated">압축 해제중</target>
+          <target state="translated">삭제하는 중</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
-          <target state="translated">파일 붙혀넣는 중</target>
+          <target state="translated">붙여넣는 중</target>
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to Recycle Bin</source>
-          <target state="translated">파일을 휴지통으로 이동하는 중</target>
+          <target state="translated">휴지통으로 파일 이동하는 중</target>
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
@@ -962,10 +818,6 @@
           <source>App Language</source>
           <target state="translated">언어</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
-          <source>Restart required</source>
-          <target state="translated">재시작 필요</target>
-        </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
           <target state="translated">상태</target>
@@ -974,25 +826,17 @@
           <source>Add a new page</source>
           <target state="translated">새 페이지 추가</target>
         </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
-          <source>Change Page Location</source>
-          <target state="translated">페이지 위치 바꾸기</target>
-        </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
           <target state="translated">페이지:</target>
         </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
-          <source>Remove Page</source>
-          <target state="translated">페이지 제거</target>
-        </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
-          <target state="translated">jumplist에서 항목을 실행시킬 때</target>
+          <target state="translated">점프 목록에서 항목 실행 시</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
-          <target state="translated">항상 새 창에서 열기</target>
+          <target state="translated">항상 새 인스턴스 열기</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
@@ -1000,11 +844,11 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated">시스템 기본값</target>
+          <target state="translated">Windows 기본값</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="translated">탭을 여기로 이동하세요</target>
+          <target state="translated">탭을 여기로 이동</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
@@ -1012,27 +856,27 @@
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="translated">표시할 항목에 액세스할 수 없음</target>
+          <target state="translated">표시할 항목에 접근할 수 없음</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="translated">${0}(으)로 이동</target>
+          <target state="translated">{0}(으)로 이동</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="translated">대상 폴더와 원본 폴더의 이름이 같습니다.</target>
+          <target state="translated">대상 파일과 원본 파일의 이름이 같습니다.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="translated">대상 폴더가 원본 폴더와 같습니다.</target>
+          <target state="translated">대상 폴더가 원본 폴더와 동일합니다.</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
-          <target state="translated">{0}로 복사</target>
+          <target state="translated">{0}(으)로 복사</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
-          <target state="translated">바로가기 만들기</target>
+          <target state="translated">바로 가기 만들기</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -1040,23 +884,23 @@
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
           <source>Arguments:</source>
-          <target state="translated">인수:</target>
+          <target state="translated">전달인자:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
           <source>Destination:</source>
-          <target state="translated">대상</target>
+          <target state="translated">대상:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
           <source>Shortcut type:</source>
-          <target state="translated">바로가기 종류:</target>
+          <target state="translated">바로 가기 종류:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
           <source>Working directory:</source>
-          <target state="translated">작업 경로</target>
+          <target state="translated">시작 위치:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="translated">앱</target>
+          <target state="translated">응용 프로그램</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -1072,59 +916,1355 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
           <source>General</source>
-          <target state="translated">기본</target>
+          <target state="translated">일반</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="translated">바로가기</target>
+          <target state="translated">바로 가기</target>
         </trans-unit>
         <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="translated">바로가기</target>
+          <target state="translated">바로 가기</target>
         </trans-unit>
         <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
           <source>Internet shortcut</source>
-          <target state="translated">인터넷 바로가기</target>
+          <target state="translated">인터넷 바로 가기</target>
         </trans-unit>
         <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
           <source>{0} - shortcut</source>
-          <target state="translated">{0} - 바로가기</target>
+          <target state="translated">{0} - 바로 가기</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">파일 위치 열기</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
-          <source>Show a horizontal tab strip on the title bar</source>
-          <target state="translated">제목 표시줄에 수평 탭 스트립 표시</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
           <target state="translated">기여자</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
-          <source>See who contributed to Files UWP</source>
-          <target state="translated">제작자 보기</target>
+          <source>See who contributed to Files</source>
+          <target state="translated">Files에 기여해주신 분들</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
           <target state="translated">릴리즈 노트</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
-          <source>Find out what's new in Files UWP</source>
-          <target state="translated">무엇이 업데이트됐는지 확인하세요</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
-          <source>Show multitasking flyout in the navigation toolbar</source>
-          <target state="translated">탐색 도구 모음에 멀티태스킹 플라이아웃 표시</target>
+          <source>Find out what's new in Files</source>
+          <target state="translated">Files의 새로운 기능 알아보기</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
-          <target state="translated">선택한 파일에 접근할 수 없습니다.{0}오류 메시지:{0}{1}</target>
+          <target state="translated">선택한 항목에 접근할 수 없습니다.{0}오류 메시지:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
-          <target state="translated">잘못된 항목</target>
+          <target state="translated">유효하지 않은 항목입니다</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="translated">자세히</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="translated">사이드바 아크릴 효과</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">날짜 형식</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
+          <source>App theme</source>
+          <target state="translated">앱 테마</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">알려진 파일 형식의 파일 확장명 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="translated">숨김 파일, 폴더 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="translated">숨김 파일, 폴더 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
+          <source>Show Owner in properties</source>
+          <target state="translated">파일 속성에 소유자 표시</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">파일</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">속성</target>
+        </trans-unit>
+        <trans-unit id="NewFile" translate="yes" xml:space="preserve">
+          <source>New File</source>
+          <target state="translated">새 파일</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="translated">격자 (대)</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="translated">격자 (중)</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="translated">격자 (소)</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="translated">타일</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlLayoutMode.Text" translate="yes" xml:space="preserve">
+          <source>Layout Mode</source>
+          <target state="translated">레이아웃</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="translated">읽기 전용</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated">숨김</target>
+        </trans-unit>
+        <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="translated">알 수 없음</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="translated">로그 경로 열기</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
+          <source>Files ran into a problem that the developers didn't prepare for yet.</source>
+          <target state="translated">Files 개발자가 아직 대비하지 못한 문제가 발생했습니다.</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Something went wrong!</source>
+          <target state="translated">문제가 발생했습니다!</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationReportButton" translate="yes" xml:space="preserve">
+          <source>Report this issue</source>
+          <target state="translated">오류 보고하기</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
+          <source>Version:</source>
+          <target state="translated">버전:</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
+          <source>There's nothing to share right now...</source>
+          <target state="translated">공유할 항목이 없습니다...</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
+          <source>The items you've selected will be shared</source>
+          <target state="translated">선택한 항목을 공유합니다</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
+          <source>The selected item will be shared</source>
+          <target state="translated">선택한 항목을 공유합니다</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
+          <source>Sharing {0}</source>
+          <target state="translated">{0} 공유</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
+          <source>Sharing {0} {1}</source>
+          <target state="translated">{0} {1} 항목 공유</target>
+        </trans-unit>
+        <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
+          <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
+          <target state="translated">이름을 바꾸려는 항목이 더 이상 존재하지 않습니다. 항목의 정확한 경로를 확인해 주세요.</target>
+        </trans-unit>
+        <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
+          <source>Item no longer exists</source>
+          <target state="translated">항목이 더 이상 존재하지 않습니다</target>
+        </trans-unit>
+        <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
+          <source>The name specified was invalid. Please check the desired item name and try again.</source>
+          <target state="translated">지정한 이름이 유효하지 않습니다. 원하는 이름을 확인하고 다시 시도해 주세요.</target>
+        </trans-unit>
+        <trans-unit id="RenameError.NameInvalid.Title" translate="yes" xml:space="preserve">
+          <source>Invalid item name</source>
+          <target state="translated">유효하지 않은 이름</target>
+        </trans-unit>
+        <trans-unit id="RenameError.TooLong.Text" translate="yes" xml:space="preserve">
+          <source>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</source>
+          <target state="translated">지정한 이름의 길이가 최대 제한을 초과했습니다. 원하는 이름을 확인하고 다시 시도해 주세요.</target>
+        </trans-unit>
+        <trans-unit id="RenameError.TooLong.Title" translate="yes" xml:space="preserve">
+          <source>Item name was too long</source>
+          <target state="translated">이름이 너무 깁니다</target>
+        </trans-unit>
+        <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
+          <source>More</source>
+          <target state="translated">더 보기</target>
+        </trans-unit>
+        <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated">아니오</target>
+        </trans-unit>
+        <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated">예</target>
+        </trans-unit>
+        <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
+          <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
+          <target state="translated">언어 설정을 적용하려면 프로그램을 다시 시작해야합니다. 프로그램을 다시 시작할까요?</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
+          <source>Support us</source>
+          <target state="translated">후원</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUsDescription.Text" translate="yes" xml:space="preserve">
+          <source>Support us on PayPal</source>
+          <target state="translated">PayPal 후원하기</target>
+        </trans-unit>
+        <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
+          <source>We weren't able to create this item</source>
+          <target state="translated">항목을 만들 수 없습니다</target>
+        </trans-unit>
+        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+          <source>Access Denied</source>
+          <target state="translated">접근 거부되었습니다</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">취소</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete these {0} items?</source>
+          <target state="translated">{0}개의 항목을 삭제하시겠습니까?</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete this item?</source>
+          <target state="translated">항목을 삭제하시겠습니까?</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
+          <source>Add tab</source>
+          <target state="translated">탭 추가</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
+          <source>Open tabs</source>
+          <target state="translated">열린 탭</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
+          <source>Adaptive (Recommended)</source>
+          <target state="translated">적응형 (권장)</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
+          <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
+          <target state="translated">창 크기에 맞춰 멀티태스킹 방식을 변경합니다. 창이 작아지면 수평 탭 표시 줄이 탐색 도구 모음의 메뉴로 축소됩니다.</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
+          <source>Horizontal</source>
+          <target state="translated">수평</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
+          <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
+          <target state="translated">탐색 도구 모음에 수직 멀티태스킹 메뉴를 표시하지 않고, 수평 탭 표시 줄을 항상 창에 표시합니다. 열려있는 모든 앱 인스턴스를 추적해야 하는 사용자에게 적합합니다.</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
+          <source>Multitasking</source>
+          <target state="translated">멀티태스킹</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
+          <source>Vertical</source>
+          <target state="translated">수직</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
+          <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
+          <target state="translated">앱 인스턴스 목록을 탐색 도구 모음의 메뉴에서 확인합니다. 깔끔한 인터페이스를 원하는 사용자에게 적합합니다.</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
+          <source>Multitasking</source>
+          <target state="translated">멀티태스킹</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="translated">~(으)로 설정</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
+          <source>Copy location</source>
+          <target state="translated">경로 복사</target>
+        </trans-unit>
+        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">취소</target>
+        </trans-unit>
+        <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
+          <source>Create a New Item</source>
+          <target state="translated">새 항목 생성</target>
+        </trans-unit>
+        <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Choose a type for this new item below</source>
+          <target state="translated">새로운 항목의 유형을 선택해주세요</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">파일</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty file</source>
+          <target state="translated">빈 파일을 생성합니다</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">폴더</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty folder</source>
+          <target state="translated">빈 폴더를 생성합니다</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
+          <source>Layout mode</source>
+          <target state="translated">레이아웃</target>
+        </trans-unit>
+        <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Navigate backwards</source>
+          <target state="translated">뒤로 가기</target>
+        </trans-unit>
+        <trans-unit id="NavForwardButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Navigate forward</source>
+          <target state="translated">앞으로 가기</target>
+        </trans-unit>
+        <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Refresh the directory</source>
+          <target state="translated">폴더 새로고침</target>
+        </trans-unit>
+        <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Go up one directory</source>
+          <target state="translated">한 단계 상위 폴더로 이동</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Vertical tab strip</source>
+          <target state="translated">수직 탭 표시 줄</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>App Language</source>
+          <target state="translated">언어</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">터미널</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Edit terminal applications</source>
+          <target state="translated">터미널 편집</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Edit terminal applications</source>
+          <target state="translated">터미널 편집</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>View sample profiles</source>
+          <target state="translated">프로필 예시 보기</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
+          <source>App Language</source>
+          <target state="translated">언어</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">터미널</target>
+        </trans-unit>
+        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show copy location menu item</source>
+          <target state="translated">메뉴 항목에 경로 복사 추가</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="translated">초과된 항목을 하위 메뉴로 이동</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="translated">사이드바에 휴지통 고정</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="translated">파일이나 폴더 삭제 시 확인 창 표시</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
+          <source>There was an issue saving some properties.</source>
+          <target state="translated">일부 속성을 저장하던 중 문제가 발생했습니다.</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated">오류</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated">다시 시도</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Close anyway</source>
+          <target state="translated">무시하고 닫기</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">취소</target>
+        </trans-unit>
+        <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
+          <source>Rating</source>
+          <target state="translated">등급</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
+          <source>Item Path</source>
+          <target state="translated">경로</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
+          <source>Item Type</source>
+          <target state="translated">항목 유형</target>
+        </trans-unit>
+        <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
+          <source>Title</source>
+          <target state="translated">제목</target>
+        </trans-unit>
+        <trans-unit id="PropertySubject" translate="yes" xml:space="preserve">
+          <source>Subject</source>
+          <target state="translated">주제</target>
+        </trans-unit>
+        <trans-unit id="PropertyComment" translate="yes" xml:space="preserve">
+          <source>Comment</source>
+          <target state="translated">설명</target>
+        </trans-unit>
+        <trans-unit id="PropertyCopyright" translate="yes" xml:space="preserve">
+          <source>Copyright</source>
+          <target state="translated">저작권</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateModified" translate="yes" xml:space="preserve">
+          <source>Date Modified</source>
+          <target state="translated">수정한 날짜</target>
+        </trans-unit>
+        <trans-unit id="PropertyBitDepth" translate="yes" xml:space="preserve">
+          <source>Bit Depth</source>
+          <target state="translated">비트 심도</target>
+        </trans-unit>
+        <trans-unit id="PropertyDimensions" translate="yes" xml:space="preserve">
+          <source>Dimensions</source>
+          <target state="translated">사진 크기</target>
+        </trans-unit>
+        <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
+          <source>Horizontal Size</source>
+          <target state="translated">너비</target>
+        </trans-unit>
+        <trans-unit id="PropertyVerticalSize" translate="yes" xml:space="preserve">
+          <source>Vertical Size</source>
+          <target state="translated">높이</target>
+        </trans-unit>
+        <trans-unit id="PropertyHorizontalResolution" translate="yes" xml:space="preserve">
+          <source>Horizontal Resolution</source>
+          <target state="translated">수평 해상도</target>
+        </trans-unit>
+        <trans-unit id="PropertyVerticalResolution" translate="yes" xml:space="preserve">
+          <source>Vertical Resolution</source>
+          <target state="translated">수직 해상도</target>
+        </trans-unit>
+        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+          <source>Compression</source>
+          <target state="translated">압축</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
+          <source>Color Space</source>
+          <target state="translated">색 영역</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
+          <source>sRGB</source>
+          <target state="translated">sRGB</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace_Value65535" translate="yes" xml:space="preserve">
+          <source>Unspecified</source>
+          <target state="translated">지정되지 않음</target>
+        </trans-unit>
+        <trans-unit id="PropertyLongitudeDecimal" translate="yes" xml:space="preserve">
+          <source>Longitude Decimal</source>
+          <target state="translated">경도</target>
+        </trans-unit>
+        <trans-unit id="PropertyLatitudeDecimal" translate="yes" xml:space="preserve">
+          <source>Latitude Decimal</source>
+          <target state="translated">위도</target>
+        </trans-unit>
+        <trans-unit id="PropertyLatitude" translate="yes" xml:space="preserve">
+          <source>Latitude</source>
+          <target state="translated">위도</target>
+        </trans-unit>
+        <trans-unit id="PropertyLongitude" translate="yes" xml:space="preserve">
+          <source>Longitude</source>
+          <target state="translated">경도</target>
+        </trans-unit>
+        <trans-unit id="PropertyLatitudeRef" translate="yes" xml:space="preserve">
+          <source>Latitude Ref</source>
+          <target state="translated">위도</target>
+        </trans-unit>
+        <trans-unit id="PropertyLongitudeRef" translate="yes" xml:space="preserve">
+          <source>Longitude Ref</source>
+          <target state="translated">경도</target>
+        </trans-unit>
+        <trans-unit id="PropertyAltitude" translate="yes" xml:space="preserve">
+          <source>Altitude</source>
+          <target state="translated">고도</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateTaken" translate="yes" xml:space="preserve">
+          <source>Date Taken</source>
+          <target state="translated">찍은 날짜</target>
+        </trans-unit>
+        <trans-unit id="PropertyCameraManufacturer" translate="yes" xml:space="preserve">
+          <source>Camera Manufacturer</source>
+          <target state="translated">카메라 제조업체</target>
+        </trans-unit>
+        <trans-unit id="PropertyCameraModel" translate="yes" xml:space="preserve">
+          <source>Camera Model</source>
+          <target state="translated">카메라 모델</target>
+        </trans-unit>
+        <trans-unit id="PropertyExposureTime" translate="yes" xml:space="preserve">
+          <source>Exposure Time</source>
+          <target state="translated">노출 시간</target>
+        </trans-unit>
+        <trans-unit id="PropertyFocalLength" translate="yes" xml:space="preserve">
+          <source>Focal Length</source>
+          <target state="translated">초점 거리</target>
+        </trans-unit>
+        <trans-unit id="PropertyAperture" translate="yes" xml:space="preserve">
+          <source>Aperture</source>
+          <target state="translated">조리개 최대 개방</target>
+        </trans-unit>
+        <trans-unit id="PropertyPeopleNames" translate="yes" xml:space="preserve">
+          <source>People Names</source>
+          <target state="translated">사람들 이름</target>
+        </trans-unit>
+        <trans-unit id="PropertyChannelCount" translate="yes" xml:space="preserve">
+          <source>Channel Count</source>
+          <target state="translated">채널</target>
+        </trans-unit>
+        <trans-unit id="PropertyFormat" translate="yes" xml:space="preserve">
+          <source>Format</source>
+          <target state="translated">포맷</target>
+        </trans-unit>
+        <trans-unit id="PropertySampleRate" translate="yes" xml:space="preserve">
+          <source>Sample Rate</source>
+          <target state="translated">샘플 레이트</target>
+        </trans-unit>
+        <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
+          <source>Artist</source>
+          <target state="translated">음악가</target>
+        </trans-unit>
+        <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
+          <source>Album Artist</source>
+          <target state="translated">앨범 음악가</target>
+        </trans-unit>
+        <trans-unit id="PropertyAlbumTitle" translate="yes" xml:space="preserve">
+          <source>Album Title</source>
+          <target state="translated">앨범</target>
+        </trans-unit>
+        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+          <source>Artist</source>
+          <target state="translated">음악가</target>
+        </trans-unit>
+        <trans-unit id="PropertyBeatsPerMinute" translate="yes" xml:space="preserve">
+          <source>Beats Per Minute</source>
+          <target state="translated">분당 비트 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyComposer" translate="yes" xml:space="preserve">
+          <source>Composer</source>
+          <target state="translated">작곡가</target>
+        </trans-unit>
+        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+          <source>Conductor</source>
+          <target state="translated">지휘자</target>
+        </trans-unit>
+        <trans-unit id="PropertyDiscNumber" translate="yes" xml:space="preserve">
+          <source>Disc Number</source>
+          <target state="translated">디스크 번호</target>
+        </trans-unit>
+        <trans-unit id="PropertyGenre" translate="yes" xml:space="preserve">
+          <source>Genre</source>
+          <target state="translated">장르</target>
+        </trans-unit>
+        <trans-unit id="PropertyTrackNumber" translate="yes" xml:space="preserve">
+          <source>Track Number</source>
+          <target state="translated">트랙 번호</target>
+        </trans-unit>
+        <trans-unit id="PropertyDuration" translate="yes" xml:space="preserve">
+          <source>Duration</source>
+          <target state="translated">길이</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameCount" translate="yes" xml:space="preserve">
+          <source>Frame Count</source>
+          <target state="translated">프레임 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyProtectionType" translate="yes" xml:space="preserve">
+          <source>Protection Type</source>
+          <target state="translated">보호 유형</target>
+        </trans-unit>
+        <trans-unit id="PropertyAuthorUrl" translate="yes" xml:space="preserve">
+          <source>Author Url</source>
+          <target state="translated">저자 Url</target>
+        </trans-unit>
+        <trans-unit id="PropertyContentDistributor" translate="yes" xml:space="preserve">
+          <source>Content Distributor</source>
+          <target state="translated">콘텐츠 배포자</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateReleased" translate="yes" xml:space="preserve">
+          <source>Date Released</source>
+          <target state="translated">릴리즈 날짜</target>
+        </trans-unit>
+        <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
+          <source>Series Name</source>
+          <target state="translated">시리즈명</target>
+        </trans-unit>
+        <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
+          <source>Season Number</source>
+          <target state="translated">시즌 번호</target>
+        </trans-unit>
+        <trans-unit id="PropertyEpisodeNumber" translate="yes" xml:space="preserve">
+          <source>Episode Number</source>
+          <target state="translated">에피소드 번호</target>
+        </trans-unit>
+        <trans-unit id="PropertyProducer" translate="yes" xml:space="preserve">
+          <source>Producer</source>
+          <target state="translated">제작자</target>
+        </trans-unit>
+        <trans-unit id="PropertyPromotionUrl" translate="yes" xml:space="preserve">
+          <source>Promotion Url</source>
+          <target state="translated">홍보 Url</target>
+        </trans-unit>
+        <trans-unit id="PropertyProviderStyle" translate="yes" xml:space="preserve">
+          <source>Provider Style</source>
+          <target state="translated">제공 방식</target>
+        </trans-unit>
+        <trans-unit id="PropertyPublisher" translate="yes" xml:space="preserve">
+          <source>Publisher</source>
+          <target state="translated">발행자</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
+          <source>Thumbnail Large Path</source>
+          <target state="translated">대형 썸네일 경로</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
+          <source>Thumbnail Large Uri</source>
+          <target state="translated">대형 썸네일 Uri</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
+          <source>Thumbnail Small Path</source>
+          <target state="translated">소형 썸네일 경로</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
+          <source>Thumbnail Small Uri</source>
+          <target state="translated">소형 썸네일 Uri</target>
+        </trans-unit>
+        <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
+          <source>User Web Url</source>
+          <target state="translated">사용자 웹 Url</target>
+        </trans-unit>
+        <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
+          <source>Writer</source>
+          <target state="translated">작성자</target>
+        </trans-unit>
+        <trans-unit id="PropertyYear" translate="yes" xml:space="preserve">
+          <source>Year</source>
+          <target state="translated">연도</target>
+        </trans-unit>
+        <trans-unit id="PropertyContributor" translate="yes" xml:space="preserve">
+          <source>Contributor</source>
+          <target state="translated">도와주신 분들</target>
+        </trans-unit>
+        <trans-unit id="PropertyLastAuthor" translate="yes" xml:space="preserve">
+          <source>Last Author</source>
+          <target state="translated">마지막 저자</target>
+        </trans-unit>
+        <trans-unit id="PropertyRevisionNumber" translate="yes" xml:space="preserve">
+          <source>Revision Number</source>
+          <target state="translated">수정 횟수</target>
+        </trans-unit>
+        <trans-unit id="PropertyVersion" translate="yes" xml:space="preserve">
+          <source>Version</source>
+          <target state="translated">버전</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateCreated" translate="yes" xml:space="preserve">
+          <source>Date Created</source>
+          <target state="translated">만든 날짜</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateSaved" translate="yes" xml:space="preserve">
+          <source>Date Saved</source>
+          <target state="translated">마지막으로 저장한 날짜</target>
+        </trans-unit>
+        <trans-unit id="PropertyDatePrinted" translate="yes" xml:space="preserve">
+          <source>Date Printed</source>
+          <target state="translated">마지막으로 인쇄한 날짜</target>
+        </trans-unit>
+        <trans-unit id="PropertyTotalEditingTime" translate="yes" xml:space="preserve">
+          <source>Total Editing Time</source>
+          <target state="translated">총 편집 시간</target>
+        </trans-unit>
+        <trans-unit id="PropertyTemplate" translate="yes" xml:space="preserve">
+          <source>Template</source>
+          <target state="translated">템플릿</target>
+        </trans-unit>
+        <trans-unit id="PropertyWordCount" translate="yes" xml:space="preserve">
+          <source>Word Count</source>
+          <target state="translated">단어 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyCharacterCount" translate="yes" xml:space="preserve">
+          <source>Character Count</source>
+          <target state="translated">문자 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyLineCount" translate="yes" xml:space="preserve">
+          <source>Line Count</source>
+          <target state="translated">줄 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyParagraphCount" translate="yes" xml:space="preserve">
+          <source>Paragraph Count</source>
+          <target state="translated">단락 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyPageCount" translate="yes" xml:space="preserve">
+          <source>Page Count</source>
+          <target state="translated">페이지 수</target>
+        </trans-unit>
+        <trans-unit id="PropertySlideCount" translate="yes" xml:space="preserve">
+          <source>Slide Count</source>
+          <target state="translated">슬라이드 수</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameRate" translate="yes" xml:space="preserve">
+          <source>Frame Rate</source>
+          <target state="translated">프레임레이트</target>
+        </trans-unit>
+        <trans-unit id="PropertyEncodingBitrate" translate="yes" xml:space="preserve">
+          <source>Encoding Bitrate</source>
+          <target state="translated">비트레이트</target>
+        </trans-unit>
+        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+          <source>Compression</source>
+          <target state="translated">압축</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameWidth" translate="yes" xml:space="preserve">
+          <source>Frame Width</source>
+          <target state="translated">프레임 너비</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameHeight" translate="yes" xml:space="preserve">
+          <source>Frame Height</source>
+          <target state="translated">프레임 높이</target>
+        </trans-unit>
+        <trans-unit id="PropertyOrientation" translate="yes" xml:space="preserve">
+          <source>Orientation</source>
+          <target state="translated">방향</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionCore" translate="yes" xml:space="preserve">
+          <source>Core</source>
+          <target state="translated">파일</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionImage" translate="yes" xml:space="preserve">
+          <source>Image</source>
+          <target state="translated">이미지</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionPhoto" translate="yes" xml:space="preserve">
+          <source>Photo</source>
+          <target state="translated">사진</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
+          <source>GPS</source>
+          <target state="translated">GPS</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
+          <source>Media</source>
+          <target state="translated">미디어</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionAudio" translate="yes" xml:space="preserve">
+          <source>Audio</source>
+          <target state="translated">오디오</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">음악</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionVideo" translate="yes" xml:space="preserve">
+          <source>Video</source>
+          <target state="translated">비디오</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+          <source>Document</source>
+          <target state="translated">문서</target>
+        </trans-unit>
+        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+          <source>Address</source>
+          <target state="translated">주소</target>
+        </trans-unit>
+        <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More options</source>
+          <target state="translated">추가 옵션</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">선택 옵션</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Status center</source>
+          <target state="translated">작업 현황</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="translated">클릭 한번으로 항목 열기</target>
+        </trans-unit>
+        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">파일</target>
+        </trans-unit>
+        <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">폴더</target>
+        </trans-unit>
+        <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
+          <source>Recycle bin item</source>
+          <target state="translated">휴지통 항목</target>
+        </trans-unit>
+        <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
+          <source>Shortcut item</source>
+          <target state="translated">바로 가기 항목</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="translated">드라이브</target>
+        </trans-unit>
+        <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
+          <source>Move here</source>
+          <target state="translated">여기로 이동</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="translated">위젯</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives on the home page</source>
+          <target state="translated">홈 화면에 드라이브 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
+          <source>Show drives on the home page</source>
+          <target state="translated">홈 화면에 드라이브 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library cards on the home page</source>
+          <target state="translated">홈 화면에 라이브러리 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
+          <source>Show library cards on the home page</source>
+          <target state="translated">홈 화면에 라이브러리 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show recent files on the home page</source>
+          <target state="translated">홈 화면에 최근 사용한 파일 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
+          <source>Show recent files on the home page</source>
+          <target state="translated">홈 화면에 최근 사용한 파일 표시</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="translated">위젯</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Safe to remove hardware</source>
+          <target state="translated">하드웨어 안전하게 제거</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
+          <source>The device can now be safely removed from the computer.</source>
+          <target state="translated">이제 컴퓨터에서 장치를 안전하게 제거할 수 있습니다.</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
+          <source>Problem Ejecting Device</source>
+          <target state="translated">장치를 꺼내던 중 문제가 발생했습니다</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
+          <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
+          <target state="translated">이 장치는 현재 사용 중입니다. 장치를 사용하고 있을 수 있는 프로그램, 창, 탭을 닫고 다시 시도해 주세요.</target>
+        </trans-unit>
+        <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
+          <source>Eject</source>
+          <target state="translated">꺼내기</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
+          <source>Duplicate tab</source>
+          <target state="translated">탭 복제</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Move tab to new window</source>
+          <target state="translated">탭을 새 창으로 이동</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="translated">새 탭</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesFlyoutText.Text" translate="yes" xml:space="preserve">
+          <source>Some properties may contain personal information.</source>
+          <target state="translated">일부 속성에는 개인정보가 포함될 수 있습니다.</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesFlyoutConfirmation.Content" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="translated">제거</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesButton.Content" translate="yes" xml:space="preserve">
+          <source>Clear All Properties</source>
+          <target state="translated">모든 속성 제거</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Check the status of file operations here</source>
+          <target state="translated">여기서 파일 작업 현황을 확인하세요</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
+          <source>Status Center</source>
+          <target state="translated">작업 현황</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="translated">라이센스</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Content" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="translated">라이센스</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="translated">웹사이트</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Content" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="translated">웹사이트</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about date formats</source>
+          <target state="translated">날짜 형식 자세히 알아보기</target>
+        </trans-unit>
+        <trans-unit id="DragDropWindowText" translate="yes" xml:space="preserve">
+          <source>Drop here</source>
+          <target state="translated">여기에 놓기</target>
+        </trans-unit>
+        <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated">검색</target>
+        </trans-unit>
+        <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
+          <source>Search results in</source>
+          <target state="translated">검색 결과</target>
+        </trans-unit>
+        <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
+          <source>Search results</source>
+          <target state="translated">검색 결과</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>See who contributed to Files</source>
+          <target state="translated">Files에 기여해주신 분들</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files</source>
+          <target state="translated">Files의 새로운 기능 알아보기</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Send the developers an issue report with more information</source>
+          <target state="translated">개발자에게 자세한 정보가 담긴 오류 보고서를 전송합니다</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Support us on PayPal</source>
+          <target state="translated">PayPal 후원하기</target>
+        </trans-unit>
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
+          <source>List and sort directories alongside files</source>
+          <target state="translated">폴더를 파일과 구분하지 않고 나열 및 정렬</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="translated">자세히</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated">아니오</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
+          <source>Do you want to download and install the latest version of Files?</source>
+          <target state="translated">Files 최신 버전을 다운로드하고 설치할까요?</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated">예</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
+          <source>Updates Available</source>
+          <target state="translated">사용 가능한 업데이트가 있습니다</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="translated">보호된 운영 체제 파일 숨기기 (권장)</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="translated">보호된 운영 체제 파일 숨기기 (권장)</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="translated">적응형 미리보기 패널 활성화</target>
+        </trans-unit>
+        <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
+          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
+          <target state="translated">파일, 폴더 검색 시 인덱싱되지 않은 항목 표시 (검색 시간이 길어질 수 있음)</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
+          <source>Enable individual preferences for individual directories</source>
+          <target state="translated">폴더마다 개별 환경 설정 적용 활성화</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Customize the right click context menu</source>
+          <target state="translated">우클릭 컨텍스트 메뉴</target>
+        </trans-unit>
+        <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="translated">원래 위치</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="translated">원래 위치</target>
+        </trans-unit>
+        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
+          <source>Cache files and folders for better performance</source>
+          <target state="translated">파일, 폴더를 캐싱하여 성능 개선</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="translated">추가</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+          <source>Edit</source>
+          <target state="translated">편집</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+          <source>Remove</source>
+          <target state="translated">제거</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">취소</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="translated">진행 중인 작업</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="translated">진행 중인 작업</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="translated">새 탭을 항상 듀얼 패널 모드로 열기</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="translated">듀얼 패널 활성화</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="translated">보조 패널에서 열기</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewPane.Text" translate="yes" xml:space="preserve">
+          <source>New pane</source>
+          <target state="translated">새 패널</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="translated">보조 패널에서 열기</target>
+        </trans-unit>
+        <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
+          <source>Dual Pane</source>
+          <target state="translated">듀얼 패널</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show open in new tab menu item</source>
+          <target state="translated">메뉴 항목에 새 탭에서 열기 추가</target>
+        </trans-unit>
+        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Folders</source>
+          <target state="translated">폴더</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Enable animations when opening and closing the context menu</source>
+          <target state="translated">컨텍스트 메뉴를 여닫을 때 애니메이션 활성화</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="translated">자세히</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="translated">자세히</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
+          <source>Display Options</source>
+          <target state="translated">보기 옵션</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Display Options</source>
+          <target state="translated">보기 옵션</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="translated">보기 옵션</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="translated">격자 (대)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="translated">격자 (대)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="translated">격자 (중)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="translated">격자 (중)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="translated">격자 (소)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="translated">격자 (소)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="translated">타일</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="translated">타일</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlShowFileExtensions.Header" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="translated">파일 확장명 표시</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="translated">숨긴 항목 표시</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="translated">삭제된 날짜</target>
+        </trans-unit>
+        <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="translated">삭제된 날짜</target>
+        </trans-unit>
+        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
+          <source>Tab Customization</source>
+          <target state="translated">탭 커스터마이징</target>
+        </trans-unit>
+        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
+          <source>When Launching Files</source>
+          <target state="translated">Files 실행 시</target>
+        </trans-unit>
+        <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
+          <source>Cloud Drives</source>
+          <target state="translated">클라우드 드라이브</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="translated">추가 옵션...</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">확인</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Export Bundles</source>
+          <target state="translated">보관함 내보내기</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Import Bundles</source>
+          <target state="translated">보관함 가져오기</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
+          <source>Bundle with the same name already exists!</source>
+          <target state="translated">같은 이름의 보관함이 이미 존재합니다!</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleErrorInputEmpty" translate="yes" xml:space="preserve">
+          <source>Input field cannot be empty!</source>
+          <target state="translated">입력 필드는 비워 둘 수 없습니다!</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleItem.Text" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">보관함 만들기</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="translated">보관함 이름 입력</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="translated">보관함 이름 입력</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="translated">새 탭에서 열기</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouOpenItemLocationMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Open item location</source>
+          <target state="translated">항목 경로 열기</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouRemoveFromBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Remove from bundle</source>
+          <target state="translated">보관함에서 제거</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutRemoveBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Remove Bundle</source>
+          <target state="translated">보관함 제거</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+          <source>Bundles</source>
+          <target state="translated">보관함</target>
+        </trans-unit>
+        <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
+          <source>Drag and drop any file or folder here to quickly access it</source>
+          <target state="translated">파일이나 폴더를 여기에 끌어다 놓아 빠르게 접근하세요</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleConfirmButton.Content" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">확인</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="translated">보관함 이름 입력</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">취소</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
+          <source>Desired name</source>
+          <target state="translated">원하는 이름</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">확인</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogSubtitleText" translate="yes" xml:space="preserve">
+          <source>Enter new name</source>
+          <target state="translated">새로운 이름 입력</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
+          <source>Rename "{0}"</source>
+          <target state="translated">"{0}" 이름 바꾸기</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">보관함 만들기</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">취소</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">확인</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogSubtitleText" translate="yes" xml:space="preserve">
+          <source>Add Bundle</source>
+          <target state="translated">보관함 추가</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">보관함 만들기</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Rename Bundle</source>
+          <target state="translated">보관함 이름 바꾸기</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+          <source>Desired name</source>
+          <target state="translated">원하는 이름</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Toggle the preview pane (Ctrl + P)</source>
+          <target state="translated">미리보기 패널 열기/닫기 (Ctrl + P)</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="translated">미리보기를 사용할 수 없습니다</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="translated">자세한 정보를 볼 수 없습니다</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="translated">이름</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles on the home page</source>
+          <target state="translated">홈 화면에 보관함 표시</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin directory from sidebar</source>
+          <target state="translated">사이드바에서 폴더 고정 해제</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File details</source>
+          <target state="translated">파일 자세한 정보</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File preview</source>
+          <target state="translated">파일 미리보기</target>
+        </trans-unit>
+        <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selected file preview pane</source>
+          <target state="translated">선택한 파일 미리보기 패널</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
+          <source>Documentation</source>
+          <target state="translated">문서</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find tips &amp; tricks and learn more about Files</source>
+          <target state="translated">Files 사용 팁 &amp; 요령 알아보기</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Visit the Files documentation website</source>
+          <target state="translated">Files 문서 웹사이트 방문하기</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout</source>
+          <target state="translated">진행 중인 작업 플라이아웃</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
+          <source>Available when online</source>
+          <target state="translated">온라인 전용</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
+          <source>Available offline</source>
+          <target state="translated">오프라인 사용 가능</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
+          <source>Partially available offline</source>
+          <target state="translated">부분적으로 오프라인 사용 가능</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
+          <source>Syncing</source>
+          <target state="translated">동기화 중</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
+          <source>Excluded from sync</source>
+          <target state="translated">동기화에서 제외됨</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+          <source>Not calculated</source>
+          <target state="translated">계산되지 않음</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="translated">알 수 없음</target>
         </trans-unit>
       </group>
     </body>
