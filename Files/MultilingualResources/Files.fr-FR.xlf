@@ -2271,11 +2271,11 @@
         </trans-unit>
         <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
-          <target state="new">Multiselect</target>
+          <target state="translated">Sélection Multiple</target>
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
           <source>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</source>
-          <target state="new">Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</target>
+          <target state="translated">Active l'option de sélection multiple (uniquement disponible sur la vue en tuiles ou en grilles pour le moment)</target>
         </trans-unit>
       </group>
     </body>
