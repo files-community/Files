@@ -710,6 +710,12 @@ namespace Files.Filesystem
 
             if (source.ItemType == FilesystemItemType.File && Path.GetExtension(source.Path) != Path.GetExtension(newName))
             {
+                // Handle Shortcut renaming
+                if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
+                {
+                    newName = newName + Path.GetExtension(source.Path);
+                }
+
                 var renameDialogText = "RenameFileDialog/Text".GetLocalized();
 
                 var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
