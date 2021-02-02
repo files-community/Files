@@ -14,10 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using System.Resources;
 using Windows.ApplicationModel.Resources;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Filesystem
 {
