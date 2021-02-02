@@ -106,7 +106,7 @@
     <value>Kijelölés megfordítása</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
-    <value>Kijelölés megszűntetése</value>
+    <value>Kijelölés megszüntetése</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Részletek</value>
@@ -121,7 +121,7 @@
     <value>Tulajdonos:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Kijelölés megszűntetése</value>
+    <value>Minden elem eltávolítása</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Elérési út megadása</value>
@@ -652,7 +652,7 @@
     <value>Lap áthelyezése ide</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Státusz</value>
+    <value>Állapot</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>Oldal hozzáadása</value>
@@ -766,7 +766,7 @@
     <value>Újdonságok a Files-ban</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>A referált fájl helytelen vagy elérhetetlen.{0}Hibaüzenet:{0}{1}</value>
+    <value>A hivatkozott elem helytelen vagy elérhetetlen.{0}Hibaüzenet:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Helytelen fájl</value>
@@ -1432,7 +1432,7 @@
     <value>Új panel</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Megnyités második panelben</value>
+    <value>Megnyitás második panelben</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Kettós panel</value>
@@ -1521,11 +1521,20 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>Elem elérési útja</value>
   </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Váltás előnézetre (Ctrl + P)</value>
+  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Elem neve</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Megerősítés</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Csomag ezzel a névvel már létezik!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>A mező nem lehet üres!</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>Csomag neve</value>
@@ -1552,7 +1561,7 @@
     <value>Mégse</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
-    <value>Új név</value>
+    <value>Csomag neve</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Megerősítés</value>
@@ -1605,10 +1614,55 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Csomag létrehozása</value>
   </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Felhőtárhely</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
     <value>Nincs elérhető részlet</value>
+  </data>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Csomagok megjelenítése a fő oldalon</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Könyvtár levétele az oldalsávról </value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Online állapotban elérhető</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Offline állapotban is elérhető</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Szinkronizálás</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Ismeretlen</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Tulajdonságok</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Fájl részletek</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Fájl előnézet</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Kiválasztott fájl előnézeti panele</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Dokumentáció</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Tudjon meg többet a Files-ról</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Látogasson el a Files dokumentáció oldalára</value>
+  </data>
+  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
+    <value>Adaptív előnézeti panel engedélyezése</value>
   </data>
 </root>
