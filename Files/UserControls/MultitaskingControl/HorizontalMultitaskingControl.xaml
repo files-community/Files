@@ -344,7 +344,6 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="muxc:TabViewItem">
-
                                     <Grid
                                         x:Name="LayoutRoot"
                                         Height="34"
@@ -800,7 +799,7 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Margin="0,0,4,0"
+                        Padding="2,0,2,0"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         DragEnter="TabViewItem_DragEnter"
