@@ -15,7 +15,19 @@ namespace Files.Filesystem
     public class DriveItem : ObservableObject, INavigationControlItem
     {
         public string Glyph { get; set; }
-        public string Path { get; set; }
+
+        private string path;
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = Path.Contains("?") ? Text : Path;
+            }
+        }
+
+        public string HoverDisplayText { get; private set; }
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
@@ -79,7 +91,7 @@ namespace Files.Filesystem
 
         public DriveItem()
         {
-            ItemType = NavigationControlItemType.OneDrive;
+            ItemType = NavigationControlItemType.CloudDrive;
         }
 
         public DriveItem(StorageFolder root, string deviceId, DriveType type)
@@ -166,6 +178,10 @@ namespace Files.Filesystem
                     Glyph = "\ue9b7";
                     break;
 
+                case DriveType.CloudDrive:
+                    Glyph = "\ue9b7";
+                    break;
+
                 case DriveType.FloppyDisk:
                     Glyph = "\ueb4a";
                     break;
@@ -186,6 +202,7 @@ namespace Files.Filesystem
         FloppyDisk,
         Unknown,
         NoRootDirectory,
-        VirtualDrive
+        VirtualDrive,
+        CloudDrive,
     }
 }

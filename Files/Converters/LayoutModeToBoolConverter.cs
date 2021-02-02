@@ -1,11 +1,6 @@
 ﻿using Files.Enums;
-using Files.UserControls;
 using Files.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
@@ -14,7 +9,7 @@ namespace Files.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ((App.Current.Resources[parameter as string] as FolderLayoutInformation) is FolderLayoutInformation param 
+            if ((App.Current.Resources[parameter as string] as FolderLayoutInformation) is FolderLayoutInformation param
                 && value is FolderLayoutInformation layoutModeValue && layoutModeValue.Mode == param.Mode)
             {
                 if (layoutModeValue.Mode != FolderLayoutModes.GridView)

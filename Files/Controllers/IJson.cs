@@ -4,8 +4,6 @@
     {
         string JsonFileName { get; }
 
-        void Init();
-
         void SaveModel();
     }
 }

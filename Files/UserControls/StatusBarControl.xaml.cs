@@ -10,6 +10,7 @@ namespace Files.UserControls
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
         public FolderSettingsViewModel FolderSettings { get; set; } = null;
         public ICommand SelectAllInvokedCommand { get; set; }
         public ICommand InvertSelectionInvokedCommand { get; set; }
@@ -56,7 +57,13 @@ namespace Files.UserControls
             if (AppSettings.ShowStatusCenterTeachingTip)
             {
                 StatusCenterTeachingTip.IsOpen = true;
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 AppSettings.ShowStatusCenterTeachingTip = false;
+            }
+            else
+            {
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatusCenterTeachingTip.IsOpen = false;
             }
 
             PlayBannerAddedVisualAnimation();

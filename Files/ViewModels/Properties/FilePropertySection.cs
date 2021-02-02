@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties

@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -506,33 +507,53 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
         {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                // Happens if you copy some text and then you Ctrl+V in Files
-                // Should this be done in ModernShellPage?
-                return ReturnResult.BadArgumentException;
+                IReadOnlyList<IStorageItem> source;
+                try
+                {
+                    source = await packageView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+                {
+                    return ReturnResult.UnknownException;
+                }
+                ReturnResult returnStatus = ReturnResult.InProgress;
+
+                List<string> destinations = new List<string>();
+                foreach (IStorageItem item in source)
+                {
+                    destinations.Add(Path.Combine(destination, item.Name));
+                }
+
+                returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+
+                return returnStatus;
             }
 
-            IReadOnlyList<IStorageItem> source;
-            try
+            if (packageView.Contains(StandardDataFormats.Bitmap))
             {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                return ReturnResult.UnknownException;
-            }
-            ReturnResult returnStatus = ReturnResult.InProgress;
+                try
+                {
+                    var imgSource = await packageView.GetBitmapAsync();
+                    using var imageStream = await imgSource.OpenReadAsync();
+                    var folder = await StorageFolder.GetFolderFromPathAsync(destination);
+                    // Set the name of the file to be the current time and date
+                    var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
-            List<string> destinations = new List<string>();
-            foreach (IStorageItem item in source)
-            {
-                destinations.Add(Path.Combine(destination, item.Name));
+                    using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                    await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
+                    return ReturnResult.Success;
+                }
+                catch (Exception)
+                {
+                    return ReturnResult.UnknownException;
+                }
             }
 
-            returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
-
-            return returnStatus;
+            // Happens if you copy some text and then you Ctrl+V in Files
+            // Should this be done in ModernShellPage?
+            return ReturnResult.BadArgumentException;
         }
 
         #endregion Copy

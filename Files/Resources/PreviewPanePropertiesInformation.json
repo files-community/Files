@@ -1,0 +1,407 @@
+﻿[
+  {
+    "NameResource": "PropertyAddress",
+    "SectionResource": "PropertySectionGPS",
+    "Property": null,
+    "IsReadOnly": true,
+    "ID": "address"
+  },
+  {
+    "NameResource": "PropertyBitDepth",
+    "SectionResource": "PropertySectionImage",
+    "Property": "System.Image.BitDepth",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDimensions",
+    "SectionResource": "PropertySectionImage",
+    "Property": "System.Image.Dimensions",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyHorizontalResolution",
+    "SectionResource": "PropertySectionImage",
+    "Property": "System.Image.HorizontalResolution",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyVerticalResolution",
+    "SectionResource": "PropertySectionImage",
+    "Property": "System.Image.VerticalResolution",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyColorSpace",
+    "SectionResource": "PropertySectionImage",
+    "Property": "System.Image.ColorSpace",
+    "IsReadOnly": true,
+    "ID": null,
+    "EnumeratedList": {
+      "1": "PropertyColorSpace_Value0",
+      "65535": "PropertyColorSpace_Value65535"
+    }
+  },
+  {
+    "NameResource": "PropertyLongitudeDecimal",
+    "SectionResource": "PropertySectionGPS",
+    "Property": "System.GPS.LongitudeDecimal",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyLatitudeDecimal",
+    "SectionResource": "PropertySectionGPS",
+    "Property": "System.GPS.LatitudeDecimal",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyAltitude",
+    "SectionResource": "PropertySectionGPS",
+    "Property": "System.GPS.Altitude",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateTaken",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.DateTaken",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyCameraManufacturer",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.CameraManufacturer",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyCameraModel",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.CameraModel",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyExposureTime",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.ExposureTime",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyFocalLength",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.FocalLength",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyAperture",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.Aperture",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyPeopleNames",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.PeopleNames",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyAlbumArtist",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.AlbumArtist",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyAlbumTitle",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.AlbumTitle",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyArtist",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.Artist",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyComposer",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.Composer",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyConductor",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.Conductor",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDiscNumber",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.DiscNumber",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyGenre",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.Genre",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyTrackNumber",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.TrackNumber",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDuration",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.Duration",
+    "IsReadOnly": true,
+    "DisplayFunctionName": "FormatDuration",
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyProtectionType",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.ProtectionType",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyAuthorUrl",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.AuthorUrl",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyContentDistributor",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.ContentDistributor",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateReleased",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.DateReleased",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertySeriesName",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.SeriesName",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertySeasonNumber",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.SeasonNumber",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyEpisodeNumber",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.EpisodeNumber",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyProducer",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.Producer",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyPromotionUrl",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.PromotionUrl",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyProviderStyle",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.ProviderStyle",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyPublisher",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.Publisher",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyUserWebUrl",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.UserWebUrl",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyWriter",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.Writer",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyYear",
+    "SectionResource": "PropertySectionMedia",
+    "Property": "System.Media.Year",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyContributor",
+    "SectionResource": "PropertySectionDocument",
+    "Property": "System.Document.Contributor",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyLastAuthor",
+    "SectionResource": "PropertySectionDocument",
+    "Property": "System.Document.LastAuthor",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyRevisionNumber",
+    "SectionResource": "PropertySectionDocument",
+    "Property": "System.Document.RevisionNumber",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyVersion",
+    "SectionResource": "PropertySectionDocument",
+    "Property": "System.Document.Version",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyTotalEditingTime",
+    "SectionResource": "PropertySectionDocument",
+    "Property": "System.Document.TotalEditingTime",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyTemplate",
+    "SectionResource": "PropertySectionDocument",
+    "Property": "System.Document.Template",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyFrameRate",
+    "SectionResource": "PropertySectionVideo",
+    "Property": "System.Video.FrameRate",
+    "IsReadOnly": true,
+    "ID": null,
+    "DisplayFunctionName": "DivideBy1000"
+  },
+  {
+    "NameResource": "PropertyEncodingBitrate",
+    "SectionResource": "PropertySectionVideo",
+    "Property": "System.Video.EncodingBitrate",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyItemName",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemNameDisplay",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyRatingText",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.RatingText",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyItemPathDisplay",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemPathDisplay",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyItemTypeText",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemTypeText",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyTitle",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Title",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertySubject",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Subject",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyComment",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Comment",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyCopyright",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Copyright",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateCreated",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.DateCreated",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateModified",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.DateModified",
+    "IsReadOnly": true,
+    "ID": null
+  }
+]

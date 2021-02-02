@@ -1,0 +1,191 @@
+﻿<UserControl
+    x:Class="Files.UserControls.PreviewPane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="using:Files.ViewModels.Properties"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    MinWidth="90"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Loading="UserControl_Loading"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Transitions>
+        <TransitionCollection>
+            <PaneThemeTransition x:Name="PreviewPaneTransition" Edge="{x:Bind EdgeTransitionLocation, Mode=OneWay}" />
+        </TransitionCollection>
+    </UserControl.Transitions>
+
+    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="PropertiesRow" Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition x:Name="PropertiesColumn" Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            x:Name="RootPreviewGrid"
+            Grid.Row="0"
+            Margin="5,5,5,5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AutomationProperties.Name="File preview"
+            x:Uid="PreviewPaneFilePreview">
+            <TextBlock
+                x:Name="PreviewNotAvaliableText"
+                x:Uid="DetailsPanePreviewNotAvaliableText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="No preview available"
+                Visibility="Collapsed" />
+            <Grid x:Name="PreviewGrid" />
+        </Grid>
+
+        <controls:GridSplitter
+            x:Name="HorizontalGridSplitter"
+            Grid.Row="1"
+            Grid.Column="0"
+            Background="Transparent">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock
+                        x:Name="GripperGlyphTextBlock"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontSize="36"
+                        Foreground="{StaticResource SystemChromeHighColor}"
+                        IsHitTestVisible="False"
+                        Text="&#xEB3D;" />
+                </Grid>
+            </controls:GridSplitter.Element>
+        </controls:GridSplitter>
+
+        <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
+            <TextBlock
+                x:Name="PreviewPaneDetailsNotAvailableText"
+                x:Uid="PreviewPaneDetailsNotAvailableText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="No details available"
+                Visibility="Collapsed" />
+            <ListView ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}" SelectionMode="None" AutomationProperties.Name="File Details" x:Uid="PreviewPaneFileDetails">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="properties:FileProperty">
+                        <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                Style="{StaticResource PropertyName}"
+                                Text="{x:Bind Name, Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" />
+                            <TextBox
+                                x:Name="PropertyValueTemplateTextBox"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                IsReadOnly="True"
+                                Style="{StaticResource DetailsValueTextBox}"
+                                Text="{x:Bind ValueText, Mode=TwoWay}">
+                                <TextBox.Resources>
+                                    <ResourceDictionary>
+                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextControlBorderFocused" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextBoxButtonPointerOverBackgroundThemeBrush" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextBoxButtonPressedBackgroundThemeBrush" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextBoxBackgroundThemeBrush" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
+                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent" />
+                                    </ResourceDictionary>
+                                </TextBox.Resources>
+                            </TextBox>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="properties:FilePropertySection">
+                                <Grid />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel AreStickyGroupHeadersEnabled="False" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="2" />
+                        <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="0" />
+                        <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="1" />
+                        <Setter Target="HorizontalGridSplitter.BorderThickness" Value="0, 1, 0, 0" />
+                        <Setter Target="HorizontalGridSplitter.Width" Value="2" />
+
+                        <Setter Target="PropertiesRow.Height" Value="0" />
+                        <Setter Target="GripperGlyphTextBlock.Text" Value="&#xE9FC;" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="False" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="2" />
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="1" />
+                        <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="0" />
+                        <Setter Target="HorizontalGridSplitter.Height" Value="2" />
+
+                        <Setter Target="PropertiesColumn.Width" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState />
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

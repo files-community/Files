@@ -114,6 +114,33 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutDocumentationListViewItem"
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Visit the Files documentation website"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14"
+                            Tag="Documentation">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEB39;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutDocumentationDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Find tips &amp; tricks and learn more about Files"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
                         x:Uid="SettingsAboutContributorsListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"

@@ -46,7 +46,8 @@
             x:Uid="StatusCenterTeachingTip"
             Title="Status Center"
             Subtitle="Check the status of file operations here"
-            Target="{x:Bind StatusCenter}" />
+            Visibility="Collapsed"
+            Target="{x:Bind StatusCenter}"/>
 
         <StackPanel
             Grid.Column="1"
@@ -54,6 +55,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
+
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
@@ -68,6 +70,16 @@
                 ToolTipService.ToolTip="Selection options">
                 <Button.Flyout>
                     <MenuFlyout>
+                        <ToggleMenuFlyoutItem
+                            x:Name="MultiselectMFI"
+                            x:Uid="StatusBarControlMultiselect"
+                            Text="Multiselect"
+                            IsChecked="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
+                            Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
+                            </MenuFlyoutItem.Icon>
+                        </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="SelectAllMFI"
                             x:Uid="StatusBarControlSelectAll"
@@ -176,11 +188,14 @@
                                     CornerRadius="2"
                                     IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Grid View (Small)">
+                                    ToolTipService.ToolTip="Grid View (Small)"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xEBA1;" />
+                                        Glyph="&#xEBA1;" 
+                                        Margin="0, 1, 0, 0"/>
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewMedium"
@@ -190,11 +205,13 @@
                                     CornerRadius="2"
                                     IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
+                                    Margin="0"
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xEA72;" />
+                                        Glyph="&#xEA72;" 
+                                        Margin="0, 1, 0, 0"/>
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewLarge"
@@ -208,13 +225,15 @@
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xE9A0;" />
+                                        Glyph="&#xE9A0;" 
+                                        Margin="0, 1, 0, 0"/>
                                 </RadioButton>
                             </StackPanel>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
+
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
                 <muxc:AnimatedVisualPlayer
                     x:Name="StatusCenterPulseVisualPlayer"
@@ -237,13 +256,14 @@
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
                     <Button.Flyout>
-                        <Flyout>
+                        <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter
                                 x:Name="OngoingTasksControl"
                                 Width="300"
                                 MinHeight="300"
                                 MaxHeight="400"
-                                x:FieldModifier="public" />
+                                x:FieldModifier="public"
+                                IsTabStop="True"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
