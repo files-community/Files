@@ -129,7 +129,7 @@ namespace Files.Views.LayoutModes
         {
             if (!InstanceViewModel.IsPageTypeSearchResults)
             {
-                foreach (ListedItem listedItem in FileList.Items)
+                foreach (ListedItem listedItem in FileList.Items.ToList())
                 {
                     if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
                     {
@@ -440,8 +440,8 @@ namespace Files.Views.LayoutModes
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-            // Skip code if the control or shift key is pressed
-            if (ctrlPressed || shiftPressed)
+            // Skip code if the control or shift key is pressed or if the user is using multiselect
+            if (ctrlPressed || shiftPressed || InteractionViewModel.MultiselectEnabled)
             {
                 return;
             }

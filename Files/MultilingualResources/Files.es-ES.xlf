@@ -2266,6 +2266,14 @@
           <source>Enable adaptive preview pane</source>
           <target state="translated">Habilitar el panel de vista previa adaptable</target>
         </trans-unit>
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+          <source>Multiselect</source>
+          <target state="new">Multiselect</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
+          <source>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</source>
+          <target state="new">Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</target>
+        </trans-unit>
       </group>
     </body>
   </file>

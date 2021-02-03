@@ -46,6 +46,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public bool IsQuickLookEnabled { get; set; } = false;
