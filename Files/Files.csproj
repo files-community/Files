@@ -668,6 +668,9 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <None Include="Resources\PreviewPanePropertiesInformation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

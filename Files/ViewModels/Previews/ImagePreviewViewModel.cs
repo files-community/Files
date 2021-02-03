@@ -1,7 +1,9 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
@@ -27,11 +29,11 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref imageSource, value);
         }
 
-        public override async void LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             try
             {
-                FileRandomAccessStream stream = (FileRandomAccessStream)await ItemFile.OpenAsync(FileAccessMode.Read);
+                FileRandomAccessStream stream = (FileRandomAccessStream)await Item.ItemFile.OpenAsync(FileAccessMode.Read);
 
                 // svg files require a different type of source
                 if (!Item.ItemPath.EndsWith(".svg"))
@@ -52,7 +54,7 @@ namespace Files.ViewModels.Previews
                 Debug.WriteLine(e);
             }
 
-            base.LoadSystemFileProperties();
+            return new List<FileProperty>();
         }
     }
 }
