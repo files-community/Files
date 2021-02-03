@@ -39,7 +39,7 @@
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <Grid RowSpacing="25">
+    <Grid RowSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />

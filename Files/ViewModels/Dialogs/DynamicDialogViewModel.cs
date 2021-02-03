@@ -1,6 +1,7 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -28,19 +29,41 @@ namespace Files.ViewModels.Dialogs
         #region Public Properties
 
         /// <summary>
-        /// Stores any additional data that could be written to, read from
+        /// Stores any additional data that could be written to, read from.
         /// </summary>
         public object AdditionalData { get; set; }
 
         public object displayControl;
-
         /// <summary>
         /// The control that is dynamically displayed.
         /// </summary>
         public object DisplayControl
         {
             get => displayControl;
-            set => SetProperty(ref displayControl, value);
+            set
+            {
+                if (SetProperty(ref displayControl, value))
+                {
+                    if (value == null)
+                    {
+                        DisplayControlLoad = false;
+                    }
+                    else
+                    {
+                        DisplayControlLoad = true;
+                    }
+                }
+            }
+        }
+
+        private bool displayControlLoad;
+        /// <summary>
+        /// Determines whether the <see cref="DisplayControl"/> is loaded, value of this property is automatically handled.
+        /// </summary>
+        public bool DisplayControlLoad
+        {
+            get => displayControlLoad;
+            set => SetProperty(ref displayControlLoad, value);
         }
 
         private DynamicButtons dynamicButtons;
@@ -87,7 +110,9 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string titleText;
-
+        /// <summary>
+        /// The Title text of the dialog.
+        /// </summary>
         public string TitleText
         {
             get => titleText;
@@ -95,7 +120,11 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string subtitleText;
-
+        /// <summary>
+        /// The subtitle of the dialog.
+        /// <br/>
+        /// (Can be null or empty)
+        /// </summary>
         public string SubtitleText
         {
             get => subtitleText;
@@ -116,6 +145,9 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool subtitleLoad;
+        /// <summary>
+        /// Determines whether the <see cref="SubtitleText"/> is loaded, value of this property is automatically handled.
+        /// </summary>
         public bool SubtitleLoad
         {
             get => subtitleLoad;
@@ -125,7 +157,9 @@ namespace Files.ViewModels.Dialogs
         #region Primary Button
 
         private string primaryButtonText;
-
+        /// <summary>
+        /// The text content of the primary button.
+        /// </summary>
         public string PrimaryButtonText
         {
             get => primaryButtonText;
@@ -133,6 +167,9 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool isPrimaryButtonEnabled;
+        /// <summary>
+        /// Determines whether Primary Button is enabled.
+        /// </summary>
         public bool IsPrimaryButtonEnabled
         {
             get => isPrimaryButtonEnabled;
@@ -144,7 +181,9 @@ namespace Files.ViewModels.Dialogs
         #region Secondary Button
 
         private string secondaryButtonText;
-
+        /// <summary>
+        /// The text of the secondary button.
+        /// </summary>
         public string SecondaryButtonText
         {
             get => secondaryButtonText;
@@ -152,6 +191,9 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool isSecondaryButtonEnabled;
+        /// <summary>
+        /// Determines whether Secondary Button is enabled.
+        /// </summary>
         public bool IsSecondaryButtonEnabled
         {
             get => isSecondaryButtonEnabled;
@@ -163,7 +205,9 @@ namespace Files.ViewModels.Dialogs
         #region Close Button
 
         private string closeButtonText;
-
+        /// <summary>
+        /// The text of the close button.
+        /// </summary>
         public string CloseButtonText
         {
             get => closeButtonText;
@@ -173,6 +217,9 @@ namespace Files.ViewModels.Dialogs
         #endregion
 
         private DynamicButtons dynamicButtonsEnabled;
+        /// <summary>
+        /// Determines which buttons should be enabled
+        /// </summary>
         public DynamicButtons DynamicButtonsEnabled
         {
             get => dynamicButtonsEnabled;
@@ -182,7 +229,7 @@ namespace Files.ViewModels.Dialogs
                 {
                     if (!value.HasFlag(DynamicButtons.Cancel))
                     {
-                        throw new ArgumentException("Cannot disable Close button!");
+                        Debugger.Break(); // Cannot disable the Close button!
                     }
 
                     if (value.HasFlag(DynamicButtons.None))
@@ -214,6 +261,9 @@ namespace Files.ViewModels.Dialogs
             }
         }
 
+        /// <summary>
+        /// The result of the dialog, value of this property is automatically handled.
+        /// </summary>
         public DynamicResult DynamicResult { get; set; }
 
         #endregion Public Properties
@@ -226,12 +276,14 @@ namespace Files.ViewModels.Dialogs
         /// <br/>
         /// Note:
         /// <br/>
-        /// This action will always be overriden.
+        /// This action is assigned by default.
         /// </summary>
         public Action HideDialog { get; set; }
 
         private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> primaryButtonAction;
-
+        /// <summary>
+        /// OnPrimary action.
+        /// </summary>
         public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> PrimaryButtonAction
         {
             get => primaryButtonAction;
@@ -249,7 +301,9 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> secondaryButtonAction;
-
+        /// <summary>
+        /// OnSecondary action.
+        /// </summary>
         public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> SecondaryButtonAction
         {
             get => secondaryButtonAction;
@@ -267,7 +321,9 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> closeButtonAction;
-
+        /// <summary>
+        /// OnClose action.
+        /// </summary>
         public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> CloseButtonAction
         {
             get => closeButtonAction;
@@ -285,7 +341,14 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Action<DynamicDialogViewModel, KeyRoutedEventArgs> keyDownAction;
-
+        /// <summary>
+        /// The keydown action on the dialog.
+        /// <br/>
+        /// <br/>
+        /// Note:
+        /// <br/>
+        /// This action is assigned by default.
+        /// </summary>
         public Action<DynamicDialogViewModel, KeyRoutedEventArgs> KeyDownAction
         {
             get => keyDownAction;

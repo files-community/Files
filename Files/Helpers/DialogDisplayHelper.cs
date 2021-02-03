@@ -39,7 +39,7 @@ namespace Files.Helpers
                     DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
                     {
                         TitleText = title,
-                        SubtitleText = message, // We can use subtitle here as our actual content and skipping DisplayControl
+                        SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl
                         PrimaryButtonText = primaryText,
                         SecondaryButtonText = secondaryText,
                         DynamicButtons = DynamicButtons.Primary | DynamicButtons.Secondary
