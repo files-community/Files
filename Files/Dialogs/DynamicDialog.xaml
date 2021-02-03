@@ -62,6 +62,8 @@
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.DisplayControlLoad, Mode=OneWay}"
+            x:Name="DisplayControl"
             Content="{Binding DisplayControl, Mode=OneWay}" />
     </Grid>
 </ContentDialog>
