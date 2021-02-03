@@ -20,7 +20,6 @@
     IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
     IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"
     mc:Ignorable="d">
-
     <i:Interaction.Behaviors>
         <!--  No need to specify CommandParameter - `e` is passed by default  -->
         <icore:EventTriggerBehavior EventName="PrimaryButtonClick">

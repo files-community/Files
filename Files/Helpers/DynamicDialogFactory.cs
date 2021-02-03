@@ -51,7 +51,7 @@ namespace Files.Helpers
                 Text = "RenameDialogSymbolsTip/Text".GetLocalized(),
                 Margin = new Windows.UI.Xaml.Thickness(0, 0, 4, 0),
                 TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
-                Visibility = Windows.UI.Xaml.Visibility.Collapsed
+                Opacity = 0.0d
             };
 
             inputText.TextChanged += (s, e) =>
@@ -62,7 +62,7 @@ namespace Files.Helpers
                 if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
                 {
                     dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Cancel;
-                    tipText.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    tipText.Opacity = 1.0d;
                     return;
                 }
                 else if (!string.IsNullOrWhiteSpace(textBox.Text))
@@ -74,7 +74,7 @@ namespace Files.Helpers
                     dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Cancel;
                 }
 
-                tipText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                tipText.Opacity = 0.0d;
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()
