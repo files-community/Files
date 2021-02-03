@@ -728,26 +728,37 @@ namespace Files.Filesystem
             Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            if (source.ItemType == FilesystemItemType.File && Path.GetExtension(source.Path) != Path.GetExtension(newName))
+            IStorageHistory history = null;
+
+            switch (source.ItemType)
             {
-                // Handle Shortcut renaming
-                if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
-                {
-                    newName = newName + Path.GetExtension(source.Path);
-                }
-
-                var renameDialogText = "RenameFileDialog/Text".GetLocalized();
-
-                var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
-                if (yesSelected)
-                {
-                    IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
-
-                    if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+                case FilesystemItemType.Directory:
+                    history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    break;
+                case FilesystemItemType.File:
+                    // Handle Shortcut renaming
+                    if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
                     {
-                        App.HistoryWrapper.AddHistory(history);
+                        newName = newName + Path.GetExtension(source.Path);
                     }
-                }
+
+                    var renameDialogText = "RenameFileDialog/Text".GetLocalized();
+
+                    var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
+                    if (yesSelected)
+                    {
+                        history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                        break;
+                    }
+                    break;
+                default:
+                    history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    break;
+            }
+
+            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            {
+                App.HistoryWrapper.AddHistory(history);
             }
 
             return returnCode.ToStatus();
