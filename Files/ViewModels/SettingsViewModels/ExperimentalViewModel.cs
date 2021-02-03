@@ -38,18 +38,19 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
-        public bool ShowMultiselectOption
+        private bool usePreemptiveCache = App.AppSettings.UsePreemptiveCache;
+
+        public bool UsePreemptiveCache
         {
             get
             {
-                return showMultiselectOption;
+                return usePreemptiveCache;
             }
             set
             {
-                if (SetProperty(ref showMultiselectOption, value))
+                if (SetProperty(ref usePreemptiveCache, value))
                 {
-                    App.AppSettings.ShowMultiselectOption = value;
+                    App.AppSettings.UsePreemptiveCache = value;
                 }
             }
         }
@@ -67,6 +68,22 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref preemptiveCacheParallelLimit, value))
                 {
                     App.AppSettings.PreemptiveCacheParallelLimit = value;
+                }
+            }
+        }
+
+        private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
+        public bool ShowMultiselectOption
+        {
+            get
+            {
+                return showMultiselectOption;
+            }
+            set
+            {
+                if (SetProperty(ref showMultiselectOption, value))
+                {
+                    App.AppSettings.ShowMultiselectOption = value;
                 }
             }
         }

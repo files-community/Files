@@ -941,7 +941,7 @@ namespace Files.ViewModels
                     }
 
                     var parallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
-                    if (App.AppSettings.UseFileListCache && parallelLimit > 0 && !addFilesCTS.IsCancellationRequested)
+                    if (App.AppSettings.UseFileListCache && App.AppSettings.UsePreemptiveCache && parallelLimit > 0 && !addFilesCTS.IsCancellationRequested)
                     {
                         // run background tasks to iterate through folders and cache all of them preemptively
                         var folders = filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);

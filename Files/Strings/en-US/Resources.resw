@@ -1561,7 +1561,7 @@
     <value>Cache files and folders for better performance</value>
   </data>
   <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Preemptive cache parallel limit (0 turns off the preemptive cache)</value>
+    <value>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
@@ -1820,5 +1820,8 @@
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Use preemptive cache (preload entries in child directories on navigation)</value>
   </data>
 </root>
