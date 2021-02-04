@@ -736,20 +736,30 @@ namespace Files.Filesystem
                     history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     break;
                 case FilesystemItemType.File:
-                    // Handle Shortcut renaming
+
                     if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
                     {
                         newName += Path.GetExtension(source.Path);
                     }
 
-                    var renameDialogText = "RenameFileDialog/Text".GetLocalized();
-
-                    var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
-                    if (yesSelected)
+                    /* Only prompt user when extension has changed,
+                       not when file name has changed
+                    */
+                    if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
                     {
-                        history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                        var renameDialogText = "RenameFileDialog/Text".GetLocalized();
+
+                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
+                        if (yesSelected)
+                        {
+                            history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                            break;
+                        }
+                        
                         break;
                     }
+
+                    history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     break;
                 default:
                     history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
