@@ -1837,7 +1837,7 @@
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="translated">List and sort directories alongside files</target>
+          <target state="translated">Dateien zusammen mit Ordnern sortieren und nicht voneinander trennen</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
