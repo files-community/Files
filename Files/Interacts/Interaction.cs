@@ -1331,7 +1331,7 @@ namespace Files.Interacts
 
             while (!token.IsCancellationRequested && (bytes_read = await stream.ReadAsync(buffer, 0, capacity)) > 0)
             {
-                hasher.Update(buffer.Take(bytes_read).ToArray());
+                hasher.Update(buffer.Take(bytes_read));
                 if (progress != null)
                 {
                     progress.Value = (double)str.Position / str.Length * 100;
