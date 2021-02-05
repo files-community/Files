@@ -1316,15 +1316,7 @@ namespace Files.Interacts
             var inputStream = stream.AsInputStream();
             var str = inputStream.AsStreamForRead();
             var cap = (long)(0.5 * str.Length) / 100;
-            int capacity;
-            if (cap >= int.MaxValue)
-            {
-                capacity = int.MaxValue;
-            }
-            else
-            {
-                capacity = Convert.ToInt32(cap);
-            }
+            int capacity = Convert.ToInt32(Math.Min(cap, int.MaxValue));
 
             byte[] buffer = new byte[capacity];
             int bytes_read = 0;
