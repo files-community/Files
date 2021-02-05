@@ -1816,6 +1816,6 @@
     <value>Multiselect</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</value>
+    <value>Enable multiselect options (currently only available in the tiles and grid view layout modes)</value>
   </data>
 </root>
