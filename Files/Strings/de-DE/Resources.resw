@@ -1381,7 +1381,7 @@
     <value>Unterstütze uns mit PayPal</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Dateien zusammen mit Ordnern sortieren und nicht voneinander trennen</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
@@ -1468,7 +1468,7 @@
     <value>Geteilte Ansicht</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show copy location menu item</value>
+    <value>'Speicherort kopieren' Menüeintrag anzeigen</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Einträge in ein Untermenü verschieben wenn das Menü überläuft</value>
@@ -1703,5 +1703,11 @@
   </data>
   <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Adaptives Vorschaupanel aktivieren</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Mehrfachauswahl</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</value>
   </data>
 </root>

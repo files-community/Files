@@ -1414,10 +1414,10 @@
     <value>Mégse</value>
   </data>
   <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Feladatok folyamatban</value>
+    <value>Folyamatban lévő műveletek</value>
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
-    <value>Feladatok folyamatban</value>
+    <value>Folyamatban lévő műveletek</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
     <value>Mindig kettős nézetben nyissa meg az új lapokat</value>
@@ -1635,8 +1635,17 @@
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Offline állapotban is elérhető</value>
   </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Részben elérhető offline módban</value>
+  </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>Szinkronizálás</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Kizárva a szinkronizálásból</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Kiszámolatlan</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ismeretlen</value>
@@ -1664,5 +1673,11 @@
   </data>
   <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Adaptív előnézeti panel engedélyezése</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Többszörös kijelölés</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</value>
   </data>
 </root>
