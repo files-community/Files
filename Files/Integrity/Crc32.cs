@@ -21,6 +21,5 @@ namespace Files
         {
             hash = await Task.Run(() => Crc32Algorithm.Append(hash, buffer.ToArray()));
         }
-
     }
 }
