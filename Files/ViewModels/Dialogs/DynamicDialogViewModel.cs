@@ -6,24 +6,10 @@ using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Files.Enums;
 
 namespace Files.ViewModels.Dialogs
 {
-    public enum DynamicResult
-    {
-        Primary = 1,
-        Secondary = 2,
-        Cancel = 4,
-    }
-
-    public enum DynamicButtons
-    {
-        Primary = 1,
-        Secondary = 2,
-        Cancel = 4,
-        None = 8
-    }
-
     public class DynamicDialogViewModel : ObservableObject, IDisposable
     {
         #region Public Properties
@@ -66,7 +52,7 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref displayControlLoad, value);
         }
 
-        private DynamicButtons dynamicButtons;
+        private DynamicDialogButtons dynamicButtons;
 
         /// <summary>
         /// Decides which buttons to show.
@@ -77,14 +63,14 @@ namespace Files.ViewModels.Dialogs
         /// Setting value to <see cref="DynamicButtons"/> may override
         /// <see cref="PrimaryButtonText"/> and/or <see cref="SecondaryButtonText"/> and/or <see cref="CloseButtonText"/>.
         /// </summary>
-        public DynamicButtons DynamicButtons
+        public DynamicDialogButtons DynamicButtons
         {
             get => dynamicButtons;
             set
             {
                 if (SetProperty(ref dynamicButtons, value))
                 {
-                    if (value.HasFlag(DynamicButtons.None))
+                    if (value.HasFlag(DynamicDialogButtons.None))
                     {
                         PrimaryButtonText = null; // Hides this option
                         SecondaryButtonText = null; // Hides this option
@@ -93,15 +79,15 @@ namespace Files.ViewModels.Dialogs
                         return;
                     }
 
-                    if (!value.HasFlag(DynamicButtons.Primary))
+                    if (!value.HasFlag(DynamicDialogButtons.Primary))
                     {
                         PrimaryButtonText = null; // Hides this option
                     }
-                    if (!value.HasFlag(DynamicButtons.Secondary))
+                    if (!value.HasFlag(DynamicDialogButtons.Secondary))
                     {
                         SecondaryButtonText = null; // Hides this option
                     }
-                    if (!value.HasFlag(DynamicButtons.Cancel))
+                    if (!value.HasFlag(DynamicDialogButtons.Cancel))
                     {
                         CloseButtonText = null; // Hides this option
                     }
@@ -216,23 +202,23 @@ namespace Files.ViewModels.Dialogs
 
         #endregion
 
-        private DynamicButtons dynamicButtonsEnabled;
+        private DynamicDialogButtons dynamicButtonsEnabled;
         /// <summary>
         /// Determines which buttons should be enabled
         /// </summary>
-        public DynamicButtons DynamicButtonsEnabled
+        public DynamicDialogButtons DynamicButtonsEnabled
         {
             get => dynamicButtonsEnabled;
             set
             {
                 if (SetProperty(ref dynamicButtonsEnabled, value))
                 {
-                    if (!value.HasFlag(DynamicButtons.Cancel))
+                    if (!value.HasFlag(DynamicDialogButtons.Cancel))
                     {
                         Debugger.Break(); // Cannot disable the Close button!
                     }
 
-                    if (value.HasFlag(DynamicButtons.None))
+                    if (value.HasFlag(DynamicDialogButtons.None))
                     {
                         IsPrimaryButtonEnabled = false; // Hides this option
                         IsSecondaryButtonEnabled = false; // Hides this option
@@ -240,7 +226,7 @@ namespace Files.ViewModels.Dialogs
                         return;
                     }
 
-                    if (!value.HasFlag(DynamicButtons.Primary))
+                    if (!value.HasFlag(DynamicDialogButtons.Primary))
                     {
                         IsPrimaryButtonEnabled = false; // Hides this option
                     }
@@ -249,7 +235,7 @@ namespace Files.ViewModels.Dialogs
                         IsPrimaryButtonEnabled = true;
                     }
 
-                    if (!value.HasFlag(DynamicButtons.Secondary))
+                    if (!value.HasFlag(DynamicDialogButtons.Secondary))
                     {
                         IsSecondaryButtonEnabled = false; // Hides this option
                     }
@@ -264,7 +250,7 @@ namespace Files.ViewModels.Dialogs
         /// <summary>
         /// The result of the dialog, value of this property is automatically handled.
         /// </summary>
-        public DynamicResult DynamicResult { get; set; }
+        public DynamicDialogResult DynamicResult { get; set; }
 
         #endregion Public Properties
 
@@ -293,7 +279,7 @@ namespace Files.ViewModels.Dialogs
                 {
                     PrimaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
                     {
-                        DynamicResult = DynamicResult.Primary;
+                        DynamicResult = DynamicDialogResult.Primary;
                         PrimaryButtonAction(this, e);
                     });
                 }
@@ -313,7 +299,7 @@ namespace Files.ViewModels.Dialogs
                 {
                     SecondaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
                     {
-                        DynamicResult = DynamicResult.Secondary;
+                        DynamicResult = DynamicDialogResult.Secondary;
                         SecondaryButtonAction(this, e);
                     });
                 }
@@ -333,7 +319,7 @@ namespace Files.ViewModels.Dialogs
                 {
                     CloseButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
                     {
-                        DynamicResult = DynamicResult.Cancel;
+                        DynamicResult = DynamicDialogResult.Cancel;
                         CloseButtonAction(this, e);
                     });
                 }
@@ -358,7 +344,7 @@ namespace Files.ViewModels.Dialogs
                 {
                     DynamicKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>((e) =>
                     {
-                        DynamicResult = DynamicResult.Cancel;
+                        DynamicResult = DynamicDialogResult.Cancel;
                         KeyDownAction(this, e);
                     });
                 }
@@ -396,8 +382,8 @@ namespace Files.ViewModels.Dialogs
                     HideDialog();
                 }
             };
-            DynamicButtons = DynamicButtons.Primary;
-            DynamicButtonsEnabled = DynamicButtons.Primary | DynamicButtons.Secondary | DynamicButtons.Cancel;
+            DynamicButtons = DynamicDialogButtons.Primary;
+            DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel;
         }
 
         #endregion Constructor

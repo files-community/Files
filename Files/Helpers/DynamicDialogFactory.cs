@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -19,7 +20,7 @@ namespace Files.Helpers
                 PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
                 CloseButtonText= "PropertySaveErrorDialog/CloseButtonText".GetLocalized(),
-                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Secondary | DynamicButtons.Cancel
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
             });
             return dialog;
         }
@@ -32,7 +33,7 @@ namespace Files.Helpers
                 SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalized(), // We can use subtitle here as our content
                 PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
-                DynamicButtons = DynamicButtons.Primary
+                DynamicButtons = DynamicDialogButtons.Primary
             });
             return dialog;
         }
@@ -61,17 +62,17 @@ namespace Files.Helpers
 
                 if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
                 {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Cancel;
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
                     tipText.Opacity = 1.0d;
                     return;
                 }
                 else if (!string.IsNullOrWhiteSpace(textBox.Text))
                 {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Primary | DynamicButtons.Cancel;
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
                 }
                 else
                 {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicButtons.Cancel;
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
                 }
 
                 tipText.Opacity = 0.0d;
@@ -104,8 +105,8 @@ namespace Files.Helpers
                 },
                 PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalized(),
                 CloseButtonText = "RenameDialog/SecondaryButtonText".GetLocalized(),
-                DynamicButtonsEnabled = DynamicButtons.Cancel,
-                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
+                DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
 
             return dialog;

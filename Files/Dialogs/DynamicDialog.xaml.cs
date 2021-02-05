@@ -1,4 +1,5 @@
-﻿using Files.ViewModels.Dialogs;
+﻿using Files.Enums;
+using Files.ViewModels.Dialogs;
 using System;
 using Windows.UI.Xaml.Controls;
 
@@ -14,7 +15,7 @@ namespace Files.Dialogs
             private set => DataContext = value;
         }
 
-        public DynamicResult DynamicResult
+        public DynamicDialogResult DynamicResult
         {
             get => ViewModel.DynamicResult;
         }

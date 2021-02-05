@@ -1199,7 +1199,7 @@ namespace Files.Interacts
             DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
             await dialog.ShowAsync();
 
-            if (dialog.DynamicResult != ViewModels.Dialogs.DynamicResult.Primary)
+            if (dialog.DynamicResult != DynamicDialogResult.Primary)
             {
                 return;
             }

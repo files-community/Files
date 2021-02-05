@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
@@ -48,13 +49,13 @@ namespace Files.Views
                     await dialog.ShowAsync();
                     switch (dialog.DynamicResult)
                     {
-                        case ViewModels.Dialogs.DynamicResult.Primary:
+                        case DynamicDialogResult.Primary:
                             break;
 
-                        case ViewModels.Dialogs.DynamicResult.Secondary:
+                        case DynamicDialogResult.Secondary:
                             return true;
 
-                        case ViewModels.Dialogs.DynamicResult.Cancel:
+                        case DynamicDialogResult.Cancel:
                             return false;
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
 using Files.ViewModels.Dialogs;
 using System;
 using System.Threading.Tasks;
@@ -42,12 +43,12 @@ namespace Files.Helpers
                         SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl
                         PrimaryButtonText = primaryText,
                         SecondaryButtonText = secondaryText,
-                        DynamicButtons = DynamicButtons.Primary | DynamicButtons.Secondary
+                        DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
                     });
 
                     await dialog.ShowAsync();
 
-                    result = dialog.DynamicResult == DynamicResult.Primary;
+                    result = dialog.DynamicResult == DynamicDialogResult.Primary;
                 }
             }
             catch (Exception)
