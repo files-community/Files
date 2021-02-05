@@ -138,13 +138,16 @@ namespace Files.ViewModels.Properties
             GetOtherProperties(file.Properties);
 
             // Get file MD5 hash
-            var hashAlgTypeName = HashAlgorithmNames.Md5;
+            // TODO: this needs to be adapted into it's own menu, and not just use a hardcoded type
+            // TODO: these should probably be cached, and just invalidate cache if metadata/timestamp changes?
+            var md5 = new UWPHasher(HashAlgorithmNames.Md5);
+            //var md5 = new Crc32();
             ViewModel.ItemMD5HashProgressVisibility = Visibility.Visible;
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
                 ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
-                    .GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                    .GetHashForFileAsync(Item, md5, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {

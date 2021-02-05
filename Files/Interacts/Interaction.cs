@@ -1299,9 +1299,8 @@ namespace Files.Interacts
             AssociatedInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
+        public async Task<string> GetHashForFileAsync(ListedItem fileItem, IChecksum hasher, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
-            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (itemFromPath == null)
             {
@@ -1317,29 +1316,22 @@ namespace Files.Interacts
             var inputStream = stream.AsInputStream();
             var str = inputStream.AsStreamForRead();
             var cap = (long)(0.5 * str.Length) / 100;
-            uint capacity;
-            if (cap >= uint.MaxValue)
+            int capacity;
+            if (cap >= int.MaxValue)
             {
-                capacity = uint.MaxValue;
+                capacity = int.MaxValue;
             }
             else
             {
-                capacity = Convert.ToUInt32(cap);
+                capacity = Convert.ToInt32(cap);
             }
 
-            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
-            var hash = algorithmProvider.CreateHash();
-            while (!token.IsCancellationRequested)
+            byte[] buffer = new byte[capacity];
+            int bytes_read = 0;
+
+            while (!token.IsCancellationRequested && (bytes_read = await stream.ReadAsync(buffer, 0, capacity)) > 0)
             {
-                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
-                if (buffer.Length > 0)
-                {
-                    hash.Append(buffer);
-                }
-                else
-                {
-                    break;
-                }
+                hasher.Update(buffer.Take(bytes_read).ToArray());
                 if (progress != null)
                 {
                     progress.Value = (double)str.Position / str.Length * 100;
@@ -1351,7 +1343,8 @@ namespace Files.Interacts
             {
                 return "";
             }
-            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
+            var hash = await hasher.Finish();
+            return string.Join(string.Empty, Array.ConvertAll(hash, x => x.ToString("X2"))).ToLower();
         }
 
         public static async Task EjectDeviceAsync(string path)
