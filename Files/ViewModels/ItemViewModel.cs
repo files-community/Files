@@ -44,7 +44,6 @@ namespace Files.ViewModels
         private IShellPage AssociatedInstance = null;
         private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
         private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
-        private readonly SemaphoreSlim updateDataGridSemaphore = new SemaphoreSlim(1, 1);
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
         private readonly SemaphoreSlim operationSemaphore = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
@@ -54,7 +53,7 @@ namespace Files.ViewModels
         private List<ListedItem> filesAndFolders;
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
-        public BulkObservableCollection<ListedItem> FilesAndFolders { get; }
+        public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
@@ -293,64 +292,54 @@ namespace Files.ViewModels
             }
         }
 
-        public async Task SetJumpStringAsync(string value)
+        public string JumpString
         {
-            // If current string is "a", and the next character typed is "a",
-            // search for next file that starts with "a" (a.k.a. _jumpString = "a")
-            if (jumpString.Length == 1 && value == jumpString + jumpString)
+            get => jumpString;
+            set
             {
-                value = jumpString;
+                // If current string is "a", and the next character typed is "a",
+                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+                if (jumpString.Length == 1 && value == jumpString + jumpString)
+                {
+                    value = jumpString;
+                }
+                if (value != "")
+                {
+                    ListedItem jumpedToItem = null;
+                    ListedItem previouslySelectedItem = null;
+
+                    // use FilesAndFolders because only displayed entries should be jumped to
+                    var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
+
+                    if (AssociatedInstance.ContentPage.IsItemSelected)
+                    {
+                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                    }
+
+                    // If the user is trying to cycle through items
+                    // starting with the same letter
+                    if (value.Length == 1 && previouslySelectedItem != null)
+                    {
+                        // Try to select item lexicographically bigger than the previous item
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                    }
+                    if (jumpedToItem == null)
+                    {
+                        jumpedToItem = candidateItems.FirstOrDefault();
+                    }
+
+                    if (jumpedToItem != null)
+                    {
+                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
+                        AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
+                    }
+
+                    // Restart the timer
+                    jumpTimer.Start();
+                }
+                jumpString = value;
             }
-            if (value != "")
-            {
-                ListedItem jumpedToItem = null;
-                ListedItem previouslySelectedItem = null;
-
-                // prevent enumerating from a modified collection
-                try
-                {
-                    await updateDataGridSemaphore.WaitAsync(addFilesCTS.Token);
-                }
-                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
-                {
-                    return;
-                }
-
-                // use FilesAndFolders because only displayed entries should be jumped to
-                var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
-
-                if (AssociatedInstance.ContentPage.IsItemSelected)
-                {
-                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                }
-
-                // If the user is trying to cycle through items
-                // starting with the same letter
-                if (value.Length == 1 && previouslySelectedItem != null)
-                {
-                    // Try to select item lexicographically bigger than the previous item
-                    jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
-                }
-                if (jumpedToItem == null)
-                {
-                    jumpedToItem = candidateItems.FirstOrDefault();
-                }
-
-                updateDataGridSemaphore.Release();
-
-                if (jumpedToItem != null)
-                {
-                    AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
-                    AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
-                }
-
-                // Restart the timer
-                jumpTimer.Start();
-            }
-            jumpString = value;
         }
-
-        public string JumpString => jumpString;
 
         public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
@@ -358,7 +347,7 @@ namespace Files.ViewModels
         {
             AssociatedInstance = appInstance;
             filesAndFolders = new List<ListedItem>();
-            FilesAndFolders = new BulkObservableCollection<ListedItem>();
+            FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
@@ -486,15 +475,6 @@ namespace Files.ViewModels
         {
             try
             {
-                await updateDataGridSemaphore.WaitAsync(addFilesCTS.Token);
-            }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
-            {
-                return;
-            }
-
-            try
-            {
                 if (filesAndFolders == null || filesAndFolders.Count == 0)
                 {
                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
@@ -506,15 +486,32 @@ namespace Files.ViewModels
                     return;
                 }
 
-                // ObservableCollection.CollectionChanged will cause UI update, which may cause
-                // significant performance degradation, so suppress ObservableCollection.CollectionChanged
-                // event here while loading items heavily
+                // CollectionChanged will cause UI update, which may cause significant performance degradation,
+                // so suppress CollectionChanged event here while loading items heavily.
+
+                // Note that both DataGrid and GridView don't support multi-items changes notification, so here
+                // we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
+                // in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
                 FilesAndFolders.BeginBulkOperation();
+
                 // After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
                 // so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
                 // run safely without needs of dispatching to UI thread
                 await Task.Run(() =>
                 {
+                    var startIndex = -1;
+                    var tempList = new List<ListedItem>();
+
+                    void ApplyBulkInsertEntries()
+                    {
+                        if (startIndex != -1)
+                        {
+                            FilesAndFolders.ReplaceRange(startIndex, tempList);
+                            startIndex = -1;
+                            tempList.Clear();
+                        }
+                    }
+
                     for (var i = 0; i < filesAndFolders.Count; i++)
                     {
                         if (addFilesCTS.IsCancellationRequested)
@@ -526,29 +523,36 @@ namespace Files.ViewModels
                         {
                             if (FilesAndFolders[i] != filesAndFolders[i])
                             {
-                                FilesAndFolders.Insert(i, filesAndFolders[i]);
+                                if (startIndex == -1)
+                                {
+                                    startIndex = i;
+                                }
+                                tempList.Add(filesAndFolders[i]);
+                            }
+                            else
+                            {
+                                ApplyBulkInsertEntries();
                             }
                         }
                         else
                         {
-                            FilesAndFolders.Add(filesAndFolders[i]);
+                            ApplyBulkInsertEntries();
+                            FilesAndFolders.InsertRange(i, filesAndFolders.Skip(i));
+                            break;
                         }
                     }
-                    while (FilesAndFolders.Count > filesAndFolders.Count)
-                    {
-                        if (addFilesCTS.IsCancellationRequested)
-                        {
-                            return;
-                        }
 
-                        FilesAndFolders.RemoveAt(FilesAndFolders.Count - 1);
+                    ApplyBulkInsertEntries();
+                    if (FilesAndFolders.Count > filesAndFolders.Count)
+                    {
+                        FilesAndFolders.RemoveRange(filesAndFolders.Count, FilesAndFolders.Count - filesAndFolders.Count);
                     }
                 });
 
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    // trigger ObservableCollection.CollectionChanged once
-                    // loading is completed so that UI can be updated
+                    // trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+                    // once loading is completed so that UI can be updated
                     FilesAndFolders.EndBulkOperation();
                     IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
                     UpdateDirectoryInfo();
@@ -557,10 +561,6 @@ namespace Files.ViewModels
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-            }
-            finally
-            {
-                updateDataGridSemaphore.Release();
             }
         }
 
@@ -1628,6 +1628,8 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
+            var sampler = new IntervalSampler(500);
+
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -1659,7 +1661,17 @@ namespace Files.ViewModels
                         {
                             NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                         }
+
+                        if (sampler.CheckNow())
+                        {
+                            await OrderFilesAndFoldersAsync();
+                            await ApplyFilesAndFoldersChangesAsync();
+                        }
                     }
+
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
+                    await SaveCurrentListToCacheAsync(WorkingDirectory);
                 }
             }
             catch
@@ -1746,12 +1758,10 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task AddFileOrFolderAsync(ListedItem item)
+        private Task AddFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Add(item);
-            await OrderFilesAndFoldersAsync();
-            await ApplyFilesAndFoldersChangesAsync();
-            await SaveCurrentListToCacheAsync(WorkingDirectory);
+            return Task.CompletedTask;
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1783,9 +1793,6 @@ namespace Files.ViewModels
             if (listedItem != null)
             {
                 filesAndFolders.Add(listedItem);
-                await OrderFilesAndFoldersAsync();
-                await ApplyFilesAndFoldersChangesAsync();
-                await SaveCurrentListToCacheAsync(WorkingDirectory);
             }
         }
 
@@ -1864,12 +1871,10 @@ namespace Files.ViewModels
         public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
-            await ApplyFilesAndFoldersChangesAsync();
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 App.JumpList.RemoveFolder(item.ItemPath);
             });
-            await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
         public async Task RemoveFileOrFolderAsync(string path)

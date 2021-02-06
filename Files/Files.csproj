@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;ko-KR;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -160,6 +160,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
+    <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
@@ -313,7 +314,7 @@
     <Compile Include="Helpers\PostBannerHelpers.cs" />
     <Compile Include="Helpers\RecycleBinHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\BulkObservableCollection.cs" />
+    <Compile Include="Helpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
@@ -665,9 +666,13 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <None Include="Resources\PreviewPanePropertiesInformation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <PRIResource Include="Strings\ko-KR\Resources.resw" />
     <PRIResource Include="Strings\ar\Resources.resw" />
     <PRIResource Include="Strings\da-DK\Resources.resw" />
     <PRIResource Include="Strings\da\Resources.resw" />
@@ -1025,6 +1030,7 @@
     <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ko-KR.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.or-IN.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />

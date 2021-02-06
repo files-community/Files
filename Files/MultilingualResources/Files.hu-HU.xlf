@@ -132,7 +132,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
-          <target state="translated">Kijelölés megszűntetése</target>
+          <target state="translated">Kijelölés megszüntetése</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
@@ -152,7 +152,7 @@
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
-          <target state="translated">Kijelölés megszűntetése</target>
+          <target state="translated">Minden elem eltávolítása</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
@@ -308,8 +308,7 @@
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from sidebar</source>
-          <target state="needs-review-translation">Levétel az oldalsávról</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Levétel az oldalsávról</target>
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
@@ -733,8 +732,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="needs-review-translation">OK</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">OK</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -742,8 +740,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
-          <target state="needs-review-translation">Biztosan törölne minden elemet?</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Biztosan törölne minden elemet?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -863,7 +860,7 @@
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
-          <target state="translated">Státusz</target>
+          <target state="translated">Állapot</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
@@ -1015,7 +1012,7 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
-          <target state="translated">A referált fájl helytelen vagy elérhetetlen.{0}Hibaüzenet:{0}{1}</target>
+          <target state="translated">A hivatkozott elem helytelen vagy elérhetetlen.{0}Hibaüzenet:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
@@ -1371,13 +1368,11 @@
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
-          <target state="needs-review-translation">Minősítés</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Minősítés</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
-          <target state="needs-review-translation">Elem típusa</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Elem típusa</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1425,8 +1420,7 @@
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
-          <target state="needs-review-translation">Tömörítés</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Tömörítés</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
           <source>Color Space</source>
@@ -1922,11 +1916,11 @@
         </trans-unit>
         <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
-          <target state="translated">Feladatok folyamatban</target>
+          <target state="translated">Folyamatban lévő műveletek</target>
         </trans-unit>
         <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
-          <target state="translated">Feladatok folyamatban</target>
+          <target state="translated">Folyamatban lévő műveletek</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
@@ -1946,7 +1940,7 @@
         </trans-unit>
         <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
-          <target state="translated">Megnyités második panelben</target>
+          <target state="translated">Megnyitás második panelben</target>
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual Pane</source>
@@ -2066,15 +2060,11 @@
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl + P)</source>
-          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+          <target state="translated">Váltás előnézetre (Ctrl + P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
           <target state="translated">Elem neve</target>
-        </trans-unit>
-        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2082,11 +2072,11 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Bundle with the same name already exists!</source>
-          <target state="new">Bundle with the same name already exists!</target>
+          <target state="translated">Csomag ezzel a névvel már létezik!</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
-          <target state="new">Input field cannot be empty!</target>
+          <target state="translated">A mező nem lehet üres!</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
@@ -2122,7 +2112,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
-          <target state="translated">Új név</target>
+          <target state="translated">Csomag neve</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2194,7 +2184,7 @@
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
-          <target state="new">Cloud Drives</target>
+          <target state="translated">Felhőtárhely</target>
         </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
           <source>No preview available</source>
@@ -2206,11 +2196,43 @@
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles on the home page</source>
-          <target state="new">Show Bundles on the home page</target>
+          <target state="translated">Csomagok megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
-          <target state="new">Unpin directory from sidebar</target>
+          <target state="translated">Könyvtár levétele az oldalsávról </target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout</source>
+          <target state="new">Folyamatban lévő feladatok flyout</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
+          <source>Available when online</source>
+          <target state="translated">Online állapotban elérhető</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
+          <source>Available offline</source>
+          <target state="translated">Offline állapotban is elérhető</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
+          <source>Partially available offline</source>
+          <target state="translated">Részben elérhető offline módban</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
+          <source>Syncing</source>
+          <target state="translated">Szinkronizálás</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
+          <source>Excluded from sync</source>
+          <target state="translated">Kizárva a szinkronizálásból</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+          <source>Not calculated</source>
+          <target state="translated">Kiszámolatlan</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="translated">Ismeretlen</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
@@ -2222,19 +2244,43 @@
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Properties</target>
+          <target state="translated">Tulajdonságok</target>
         </trans-unit>
         <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File details</source>
-          <target state="new">File details</target>
+          <target state="translated">Fájl részletek</target>
         </trans-unit>
         <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File preview</source>
-          <target state="new">File preview</target>
+          <target state="translated">Fájl előnézet</target>
         </trans-unit>
         <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selected file preview pane</source>
-          <target state="new">Selected file preview pane</target>
+          <target state="translated">Kiválasztott fájl előnézeti panele</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
+          <source>Documentation</source>
+          <target state="translated">Dokumentáció</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find tips &amp; tricks and learn more about Files</source>
+          <target state="translated">Tudjon meg többet a Files-ról</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Visit the Files documentation website</source>
+          <target state="translated">Látogasson el a Files dokumentáció oldalára</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="translated">Adaptív előnézeti panel engedélyezése</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+          <source>Multiselect</source>
+          <target state="translated">Többszörös kijelölés</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
+          <source>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</source>
+          <target state="translated">Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</target>
         </trans-unit>
       </group>
     </body>

@@ -10,6 +10,21 @@
     mc:Ignorable="d">
 
     <Grid>
-        <RichEditBox x:Name="TextPreviewControl" IsReadOnly="True" />
+        <RichEditBox x:Name="TextPreviewControl" IsReadOnly="True">
+            <RichEditBox.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="TextControlBackground" Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBorderBrush" Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </RichEditBox.Resources>
+        </RichEditBox>
     </Grid>
 </UserControl>

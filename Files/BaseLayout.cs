@@ -46,6 +46,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public bool IsQuickLookEnabled { get; set; } = false;
@@ -764,12 +766,12 @@ namespace Files
             ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
-        protected virtual async void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
                 char letterPressed = Convert.ToChar(args.KeyCode);
-                await ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
             }
         }
 

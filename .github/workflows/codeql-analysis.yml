@@ -1,0 +1,67 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: "17 8 * * 3"
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: windows-latest
+    if: github.repository == 'files-community/Files'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ "cpp", "csharp" ]
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v2
+
+      - name: "Azure PowerShell Action"
+        uses: Azure/powershell@v1
+        with:
+          azPSVersion: latest
+          inlineScript: |
+            [xml]$xmlDoc = Get-Content Files.Package\Package.appxmanifest
+            $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+            $xmlDoc.Package.Properties.DisplayName="Files"
+            $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+            $xmlDoc.Save('Files.Package\Package.appxmanifest')
+          failOnStandardError: true
+
+      - name: "Initialize CodeQL"
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: "Setup NuGet"
+        uses: nuget/setup-nuget@v1
+        with:
+          nuget-version: '5.x'
+
+      - name: "Setup MSBuild"
+        uses: microsoft/setup-msbuild@v1
+
+      - name: "NuGet Caching"
+        uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/Files.Package/Package.appxmanifest') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: "Restore NuGets for Solution"
+        run: nuget restore -LockedMode Files.sln
+
+      - name: "Perform Project Build"
+        run: |
+          msbuild -nologo -nr:false -m -t:build -t:_GenerateAppxPackage -p:Configuration=Release -p:Platform=x64 -p:AppxBundle=Always -p:AppxBundlePlatforms=x64 Files.Package/Files.Package.wapproj
+
+      - name: "Perform CodeQL Analysis"
+        uses: github/codeql-action/analyze@v1

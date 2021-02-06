@@ -961,10 +961,11 @@ namespace Files.Views
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
 
-            if(ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 UpdatePositioning(true);
-            } else
+            }
+            else
             {
                 UpdatePositioning();
             }
@@ -1320,7 +1321,7 @@ namespace Files.Views
             {
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = new GridLength(0);
-                if(PreviewPaneGridSplitter != null)
+                if (PreviewPaneGridSplitter != null)
                 {
                     PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
                 }
@@ -1341,7 +1342,7 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
 
                 PreviewPaneRow.Height = new GridLength(0);
-                PreviewPaneColumn.Width = new GridLength(300);
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
                 PreviewPane.IsHorizontal = false;
 
                 PreviewPane.Visibility = Visibility.Visible;
@@ -1349,7 +1350,7 @@ namespace Files.Views
             }
             else if (RootGrid.ActualWidth < 1000)
             {
-                PreviewPaneRow.Height = new GridLength(200);
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
                 PreviewPaneColumn.Width = new GridLength(0);
 
                 PreviewPane.SetValue(Grid.RowProperty, 4);
@@ -1363,6 +1364,23 @@ namespace Files.Views
 
                 PreviewPane.Visibility = Visibility.Visible;
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PreviewPane == null)
+            {
+                return;
+            }
+
+            if (PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+            }
+            else
+            {
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
             }
         }
     }

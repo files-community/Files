@@ -1644,9 +1644,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nome dell'elemento</value>
   </data>
-  <data name="SettingsEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Abilita anteprima adattiva</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Archivi Cloud</value>
   </data>
@@ -1658,5 +1655,8 @@
   </data>
   <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
     <value>Nessun dettaglio disponibile</value>
+  </data>
+  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
+    <value>Abilita anteprima adattiva</value>
   </data>
 </root>

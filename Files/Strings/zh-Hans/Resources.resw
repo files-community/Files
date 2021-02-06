@@ -1644,9 +1644,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>项目名称</value>
   </data>
-  <data name="SettingsEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>启用适应式预览窗格</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>云盘</value>
   </data>
@@ -1661,5 +1658,8 @@
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>从侧边栏取消固定路径</value>
+  </data>
+  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
+    <value>启用适应式预览窗格</value>
   </data>
 </root>
