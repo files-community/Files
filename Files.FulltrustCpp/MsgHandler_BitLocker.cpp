@@ -62,14 +62,14 @@ IAsyncOperation<bool> MsgHandler_BitLocker::ParseArgumentsAsync(const AppService
 				if (Unlock(filepath.c_str(), password.c_str()))
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value("Success"));
+					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Success")));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
 				else
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value("Failed"));
+					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Failed")));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
@@ -81,14 +81,14 @@ IAsyncOperation<bool> MsgHandler_BitLocker::ParseArgumentsAsync(const AppService
 				if (Lock(filepath.c_str(), password.c_str()))
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value("Success"));
+					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Success")));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
 				else
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value("Failed"));
+					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Failed")));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
