@@ -1,18 +1,23 @@
 #include "pch.h"
 #include "MsgHandler_BitLocker.h"
 #include <string>
+#include <sstream>
 
 bool MsgHandler_BitLocker::Unlock(LPCWSTR filepath, LPCWSTR password)
 {
 	using namespace::std;
 
-	wstring args = L"-command \"$SecureString = ConvertTo-SecureString '";
-	args += *password;
-	args += L"' -AsPlainText -Force; Unlock-BitLocker - MountPoint '";
-	args += *filepath;
-	args += L"' -Password $SecureString\"";
+	wstringstream strStream;
+	strStream
+		<< L"-command \"$SecureString = ConvertTo-SecureString '"
+		<< *password
+		<< L"' -AsPlainText -Force; Unlock-BitLocker - MountPoint '"
+		<< *filepath
+		<< L"' -Password $SecureString\"";
 
-	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, FALSE);
+	wstring args = strStream.str();
+
+	(void)ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, FALSE);
 
 	return true;
 }
@@ -23,13 +28,17 @@ bool MsgHandler_BitLocker::Lock(LPCWSTR filepath, LPCWSTR password)
 
 	using namespace::std;
 
-	wstring args = L"-command \"$SecureString = ConvertTo-SecureString '";
-	args += *password;
-	args += L"' -AsPlainText -Force; Lock-BitLocker - MountPoint '";
-	args += *filepath;
-	args += L"' -Password $SecureString\"";
+	wstringstream strStream;
+	strStream
+		<< L"-command \"$SecureString = ConvertTo-SecureString '"
+		<< *password
+		<< L"' -AsPlainText -Force; Lock-BitLocker - MountPoint '"
+		<< *filepath
+		<< L"' -Password $SecureString\"";
 
-	auto hInstance = ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, FALSE);
+	wstring args = strStream.str();
+
+	(void)ShellExecute(NULL, L"runas", L"powershell.exe", args.c_str(), NULL, FALSE);
 
 	return true;
 }
