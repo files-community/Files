@@ -429,7 +429,6 @@ namespace Files.Interacts
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
-            bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
             FilesystemResult opened = (FilesystemResult)false;
 
             // Shortcut item variables
@@ -438,11 +437,6 @@ namespace Files.Interacts
             string shortcutWorkingDirectory = null;
             bool shortcutRunAsAdmin = false;
             bool shortcutIsFolder = false;
-
-            if (!fileExists && !isShortcutItem && !isHiddenItem)
-            {
-                return false;
-            }
 
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
@@ -684,7 +678,9 @@ namespace Files.Interacts
 
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
-                await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
+                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
+                    FilesystemItemType.Directory : FilesystemItemType.File;
+                await OpenPath(item.ItemPath, type, false, openViaApplicationPicker);
             }
         }
 
