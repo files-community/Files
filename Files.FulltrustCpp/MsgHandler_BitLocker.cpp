@@ -24,8 +24,6 @@ bool MsgHandler_BitLocker::Unlock(LPCWSTR filepath, LPCWSTR password)
 
 bool MsgHandler_BitLocker::Lock(LPCWSTR filepath, LPCWSTR password)
 {
-	return false;
-
 	using namespace::std;
 
 	wstringstream strStream;
@@ -54,22 +52,22 @@ IAsyncOperation<bool> MsgHandler_BitLocker::ParseArgumentsAsync(const AppService
 		if (arguments == L"Bitlocker")
 		{
 			hstring action = args.Request().Message().Lookup(L"Action").as<hstring>();
-			hstring filepath = args.Request().Message().Lookup(L"filepath").as<hstring>();
-			hstring password = args.Request().Message().Lookup(L"password").as<hstring>();
+			hstring filepath = args.Request().Message().Lookup(L"FilePath").as<hstring>();
+			hstring password = args.Request().Message().Lookup(L"Password").as<hstring>();
 
 			if (action == L"Unlock")
 			{
 				if (Unlock(filepath.c_str(), password.c_str()))
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Success")));
+					response.Insert(L"Bitlocker", winrt::box_value(L"Success"));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
 				else
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Failed")));
+					response.Insert(L"Bitlocker", winrt::box_value(L"Failed"));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
@@ -81,14 +79,14 @@ IAsyncOperation<bool> MsgHandler_BitLocker::ParseArgumentsAsync(const AppService
 				if (Lock(filepath.c_str(), password.c_str()))
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Success")));
+					response.Insert(L"Bitlocker", winrt::box_value(L"Success"));
 
 					co_await args.Request().SendResponseAsync(response);
 				}
 				else
 				{
 					ValueSet response;
-					response.Insert(L"Bitlocker", winrt::box_value(winrt::to_hstring("Failed")));
+					response.Insert(L"Bitlocker", winrt::box_value(L"Failed"));
 
 					co_await args.Request().SendResponseAsync(response);
 				}

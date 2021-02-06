@@ -1010,9 +1010,9 @@ namespace Files.ViewModels
                     {
                         var value = new ValueSet();
                         value.Add("Arguments", "Bitlocker");
-                        value.Add("action", "Unlock");
-                        value.Add("drive", Path.GetPathRoot(WorkingDirectory));
-                        value.Add("password", userInput);
+                        value.Add("Action", "Unlock");
+                        value.Add("FilePath", Path.GetPathRoot(WorkingDirectory));
+                        value.Add("Password", userInput);
                         await Connection.SendMessageAsync(value);
 
                         if (await CheckBitlockerStatusAsync(_rootFolder))
