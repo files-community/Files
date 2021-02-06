@@ -471,7 +471,7 @@ namespace Files.ViewModels
         }
 
         // apply changes immediately after manipulating on filesAndFolders completed
-        public async Task ApplyFilesAndFoldersChangesAsync()
+        public async Task ApplyFilesAndFoldersChangesAsync(bool suppressUpdateEmptyText = false)
         {
             try
             {
@@ -480,7 +480,10 @@ namespace Files.ViewModels
                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                     {
                         FilesAndFolders.Clear();
-                        IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                        if (!suppressUpdateEmptyText)
+                        {
+                            IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                        }
                         UpdateDirectoryInfo();
                     });
                     return;
@@ -885,7 +888,7 @@ namespace Files.ViewModels
 
                 IsLoadingItems = true;
                 filesAndFolders.Clear();
-                await ApplyFilesAndFoldersChangesAsync();
+                await ApplyFilesAndFoldersChangesAsync(true);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -2275,10 +2278,10 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
+            CancelLoadAndClearFiles();
             addFilesCTS?.Dispose();
             semaphoreCTS?.Dispose();
             loadPropsCTS?.Dispose();
-            CloseWatcher();
         }
 
         /// <summary>

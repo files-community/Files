@@ -15,7 +15,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="PageRoot"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Disabled"
+    NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
