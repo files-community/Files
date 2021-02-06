@@ -402,6 +402,8 @@ namespace Files.UserControls
 
         private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverItem = null; // Reset dragged over item
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
@@ -478,6 +480,8 @@ namespace Files.UserControls
 
         private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverItem = null; // Reset dragged over item
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
             {
                 return;
