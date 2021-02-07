@@ -1,5 +1,9 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Common;
+using Files.Filesystem;
+using Files.Views;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -22,11 +26,11 @@ namespace Files.ViewModels.SettingsViewModels
         {
             if (App.AppSettings.PagesOnStartupList != null)
             {
-                PagesOnStartupList = new ObservableCollection<string>(App.AppSettings.PagesOnStartupList);
+                PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(App.AppSettings.PagesOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
             }
             else
             {
-                PagesOnStartupList = new ObservableCollection<string>();
+                PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
             }
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
@@ -36,7 +40,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             if (PagesOnStartupList.Count() > 0)
             {
-                App.AppSettings.PagesOnStartupList = PagesOnStartupList.ToArray();
+                App.AppSettings.PagesOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToArray();
             }
             else
             {
@@ -89,7 +93,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public ObservableCollection<string> PagesOnStartupList { get; set; }
+        public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
 
         public int SelectedPageIndex
         {
@@ -109,9 +113,18 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref isPageListEditEnabled, value);
         }
 
-        public RelayCommand ChangePageCommand => new RelayCommand(() => ChangePage());
-        public RelayCommand RemovePageCommand => new RelayCommand(() => RemovePage());
-        public RelayCommand AddPageCommand => new RelayCommand(() => AddPage());
+        public ReadOnlyCollection<SidebarItemViewModel> MainPageSidebarItems
+        {
+            get => MainPage.SideBarItems
+                .Where((i) => !(i is HeaderTextItem))
+                .Select((i) => new SidebarItemViewModel(i, AddPageCommand))
+                .ToList()
+                .AsReadOnly();
+        }
+
+        public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
+        public RelayCommand RemovePageCommand => new RelayCommand(RemovePage);
+        public RelayCommand<string> AddPageCommand => new RelayCommand<string>(AddPage);
 
         public bool AlwaysOpenANewInstance
         {
@@ -138,32 +151,84 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SelectedPageIndex >= 0)
                 {
-                    PagesOnStartupList[SelectedPageIndex] = folder.Path;
+                    PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
                 }
             }
         }
 
         private void RemovePage()
         {
-            if (SelectedPageIndex >= 0)
+            int index = SelectedPageIndex;
+            if (index >= 0)
             {
-                PagesOnStartupList.RemoveAt(SelectedPageIndex);
+                PagesOnStartupList.RemoveAt(index);
+                if (index > 0)
+                {
+                    SelectedPageIndex = index - 1;
+                }
+                else if (PagesOnStartupList.Count > 0)
+                {
+                    SelectedPageIndex = 0;
+                }
             }
         }
 
-        private async void AddPage()
+        private async void AddPage(string path = null)
         {
-            var folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add("*");
-
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-
-            if (folder != null)
+            if (string.IsNullOrWhiteSpace(path))
             {
-                if (PagesOnStartupList != null)
+                var folderPicker = new FolderPicker();
+                folderPicker.FileTypeFilter.Add("*");
+
+                var folder = await folderPicker.PickSingleFolderAsync();
+                if (folder != null)
                 {
-                    PagesOnStartupList.Add(folder.Path);
+                    path = folder.Path;
                 }
+            }
+
+            if (path != null && PagesOnStartupList != null)
+            {
+                PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+            }
+        }
+
+        public class PageOnStartupViewModel
+        {
+            public string Text
+            {
+                get
+                {
+                    if (Path == "Home")
+                    {
+                        return "SidebarHome".GetLocalized();
+                    }
+                    if (Path == App.AppSettings.RecycleBinPath)
+                    {
+                        return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                    }
+                    return Path;
+                }
+            }
+
+            public string Path { get; }
+
+            internal PageOnStartupViewModel(string path) => Path = path;
+        }
+
+        public class SidebarItemViewModel
+        {
+            public string Text { get; }
+
+            public string Path { get; }
+
+            public RelayCommand<string> OnSelect { get; }
+
+            internal SidebarItemViewModel(INavigationControlItem source, RelayCommand<string> onSelect)
+            {
+                Text = source.Text;
+                Path = source.Path;
+                OnSelect = onSelect;
             }
         }
     }
