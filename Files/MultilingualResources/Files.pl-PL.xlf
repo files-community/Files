@@ -1898,11 +1898,11 @@
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
-          <target state="translated" state-qualifier="tm-suggestion">Oryginalna ścieżka:</target>
+          <target state="translated" state-qualifier="tm-suggestion">Oryginalna ścieżka</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path</source>
-          <target state="translated" state-qualifier="tm-suggestion">Oryginalna ścieżka:</target>
+          <target state="translated" state-qualifier="tm-suggestion">Oryginalna ścieżka</target>
         </trans-unit>
         <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
           <source>Add</source>
