@@ -2276,8 +2276,8 @@
           <target state="new">Multiselect</target>
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</source>
-          <target state="new">Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</target>
+          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
+          <target state="new">Enable multiselect options (currently only available in the tiles and grid view layout modes)</target>
         </trans-unit>
       </group>
     </body>

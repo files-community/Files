@@ -2273,7 +2273,8 @@
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
           <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="translated">Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</target>
+          <target state="needs-review-translation">Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
       </group>
     </body>

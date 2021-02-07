@@ -2271,8 +2271,9 @@
           <target state="translated">Több elem kijelölése</target>
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</source>
-          <target state="translated">Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</target>
+          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
+          <target state="needs-review-translation">Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
       </group>
     </body>

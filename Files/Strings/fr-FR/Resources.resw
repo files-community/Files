@@ -1623,4 +1623,10 @@
   <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Activer le volet d'aperçu adaptatif</value>
   </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Sélection Multiple</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Active l'option de sélection multiple (uniquement disponible sur la vue en tuiles ou en grilles pour le moment)</value>
+  </data>
 </root>
