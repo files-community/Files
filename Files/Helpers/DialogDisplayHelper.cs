@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Files.Dialogs;
+using Files.Enums;
+using Files.ViewModels.Dialogs;
+using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,20 +37,18 @@ namespace Files.Helpers
             {
                 if (Window.Current.Content is Frame rootFrame)
                 {
-                    var dialog = new ContentDialog
+                    DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
                     {
-                        Title = title,
-                        Content = message,
-                        PrimaryButtonText = primaryText
-                    };
+                        TitleText = title,
+                        SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl
+                        PrimaryButtonText = primaryText,
+                        SecondaryButtonText = secondaryText,
+                        DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+                    });
 
-                    if (!string.IsNullOrEmpty(secondaryText))
-                    {
-                        dialog.SecondaryButtonText = secondaryText;
-                    }
-                    var dialogResult = await dialog.ShowAsync();
+                    await dialog.ShowAsync();
 
-                    result = (dialogResult == ContentDialogResult.Primary);
+                    result = dialog.DynamicResult == DynamicDialogResult.Primary;
                 }
             }
             catch (Exception)

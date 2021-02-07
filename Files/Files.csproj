@@ -175,6 +175,8 @@
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\DynamicDialogButtons.cs" />
+    <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
@@ -196,6 +198,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\DynamicDialogFactory.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
@@ -338,9 +341,6 @@
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConsentDialog.xaml.cs">
-      <DependentUpon>ConsentDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
@@ -350,9 +350,6 @@
     <Compile Include="Dialogs\PropertiesDialog.xaml.cs">
       <DependentUpon>PropertiesDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RenameDialog.xaml.cs">
-      <DependentUpon>RenameDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
@@ -360,9 +357,6 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
-    <Compile Include="Dialogs\PropertySaveError.xaml.cs">
-      <DependentUpon>PropertySaveError.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection.cs" />
@@ -795,10 +789,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\ConsentDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dialogs\ExceptionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -808,14 +798,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\PropertiesDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\RenameDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
