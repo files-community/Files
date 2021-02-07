@@ -78,10 +78,17 @@ namespace Files.Helpers
             cts.CancelAfter((int)timeout.TotalMilliseconds);
             while (!cts.Token.IsCancellationRequested)
             {
-                var resp = await serviceConnection.SendMessageAsync(valueSet);
-                if (resp.Status == AppServiceResponseStatus.Success && resp.Message.Any())
+                try
                 {
-                    return (resp.Status, resp);
+                    var resp = await serviceConnection.SendMessageAsync(valueSet);
+                    if (resp.Status == AppServiceResponseStatus.Success && resp.Message.Any())
+                    {
+                        return (resp.Status, resp);
+                    }
+                }
+                catch (ObjectDisposedException)
+                {
+                    break;
                 }
                 await Task.Delay(200);
             }
