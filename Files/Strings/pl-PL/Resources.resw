@@ -1420,10 +1420,10 @@
     <value>Włącz indywidualne preferencje dla poszczególnych katalogów</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Oryginalna ścieżka:</value>
+    <value>Oryginalna ścieżka</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Oryginalna ścieżka:</value>
+    <value>Oryginalna ścieżka</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Dodaj</value>
