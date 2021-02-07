@@ -293,22 +293,12 @@ namespace Files.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
         {
-            if (folderPath.StartsWith(@"\\"))
-            {
-                // Do not read/store preferences for network folders
-                return null;
-            }
             var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
             return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
         }
 
         private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)
         {
-            if (folderPath.StartsWith(@"\\"))
-            {
-                // Do not read/store preferences for network folders
-                return false;
-            }
             if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");

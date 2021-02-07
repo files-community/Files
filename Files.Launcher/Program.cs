@@ -374,24 +374,30 @@ namespace FilesFullTrust
                     var folderContentsList = await Win32API.StartSTATask(() =>
                     {
                         var flc = new List<ShellFileItem>();
-                        using (var shellFolder = new ShellFolder(folderPath))
+                        try
                         {
-                            foreach (var folderItem in shellFolder)
+                            using (var shellFolder = new ShellFolder(folderPath))
                             {
-                                try
+                                foreach (var folderItem in shellFolder)
                                 {
-                                    var shellFileItem = GetShellFileItem(folderItem);
-                                    flc.Add(shellFileItem);
-                                }
-                                catch (FileNotFoundException)
-                                {
-                                    // Happens if files are being deleted
-                                }
-                                finally
-                                {
-                                    folderItem.Dispose();
+                                    try
+                                    {
+                                        var shellFileItem = GetShellFileItem(folderItem);
+                                        flc.Add(shellFileItem);
+                                    }
+                                    catch (FileNotFoundException)
+                                    {
+                                        // Happens if files are being deleted
+                                    }
+                                    finally
+                                    {
+                                        folderItem.Dispose();
+                                    }
                                 }
                             }
+                        }
+                        catch
+                        {
                         }
                         return flc;
                     });
@@ -465,7 +471,7 @@ namespace FilesFullTrust
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
                 "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
-                "eject",
+                "eject", "rename",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };
