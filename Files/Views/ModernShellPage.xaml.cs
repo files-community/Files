@@ -1241,7 +1241,10 @@ namespace Files.Views
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
         {
             ServiceConnection = await e;
-            FilesystemViewModel.OnAppServiceConnectionChanged();
+            if (FilesystemViewModel != null)
+            {
+                FilesystemViewModel.OnAppServiceConnectionChanged();
+            }
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
