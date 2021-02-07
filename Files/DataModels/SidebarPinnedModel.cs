@@ -187,7 +187,7 @@ namespace Files.DataModels
             {
                 Logger.Info("AddItemToSidebarAsync(string)");
 
-                await MainPage.sideBarItemsSemaphore.WaitAsync();
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
@@ -218,7 +218,7 @@ namespace Files.DataModels
                 }
                 finally
                 {
-                    MainPage.sideBarItemsSemaphore.Release();
+                    MainPage.SideBarItemsSemaphore.Release();
                     Logger.Info("AddItemToSidebarAsync(string) complete");
                 }
             });

@@ -53,7 +53,7 @@ namespace Files.Views
 
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> SideBarItems = new ObservableCollection<INavigationControlItem>();
-        public static SemaphoreSlim sideBarItemsSemaphore = new SemaphoreSlim(1, 1);
+        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
         public MainPage()
         {

@@ -91,7 +91,7 @@ namespace Files.Filesystem
             {
                 Logger.Info("SyncSideBarItemsUI()");
 
-                await MainPage.sideBarItemsSemaphore.WaitAsync();
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
                     var drivesSnapshot = Drives.OrderBy(o => o.Text).ToList();
@@ -147,7 +147,7 @@ namespace Files.Filesystem
                 }
                 finally
                 {
-                    MainPage.sideBarItemsSemaphore.Release();
+                    MainPage.SideBarItemsSemaphore.Release();
                     Logger.Info("SyncSideBarItemsUI() complete");
                 }
             });
