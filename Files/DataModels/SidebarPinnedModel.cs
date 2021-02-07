@@ -188,42 +188,31 @@ namespace Files.DataModels
         /// <returns>Task</returns>
         public async Task AddItemToSidebarAsync(string path)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+            if (res)
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
-                try
+                int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                var locationItem = new LocationItem
                 {
-                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-                    var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-                    if (res)
-                    {
-                        int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                        && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
-                        var locationItem = new LocationItem
-                        {
-                            Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                            Path = path,
-                            Glyph = GetItemIcon(path),
-                            IsDefaultLocation = false,
-                            Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                        };
+                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                    Path = path,
+                    Glyph = GetItemIcon(path),
+                    IsDefaultLocation = false,
+                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                };
 
-                        if (!MainPage.SideBarItems.Contains(locationItem))
-                        {
-                            MainPage.SideBarItems.Insert(insertIndex, locationItem);
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
-                        RemoveItem(path);
-                    }
-                }
-                finally
+                if (!MainPage.SideBarItems.Contains(locationItem))
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    MainPage.SideBarItems.Insert(insertIndex, locationItem);
                 }
-            });
+            }
+            else
+            {
+                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
+                RemoveItem(path);
+            }
         }
 
         /// <summary>
@@ -231,10 +220,19 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            for (int i = 0; i < Items.Count(); i++)
+            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            try
             {
-                string path = Items[i];
-                await AddItemToSidebarAsync(path);
+                for (int i = 0; i < Items.Count(); i++)
+                {
+                    string path = Items[i];
+                    await AddItemToSidebarAsync(path);
+                }
+                MainPage.SideBarItems.EndBulkOperation();
+            }
+            finally
+            {
+                MainPage.SideBarItemsSemaphore.Release();
             }
         }
 
