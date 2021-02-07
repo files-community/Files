@@ -434,13 +434,16 @@ namespace Files.Views
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            if (IsCurrentInstance)
             {
-                Back_Click();
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                Forward_Click();
+                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                {
+                    Back_Click();
+                }
+                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                {
+                    Forward_Click();
+                }
             }
         }
 
