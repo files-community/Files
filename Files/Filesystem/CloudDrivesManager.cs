@@ -36,9 +36,7 @@ namespace Files.Filesystem
         public async Task<CloudDrivesManager> EnumerateDrivesAsync()
         {
             var cloudProviderController = new CloudProviderController();
-            Logger.Info("Detecting installed cloud drives");
             var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
-            Logger.Info($"Detected {cloudProviders.Count} cloud drives");
 
             foreach (var provider in cloudProviders)
             {
@@ -62,7 +60,6 @@ namespace Files.Filesystem
 
         private async Task RefreshUI()
         {
-            Logger.Info("RefreshUI()");
             try
             {
                 await SyncSideBarItemsUI();
@@ -74,23 +71,18 @@ namespace Files.Filesystem
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
             }
-            Logger.Info("RefreshUI() complete");
         }
 
         private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            Logger.Info("RefreshUI(CoreApplicationView, IActivatedEventArgs)");
             CoreApplication.MainView.Activated -= RefreshUI;
             await SyncSideBarItemsUI();
-            Logger.Info("RefreshUI(CoreApplicationView, IActivatedEventArgs) complete");
         }
 
         private async Task SyncSideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                Logger.Info("SyncSideBarItemsUI()");
-
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
@@ -132,7 +124,6 @@ namespace Files.Filesystem
                         .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
                         .ToList())
                     {
-                        Logger.Info($"Removing cloud drive \"{item.Text}\"");
                         MainPage.SideBarItems.Remove(item);
                     }
 
@@ -140,7 +131,6 @@ namespace Files.Filesystem
                     var insertAt = MainPage.SideBarItems.IndexOf(drivesSection) + 1;
                     foreach (var drive in drivesSnapshot)
                     {
-                        Logger.Info($"Inserting cloud drive \"{drive.Text}\" at position {insertAt}");
                         MainPage.SideBarItems.Insert(insertAt, drive);
                         insertAt++;
                     }
@@ -148,7 +138,6 @@ namespace Files.Filesystem
                 finally
                 {
                     MainPage.SideBarItemsSemaphore.Release();
-                    Logger.Info("SyncSideBarItemsUI() complete");
                 }
             });
         }

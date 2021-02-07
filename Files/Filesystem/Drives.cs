@@ -216,6 +216,9 @@ namespace Files.Filesystem
                 }
 
                 var driveItem = new DriveItem(root, deviceId, type);
+
+                Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
+
                 drivesList.Add(driveItem);
             }
             // Update the collection on the ui-thread.

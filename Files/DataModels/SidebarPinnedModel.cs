@@ -21,9 +21,6 @@ namespace Files.DataModels
         private SidebarPinnedController controller;
 
         [JsonIgnore]
-        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonProperty("items")]
@@ -193,8 +190,6 @@ namespace Files.DataModels
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                Logger.Info("AddItemToSidebarAsync(string)");
-
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
@@ -227,7 +222,6 @@ namespace Files.DataModels
                 finally
                 {
                     MainPage.SideBarItemsSemaphore.Release();
-                    Logger.Info("AddItemToSidebarAsync(string) complete");
                 }
             });
         }
