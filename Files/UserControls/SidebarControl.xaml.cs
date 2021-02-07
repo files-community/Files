@@ -346,6 +346,13 @@ namespace Files.UserControls
                     deferral.Complete();
                     return;
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 if (storageItems.Count == 0 ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
@@ -447,6 +454,13 @@ namespace Files.UserControls
             }
             catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
             {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
                 return;

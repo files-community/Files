@@ -12,22 +12,30 @@ namespace Files.Helpers
     {
         public static async Task<AppServiceConnection> BuildConnection()
         {
-            var serviceConnection = new AppServiceConnection();
-            serviceConnection.AppServiceName = "FilesInteropService";
-            serviceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-            serviceConnection.ServiceClosed += Connection_ServiceClosed;
-            AppServiceConnectionStatus status = await serviceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
+            try
             {
-                // TODO: error handling
-                serviceConnection?.Dispose();
+                var serviceConnection = new AppServiceConnection();
+                serviceConnection.AppServiceName = "FilesInteropService";
+                serviceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
+                serviceConnection.ServiceClosed += Connection_ServiceClosed;
+                AppServiceConnectionStatus status = await serviceConnection.OpenAsync();
+                if (status != AppServiceConnectionStatus.Success)
+                {
+                    // TODO: error handling
+                    serviceConnection?.Dispose();
+                    return null;
+                }
+
+                // Launch fulltrust process
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+
+                return serviceConnection;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize AppServiceConnection!");
                 return null;
             }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
-            return serviceConnection;
         }
 
         public static async Task<(AppServiceResponseStatus Status, AppServiceResponse Data)> SendMessageWithRetryAsync(this AppServiceConnection serviceConnection, ValueSet valueSet, TimeSpan timeout)

@@ -800,6 +800,10 @@ namespace Files
                             { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
                     }
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
                 if (!draggedItems.Any())
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
@@ -924,6 +928,13 @@ namespace Files
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
                 {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;

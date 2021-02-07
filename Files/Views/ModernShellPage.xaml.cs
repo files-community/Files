@@ -1129,7 +1129,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null, false);
+                ContentOwnedViewModelInstance?.RefreshItems(null, false);
             });
         }
 
@@ -1175,13 +1175,16 @@ namespace Files.Views
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
-            var instance = FilesystemViewModel;
-            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
-            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
 
+            if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+            {
+                return;
+            }
+            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
             if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
+                parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();
