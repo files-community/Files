@@ -124,7 +124,7 @@ namespace Files.Filesystem
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var drivesSnapshot = Drives.OrderBy(o => o.Text).ToList();
+                    var drivesSnapshot = Drives.ToList();
 
                     var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
 
