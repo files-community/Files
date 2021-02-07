@@ -554,15 +554,20 @@ namespace Files.Filesystem
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
 
-            if (source.ItemType == FilesystemItemType.File)
+            fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
+
+            if (!fsResult)
             {
-                fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
-                    .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
-            }
-            else if (source.ItemType == FilesystemItemType.Directory)
-            {
-                fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
-                    .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                if (source.ItemType == FilesystemItemType.File)
+                {
+                    fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
+                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                }
+                else if (source.ItemType == FilesystemItemType.Directory)
+                {
+                    fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
+                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                }
             }
 
             errorCode?.Report(fsResult);
