@@ -30,7 +30,7 @@ namespace Files.Helpers.FileListCache
             if (!schemaCreated)
             {
                 // create db schema
-                var createSql = @"CREATE TABLE ""FileListCache"" (
+                var createSql = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
                     ""Id"" VARCHAR(5000) NOT NULL,
                     ""Timestamp"" INTEGER NOT NULL,
 	                ""Entry"" TEXT NOT NULL,
@@ -70,7 +70,11 @@ namespace Files.Helpers.FileListCache
                     using var updateCommand = new SqliteCommand("UPDATE FileListCache SET Timestamp = @Timestamp, Entry = @Entry WHERE Id = @Id", connection);
                     updateCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
                     updateCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
-                    updateCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry);
+                    var settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    };
+                    updateCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
                     await updateCommand.ExecuteNonQueryAsync();
                 }
                 else
@@ -79,7 +83,11 @@ namespace Files.Helpers.FileListCache
                     using var insertCommand = new SqliteCommand("INSERT INTO FileListCache (Id, Timestamp, Entry) VALUES (@Id, @Timestamp, @Entry)", connection);
                     insertCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
                     insertCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
-                    insertCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry);
+                    var settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    };
+                    insertCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
                     await insertCommand.ExecuteNonQueryAsync();
                 }
             }

@@ -394,6 +394,10 @@ namespace Files.Interacts
         public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var item = AssociatedInstance.ContentPage.SelectedItem as ShortcutItem;
+            if (string.IsNullOrEmpty(item?.TargetPath))
+            {
+                return;
+            }
             var folderPath = Path.GetDirectoryName(item.TargetPath);
             // Check if destination path exists
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
@@ -412,7 +416,7 @@ namespace Files.Interacts
             else
             {
                 await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                    string.Format("InvalidItemDialogContent".GetLocalized()), Environment.NewLine, destFolder.ErrorCode.ToString());
+                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
 
@@ -665,7 +669,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
+                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
                 });
             }
 
@@ -682,7 +686,7 @@ namespace Files.Interacts
 
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
-                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ? 
+                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
                 await OpenPath(item.ItemPath, type, false, openViaApplicationPicker);
             }
@@ -726,13 +730,17 @@ namespace Files.Interacts
                 else
                 {
                     await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .Single(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
+                        .SingleOrDefault(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }
 
         public async Task OpenPropertiesWindowAsync(object item)
         {
+            if (item == null)
+            {
+                return;
+            }
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 CoreApplicationView newWindow = CoreApplication.CreateNewView();
@@ -944,10 +952,13 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
-                        (listedItem as RecycleBinItem).ItemPath,
-                        itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    if (listedItem is RecycleBinItem binItem)
+                    {
+                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
+                            (listedItem as RecycleBinItem).ItemPath,
+                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    }
                 }
             }
         }
@@ -1196,15 +1207,16 @@ namespace Files.Interacts
             }
 
             // Show rename dialog
-            RenameDialog renameDialog = new RenameDialog();
-            var renameResult = await renameDialog.ShowAsync();
-            if (renameResult != ContentDialogResult.Primary)
+            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+            await dialog.ShowAsync();
+
+            if (dialog.DynamicResult != DynamicDialogResult.Primary)
             {
                 return;
             }
 
             // Create file based on dialog result
-            string userInput = renameDialog.storedRenameInput;
+            string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)
@@ -1289,7 +1301,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(null);
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
                 });
             }
         }

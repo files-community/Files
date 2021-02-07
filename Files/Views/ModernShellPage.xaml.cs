@@ -436,13 +436,16 @@ namespace Files.Views
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            if (IsCurrentInstance)
             {
-                Back_Click();
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                Forward_Click();
+                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                {
+                    Back_Click();
+                }
+                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                {
+                    Forward_Click();
+                }
             }
         }
 
@@ -786,8 +789,8 @@ namespace Files.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                var consentDialogDisplay = new ConsentDialog();
-                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                await dialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -1011,7 +1014,7 @@ namespace Files.Views
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (ContentPage.IsItemSelected && !NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await FilesystemHelpers.DeleteItemsAsync(
                             ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
@@ -1087,8 +1090,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
             };
@@ -1113,7 +1116,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null, false);
+                ContentOwnedViewModelInstance?.RefreshItems(null, false);
             });
         }
 
@@ -1159,13 +1162,16 @@ namespace Files.Views
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
-            var instance = FilesystemViewModel;
-            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
-            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
 
+            if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+            {
+                return;
+            }
+            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
             if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
+                parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();

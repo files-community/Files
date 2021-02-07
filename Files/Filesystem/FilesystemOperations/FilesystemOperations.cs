@@ -183,6 +183,11 @@ namespace Files.Filesystem
                                 CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
+                            if (Interacts.Interaction.IsAnyContentDialogOpen())
+                            {
+                                // Only a single ContentDialog can be open at any time.
+                                return null;
+                            }
                             ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                             if (result == ContentDialogResult.Primary)
@@ -244,6 +249,11 @@ namespace Files.Filesystem
                                 CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
+                            if (Interacts.Interaction.IsAnyContentDialogOpen())
+                            {
+                                // Only a single ContentDialog can be open at any time.
+                                return null;
+                            }
                             ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                             if (result == ContentDialogResult.Primary)
@@ -401,6 +411,11 @@ namespace Files.Filesystem
                                     CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                                 };
 
+                                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                                {
+                                    // Only a single ContentDialog can be open at any time.
+                                    return null;
+                                }
                                 ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                                 if (result == ContentDialogResult.Primary)
@@ -459,6 +474,11 @@ namespace Files.Filesystem
                                 CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
+                            if (Interacts.Interaction.IsAnyContentDialogOpen())
+                            {
+                                // Only a single ContentDialog can be open at any time.
+                                return null;
+                            }
                             ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                             if (result == ContentDialogResult.Primary)
@@ -703,6 +723,11 @@ namespace Files.Filesystem
                         CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                     };
 
+                    if (Interacts.Interaction.IsAnyContentDialogOpen())
+                    {
+                        // Only a single ContentDialog can be open at any time.
+                        return null;
+                    }
                     ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                     if (result == ContentDialogResult.Primary)

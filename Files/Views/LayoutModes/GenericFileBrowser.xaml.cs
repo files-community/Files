@@ -214,10 +214,14 @@ namespace Files.Views.LayoutModes
 
         public override void StartRenameItem()
         {
-            if (AllView.SelectedIndex != -1)
+            try
             {
                 AllView.CurrentColumn = AllView.Columns[1];
                 AllView.BeginEdit();
+            }
+            catch (InvalidOperationException)
+            {
+                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
             }
         }
 
@@ -479,7 +483,11 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
+                if (objectPressed == null)
+                {
+                    return;
+                }
 
                 // Check if RightTapped row is currently selected
                 if (IsItemSelected)

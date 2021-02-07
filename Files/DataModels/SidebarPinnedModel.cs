@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Controllers;
+using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
 using Newtonsoft.Json;
@@ -14,11 +15,18 @@ namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        private SidebarPinnedController controller;
+
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonProperty("items")]
         public List<string> Items { get; set; } = new List<string>();
+
+        public void SetController(SidebarPinnedController controller)
+        {
+            this.controller = controller;
+        }
 
         /// <summary>
         /// Adds the default items to the navigation page
@@ -168,7 +176,7 @@ namespace Files.DataModels
         /// <summary>
         /// Saves the model
         /// </summary>
-        public void Save() => App.SidebarPinnedController.SaveModel();
+        public void Save() => controller?.SaveModel();
 
         /// <summary>
         /// Adds the item do the navigation sidebar
