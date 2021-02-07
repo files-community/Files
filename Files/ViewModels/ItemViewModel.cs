@@ -311,10 +311,10 @@ namespace Files.ViewModels
                     // use FilesAndFolders because only displayed entries should be jumped to
                     var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                    if (AssociatedInstance.ContentPage.IsItemSelected)
-                    {
-                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                    }
+                if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
+                {
+                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                }
 
                     // If the user is trying to cycle through items
                     // starting with the same letter
@@ -1097,6 +1097,10 @@ namespace Files.ViewModels
             }
             else if (workingRoot != null)
             {
+                if (currentStorageFolder == null)
+                {
+                    return false;
+                }
                 rootFolder = currentStorageFolder.Folder;
                 enumFromStorageFolder = true;
             }

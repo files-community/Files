@@ -70,6 +70,16 @@
                 ToolTipService.ToolTip="Selection options">
                 <Button.Flyout>
                     <MenuFlyout>
+                        <ToggleMenuFlyoutItem
+                            x:Name="MultiselectMFI"
+                            x:Uid="StatusBarControlMultiselect"
+                            Text="Multiselect"
+                            IsChecked="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
+                            Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
+                            </MenuFlyoutItem.Icon>
+                        </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="SelectAllMFI"
                             x:Uid="StatusBarControlSelectAll"

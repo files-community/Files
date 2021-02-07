@@ -37,5 +37,21 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
+        public bool ShowMultiselectOption
+        {
+            get
+            {
+                return showMultiselectOption;
+            }
+            set
+            {
+                if (SetProperty(ref showMultiselectOption, value))
+                {
+                    App.AppSettings.ShowMultiselectOption = value;
+                }
+            }
+        }
     }
 }

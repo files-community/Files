@@ -25,6 +25,9 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
+        
+        <converters1:BoolToSelectionMode
+            x:Key="BoolToSelectionModeConverter"/>
 
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
@@ -958,8 +961,17 @@
             ItemClick="FileList_ItemClick"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
-            SelectionMode="Extended"
+            SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
             Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+            <GridView.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush"  Color="{ThemeResource SystemChromeMediumLowColor}"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </GridView.Resources>
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
