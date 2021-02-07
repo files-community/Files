@@ -164,7 +164,7 @@ namespace Files.Filesystem
                         DrivesWidget.ItemsAdded.Add(drive);
                         insertAt++;
                     }
-                    MainPage.SideBarItems.EndBulkOperation();
+                    MainPage.SideBarItems.ResetCollection();
                 }
                 finally
                 {
