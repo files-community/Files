@@ -968,6 +968,8 @@ namespace Files
             var deferral = e.GetDeferral();
 
             e.Handled = true;
+            dragOverItem = null; // Reset dragged over item
+
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {
