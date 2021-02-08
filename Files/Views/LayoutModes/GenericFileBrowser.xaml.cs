@@ -112,11 +112,14 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
             AllView.UnloadingRow += AllView_UnloadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            if (AllView.ItemsSource == null)
+            {
+                AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+            }
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -154,8 +157,10 @@ namespace Files.Views.LayoutModes
             AllView.LoadingRow -= AllView_LoadingRow;
             AllView.UnloadingRow -= AllView_UnloadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-
-            AllView.ItemsSource = null;
+            if (e.SourcePageType != typeof(GenericFileBrowser))
+            {
+                AllView.ItemsSource = null;
+            }
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
