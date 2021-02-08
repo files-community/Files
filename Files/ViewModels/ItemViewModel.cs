@@ -2283,10 +2283,10 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
+            CancelLoadAndClearFiles();
             addFilesCTS?.Dispose();
             semaphoreCTS?.Dispose();
             loadPropsCTS?.Dispose();
-            CloseWatcher();
         }
 
         /// <summary>

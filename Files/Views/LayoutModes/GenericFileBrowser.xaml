@@ -17,7 +17,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.UserControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Disabled"
+    NavigationCacheMode="Enabled"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
 
