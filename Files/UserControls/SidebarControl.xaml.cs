@@ -346,6 +346,13 @@ namespace Files.UserControls
                     deferral.Complete();
                     return;
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 if (storageItems.Count == 0 ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
@@ -402,6 +409,8 @@ namespace Files.UserControls
 
         private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverItem = null; // Reset dragged over item
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
@@ -451,6 +460,13 @@ namespace Files.UserControls
                 deferral.Complete();
                 return;
             }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
             if (storageItems.Count == 0 ||
                 "DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
@@ -478,6 +494,8 @@ namespace Files.UserControls
 
         private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverItem = null; // Reset dragged over item
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
             {
                 return;
