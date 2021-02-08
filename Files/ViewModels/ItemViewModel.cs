@@ -1808,11 +1808,6 @@ namespace Files.ViewModels
                 {
                     AssociatedInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{filesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
                 }
-                else if (filesAndFolders.Count == 0 && !IsFolderEmptyTextDisplayed)
-                {
-                    // Display no text when filesAndFolders cleared at the start of loading
-                    AssociatedInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = null;
-                }
                 else
                 {
                     AssociatedInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{filesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
