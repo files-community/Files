@@ -228,7 +228,7 @@ namespace Files.DataModels
                     string path = Items[i];
                     await AddItemToSidebarAsync(path);
                 }
-                MainPage.SideBarItems.ResetCollection();
+                MainPage.SideBarItems.EndBulkOperation();
             }
             finally
             {
