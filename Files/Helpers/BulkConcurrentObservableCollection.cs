@@ -4,19 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 
 namespace Files.Helpers
 {
-    public class ResettableObservableCollection<T> : ObservableCollection<T>
-    {
-        public void ResetCollection()
-        {
-            base.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-    }
-
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")]
     public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
     {
         private bool isBulkOperationStarted;
@@ -70,6 +64,7 @@ namespace Files.Helpers
             {
                 CollectionChanged?.Invoke(this, e);
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
             }
         }
 
@@ -77,6 +72,8 @@ namespace Files.Helpers
         {
             isBulkOperationStarted = false;
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
         }
 
         public void Add(T item)
@@ -113,12 +110,19 @@ namespace Files.Helpers
         {
             bool result;
 
+            var index = collection.IndexOf(item);
+
+            if (index == -1)
+            {
+                return true;
+            }
+
             lock (syncRoot)
             {
                 result = collection.Remove(item);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
             return result;
         }
 
@@ -144,7 +148,7 @@ namespace Files.Helpers
                 collection.Insert(index, item);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
 
         public void RemoveAt(int index)
@@ -156,7 +160,7 @@ namespace Files.Helpers
                 collection.RemoveAt(index);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
         }
 
         public void AddRange(IEnumerable<T> items)
@@ -203,7 +207,7 @@ namespace Files.Helpers
                 collection.RemoveRange(index, count);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, items));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, items, index));
         }
 
         public void ReplaceRange(int index, IEnumerable<T> items)
@@ -224,7 +228,7 @@ namespace Files.Helpers
                 collection.RemoveRange(index + count, count);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index));
         }
 
         int IList.Add(object value)

@@ -198,6 +198,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\CollectionDebugView.cs" />
     <Compile Include="Helpers\DynamicDialogFactory.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
