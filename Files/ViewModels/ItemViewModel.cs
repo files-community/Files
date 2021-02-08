@@ -885,17 +885,10 @@ namespace Files.ViewModels
 
                 IsLoadingItems = true;
 
-                // Clear previous state
                 filesAndFolders.Clear();
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
                     FilesAndFolders.Clear();
-                    // We don't want the empty text to show up when we're about to
-                    // try loading directory contents, so we set this property to false
-                    // It will be updated later based on the item count of
-                    // filesAndFolders inside ApplyFilesAndFoldersChangesAsync()
-                    IsFolderEmptyTextDisplayed = false;
-                    UpdateDirectoryInfo();
                 });
 
                 Stopwatch stopwatch = new Stopwatch();
