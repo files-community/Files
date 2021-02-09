@@ -100,10 +100,12 @@
 
                             <TextBlock
                                 Grid.Row="0"
+                                Grid.Column="0"
                                 HorizontalAlignment="Stretch"
                                 Style="{StaticResource PropertyName}"
                                 Text="{x:Bind Name, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" />
+                                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" >
+                            </TextBlock>
                             <TextBox
                                 x:Name="PropertyValueTemplateTextBox"
                                 Grid.Row="0"

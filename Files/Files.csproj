@@ -204,6 +204,9 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
+      <DependentUpon>BasicPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
       <DependentUpon>CodePreview.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,7 @@
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
+    <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
@@ -738,6 +742,10 @@
     <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilePreviews\BasicPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PreviewPane.xaml">
       <SubType>Designer</SubType>

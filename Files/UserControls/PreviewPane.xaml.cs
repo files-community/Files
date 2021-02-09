@@ -145,9 +145,8 @@ namespace Files.UserControls
                 return;
             }
 
-            BasePreviewModel.LoadDetailsOnly(item);
-
-            PreviewNotAvaliableText.Visibility = Visibility.Visible;
+            control = new BasicPreview(new BasicPreviewViewModel(item));
+            PreviewGrid.Children.Add(control);
         }
 
         private UserControl GetBuiltInPreviewControl(ListedItem item)
