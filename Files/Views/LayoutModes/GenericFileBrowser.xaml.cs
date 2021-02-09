@@ -130,7 +130,6 @@ namespace Files.Views.LayoutModes
 
         private void AllView_UnloadingRow(object sender, DataGridRowEventArgs e)
         {
-            e.Row.CanDrag = false;
             base.UninitializeDrag(e.Row);
         }
 
@@ -530,6 +529,7 @@ namespace Files.Views.LayoutModes
 
         private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            e.Row.CanDrag = false;
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
