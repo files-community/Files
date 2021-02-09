@@ -46,7 +46,7 @@ namespace Files.Helpers
             {
                 var item = collection[index];
                 collection[index] = value;
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, item));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, item, index), false);
             }
         }
 
@@ -58,12 +58,15 @@ namespace Files.Helpers
             isBulkOperationStarted = true;
         }
 
-        protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
         {
             if (!isBulkOperationStarted)
             {
                 CollectionChanged?.Invoke(this, e);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+                if (countChanged)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+                }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
             }
         }
@@ -108,22 +111,22 @@ namespace Files.Helpers
 
         public bool Remove(T item)
         {
-            bool result;
-
-            var index = collection.IndexOf(item);
-
-            if (index == -1)
-            {
-                return true;
-            }
+            int index;
 
             lock (syncRoot)
             {
-                result = collection.Remove(item);
+                index = collection.IndexOf(item);
+
+                if (index == -1)
+                {
+                    return true;
+                }
+
+                collection.RemoveAt(index);
             }
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
-            return result;
+            return true;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -153,10 +156,11 @@ namespace Files.Helpers
 
         public void RemoveAt(int index)
         {
-            var item = collection[index];
+            T item;
 
             lock (syncRoot)
             {
+                item = collection[index];
                 collection.RemoveAt(index);
             }
 
@@ -200,10 +204,11 @@ namespace Files.Helpers
                 return;
             }
 
-            var items = collection.Skip(index).Take(count).ToList();
+            List<T> items;
 
             lock (syncRoot)
             {
+                items = collection.Skip(index).Take(count).ToList();
                 collection.RemoveRange(index, count);
             }
 
@@ -219,11 +224,13 @@ namespace Files.Helpers
                 return;
             }
 
-            var oldItems = collection.Skip(index).Take(count).ToList();
-            var newItems = items.ToList();
+            List<T> oldItems;
+            List<T> newItems;
 
             lock (syncRoot)
             {
+                oldItems = collection.Skip(index).Take(count).ToList();
+                newItems = items.ToList();
                 collection.InsertRange(index, newItems);
                 collection.RemoveRange(index + count, count);
             }
