@@ -25,9 +25,11 @@ namespace FilesFullTrust
                 {
                     tcs.SetResult(func());
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    tcs.SetException(e);
+                    //tcs.SetException(e);
+                    tcs.SetResult(default);
+                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);

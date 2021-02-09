@@ -311,10 +311,10 @@ namespace Files.ViewModels
                     // use FilesAndFolders because only displayed entries should be jumped to
                     var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
-                {
-                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                }
+                    if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
+                    {
+                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                    }
 
                     // If the user is trying to cycle through items
                     // starting with the same letter
@@ -747,7 +747,7 @@ namespace Files.ViewModels
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
                         }, Windows.UI.Core.CoreDispatcherPriority.Low);
-                        if (!item.IsShortcutItem && !item.IsHiddenItem)
+                        if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
@@ -795,7 +795,7 @@ namespace Files.ViewModels
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
                         }, Windows.UI.Core.CoreDispatcherPriority.Low);
-                        if (!item.IsShortcutItem && !item.IsHiddenItem)
+                        if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
