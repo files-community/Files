@@ -2278,6 +2278,10 @@
           <target state="needs-review-translation">Active l'option de sélection multiple (uniquement disponible sur la vue en tuiles ou en grilles pour le moment)</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
+        <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
+          <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
+          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
+        </trans-unit>
       </group>
     </body>
   </file>

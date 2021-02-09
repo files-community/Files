@@ -1818,4 +1818,7 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Enable multiselect options (currently only available in the tiles and grid view layout modes)</value>
   </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+  </data>
 </root>
