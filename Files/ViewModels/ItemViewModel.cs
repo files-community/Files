@@ -1059,7 +1059,7 @@ namespace Files.ViewModels
                         }
                     }
 
-                    NoItemsLayoutSkip:
+                    NoItemsLayoutSkip:;
                 }
             }
             catch (ObjectDisposedException ex)
