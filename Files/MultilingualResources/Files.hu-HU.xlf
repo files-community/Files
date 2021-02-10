@@ -2276,7 +2276,7 @@
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
-          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
+          <target state="translated">Ha a fájlnév kiterjesztését módosítja, akkor a fájl használhatatlanná válhat. Végrehajtja a módosítást?</target>
         </trans-unit>
       </group>
     </body>
