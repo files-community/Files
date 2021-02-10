@@ -2274,46 +2274,6 @@
           <source>Enable multiselect options (currently only abailable in the tiles and grid view layout modes)</source>
           <target state="translated">Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</target>
         </trans-unit>
-        <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
-          <source>CD ROM Drive</source>
-          <target state="translated">CD ROM meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
-          <source>Cloud Drive</source>
-          <target state="translated">Felhőmeghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
-          <source>Fixed Disk Drive</source>
-          <target state="translated">Beépített meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
-          <source>Floppy Disk Drive</source>
-          <target state="translated">Floppy lemez meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
-          <source>Network Drive</source>
-          <target state="translated">Hálózati meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeNoRootDirectory" translate="yes" xml:space="preserve">
-          <source>Unmounted Drive</source>
-          <target state="translated">Nem csatlakoztatott meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
-          <source>RAM Disk Drive</source>
-          <target state="translated">RAM meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
-          <source>Removable Storage Device</source>
-          <target state="translated">Eltávolítható meghajtó</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Ismeretlen</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
-          <source>Virtual Drive</source>
-          <target state="translated">Virtuális meghajtó</target>
-        </trans-unit>
       </group>
     </body>
   </file>
