@@ -1023,7 +1023,7 @@ namespace Files.ViewModels
                     if (foldersCount > 0)
                     { // There are folders in current directory
 
-                        if ((FilesAndFolders.Count - imagesAndVideosCount) < (FilesAndFolders.Count < 20 ? 0 : FilesAndFolders.Count - 20) && imagesAndVideosCount > 10)
+                        if ((FilesAndFolders.Count - imagesAndVideosCount) > (FilesAndFolders.Count < 20 ? 0 : FilesAndFolders.Count - 20))
                         { // Most of items are images/videos
                             AssociatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTilesAction(
                                AssociatedInstance.InstanceViewModel.FolderSettings);

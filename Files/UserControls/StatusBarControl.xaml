@@ -236,7 +236,7 @@
                                     CornerRadius="2"
                                     IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=AdaptiveInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Adaptive Layout&#10;The Layout type is changed based on the context">
+                                    ToolTipService.ToolTip="Adaptive Layout&#10;The Layout mode is dynamically adjusted based on the context of the opened directory">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
