@@ -665,6 +665,7 @@
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <PRIResource Include="Strings\sv-SE\Resources.resw" />
     <PRIResource Include="Strings\ko-KR\Resources.resw" />
     <PRIResource Include="Strings\ar\Resources.resw" />
     <PRIResource Include="Strings\da-DK\Resources.resw" />
@@ -1017,6 +1018,7 @@
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
+    <XliffResource Include="MultilingualResources\Files.sv-SE.xlf" />
     <XliffResource Include="MultilingualResources\Files.ta.xlf" />
     <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
     <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
