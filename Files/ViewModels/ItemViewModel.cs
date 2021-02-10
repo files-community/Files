@@ -1012,7 +1012,9 @@ namespace Files.ViewModels
                         || item.FileExtension == ".mkv"
                         || item.FileExtension == ".webm"
                         || item.FileExtension == ".ogg"
-                        || item.FileExtension == ".qt").Count();
+                        || item.FileExtension == ".qt"
+
+                        || item.FileExtension == ".gif").Count();
 
                     int foldersCount = FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
 
