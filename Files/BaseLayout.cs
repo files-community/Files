@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.DataModels;
+using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -282,7 +283,7 @@ namespace Files
 
         protected abstract ListedItem GetItemFromElement(object element);
 
-        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (ParentShellPageInstance.ContentPage != null)
             {

@@ -179,6 +179,7 @@
     <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
+    <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />

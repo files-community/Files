@@ -5,6 +5,7 @@
     xmlns:fsvm="using:Files.ViewModels">
     <Application.Resources>
         <ResourceDictionary>
+            <fsvm:FolderLayoutInformation x:Key="AdaptiveInfo" Mode="DetailsView" IsAdaptive="True" />
             <fsvm:FolderLayoutInformation x:Key="DetailsInfo" Mode="DetailsView" />
             <fsvm:FolderLayoutInformation x:Key="TilesInfo" Mode="TilesView" />
             <fsvm:FolderLayoutInformation

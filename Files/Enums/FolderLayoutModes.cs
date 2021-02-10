@@ -2,8 +2,9 @@
 {
     public enum FolderLayoutModes
     {
-        DetailsView = 0,
-        TilesView,
-        GridView
+        DetailsView = 1,
+        TilesView = 2,
+        GridView = 4,
+        Adaptive = 8
     }
 }
