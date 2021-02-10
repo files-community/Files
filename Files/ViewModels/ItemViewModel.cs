@@ -1002,6 +1002,11 @@ namespace Files.ViewModels
                     // TODO: Maybe first check here if desktop.ini is availabe
                     // which we can get info about the folder from
 
+                    if (FilesAndFolders.Count == 0)
+                    {
+                        goto NoItemsLayoutSkip; // not evil
+                    }
+
                     int imagesAndVideosCount = FilesAndFolders.Where((item) =>
                         item.FileExtension == ".svg"
                         || item.FileExtension == ".png"
@@ -1053,6 +1058,8 @@ namespace Files.ViewModels
                                 AssociatedInstance.InstanceViewModel.FolderSettings);
                         }
                     }
+
+                    NoItemsLayoutSkip:
                 }
             }
             catch (ObjectDisposedException ex)
