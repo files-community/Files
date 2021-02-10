@@ -111,7 +111,11 @@ namespace Files.Helpers.FileListCache
                 }
                 var timestamp = reader.GetInt64(0);
                 var entryAsJson = reader.GetString(1);
-                var entry = JsonConvert.DeserializeObject<CacheEntry>(entryAsJson);
+                var settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                };
+                var entry = JsonConvert.DeserializeObject<CacheEntry>(entryAsJson, settings);
                 entry.CurrentFolder.ItemPropertiesInitialized = false;
                 entry.FileList.ForEach((item) => item.ItemPropertiesInitialized = false);
                 return entry;
