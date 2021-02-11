@@ -39,12 +39,14 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsAdaptiveLayout { get; set; }
+        public bool AdaptiveLayoutSuggestionApplied { get; set; }
 
-        public bool SaveLayoutPerFolder
-        {
-            get => App.AppSettings.AreLayoutPreferencesPerFolder && !IsAdaptiveLayout ? true : false;
-        }
+        //public bool IsAdaptiveLayout { get; set; }
+
+        //public bool SaveLayoutPerFolder
+        //{
+        //    get => App.AppSettings.AreLayoutPreferencesPerFolder && !IsAdaptiveLayout ? true : false;
+        //}
 
         private FolderLayoutInformation layoutModeInformation;
 
@@ -60,7 +62,6 @@ namespace Files.ViewModels
             {
                 Mode = LayoutMode,
                 SizeKind = GridViewSizeKind,
-                IsAdaptive = IsAdaptiveLayout
             };
         }
 
@@ -107,92 +108,46 @@ namespace Files.ViewModels
 
         public event EventHandler GridViewSizeChangeRequested;
 
-        public RelayCommand ToggleLayoutModeAdaptiveLayout => new RelayCommand(() =>
+        public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
         {
-            IsAdaptiveLayout = true;
+            LayoutMode = FolderLayoutModes.GridView; // Details View
 
-            LayoutMode = FolderLayoutModes.DetailsView; // Default
+            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
-        public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
-        {
-            IsAdaptiveLayout = false;
-        });
-
         public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
         {
-            IsAdaptiveLayout = false;
+            LayoutMode = FolderLayoutModes.GridView; // Grid View
 
-            ToggleLayoutModeGridViewMediumAction(this);
+            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
+
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
         public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
         {
-            IsAdaptiveLayout = false;
+            LayoutMode = FolderLayoutModes.GridView; // Grid View
 
-            ToggleLayoutModeDetailsViewAction(this);
+            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
+
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
         public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
         {
-            IsAdaptiveLayout = false;
+            LayoutMode = FolderLayoutModes.TilesView; // Tiles View
 
-            ToggleLayoutModeTilesAction(this);
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
         public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
         {
-            IsAdaptiveLayout = false;
+            LayoutMode = FolderLayoutModes.DetailsView; // Details View
 
-            ToggleLayoutModeDetailsViewAction(this);
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
-
-        #region Actions
-
-        public Action<FolderSettingsViewModel> ToggleLayoutModeGridViewLargeAction = (vm) =>
-        {
-            vm.LayoutMode = FolderLayoutModes.GridView; // Details View
-
-            vm.GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
-
-            vm.LayoutModeChangeRequested?.Invoke(vm, new LayoutModeEventArgs(vm.LayoutMode, vm.GridViewSize));
-        };
-
-        public Action<FolderSettingsViewModel> ToggleLayoutModeGridViewMediumAction = (vm) =>
-        {
-            vm.LayoutMode = FolderLayoutModes.GridView; // Grid View
-
-            vm.GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
-
-            vm.LayoutModeChangeRequested?.Invoke(vm, new LayoutModeEventArgs(vm.LayoutMode, vm.GridViewSize));
-        };
-
-        public Action<FolderSettingsViewModel> ToggleLayoutModeGridViewSmallAction = (vm) =>
-        {
-            vm.LayoutMode = FolderLayoutModes.GridView; // Grid View
-
-            vm.GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
-
-            vm.LayoutModeChangeRequested?.Invoke(vm, new LayoutModeEventArgs(vm.LayoutMode, vm.GridViewSize));
-        };
-
-        public Action<FolderSettingsViewModel> ToggleLayoutModeTilesAction = (vm) =>
-        {
-            vm.LayoutMode = FolderLayoutModes.TilesView; // Tiles View
-
-            vm.LayoutModeChangeRequested?.Invoke(vm, new LayoutModeEventArgs(vm.LayoutMode, vm.GridViewSize));
-        };
-
-        public Action<FolderSettingsViewModel> ToggleLayoutModeDetailsViewAction = (vm) =>
-        {
-            vm.LayoutMode = FolderLayoutModes.DetailsView; // Details View
-
-            vm.LayoutModeChangeRequested?.Invoke(vm, new LayoutModeEventArgs(vm.LayoutMode, vm.GridViewSize));
-        };
-
-        #endregion
 
         public GridViewSizeKind GridViewSizeKind
         {
@@ -313,7 +268,7 @@ namespace Files.ViewModels
 
         private LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            if (SaveLayoutPerFolder)
+            if (App.AppSettings.AreLayoutPreferencesPerFolder && !AdaptiveLayoutSuggestionApplied)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
                 return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
@@ -323,7 +278,7 @@ namespace Files.ViewModels
 
         private void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            if (SaveLayoutPerFolder)
+            if (App.AppSettings.AreLayoutPreferencesPerFolder && !AdaptiveLayoutSuggestionApplied)
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)
@@ -462,9 +417,6 @@ namespace Files.ViewModels
     {
         public FolderLayoutModes Mode { get; set; }
         public GridViewSizeKind SizeKind { get; set; }
-
-        public bool IsAdaptive { get; set; } = false;
-
         public enum GridViewSizeKind
         {
             Small,

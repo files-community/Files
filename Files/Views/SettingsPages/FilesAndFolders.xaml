@@ -71,6 +71,12 @@
                     Header="Enable individual preferences for individual directories"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsEnableAdaptiveLayout"
+                    Header="Enable Adaptive Layout that dynamically adjusts based on the directory context"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding AdaptiveLayoutEnabled, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

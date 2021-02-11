@@ -228,21 +228,6 @@
                                         Glyph="&#xE9A0;" 
                                         Margin="0, 1, 0, 0"/>
                                 </RadioButton>
-                                <RadioButton
-                                    x:Uid="StatusBarControlAdaptiveLayout"
-                                    Height="32"
-                                    MinWidth="0"
-                                    Command="{x:Bind FolderSettings.ToggleLayoutModeAdaptiveLayout}"
-                                    CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=AdaptiveInfo}"
-                                    Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Adaptive Layout&#10;The Layout mode is dynamically adjusted based on the context of the opened directory">
-                                    <FontIcon
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
-                                        FontSize="16"
-                                        Glyph="&#xEBA3;" 
-                                        Margin="0, 1, 0, 0"/>
-                                </RadioButton>
                             </StackPanel>
                         </StackPanel>
                     </Flyout>

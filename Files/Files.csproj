@@ -181,6 +181,7 @@
     <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
+    <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />

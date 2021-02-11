@@ -997,69 +997,12 @@ namespace Files.ViewModels
                         }
                     }
                 }
-                if (AssociatedInstance.InstanceViewModel.FolderSettings.IsAdaptiveLayout)
+
+                bool successfulPrediction = AdaptiveLayoutHelpers.PredictLayoutMode(AssociatedInstance);
+
+                if (successfulPrediction)
                 {
-                    // TODO: Maybe first check here if desktop.ini is availabe
-                    // which we can get info about the folder from
-
-                    if (FilesAndFolders.Count == 0)
-                    {
-                        goto NoItemsLayoutSkip; // not evil
-                    }
-
-                    int imagesAndVideosCount = FilesAndFolders.Where((item) =>
-                        item.FileExtension == ".svg"
-                        || item.FileExtension == ".png"
-                        || item.FileExtension == ".jpg"
-                        || item.FileExtension == ".jpeg"
-
-                        || item.FileExtension == ".mp4"
-                        || item.FileExtension == ".mkv"
-                        || item.FileExtension == ".webm"
-                        || item.FileExtension == ".ogg"
-                        || item.FileExtension == ".qt"
-
-                        || item.FileExtension == ".gif").Count();
-
-                    int foldersCount = FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
-
-                    int otherFilesCount = FilesAndFolders.Count - (imagesAndVideosCount + foldersCount);
-
-                    if (foldersCount > 0)
-                    { // There are folders in current directory
-
-                        if ((FilesAndFolders.Count - imagesAndVideosCount) < (FilesAndFolders.Count - 20) || (FilesAndFolders.Count <= 20 && imagesAndVideosCount >= 5))
-                        { // Most of items are images/videos
-                            AssociatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTilesAction(
-                               AssociatedInstance.InstanceViewModel.FolderSettings);
-                        }
-                        else
-                        {
-                            AssociatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewAction(
-                                AssociatedInstance.InstanceViewModel.FolderSettings);
-                        }
-                    }
-                    else
-                    { // There are only files
-
-                        if (imagesAndVideosCount == FilesAndFolders.Count)
-                        { // Only images/videos
-                            AssociatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallAction(
-                                AssociatedInstance.InstanceViewModel.FolderSettings);
-                        }
-                        else if (otherFilesCount < 20)
-                        { // Most of files are images/videos
-                            AssociatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTilesAction(
-                                AssociatedInstance.InstanceViewModel.FolderSettings);
-                        }
-                        else
-                        { // Images/videos and other files
-                            AssociatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewAction(
-                                AssociatedInstance.InstanceViewModel.FolderSettings);
-                        }
-                    }
-
-                    NoItemsLayoutSkip:;
+                    FolderSettings.AdaptiveLayoutSuggestionApplied = true;
                 }
             }
             catch (ObjectDisposedException ex)
