@@ -467,28 +467,41 @@ namespace FilesFullTrust
 
                     case "GetDesktopIniProperties":
                         {
-                            string filePath = (string)args.Request.Message["FilePath"];
-                            string SECTION = (string)args.Request.Message["SECTION"];
-                            string keyName = (string)args.Request.Message["KeyName"];
-                            StringBuilder sb = new StringBuilder();
-                            Kernel32.GetPrivateProfileString(SECTION, keyName, null, sb, int.MaxValue, filePath);
-                            string result = sb.ToString();
-
-                            if (sb.Length == 0)
+                            try
                             {
-                                await args.Request.SendResponseAsync(new ValueSet() 
+                                string filePath = (string)args.Request.Message["FilePath"];
+                                string SECTION = (string)args.Request.Message["SECTION"];
+                                string keyName = (string)args.Request.Message["KeyName"];
+                                StringBuilder sb = new StringBuilder();
+                                Kernel32.GetPrivateProfileString(SECTION, keyName, null, sb, int.MaxValue, filePath);
+                                string result = sb.ToString();
+
+                                if (sb.Length == 0)
                                 {
-                                    { "Props", "null" },
-                                    { "Status", "Failed" } 
+                                    await args.Request.SendResponseAsync(new ValueSet()
+                                    {
+                                        { "Props", "null" },
+                                        { "Status", "Failed" },
+                                        { "Exception", "The retrived property value was empty." }
+                                    });
+                                }
+
+                                await args.Request.SendResponseAsync(new ValueSet()
+                                {
+                                     { "Props", result },
+                                     { "Status", "Success" },
+                                     { "Exception", "null" }
                                 });
                             }
-
-                            await args.Request.SendResponseAsync(new ValueSet()
+                            catch (Exception e)
                             {
-                                { "Props", result },
-                                { "Status", "Success" }
-                            });
-
+                                await args.Request.SendResponseAsync(new ValueSet()
+                                {
+                                    { "Props", "null" },
+                                    { "Status", "Failed" },
+                                    { "Exception", e.Message }
+                                });
+                            }
                             break;
                         }
 

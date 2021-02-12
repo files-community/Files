@@ -5,6 +5,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Common;
+using System.Diagnostics;
 
 namespace Files.Helpers
 {
@@ -70,9 +71,12 @@ namespace Files.Helpers
 
                             desktopIniFound = true;
                         }
-
+                        else // error trying to get the properties
+                        {
+                            string exception = response.Message.Get("Exception", string.Empty);
+                            Debugger.Break();
+                        }
                     }
-                    response = null;
                 }
                 
                 if (desktopIniFound)
