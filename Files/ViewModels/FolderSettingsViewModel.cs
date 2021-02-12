@@ -41,13 +41,6 @@ namespace Files.ViewModels
 
         public bool AdaptiveLayoutSuggestionApplied { get; set; }
 
-        //public bool IsAdaptiveLayout { get; set; }
-
-        //public bool SaveLayoutPerFolder
-        //{
-        //    get => App.AppSettings.AreLayoutPreferencesPerFolder && !IsAdaptiveLayout ? true : false;
-        //}
-
         private FolderLayoutInformation layoutModeInformation;
 
         public FolderLayoutInformation LayoutModeInformation
@@ -109,8 +102,13 @@ namespace Files.ViewModels
 
         public event EventHandler GridViewSizeChangeRequested;
 
-        public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
+        public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
+            if (manuallySet && AdaptiveLayoutSuggestionApplied)
+            { // Override preferred layout mode
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewLarge");
+            }
+
             LayoutMode = FolderLayoutModes.GridView; // Details View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
@@ -118,8 +116,13 @@ namespace Files.ViewModels
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
-        public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
+        public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
+            if (manuallySet && AdaptiveLayoutSuggestionApplied)
+            { // Override preferred layout mode
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewMedium");
+            }
+
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
@@ -127,8 +130,13 @@ namespace Files.ViewModels
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
-        public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
+        public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
+            if (manuallySet && AdaptiveLayoutSuggestionApplied)
+            { // Override preferred layout mode
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
+            }
+
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
@@ -136,14 +144,14 @@ namespace Files.ViewModels
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
-        public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
+        public RelayCommand<bool> ToggleLayoutModeTiles => new RelayCommand<bool>((manuallySet) =>
         {
             LayoutMode = FolderLayoutModes.TilesView; // Tiles View
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
-        public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
+        public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
         {
             LayoutMode = FolderLayoutModes.DetailsView; // Details View
 

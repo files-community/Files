@@ -6,16 +6,90 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Common;
 using System.Diagnostics;
+using Files.Enums;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Files.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {
+        public static void SetPreferredLayout(string layoutName)
+        {
+            string rawPreferredLayoutMode = App.AppSettings.AdaptiveLayoutPreferredLayoutMode;
+
+            if (string.IsNullOrWhiteSpace(rawPreferredLayoutMode) || rawPreferredLayoutMode == "null")
+            {
+                App.AppSettings.AdaptiveLayoutPreferredLayoutMode = layoutName;
+
+                return;
+            }
+            // else
+
+            string serialized = string.Empty;
+
+            foreach (string item in rawPreferredLayoutMode.Split('|'))
+            {
+                string itemToAdd = item;
+
+                if ((item == "GridViewSmall" || item == "GridViewMedium" || item == "GridViewLarge")
+                    && (layoutName == "GridViewSmall" || layoutName == "GridViewMedium" || layoutName == "GridViewLarge"))
+                {
+                    itemToAdd = layoutName;
+                }
+
+                serialized += $"{itemToAdd}|";
+            }
+
+            if (serialized.EndsWith('|'))
+            {
+                serialized = serialized.TrimEnd('|');
+            }
+
+            App.AppSettings.AdaptiveLayoutPreferredLayoutMode = serialized;
+        }
+
+        public static List<string> GetPreferredLayouts()
+        {
+            string rawPreferredLayoutMode = App.AppSettings.AdaptiveLayoutPreferredLayoutMode;
+
+            List<string> preferredLayouts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(rawPreferredLayoutMode) && rawPreferredLayoutMode != "null")
+            {
+                preferredLayouts = rawPreferredLayoutMode.Split('|').ToList();
+
+                return preferredLayouts;
+            }
+
+            return preferredLayouts;
+        }
+
         public static async Task<bool> PredictLayoutMode(IShellPage associatedInstance)
         {
             if (App.AppSettings.AdaptiveLayoutEnabled)
             {
                 bool desktopIniFound = false;
+                List<string> preferredLayouts = GetPreferredLayouts();
+
+                ICommand preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall; // Default
+
+                foreach (string item in preferredLayouts)
+                {
+                    switch (item)
+                    {
+                        case "GridViewSmall":
+                            preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall;
+                            break;
+
+                        case "GridViewMedium":
+                            preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium;
+                            break;
+
+                        case "GridViewLarge":
+                            preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge;
+                            break;
+                    }
+                }
 
                 if (associatedInstance.ServiceConnection != null)
                 {
@@ -40,31 +114,31 @@ namespace Files.Helpers
                             {
                                 case "Documents":
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(null);
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(false);
                                         break;
                                     }
 
                                 case "Pictures":
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(null);
+                                        preferredGridLayout.Execute(false);
                                         break;
                                     }
 
                                 case "Music":
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(null);
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
                                         break;
                                     }
 
                                 case "Videos":
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(null);
+                                        preferredGridLayout.Execute(false);
                                         break;
                                     }
 
                                 default:
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(null);
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
                                         break;
                                     }
                             }
@@ -74,7 +148,6 @@ namespace Files.Helpers
                         else // error trying to get the properties
                         {
                             string exception = response.Message.Get("Exception", string.Empty);
-                            Debugger.Break();
                         }
                     }
                 }
@@ -114,11 +187,11 @@ namespace Files.Helpers
 
                     if ((associatedInstance.FilesystemViewModel.FilesAndFolders.Count - imagesAndVideosCount) < (associatedInstance.FilesystemViewModel.FilesAndFolders.Count - 20) || (associatedInstance.FilesystemViewModel.FilesAndFolders.Count <= 20 && imagesAndVideosCount >= 5))
                     { // Most of items are images/videos
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(null);
+                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(false);
                     }
                     else
                     {
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(null);
+                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
                     }
                 }
                 else
@@ -126,15 +199,15 @@ namespace Files.Helpers
 
                     if (imagesAndVideosCount == associatedInstance.FilesystemViewModel.FilesAndFolders.Count)
                     { // Only images/videos
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(null);
+                        preferredGridLayout.Execute(false);
                     }
                     else if (otherFilesCount < 20)
                     { // Most of files are images/videos
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(null);
+                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(false);
                     }
                     else
                     { // Images/videos and other files
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(null);
+                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
                     }
                 }
 
