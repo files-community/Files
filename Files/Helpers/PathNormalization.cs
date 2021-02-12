@@ -32,7 +32,7 @@ namespace Files.Helpers
                 catch (UriFormatException ex)
                 {
                     LogManager.GetCurrentClassLogger().Error(ex, path);
-                    throw;
+                    return path;
                 }
             }
         }

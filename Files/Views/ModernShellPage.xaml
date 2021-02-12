@@ -276,7 +276,8 @@
                     Grid.Column="1"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
                     Background="Transparent"
-                    ResizeBehavior="BasedOnAlignment">
+                    ResizeBehavior="BasedOnAlignment"
+                    ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
                     <Custom:GridSplitter.Element>
                         <Grid>
                             <TextBlock

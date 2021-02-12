@@ -10,6 +10,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Image Source="{x:Bind ViewModel.ImageSource, Mode=OneWay}" />
+        <Viewbox StretchDirection="DownOnly">
+            <Image Source="{x:Bind ViewModel.ImageSource, Mode=OneWay}" />
+        </Viewbox>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
 using Files.Helpers;
 using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
@@ -141,7 +142,7 @@ namespace Files.ViewModels.Bundles
                         vm.HideDialog();
                     }
                 },
-                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
             await dialog.ShowAsync();
         }

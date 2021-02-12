@@ -101,6 +101,23 @@ namespace Files.ViewModels
             get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
+        /// <summary>
+        /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
+        /// </summary>
+        public GridLength PreviewPaneSizeHorizontal
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(300d), 50d), 600d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+        
+        /// <summary>
+        /// Gets or sets a value indicating the width of the preview pane in a vertical layout.
+        /// </summary>
+        public GridLength PreviewPaneSizeVertical
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(200d), 50d), 600d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
 
         public async void DetectQuickLook()
         {
@@ -634,6 +651,15 @@ namespace Files.ViewModels
         public bool UseFileListCache
         {
             get => Get(true);
+            set => Set(value);
+        }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// </summary>
+        public bool ShowMultiselectOption
+        {
+            get => Get(false);
             set => Set(value);
         }
 

@@ -609,8 +609,18 @@ namespace FilesFullTrust
                     {
                         try
                         {
-                            var shellFileItem = GetRecycleBinItem(folderItem);
-                            folderContentsList.Add(shellFileItem);
+                            // ShellLink Properties refer to destination and not shortcut
+                            if (folderItem is ShellLink shellLink)
+                            {
+                                using var tempItem = new ShellItem(shellLink.PIDL);
+                                var shellFileItem = GetRecycleBinItem(tempItem);
+                                folderContentsList.Add(shellFileItem);
+                            }
+                            else
+                            {
+                                var shellFileItem = GetRecycleBinItem(folderItem);
+                                folderContentsList.Add(shellFileItem);
+                            }
                         }
                         catch (FileNotFoundException)
                         {
