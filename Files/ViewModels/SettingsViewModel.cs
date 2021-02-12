@@ -402,7 +402,6 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-
         /// <summary>
         /// Enables adaptive layout that adjusts layout mode based on the context of the directory
         /// </summary>

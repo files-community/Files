@@ -13,7 +13,6 @@ namespace Files.ViewModels.SettingsViewModels
         private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
         private bool adaptiveLayoutEnabled = App.AppSettings.AdaptiveLayoutEnabled;
 
-
         public bool AreHiddenItemsVisible
         {
             get
@@ -103,7 +102,6 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-
 
         public bool AreLayoutPreferencesPerFolder
         {
