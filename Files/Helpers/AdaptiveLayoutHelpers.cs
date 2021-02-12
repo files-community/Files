@@ -1,18 +1,84 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Storage;
+using Files.Common;
 
 namespace Files.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {
-        public static bool PredictLayoutMode(IShellPage associatedInstance)
+        public static async Task<bool> PredictLayoutMode(IShellPage associatedInstance)
         {
             if (App.AppSettings.AdaptiveLayoutEnabled)
             {
-                // TODO: Maybe first check here if desktop.ini is availabe
-                // which we can get info about the folder from
+                bool desktopIniFound = false;
 
+                if (associatedInstance.ServiceConnection != null)
+                {
+                    AppServiceResponse response = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "GetDesktopIniProperties" },
+                        { "FilePath", System.IO.Path.Combine(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, "desktop.ini") },
+                        { "SECTION", "ViewState" },
+                        { "KeyName", "FolderType" }
+                    });
+
+                    if (response.Status == AppServiceResponseStatus.Success)
+                    {
+                        string status = response.Message.Get("Status", string.Empty);
+
+                        if (status == "Success")
+                        {
+                            string result = response.Message.Get("Props", string.Empty);
+
+                            switch (result)
+                            {
+                                case "Documents":
+                                    {
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(null);
+                                        break;
+                                    }
+
+                                case "Pictures":
+                                    {
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(null);
+                                        break;
+                                    }
+
+                                case "Music":
+                                    {
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(null);
+                                        break;
+                                    }
+
+                                case "Videos":
+                                    {
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(null);
+                                        break;
+                                    }
+
+                                default:
+                                    {
+                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(null);
+                                        break;
+                                    }
+                            }
+
+                            desktopIniFound = true;
+                        }
+
+                    }
+                    response = null;
+                }
+                
+                if (desktopIniFound)
+                {
+                    return true;
+                }
                 if (associatedInstance.FilesystemViewModel.FilesAndFolders.Count == 0)
                 {
                     return false;

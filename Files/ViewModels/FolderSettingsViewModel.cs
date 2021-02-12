@@ -62,6 +62,7 @@ namespace Files.ViewModels
             {
                 Mode = LayoutMode,
                 SizeKind = GridViewSizeKind,
+                AdaptiveSuggestion = AdaptiveLayoutSuggestionApplied
             };
         }
 
@@ -417,6 +418,8 @@ namespace Files.ViewModels
     {
         public FolderLayoutModes Mode { get; set; }
         public GridViewSizeKind SizeKind { get; set; }
+        public bool AdaptiveSuggestion { get; set; }
+
         public enum GridViewSizeKind
         {
             Small,
