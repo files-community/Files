@@ -802,7 +802,10 @@ namespace Files.ViewModels
                             {
                                 if (matchingStorageItem.DisplayName != matchingStorageItem.Name)
                                 {
-                                    item.ItemName = matchingStorageItem.DisplayName;
+                                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                    {
+                                        item.ItemName = matchingStorageItem.DisplayName;
+                                    });
                                     if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
                                     {
                                         await OrderFilesAndFoldersAsync();
