@@ -1,14 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.ResourceDictionaries">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <DataTemplate x:Key="CustomHeaderStyle">
         <StackPanel Orientation="Horizontal">
             <TextBlock
                 MaxWidth="440"
                 Padding="0,0,0,8"
-                FontSize="17"
+                FontSize="16"
                 Text="{Binding}"
                 TextWrapping="Wrap" />
         </StackPanel>

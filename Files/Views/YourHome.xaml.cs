@@ -3,9 +3,11 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
+using Files.ViewModels.Bundles;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
@@ -47,6 +49,11 @@ namespace Files.Views
                 RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
+            if (BundlesWidget != null)
+            {
+                (BundlesWidget?.DataContext as BundlesViewModel)?.Initialize(AppInstance);
+                (BundlesWidget?.DataContext as BundlesViewModel)?.Load();
+            }
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -58,8 +65,8 @@ namespace Files.Views
             }
             catch (UnauthorizedAccessException)
             {
-                var consentDialog = new ConsentDialog();
-                await consentDialog.ShowAsync();
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                await dialog.ShowAsync();
             }
             catch (ArgumentException)
             {
@@ -73,7 +80,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    foreach (DriveItem drive in AppSettings.DrivesManager.Drives)
+                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {

@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -115,7 +114,12 @@ namespace Files.Views.LayoutModes
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
+            AllView.UnloadingRow += AllView_UnloadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            if (AllView.ItemsSource == null)
+            {
+                AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+            }
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -124,7 +128,12 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ReloadItemIcons()
+        private void AllView_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            base.UninitializeDrag(e.Row);
+        }
+
+        private async void ReloadItemIcons()
         {
             var rows = new List<DataGridRow>();
             Interaction.FindChildren<DataGridRow>(rows, AllView);
@@ -134,8 +143,8 @@ namespace Files.Views.LayoutModes
                 listedItem.ItemPropertiesInitialized = false;
                 if (rows.Any(x => x.DataContext == listedItem))
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
                     listedItem.ItemPropertiesInitialized = true;
+                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
                 }
             }
         }
@@ -145,7 +154,12 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             AllView.LoadingRow -= AllView_LoadingRow;
+            AllView.UnloadingRow -= AllView_UnloadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            if (e.SourcePageType != typeof(GenericFileBrowser))
+            {
+                AllView.ItemsSource = null;
+            }
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -179,6 +193,7 @@ namespace Files.Views.LayoutModes
             {
                 var rows = new List<DataGridRow>();
                 Interaction.FindChildren<DataGridRow>(rows, AllView);
+
                 foreach (DataGridRow row in rows)
                 {
                     row.CanDrag = SelectedItems.Contains(row.DataContext);
@@ -203,10 +218,14 @@ namespace Files.Views.LayoutModes
 
         public override void StartRenameItem()
         {
-            if (AllView.SelectedIndex != -1)
+            try
             {
                 AllView.CurrentColumn = AllView.Columns[1];
                 AllView.BeginEdit();
+            }
+            catch (InvalidOperationException)
+            {
+                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
             }
         }
 
@@ -330,11 +349,13 @@ namespace Files.Views.LayoutModes
 
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
+                FileNameTeachingTip.Visibility = Visibility.Visible;
                 FileNameTeachingTip.IsOpen = true;
             }
             else
             {
                 FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -470,7 +491,11 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var objectPressed = ((ReadOnlyObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
+                if (objectPressed == null)
+                {
+                    return;
+                }
 
                 // Check if RightTapped row is currently selected
                 if (IsItemSelected)
@@ -506,14 +531,15 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
+        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            e.Row.CanDrag = false;
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
-                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
                 item.ItemPropertiesInitialized = true;
+                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
             }
         }
 

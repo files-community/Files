@@ -7,69 +7,6 @@
     "ID": "address"
   },
   {
-    "NameResource": "PropertyRatingText",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.RatingText",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyItemFolderPathDisplay",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.ItemFolderPathDisplay",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyItemTypeText",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.ItemTypeText",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyTitle",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.Title",
-    "IsReadOnly": false,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertySubject",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.Subject",
-    "IsReadOnly": false,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyComment",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.Comment",
-    "IsReadOnly": false,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyCopyright",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.Copyright",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyDateCreated",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.DateCreated",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyDateModified",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.DateModified",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
     "NameResource": "PropertyBitDepth",
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.BitDepth",
@@ -569,6 +506,76 @@
     "NameResource": "PropertyOrientation",
     "SectionResource": "PropertySectionVideo",
     "Property": "System.Video.Orientation",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyItemName",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemNameDisplay",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyRatingText",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.RatingText",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyItemPathDisplay",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemPathDisplay",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyItemTypeText",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemTypeText",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyTitle",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Title",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertySubject",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Subject",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyComment",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Comment",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyCopyright",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Copyright",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateCreated",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.DateCreated",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateModified",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.DateModified",
     "IsReadOnly": true,
     "ID": null
   }

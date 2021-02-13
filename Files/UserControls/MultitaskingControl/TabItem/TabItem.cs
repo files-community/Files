@@ -1,9 +1,7 @@
-﻿using Files.Views;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 
 namespace Files.UserControls.MultitaskingControl
 {

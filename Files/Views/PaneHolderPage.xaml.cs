@@ -22,7 +22,7 @@ namespace Files.Views
         public PaneHolderPage()
         {
             this.InitializeComponent();
-            
+
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);

@@ -12,12 +12,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    x:Name="RootPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
@@ -29,6 +35,7 @@
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
@@ -148,9 +155,13 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
+        <KeyboardAccelerator
+            Key="P"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
-
-    <Grid>
+    <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
@@ -184,7 +195,6 @@
             EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
-
         <Custom:DropShadowPanel
             x:Name="DropShadowPanel"
             Grid.Column="1"
@@ -200,9 +210,23 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition
+                        x:Name="PreviewPaneRow"
+                        Height="2*"
+                        MaxHeight="400" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition
+                        x:Name="PreviewPaneColumn"
+                        Width="2*"
+                        MaxWidth="600" />
+                </Grid.ColumnDefinitions>
 
                 <Grid
                     x:Name="SmallWindowTitlebar"
@@ -215,10 +239,12 @@
                     x:Name="NavToolbar"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Margin="10"
+                    Grid.ColumnSpan="3"
+                    Margin="10,10,10,0"
                     x:FieldModifier="public"
                     AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
@@ -234,6 +260,7 @@
                     NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
                     OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
                     PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
+                    PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                     ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
 
                 <Frame
@@ -241,12 +268,43 @@
                     Grid.Row="2"
                     x:FieldModifier="public"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    CacheSize="2"
                     Navigated="ItemDisplayFrame_Navigated" />
+
+                <Custom:GridSplitter
+                    x:Name="PreviewPaneGridSplitter"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                    Background="Transparent"
+                    ResizeBehavior="BasedOnAlignment"
+                    ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
+                    <Custom:GridSplitter.Element>
+                        <Grid>
+                            <TextBlock
+                                x:Name="GripperGlyphTextBlock"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="36"
+                                Foreground="{StaticResource SystemChromeHighColor}"
+                                IsHitTestVisible="False" />
+                        </Grid>
+                    </Custom:GridSplitter.Element>
+                </Custom:GridSplitter>
+
+                <controls:PreviewPane
+                    x:Name="PreviewPane"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
+                    AutomationProperties.Name="Selected file preview pane"
+                    x:Uid="SelectedFilePreviewPane"/>
 
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
-                    Grid.Row="3"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="3"
                     x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
                     DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"

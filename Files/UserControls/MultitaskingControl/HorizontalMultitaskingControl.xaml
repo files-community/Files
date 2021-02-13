@@ -344,7 +344,6 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="muxc:TabViewItem">
-
                                     <Grid
                                         x:Name="LayoutRoot"
                                         Height="34"
@@ -360,31 +359,6 @@
                                         <Grid.RenderTransform>
                                             <ScaleTransform x:Name="LayoutRootScale" />
                                         </Grid.RenderTransform>
-
-                                        <!--<Path
-                            x:Name="LeftRadiusRender"
-                            x:Load="False"
-                            Grid.Column="0"
-                            Visibility="Collapsed"
-                            VerticalAlignment="Bottom"
-                            Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomLeft}"
-                            Margin="{Binding Source={ThemeResource OverlayCornerRadius},
-                                Converter={StaticResource TabViewLeftInsetCornerConverter}}"
-                            Stretch="Uniform"
-                            Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                            Data="M4 0 L4 4 L0 4 A4,4 90 0 0 4 0 Z" />
-                            <Path
-                            x:Name="RightRadiusRender"
-                            x:Load="False"
-                            Grid.Column="2"
-                            Visibility="Collapsed"
-                            VerticalAlignment="Bottom"
-                            Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomRight}"
-                            Margin="{Binding Source={ThemeResource OverlayCornerRadius},
-                                Converter={StaticResource TabViewRightInsetCornerConverter}}"
-                            Stretch="Uniform"
-                            Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                            Data="M0 0 L0 4 L4 4 A4 4 90 0 1 0 0 Z" />-->
 
                                         <Border
                                             x:Name="TabSeparator"
@@ -482,7 +456,7 @@
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
@@ -493,7 +467,7 @@
 
                                                 <VisualState x:Name="PointerOverSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
@@ -825,7 +799,7 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Margin="2,0,2,0"
+                        Padding="2,0,2,0"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         DragEnter="TabViewItem_DragEnter"
