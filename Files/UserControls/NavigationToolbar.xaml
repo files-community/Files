@@ -864,7 +864,11 @@
                 FontSize="16"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search" />
+                ToolTipService.ToolTip="Search (Ctrl+F)">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F" Modifiers="Control" />
+                </Button.KeyboardAccelerators>
+            </Button>
 
             <AutoSuggestBox
                 x:Name="SearchRegion"
@@ -930,6 +934,12 @@
                         </Grid>
                     </DataTemplate>
                 </AutoSuggestBox.ItemTemplate>
+                <AutoSuggestBox.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="Escape"
+                        Invoked="SearchBox_Escaped"
+                        Modifiers="None" />
+                </AutoSuggestBox.KeyboardAccelerators>
             </AutoSuggestBox>
 
             <Button

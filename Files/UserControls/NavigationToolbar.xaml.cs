@@ -938,6 +938,12 @@ namespace Files.UserControls
             SearchRegion.Focus(FocusState.Programmatic);
         }
 
+        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            SearchRegion.Text = "";
+            IsSearchRegionVisible = false;
+        }
+
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             if (FocusManager.GetFocusedElement() is FlyoutBase ||
