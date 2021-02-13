@@ -30,14 +30,22 @@ namespace Files.Helpers.FileListCache
             if (!schemaCreated)
             {
                 // create db schema
-                var createSql = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
+                var createFileListCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
                     ""Id"" VARCHAR(5000) NOT NULL,
                     ""Timestamp"" INTEGER NOT NULL,
 	                ""Entry"" TEXT NOT NULL,
 	                PRIMARY KEY(""Id"")
                 )";
-                using var cmd = new SqliteCommand(createSql, connection);
-                var result = cmd.ExecuteNonQuery();
+                using var cmdFileListCacheTable = new SqliteCommand(createFileListCacheTable, connection);
+                cmdFileListCacheTable.ExecuteNonQuery();
+
+                var createFileDisplayNameCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileDisplayNameCache"" (
+                    ""Id"" VARCHAR(5000) NOT NULL,
+	                ""DisplayName"" TEXT NOT NULL,
+	                PRIMARY KEY(""Id"")
+                )";
+                using var cmdFileDisplayNameCacheTable = new SqliteCommand(createFileDisplayNameCacheTable, connection);
+                cmdFileDisplayNameCacheTable.ExecuteNonQuery();
             }
 
             RunCleanupRoutine();
@@ -119,6 +127,65 @@ namespace Files.Helpers.FileListCache
                 entry.CurrentFolder.ItemPropertiesInitialized = false;
                 entry.FileList.ForEach((item) => item.ItemPropertiesInitialized = false);
                 return entry;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+        }
+
+        public async Task SaveFileDisplayNameToCache(string path, string displayName)
+        {
+            try
+            {
+                if (displayName == null)
+                {
+                    using var deleteCommand = new SqliteCommand("DELETE FROM FileDisplayNameCache WHERE Id = @Id", connection);
+                    deleteCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    await deleteCommand.ExecuteNonQueryAsync();
+                    return;
+                }
+
+                using var cmd = new SqliteCommand("SELECT Id FROM FileDisplayNameCache WHERE Id = @Id", connection);
+                cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (reader.HasRows)
+                {
+                    // need to update entry
+                    using var updateCommand = new SqliteCommand("UPDATE FileDisplayNameCache SET DisplayName = @DisplayName WHERE Id = @Id", connection);
+                    updateCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    updateCommand.Parameters.Add("@DisplayName", SqliteType.Text).Value = displayName;
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    // need to insert entry
+                    using var insertCommand = new SqliteCommand("INSERT INTO FileDisplayNameCache (Id, DisplayName) VALUES (@Id, @DisplayName)", connection);
+                    insertCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    insertCommand.Parameters.Add("@DisplayName", SqliteType.Text).Value = displayName;
+                    await insertCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
+        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        {
+            try
+            {
+                using var cmd = new SqliteCommand("SELECT DisplayName FROM FileDisplayNameCache WHERE Id = @Id", connection);
+                cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
+
+                using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
+                if (!await reader.ReadAsync())
+                {
+                    return null;
+                }
+                return reader.GetString(0);
             }
             catch (Exception ex)
             {
