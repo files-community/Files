@@ -49,7 +49,7 @@ namespace Files
         public static SettingsViewModel AppSettings { get; private set; }
         public static InteractionViewModel InteractionViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
-        public static SidebarPinnedController SidebarPinnedController { get; private set; }// = new SidebarPinnedController();
+        public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
 

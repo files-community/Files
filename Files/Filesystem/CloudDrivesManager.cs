@@ -49,7 +49,10 @@ namespace Files.Filesystem
                 };
                 lock (drivesList)
                 {
-                    drivesList.Add(cloudProviderItem);
+                    if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
+                    {
+                        drivesList.Add(cloudProviderItem);
+                    }
                 }
             }
 
