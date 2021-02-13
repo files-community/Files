@@ -1632,9 +1632,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="SettingsEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Habilitar el panel de vista previa adaptable</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades de la nube</value>
   </data>
@@ -1646,5 +1643,56 @@
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Mostrar contenedores en la página de inicio</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Desanclar directorio de la barra lateral</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Propiedades</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Detalles del archivo</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Vista previa del archivo</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Panel de vista previa del archivo seleccionado</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Documentación</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Encuentra consejos, trucos y más información sobre Files</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visite el sitio web de documentación de Files</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Menú desplegable de tareas en curso</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Disponible cuando está en línea</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Disponible sin conexión</value>
+  </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Parcialmente disponible sin conexión</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Sincronizando</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Excluido de la sincronización</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>No calculado</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
+    <value>Habilitar el panel de vista previa adaptable</value>
   </data>
 </root>

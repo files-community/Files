@@ -311,10 +311,10 @@ namespace Files.ViewModels
                     // use FilesAndFolders because only displayed entries should be jumped to
                     var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                    if (AssociatedInstance.ContentPage.IsItemSelected)
-                    {
-                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                    }
+                if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
+                {
+                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                }
 
                     // If the user is trying to cycle through items
                     // starting with the same letter
@@ -1097,6 +1097,10 @@ namespace Files.ViewModels
             }
             else if (workingRoot != null)
             {
+                if (currentStorageFolder == null)
+                {
+                    return false;
+                }
                 rootFolder = currentStorageFolder.Folder;
                 enumFromStorageFolder = true;
             }
@@ -1620,6 +1624,8 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
+            var sampler = new IntervalSampler(500);
+
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -1651,7 +1657,17 @@ namespace Files.ViewModels
                         {
                             NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                         }
+
+                        if (sampler.CheckNow())
+                        {
+                            await OrderFilesAndFoldersAsync();
+                            await ApplyFilesAndFoldersChangesAsync();
+                        }
                     }
+
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
+                    await SaveCurrentListToCacheAsync(WorkingDirectory);
                 }
             }
             catch
@@ -1738,12 +1754,10 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task AddFileOrFolderAsync(ListedItem item)
+        private Task AddFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Add(item);
-            await OrderFilesAndFoldersAsync();
-            await ApplyFilesAndFoldersChangesAsync();
-            await SaveCurrentListToCacheAsync(WorkingDirectory);
+            return Task.CompletedTask;
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1775,9 +1789,6 @@ namespace Files.ViewModels
             if (listedItem != null)
             {
                 filesAndFolders.Add(listedItem);
-                await OrderFilesAndFoldersAsync();
-                await ApplyFilesAndFoldersChangesAsync();
-                await SaveCurrentListToCacheAsync(WorkingDirectory);
             }
         }
 
@@ -1856,12 +1867,10 @@ namespace Files.ViewModels
         public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
-            await ApplyFilesAndFoldersChangesAsync();
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 App.JumpList.RemoveFolder(item.ItemPath);
             });
-            await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
         public async Task RemoveFileOrFolderAsync(string path)
@@ -2266,10 +2275,10 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
+            CancelLoadAndClearFiles();
             addFilesCTS?.Dispose();
             semaphoreCTS?.Dispose();
             loadPropsCTS?.Dispose();
-            CloseWatcher();
         }
 
         /// <summary>

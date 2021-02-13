@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;ko-KR;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -160,6 +160,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
+    <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\DynamicDialogButtons.cs" />
+    <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
@@ -195,6 +198,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\DynamicDialogFactory.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
@@ -337,9 +341,6 @@
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConsentDialog.xaml.cs">
-      <DependentUpon>ConsentDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
@@ -349,9 +350,6 @@
     <Compile Include="Dialogs\PropertiesDialog.xaml.cs">
       <DependentUpon>PropertiesDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RenameDialog.xaml.cs">
-      <DependentUpon>RenameDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
@@ -359,9 +357,6 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
-    <Compile Include="Dialogs\PropertySaveError.xaml.cs">
-      <DependentUpon>PropertySaveError.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection.cs" />
@@ -664,9 +659,14 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <None Include="Resources\PreviewPanePropertiesInformation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <PRIResource Include="Strings\sv-SE\Resources.resw" />
+    <PRIResource Include="Strings\ko-KR\Resources.resw" />
     <PRIResource Include="Strings\ar\Resources.resw" />
     <PRIResource Include="Strings\da-DK\Resources.resw" />
     <PRIResource Include="Strings\da\Resources.resw" />
@@ -790,10 +790,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\ConsentDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dialogs\ExceptionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -803,14 +799,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\PropertiesDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\RenameDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -952,13 +940,13 @@
       <Version>4.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>5.0.2</Version>
+      <Version>5.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.Memory">
       <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.11</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
       <Version>7.0.0-preview4</Version>
@@ -1024,11 +1012,13 @@
     <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ko-KR.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.or-IN.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
+    <XliffResource Include="MultilingualResources\Files.sv-SE.xlf" />
     <XliffResource Include="MultilingualResources\Files.ta.xlf" />
     <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
     <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />

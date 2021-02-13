@@ -17,8 +17,9 @@
     PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
     SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
+    IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
+    IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"
     mc:Ignorable="d">
-
     <i:Interaction.Behaviors>
         <!--  No need to specify CommandParameter - `e` is passed by default  -->
         <icore:EventTriggerBehavior EventName="PrimaryButtonClick">
@@ -38,7 +39,7 @@
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <Grid RowSpacing="25">
+    <Grid RowSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -49,7 +50,10 @@
             Grid.Row="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Text="{Binding SubtitleText, Mode=OneWay}" />
+            Text="{Binding SubtitleText, Mode=OneWay}"
+            x:Load="{x:Bind ViewModel.SubtitleLoad, Mode=OneWay}"
+            x:Name="Subtitle"
+            TextWrapping="WrapWholeWords" />
 
         <!--  The dynamic content control  -->
         <ContentControl
@@ -58,6 +62,8 @@
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.DisplayControlLoad, Mode=OneWay}"
+            x:Name="DisplayControl"
             Content="{Binding DisplayControl, Mode=OneWay}" />
     </Grid>
 </ContentDialog>

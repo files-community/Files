@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -26,7 +27,8 @@ namespace Files.ViewModels.Properties
                 ViewModel.LoadDriveItemGlyph = true;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;
-                ViewModel.ItemType = Drive.Type.ToString();
+                // Note: if DriveType enum changes, the corresponding resource keys should change too
+                ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalized();
             }
         }
 
