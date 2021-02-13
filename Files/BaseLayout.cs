@@ -46,6 +46,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public bool IsQuickLookEnabled { get; set; } = false;
@@ -288,6 +290,7 @@ namespace Files
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
+                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
@@ -585,6 +588,18 @@ namespace Files
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
+            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+            if (isPinned)
+            {
+                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
+            }
+            else
+            {
+                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
+                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+            }
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
@@ -752,12 +767,12 @@ namespace Files
             ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
-        protected virtual async void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
                 char letterPressed = Convert.ToChar(args.KeyCode);
-                await ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
             }
         }
 
@@ -785,6 +800,10 @@ namespace Files
                             { "droptext", "DragDropWindowText".GetLocalized() },
                             { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
                     }
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 }
                 if (!draggedItems.Any())
                 {
@@ -914,6 +933,13 @@ namespace Files
                     deferral.Complete();
                     return;
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
@@ -943,6 +969,8 @@ namespace Files
             var deferral = e.GetDeferral();
 
             e.Handled = true;
+            dragOverItem = null; // Reset dragged over item
+
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {

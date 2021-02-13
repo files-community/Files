@@ -227,7 +227,6 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
-                    listedItem.IsPinned = true;
                 }
             }
         }
@@ -239,7 +238,6 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
-                    listedItem.IsPinned = false;
                 }
             }
         }
@@ -396,6 +394,10 @@ namespace Files.Interacts
         public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var item = AssociatedInstance.ContentPage.SelectedItem as ShortcutItem;
+            if (string.IsNullOrEmpty(item?.TargetPath))
+            {
+                return;
+            }
             var folderPath = Path.GetDirectoryName(item.TargetPath);
             // Check if destination path exists
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
@@ -414,7 +416,7 @@ namespace Files.Interacts
             else
             {
                 await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                    string.Format("InvalidItemDialogContent".GetLocalized()), Environment.NewLine, destFolder.ErrorCode.ToString());
+                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
 
@@ -431,7 +433,6 @@ namespace Files.Interacts
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
-            bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
             FilesystemResult opened = (FilesystemResult)false;
 
             // Shortcut item variables
@@ -441,18 +442,9 @@ namespace Files.Interacts
             bool shortcutRunAsAdmin = false;
             bool shortcutIsFolder = false;
 
-            if (!fileExists && !isShortcutItem && !isHiddenItem)
-            {
-                return false;
-            }
-
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
-                if (isHiddenItem)
-                {
-                    itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
-                }
-                else if (isShortcutItem)
+                if (isShortcutItem)
                 {
                     AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
                     {
@@ -469,12 +461,16 @@ namespace Files.Interacts
                         shortcutRunAsAdmin = response.Message.Get("RunAsAdmin", false);
                         shortcutIsFolder = response.Message.Get("IsFolder", false);
 
-                        itemType = FilesystemItemType.File; // Set to file here, because the logic is the same in both scenarios
+                        itemType = shortcutIsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
                     }
                     else
                     {
                         return false;
                     }
+                }
+                else if (isHiddenItem)
+                {
+                    itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
                 }
                 else
                 {
@@ -486,7 +482,26 @@ namespace Files.Interacts
 
             if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
-                if (isHiddenItem)
+                if (isShortcutItem)
+                {
+                    if (string.IsNullOrEmpty(shortcutTargetPath))
+                    {
+                        await InvokeWin32ComponentAsync(path);
+                        return true;
+                    }
+                    else
+                    {
+                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = shortcutTargetPath;
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
+                        {
+                            NavPathParam = shortcutTargetPath,
+                            AssociatedTabInstance = AssociatedInstance
+                        }, new SuppressNavigationTransitionInfo());
+
+                        return true;
+                    }
+                }
+                else if (isHiddenItem)
                 {
                     AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
                     AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
@@ -507,7 +522,7 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(path);
+                        opened = (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path);
                     }
                     if (opened)
                     {
@@ -522,11 +537,7 @@ namespace Files.Interacts
             }
             else if (itemType == FilesystemItemType.File) // OpenFile
             {
-                if (isHiddenItem)
-                {
-                    await InvokeWin32ComponentAsync(path);
-                }
-                else if (isShortcutItem)
+                if (isShortcutItem)
                 {
                     if (string.IsNullOrEmpty(shortcutTargetPath))
                     {
@@ -546,6 +557,10 @@ namespace Files.Interacts
                         await InvokeWin32ComponentAsync(shortcutTargetPath, shortcutArguments, shortcutRunAsAdmin, shortcutWorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
+                }
+                else if (isHiddenItem)
+                {
+                    await InvokeWin32ComponentAsync(path);
                 }
                 else
                 {
@@ -650,7 +665,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
+                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
                 });
             }
 
@@ -667,7 +682,9 @@ namespace Files.Interacts
 
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
-                await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
+                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
+                    FilesystemItemType.Directory : FilesystemItemType.File;
+                await OpenPath(item.ItemPath, type, false, openViaApplicationPicker);
             }
         }
 
@@ -709,13 +726,17 @@ namespace Files.Interacts
                 else
                 {
                     await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .Single(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
+                        .SingleOrDefault(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }
 
         public async Task OpenPropertiesWindowAsync(object item)
         {
+            if (item == null)
+            {
+                return;
+            }
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 CoreApplicationView newWindow = CoreApplication.CreateNewView();
@@ -772,6 +793,11 @@ namespace Files.Interacts
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        public void UnpinDirectoryFromSidebar(object sender, RoutedEventArgs e)
+        {
+            App.SidebarPinnedController.Model.RemoveItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -922,10 +948,13 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
-                        (listedItem as RecycleBinItem).ItemPath,
-                        itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    if (listedItem is RecycleBinItem binItem)
+                    {
+                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
+                            (listedItem as RecycleBinItem).ItemPath,
+                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    }
                 }
             }
         }
@@ -1174,15 +1203,16 @@ namespace Files.Interacts
             }
 
             // Show rename dialog
-            RenameDialog renameDialog = new RenameDialog();
-            var renameResult = await renameDialog.ShowAsync();
-            if (renameResult != ContentDialogResult.Primary)
+            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+            await dialog.ShowAsync();
+
+            if (dialog.DynamicResult != DynamicDialogResult.Primary)
             {
                 return;
             }
 
             // Create file based on dialog result
-            string userInput = renameDialog.storedRenameInput;
+            string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)
@@ -1267,14 +1297,14 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(null);
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
                 });
             }
         }
 
-        public Task PushJumpChar(char letter)
+        public void PushJumpChar(char letter)
         {
-            return AssociatedInstance.FilesystemViewModel.SetJumpStringAsync(AssociatedInstance.FilesystemViewModel.JumpString + letter.ToString().ToLower());
+            AssociatedInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
         }
 
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)

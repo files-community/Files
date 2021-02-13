@@ -434,13 +434,16 @@ namespace Files.Views
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            if (IsCurrentInstance)
             {
-                Back_Click();
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                Forward_Click();
+                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                {
+                    Back_Click();
+                }
+                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                {
+                    Forward_Click();
+                }
             }
         }
 
@@ -665,7 +668,7 @@ namespace Files.Views
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder || FilesystemViewModel.CheckFolderAccessWithWin32(currentInput))
+                    if (resFolder || ItemViewModel.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
@@ -784,8 +787,8 @@ namespace Files.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                var consentDialogDisplay = new ConsentDialog();
-                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                await dialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -976,6 +979,15 @@ namespace Files.Views
                 InitialPageType = typeof(ModernShellPage),
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
+
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            {
+                UpdatePositioning(true);
+            }
+            else
+            {
+                UpdatePositioning();
+            }
         }
 
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -1018,7 +1030,7 @@ namespace Files.Views
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (ContentPage.IsItemSelected && !NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await FilesystemHelpers.DeleteItemsAsync(
                             ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
@@ -1084,7 +1096,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
+                    PreviewPaneEnabled = !PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -1094,8 +1106,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
             };
@@ -1120,7 +1132,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null, false);
+                ContentOwnedViewModelInstance?.RefreshItems(null, false);
             });
         }
 
@@ -1166,13 +1178,16 @@ namespace Files.Views
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
-            var instance = FilesystemViewModel;
-            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
-            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
 
+            if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+            {
+                return;
+            }
+            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
             if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
+                parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();
@@ -1295,16 +1310,98 @@ namespace Files.Views
             return DataPackageOperation.None;
         }
 
-        // Binding directly to the actual width raise property changed notifications
-        // This is a workaroumd
-        public double RootGridWidth
+        private bool previewPaneEnabled;
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the preview pane should be shown.
+        /// </summary>
+        public bool PreviewPaneEnabled
         {
-            get => RootGrid.ActualWidth;
+            get => previewPaneEnabled;
+            set
+            {
+                previewPaneEnabled = value;
+                NotifyPropertyChanged(nameof(PreviewPaneEnabled));
+                UpdatePositioning();
+            }
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            NotifyPropertyChanged(nameof(RootGridWidth));
+            UpdatePositioning(!InstanceViewModel.IsPageTypeNotHome);
+        }
+
+        /// <summary>
+        /// Call this function to update the positioning of the preview pane.
+        /// This is a workaround as the VisualStateManager causes problems. 
+        /// </summary>
+        private void UpdatePositioning(bool IsHome = false)
+        {
+            if (!PreviewPaneEnabled || IsHome)
+            {
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = new GridLength(0);
+                if (PreviewPaneGridSplitter != null)
+                {
+                    PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
+                }
+
+                if (PreviewPane != null)
+                {
+                    PreviewPane.Visibility = Visibility.Collapsed;
+                }
+            }
+            else if (RootGrid.ActualWidth > 1000 || !AppSettings.EnableAdaptivePreviewPane)
+            {
+                PreviewPane.SetValue(Grid.RowProperty, 2);
+                PreviewPane.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
+                PreviewPaneGridSplitter.Width = 2;
+                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
+
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+                PreviewPane.IsHorizontal = false;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+            }
+            else if (RootGrid.ActualWidth < 1000)
+            {
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneColumn.Width = new GridLength(0);
+
+                PreviewPane.SetValue(Grid.RowProperty, 4);
+                PreviewPane.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneGridSplitter.Height = 2;
+                PreviewPaneGridSplitter.Width = RootGrid.Width;
+                PreviewPane.IsHorizontal = true;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PreviewPane == null)
+            {
+                return;
+            }
+
+            if (PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+            }
+            else
+            {
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+            }
         }
     }
 

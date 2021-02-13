@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -113,11 +112,14 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
             AllView.UnloadingRow += AllView_UnloadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            if (AllView.ItemsSource == null)
+            {
+                AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+            }
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -128,7 +130,6 @@ namespace Files.Views.LayoutModes
 
         private void AllView_UnloadingRow(object sender, DataGridRowEventArgs e)
         {
-            e.Row.CanDrag = false;
             base.UninitializeDrag(e.Row);
         }
 
@@ -155,8 +156,10 @@ namespace Files.Views.LayoutModes
             AllView.LoadingRow -= AllView_LoadingRow;
             AllView.UnloadingRow -= AllView_UnloadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-
-            AllView.ItemsSource = null;
+            if (e.SourcePageType != typeof(GenericFileBrowser))
+            {
+                AllView.ItemsSource = null;
+            }
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -215,10 +218,14 @@ namespace Files.Views.LayoutModes
 
         public override void StartRenameItem()
         {
-            if (AllView.SelectedIndex != -1)
+            try
             {
                 AllView.CurrentColumn = AllView.Columns[1];
                 AllView.BeginEdit();
+            }
+            catch (InvalidOperationException)
+            {
+                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
             }
         }
 
@@ -338,11 +345,13 @@ namespace Files.Views.LayoutModes
 
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
+                FileNameTeachingTip.Visibility = Visibility.Visible;
                 FileNameTeachingTip.IsOpen = true;
             }
             else
             {
                 FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -478,7 +487,11 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var objectPressed = ((ObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
+                if (objectPressed == null)
+                {
+                    return;
+                }
 
                 // Check if RightTapped row is currently selected
                 if (IsItemSelected)
@@ -516,6 +529,7 @@ namespace Files.Views.LayoutModes
 
         private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            e.Row.CanDrag = false;
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)

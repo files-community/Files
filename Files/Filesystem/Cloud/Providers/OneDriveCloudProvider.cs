@@ -16,31 +16,31 @@ namespace Files.Filesystem.Cloud.Providers
             try
             {
                 using var connection = await AppServiceConnectionHelper.BuildConnection();
-                var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                if (connection != null)
                 {
-                    { "Arguments", "GetOneDriveAccounts" }
-                }, TimeSpan.FromSeconds(10));
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var results = new List<CloudProvider>();
-                    foreach (var key in response.Message.Keys
-                        .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
-                        .ThenBy(o => o))
+                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
                     {
-                        results.Add(new CloudProvider()
+                        { "Arguments", "GetOneDriveAccounts" }
+                    }, TimeSpan.FromSeconds(10));
+                    if (status == AppServiceResponseStatus.Success)
+                    {
+                        var results = new List<CloudProvider>();
+                        foreach (var key in response.Message.Keys
+                            .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
+                            .ThenBy(o => o))
                         {
-                            ID = CloudProviders.OneDrive,
-                            Name = key,
-                            SyncFolder = (string)response.Message[key]
-                        });
-                    }
+                            results.Add(new CloudProvider()
+                            {
+                                ID = CloudProviders.OneDrive,
+                                Name = key,
+                                SyncFolder = (string)response.Message[key]
+                            });
+                        }
 
-                    return results;
+                        return results;
+                    }
                 }
-                else
-                {
-                    return Array.Empty<CloudProvider>();
-                }
+                return Array.Empty<CloudProvider>();
             }
             catch
             {

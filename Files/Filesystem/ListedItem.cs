@@ -248,7 +248,7 @@ namespace Files.Filesystem
             }
         }
 
-        private ObservableCollection<FileProperty> fileDetails = new ObservableCollection<FileProperty>();
+        private ObservableCollection<FileProperty> fileDetails;
 
         public ObservableCollection<FileProperty> FileDetails
         {
@@ -278,7 +278,14 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public bool IsPinned { get; set; }
+        public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
+
+        StorageFile itemFile;
+        public StorageFile ItemFile
+        {
+            get => itemFile;
+            set => SetProperty(ref itemFile, value);
+        }
     }
 
     public class RecycleBinItem : ListedItem
