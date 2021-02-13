@@ -105,9 +105,9 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.Icon != null && !Item.IsLinkItem)
+            if (fileIconInfo.IconData != null && !Item.IsLinkItem)
             {
-                ViewModel.FileIconSource = fileIconInfo.Icon;
+                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
             }
 
             if (Item.IsShortcutItem)
@@ -155,7 +155,7 @@ namespace Files.ViewModels.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            StorageFile file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -174,9 +174,10 @@ namespace Files.ViewModels.Properties
                 .OrderBy(group => group.Priority)
                 .Where(section => !section.All(fileProp => fileProp.Value == null));
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
+            ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
-        private async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
+        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
         {
             if (!Lat.HasValue || !Lon.HasValue)
             {

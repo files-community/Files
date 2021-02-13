@@ -65,7 +65,7 @@
                         AutomationProperties.Name="Learn more about date formats"
                         Content="&#xE946;"
                         FontFamily="Segoe MDL2 Assets"
-                        NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"
+                        NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         ToolTipService.ToolTip="Learn more about date formats" />
                 </StackPanel>
@@ -80,7 +80,7 @@
                 <TextBlock
                     x:Uid="SettingsContextMenu"
                     Padding="0,10,0,0"
-                    FontSize="20"
+                    FontSize="18"
                     Text="Customize the right click context menu" />
 
                 <ToggleSwitch

@@ -14,8 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Microsoft.Toolkit.Uwp.Extensions;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Filesystem
 {
@@ -66,8 +67,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
-            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
-            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
@@ -104,7 +105,7 @@ namespace Files.Filesystem
                 FileOperationType.Recycle);
             }
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
@@ -135,7 +136,7 @@ namespace Files.Filesystem
                 permanently = dialog.PermanentlyDelete;
             }
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
@@ -159,7 +160,7 @@ namespace Files.Filesystem
                 ((IProgress<float>)banner.Progress).Report(progress);
             }
 
-            if (rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -212,7 +213,7 @@ namespace Files.Filesystem
                 FileOperationType.Recycle);
             }
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
@@ -239,7 +240,7 @@ namespace Files.Filesystem
                 permanently = dialog.PermanentlyDelete;
             }
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
@@ -290,7 +291,7 @@ namespace Files.Filesystem
                 FileOperationType.Recycle);
             }
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
@@ -317,7 +318,7 @@ namespace Files.Filesystem
                 permanently = dialog.PermanentlyDelete;
             }
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
@@ -340,8 +341,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
-            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
-            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RestoreFromTrashAsync(source, destination, null, errorCode, cancellationToken);
@@ -410,10 +411,10 @@ namespace Files.Filesystem
                 ReturnResult.InProgress,
                 FileOperationType.Copy);
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
@@ -430,11 +431,11 @@ namespace Files.Filesystem
                     banner.ErrorCode,
                     cancellationToken));
 
-                progress = ((float)i / (float)source.Count()) * 100.0f;
+                progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
             }
 
-            if (rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -472,10 +473,10 @@ namespace Files.Filesystem
                 ReturnResult.InProgress,
                 FileOperationType.Copy);
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
@@ -505,33 +506,58 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
         {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                // Happens if you copy some text and then you Ctrl+V in Files
-                // Should this be done in ModernShellPage?
-                return ReturnResult.BadArgumentException;
+                IReadOnlyList<IStorageItem> source;
+                try
+                {
+                    source = await packageView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                {
+                    return ReturnResult.UnknownException;
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    return ReturnResult.UnknownException;
+                }
+                ReturnResult returnStatus = ReturnResult.InProgress;
+
+                var destinations = new List<string>();
+                foreach (IStorageItem item in source)
+                {
+                    destinations.Add(Path.Combine(destination, item.Name));
+                }
+
+                returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+
+                return returnStatus;
             }
 
-            IReadOnlyList<IStorageItem> source;
-            try
+            if (packageView.Contains(StandardDataFormats.Bitmap))
             {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                return ReturnResult.UnknownException;
-            }
-            ReturnResult returnStatus = ReturnResult.InProgress;
+                try
+                {
+                    var imgSource = await packageView.GetBitmapAsync();
+                    using var imageStream = await imgSource.OpenReadAsync();
+                    var folder = await StorageFolder.GetFolderFromPathAsync(destination);
+                    // Set the name of the file to be the current time and date
+                    var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
-            List<string> destinations = new List<string>();
-            foreach (IStorageItem item in source)
-            {
-                destinations.Add(Path.Combine(destination, item.Name));
+                    using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                    await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
+                    return ReturnResult.Success;
+                }
+                catch (Exception)
+                {
+                    return ReturnResult.UnknownException;
+                }
             }
 
-            returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
-
-            return returnStatus;
+            // Happens if you copy some text and then you Ctrl+V in Files
+            // Should this be done in ModernShellPage?
+            return ReturnResult.BadArgumentException;
         }
 
         #endregion Copy
@@ -557,14 +583,14 @@ namespace Files.Filesystem
                 ReturnResult.InProgress,
                 FileOperationType.Move);
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
-            List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
+            var rawStorageHistory = new List<IStorageHistory>();
 
             associatedInstance.ContentPage.ClearSelection();
             float progress;
@@ -577,11 +603,11 @@ namespace Files.Filesystem
                     banner.ErrorCode,
                     cancellationToken));
 
-                progress = ((float)i / (float)source.Count()) * 100.0f;
+                progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
             }
 
-            if (rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -619,10 +645,10 @@ namespace Files.Filesystem
                 ReturnResult.InProgress,
                 FileOperationType.Move);
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
@@ -668,9 +694,14 @@ namespace Files.Filesystem
             {
                 return ReturnResult.UnknownException;
             }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                return ReturnResult.UnknownException;
+            }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
-            List<string> destinations = new List<string>();
+            var destinations = new List<string>();
             foreach (IStorageItem item in source)
             {
                 destinations.Add(Path.Combine(destination, item.Name));
@@ -687,8 +718,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
-            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -703,11 +734,47 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
-            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+            IStorageHistory history = null;
+
+            switch (source.ItemType)
+            {
+                case FilesystemItemType.Directory:
+                    history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    break;
+                case FilesystemItemType.File:
+
+                    if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
+                    {
+                        newName += Path.GetExtension(source.Path);
+                    }
+
+                    /* Only prompt user when extension has changed,
+                       not when file name has changed
+                    */
+                    if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
+                    {
+                        var renameDialogText = "RenameFileDialog/Text".GetLocalized();
+
+                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
+                        if (yesSelected)
+                        {
+                            history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                            break;
+                        }
+                        
+                        break;
+                    }
+
+                    history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    break;
+                default:
+                    history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    break;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {

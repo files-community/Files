@@ -46,6 +46,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public bool IsQuickLookEnabled { get; set; } = false;
@@ -288,6 +290,7 @@ namespace Files
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
+                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
@@ -321,6 +324,7 @@ namespace Files
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            FolderSettings.SetLayoutInformation();
 
             if (!navigationArguments.IsSearchResultPage)
             {
@@ -331,7 +335,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot 
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -365,7 +369,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
+                    await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
                 }
             }
 
@@ -584,6 +588,18 @@ namespace Files
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
+            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+            if (isPinned)
+            {
+                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
+            }
+            else
+            {
+                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
+                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+            }
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
@@ -785,6 +801,10 @@ namespace Files
                             { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
                     }
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
                 if (!draggedItems.Any())
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
@@ -913,6 +933,13 @@ namespace Files
                     deferral.Complete();
                     return;
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
@@ -942,6 +969,8 @@ namespace Files
             var deferral = e.GetDeferral();
 
             e.Handled = true;
+            dragOverItem = null; // Reset dragged over item
+
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {

@@ -75,9 +75,9 @@ namespace Files.ViewModels.Properties
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.Icon != null && fileIconInfo.IsCustom)
+            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
             {
-                ViewModel.FileIconSource = fileIconInfo.Icon;
+                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
             }
 
             if (Item.IsShortcutItem)

@@ -6,6 +6,7 @@ namespace Files.ViewModels.SettingsViewModels
     {
         private bool showLibraryCardsWidget = App.AppSettings.ShowLibraryCardsWidget;
         private bool showDrivesWidget = App.AppSettings.ShowDrivesWidget;
+        private bool showBundlesWidget = App.AppSettings.ShowBundlesWidget;
         private bool showRecentFilesWidget = App.AppSettings.ShowRecentFilesWidget;
 
         public bool ShowLibraryCardsWidget
@@ -34,6 +35,21 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showDrivesWidget, value))
                 {
                     App.AppSettings.ShowDrivesWidget = value;
+                }
+            }
+        }
+
+        public bool ShowBundlesWidget
+        {
+            get
+            {
+                return showBundlesWidget;
+            }
+            set
+            {
+                if (SetProperty(ref showBundlesWidget, value))
+                {
+                    App.AppSettings.ShowBundlesWidget = value;
                 }
             }
         }

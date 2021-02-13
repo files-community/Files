@@ -6,7 +6,6 @@ using Windows.Storage;
 
 namespace Files.Filesystem
 {
-
     public static class FilesystemErrorCodeExtensions
     {
         public static bool HasFlag(this FileSystemStatusCode errorCode, FileSystemStatusCode flag)
