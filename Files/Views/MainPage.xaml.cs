@@ -244,17 +244,14 @@ namespace Files.Views
                 NavigationArg = path
             };
             tabItem.Control.ContentChanged += Control_ContentChanged;
-            await SetSelectedTabInfoAsync(tabItem, path);
+            await UpdateTabInfo(tabItem, path);
             AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
         }
 
-        private static async Task SetSelectedTabInfoAsync(TabItem selectedTabItem, string currentPath, string tabHeader = null)
+        private static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon)> GetSelectedTabInfoAsync(string currentPath)
         {
-            selectedTabItem.AllowStorageItemDrop = true;
-
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            Microsoft.UI.Xaml.Controls.IconSource tabIcon;
             fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
@@ -366,14 +363,7 @@ namespace Files.Views
                 }
             }
 
-            if (tabHeader != null)
-            {
-                tabLocationHeader = tabHeader;
-            }
-
-            tabIcon = fontIconSource;
-            selectedTabItem.Header = tabLocationHeader;
-            selectedTabItem.IconSource = tabIcon;
+            return (tabLocationHeader, fontIconSource);
         }
 
         private static async void Control_ContentChanged(object sender, TabItemArguments e)
@@ -388,22 +378,24 @@ namespace Files.Views
 
         private static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
         {
+            tabItem.AllowStorageItemDrop = true;
             if (navigationArg is PaneNavigationArguments paneArgs)
             {
-                var leftHeader = !string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) ? new DirectoryInfo(paneArgs.LeftPaneNavPathParam).Name : null;
-                var rightHeader = !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam) ? new DirectoryInfo(paneArgs.RightPaneNavPathParam).Name : null;
-                if (leftHeader != null && rightHeader != null)
+                if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
                 {
-                    await SetSelectedTabInfoAsync(tabItem, paneArgs.LeftPaneNavPathParam, $"{leftHeader} | {rightHeader}");
+                    var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                    var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+                    tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+                    tabItem.IconSource = leftTabInfo.tabIcon;
                 }
                 else
                 {
-                    await SetSelectedTabInfoAsync(tabItem, paneArgs.LeftPaneNavPathParam);
+                    (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
                 }
             }
             else if (navigationArg is string pathArgs)
             {
-                await SetSelectedTabInfoAsync(tabItem, pathArgs);
+                (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(pathArgs);
             }
         }
 
