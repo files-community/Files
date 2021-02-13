@@ -6,7 +6,6 @@ using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -28,8 +27,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Text;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
@@ -41,8 +38,6 @@ namespace Files.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
-        [Obsolete("", true)]
-        private IShellPage AssociatedInstance = null;
         private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
         private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
