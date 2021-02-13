@@ -303,8 +303,7 @@ namespace Files.ViewModels
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
-            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
-            jumpTimer.Tick += JumpTimer_Tick;
+            
         }
 
         public void OnAppServiceConnectionChanged()
@@ -365,12 +364,6 @@ namespace Files.ViewModels
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
             messageDeferral.Complete();
-        }
-
-        private void JumpTimer_Tick(object sender, object e)
-        {
-            jumpString = "";
-            jumpTimer.Stop();
         }
 
         /*

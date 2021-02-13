@@ -60,6 +60,8 @@ namespace Files.Interacts
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
+            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+            jumpTimer.Tick += JumpTimer_Tick;
         }
 
         public string JumpString
@@ -1352,6 +1354,12 @@ namespace Files.Interacts
         public void PushJumpChar(char letter)
         {
             JumpString += letter.ToString().ToLower();
+        }
+
+        private void JumpTimer_Tick(object sender, object e)
+        {
+            jumpString = "";
+            jumpTimer.Stop();
         }
 
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
