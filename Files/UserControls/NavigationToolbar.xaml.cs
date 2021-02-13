@@ -825,6 +825,8 @@ namespace Files.UserControls
 
         private void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverPath = null; // Reset dragged over pathbox item
+
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {

@@ -2279,6 +2279,10 @@
           <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
           <target state="new">Enable multiselect options (currently only available in the tiles and grid view layout modes)</target>
         </trans-unit>
+        <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
+          <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
+          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
+        </trans-unit>
       </group>
     </body>
   </file>
