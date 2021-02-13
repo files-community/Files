@@ -326,7 +326,7 @@ namespace Files.Views
 
                         if (matchingDrive != null)
                         {
-                            //Go through types and set the icon according to type
+                            // Go through types and set the icon according to type
                             string type = GetDriveTypeIcon(matchingDrive);
                             if (!string.IsNullOrWhiteSpace(type))
                             {
@@ -353,6 +353,16 @@ namespace Files.Views
                 {
                     fontIconSource.Glyph = "\xea55";    //Folder icon
                     tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
+
+                    FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
+                    if (rootItem)
+                    {
+                        StorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
+                        if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
+                        {
+                            tabLocationHeader = currentFolder.DisplayName;
+                        }
+                    }
                 }
             }
 
@@ -361,27 +371,8 @@ namespace Files.Views
                 tabLocationHeader = tabHeader;
             }
 
-            FilesystemResult<StorageFolderWithPath> currentItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
-
-            if (currentItem != null && currentItem.ErrorCode == FileSystemStatusCode.Success)
-            {
-                StorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, currentItem));
-
-                if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
-                {
-                    selectedTabItem.Header = currentFolder.DisplayName;
-                }
-                else
-                {
-                    selectedTabItem.Header = tabLocationHeader;
-                }
-            }
-            else
-            {
-                selectedTabItem.Header = tabLocationHeader;
-            }
-
             tabIcon = fontIconSource;
+            selectedTabItem.Header = tabLocationHeader;
             selectedTabItem.IconSource = tabIcon;
         }
 
