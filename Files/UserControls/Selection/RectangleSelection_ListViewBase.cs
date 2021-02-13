@@ -55,7 +55,7 @@ namespace Files.UserControls.Selection
             if (currentPoint.Properties.IsLeftButtonPressed)
             {
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
-                base.DrawRectangle(currentPoint, originDragPointShifted);
+                base.DrawRectangle(currentPoint, originDragPointShifted, uiElement);
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
                 foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))

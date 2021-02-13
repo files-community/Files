@@ -2153,7 +2153,7 @@
         </trans-unit>
         <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
           <source>Drag and drop any file or folder here to quickly access it</source>
-          <target state="translated">Füge Dateien und Ordner hier durch Ziehen und Ablegen hinzu um schnell Zugriff auf sie zu haben</target>
+          <target state="translated">Füge Dateien und Ordner durch Ziehen und Ablegen hinzu</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleConfirmButton.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2169,7 +2169,7 @@
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Rename Bundle</source>
-          <target state="translated">Gruppe umbennen</target>
+          <target state="translated">Gruppe umbenennen</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options...</source>
@@ -2283,6 +2283,10 @@
           <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
           <target state="needs-review-translation">Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
+          <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
+          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
         </trans-unit>
       </group>
     </body>
