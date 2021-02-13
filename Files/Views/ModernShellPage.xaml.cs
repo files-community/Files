@@ -241,14 +241,14 @@ namespace Files.Views
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
-        public void UpdatePathUIToWorkingDirectory(string singleItemOverride = null)
+        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
         {
             // Clear the path UI
             NavigationToolbar.PathComponents.Clear();
 
             if (string.IsNullOrWhiteSpace(singleItemOverride))
             {
-                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(FilesystemViewModel.WorkingDirectory))
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir))
                 {
                     NavigationToolbar.PathComponents.Add(component);
                 }
@@ -985,8 +985,10 @@ namespace Files.Views
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
             string value = e.Path;
-
-            UpdatePathUIToWorkingDirectory();
+            if (!string.IsNullOrWhiteSpace(value) && Path.IsPathRooted(value))
+            {
+                UpdatePathUIToWorkingDirectory(value);
+            }
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
