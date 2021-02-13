@@ -65,6 +65,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.DateDeleted;
                 }
+                else if (value == dateCreatedColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateCreated;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;

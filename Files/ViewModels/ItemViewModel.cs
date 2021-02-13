@@ -1184,14 +1184,13 @@ namespace Files.ViewModels
             if (enumFromStorageFolder)
             {
                 var basicProps = await rootFolder.GetBasicPropertiesAsync();
-                var extraProps = await basicProps.RetrievePropertiesAsync(new List<string> {"System.DateCreated"});
+                var extraProps = await basicProps.RetrievePropertiesAsync(new [] {"System.DateCreated"});
                 CurrentFolder = new ListedItem(rootFolder.FolderRelativeId, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
                     ItemName = rootFolder.Name,
                     ItemDateModifiedReal = basicProps.DateModified,
-                    ItemDateCreatedReal = DateTimeOffset.Parse(extraProps["System.DateCreated"] as string),
                     ItemType = rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
@@ -1201,6 +1200,10 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0
                 };
+                if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
+                {
+                    CurrentFolder.ItemDateCreatedReal = dateCreated;
+                }
                 await EnumFromStorageFolderAsync(path, skipItems);
                 return true;
             }
@@ -2164,9 +2167,8 @@ namespace Files.ViewModels
         private async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
-            var extraProps = await basicProperties.RetrievePropertiesAsync(new List<string> {"System.DateCreated"});
-            var dateCreated = DateTimeOffset.Parse(extraProps["System.DateCreated"] as string);
-
+            var extraProps = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
+            DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated);
             if (!addFilesCTS.IsCancellationRequested)
             {
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
@@ -2194,12 +2196,12 @@ namespace Files.ViewModels
         private async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
-            var extraProperties = await basicProperties.RetrievePropertiesAsync(new List<string> { "System.DateCreated" });
+            var extraProperties = await basicProperties.RetrievePropertiesAsync(new [] { "System.DateCreated" });
             // Display name does not include extension
             var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
-            var itemCreatedDate = DateTimeOffset.Parse(extraProperties["System.DateCreated"] as string);
+            DateTimeOffset.TryParse(extraProperties["System.DateCreated"] as string, out var itemCreatedDate);
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
