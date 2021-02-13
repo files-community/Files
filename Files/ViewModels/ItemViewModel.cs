@@ -470,6 +470,19 @@ namespace Files.ViewModels
             loadPropsCTS = new CancellationTokenSource();
         }
 
+        public async Task ApplySingleFileChangeAsync(ListedItem item)
+        {
+            var newIndex = filesAndFolders.IndexOf(item);
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                FilesAndFolders.Remove(item);
+                if (newIndex != -1)
+                {
+                    FilesAndFolders.Insert(newIndex, item);
+                }
+            });
+        }
+
         // apply changes immediately after manipulating on filesAndFolders completed
         public async Task ApplyFilesAndFoldersChangesAsync()
         {
@@ -809,7 +822,7 @@ namespace Files.ViewModels
                                     if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
                                     {
                                         await OrderFilesAndFoldersAsync();
-                                        await ApplyFilesAndFoldersChangesAsync();
+                                        await ApplySingleFileChangeAsync(item);
                                     }
                                 }
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
