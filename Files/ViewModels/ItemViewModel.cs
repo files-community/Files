@@ -800,6 +800,15 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                if (matchingStorageItem.DisplayName != matchingStorageItem.Name)
+                                {
+                                    item.ItemName = matchingStorageItem.DisplayName;
+                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
+                                    {
+                                        await OrderFilesAndFoldersAsync();
+                                        await ApplyFilesAndFoldersChangesAsync();
+                                    }
+                                }
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
