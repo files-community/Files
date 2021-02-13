@@ -20,15 +20,13 @@ namespace Files.Helpers.FileListCache
             var localCacheFolder = ApplicationData.Current.LocalCacheFolder.Path;
             string dbPath = Path.Combine(localCacheFolder, "cache.db");
 
-            bool schemaCreated = File.Exists(dbPath);
-
-            SQLitePCL.Batteries_V2.Init();
-
-            connection = new SqliteConnection($"Data Source='{dbPath}'");
-            connection.Open();
-
-            if (!schemaCreated)
+            try
             {
+                SQLitePCL.Batteries_V2.Init();
+
+                connection = new SqliteConnection($"Data Source='{dbPath}'");
+                connection.Open();
+
                 // create db schema
                 var createFileListCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
                     ""Id"" VARCHAR(5000) NOT NULL,
@@ -46,9 +44,13 @@ namespace Files.Helpers.FileListCache
                 )";
                 using var cmdFileDisplayNameCacheTable = new SqliteCommand(createFileDisplayNameCacheTable, connection);
                 cmdFileDisplayNameCacheTable.ExecuteNonQuery();
-            }
 
-            RunCleanupRoutine();
+                RunCleanupRoutine();
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Cache feature will not be available.");
+            }
         }
 
         public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)

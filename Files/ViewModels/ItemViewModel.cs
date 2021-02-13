@@ -824,7 +824,7 @@ namespace Files.ViewModels
                                     {
                                         await OrderFilesAndFoldersAsync();
                                         await ApplySingleFileChangeAsync(item);
-                                        await SaveCurrentListToCacheAsync(WorkingDirectory);
+                                        //await SaveCurrentListToCacheAsync(WorkingDirectory);
                                     }
                                 }
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
