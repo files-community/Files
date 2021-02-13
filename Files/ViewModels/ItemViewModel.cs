@@ -57,7 +57,7 @@ namespace Files.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-        public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
+        public FolderSettingsViewModel FolderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -65,6 +65,8 @@ namespace Files.ViewModels
         private StorageFolder rootFolder;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        public event EventHandler DirectoryInfoUpdated;
 
         private string customPath;
 
@@ -83,6 +85,9 @@ namespace Files.ViewModels
 
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
+
+        public delegate void PageTypeUpdatedEventHandler(object sender, PageTypeUpdatedEventArgs e);
+        public event PageTypeUpdatedEventHandler PageTypeUpdated;
 
         public delegate void ItemLoadStatusChangedEventHandler(object sender, ItemLoadStatusChangedEventArgs e);
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
@@ -292,12 +297,12 @@ namespace Files.ViewModels
             }
         }
 
-        [Obsolete("", true)]
-        public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
+        public AppServiceConnection Connection = null;
 
-        public ItemViewModel(IShellPage appInstance)
+        public ItemViewModel(AppServiceConnection associatedServiceConnection, FolderSettingsViewModel folderSettingsViewModel)
         {
-            AssociatedInstance = appInstance;
+            Connection = associatedServiceConnection;
+            FolderSettings = folderSettingsViewModel;
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
             addFilesCTS = new CancellationTokenSource();
@@ -396,7 +401,7 @@ namespace Files.ViewModels
                     {
                         FilesAndFolders.Clear();
                         IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
-                        UpdateDirectoryInfo();
+                        DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                     });
                     return;
                 }
@@ -470,7 +475,7 @@ namespace Files.ViewModels
                     // once loading is completed so that UI can be updated
                     FilesAndFolders.EndBulkOperation();
                     IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
-                    UpdateDirectoryInfo();
+                    DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                 });
             }
             catch (Exception ex)
@@ -854,7 +859,7 @@ namespace Files.ViewModels
                 {
                     if (await EnumerateItemsFromStandardFolderAsync(path, cacheResult))
                     {
-                        WatchForDirectoryChanges(path);
+                        WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(rootFolder));
                     }
                 }
 
@@ -1035,8 +1040,7 @@ namespace Files.ViewModels
 
             // Is folder synced to cloud storage?
             var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-            AssociatedInstance.InstanceViewModel.IsPageTypeCloudDrive =
-                syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
+            PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
 
             if (enumFromStorageFolder)
             {
@@ -1382,7 +1386,7 @@ namespace Files.ViewModels
             return (CloudDriveSyncStatus)syncStatus;
         }
 
-        private void WatchForDirectoryChanges(string path)
+        private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
         {
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
             hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
@@ -1401,7 +1405,9 @@ namespace Files.ViewModels
                 var rand = Guid.NewGuid();
                 buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
-                if (AssociatedInstance.InstanceViewModel.IsPageTypeCloudDrive)
+
+                
+                if (syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown)
                 {
                     notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
                 }
@@ -1665,21 +1671,6 @@ namespace Files.ViewModels
             if (listedItem != null)
             {
                 filesAndFolders.Add(listedItem);
-            }
-        }
-
-        private void UpdateDirectoryInfo()
-        {
-            if (AssociatedInstance.ContentPage != null)
-            {
-                if (filesAndFolders.Count == 1)
-                {
-                    AssociatedInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{filesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
-                }
-                else
-                {
-                    AssociatedInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{filesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
-                }
             }
         }
 
@@ -2041,8 +2032,8 @@ namespace Files.ViewModels
             BitmapImage icon = new BitmapImage();
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
-
-            if (!(AssociatedInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
+            
+            if (FolderSettings.LayoutMode != FolderLayoutModes.GridView)
             {
                 try
                 {
@@ -2168,6 +2159,11 @@ namespace Files.ViewModels
             FindClose(hFile);
             return result;
         }
+    }
+
+    public class PageTypeUpdatedEventArgs
+    {
+        public bool IsTypeCloudDrive { get; set; }
     }
 
     public class WorkingDirectoryModifiedEventArgs : EventArgs
