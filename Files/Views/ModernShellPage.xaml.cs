@@ -236,6 +236,29 @@ namespace Files.Views
             }
         }
 
+        /*
+         * Ensure that the path bar gets updated for user interaction
+         * whenever the path changes. We will get the individual directories from
+         * the updated, most-current path and add them to the UI.
+         */
+        public void UpdatePathUIToWorkingDirectory(string singleItemOverride = null)
+        {
+            // Clear the path UI
+            NavigationToolbar.PathComponents.Clear();
+
+            if (string.IsNullOrWhiteSpace(singleItemOverride))
+            {
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(FilesystemViewModel.WorkingDirectory))
+                {
+                    NavigationToolbar.PathComponents.Add(component);
+                }
+            }
+            else
+            {
+                NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
+            }
+        }
+
         private async void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var invokedItem = (args.SelectedItem as ListedItem);
@@ -916,6 +939,7 @@ namespace Files.Views
             App.Current.Suspending += Current_Suspending;
             App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+            FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -939,6 +963,8 @@ namespace Files.Views
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
             string value = e.Path;
+
+            UpdatePathUIToWorkingDirectory();
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
@@ -1256,11 +1282,67 @@ namespace Files.Views
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+                FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
                 FilesystemViewModel.Dispose();
             }
 
             ServiceConnection?.Dispose();
             ServiceConnection = null;
+        }
+
+        private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
+                    NavigationToolbar.CanRefresh = false;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
+                    NavigationToolbar.CanGoBack = ContentFrame.CanGoBack;
+                    NavigationToolbar.CanGoForward = ContentFrame.CanGoForward;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
+                    NavigationToolbar.CanRefresh = true;
+                    // Select previous directory
+                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    {
+                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        {
+                            // Remove the WorkingDir from previous dir
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+
+                            // Get previous dir name
+                            if (e.PreviousDirectory.StartsWith('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Remove(0, 1);
+                            }
+                            if (e.PreviousDirectory.Contains('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Split('\\')[0];
+                            }
+
+                            // Get the first folder and combine it with WorkingDir
+                            string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
+
+                            // Make sure we don't get double \\ in the e.Path
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                            if (folderToSelect.EndsWith('\\'))
+                            {
+                                folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                            }
+
+                            ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                            if (itemToSelect != null)
+                            {
+                                ContentPage.SetSelectedItemOnUi(itemToSelect);
+                                ContentPage.ScrollIntoView(itemToSelect);
+                            }
+                        }
+                    }
+                    break;
+            }
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)

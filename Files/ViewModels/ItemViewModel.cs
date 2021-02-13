@@ -82,8 +82,10 @@ namespace Files.ViewModels
         private StorageFolderWithPath workingRoot;
 
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
-
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
+
+        public delegate void ItemLoadStatusChangedEventHandler(object sender, ItemLoadStatusChangedEventArgs e);
+        public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
         public async Task<FilesystemResult> SetWorkingDirectoryAsync(string value)
         {
@@ -290,8 +292,7 @@ namespace Files.ViewModels
             }
         }
 
-        
-
+        [Obsolete("", true)]
         public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
         public ItemViewModel(IShellPage appInstance)
@@ -303,7 +304,6 @@ namespace Files.ViewModels
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
-            
         }
 
         public void OnAppServiceConnectionChanged()
@@ -364,35 +364,6 @@ namespace Files.ViewModels
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
             messageDeferral.Complete();
-        }
-
-        /*
-         * Ensure that the path bar gets updated for user interaction
-         * whenever the path changes. We will get the individual directories from
-         * the updated, most-current path and add them to the UI.
-         */
-
-        private void WorkingDirectoryChanged(string singleItemOverride = null)
-        {
-            // Clear the path UI
-            AssociatedInstance.NavigationToolbar.PathComponents.Clear();
-            // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
-            FontWeight weight = new FontWeight()
-            {
-                Weight = FontWeights.SemiBold.Weight
-            };
-
-            if (string.IsNullOrWhiteSpace(singleItemOverride))
-            {
-                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(WorkingDirectory))
-                {
-                    AssociatedInstance.NavigationToolbar.PathComponents.Add(component);
-                }
-            }
-            else
-            {
-                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
-            }
         }
 
         public void CancelLoadAndClearFiles()
@@ -803,7 +774,7 @@ namespace Files.ViewModels
 
         public async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
         {
-            AssociatedInstance.NavigationToolbar.CanRefresh = false;
+            ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
             CancelLoadAndClearFiles();
 
@@ -833,8 +804,7 @@ namespace Files.ViewModels
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
-                AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
+                ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
                 List<string> cacheResult = null;
 
@@ -901,46 +871,8 @@ namespace Files.ViewModels
 
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                AssociatedInstance.NavigationToolbar.CanRefresh = true;
+                ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
-
-                if (!string.IsNullOrWhiteSpace(previousDir))
-                {
-                    if (previousDir.Contains(path) && !previousDir.Contains("Shell:RecycleBinFolder"))
-                    {
-                        // Remove the WorkingDir from previous dir
-                        previousDir = previousDir.Replace(path, string.Empty);
-
-                        // Get previous dir name
-                        if (previousDir.StartsWith('\\'))
-                        {
-                            previousDir = previousDir.Remove(0, 1);
-                        }
-                        if (previousDir.Contains('\\'))
-                        {
-                            previousDir = previousDir.Split('\\')[0];
-                        }
-
-                        // Get the first folder and combine it with WorkingDir
-                        string folderToSelect = string.Format("{0}\\{1}", path, previousDir);
-
-                        // Make sure we don't get double \\ in the path
-                        folderToSelect = folderToSelect.Replace("\\\\", "\\");
-
-                        if (folderToSelect.EndsWith('\\'))
-                        {
-                            folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
-                        }
-
-                        ListedItem itemToSelect = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
-
-                        if (itemToSelect != null)
-                        {
-                            AssociatedInstance.ContentPage.SetSelectedItemOnUi(itemToSelect);
-                            AssociatedInstance.ContentPage.ScrollIntoView(itemToSelect);
-                        }
-                    }
-                }
             }
             catch (ObjectDisposedException ex)
             {
@@ -2205,15 +2137,10 @@ namespace Files.ViewModels
             }
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
-            WorkingDirectoryChanged($"{"SearchPagePathBoxOverrideText".GetLocalized()} {currentSearchPath}");
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (propertyName.Equals("WorkingDirectory", StringComparison.OrdinalIgnoreCase))
-            {
-                WorkingDirectoryChanged();
-            }
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -2245,6 +2172,27 @@ namespace Files.ViewModels
 
     public class WorkingDirectoryModifiedEventArgs : EventArgs
     {
+        public string Path { get; set; }
+    }
+
+    public class ItemLoadStatusChangedEventArgs : EventArgs
+    {
+        public enum ItemLoadStatus
+        {
+            Starting,
+            InProgress,
+            Complete
+        }
+
+        public ItemLoadStatus Status { get; set; }
+
+        /// <summary>
+        /// This property may not be provided consistently if Status is not Complete 
+        /// </summary>
+        public string PreviousDirectory { get; set; }
+        /// <summary>
+        /// This property may not be provided consistently if Status is not Complete 
+        /// </summary>
         public string Path { get; set; }
     }
 }
