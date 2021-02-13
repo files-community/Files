@@ -41,6 +41,7 @@ namespace Files.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
+        [Obsolete("", true)]
         private IShellPage AssociatedInstance = null;
         private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
         private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
@@ -64,9 +65,6 @@ namespace Files.ViewModels
         private StorageFolder rootFolder;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private string jumpString = "";
-        private readonly DispatcherTimer jumpTimer = new DispatcherTimer();
 
         private string customPath;
 
@@ -292,54 +290,7 @@ namespace Files.ViewModels
             }
         }
 
-        public string JumpString
-        {
-            get => jumpString;
-            set
-            {
-                // If current string is "a", and the next character typed is "a",
-                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
-                if (jumpString.Length == 1 && value == jumpString + jumpString)
-                {
-                    value = jumpString;
-                }
-                if (value != "")
-                {
-                    ListedItem jumpedToItem = null;
-                    ListedItem previouslySelectedItem = null;
-
-                    // use FilesAndFolders because only displayed entries should be jumped to
-                    var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
-
-                if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
-                {
-                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                }
-
-                    // If the user is trying to cycle through items
-                    // starting with the same letter
-                    if (value.Length == 1 && previouslySelectedItem != null)
-                    {
-                        // Try to select item lexicographically bigger than the previous item
-                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
-                    }
-                    if (jumpedToItem == null)
-                    {
-                        jumpedToItem = candidateItems.FirstOrDefault();
-                    }
-
-                    if (jumpedToItem != null)
-                    {
-                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
-                        AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
-                    }
-
-                    // Restart the timer
-                    jumpTimer.Start();
-                }
-                jumpString = value;
-            }
-        }
+        
 
         public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
