@@ -21,9 +21,8 @@ namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
-        private static readonly Task<DrivesManager> _instanceTask = CreateSingleton();
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -48,20 +47,12 @@ namespace Files.Filesystem
         private bool driveEnumInProgress;
 
         //Private as we want to prevent CloudDriveManager being constructed manually
-        private DrivesManager()
+        public DrivesManager()
         {
             SetupDeviceWatcher();
         }
 
-        private static async Task<DrivesManager> CreateSingleton()
-        {
-            var drives = new DrivesManager();
-            return await drives.EnumerateDrivesAsync();
-        }
-
-        public static Task<DrivesManager> Instance => _instanceTask;
-
-        private async Task<DrivesManager> EnumerateDrivesAsync()
+        public async Task<DrivesManager> EnumerateDrivesAsync()
         {
             driveEnumInProgress = true;
 
@@ -128,19 +119,24 @@ namespace Files.Filesystem
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                lock (MainPage.SideBarItems)
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
+                    var drivesSnapshot = Drives.ToList();
+
                     var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
 
-                    if (drivesSection != null && Drives.Count == 0)
+                    if (drivesSection != null && drivesSnapshot.Count == 0)
                     {
                         //No drives - remove the header
                         MainPage.SideBarItems.Remove(drivesSection);
                     }
 
-                    if (drivesSection == null && Drives.Count > 0)
+                    drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+
+                    if (drivesSection == null && drivesSnapshot.Count > 0)
                     {
                         drivesSection = new HeaderTextItem()
                         {
@@ -149,8 +145,6 @@ namespace Files.Filesystem
 
                         MainPage.SideBarItems.Add(drivesSection);
                     }
-
-                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
 
                     //Remove all existing drives from the sidebar
                     foreach (var item in MainPage.SideBarItems
@@ -162,17 +156,19 @@ namespace Files.Filesystem
                     }
 
                     //Add all drives to the sidebar
-                    var insertAt = sectionStartIndex + 1;
-                    foreach (var drive in Drives)
+                    drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+                    var insertAt = MainPage.SideBarItems.IndexOf(drivesSection) + 1;
+                    foreach (var drive in drivesSnapshot)
                     {
                         MainPage.SideBarItems.Insert(insertAt, drive);
+                        DrivesWidget.ItemsAdded.Add(drive);
                         insertAt++;
-
-                        if (drive.Type != DriveType.VirtualDrive)
-                        {
-                            DrivesWidget.ItemsAdded.Add(drive);
-                        }
                     }
+                    MainPage.SideBarItems.EndBulkOperation();
+                }
+                finally
+                {
+                    MainPage.SideBarItemsSemaphore.Release();
                 }
             });
         }
@@ -308,8 +304,7 @@ namespace Files.Filesystem
 
         private DriveType GetDriveType(DriveInfo drive)
         {
-            DriveType type = DriveType.Unknown;
-
+            DriveType type;
             switch (drive.DriveType)
             {
                 case System.IO.DriveType.CDRom:

@@ -1618,7 +1618,7 @@
     <value>Gruppen</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner hier durch Ziehen und Ablegen hinzu um schnell Zugriff auf sie zu haben</value>
+    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Bestätigen</value>
@@ -1630,7 +1630,7 @@
     <value>Gruppe erstellen</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Gruppe umbennen</value>
+    <value>Gruppe umbenennen</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mehr Optionen...</value>

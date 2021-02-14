@@ -1704,4 +1704,7 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</value>
   </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Ha a fájlnév kiterjesztését módosítja, akkor a fájl használhatatlanná válhat. Végrehajtja a módosítást?</value>
+  </data>
 </root>

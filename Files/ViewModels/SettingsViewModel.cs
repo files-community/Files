@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
@@ -124,8 +126,18 @@ namespace Files.ViewModels
             // Detect QuickLook
             try
             {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
-                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    {
+                        { "Arguments", "DetectQuickLook" }
+                    }, TimeSpan.FromSeconds(10));
+                    if (status == AppServiceResponseStatus.Success)
+                    {
+                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -266,6 +278,15 @@ namespace Files.ViewModels
         public bool ShowDateColumn
         {
             get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the date created column should be visible.
+        /// </summary>
+        public bool ShowDateCreatedColumn
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -760,7 +781,7 @@ namespace Files.ViewModels
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
 
-        public AcrylicTheme AcrylicTheme { get; set; }
+        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
 
         public FolderLayoutModes DefaultLayoutMode
         {

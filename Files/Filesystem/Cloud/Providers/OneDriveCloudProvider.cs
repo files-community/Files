@@ -15,7 +15,7 @@ namespace Files.Filesystem.Cloud.Providers
         {
             try
             {
-                using var connection = await AppServiceConnectionHelper.BuildConnection();
+                var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
                     var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
