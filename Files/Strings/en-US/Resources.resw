@@ -1560,6 +1560,9 @@
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
     <value>Cache files and folders for better performance</value>
   </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</value>
+  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -1856,5 +1859,8 @@
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>Date created</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Use preemptive cache (preload entries in child directories on navigation)</value>
   </data>
 </root>

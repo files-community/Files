@@ -522,7 +522,7 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path);
+                        opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
                     }
                     if (opened)
                     {

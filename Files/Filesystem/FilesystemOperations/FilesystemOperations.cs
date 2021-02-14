@@ -206,7 +206,7 @@ namespace Files.Filesystem
                         }
                         if (fsCopyResult)
                         {
-                            if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
+                            if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
                                 NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
@@ -434,7 +434,7 @@ namespace Files.Filesystem
                             }
                             if (fsResultMove)
                             {
-                                if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
+                                if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
                                 {
                                     // The source folder was hidden, apply hidden attribute to destination
                                     NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);

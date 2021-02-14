@@ -674,7 +674,25 @@ namespace Files.ViewModels
             get => Get(true);
             set => Set(value);
         }
-        
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to use preemptive caching.
+        /// </summary>
+        public bool UsePreemptiveCache
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
+        /// </summary>
+        public int PreemptiveCacheParallelLimit
+        {
+            get => Get(2);
+            set => Set(value);
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the multiselect option.
         /// </summary>

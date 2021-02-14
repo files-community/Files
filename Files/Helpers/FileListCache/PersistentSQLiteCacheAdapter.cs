@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -12,49 +13,15 @@ namespace Files.Helpers.FileListCache
 {
     internal class PersistentSQLiteCacheAdapter : IFileListCache, IDisposable
     {
-        private readonly SqliteConnection connection;
+        private SqliteConnection connection;
         private bool disposedValue;
-
-        public PersistentSQLiteCacheAdapter()
-        {
-            var localCacheFolder = ApplicationData.Current.LocalCacheFolder.Path;
-            string dbPath = Path.Combine(localCacheFolder, "cache.db");
-
-            try
-            {
-                SQLitePCL.Batteries_V2.Init();
-
-                connection = new SqliteConnection($"Data Source='{dbPath}'");
-                connection.Open();
-
-                // create db schema
-                var createFileListCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
-                    ""Id"" VARCHAR(5000) NOT NULL,
-                    ""Timestamp"" INTEGER NOT NULL,
-	                ""Entry"" TEXT NOT NULL,
-	                PRIMARY KEY(""Id"")
-                )";
-                using var cmdFileListCacheTable = new SqliteCommand(createFileListCacheTable, connection);
-                cmdFileListCacheTable.ExecuteNonQuery();
-
-                var createFileDisplayNameCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileDisplayNameCache"" (
-                    ""Id"" VARCHAR(5000) NOT NULL,
-	                ""DisplayName"" TEXT NOT NULL,
-	                PRIMARY KEY(""Id"")
-                )";
-                using var cmdFileDisplayNameCacheTable = new SqliteCommand(createFileDisplayNameCacheTable, connection);
-                cmdFileDisplayNameCacheTable.ExecuteNonQuery();
-
-                RunCleanupRoutine();
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Cache feature will not be available.");
-            }
-        }
 
         public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
+            if (!await InitializeIfNeeded())
+            {
+                return;
+            }
             const int maxCachedEntries = 128;
             try
             {
@@ -103,12 +70,16 @@ namespace Files.Helpers.FileListCache
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
             }
         }
 
         public async Task<CacheEntry> ReadFileListFromCache(string path, CancellationToken cancellationToken)
         {
+            if (!await InitializeIfNeeded())
+            {
+                return null;
+            }
             try
             {
                 using var cmd = new SqliteCommand("SELECT Timestamp, Entry FROM FileListCache WHERE Id = @Id", connection);
@@ -132,13 +103,17 @@ namespace Files.Helpers.FileListCache
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 return null;
             }
         }
 
         public async Task SaveFileDisplayNameToCache(string path, string displayName)
         {
+            if (!await InitializeIfNeeded())
+            {
+                return;
+            }
             try
             {
                 if (displayName == null)
@@ -177,6 +152,10 @@ namespace Files.Helpers.FileListCache
 
         public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
         {
+            if (!await InitializeIfNeeded())
+            {
+                return null;
+            }
             try
             {
                 using var cmd = new SqliteCommand("SELECT DisplayName FROM FileDisplayNameCache WHERE Id = @Id", connection);
@@ -226,9 +205,54 @@ namespace Files.Helpers.FileListCache
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.ToString());
+                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 }
             });
+        }
+
+        private async Task<bool> InitializeIfNeeded()
+        {
+            if (disposedValue) return false;
+            if (connection != null) return true;
+
+            string dbPath = null;
+            try
+            {
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("cache.db", CreationCollisionOption.OpenIfExists);
+
+                dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "cache.db");
+
+                SQLitePCL.Batteries_V2.Init();
+
+                connection = new SqliteConnection($"Data Source='{dbPath}'");
+                connection.Open();
+
+                // create db schema
+                var createFileListCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
+                    ""Id"" VARCHAR(5000) NOT NULL,
+                    ""Timestamp"" INTEGER NOT NULL,
+	                ""Entry"" TEXT NOT NULL,
+	                PRIMARY KEY(""Id"")
+                )";
+                using var cmdFileListCacheTable = new SqliteCommand(createFileListCacheTable, connection);
+                cmdFileListCacheTable.ExecuteNonQuery();
+
+                var createFileDisplayNameCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileDisplayNameCache"" (
+                    ""Id"" VARCHAR(5000) NOT NULL,
+	                ""DisplayName"" TEXT NOT NULL,
+	                PRIMARY KEY(""Id"")
+                )";
+                using var cmdFileDisplayNameCacheTable = new SqliteCommand(createFileDisplayNameCacheTable, connection);
+                cmdFileDisplayNameCacheTable.ExecuteNonQuery();
+
+                RunCleanupRoutine();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, $"Failed initializing database with path: {dbPath}");
+                return false;
+            }
         }
     }
 }
