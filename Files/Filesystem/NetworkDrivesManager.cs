@@ -68,7 +68,10 @@ namespace Files.Filesystem
                         };
                         lock (drivesList)
                         {
-                            drivesList.Add(networkItem);
+                            if (!drivesList.Any(x => x.Path == networkItem.Path))
+                            {
+                                drivesList.Add(networkItem);
+                            }
                         }
                     }
                 }
