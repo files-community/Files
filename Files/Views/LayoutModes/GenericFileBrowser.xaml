@@ -978,7 +978,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="dateCreatedColumn"
-                    x:Uid="dateCreatedColumn"
+                    x:Uid="DateCreatedColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateCreated}"
                     DisplayIndex="6"
