@@ -85,10 +85,6 @@ namespace Files
             {
                 //We can't create AppSettings at the same time as everything else as other dependencies depend on AppSettings
                 AppSettings = await SettingsViewModel.CreateInstance();
-                if (App.AppSettings?.AcrylicTheme == null)
-                {
-                    Helpers.ThemeHelper.Initialize();
-                }
             }
 
             if (CloudDrivesManager == null)

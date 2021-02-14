@@ -760,7 +760,7 @@ namespace Files.ViewModels
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
 
-        public AcrylicTheme AcrylicTheme { get; set; }
+        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
 
         public FolderLayoutModes DefaultLayoutMode
         {
