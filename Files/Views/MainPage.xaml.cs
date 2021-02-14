@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
@@ -19,6 +20,7 @@ using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -50,7 +52,8 @@ namespace Files.Views
         }
 
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
-        public static ObservableCollection<INavigationControlItem> SideBarItems = new ObservableCollection<INavigationControlItem>();
+        public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
+        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
         public MainPage()
         {

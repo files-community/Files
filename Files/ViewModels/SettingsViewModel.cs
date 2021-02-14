@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
@@ -124,8 +126,18 @@ namespace Files.ViewModels
             // Detect QuickLook
             try
             {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
-                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    {
+                        { "Arguments", "DetectQuickLook" }
+                    }, TimeSpan.FromSeconds(10));
+                    if (status == AppServiceResponseStatus.Success)
+                    {
+                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                    }
+                }
             }
             catch (Exception ex)
             {

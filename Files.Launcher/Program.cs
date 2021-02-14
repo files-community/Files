@@ -233,9 +233,13 @@ namespace FilesFullTrust
                     await ParseRecycleBinActionAsync(args, binAction);
                     break;
 
-                case "StartupTasks":
+                case "DetectQuickLook":
                     // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    var available = QuickLook.CheckQuickLookAvailability();
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
+                        { "IsAvailable", available }
+                    });
                     break;
 
                 case "ToggleQuickLook":
@@ -326,8 +330,10 @@ namespace FilesFullTrust
                     break;
 
                 case "GetOneDriveAccounts":
-                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    try
                     {
+                        var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+
                         if (oneDriveAccountsKey == null)
                         {
                             await args.Request.SendResponseAsync(new ValueSet());
@@ -347,6 +353,10 @@ namespace FilesFullTrust
                             }
                         }
                         await args.Request.SendResponseAsync(oneDriveAccounts);
+                    }
+                    catch
+                    {
+                        await args.Request.SendResponseAsync(new ValueSet());
                     }
                     break;
 
@@ -796,12 +806,6 @@ namespace FilesFullTrust
                     process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
                     process.Start();
 
-                    return true;
-                }
-                else if (arguments == "StartupTasks")
-                {
-                    // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
                     return true;
                 }
             }
