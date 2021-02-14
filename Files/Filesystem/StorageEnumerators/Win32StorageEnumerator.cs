@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
 using Files.Helpers;
+using Files.Helpers.FileListCache;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
+        private static IFileListCache fileListCache = FileListCacheController.GetInstance();
+
         public static async Task<List<ListedItem>> ListEntries(
             string path,
             string returnformat,
@@ -61,7 +64,7 @@ namespace Files.Filesystem.StorageEnumerators
                         {
                             if (findData.cFileName != "." && findData.cFileName != "..")
                             {
-                                var folder = GetFolder(findData, path, returnformat, cancellationToken);
+                                var folder = await GetFolder(findData, path, returnformat, cancellationToken);
                                 if (folder != null)
                                 {
                                     if (skipItems?.Contains(folder.ItemPath) ?? false)
@@ -96,7 +99,7 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        public static ListedItem GetFolder(
+        public static async Task<ListedItem> GetFolder(
             WIN32_FIND_DATA findData,
             string pathRoot,
             string dateReturnFormat,
@@ -123,7 +126,11 @@ namespace Files.Filesystem.StorageEnumerators
                 return null;
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
-
+            string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+            if (string.IsNullOrEmpty(itemName))
+            {
+                itemName = findData.cFileName;
+            }
             bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
             double opacity = 1;
 
