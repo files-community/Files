@@ -18,7 +18,7 @@ namespace Files.Helpers.FileListCache
 
         public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
-            if(!await InitializeIfNeeded())
+            if (!await InitializeIfNeeded())
             {
                 return;
             }
@@ -47,7 +47,11 @@ namespace Files.Helpers.FileListCache
                     using var updateCommand = new SqliteCommand("UPDATE FileListCache SET Timestamp = @Timestamp, Entry = @Entry WHERE Id = @Id", connection);
                     updateCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
                     updateCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
-                    updateCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry);
+                    var settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    };
+                    updateCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
                     await updateCommand.ExecuteNonQueryAsync();
                 }
                 else
@@ -56,7 +60,11 @@ namespace Files.Helpers.FileListCache
                     using var insertCommand = new SqliteCommand("INSERT INTO FileListCache (Id, Timestamp, Entry) VALUES (@Id, @Timestamp, @Entry)", connection);
                     insertCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
                     insertCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
-                    insertCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry);
+                    var settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    };
+                    insertCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
                     await insertCommand.ExecuteNonQueryAsync();
                 }
             }
@@ -84,7 +92,11 @@ namespace Files.Helpers.FileListCache
                 }
                 var timestamp = reader.GetInt64(0);
                 var entryAsJson = reader.GetString(1);
-                var entry = JsonConvert.DeserializeObject<CacheEntry>(entryAsJson);
+                var settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                };
+                var entry = JsonConvert.DeserializeObject<CacheEntry>(entryAsJson, settings);
                 entry.CurrentFolder.ItemPropertiesInitialized = false;
                 entry.FileList.ForEach((item) => item.ItemPropertiesInitialized = false);
                 return entry;
@@ -92,6 +104,73 @@ namespace Files.Helpers.FileListCache
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                return null;
+            }
+        }
+
+        public async Task SaveFileDisplayNameToCache(string path, string displayName)
+        {
+            if (!await InitializeIfNeeded())
+            {
+                return;
+            }
+            try
+            {
+                if (displayName == null)
+                {
+                    using var deleteCommand = new SqliteCommand("DELETE FROM FileDisplayNameCache WHERE Id = @Id", connection);
+                    deleteCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    await deleteCommand.ExecuteNonQueryAsync();
+                    return;
+                }
+
+                using var cmd = new SqliteCommand("SELECT Id FROM FileDisplayNameCache WHERE Id = @Id", connection);
+                cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (reader.HasRows)
+                {
+                    // need to update entry
+                    using var updateCommand = new SqliteCommand("UPDATE FileDisplayNameCache SET DisplayName = @DisplayName WHERE Id = @Id", connection);
+                    updateCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    updateCommand.Parameters.Add("@DisplayName", SqliteType.Text).Value = displayName;
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    // need to insert entry
+                    using var insertCommand = new SqliteCommand("INSERT INTO FileDisplayNameCache (Id, DisplayName) VALUES (@Id, @DisplayName)", connection);
+                    insertCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    insertCommand.Parameters.Add("@DisplayName", SqliteType.Text).Value = displayName;
+                    await insertCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
+        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        {
+            if (!await InitializeIfNeeded())
+            {
+                return null;
+            }
+            try
+            {
+                using var cmd = new SqliteCommand("SELECT DisplayName FROM FileDisplayNameCache WHERE Id = @Id", connection);
+                cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
+
+                using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
+                if (!await reader.ReadAsync())
+                {
+                    return null;
+                }
+                return reader.GetString(0);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
                 return null;
             }
         }
@@ -139,8 +218,7 @@ namespace Files.Helpers.FileListCache
             string dbPath = null;
             try
             {
-                bool schemaCreated = await ApplicationData.Current.LocalFolder.FileExistsAsync("cache.db");
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("cache.db");
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("cache.db", CreationCollisionOption.OpenIfExists);
 
                 dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "cache.db");
 
@@ -149,22 +227,28 @@ namespace Files.Helpers.FileListCache
                 connection = new SqliteConnection($"Data Source='{dbPath}'");
                 connection.Open();
 
-                if (!schemaCreated)
-                {
-                    // create db schema
-                    var createSql = @"CREATE TABLE ""FileListCache"" (
+                // create db schema
+                var createFileListCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
                     ""Id"" VARCHAR(5000) NOT NULL,
                     ""Timestamp"" INTEGER NOT NULL,
 	                ""Entry"" TEXT NOT NULL,
 	                PRIMARY KEY(""Id"")
                 )";
-                    using var cmd = new SqliteCommand(createSql, connection);
-                    var result = cmd.ExecuteNonQuery();
-                }
+                using var cmdFileListCacheTable = new SqliteCommand(createFileListCacheTable, connection);
+                cmdFileListCacheTable.ExecuteNonQuery();
+
+                var createFileDisplayNameCacheTable = @"CREATE TABLE IF NOT EXISTS ""FileDisplayNameCache"" (
+                    ""Id"" VARCHAR(5000) NOT NULL,
+	                ""DisplayName"" TEXT NOT NULL,
+	                PRIMARY KEY(""Id"")
+                )";
+                using var cmdFileDisplayNameCacheTable = new SqliteCommand(createFileDisplayNameCacheTable, connection);
+                cmdFileDisplayNameCacheTable.ExecuteNonQuery();
 
                 RunCleanupRoutine();
                 return true;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, $"Failed initializing database with path: {dbPath}");
                 return false;

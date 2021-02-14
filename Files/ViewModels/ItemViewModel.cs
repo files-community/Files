@@ -177,6 +177,7 @@ namespace Files.ViewModels
             NotifyPropertyChanged(nameof(IsSortedBySize));
             NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
             NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
+            NotifyPropertyChanged(nameof(IsSortedByDateCreated));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
@@ -237,6 +238,19 @@ namespace Files.ViewModels
                 {
                     FolderSettings.DirectorySortOption = SortOption.DateModified;
                     NotifyPropertyChanged(nameof(IsSortedByDate));
+                }
+            }
+        }
+
+        public bool IsSortedByDateCreated
+        {
+            get => FolderSettings.DirectorySortOption == SortOption.DateCreated;
+            set
+            {
+                if (value)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateCreated;
+                    NotifyPropertyChanged(nameof(IsSortedByDateCreated));
                 }
             }
         }
@@ -308,7 +322,7 @@ namespace Files.ViewModels
                     // use FilesAndFolders because only displayed entries should be jumped to
                     var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                    if (AssociatedInstance.ContentPage.IsItemSelected)
+                    if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
                     {
                         previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
                     }
@@ -466,6 +480,19 @@ namespace Files.ViewModels
             loadPropsCTS = new CancellationTokenSource();
         }
 
+        public async Task ApplySingleFileChangeAsync(ListedItem item)
+        {
+            var newIndex = filesAndFolders.IndexOf(item);
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                FilesAndFolders.Remove(item);
+                if (newIndex != -1)
+                {
+                    FilesAndFolders.Insert(newIndex, item);
+                }
+            });
+        }
+
         // apply changes immediately after manipulating on filesAndFolders completed
         public async Task ApplyFilesAndFoldersChangesAsync()
         {
@@ -476,7 +503,7 @@ namespace Files.ViewModels
                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                     {
                         FilesAndFolders.Clear();
-                        IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                        IsFolderEmptyTextDisplayed = true;
                         UpdateDirectoryInfo();
                     });
                     return;
@@ -580,6 +607,10 @@ namespace Files.ViewModels
 
                     case SortOption.DateModified:
                         orderFunc = item => item.ItemDateModifiedReal;
+                        break;
+
+                    case SortOption.DateCreated:
+                        orderFunc = item => item.ItemDateCreatedReal;
                         break;
 
                     case SortOption.FileType:
@@ -796,6 +827,20 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                if (matchingStorageItem.DisplayName != item.ItemName)
+                                {
+                                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                    {
+                                        item.ItemName = matchingStorageItem.DisplayName;
+                                    });
+                                    await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageItem.DisplayName);
+                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
+                                    {
+                                        await OrderFilesAndFoldersAsync();
+                                        await ApplySingleFileChangeAsync(item);
+                                        //await SaveCurrentListToCacheAsync(WorkingDirectory);
+                                    }
+                                }
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
@@ -880,8 +925,13 @@ namespace Files.ViewModels
                 semaphoreCTS = new CancellationTokenSource();
 
                 IsLoadingItems = true;
+
                 filesAndFolders.Clear();
-                await ApplyFilesAndFoldersChangesAsync();
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    FilesAndFolders.Clear();
+                });
+
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -1068,6 +1118,7 @@ namespace Files.ViewModels
                 ItemPropertiesInitialized = true,
                 ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
+                ItemDateCreatedReal = DateTimeOffset.MinValue, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
@@ -1129,6 +1180,10 @@ namespace Files.ViewModels
             }
             else if (workingRoot != null)
             {
+                if (storageFolderForGivenPath == null)
+                {
+                    return false;
+                }
                 rootFolder = storageFolderForGivenPath.Folder;
                 enumFromStorageFolder = true;
             }
@@ -1199,12 +1254,14 @@ namespace Files.ViewModels
 
             if (enumFromStorageFolder)
             {
+                var basicProps = await rootFolder.GetBasicPropertiesAsync();
+                var extraProps = await basicProps.RetrievePropertiesAsync(new[] { "System.DateCreated" });
                 var currentFolder = new ListedItem(rootFolder.FolderRelativeId, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
-                    ItemName = rootFolder.Name,
-                    ItemDateModifiedReal = (await rootFolder.GetBasicPropertiesAsync()).DateModified,
+                    ItemName = rootFolder.DisplayName,
+                    ItemDateModifiedReal = basicProps.DateModified,
                     ItemType = rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
@@ -1214,6 +1271,10 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0
                 };
+                if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
+                {
+                    currentFolder.ItemDateCreatedReal = dateCreated;
+                }
                 if (!cacheOnly)
                 {
                     CurrentFolder = currentFolder;
@@ -1232,13 +1293,20 @@ namespace Files.ViewModels
                     return (hFileTsk, findDataTsk);
                 }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                DateTime itemDate = DateTime.UtcNow;
+                var itemModifiedDate = DateTime.UtcNow;
+                var itemCreatedDate = DateTime.MinValue;
                 try
                 {
-                    FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-                    itemDate = new DateTime(
-                        systemTimeOutput.Year, systemTimeOutput.Month, systemTimeOutput.Day,
-                        systemTimeOutput.Hour, systemTimeOutput.Minute, systemTimeOutput.Second, systemTimeOutput.Milliseconds,
+                    FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
+                    itemModifiedDate = new DateTime(
+                        systemModifiedTimeOutput.Year, systemModifiedTimeOutput.Month, systemModifiedTimeOutput.Day,
+                        systemModifiedTimeOutput.Hour, systemModifiedTimeOutput.Minute, systemModifiedTimeOutput.Second, systemModifiedTimeOutput.Milliseconds,
+                        DateTimeKind.Utc);
+
+                    FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+                    itemCreatedDate = new DateTime(
+                        systemCreatedTimeOutput.Year, systemCreatedTimeOutput.Month, systemCreatedTimeOutput.Day,
+                        systemCreatedTimeOutput.Hour, systemCreatedTimeOutput.Minute, systemCreatedTimeOutput.Second, systemCreatedTimeOutput.Milliseconds,
                         DateTimeKind.Utc);
                 }
                 catch (ArgumentException) { }
@@ -1256,7 +1324,8 @@ namespace Files.ViewModels
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
                     ItemName = Path.GetFileName(path.TrimEnd('\\')),
-                    ItemDateModifiedReal = itemDate,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateCreatedReal = itemCreatedDate,
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true,
                     FileImage = null,
@@ -1622,6 +1691,7 @@ namespace Files.ViewModels
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = item.FileName,
                     ItemDateModifiedReal = item.ModifiedDate,
+                    ItemDateCreatedReal = item.CreatedDate,
                     ItemDateDeletedReal = item.RecycleDate,
                     ItemType = item.FileType,
                     IsHiddenItem = false,
@@ -1674,6 +1744,7 @@ namespace Files.ViewModels
                     Opacity = 1,
                     ItemName = itemName,
                     ItemDateModifiedReal = item.ModifiedDate,
+                    ItemDateCreatedReal = item.CreatedDate,
                     ItemDateDeletedReal = item.RecycleDate,
                     ItemType = item.FileType,
                     ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
@@ -1706,10 +1777,10 @@ namespace Files.ViewModels
 
             FindClose(hFile);
 
-            ListedItem listedItem = null;
+            ListedItem listedItem;
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                listedItem = Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, addFilesCTS.Token);
+                listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, addFilesCTS.Token);
             }
             else
             {
@@ -1852,10 +1923,10 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
+            CancelLoadAndClearFiles();
             addFilesCTS?.Dispose();
             semaphoreCTS?.Dispose();
             loadPropsCTS?.Dispose();
-            CloseWatcher();
         }
     }
 

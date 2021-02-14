@@ -65,8 +65,8 @@ namespace Files.Views
             }
             catch (UnauthorizedAccessException)
             {
-                var consentDialog = new ConsentDialog();
-                await consentDialog.ShowAsync();
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                await dialog.ShowAsync();
             }
             catch (ArgumentException)
             {
