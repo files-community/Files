@@ -480,7 +480,7 @@ namespace Files.ViewModels
                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                     {
                         FilesAndFolders.Clear();
-                        IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                        IsFolderEmptyTextDisplayed = true;
                         UpdateDirectoryInfo();
                     });
                     return;
@@ -884,8 +884,13 @@ namespace Files.ViewModels
                 semaphoreCTS = new CancellationTokenSource();
 
                 IsLoadingItems = true;
+
                 filesAndFolders.Clear();
-                await ApplyFilesAndFoldersChangesAsync();
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    FilesAndFolders.Clear();
+                });
+
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
