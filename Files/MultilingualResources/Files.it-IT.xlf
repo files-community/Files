@@ -2279,6 +2279,54 @@
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
           <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
         </trans-unit>
+        <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
+          <source>CD ROM Drive</source>
+          <target state="new">CD ROM Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
+          <source>Cloud Drive</source>
+          <target state="new">Cloud Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
+          <source>Fixed Disk Drive</source>
+          <target state="new">Fixed Disk Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
+          <source>Floppy Disk Drive</source>
+          <target state="new">Floppy Disk Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
+          <source>Network Drive</source>
+          <target state="new">Network Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeNoRootDirectory" translate="yes" xml:space="preserve">
+          <source>Unmounted Drive</source>
+          <target state="new">Unmounted Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
+          <source>RAM Disk Drive</source>
+          <target state="new">RAM Disk Drive</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
+          <source>Removable Storage Device</source>
+          <target state="new">Removable Storage Device</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
+          <source>Virtual Drive</source>
+          <target state="new">Virtual Drive</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="new">Date created</target>
+        </trans-unit>
+        <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="new">Date created</target>
+        </trans-unit>
       </group>
     </body>
   </file>
