@@ -2013,7 +2013,7 @@ namespace Files.ViewModels
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemName = itemName,
-                ItemDateModifiedReal = itemDate,
+                ItemDateModifiedReal = itemModifiedDate,
                 ItemDateCreatedReal = itemCreatedDate,
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
