@@ -10,6 +10,7 @@ namespace Files.Common
         public string FilePath;
         public DateTime RecycleDate;
         public DateTime ModifiedDate;
+        public DateTime CreatedDate;
         public string FileSize;
         public ulong FileSizeBytes;
         public string FileType;
@@ -20,7 +21,7 @@ namespace Files.Common
 
         public ShellFileItem(
             bool isFolder, string recyclePath, string fileName, string filePath,
-            DateTime recycleDate, DateTime modifiedDate, string fileSize, ulong fileSizeBytes, string fileType)
+            DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType)
         {
             this.IsFolder = isFolder;
             this.RecyclePath = recyclePath;
@@ -28,6 +29,7 @@ namespace Files.Common
             this.FilePath = filePath;
             this.RecycleDate = recycleDate;
             this.ModifiedDate = modifiedDate;
+            this.CreatedDate = createdDate;
             this.FileSize = fileSize;
             this.FileSizeBytes = fileSizeBytes;
             this.FileType = fileType;
