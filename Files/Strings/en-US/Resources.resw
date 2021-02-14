@@ -1854,7 +1854,7 @@
   <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Date created</value>
   </data>
-  <data name="dateCreatedColumn.Header" xml:space="preserve">
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>Date created</value>
   </data>
 </root>
