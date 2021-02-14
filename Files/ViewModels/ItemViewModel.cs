@@ -325,10 +325,10 @@ namespace Files.ViewModels
                     // use FilesAndFolders because only displayed entries should be jumped to
                     var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
-                {
-                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                }
+                    if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
+                    {
+                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                    }
 
                     // If the user is trying to cycle through items
                     // starting with the same letter
@@ -482,6 +482,19 @@ namespace Files.ViewModels
             loadPropsCTS.Cancel();
             loadPropsCTS.Dispose();
             loadPropsCTS = new CancellationTokenSource();
+        }
+
+        public async Task ApplySingleFileChangeAsync(ListedItem item)
+        {
+            var newIndex = filesAndFolders.IndexOf(item);
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                FilesAndFolders.Remove(item);
+                if (newIndex != -1)
+                {
+                    FilesAndFolders.Insert(newIndex, item);
+                }
+            });
         }
 
         // apply changes immediately after manipulating on filesAndFolders completed
@@ -818,6 +831,20 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                if (matchingStorageItem.DisplayName != item.ItemName)
+                                {
+                                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                    {
+                                        item.ItemName = matchingStorageItem.DisplayName;
+                                    });
+                                    await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageItem.DisplayName);
+                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
+                                    {
+                                        await OrderFilesAndFoldersAsync();
+                                        await ApplySingleFileChangeAsync(item);
+                                        //await SaveCurrentListToCacheAsync(WorkingDirectory);
+                                    }
+                                }
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
@@ -1194,7 +1221,7 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
-                    ItemName = rootFolder.Name,
+                    ItemName = rootFolder.DisplayName,
                     ItemDateModifiedReal = basicProps.DateModified,
                     ItemType = rootFolder.DisplayType,
                     LoadFolderGlyph = true,
@@ -1312,7 +1339,7 @@ namespace Files.ViewModels
                                     {
                                         if (findData.cFileName != "." && findData.cFileName != "..")
                                         {
-                                            var listedItem = AddFolder(findData, path, returnformat);
+                                            var listedItem = await AddFolder(findData, path, returnformat);
                                             if (listedItem != null)
                                             {
                                                 if (skipItems?.Contains(listedItem.ItemPath) ?? false)
@@ -1816,10 +1843,10 @@ namespace Files.ViewModels
 
             FindClose(hFile);
 
-            ListedItem listedItem = null;
+            ListedItem listedItem;
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                listedItem = AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+                listedItem = await AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
             }
             else
             {
@@ -1939,7 +1966,7 @@ namespace Files.ViewModels
             }
         }
 
-        private ListedItem AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
+        private async Task<ListedItem> AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
         {
             if (addFilesCTS.IsCancellationRequested)
             {
@@ -1967,8 +1994,13 @@ namespace Files.ViewModels
                 // Invalid date means invalid findData, do not add to list
                 return null;
             }
-            var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
+            var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, addFilesCTS.Token);
+            if (string.IsNullOrEmpty(itemName))
+            {
+                itemName = findData.cFileName;
+            }
             bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
             double opacity = 1;
 
@@ -1980,7 +2012,7 @@ namespace Files.ViewModels
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
+                ItemName = itemName,
                 ItemDateModifiedReal = itemModifiedDate,
                 ItemDateCreatedReal = itemCreatedDate,
                 ItemType = "FileFolderListItem".GetLocalized(),
@@ -2179,7 +2211,7 @@ namespace Files.ViewModels
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
+                    ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemDateCreatedReal = dateCreated,
                     ItemType = folder.DisplayType,
