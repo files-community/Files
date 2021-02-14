@@ -671,7 +671,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool UseFileListCache
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
