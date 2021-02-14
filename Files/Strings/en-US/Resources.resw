@@ -1863,4 +1863,13 @@
   <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>Date created</value>
   </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Map network drive</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
 </root>

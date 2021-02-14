@@ -2334,6 +2334,18 @@
           <source>Network</source>
           <target state="new">Network</target>
         </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="new">More options...</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Map network drive</source>
+          <target state="new">Map network drive</target>
+        </trans-unit>
+        <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
+          <source>Disconnect</source>
+          <target state="new">Disconnect</target>
+        </trans-unit>
       </group>
     </body>
   </file>
