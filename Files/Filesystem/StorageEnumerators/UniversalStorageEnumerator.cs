@@ -156,14 +156,16 @@ namespace Files.Filesystem.StorageEnumerators
         private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
-
+            var extraProps = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
+            DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated);
             if (!cancellationToken.IsCancellationRequested)
             {
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
+                    ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
+                    ItemDateCreatedReal = dateCreated,
                     ItemType = folder.DisplayType,
                     IsHiddenItem = false,
                     Opacity = 1,
@@ -190,10 +192,12 @@ namespace Files.Filesystem.StorageEnumerators
         )
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
+            var extraProperties = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
             // Display name does not include extension
             var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
                 file.Name : file.DisplayName;
-            var itemDate = basicProperties.DateModified;
+            var itemModifiedDate = basicProperties.DateModified;
+            DateTimeOffset.TryParse(extraProperties["System.DateCreated"] as string, out var itemCreatedDate);
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
@@ -281,7 +285,8 @@ namespace Files.Filesystem.StorageEnumerators
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
-                    ItemDateModifiedReal = itemDate,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateCreatedReal = itemCreatedDate,
                     ItemType = itemType,
                     ItemPath = itemPath,
                     FileSize = itemSize,

@@ -111,18 +111,25 @@ namespace Files.Filesystem.StorageEnumerators
                 return null;
             }
 
-            DateTime itemDate;
+            DateTime itemModifiedDate;
+            DateTime itemCreatedDate;
             try
             {
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-                itemDate = new DateTime(
-                    systemTimeOutput.Year, systemTimeOutput.Month, systemTimeOutput.Day,
-                    systemTimeOutput.Hour, systemTimeOutput.Minute, systemTimeOutput.Second, systemTimeOutput.Milliseconds,
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
+                itemModifiedDate = new DateTime(
+                    systemModifiedTimeOutput.Year, systemModifiedTimeOutput.Month, systemModifiedTimeOutput.Day,
+                    systemModifiedTimeOutput.Hour, systemModifiedTimeOutput.Minute, systemModifiedTimeOutput.Second, systemModifiedTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
+
+                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+                itemCreatedDate = new DateTime(
+                    systemCreatedTimeOutput.Year, systemCreatedTimeOutput.Month, systemCreatedTimeOutput.Day,
+                    systemCreatedTimeOutput.Hour, systemCreatedTimeOutput.Minute, systemCreatedTimeOutput.Second, systemCreatedTimeOutput.Milliseconds,
                     DateTimeKind.Utc);
             }
             catch (ArgumentException)
             {
-                // Invalid date means invalid findData, do not add to list
+                // Invalid date means invalid findData, do not add to list	
                 return null;
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
@@ -142,8 +149,9 @@ namespace Files.Filesystem.StorageEnumerators
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
-                ItemDateModifiedReal = itemDate,
+                ItemName = itemName,
+                ItemDateModifiedReal = itemModifiedDate,
+                ItemDateCreatedReal = itemCreatedDate,
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
@@ -209,7 +217,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
             catch (ArgumentException)
             {
-                // Invalid date means invalid findData, do not add to list
+                // Invalid date means invalid findData, do not add to list	
                 return null;
             }
 
