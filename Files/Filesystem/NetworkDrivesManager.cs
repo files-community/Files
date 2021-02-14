@@ -18,7 +18,7 @@ namespace Files.Filesystem
     public class NetworkDrivesManager : ObservableObject
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -99,60 +99,71 @@ namespace Files.Filesystem
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarNetworkDrives".GetLocalized());
-
-                if (drivesSection != null && Drives.Count == 0)
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    //No drives - remove the header
-                    MainPage.SideBarItems.Remove(drivesSection);
-                }
+                    var drivesSnapshot = Drives.ToList();
 
-                if (drivesSection == null && Drives.Count > 0)
-                {
-                    drivesSection = new HeaderTextItem()
+                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarNetworkDrives".GetLocalized());
+
+                    if (drivesSection != null && drivesSnapshot.Count == 0)
                     {
-                        Text = "SidebarNetworkDrives".GetLocalized()
-                    };
-
-                    //Get the last location item in the sidebar
-                    var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
-
-                    if (lastLocationItem != null)
-                    {
-                        //Get the index of the last location item
-                        var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
-                        //Insert the drives title beneath it
-                        MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
+                        //No drives - remove the header
+                        MainPage.SideBarItems.Remove(drivesSection);
                     }
-                    else
+
+                    if (drivesSection == null && drivesSnapshot.Count > 0)
                     {
-                        MainPage.SideBarItems.Add(drivesSection);
+                        drivesSection = new HeaderTextItem()
+                        {
+                            Text = "SidebarNetworkDrives".GetLocalized()
+                        };
+
+                        //Get the last location item in the sidebar
+                        var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
+
+                        if (lastLocationItem != null)
+                        {
+                            //Get the index of the last location item
+                            var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
+                            //Insert the drives title beneath it
+                            MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
+                        }
+                        else
+                        {
+                            MainPage.SideBarItems.Add(drivesSection);
+                        }
                     }
-                }
 
-                var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-                var insertAt = sectionStartIndex + 1;
+                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+                    var insertAt = sectionStartIndex + 1;
 
-                //Remove all existing network drives from the sidebar
-                while (insertAt < MainPage.SideBarItems.Count)
-                {
-                    var item = MainPage.SideBarItems[insertAt];
-                    if (item.ItemType != NavigationControlItemType.Drive)
+                    //Remove all existing network drives from the sidebar
+                    while (insertAt < MainPage.SideBarItems.Count)
                     {
-                        break;
+                        var item = MainPage.SideBarItems[insertAt];
+                        if (item.ItemType != NavigationControlItemType.Drive)
+                        {
+                            break;
+                        }
+                        MainPage.SideBarItems.Remove(item);
                     }
-                    MainPage.SideBarItems.Remove(item);
-                }
 
-                //Add all network drives to the sidebar
-                foreach (var drive in Drives
-                    .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
-                    .ThenBy(o => o.Text))
+                    //Add all network drives to the sidebar
+                    foreach (var drive in drivesSnapshot
+                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o.Text))
+                    {
+                        MainPage.SideBarItems.Insert(insertAt, drive);
+                        insertAt++;
+                    }
+                    MainPage.SideBarItems.EndBulkOperation();
+                }
+                finally
                 {
-                    MainPage.SideBarItems.Insert(insertAt, drive);
-                    insertAt++;
+                    MainPage.SideBarItemsSemaphore.Release();
                 }
             });
         }

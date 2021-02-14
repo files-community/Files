@@ -19,7 +19,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -31,7 +30,6 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -1326,7 +1324,7 @@ namespace Files.Views
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
-        /// This is a workaround as the VisualStateManager causes problems. 
+        /// This is a workaround as the VisualStateManager causes problems.
         /// </summary>
         private void UpdatePositioning(bool IsHome = false)
         {

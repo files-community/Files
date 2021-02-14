@@ -5,8 +5,6 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -17,7 +15,7 @@ namespace Files.Filesystem
     public class CloudDrivesManager : ObservableObject
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -37,10 +35,11 @@ namespace Files.Filesystem
         public async Task EnumerateDrivesAsync()
         {
             var cloudProviderController = new CloudProviderController();
-            await cloudProviderController.DetectInstalledCloudProvidersAsync();
+            var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
 
-            foreach (var provider in cloudProviderController.CloudProviders)
+            foreach (var provider in cloudProviders)
             {
+                Logger.Info($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
                 var cloudProviderItem = new DriveItem()
                 {
                     Text = provider.Name,
@@ -49,7 +48,10 @@ namespace Files.Filesystem
                 };
                 lock (drivesList)
                 {
-                    drivesList.Add(cloudProviderItem);
+                    if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
+                    {
+                        drivesList.Add(cloudProviderItem);
+                    }
                 }
             }
 
@@ -62,8 +64,9 @@ namespace Files.Filesystem
             {
                 await SyncSideBarItemsUI();
             }
-            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
+            catch (Exception ex) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
+                Logger.Error(ex, "UI thread not ready yet");
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
@@ -72,61 +75,72 @@ namespace Files.Filesystem
 
         private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await SyncSideBarItemsUI();
             CoreApplication.MainView.Activated -= RefreshUI;
+            await SyncSideBarItemsUI();
         }
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
-
-                if (drivesSection != null && Drives.Count == 0)
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    //No drives - remove the header
-                    MainPage.SideBarItems.Remove(drivesSection);
-                }
+                    var drivesSnapshot = Drives.ToList();
 
-                if (drivesSection == null && Drives.Count > 0)
-                {
-                    drivesSection = new HeaderTextItem()
+                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
+
+                    if (drivesSection != null && drivesSnapshot.Count == 0)
                     {
-                        Text = "SidebarCloudDrives".GetLocalized()
-                    };
-
-                    //Get the last location item in the sidebar
-                    var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
-
-                    if (lastLocationItem != null)
-                    {
-                        //Get the index of the last location item
-                        var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
-                        //Insert the drives title beneath it
-                        MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
+                        //No drives - remove the header
+                        MainPage.SideBarItems.Remove(drivesSection);
                     }
-                    else
+
+                    if (drivesSection == null && drivesSnapshot.Count > 0)
                     {
-                        MainPage.SideBarItems.Add(drivesSection);
+                        drivesSection = new HeaderTextItem()
+                        {
+                            Text = "SidebarCloudDrives".GetLocalized()
+                        };
+
+                        //Get the last location item in the sidebar
+                        var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
+
+                        if (lastLocationItem != null)
+                        {
+                            //Get the index of the last location item
+                            var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
+                            //Insert the drives title beneath it
+                            MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
+                        }
+                        else
+                        {
+                            MainPage.SideBarItems.Add(drivesSection);
+                        }
                     }
+
+                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+
+                    //Remove all existing cloud drives from the sidebar
+                    foreach (var item in MainPage.SideBarItems
+                        .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
+                        .ToList())
+                    {
+                        MainPage.SideBarItems.Remove(item);
+                    }
+
+                    //Add all cloud drives to the sidebar
+                    var insertAt = sectionStartIndex + 1;
+                    foreach (var drive in drivesSnapshot.OrderBy(o => o.Text))
+                    {
+                        MainPage.SideBarItems.Insert(insertAt, drive);
+                        insertAt++;
+                    }
+                    MainPage.SideBarItems.EndBulkOperation();
                 }
-
-                var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-
-                //Remove all existing cloud drives from the sidebar
-                foreach (var item in MainPage.SideBarItems
-                    .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
-                    .ToList())
+                finally
                 {
-                    MainPage.SideBarItems.Remove(item);
-                }
-
-                //Add all cloud drives to the sidebar
-                var insertAt = sectionStartIndex + 1;
-                foreach (var drive in Drives.OrderBy(o => o.Text))
-                {
-                    MainPage.SideBarItems.Insert(insertAt, drive);
-                    insertAt++;
+                    MainPage.SideBarItemsSemaphore.Release();
                 }
             });
         }

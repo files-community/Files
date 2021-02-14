@@ -3,12 +3,15 @@ using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
@@ -217,10 +220,19 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            for (int i = 0; i < Items.Count(); i++)
+            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            try
             {
-                string path = Items[i];
-                await AddItemToSidebarAsync(path);
+                for (int i = 0; i < Items.Count(); i++)
+                {
+                    string path = Items[i];
+                    await AddItemToSidebarAsync(path);
+                }
+                MainPage.SideBarItems.EndBulkOperation();
+            }
+            finally
+            {
+                MainPage.SideBarItemsSemaphore.Release();
             }
         }
 

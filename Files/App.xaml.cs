@@ -85,10 +85,6 @@ namespace Files
             if (AppSettings == null)
             {
                 AppSettings = await SettingsViewModel.CreateInstance();
-                if (App.AppSettings?.AcrylicTheme == null)
-                {
-                    ThemeHelper.Initialize();
-                }
             }
 
             InteractionViewModel ??= new InteractionViewModel();

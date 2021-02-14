@@ -22,7 +22,7 @@ namespace Files.Filesystem
     public class DrivesManager : ObservableObject
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -116,47 +116,60 @@ namespace Files.Filesystem
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
-
-                if (drivesSection != null && Drives.Count == 0)
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    //No drives - remove the header
-                    MainPage.SideBarItems.Remove(drivesSection);
-                }
+                    var drivesSnapshot = Drives.ToList();
 
-                if (drivesSection == null && Drives.Count > 0)
-                {
-                    drivesSection = new HeaderTextItem()
+                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+
+                    if (drivesSection != null && drivesSnapshot.Count == 0)
                     {
-                        Text = "SidebarDrives".GetLocalized()
-                    };
-
-                    MainPage.SideBarItems.Add(drivesSection);
-                }
-
-                var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-                var insertAt = sectionStartIndex + 1;
-
-                //Remove all existing drives from the sidebar
-                while (insertAt < MainPage.SideBarItems.Count)
-                {
-                    var item = MainPage.SideBarItems[insertAt];
-                    if (item.ItemType != NavigationControlItemType.Drive)
-                    {
-                        break;
+                        //No drives - remove the header
+                        MainPage.SideBarItems.Remove(drivesSection);
                     }
-                    MainPage.SideBarItems.Remove(item);
-                    DrivesWidget.ItemsAdded.Remove(item);
-                }
 
-                //Add all drives to the sidebar
-                foreach (var drive in Drives)
+                    drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+
+                    if (drivesSection == null && drivesSnapshot.Count > 0)
+                    {
+                        drivesSection = new HeaderTextItem()
+                        {
+                            Text = "SidebarDrives".GetLocalized()
+                        };
+
+                        MainPage.SideBarItems.Add(drivesSection);
+                    }
+
+                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+                    var insertAt = sectionStartIndex + 1;
+
+                    //Remove all existing drives from the sidebar
+                    while (insertAt < MainPage.SideBarItems.Count)
+                    {
+                        var item = MainPage.SideBarItems[insertAt];
+                        if (item.ItemType != NavigationControlItemType.Drive)
+                        {
+                            break;
+                        }
+                        MainPage.SideBarItems.Remove(item);
+                        DrivesWidget.ItemsAdded.Remove(item);
+                    }
+
+                    //Add all drives to the sidebar
+                    foreach (var drive in drivesSnapshot)
+                    {
+                        MainPage.SideBarItems.Insert(insertAt, drive);
+                        DrivesWidget.ItemsAdded.Add(drive);
+                        insertAt++;
+                    }
+                    MainPage.SideBarItems.EndBulkOperation();
+                }
+                finally
                 {
-                    MainPage.SideBarItems.Insert(insertAt, drive);
-                    DrivesWidget.ItemsAdded.Add(drive);
-                    insertAt++;
+                    MainPage.SideBarItemsSemaphore.Release();
                 }
             });
         }
@@ -292,8 +305,7 @@ namespace Files.Filesystem
 
         private DriveType GetDriveType(DriveInfo drive)
         {
-            DriveType type = DriveType.Unknown;
-
+            DriveType type;
             switch (drive.DriveType)
             {
                 case System.IO.DriveType.CDRom:

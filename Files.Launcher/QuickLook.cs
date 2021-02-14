@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
-using Windows.Storage;
 
 namespace FilesFullTrust
 {
@@ -51,7 +50,7 @@ namespace FilesFullTrust
 
                     return serverInstances;
                 }
-                catch (TimeoutException e)
+                catch (TimeoutException)
                 {
                     client.Close();
                     return 0;
