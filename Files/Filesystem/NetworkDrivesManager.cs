@@ -53,7 +53,8 @@ namespace Files.Filesystem
             {
                 var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
                 {
-                    { "Arguments", "GetNetworkLocations" }
+                    { "Arguments", "NetworkDriveOperation" },
+                    { "netdriveop", "GetNetworkLocations" }
                 }, TimeSpan.FromSeconds(10));
                 if (status == AppServiceResponseStatus.Success)
                 {
