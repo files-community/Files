@@ -107,8 +107,9 @@ namespace Files.Filesystem
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var drivesSnapshot = Drives.ToList();
+                    MainPage.SideBarItems.BeginBulkOperation();
 
+                    var drivesSnapshot = Drives.ToList();
                     var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarNetworkDrives".GetLocalized());
 
                     if (drivesSection != null && drivesSnapshot.Count == 0)

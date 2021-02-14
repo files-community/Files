@@ -89,7 +89,6 @@ namespace Files
 
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
-
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
