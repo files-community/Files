@@ -672,7 +672,7 @@ namespace FilesFullTrust
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
             if (folderItem.Properties == null)
             {
-                return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.MinValue, null, 0, null);
+                return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);
             }
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ParsingPath, out var parsingPath);
@@ -692,7 +692,7 @@ namespace FilesFullTrust
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-            return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, DateTime.MinValue, fileSize, fileSizeBytes ?? 0, fileType);
+            return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, DateTime.Now, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
         private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)

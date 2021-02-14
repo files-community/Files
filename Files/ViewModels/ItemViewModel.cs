@@ -1067,7 +1067,7 @@ namespace Files.ViewModels
                 ItemPropertiesInitialized = true,
                 ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
-                ItemDateCreatedReal = DateTimeOffset.MinValue, // Fake for now
+                ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
@@ -1231,8 +1231,8 @@ namespace Files.ViewModels
                     return (hFileTsk, findDataTsk);
                 }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                var itemModifiedDate = DateTime.UtcNow;
-                var itemCreatedDate = DateTime.MinValue;
+                var itemModifiedDate = DateTime.Now;
+                var itemCreatedDate = DateTime.Now;
                 try
                 {
                     FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
