@@ -223,7 +223,7 @@ namespace Files.Helpers.FileListCache
                 dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "cache.db");
 
                 SQLitePCL.Batteries_V2.Init();
-
+                SQLitePCL.raw.sqlite3_config(SQLitePCL.raw.SQLITE_CONFIG_SERIALIZED);
                 connection = new SqliteConnection($"Data Source='{dbPath}'");
                 connection.Open();
 
