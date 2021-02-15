@@ -19,7 +19,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -31,7 +30,6 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -224,6 +222,8 @@ namespace Files.Views
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+
+            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -434,13 +434,16 @@ namespace Files.Views
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            if (IsCurrentInstance)
             {
-                Back_Click();
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                Forward_Click();
+                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                {
+                    Back_Click();
+                }
+                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                {
+                    Forward_Click();
+                }
             }
         }
 
@@ -471,7 +474,7 @@ namespace Files.Views
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.Name
+                            ItemName = x.Folder.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -480,12 +483,12 @@ namespace Files.Views
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.Name
+                            ItemName = x.Folder.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name)
+                                ItemName = Path.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
                             })).ToList();
                     }
                     else
@@ -665,7 +668,7 @@ namespace Files.Views
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder || ItemViewModel.CheckFolderAccessWithWin32(currentInput))
+                    if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
@@ -784,8 +787,8 @@ namespace Files.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                var consentDialogDisplay = new ConsentDialog();
-                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                await dialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -906,31 +909,13 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
+            ServiceConnection = await AppServiceConnectionHelper.Instance;
             FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
-            App.Current.Suspending += Current_Suspending;
-            App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
-        }
-
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            if (this.ServiceConnection == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
-                FilesystemViewModel?.OnAppServiceConnectionChanged();
-            }
-        }
-
-        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
         }
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -1027,7 +1012,7 @@ namespace Files.Views
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (ContentPage.IsItemSelected && !NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await FilesystemHelpers.DeleteItemsAsync(
                             ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
@@ -1103,8 +1088,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
             };
@@ -1129,7 +1114,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null, false);
+                ContentOwnedViewModelInstance?.RefreshItems(null, false);
             });
         }
 
@@ -1175,13 +1160,16 @@ namespace Files.Views
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
-            var instance = FilesystemViewModel;
-            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
-            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
 
+            if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+            {
+                return;
+            }
+            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
             if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
+                parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();
@@ -1212,8 +1200,6 @@ namespace Files.Views
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
-            App.Current.Suspending -= Current_Suspending;
-            App.Current.LeavingBackground -= OnLeavingBackground;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
@@ -1252,9 +1238,16 @@ namespace Files.Views
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.Dispose();
             }
+            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+        }
 
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
+        {
+            ServiceConnection = await e;
+            if (FilesystemViewModel != null)
+            {
+                FilesystemViewModel.OnAppServiceConnectionChanged();
+            }
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -1327,7 +1320,7 @@ namespace Files.Views
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
-        /// This is a workaround as the VisualStateManager causes problems. 
+        /// This is a workaround as the VisualStateManager causes problems.
         /// </summary>
         private void UpdatePositioning(bool IsHome = false)
         {

@@ -290,6 +290,7 @@ namespace Files
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
+                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
@@ -800,6 +801,10 @@ namespace Files
                             { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
                     }
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
                 if (!draggedItems.Any())
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
@@ -928,6 +933,13 @@ namespace Files
                     deferral.Complete();
                     return;
                 }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
@@ -957,6 +969,8 @@ namespace Files
             var deferral = e.GetDeferral();
 
             e.Handled = true;
+            dragOverItem = null; // Reset dragged over item
+
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {

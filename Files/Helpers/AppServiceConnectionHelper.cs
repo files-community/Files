@@ -10,24 +10,61 @@ namespace Files.Helpers
 {
     public static class AppServiceConnectionHelper
     {
-        public static async Task<AppServiceConnection> BuildConnection()
+        public static Task<AppServiceConnection> Instance = BuildConnection();
+
+        public static event EventHandler<Task<AppServiceConnection>> ConnectionChanged;
+
+        static AppServiceConnectionHelper()
         {
-            var serviceConnection = new AppServiceConnection();
-            serviceConnection.AppServiceName = "FilesInteropService";
-            serviceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-            serviceConnection.ServiceClosed += Connection_ServiceClosed;
-            AppServiceConnectionStatus status = await serviceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
+            App.Current.Suspending += OnSuspending;
+            App.Current.LeavingBackground += OnLeavingBackground;
+        }
+
+        private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            if (await Instance == null)
             {
-                // TODO: error handling
-                serviceConnection?.Dispose();
+                // Need to reinitialize AppService when app is resuming
+                Instance = BuildConnection();
+                ConnectionChanged?.Invoke(null, Instance);
+            }
+        }
+
+        private async static void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            (await Instance)?.Dispose();
+            Instance = Task.FromResult<AppServiceConnection>(null);
+            ConnectionChanged?.Invoke(null, Instance);
+            deferral.Complete();
+        }
+
+        private static async Task<AppServiceConnection> BuildConnection()
+        {
+            try
+            {
+                var serviceConnection = new AppServiceConnection();
+                serviceConnection.AppServiceName = "FilesInteropService";
+                serviceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
+                serviceConnection.ServiceClosed += Connection_ServiceClosed;
+                AppServiceConnectionStatus status = await serviceConnection.OpenAsync();
+                if (status != AppServiceConnectionStatus.Success)
+                {
+                    // TODO: error handling
+                    serviceConnection?.Dispose();
+                    return null;
+                }
+
+                // Launch fulltrust process
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+
+                return serviceConnection;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize AppServiceConnection!");
                 return null;
             }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
-            return serviceConnection;
         }
 
         public static async Task<(AppServiceResponseStatus Status, AppServiceResponse Data)> SendMessageWithRetryAsync(this AppServiceConnection serviceConnection, ValueSet valueSet, TimeSpan timeout)

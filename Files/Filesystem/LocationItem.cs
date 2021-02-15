@@ -14,7 +14,7 @@ namespace Files.Filesystem
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
+                HoverDisplayText = Path.Contains("?") || Path.StartsWith("Shell:") || Path == "Home" ? Text : Path;
             }
         }
 

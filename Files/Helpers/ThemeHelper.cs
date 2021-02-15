@@ -19,72 +19,40 @@ namespace Files.Helpers
         public static UISettings UiSettings;
 
         /// <summary>
-        /// Gets the current actual theme of the app based on the requested theme of the
-        /// root element, or if that value is Default, the requested theme of the Application.
-        /// </summary>
-        public static ElementTheme ActualTheme
-        {
-            get
-            {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    if (rootElement.RequestedTheme != ElementTheme.Default)
-                    {
-                        return rootElement.RequestedTheme;
-                    }
-                }
-
-                return Interacts.Interaction.GetEnum<ElementTheme>(Application.Current.RequestedTheme.ToString());
-            }
-        }
-
-        /// <summary>
         /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
         /// </summary>
         public static ElementTheme RootTheme
         {
             get
             {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    return rootElement.RequestedTheme;
-                }
+                var savedTheme = ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey]?.ToString();
 
-                return ElementTheme.Default;
+                if (!string.IsNullOrEmpty(savedTheme))
+                {
+                    return Interacts.Interaction.GetEnum<ElementTheme>(savedTheme);
+                }
+                else
+                {
+                    return ElementTheme.Default;
+                }
             }
             set
             {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = value;
-                }
-
                 ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey] = value.ToString();
-                UpdateTheme();
+                ApplyTheme();
             }
         }
 
         public static void Initialize()
         {
-            App.AppSettings.AcrylicTheme = new AcrylicTheme();
+            // Save reference as this might be null when the user is in another app
+            currentApplicationWindow = Window.Current;
 
             // Set TitleBar background color
             titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-            // Save reference as this might be null when the user is in another app
-            currentApplicationWindow = Window.Current;
-            string savedTheme = ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey]?.ToString();
-
-            if (!string.IsNullOrEmpty(savedTheme))
-            {
-                RootTheme = Interacts.Interaction.GetEnum<ElementTheme>(savedTheme);
-            }
-            else
-            {
-                RootTheme = ElementTheme.Default;
-            }
+            //Apply the desired theme based on what is set in the application settings
+            ApplyTheme();
 
             // Registering to color changes, thus we notice when user changes theme system wide
             UiSettings = new UISettings();
@@ -99,14 +67,24 @@ namespace Files.Helpers
                 // Dispatch on UI thread so that we have a current appbar to access and change
                 await currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
-                    UpdateTheme();
+                    ApplyTheme();
                 });
             }
         }
 
-        public static void UpdateTheme()
+        private static void ApplyTheme()
         {
-            switch (RootTheme)
+            var rootTheme = RootTheme;
+
+            if (Window.Current.Content is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = rootTheme;
+            }
+
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            switch (rootTheme)
             {
                 case ElementTheme.Default:
                     App.AppSettings.AcrylicTheme.SetDefaultTheme();

@@ -1381,7 +1381,7 @@
     <value>Unterstütze uns mit PayPal</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Dateien zusammen mit Ordnern sortieren und nicht voneinander trennen</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
@@ -1468,7 +1468,7 @@
     <value>Geteilte Ansicht</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show copy location menu item</value>
+    <value>'Speicherort kopieren' Menüeintrag anzeigen</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Einträge in ein Untermenü verschieben wenn das Menü überläuft</value>
@@ -1618,7 +1618,7 @@
     <value>Gruppen</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner hier durch Ziehen und Ablegen hinzu um schnell Zugriff auf sie zu haben</value>
+    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Bestätigen</value>
@@ -1630,7 +1630,7 @@
     <value>Gruppe erstellen</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Gruppe umbennen</value>
+    <value>Gruppe umbenennen</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mehr Optionen...</value>
