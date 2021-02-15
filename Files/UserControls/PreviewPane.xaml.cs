@@ -108,7 +108,7 @@ namespace Files.UserControls
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
 
             // Folders and shortcuts are not supported yet
-            if (item.FileExtension == null || item.IsShortcutItem)
+            if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsShortcutItem)
             {
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
                 PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
@@ -151,6 +151,11 @@ namespace Files.UserControls
 
         private UserControl GetBuiltInPreviewControl(ListedItem item)
         {
+            if(item.FileExtension == null)
+            {
+                return null;
+            }
+
             var ext = item.FileExtension.ToLower();
             if (MediaPreviewViewModel.Extensions.Contains(ext))
             {
