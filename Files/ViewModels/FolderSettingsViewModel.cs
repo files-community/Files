@@ -133,7 +133,7 @@ namespace Files.ViewModels
                 UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
             }
 
-            LayoutMode = FolderLayoutModes.GridView; // Details View
+            LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
@@ -346,6 +346,11 @@ namespace Files.ViewModels
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
                 return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
             }
+            else if (AdaptiveLayoutSuggestionApplied)
+            {
+                return LayoutPreference;
+            }
+
             return LayoutPreferences.DefaultLayoutPreferences;
         }
 
