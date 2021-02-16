@@ -24,7 +24,7 @@ In the short term, we plan to focus on crucial functionality to achieve parity w
 - Install Visual Studio 2019 and the UWP Development Kit.
 - Clone the repository and open the `Files.sln` in VS.
 - Visual Studio will install all missing dependencies.
-- Open the `Files.Package` project.
+- Run the `Files.Package` project.
 
 ## FAQ
 Have any questions? Check out our documentation [site](https://files-community.github.io/docs/#/)!
