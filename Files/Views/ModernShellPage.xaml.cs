@@ -502,7 +502,7 @@ namespace Files.Views
                     // Here we check whether at least an element is in common between old and new list
                     if (!mNavToolbar.NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
                     {
-                        // No elemets in common, update the list in-place
+                        // No elements in common, update the list in-place
                         for (int si = 0; si < suggestions.Count; si++)
                         {
                             if (si < mNavToolbar.NavigationBarSuggestions.Count)
