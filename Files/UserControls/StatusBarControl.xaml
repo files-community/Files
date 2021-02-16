@@ -152,6 +152,14 @@
                                 x:Uid="StatusBarControlLayoutMode"
                                 FontWeight="Medium"
                                 Text="Layout Mode" />
+
+                            <Button
+                                Content="Re-enable Adaptive Layout"
+                                x:Uid="StatusBarControlReEnableAdaptiveLayout"
+                                x:Name="StatusBarControlReEnableAdaptiveLayout"
+                                x:Load="{x:Bind FolderSettings.AdaptiveLayoutSuggestionOverriden, Mode=OneWay}"
+                                Command="{x:Bind FolderSettings.ReEnableAdaptiveLayout, Mode=OneWay}"
+                                HorizontalAlignment="Stretch"/>
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <RadioButton
                                     x:Uid="StatusBarControlDetailsView"

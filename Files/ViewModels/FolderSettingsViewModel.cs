@@ -41,6 +41,13 @@ namespace Files.ViewModels
 
         public bool AdaptiveLayoutSuggestionApplied { get; set; }
 
+        private bool adaptiveLayoutSuggestionOverriden;
+        public bool AdaptiveLayoutSuggestionOverriden 
+        {
+            get => adaptiveLayoutSuggestionOverriden;
+            private set => SetProperty(ref adaptiveLayoutSuggestionOverriden, value);
+        }
+
         private FolderLayoutInformation layoutModeInformation;
 
         public FolderLayoutInformation LayoutModeInformation
@@ -102,11 +109,20 @@ namespace Files.ViewModels
 
         public event EventHandler GridViewSizeChangeRequested;
 
+        public RelayCommand ReEnableAdaptiveLayout => new RelayCommand(async () =>
+        {
+            AdaptiveLayoutSuggestionApplied = true; // For check
+            AdaptiveLayoutSuggestionApplied = await AdaptiveLayoutHelpers.PredictLayoutMode(associatedInstance);
+            LayoutPreference.AdaptiveLayoutDisabledOverride = false;
+            UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+            AdaptiveLayoutSuggestionOverriden = false;
+        });
+
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
             if (manuallySet && AdaptiveLayoutSuggestionApplied)
-            { // Override preferred layout mode
-                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewLarge");
+            { // Override preferred gridview size
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
             }
 
             LayoutMode = FolderLayoutModes.GridView; // Details View
@@ -119,8 +135,8 @@ namespace Files.ViewModels
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
             if (manuallySet && AdaptiveLayoutSuggestionApplied)
-            { // Override preferred layout mode
-                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewMedium");
+            { // Override preferred gridview size
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
             }
 
             LayoutMode = FolderLayoutModes.GridView; // Grid View
@@ -133,7 +149,7 @@ namespace Files.ViewModels
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
             if (manuallySet && AdaptiveLayoutSuggestionApplied)
-            { // Override preferred layout mode
+            { // Override preferred gridview size
                 AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
             }
 
@@ -146,6 +162,14 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeTiles => new RelayCommand<bool>((manuallySet) =>
         {
+            if ((manuallySet && AdaptiveLayoutSuggestionApplied) || LayoutPreference.AdaptiveLayoutDisabledOverride)
+            { // Override preferred layout mode
+                AdaptiveLayoutSuggestionOverriden = true;
+                AdaptiveLayoutSuggestionApplied = false;
+                LayoutPreference.AdaptiveLayoutDisabledOverride = true;
+                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+            }
+
             LayoutMode = FolderLayoutModes.TilesView; // Tiles View
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
@@ -153,6 +177,14 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
         {
+            if ((manuallySet && AdaptiveLayoutSuggestionApplied) || LayoutPreference.AdaptiveLayoutDisabledOverride)
+            { // Override preferred layout mode
+                AdaptiveLayoutSuggestionOverriden = true;
+                AdaptiveLayoutSuggestionApplied = false;
+                LayoutPreference.AdaptiveLayoutDisabledOverride = true;
+                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+            }
+
             LayoutMode = FolderLayoutModes.DetailsView; // Details View
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
@@ -287,7 +319,7 @@ namespace Files.ViewModels
 
         private void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && !AdaptiveLayoutSuggestionApplied)
+            if (App.AppSettings.AreLayoutPreferencesPerFolder || (AdaptiveLayoutSuggestionOverriden && App.AppSettings.AdaptiveLayoutEnabled))
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)
@@ -331,8 +363,8 @@ namespace Files.ViewModels
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             if (dataContainer.Values.ContainsKey(folderPath))
             {
-                var val = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
-                return LayoutPreferences.FromCompositeValue(val);
+                ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
+                return LayoutPreferences.FromCompositeValue(adcv);
             }
             else
             {
@@ -362,6 +394,8 @@ namespace Files.ViewModels
             public FolderLayoutModes LayoutMode;
             public int GridViewSize;
 
+            public bool AdaptiveLayoutDisabledOverride;
+
             public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
 
             public LayoutPreferences()
@@ -370,6 +404,8 @@ namespace Files.ViewModels
                 this.GridViewSize = App.AppSettings.DefaultGridViewSize;
                 this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
                 this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
+
+                this.AdaptiveLayoutDisabledOverride = false; // Default is always turned on for every dir
             }
 
             public static LayoutPreferences FromCompositeValue(ApplicationDataCompositeValue compositeValue)
@@ -379,7 +415,8 @@ namespace Files.ViewModels
                     LayoutMode = (FolderLayoutModes)(int)compositeValue[nameof(LayoutMode)],
                     GridViewSize = (int)compositeValue[nameof(GridViewSize)],
                     DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
-                    DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)]
+                    DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
+                    AdaptiveLayoutDisabledOverride = (bool)compositeValue[nameof(AdaptiveLayoutDisabledOverride)]
                 };
             }
 
@@ -391,6 +428,7 @@ namespace Files.ViewModels
                     { nameof(GridViewSize), this.GridViewSize },
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
+                    { nameof(AdaptiveLayoutDisabledOverride), (bool)this.AdaptiveLayoutDisabledOverride }
                 };
             }
 
@@ -410,7 +448,8 @@ namespace Files.ViewModels
                         prefs.LayoutMode == this.LayoutMode &&
                         prefs.GridViewSize == this.GridViewSize &&
                         prefs.DirectorySortOption == this.DirectorySortOption &&
-                        prefs.DirectorySortDirection == this.DirectorySortDirection);
+                        prefs.DirectorySortDirection == this.DirectorySortDirection &&
+                        prefs.AdaptiveLayoutDisabledOverride == this.AdaptiveLayoutDisabledOverride);
                 }
                 return base.Equals(obj);
             }
