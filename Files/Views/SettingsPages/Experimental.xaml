@@ -5,10 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converters="using:Files.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
-        <settingsviewmodels:ExperimentalViewModel />
+        <settingsviewmodels:ExperimentalViewModel x:Name="viewModel" />
     </Page.DataContext>
 
     <Grid>
@@ -45,6 +47,24 @@
                     Header="Cache files and folders for better performance"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding UseFileListCache, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsUsePreemptiveCache"
+                    Header="Use preemptive cache (preload entries in child directories on navigation)"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding UsePreemptiveCache, Mode=TwoWay}"
+                    IsEnabled="{Binding UseFileListCache, Mode=OneWay}"/>
+
+                <controls:NumberBox 
+                    x:Uid="PreemptiveCacheParallelLimits"
+                    HorizontalAlignment="Left"
+                    Header="Preemptive cache parallel limit (smaller numbers should work better for hard drives)" 
+                    SpinButtonPlacementMode="Inline"
+                    Width="450"
+                    Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" 
+                    Minimum="1" 
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(viewModel.UseFileListCache, viewModel.UsePreemptiveCache), Mode=OneWay}"/>
                 
                 <ToggleSwitch
                     x:Uid="SettingsShowMultiselectOption"

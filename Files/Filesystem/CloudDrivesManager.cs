@@ -5,8 +5,6 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -16,10 +14,8 @@ namespace Files.Filesystem
 {
     public class CloudDrivesManager : ObservableObject
     {
-        private static readonly Task<CloudDrivesManager> _instanceTask = CreateSingleton();
-
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -33,16 +29,18 @@ namespace Files.Filesystem
         }
 
         //Private as we want to prevent CloudDriveManager being constructed manually
-        private CloudDrivesManager()
-        { }
+        public CloudDrivesManager()
+        {
+        }
 
-        private async Task<CloudDrivesManager> EnumerateDrivesAsync()
+        public async Task<CloudDrivesManager> EnumerateDrivesAsync()
         {
             var cloudProviderController = new CloudProviderController();
-            await cloudProviderController.DetectInstalledCloudProvidersAsync();
+            var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
 
-            foreach (var provider in cloudProviderController.CloudProviders)
+            foreach (var provider in cloudProviders)
             {
+                Logger.Info($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
                 var cloudProviderItem = new DriveItem()
                 {
                     Text = provider.Name,
@@ -51,7 +49,10 @@ namespace Files.Filesystem
                 };
                 lock (drivesList)
                 {
-                    drivesList.Add(cloudProviderItem);
+                    if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
+                    {
+                        drivesList.Add(cloudProviderItem);
+                    }
                 }
             }
 
@@ -60,22 +61,15 @@ namespace Files.Filesystem
             return this;
         }
 
-        private static async Task<CloudDrivesManager> CreateSingleton()
-        {
-            var drives = new CloudDrivesManager();
-            return await drives.EnumerateDrivesAsync();
-        }
-
-        public static Task<CloudDrivesManager> Instance => _instanceTask;
-
         private async Task RefreshUI()
         {
             try
             {
                 await SyncSideBarItemsUI();
             }
-            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
+            catch (Exception ex) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
+                Logger.Error(ex, "UI thread not ready yet");
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
@@ -84,25 +78,28 @@ namespace Files.Filesystem
 
         private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await SyncSideBarItemsUI();
             CoreApplication.MainView.Activated -= RefreshUI;
+            await SyncSideBarItemsUI();
         }
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                lock (MainPage.SideBarItems)
+                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
+                    var drivesSnapshot = Drives.OrderBy(o => o.Text).ToList();
+
                     var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
 
-                    if (drivesSection != null && Drives.Count == 0)
+                    if (drivesSection != null && drivesSnapshot.Count == 0)
                     {
                         //No drives - remove the header
                         MainPage.SideBarItems.Remove(drivesSection);
                     }
 
-                    if (drivesSection == null && Drives.Count > 0)
+                    if (drivesSection == null && drivesSnapshot.Count > 0)
                     {
                         drivesSection = new HeaderTextItem()
                         {
@@ -125,8 +122,6 @@ namespace Files.Filesystem
                         }
                     }
 
-                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-
                     //Remove all existing cloud drives from the sidebar
                     foreach (var item in MainPage.SideBarItems
                         .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
@@ -136,12 +131,17 @@ namespace Files.Filesystem
                     }
 
                     //Add all cloud drives to the sidebar
-                    var insertAt = sectionStartIndex + 1;
-                    foreach (var drive in Drives.OrderBy(o => o.Text))
+                    var insertAt = MainPage.SideBarItems.IndexOf(drivesSection) + 1;
+                    foreach (var drive in drivesSnapshot)
                     {
                         MainPage.SideBarItems.Insert(insertAt, drive);
                         insertAt++;
                     }
+                    MainPage.SideBarItems.EndBulkOperation();
+                }
+                finally
+                {
+                    MainPage.SideBarItemsSemaphore.Release();
                 }
             });
         }

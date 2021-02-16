@@ -9,7 +9,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.Filesystem.Cloud.Providers
 {
-    public class OneDriveCloudProvider : ICloudProviderDetector
+    public class OneDriveSharePointCloudProvider : ICloudProviderDetector
     {
         public async Task<IList<CloudProvider>> DetectAsync()
         {
@@ -20,14 +20,13 @@ namespace Files.Filesystem.Cloud.Providers
                 {
                     var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
                     {
-                        { "Arguments", "GetOneDriveAccounts" }
+                        { "Arguments", "GetSharePointSyncLocationsFromOneDrive" }
                     }, TimeSpan.FromSeconds(10));
                     if (status == AppServiceResponseStatus.Success)
                     {
                         var results = new List<CloudProvider>();
                         foreach (var key in response.Message.Keys
-                            .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
-                            .ThenBy(o => o))
+                            .OrderBy(o => o))
                         {
                             results.Add(new CloudProvider()
                             {

@@ -522,7 +522,7 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path);
+                        opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
                     }
                     if (opened)
                     {
@@ -612,6 +612,12 @@ namespace Files.Interacts
 
                                         case Enums.SortOption.DateModified:
                                             sortEntry.PropertyName = "System.DateModified";
+                                            queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
+                                            break;
+
+                                        case Enums.SortOption.DateCreated:
+                                            sortEntry.PropertyName = "System.DateCreated";
                                             queryOptions.SortOrder.Clear();
                                             queryOptions.SortOrder.Add(sortEntry);
                                             break;
