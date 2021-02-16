@@ -39,7 +39,8 @@ namespace Files.ViewModels
             }
         }
 
-        public bool AdaptiveLayoutSuggestionApplied { get; set; }
+        public string LastLayoutModeSelected { get; private set; } = "";
+        public bool AdaptiveLayoutSuggestionApplied { get; private set; }
 
         private bool adaptiveLayoutSuggestionOverriden;
         public bool AdaptiveLayoutSuggestionOverriden 
@@ -120,42 +121,69 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
-            if (manuallySet && AdaptiveLayoutSuggestionApplied)
+            if (LastLayoutModeSelected == "GridViewSmall" || LastLayoutModeSelected == "GridViewMedium" || LastLayoutModeSelected == "GridViewLarge")
             { // Override preferred gridview size
-                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewLarge");
+            }
+            else if ((manuallySet && AdaptiveLayoutSuggestionApplied) || LayoutPreference.AdaptiveLayoutDisabledOverride)
+            { // Override preferred layout mode
+                AdaptiveLayoutSuggestionOverriden = true;
+                AdaptiveLayoutSuggestionApplied = false;
+                LayoutPreference.AdaptiveLayoutDisabledOverride = true;
+                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
             }
 
             LayoutMode = FolderLayoutModes.GridView; // Details View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
+            LastLayoutModeSelected = "GridViewLarge";
+
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
-            if (manuallySet && AdaptiveLayoutSuggestionApplied)
+            if (LastLayoutModeSelected == "GridViewSmall" || LastLayoutModeSelected == "GridViewMedium" || LastLayoutModeSelected == "GridViewLarge")
             { // Override preferred gridview size
-                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
+                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewMedium");
+            }
+            else if ((manuallySet && AdaptiveLayoutSuggestionApplied) || LayoutPreference.AdaptiveLayoutDisabledOverride)
+            { // Override preferred layout mode
+                AdaptiveLayoutSuggestionOverriden = true;
+                AdaptiveLayoutSuggestionApplied = false;
+                LayoutPreference.AdaptiveLayoutDisabledOverride = true;
+                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
             }
 
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
 
+            LastLayoutModeSelected = "GridViewMedium";
+
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
-            if (manuallySet && AdaptiveLayoutSuggestionApplied)
+            if (LastLayoutModeSelected == "GridViewSmall" || LastLayoutModeSelected == "GridViewMedium" || LastLayoutModeSelected == "GridViewLarge")
             { // Override preferred gridview size
                 AdaptiveLayoutHelpers.SetPreferredLayout("GridViewSmall");
+            }
+            else if ((manuallySet && AdaptiveLayoutSuggestionApplied) || LayoutPreference.AdaptiveLayoutDisabledOverride)
+            { // Override preferred layout mode
+                AdaptiveLayoutSuggestionOverriden = true;
+                AdaptiveLayoutSuggestionApplied = false;
+                LayoutPreference.AdaptiveLayoutDisabledOverride = true;
+                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
             }
 
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
+
+            LastLayoutModeSelected = "GridViewSmall";
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
@@ -172,6 +200,8 @@ namespace Files.ViewModels
 
             LayoutMode = FolderLayoutModes.TilesView; // Tiles View
 
+            LastLayoutModeSelected = "TilesView";
+
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
@@ -186,6 +216,8 @@ namespace Files.ViewModels
             }
 
             LayoutMode = FolderLayoutModes.DetailsView; // Details View
+
+            LastLayoutModeSelected = "DetailsView";
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
