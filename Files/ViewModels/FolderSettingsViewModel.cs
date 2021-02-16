@@ -40,7 +40,7 @@ namespace Files.ViewModels
         }
 
         public string LastLayoutModeSelected { get; private set; } = "";
-        public bool AdaptiveLayoutSuggestionApplied { get; private set; }
+        public bool AdaptiveLayoutSuggestionApplied { get; set; }
 
         private bool adaptiveLayoutSuggestionOverriden;
         public bool AdaptiveLayoutSuggestionOverriden 

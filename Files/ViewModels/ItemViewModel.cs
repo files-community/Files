@@ -999,14 +999,7 @@ namespace Files.ViewModels
                 }
 
                 bool successfulPrediction = await AdaptiveLayoutHelpers.PredictLayoutMode(AssociatedInstance);
-                if (successfulPrediction)
-                {
-                    FolderSettings.AdaptiveLayoutSuggestionApplied = true;
-                }
-                else
-                {
-                    FolderSettings.AdaptiveLayoutSuggestionApplied = false;
-                }
+                FolderSettings.AdaptiveLayoutSuggestionApplied = successfulPrediction;
             }
             catch (ObjectDisposedException ex)
             {
