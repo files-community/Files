@@ -155,7 +155,7 @@
 
                             <Button
                                 Content="Re-enable Adaptive Layout"
-                                x:Uid="StatusBarControlReEnableAdaptiveLayout"
+                                x:Uid="ReEnableAdaptiveLayout"
                                 x:Name="StatusBarControlReEnableAdaptiveLayout"
                                 x:Load="{x:Bind FolderSettings.AdaptiveLayoutSuggestionOverriden, Mode=OneWay}"
                                 Command="{x:Bind FolderSettings.ReEnableAdaptiveLayout, Mode=OneWay}"

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Files.Enums;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Files.ViewModels.Previews;
 
 namespace Files.Helpers
 {
@@ -165,18 +166,12 @@ namespace Files.Helpers
                     
                     !string.IsNullOrEmpty(item.FileExtension)
 
-                    && (item.FileExtension.Equals(".svg", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase)
+                    // Images
+                    && (ImagePreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
 
-                    || item.FileExtension.Equals(".mp4", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".mkv", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".webm", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".ogg", StringComparison.OrdinalIgnoreCase)
-                    || item.FileExtension.Equals(".qt", StringComparison.OrdinalIgnoreCase)
-
-                    || item.FileExtension.Equals(".gif", StringComparison.OrdinalIgnoreCase))).Count();
+                    // Audio & Video
+                    || MediaPreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
+                    )).Count();
 
                 int foldersCount = associatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
 

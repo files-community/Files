@@ -74,7 +74,7 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsEnableAdaptiveLayout"
-                    Header="Enable Adaptive Layout that dynamically adjusts based on the directory context"
+                    Header="Enable Adaptive Layout that dynamically adjusts the layout mode"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AdaptiveLayoutEnabled, Mode=TwoWay}" />
             </StackPanel>
