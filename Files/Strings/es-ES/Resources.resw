@@ -1695,4 +1695,49 @@
   <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Habilitar el panel de vista previa adaptable</value>
   </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Multiselección</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Habilitar opción de selección múltiple (No disponible en el modo de vista "Detalles") </value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Si cambia la extensión de un archivo, el archivo puede quedar inutilizable. ¿Estás seguro de que quieres cambiarlo? </value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD ROM</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Unidad en la nube</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Disco local</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Disquete</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Unidad de red</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Unidad desmontada</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>Unidad de RAM (RAMDisk)</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Unidad extraíble</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Unidad virtual</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Fecha de creación</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Fecha de creación</value>
+  </data>
 </root>
