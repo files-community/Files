@@ -81,7 +81,7 @@ namespace FilesFullTrust
                     binWatchers.Add(watcher);
                 }
 
-                // Preload context menu for better performace
+                // Preload context menu for better performance
                 // We query the context menu for the app's local folder
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
                 using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));

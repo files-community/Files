@@ -116,7 +116,7 @@ namespace Files.DataModels
                 return;
             }
 
-            // A backup of the items, because the swapping of items requires removing and inserting them in the corrent position
+            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
             var sidebarItemsBackup = new List<string>(this.Items);
 
             try
@@ -148,7 +148,7 @@ namespace Files.DataModels
                 || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
-                Debug.WriteLine($"An error occured while swapping pinned items in the navigation sidebar. {ex.Message}");
+                Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
                 _ = this.AddAllItemsToSidebar();

@@ -55,20 +55,20 @@
                     IsOn="{Binding UsePreemptiveCache, Mode=TwoWay}"
                     IsEnabled="{Binding UseFileListCache, Mode=OneWay}"/>
 
-                <controls:NumberBox 
+                <controls:NumberBox
                     x:Uid="PreemptiveCacheParallelLimits"
                     HorizontalAlignment="Left"
-                    Header="Preemptive cache parallel limit (smaller numbers should work better for hard drives)" 
+                    Header="Preemptive cache parallel limit (smaller numbers should work better for hard drives)"
                     SpinButtonPlacementMode="Inline"
                     Width="450"
-                    Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" 
-                    Minimum="1" 
+                    Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}"
+                    Minimum="1"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(viewModel.UseFileListCache, viewModel.UsePreemptiveCache), Mode=OneWay}"/>
-                
+
                 <ToggleSwitch
                     x:Uid="SettingsShowMultiselectOption"
-                    Header="Enable multiselect options (currently only abailable in the tiles and grid view layout modes)"
+                    Header="Enable multiselect options (currently only available in the tiles and grid view layout modes)"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowMultiselectOption, Mode=TwoWay}" />
             </StackPanel>
