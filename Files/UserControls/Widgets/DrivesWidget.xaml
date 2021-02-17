@@ -30,8 +30,8 @@
             <!--  Map Drive button  -->
             <Button x:Uid="DrivesWidgetMoreOptionsButton"
                     Grid.Column="1"
-                    Width="29"
-                    Height="25"
+                    Width="36"
+                    Height="32"
                     Padding="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
@@ -39,6 +39,7 @@
                     VerticalContentAlignment="Center"
                     Background="Transparent"
                     Style="{StaticResource ButtonRevealStyle}"
+                    AutomationProperties.Name="More drives options"
                     ToolTipService.ToolTip="More options...">
 
                 <FontIcon HorizontalAlignment="Center"
