@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.ViewModels.FolderSettingsViewModel;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.ViewModels
@@ -1079,7 +1080,8 @@ namespace Files.ViewModels
                         }
                     }
                 }
-
+                AssociatedInstance.InstanceViewModel.FolderSettings.LayoutPreference = AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutPreferencesForPath(path);
+                AssociatedInstance.InstanceViewModel.FolderSettings.AdaptiveLayoutSuggestionOverriden = AssociatedInstance.InstanceViewModel.FolderSettings.LayoutPreference.AdaptiveLayoutDisabledOverride;
                 bool successfulPrediction = await AdaptiveLayoutHelpers.PredictLayoutMode(AssociatedInstance);
                 FolderSettings.AdaptiveLayoutSuggestionApplied = successfulPrediction;
             }

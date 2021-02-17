@@ -67,7 +67,7 @@ namespace Files.Helpers
 
         public static async Task<bool> PredictLayoutMode(IShellPage associatedInstance)
         {
-            if (App.AppSettings.AdaptiveLayoutEnabled)
+            if (App.AppSettings.AdaptiveLayoutEnabled && !associatedInstance.InstanceViewModel.FolderSettings.AdaptiveLayoutSuggestionOverriden)
             {
                 bool desktopIniFound = false;
                 List<string> preferredLayouts = GetPreferredLayouts();
@@ -92,7 +92,7 @@ namespace Files.Helpers
                     }
                 }
 
-                if (associatedInstance.ServiceConnection != null)
+                if (associatedInstance.ServiceConnection != null && false) // TODO: JUST FOR TESTS
                 {
                     AppServiceResponse response = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                     {
