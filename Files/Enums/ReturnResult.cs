@@ -14,7 +14,7 @@ namespace Files.Enums
         InProgress = 0,
 
         /// <summary>
-        /// Informs that operation completed sucessfully
+        /// Informs that operation completed successfully
         /// </summary>
         Success = 1,
 

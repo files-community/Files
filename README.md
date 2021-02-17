@@ -20,11 +20,11 @@ We can confidently assert Files is the platform's best file explorer project to 
 ## Vision for Files
 In the short term, we plan to focus on crucial functionality to achieve parity with Windows File Explorer. Before leaving beta, we'll address many of these pain points and improve accessibility. Later on, the project will reach a point where we can fully celebrate our core audience by adding sought-after power user features. Stay tuned!
 
-## How to build Files from the source code
-- Install Visual Studio 2019 & UWP Development Kit.
-- Clone the source and open the Files.sln in VS.
-- VS installs all missing dependencies for you.
-- Launch the package project.
+## Building Files source
+- Install Visual Studio 2019 and the UWP Development Kit.
+- Clone the repository and open the `Files.sln` in VS.
+- Visual Studio will install all missing dependencies.
+- Run the `Files.Package` project.
 
 ## FAQ
 Have any questions? Check out our documentation [site](https://files-community.github.io/docs/#/)!

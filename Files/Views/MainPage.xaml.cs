@@ -498,7 +498,7 @@ namespace Files.Views
             {
                 await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             }
-            else // ctrl + shif + t, restore recently closed tab
+            else // ctrl + shift + t, restore recently closed tab
             {
                 if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
                 {

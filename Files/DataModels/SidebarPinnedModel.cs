@@ -116,7 +116,7 @@ namespace Files.DataModels
                 return;
             }
 
-            // A backup of the items, because the swapping of items requires removing and inserting them in the corrent position
+            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
             var sidebarItemsBackup = new List<string>(this.Items);
 
             try
@@ -148,7 +148,7 @@ namespace Files.DataModels
                 || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
-                Debug.WriteLine($"An error occured while swapping pinned items in the navigation sidebar. {ex.Message}");
+                Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
                 _ = this.AddAllItemsToSidebar();
@@ -190,7 +190,7 @@ namespace Files.DataModels
         {
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-            if (res || (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path))
+            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                 && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;

@@ -16,6 +16,7 @@ namespace Files.Filesystem.Cloud
                 new BoxCloudProvider(),
                 new AppleCloudProvider(),
                 new AmazonDriveProvider(),
+                new OneDriveSharePointCloudProvider(),
             };
 
         public async Task<List<CloudProvider>> DetectInstalledCloudProvidersAsync()

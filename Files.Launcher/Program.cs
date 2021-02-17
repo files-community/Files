@@ -81,7 +81,7 @@ namespace FilesFullTrust
                     binWatchers.Add(watcher);
                 }
 
-                // Preload context menu for better performace
+                // Preload context menu for better performance
                 // We query the context menu for the app's local folder
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
                 using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
@@ -338,6 +338,64 @@ namespace FilesFullTrust
                             }
                         }
                         await args.Request.SendResponseAsync(oneDriveAccounts);
+                    }
+                    catch
+                    {
+                        await args.Request.SendResponseAsync(new ValueSet());
+                    }
+                    break;
+
+                case "GetSharePointSyncLocationsFromOneDrive":
+                    try
+                    {
+                        using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+
+                        if (oneDriveAccountsKey == null)
+                        {
+                            await args.Request.SendResponseAsync(new ValueSet());
+                            return;
+                        }
+
+                        var sharepointAccounts = new ValueSet();
+
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolderToExcludeFromResults = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "SharePoint" : $"SharePoint - {displayName}";
+
+                            var sharePointSyncFolders = new List<string>();
+                            var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
+                            using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
+                            {
+                                if (mountPointsKey == null)
+                                {
+                                    continue;
+                                }
+
+                                var valueNames = mountPointsKey.GetValueNames();
+                                foreach (var valueName in valueNames)
+                                {
+                                    var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
+                                    if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        sharePointSyncFolders.Add(value);
+                                    }
+                                }
+                            }
+
+                            foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
+                            {
+                                var parentFolder = System.IO.Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
+                                if (!sharepointAccounts.Any(acc => string.Equals(acc.Key, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
+                                {
+                                    sharepointAccounts.Add(accountName, parentFolder);
+                                }
+                            }
+                        }
+
+                        await args.Request.SendResponseAsync(sharepointAccounts);
                     }
                     catch
                     {
