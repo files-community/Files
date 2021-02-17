@@ -13,15 +13,56 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <StackPanel Spacing="12">
-        <TextBlock
-            x:Uid="DrivesWidgetDescription"
-            HorizontalAlignment="Left"
-            FontFamily="Segoe UI"
-            FontSize="14"
-            FontWeight="Medium"
-            Opacity=".8"
-            Text="Drives" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock x:Uid="DrivesWidgetDescription"
+                       HorizontalAlignment="Left"
+                       FontFamily="Segoe UI"
+                       FontSize="14"
+                       FontWeight="Medium"
+                       Opacity=".8"
+                       Text="Drives" />
 
+            <!--  Map Drive button  -->
+            <Button x:Uid="DrivesWidgetMoreOptionsButton"
+                    Grid.Column="1"
+                    Width="36"
+                    Height="32"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="Transparent"
+                    Style="{StaticResource ButtonRevealStyle}"
+                    AutomationProperties.Name="More drives options"
+                    ToolTipService.ToolTip="More options...">
+
+                <FontIcon HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          FontFamily="Segoe MDL2 Assets"
+                          FontSize="14"
+                          Glyph="&#xe712;" />
+
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem"
+                                        Click="MapNetworkDrive_Click"
+                                        Text="Map network drive">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                                          Glyph="&#xE903;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        
         <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
@@ -125,6 +166,16 @@
                                             Click="EjectDevice_Click"
                                             DataContext="{x:Bind}"
                                             Text="Eject">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="DisconnectNetworkDrive"
+                                            x:Uid="SideBarDisconnectNetworkDrive"
+                                            x:Load="{x:Bind IsNetwork, Mode=OneWay}"
+                                            Click="DisconnectNetworkDrive_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Disconnect">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
                                             </MenuFlyoutItem.Icon>

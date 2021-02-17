@@ -46,13 +46,12 @@ namespace Files.Filesystem
         private DeviceWatcher deviceWatcher;
         private bool driveEnumInProgress;
 
-        //Private as we want to prevent CloudDriveManager being constructed manually
         public DrivesManager()
         {
             SetupDeviceWatcher();
         }
 
-        public async Task<DrivesManager> EnumerateDrivesAsync()
+        public async Task EnumerateDrivesAsync()
         {
             driveEnumInProgress = true;
 
@@ -69,8 +68,6 @@ namespace Files.Filesystem
             StartDeviceWatcher();
 
             driveEnumInProgress = false;
-
-            return this;
         }
 
         private void SetupDeviceWatcher()
@@ -124,8 +121,9 @@ namespace Files.Filesystem
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var drivesSnapshot = Drives.ToList();
+                    MainPage.SideBarItems.BeginBulkOperation();
 
+                    var drivesSnapshot = Drives.ToList();
                     var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
 
                     if (drivesSection != null && drivesSnapshot.Count == 0)
@@ -146,18 +144,22 @@ namespace Files.Filesystem
                         MainPage.SideBarItems.Add(drivesSection);
                     }
 
+                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+                    var insertAt = sectionStartIndex + 1;
+
                     //Remove all existing drives from the sidebar
-                    foreach (var item in MainPage.SideBarItems
-                    .Where(x => x.ItemType == NavigationControlItemType.Drive)
-                    .ToList())
+                    while (insertAt < MainPage.SideBarItems.Count)
                     {
+                        var item = MainPage.SideBarItems[insertAt];
+                        if (item.ItemType != NavigationControlItemType.Drive)
+                        {
+                            break;
+                        }
                         MainPage.SideBarItems.Remove(item);
                         DrivesWidget.ItemsAdded.Remove(item);
                     }
 
                     //Add all drives to the sidebar
-                    drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
-                    var insertAt = MainPage.SideBarItems.IndexOf(drivesSection) + 1;
                     foreach (var drive in drivesSnapshot)
                     {
                         MainPage.SideBarItems.Insert(insertAt, drive);

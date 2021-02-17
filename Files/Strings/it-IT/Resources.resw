@@ -1656,7 +1656,127 @@
   <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
     <value>Nessun dettaglio disponibile</value>
   </data>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Mostra i Gruppi nella schermata iniziale</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Dischi di rete</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Rete</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Proprietà</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Dettagli file</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Anteprima file</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Riquadro dell'anteprima dell'elemento selezionato</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Documentazione</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Impara trucchi e altro ancora riguardo a Files</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visita la documentazione di Files sul sito</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Lista operazioni in corso</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Disponibile solo online</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Disponibile offline</value>
+  </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Parzialmente disponibile offline</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>In sincronizzazione</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Escluso dalla sincronizzazione</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Non calcolato</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Sconosciuto</value>
+  </data>
   <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Abilita anteprima adattiva</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Selezione multipla</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Abilita selezione multipla (per ora disponibile solo nelle modalità Elenco e Icone)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Modificando l'estensione il file potrebbe essere inutilizzabile. Vuoi cambiare l'estensione del file?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD ROM</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Disco Cloud</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Disco Fisso</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Disco Floppy</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Disco di Rete</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Disco non montato</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>Disco RAM</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Dispositivo Rimuovibile</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Sconosciuto</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Disco Virtuale</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Data creazione</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Data creazione</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Altre opzioni...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Connetti disco di rete</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Disconnetti</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Limite di parallelizzazione della cache predittiva (per un hard disk è consigliato un numero piccolo)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Usa cache predittiva (precarica le sottocartelle durante la navigazione)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Altre opzioni dei gruppi</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Altre opzioni delle unità</value>
   </data>
 </root>

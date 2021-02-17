@@ -1773,6 +1773,12 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Unpin directory from sidebar</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Network drives</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Network</value>
+  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>File details</value>
   </data>
@@ -1860,7 +1866,22 @@
   <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>Date created</value>
   </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Map network drive</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
   <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
     <value>Use preemptive cache (preload entries in child directories on navigation)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More bundles options</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More drives options</value>
   </data>
 </root>

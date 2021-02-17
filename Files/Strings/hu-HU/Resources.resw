@@ -1707,4 +1707,40 @@
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ha a fájlnév kiterjesztését módosítja, akkor a fájl használhatatlanná válhat. Végrehajtja a módosítást?</value>
   </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-RW-meghajtó</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Felhőtárhely</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Helyi lemez</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Floppy Meghajtó</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Hálózati meghajtó</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Objektumnév nélküli helyi lemez</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM meghajtó</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Eltávolítható meghajtó</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Ismeretlen</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtuális meghajtó</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Létrehozás dátuma</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Létrehozás dátuma</value>
+  </data>
 </root>

@@ -925,7 +925,6 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            associatedInstance?.Dispose();
             filesystemOperations?.Dispose();
             recycleBinHelpers?.Dispose();
 

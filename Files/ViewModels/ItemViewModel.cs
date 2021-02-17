@@ -339,7 +339,7 @@ namespace Files.ViewModels
                         jumpedToItem = candidateItems.FirstOrDefault();
                     }
 
-                    if (jumpedToItem != null)
+                    if (AssociatedInstance.ContentPage != null && jumpedToItem != null)
                     {
                         AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
                         AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
@@ -773,7 +773,7 @@ namespace Files.ViewModels
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
                         }, Windows.UI.Core.CoreDispatcherPriority.Low);
-                        if (!item.IsShortcutItem && !item.IsHiddenItem)
+                        if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
@@ -821,7 +821,7 @@ namespace Files.ViewModels
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
                         }, Windows.UI.Core.CoreDispatcherPriority.Low);
-                        if (!item.IsShortcutItem && !item.IsHiddenItem)
+                        if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
@@ -903,6 +903,11 @@ namespace Files.ViewModels
 
             CancelLoadAndClearFiles();
 
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+
             try
             {
                 // Only one instance at a time should access this function
@@ -975,9 +980,11 @@ namespace Files.ViewModels
                     });
                 }
 
-                if (path.StartsWith(AppSettings.RecycleBinPath))
+                if (path.StartsWith(AppSettings.RecycleBinPath) ||
+                    path.StartsWith(AppSettings.NetworkFolderPath) ||
+                    path.StartsWith("ftp:"))
                 {
-                    // Recycle bin is special as files are enumerated by the fulltrust process
+                    // Recycle bin and network are enumerated by the fulltrust process
                     await EnumerateItemsFromSpecialFolderAsync(path);
                 }
                 else
@@ -1041,7 +1048,7 @@ namespace Files.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(previousDir))
                 {
-                    if (previousDir.Contains(path) && !previousDir.Contains("Shell:RecycleBinFolder"))
+                    if (previousDir.Contains(path) && !previousDir.Contains(AppSettings.RecycleBinPath))
                     {
                         // Remove the WorkingDir from previous dir
                         previousDir = previousDir.Replace(path, string.Empty);
@@ -1069,7 +1076,7 @@ namespace Files.ViewModels
 
                         ListedItem itemToSelect = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                        if (itemToSelect != null)
+                        if (AssociatedInstance.ContentPage != null && itemToSelect != null)
                         {
                             AssociatedInstance.ContentPage.SetSelectedItemOnUi(itemToSelect);
                             AssociatedInstance.ContentPage.ScrollIntoView(itemToSelect);
@@ -1111,7 +1118,7 @@ namespace Files.ViewModels
                 ItemPropertiesInitialized = true,
                 ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
-                ItemDateCreatedReal = DateTimeOffset.MinValue, // Fake for now
+                ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
@@ -1128,8 +1135,9 @@ namespace Files.ViewModels
                 {
                     var sampler = new IntervalSampler(500);
                     var value = new ValueSet();
-                    value.Add("Arguments", "RecycleBin");
+                    value.Add("Arguments", "ShellFolder");
                     value.Add("action", "Enumerate");
+                    value.Add("folder", path);
                     // Send request to fulltrust process to enumerate recyclebin items
                     var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
                     // If the request was canceled return now
@@ -1286,8 +1294,8 @@ namespace Files.ViewModels
                     return (hFileTsk, findDataTsk);
                 }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                var itemModifiedDate = DateTime.UtcNow;
-                var itemCreatedDate = DateTime.MinValue;
+                var itemModifiedDate = DateTime.Now;
+                var itemCreatedDate = DateTime.Now;
                 try
                 {
                     FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
@@ -1805,11 +1813,11 @@ namespace Files.ViewModels
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
             {
-                storageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                storageItem = (await GetFileFromPathAsync(item.ItemPath)).Result;
             }
             else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                storageItem = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                storageItem = (await GetFolderFromPathAsync(item.ItemPath)).Result;
             }
             if (storageItem != null)
             {

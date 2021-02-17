@@ -55,7 +55,14 @@ namespace Files.Filesystem
         {
             List<PathBoxItem> pathBoxItems = new List<PathBoxItem>();
 
-            if (!value.EndsWith("\\"))
+            if (value.Contains("/"))
+            {
+                if (!value.EndsWith("/"))
+                {
+                    value += "/";
+                }
+            }
+            else if (!value.EndsWith("\\"))
             {
                 value += "\\";
             }
@@ -64,7 +71,7 @@ namespace Files.Filesystem
 
             for (var i = 0; i < value.Length; i++)
             {
-                if (value[i] == '\\' || value[i] == '?')
+                if (value[i] == Path.DirectorySeparatorChar || value[i] == Path.AltDirectorySeparatorChar || value[i] == '?')
                 {
                     if (lastIndex == i)
                     {
@@ -74,7 +81,10 @@ namespace Files.Filesystem
 
                     var component = value.Substring(lastIndex, i - lastIndex);
                     var path = value.Substring(0, i + 1);
-                    pathBoxItems.Add(GetPathItem(component, path));
+                    if (!path.Equals("ftp:/", StringComparison.OrdinalIgnoreCase))
+                    {
+                        pathBoxItems.Add(GetPathItem(component, path));
+                    }
 
                     lastIndex = i + 1;
                 }
@@ -216,8 +226,6 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
-            path = path.Replace('/', '\\');
-
             if (path.StartsWith("~\\"))
             {
                 path = $"{AppSettings.HomePath}{path.Remove(0, 1)}";

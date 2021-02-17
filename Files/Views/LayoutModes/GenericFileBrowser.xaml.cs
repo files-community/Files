@@ -321,6 +321,10 @@ namespace Files.Views.LayoutModes
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            if (SelectedItem == null)
+            {
+                return;
+            }
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
