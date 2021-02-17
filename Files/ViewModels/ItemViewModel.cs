@@ -752,7 +752,7 @@ namespace Files.ViewModels
                 {
                     await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
                 }
-                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+                catch (OperationCanceledException)
                 {
                     return;
                 }
@@ -911,7 +911,7 @@ namespace Files.ViewModels
                 // simply drop this instance
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            catch (OperationCanceledException)
             {
                 return;
             }
@@ -1076,10 +1076,6 @@ namespace Files.ViewModels
                         }
                     }
                 }
-            }
-            catch (ObjectDisposedException ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             finally
             {
@@ -1831,7 +1827,7 @@ namespace Files.ViewModels
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            catch (OperationCanceledException)
             {
                 return;
             }
@@ -1876,7 +1872,7 @@ namespace Files.ViewModels
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            catch (OperationCanceledException)
             {
                 return;
             }
