@@ -46,6 +46,12 @@ namespace Files.Views
                 }
                 catch
                 {
+                    // Attempting to open more than one ContentDialog
+                    // at a time will throw an error)
+                    if (Interacts.Interaction.IsAnyContentDialogOpen())
+                    {
+                        return false;
+                    }
                     await dialog.ShowAsync();
                     switch (dialog.DynamicResult)
                     {
@@ -59,12 +65,6 @@ namespace Files.Views
                             return false;
                     }
                 }
-
-                // Wait for the current dialog to be closed before continuing the loop
-                // and opening another dialog (attempting to open more than one ContentDialog
-                // at a time will throw an error)
-                while (dialog.IsLoaded)
-                { }
             }
         }
 

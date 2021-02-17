@@ -339,7 +339,7 @@ namespace Files.ViewModels
                         jumpedToItem = candidateItems.FirstOrDefault();
                     }
 
-                    if (jumpedToItem != null)
+                    if (AssociatedInstance.ContentPage != null && jumpedToItem != null)
                     {
                         AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
                         AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
@@ -1079,7 +1079,7 @@ namespace Files.ViewModels
 
                         ListedItem itemToSelect = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                        if (itemToSelect != null)
+                        if (AssociatedInstance.ContentPage != null && itemToSelect != null)
                         {
                             AssociatedInstance.ContentPage.SetSelectedItemOnUi(itemToSelect);
                             AssociatedInstance.ContentPage.ScrollIntoView(itemToSelect);

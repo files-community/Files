@@ -881,7 +881,6 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            associatedInstance?.Dispose();
             recycleBinHelpers?.Dispose();
 
             recycleBinHelpers = null;
