@@ -476,7 +476,6 @@ namespace Files.ViewModels
         public void CancelExtendedPropertiesLoading()
         {
             loadPropsCTS.Cancel();
-            loadPropsCTS.Dispose();
             loadPropsCTS = new CancellationTokenSource();
         }
 
@@ -753,7 +752,7 @@ namespace Files.ViewModels
                 {
                     await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
                 }
-                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+                catch (OperationCanceledException)
                 {
                     return;
                 }
@@ -917,7 +916,7 @@ namespace Files.ViewModels
                 // simply drop this instance
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            catch (OperationCanceledException)
             {
                 return;
             }
@@ -926,7 +925,6 @@ namespace Files.ViewModels
             {
                 // Drop all the other waiting instances
                 semaphoreCTS.Cancel();
-                semaphoreCTS.Dispose();
                 semaphoreCTS = new CancellationTokenSource();
 
                 IsLoadingItems = true;
@@ -1035,7 +1033,6 @@ namespace Files.ViewModels
 
                 if (addFilesCTS.IsCancellationRequested)
                 {
-                    addFilesCTS.Dispose();
                     addFilesCTS = new CancellationTokenSource();
                     IsLoadingItems = false;
                     return;
@@ -1086,10 +1083,6 @@ namespace Files.ViewModels
                         }
                     }
                 }
-            }
-            catch (ObjectDisposedException ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             finally
             {
@@ -1613,7 +1606,6 @@ namespace Files.ViewModels
                 CloseHandle(overlapped.hEvent);
                 operationQueue.Clear();
                 cts.Cancel();
-                cts.Dispose();
                 Debug.WriteLine("aWatcherAction done: {0}", rand);
             });
 
@@ -1843,7 +1835,7 @@ namespace Files.ViewModels
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            catch (OperationCanceledException)
             {
                 return;
             }
@@ -1888,7 +1880,7 @@ namespace Files.ViewModels
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            catch (OperationCanceledException)
             {
                 return;
             }
@@ -1932,9 +1924,6 @@ namespace Files.ViewModels
         public void Dispose()
         {
             CancelLoadAndClearFiles();
-            addFilesCTS?.Dispose();
-            semaphoreCTS?.Dispose();
-            loadPropsCTS?.Dispose();
         }
     }
 
