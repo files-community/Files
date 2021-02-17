@@ -657,6 +657,15 @@ namespace Files.Views
                                           },
                                           new SuppressNavigationTransitionInfo());
                 }
+                else if (currentInput.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) || currentInput.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
+                {
+                    ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(currentInput),
+                                          new NavigationArguments()
+                                          {
+                                              NavPathParam = currentInput,
+                                              AssociatedTabInstance = this
+                                          }); // navigate to folder
+                }
                 else
                 {
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);

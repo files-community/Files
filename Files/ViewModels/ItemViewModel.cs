@@ -6,6 +6,7 @@ using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using FluentFTP;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -47,6 +48,7 @@ namespace Files.ViewModels
         private readonly SemaphoreSlim operationSemaphore = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
+        private IFtpClient ftpClient;
 
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
@@ -938,9 +940,11 @@ namespace Files.ViewModels
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
+                var isFtp = path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+
                 List<string> cacheResult = null;
 
-                if (useCache)
+                if (useCache && !isFtp)
                 {
                     cacheResult = await Task.Run(async () =>
                     {
@@ -981,6 +985,10 @@ namespace Files.ViewModels
                 {
                     // Recycle bin is special as files are enumerated by the fulltrust process
                     await EnumerateItemsFromSpecialFolderAsync(path);
+                }
+                else if (isFtp)
+                {
+                    await EnumerateItemsFromFtpAsync(path);
                 }
                 else
                 {
@@ -1105,6 +1113,45 @@ namespace Files.ViewModels
                     CloseHandle(hWatchDir);
                 }
             }
+        }
+
+        public async Task EnumerateItemsFromFtpAsync(string path)
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    string returnformat = Enum.Parse<TimeStyle>(ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+                    var index = path.IndexOf("://") + 3;
+                    var count = path.IndexOf("/", index);
+
+                    var address = count == -1 ? path : path.Substring(0, count);
+                    var host = count == -1 ? path.Substring(index) : path.Substring(index, count - index);
+                    var ftpPath = count == -1 ? "/" : path.Substring(count);
+
+                    if (ftpClient is null || ftpClient.Host != host)
+                    {
+                        if (ftpClient != null)
+                        {
+                            await ftpClient.DisconnectAsync();
+                            ftpClient.Dispose();
+                        }
+
+                        ftpClient = new FtpClient(address);
+                    }
+
+                    var result = await FtpStorageEnumerator.ListEntries(address, ftpPath, returnformat, ftpClient, addFilesCTS.Token);
+                    filesAndFolders.AddRange(result);
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
+
+            await OrderFilesAndFoldersAsync();
+            await ApplyFilesAndFoldersChangesAsync();
         }
 
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)

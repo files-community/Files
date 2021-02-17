@@ -69,6 +69,7 @@
         <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
         <uap:Capability Name="removableStorage" />
+        <Capability Name="privateNetworkClientServer"/>
         <Capability Name="internetClient"/>
     </Capabilities>
 </Package>

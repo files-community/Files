@@ -479,10 +479,20 @@ namespace Files.Interacts
             }
 
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+            var isFtp = path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
 
             if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
-                if (isShortcutItem)
+                if (isFtp)
+                {
+                    AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                    AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    {
+                        NavPathParam = path,
+                        AssociatedTabInstance = AssociatedInstance
+                    }, new SuppressNavigationTransitionInfo());
+                }
+                else if (isShortcutItem)
                 {
                     if (string.IsNullOrEmpty(shortcutTargetPath))
                     {
