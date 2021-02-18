@@ -1023,6 +1023,9 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Caché</value>
   </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Notation</value>
+  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Type d'élément</value>
   </data>
@@ -1095,6 +1098,9 @@
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Nombre de canaux</value>
   </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Vitesse de transmission</value>
+  </data>
   <data name="PropertyCompression" xml:space="preserve">
     <value>Compression</value>
   </data>
@@ -1116,11 +1122,17 @@
   <data name="PropertyArtist" xml:space="preserve">
     <value>Artiste</value>
   </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Battements par minute</value>
+  </data>
   <data name="PropertyComposer" xml:space="preserve">
     <value>Compositeur :</value>
   </data>
   <data name="PropertyConductor" xml:space="preserve">
     <value>Chef d'orchestre</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>Numéro du disque</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Genre</value>
@@ -1136,6 +1148,9 @@
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Type de protection</value>
+  </data>
+  <data name="PropertyAuthorUrl" xml:space="preserve">
+    <value>URL de l'auteur</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Distributeur de contenu</value>
@@ -1154,6 +1169,9 @@
   </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producteur</value>
+  </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>URL de promotion</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Éditeur</value>
@@ -1599,11 +1617,17 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Détacher le dossier de la barre latérale</value>
   </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Aperçu du fichier</value>
+  </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Documentation</value>
   </data>
   <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
     <value>Découvrez des trucs &amp; astuces et apprenez-en plus sur Files</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Accéder à la documentation web de Files</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Propriétés</value>
@@ -1617,8 +1641,14 @@
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
     <value>Partiellement disponible hors ligne</value>
   </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Synchronisation</value>
+  </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Exclu de la synchronisation</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Inconnu</value>
   </data>
   <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Activer le volet d'aperçu adaptatif</value>
@@ -1628,5 +1658,8 @@
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Active l'option de sélection multiple (uniquement disponible sur la vue en tuiles ou en grilles pour le moment)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Si vous changez l'extension du fichier, celui-ci peut devenir inutilisable. Etes-vous sûr de vouloir la changer ?</value>
   </data>
 </root>

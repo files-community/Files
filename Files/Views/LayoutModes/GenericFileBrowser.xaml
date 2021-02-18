@@ -60,6 +60,13 @@
                         Tag="dateColumn"
                         Text="Date modified" />
                     <muxc:RadioMenuFlyoutItem
+                        x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                        Click="RadioMenuSortColumn_Click"
+                        GroupName="SortGroup"
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                        Tag="dateCreatedColumn"
+                        Text="Date created" />
+                    <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByType"
                         Click="RadioMenuSortColumn_Click"
                         GroupName="SortGroup"
@@ -292,6 +299,13 @@
                         IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                         Tag="dateColumn"
                         Text="Date modified" />
+                    <muxc:RadioMenuFlyoutItem
+                        x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                        Click="RadioMenuSortColumn_Click"
+                        GroupName="SortGroup"
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                        Tag="dateCreatedColumn"
+                        Text="Date created" />
                     <MenuFlyoutSeparator />
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -739,7 +753,11 @@
                                 <ToggleMenuFlyoutItem
                                     x:Uid="BaseLayoutContextFlyoutSortByDate"
                                     IsChecked="{x:Bind AppSettings.ShowDateColumn, Mode=TwoWay}"
-                                    Text="Date" />
+                                    Text="Date modified" />
+                                <ToggleMenuFlyoutItem
+                                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                                    IsChecked="{x:Bind AppSettings.ShowDateCreatedColumn, Mode=TwoWay}"
+                                    Text="Date created" />
                                 <ToggleMenuFlyoutItem
                                     x:Uid="BaseLayoutContextFlyoutSortByType"
                                     IsChecked="{x:Bind AppSettings.ShowTypeColumn, Mode=TwoWay}"
@@ -959,11 +977,31 @@
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
+                    x:Name="dateCreatedColumn"
+                    x:Uid="DateCreatedColumn"
+                    Width="Auto"
+                    Binding="{Binding ItemDateCreated}"
+                    DisplayIndex="6"
+                    FontSize="12"
+                    Header="Date created"
+                    IsReadOnly="True"
+                    Tag="DateCreated"
+                    Visibility="{x:Bind AppSettings.ShowDateCreatedColumn, Mode=OneWay}">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}" />
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn
                     x:Name="typeColumn"
                     x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayIndex="6"
+                    DisplayIndex="7"
                     FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
@@ -984,7 +1022,7 @@
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
-                    DisplayIndex="7"
+                    DisplayIndex="8"
                     FontSize="12"
                     Header="Size"
                     IsReadOnly="True"

@@ -52,6 +52,11 @@
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
+                <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
@@ -264,6 +269,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -584,7 +594,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -696,7 +706,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Text="{x:Bind ItemName}"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
                 </Grid>
@@ -710,7 +720,7 @@
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Text="{x:Bind ItemName}"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
                         TextChanged="GridViewTextBoxItemName_TextChanged"
                         TextWrapping="Wrap" />
@@ -729,7 +739,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />
@@ -835,7 +845,7 @@
                             Margin="0,0,10,0"
                             HorizontalAlignment="Left"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName}"
+                            Text="{x:Bind ItemName, Mode=OneWay}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="Wrap" />
@@ -846,7 +856,7 @@
                             Margin="0,0,10,0"
                             HorizontalAlignment="Left"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName}"
+                            Text="{x:Bind ItemName, Mode=OneWay}"
                             TextAlignment="Left"
                             TextWrapping="Wrap"
                             Visibility="Collapsed" />

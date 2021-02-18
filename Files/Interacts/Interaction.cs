@@ -522,7 +522,11 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path);
+                        opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+                    }
+                    if (!opened)
+                    {
+                        opened = (FilesystemResult)path.StartsWith("ftp:");
                     }
                     if (opened)
                     {
@@ -616,6 +620,12 @@ namespace Files.Interacts
                                             queryOptions.SortOrder.Add(sortEntry);
                                             break;
 
+                                        case Enums.SortOption.DateCreated:
+                                            sortEntry.PropertyName = "System.DateCreated";
+                                            queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
+                                            break;
+
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
                                         //case Enums.SortOption.Size:
 
@@ -679,7 +689,10 @@ namespace Files.Interacts
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-
+            if (AssociatedInstance.ContentPage == null)
+            {
+                return;
+            }
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?

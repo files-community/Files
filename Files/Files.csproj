@@ -170,7 +170,6 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -178,8 +177,14 @@
     <Compile Include="Enums\DynamicDialogButtons.cs" />
     <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Filesystem\FolderHelpers.cs" />
+    <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
+    <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\OneDriveSharePointCloudProvider.cs" />
+    <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
@@ -198,6 +203,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\CollectionDebugView.cs" />
     <Compile Include="Helpers\DynamicDialogFactory.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />

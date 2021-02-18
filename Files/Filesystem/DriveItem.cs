@@ -32,7 +32,9 @@ namespace Files.Filesystem
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
-        public bool IsRemovable { get; set; }
+
+        public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
+        public bool IsNetwork => Type == DriveType.Network;
 
         private ByteSize maxSpace;
         private ByteSize freeSpace;
@@ -101,7 +103,6 @@ namespace Files.Filesystem
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             DeviceID = deviceId;
             Root = root;
-            IsRemovable = (Type == DriveType.Removable || Type == DriveType.CDRom);
 
             CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
         }

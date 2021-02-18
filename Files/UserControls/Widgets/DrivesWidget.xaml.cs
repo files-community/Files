@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -140,6 +141,32 @@ namespace Files.UserControls.Widgets
         {
             var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
             newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "NetworkDriveOperation" },
+                        { "netdriveop", "OpenMapNetworkDriveDialog" }
+                    });
+            }
+        }
+
+        private async void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (AppInstance.ServiceConnection != null)
+            {
+                await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "NetworkDriveOperation" },
+                        { "netdriveop", "DisconnectNetworkDrive" },
+                        { "drive", item.Path }
+                    });
+            }
         }
     }
 }
