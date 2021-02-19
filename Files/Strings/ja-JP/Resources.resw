@@ -1698,4 +1698,43 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>複数選択を有効にする(現在タイルビューとグリッドビューのみで利用可能)</value>
   </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか？</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-ROM ドライブ</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>クラウド ドライブ</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>固定ディスクドライブ</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>フロッピー ディスク ドライブ</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>ネットワーク ドライブ</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>取り出されたドライブ</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAMディスク ドライブ</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>取り外し可能なデバイス</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>バーチャル ドライブ</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>作成日時</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>作成日時</value>
+  </data>
 </root>

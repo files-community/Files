@@ -534,6 +534,10 @@ namespace Files.Interacts
                     {
                         opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
                     }
+                    if (!opened)
+                    {
+                        opened = (FilesystemResult)path.StartsWith("ftp:");
+                    }
                     if (opened)
                     {
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
@@ -695,7 +699,10 @@ namespace Files.Interacts
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-
+            if (AssociatedInstance.ContentPage == null)
+            {
+                return;
+            }
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?

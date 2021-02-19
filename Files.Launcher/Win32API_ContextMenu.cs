@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -204,7 +205,7 @@ namespace FilesFullTrust
 
                     return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
                 }
-                catch (ArgumentException)
+                catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
                 {
                     // Return empty context menu
                     return null;
