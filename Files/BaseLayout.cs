@@ -380,6 +380,17 @@ namespace Files
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
             FocusFileList(); // Set focus on layout specific file list control
+
+            if (navigationArguments.SelectItems != null && navigationArguments.SelectItems.Count() > 0)
+            {
+                List<ListedItem> liItemsToSelect = new List<ListedItem>();
+                foreach (string item in navigationArguments.SelectItems)
+                {
+                    liItemsToSelect = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).ToList();
+                }
+
+                SetSelectedItemsOnUi(liItemsToSelect);
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Extensions;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.SettingsInterfaces;
 using Files.Views;
@@ -118,7 +119,7 @@ namespace Files.ViewModels.Bundles
 
         private async void OpenItemLocation()
         {
-            await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory);
+            await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
         }
 
         private void RemoveItem()

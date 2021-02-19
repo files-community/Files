@@ -1419,5 +1419,6 @@ namespace Files.Views
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
         public bool IsLayoutSwitch { get; set; } = false;
+        public IEnumerable<string> SelectItems { get; set; }
     }
 }
