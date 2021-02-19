@@ -3,15 +3,12 @@ using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels

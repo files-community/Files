@@ -1710,4 +1710,64 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</value>
   </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Wenn du die Dateierweitung veränderts, wird die Datei möglicherweise unbrauchbar. Bist du sicher das du sie ändern möchtest?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-Laufwerk</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Cloudlaufwerk</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fixed Disk Drive</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Diskettenlauferk</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Netzwerklaufwerk</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Nicht hinzugefügtes Laufwerk</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Disk Laufwerk</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Entfernbares Speichermedium</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtuelles Laufwerk</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mehr Optionen...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Netwerklaufwerk hinzufügen</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Verbindung trennen</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Eine kleinerer Wert ist für Festplatten empfohlen</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Vorzeitiges Zwischenspeichern benutzen (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr Gruppenoptionen</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr Laufwerkoptionen</value>
+  </data>
 </root>

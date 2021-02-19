@@ -129,7 +129,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
             catch (ArgumentException)
             {
-                // Invalid date means invalid findData, do not add to list	
+                // Invalid date means invalid findData, do not add to list
                 return null;
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
@@ -217,7 +217,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
             catch (ArgumentException)
             {
-                // Invalid date means invalid findData, do not add to list	
+                // Invalid date means invalid findData, do not add to list
                 return null;
             }
 
