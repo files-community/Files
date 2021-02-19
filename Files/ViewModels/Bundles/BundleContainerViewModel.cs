@@ -108,11 +108,33 @@ namespace Files.ViewModels.Bundles
 
         private async void RenameBundle()
         {
+            TextBox inputText = new TextBox()
+            {
+                PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
+            };
+
+            TextBlock tipText = new TextBlock()
+            {
+                Text = string.Empty,
+                Visibility = Visibility.Collapsed
+            };
+
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = new TextBox()
+                DisplayControl = new Grid()
                 {
-                    PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
+                    Children =
+                    {
+                        new StackPanel()
+                        {
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
                 },
                 TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
                 SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
@@ -120,7 +142,13 @@ namespace Files.ViewModels.Bundles
                 CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
-                    RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
+                    if (!CanAddBundleSetErrorMessage())
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    RenameBundleConfirm(inputText.Text);
                 },
                 CloseButtonAction = (vm, e) =>
                 {
@@ -131,7 +159,12 @@ namespace Files.ViewModels.Bundles
                 {
                     if (e.Key == VirtualKey.Enter)
                     {
-                        RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
+                        if (!CanAddBundleSetErrorMessage())
+                        {
+                            return;
+                        }
+
+                        RenameBundleConfirm(inputText.Text);
                     }
                     else if (e.Key == VirtualKey.Escape)
                     {
@@ -142,11 +175,21 @@ namespace Files.ViewModels.Bundles
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
             await dialog.ShowAsync();
+
+            bool CanAddBundleSetErrorMessage()
+            {
+                var (result, reason) = CanRenameBundle(inputText.Text);
+
+                tipText.Text = reason;
+                tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+
+                return result;
+            }
         }
 
         private void RenameBundleConfirm(string bundleRenameText)
         {
-            if (CanRenameBundle(bundleRenameText))
+            if (CanRenameBundle(bundleRenameText).result)
             {
                 if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
                 {
@@ -284,20 +327,20 @@ namespace Files.ViewModels.Bundles
             return this;
         }
 
-        public bool CanRenameBundle(string name)
+        public (bool result, string reason) CanRenameBundle(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
             }
 
             if (!BundlesSettings.SavedBundles.Any((item) => item.Key == name))
             {
-                return true;
+                return (true, string.Empty);
             }
             else
             {
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
             }
         }
 

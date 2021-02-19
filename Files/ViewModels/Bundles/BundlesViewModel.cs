@@ -113,11 +113,33 @@ namespace Files.ViewModels.Bundles
 
         private async void OpenAddBundleDialog()
         {
+            TextBox inputText = new TextBox()
+            {
+                PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
+            };
+
+            TextBlock tipText = new TextBlock()
+            {
+                Text = string.Empty,
+                Visibility = Visibility.Collapsed
+            };
+
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = new TextBox()
+                DisplayControl = new Grid()
                 {
-                    PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
+                    Children =
+                    {
+                        new StackPanel()
+                        {
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
                 },
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
@@ -125,7 +147,18 @@ namespace Files.ViewModels.Bundles
                 CloseButtonText = "BundlesWidgetCreateBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
-                    AddBundle((vm.DisplayControl as TextBox).Text);
+                    var (result, reason) = CanAddBundle(inputText.Text);
+
+                    tipText.Text = reason;
+                    tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+
+                    if (!result)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    AddBundle(inputText.Text);
                 },
                 CloseButtonAction = (vm, e) =>
                 {
@@ -135,7 +168,7 @@ namespace Files.ViewModels.Bundles
                 {
                     if (e.Key == VirtualKey.Enter)
                     {
-                        AddBundle((vm.DisplayControl as TextBox).Text);
+                        AddBundle(inputText.Text);
                     }
                     else if (e.Key == VirtualKey.Escape)
                     {
@@ -149,7 +182,7 @@ namespace Files.ViewModels.Bundles
 
         private void AddBundle(string name)
         {
-            if (!CanAddBundle(name))
+            if (!CanAddBundle(name).result)
             {
                 return;
             }
@@ -337,23 +370,23 @@ namespace Files.ViewModels.Bundles
             this.associatedInstance = associatedInstance;
         }
 
-        public bool CanAddBundle(string name)
+        public (bool result, string reason) CanAddBundle(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized();
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
             }
 
             if (!Items.Any((item) => item.BundleName == name))
             {
                 AddBundleErrorText = string.Empty;
-                return true;
+                return (true, string.Empty);
             }
             else
             {
                 AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized();
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
             }
         }
 
