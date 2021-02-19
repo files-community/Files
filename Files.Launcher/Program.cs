@@ -552,6 +552,8 @@ namespace FilesFullTrust
                                         { "Status", "Failed" },
                                         { "Exception", "The retrived property value was empty." }
                                     });
+
+                                    return;
                                 }
 
                                 await args.Request.SendResponseAsync(new ValueSet()

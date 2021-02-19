@@ -92,7 +92,7 @@ namespace Files.Helpers
                     }
                 }
 
-                if (associatedInstance.ServiceConnection != null && false) // TODO: JUST FOR TESTS
+                if (associatedInstance.ServiceConnection != null)
                 {
                     AppServiceResponse response = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                     {
