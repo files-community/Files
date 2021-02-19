@@ -108,10 +108,16 @@ namespace Files.UserControls
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
 
             // Folders and shortcuts are not supported yet
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsShortcutItem)
+            if (item.IsShortcutItem)
             {
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
                 PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if(item.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                PreviewGrid.Children.Add(new FolderPreview(new FolderPreviewViewModel(item)));
                 return;
             }
 

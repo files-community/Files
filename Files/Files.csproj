@@ -219,6 +219,9 @@
     <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
       <DependentUpon>CodePreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FilePreviews\FolderPreview.xaml.cs">
+      <DependentUpon>FolderPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FilePreviews\HtmlPreview.xaml.cs">
       <DependentUpon>HtmlPreview.xaml</DependentUpon>
     </Compile>
@@ -260,6 +263,7 @@
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\FolderPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\MarkdownPreviewViewModel.cs" />
@@ -745,6 +749,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\FilePreviews\BasicPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\FolderPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
