@@ -485,6 +485,7 @@ namespace Files
         public string Text { get; set; }
 
         private string path;
+
         public string Path
         {
             get => path;
@@ -494,6 +495,7 @@ namespace Files
                 HoverDisplayText = Path.Contains("?") ? Text : Path;
             }
         }
+
         public string HoverDisplayText { get; private set; }
 
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;

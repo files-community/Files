@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -51,6 +50,7 @@ namespace Files.Helpers
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void BeginBulkOperation()
@@ -252,9 +252,13 @@ namespace Files.Helpers
         }
 
         bool IList.Contains(object value) => Contains((T)value);
+
         int IList.IndexOf(object value) => IndexOf((T)value);
+
         void IList.Insert(int index, object value) => Insert(index, (T)value);
+
         void IList.Remove(object value) => Remove((T)value);
+
         void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
     }
 }

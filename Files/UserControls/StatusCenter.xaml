@@ -137,10 +137,10 @@
                     <Grid
                         Padding="4"
                         HorizontalAlignment="Stretch"
+                        AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{x:Bind StrokeColor}"
-                        BorderThickness="4,0,0,0"
-                        AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
+                        BorderThickness="4,0,0,0">
                         <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />

@@ -36,6 +36,6 @@ namespace Files.Dialogs
             ViewModel = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

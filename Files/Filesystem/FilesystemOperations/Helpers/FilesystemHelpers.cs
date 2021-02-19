@@ -4,6 +4,7 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,9 +15,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using FileAttributes = System.IO.FileAttributes;
-using Microsoft.Toolkit.Uwp.Extensions;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -745,6 +745,7 @@ namespace Files.Filesystem
                 case FilesystemItemType.Directory:
                     history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     break;
+
                 case FilesystemItemType.File:
 
                     if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
@@ -765,12 +766,13 @@ namespace Files.Filesystem
                             history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                             break;
                         }
-                        
+
                         break;
                     }
 
                     history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     break;
+
                 default:
                     history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     break;
