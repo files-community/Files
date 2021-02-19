@@ -178,6 +178,7 @@
     <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\FtpFilesystemOperaions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\StorageEnumerators\FtpStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveSharePointCloudProvider.cs" />
     <Compile Include="Filesystem\NetworkDrivesManager.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\FtpStorageItem.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
