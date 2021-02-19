@@ -333,6 +333,10 @@ namespace Files.Interacts
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             T parent = null;
+            if (child == null)
+            {
+                return parent;
+            }
             DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
             while (CurrentParent != null)
             {
