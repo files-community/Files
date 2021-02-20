@@ -1111,7 +1111,7 @@ namespace Files.Views
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
 
-                case (false, false, false, _, VirtualKey.F1):
+                case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
                     await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
                     break;
             };
