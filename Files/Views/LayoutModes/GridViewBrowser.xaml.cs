@@ -429,7 +429,7 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)
