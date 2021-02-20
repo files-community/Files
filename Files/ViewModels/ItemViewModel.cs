@@ -1408,7 +1408,6 @@ namespace Files.ViewModels
                 buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
 
-                
                 if (syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown)
                 {
                     notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
