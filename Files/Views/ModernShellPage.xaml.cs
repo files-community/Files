@@ -19,6 +19,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -969,7 +970,7 @@ namespace Files.Views
             if (this.ServiceConnection == null)
             {
                 // Need to reinitialize AppService when app is resuming
-                ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
+                ServiceConnection = await AppServiceConnectionHelper.Instance;
                 FilesystemViewModel?.OnAppServiceConnectionChanged();
             }
         }
