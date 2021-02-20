@@ -19,6 +19,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -233,6 +234,29 @@ namespace Files.Views
                 case nameof(AppSettings.SidebarWidth):
                     NotifyPropertyChanged(nameof(SidebarWidth));
                     break;
+            }
+        }
+
+        /*
+         * Ensure that the path bar gets updated for user interaction
+         * whenever the path changes. We will get the individual directories from
+         * the updated, most-current path and add them to the UI.
+         */
+        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
+        {
+            // Clear the path UI
+            NavigationToolbar.PathComponents.Clear();
+
+            if (string.IsNullOrWhiteSpace(singleItemOverride))
+            {
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir))
+                {
+                    NavigationToolbar.PathComponents.Add(component);
+                }
+            }
+            else
+            {
+                NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
 
@@ -909,18 +933,61 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            FilesystemViewModel = new ItemViewModel(ServiceConnection, InstanceViewModel?.FolderSettings);
             ServiceConnection = await AppServiceConnectionHelper.Instance;
-            FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+            FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+            FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+            FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
+        }
+
+        private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
+        {
+            InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
+        }
+
+        private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+        {
+            if (ContentPage != null)
+            {
+                if (FilesystemViewModel.FilesAndFolders.Count == 1)
+                {
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
+                }
+                else
+                {
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
+                }
+            }
+        }
+
+        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            if (this.ServiceConnection == null)
+            {
+                // Need to reinitialize AppService when app is resuming
+                ServiceConnection = await AppServiceConnectionHelper.Instance;
+                FilesystemViewModel?.OnAppServiceConnectionChanged();
+            }
+        }
+
+        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            ServiceConnection?.Dispose();
+            ServiceConnection = null;
         }
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
             string value = e.Path;
+            if (!string.IsNullOrWhiteSpace(value) && Path.IsPathRooted(value))
+            {
+                UpdatePathUIToWorkingDirectory(value);
+            }
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
@@ -1240,6 +1307,9 @@ namespace Files.Views
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+                FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+                FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
+                FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.Dispose();
             }
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
@@ -1251,6 +1321,61 @@ namespace Files.Views
             if (FilesystemViewModel != null)
             {
                 FilesystemViewModel.OnAppServiceConnectionChanged();
+            }
+        }
+
+        private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
+                    NavigationToolbar.CanRefresh = false;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
+                    NavigationToolbar.CanGoBack = ContentFrame.CanGoBack;
+                    NavigationToolbar.CanGoForward = ContentFrame.CanGoForward;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
+                    NavigationToolbar.CanRefresh = true;
+                    // Select previous directory
+                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    {
+                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        {
+                            // Remove the WorkingDir from previous dir
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+
+                            // Get previous dir name
+                            if (e.PreviousDirectory.StartsWith('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Remove(0, 1);
+                            }
+                            if (e.PreviousDirectory.Contains('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Split('\\')[0];
+                            }
+
+                            // Get the first folder and combine it with WorkingDir
+                            string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
+
+                            // Make sure we don't get double \\ in the e.Path
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                            if (folderToSelect.EndsWith('\\'))
+                            {
+                                folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                            }
+
+                            ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                            if (itemToSelect != null)
+                            {
+                                ContentPage.SetSelectedItemOnUi(itemToSelect);
+                                ContentPage.ScrollIntoView(itemToSelect);
+                            }
+                        }
+                    }
+                    break;
             }
         }
 
