@@ -751,7 +751,7 @@
     <value>Abrir ubicación del log</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files UWP se encontró con un problema para el que los desarrolladores aún no se prepararon.</value>
+    <value>Files se encontró con un problema para el que los desarrolladores aún no se prepararon.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>¡Algo salió mal!</value>
@@ -1647,6 +1647,12 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Desanclar directorio de la barra lateral</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Unidades de red</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Red</value>
+  </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Propiedades</value>
   </data>
@@ -1739,5 +1745,26 @@
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>Fecha de creación</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Más opciones...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Conectar una unidad de red</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Desconectar</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Límite paralelo de caché preventivo (números más pequeños deberían funcionar mejor para discos duros)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Usar caché preventivo (precarga entradas en directorios secundarios en la navegación)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones de contenedores</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones de contenedores</value>
   </data>
 </root>
