@@ -3,15 +3,12 @@ using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
@@ -116,7 +113,7 @@ namespace Files.DataModels
                 return;
             }
 
-            // A backup of the items, because the swapping of items requires removing and inserting them in the corrent position
+            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
             var sidebarItemsBackup = new List<string>(this.Items);
 
             try
@@ -148,7 +145,7 @@ namespace Files.DataModels
                 || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
-                Debug.WriteLine($"An error occured while swapping pinned items in the navigation sidebar. {ex.Message}");
+                Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
                 _ = this.AddAllItemsToSidebar();

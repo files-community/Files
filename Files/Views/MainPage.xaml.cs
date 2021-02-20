@@ -308,54 +308,63 @@ namespace Files.Views
                 fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
                 fontIconSource.Glyph = "\xEF87";
             }
-            else if (App.AppSettings.OneDrivePath != null && currentPath.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "OneDrive";
-                fontIconSource.Glyph = "\xe9b7";
-            }
-            else if (App.AppSettings.OneDriveCommercialPath != null && currentPath.Equals(App.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "OneDrive Commercial";
-                fontIconSource.Glyph = "\xe9b7";
+                tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
+                fontIconSource.Glyph = "\ueac2";
             }
             else
             {
-                // If path is a drive's root
-                if (NormalizePath(Path.GetPathRoot(currentPath)) == NormalizePath(currentPath))
+                var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Equals(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                if (matchingCloudDrive != null)
                 {
-                    try
+                    fontIconSource.Glyph = "\xe9b7";
+                    tabLocationHeader = matchingCloudDrive.Text;
+                }
+                else if (NormalizePath(GetPathRoot(currentPath)) == NormalizePath(currentPath)) // If path is a drive's root
+                {
+                    var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                    if (matchingNetDrive != null)
                     {
-                        List<DriveInfo> drives = DriveInfo.GetDrives().ToList();
-                        DriveInfo matchingDrive = drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Name)));
-
-                        if (matchingDrive != null)
+                        fontIconSource.Glyph = "\ueac2";
+                        tabLocationHeader = matchingNetDrive.Text;
+                    }
+                    else
+                    {
+                        try
                         {
-                            // Go through types and set the icon according to type
-                            string type = GetDriveTypeIcon(matchingDrive);
-                            if (!string.IsNullOrWhiteSpace(type))
+                            List<DriveInfo> drives = DriveInfo.GetDrives().ToList();
+                            DriveInfo matchingDrive = drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Name)));
+
+                            if (matchingDrive != null)
                             {
-                                fontIconSource.Glyph = type;
+                                // Go through types and set the icon according to type
+                                string type = GetDriveTypeIcon(matchingDrive);
+                                if (!string.IsNullOrWhiteSpace(type))
+                                {
+                                    fontIconSource.Glyph = type;
+                                }
+                                else
+                                {
+                                    fontIconSource.Glyph = "\xeb8b"; //Drive icon
+                                }
                             }
                             else
                             {
-                                fontIconSource.Glyph = "\xeb8b";    //Drive icon
+                                fontIconSource.Glyph = "\xeb4a"; //Floppy icon
                             }
                         }
-                        else
+                        catch (Exception)
                         {
-                            fontIconSource.Glyph = "\xeb4a";    //Floppy icon
+                            fontIconSource.Glyph = "\xeb8b"; //Fallback
                         }
-                    }
-                    catch (Exception)
-                    {
-                        fontIconSource.Glyph = "\xeb8b";    //Fallback
-                    }
 
-                    tabLocationHeader = NormalizePath(currentPath);
+                        tabLocationHeader = NormalizePath(currentPath);
+                    }
                 }
                 else
                 {
-                    fontIconSource.Glyph = "\xea55";    //Folder icon
+                    fontIconSource.Glyph = "\xea55"; //Folder icon
                     tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
                     FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
@@ -489,7 +498,7 @@ namespace Files.Views
             {
                 await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             }
-            else // ctrl + shif + t, restore recently closed tab
+            else // ctrl + shift + t, restore recently closed tab
             {
                 if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
                 {

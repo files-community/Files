@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using static Files.Helpers.PathNormalization;
 
 namespace Files
 {
@@ -334,8 +335,8 @@ namespace Files
 
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-                string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
+                string pathRoot = GetPathRoot(workingDir);
+                if (string.IsNullOrEmpty(pathRoot) || NormalizePath(workingDir) == NormalizePath(pathRoot)
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -438,7 +439,7 @@ namespace Files
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
             foreach (var menuFlyoutItem in menuItems
-                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
             {

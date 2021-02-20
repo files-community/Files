@@ -50,7 +50,7 @@ namespace Files.ViewModels.Previews
 
         private static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()
         {
-            // TODO: Debug color issue then reenable xml support
+            // TODO: Debug color issue then re-enable xml support
             //{"xml",  new List<string> {".xml", ".axml", ".xaml" } },
             {"json",  new List<string> {".json" } },
             {"yaml", new List<string> {".yml"} },

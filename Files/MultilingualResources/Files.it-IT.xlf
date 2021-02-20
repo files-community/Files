@@ -2201,67 +2201,75 @@
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles on the home page</source>
-          <target state="new">Show Bundles on the home page</target>
+          <target state="translated">Mostra i Gruppi nella schermata iniziale</target>
+        </trans-unit>
+        <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
+          <source>Network drives</source>
+          <target state="translated">Dischi di rete</target>
+        </trans-unit>
+        <trans-unit id="Network" translate="yes" xml:space="preserve">
+          <source>Network</source>
+          <target state="translated">Rete</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Properties</target>
+          <target state="translated">Proprietà</target>
         </trans-unit>
         <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File details</source>
-          <target state="new">File details</target>
+          <target state="translated">Dettagli file</target>
         </trans-unit>
         <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File preview</source>
-          <target state="new">File preview</target>
+          <target state="translated">Anteprima file</target>
         </trans-unit>
         <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selected file preview pane</source>
-          <target state="new">Selected file preview pane</target>
+          <target state="translated">Riquadro dell'anteprima dell'elemento selezionato</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
           <source>Documentation</source>
-          <target state="new">Documentation</target>
+          <target state="translated">Documentazione</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
           <source>Find tips &amp; tricks and learn more about Files</source>
-          <target state="new">Find tips &amp; tricks and learn more about Files</target>
+          <target state="translated">Impara trucchi e altro ancora riguardo a Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Visit the Files documentation website</source>
-          <target state="new">Visit the Files documentation website</target>
+          <target state="translated">Visita la documentazione di Files sul sito</target>
         </trans-unit>
         <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
-          <target state="new">Ongoing tasks flyout</target>
+          <target state="translated">Lista operazioni in corso</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
-          <target state="new">Available when online</target>
+          <target state="translated">Disponibile solo online</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
           <source>Available offline</source>
-          <target state="new">Available offline</target>
+          <target state="translated">Disponibile offline</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
           <source>Partially available offline</source>
-          <target state="new">Partially available offline</target>
+          <target state="translated">Parzialmente disponibile offline</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
           <source>Syncing</source>
-          <target state="new">Syncing</target>
+          <target state="translated">In sincronizzazione</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
           <source>Excluded from sync</source>
-          <target state="new">Excluded from sync</target>
+          <target state="translated">Escluso dalla sincronizzazione</target>
         </trans-unit>
         <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
-          <target state="new">Not calculated</target>
+          <target state="translated">Non calcolato</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="translated">Sconosciuto</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
           <source>Enable adaptive preview pane</source>
@@ -2269,63 +2277,91 @@
         </trans-unit>
         <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
-          <target state="new">Multiselect</target>
+          <target state="translated">Selezione multipla</target>
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
           <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="new">Enable multiselect options (currently only available in the tiles and grid view layout modes)</target>
+          <target state="translated">Abilita selezione multipla (per ora disponibile solo nelle modalità Elenco e Icone)</target>
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
-          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
+          <target state="translated">Modificando l'estensione il file potrebbe essere inutilizzabile. Vuoi cambiare l'estensione del file?</target>
         </trans-unit>
         <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
           <source>CD ROM Drive</source>
-          <target state="new">CD ROM Drive</target>
+          <target state="translated">CD ROM</target>
         </trans-unit>
         <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
           <source>Cloud Drive</source>
-          <target state="new">Cloud Drive</target>
+          <target state="translated">Disco Cloud</target>
         </trans-unit>
         <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
           <source>Fixed Disk Drive</source>
-          <target state="new">Fixed Disk Drive</target>
+          <target state="translated">Disco Fisso</target>
         </trans-unit>
         <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
           <source>Floppy Disk Drive</source>
-          <target state="new">Floppy Disk Drive</target>
+          <target state="translated">Disco Floppy</target>
         </trans-unit>
         <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
           <source>Network Drive</source>
-          <target state="new">Network Drive</target>
+          <target state="translated">Disco di Rete</target>
         </trans-unit>
         <trans-unit id="DriveTypeNoRootDirectory" translate="yes" xml:space="preserve">
           <source>Unmounted Drive</source>
-          <target state="new">Unmounted Drive</target>
+          <target state="translated">Disco non montato</target>
         </trans-unit>
         <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
           <source>RAM Disk Drive</source>
-          <target state="new">RAM Disk Drive</target>
+          <target state="translated">Disco RAM</target>
         </trans-unit>
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
-          <target state="new">Removable Storage Device</target>
+          <target state="translated">Dispositivo Rimuovibile</target>
         </trans-unit>
         <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="translated">Sconosciuto</target>
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
-          <target state="new">Virtual Drive</target>
+          <target state="translated">Disco Virtuale</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created</source>
-          <target state="new">Date created</target>
+          <target state="translated">Data creazione</target>
         </trans-unit>
         <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date created</source>
-          <target state="new">Date created</target>
+          <target state="translated">Data creazione</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="translated">Altre opzioni...</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Map network drive</source>
+          <target state="translated">Connetti disco di rete</target>
+        </trans-unit>
+        <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
+          <source>Disconnect</source>
+          <target state="translated">Disconnetti</target>
+        </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="translated">Limite di parallelizzazione della cache predittiva (per un hard disk è consigliato un numero piccolo)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="translated">Usa cache predittiva (precarica le sottocartelle durante la navigazione)</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More bundles options</source>
+          <target state="translated">Altre opzioni dei gruppi</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More drives options</source>
+          <target state="translated">Altre opzioni delle unità</target>
         </trans-unit>
       </group>
     </body>

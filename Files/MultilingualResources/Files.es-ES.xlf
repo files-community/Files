@@ -2202,6 +2202,14 @@
           <source>Unpin directory from sidebar</source>
           <target state="translated">Desanclar directorio de la barra lateral</target>
         </trans-unit>
+        <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
+          <source>Network drives</source>
+          <target state="new">Network drives</target>
+        </trans-unit>
+        <trans-unit id="Network" translate="yes" xml:space="preserve">
+          <source>Network</source>
+          <target state="new">Network</target>
+        </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Propiedades</target>
@@ -2325,6 +2333,34 @@
         <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Fecha de creación</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="new">More options...</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Map network drive</source>
+          <target state="new">Map network drive</target>
+        </trans-unit>
+        <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
+          <source>Disconnect</source>
+          <target state="new">Disconnect</target>
+        </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="new">Preemptive cache parallel limit (smaller numbers should work better for hard drives)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="new">Use preemptive cache (preload entries in child directories on navigation)</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More bundles options</source>
+          <target state="new">More bundles options</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More drives options</source>
+          <target state="new">More drives options</target>
         </trans-unit>
       </group>
     </body>

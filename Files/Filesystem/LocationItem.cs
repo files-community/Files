@@ -8,6 +8,7 @@ namespace Files.Filesystem
         public string Text { get; set; }
 
         private string path;
+
         public string Path
         {
             get => path;
@@ -31,6 +32,7 @@ namespace Files.Filesystem
         public string Text { get; set; }
 
         private string path;
+
         public string Path
         {
             get => path;

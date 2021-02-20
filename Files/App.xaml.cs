@@ -51,6 +51,7 @@ namespace Files
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
+        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -83,13 +84,13 @@ namespace Files
         {
             if (AppSettings == null)
             {
-                //We can't create AppSettings at the same time as everything else as other dependencies depend on AppSettings
                 AppSettings = await SettingsViewModel.CreateInstance();
             }
 
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             DrivesManager ??= new DrivesManager();
+            NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
 
             // Start off a list of tasks we need to run before we can continue startup
@@ -97,6 +98,7 @@ namespace Files
             {
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
+                await NetworkDrivesManager.EnumerateDrivesAsync();
             });
         }
 
@@ -483,6 +485,7 @@ namespace Files
         public string Text { get; set; }
 
         private string path;
+
         public string Path
         {
             get => path;
@@ -492,6 +495,7 @@ namespace Files
                 HoverDisplayText = Path.Contains("?") ? Text : Path;
             }
         }
+
         public string HoverDisplayText { get; private set; }
 
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;

@@ -111,7 +111,7 @@ namespace Files.ViewModels
             get => new GridLength(Math.Min(Math.Max(Get(300d), 50d), 600d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
-        
+
         /// <summary>
         /// Gets or sets a value indicating the width of the preview pane in a vertical layout.
         /// </summary>
@@ -355,6 +355,7 @@ namespace Files.ViewModels
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+        public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
 
@@ -531,7 +532,7 @@ namespace Files.ViewModels
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
         /// <summary>
-        /// Gets or sets an ObservableCollection of the support langauges.
+        /// Gets or sets an ObservableCollection of the support languages.
         /// </summary>
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 

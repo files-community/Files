@@ -170,7 +170,6 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -185,6 +184,7 @@
     <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveSharePointCloudProvider.cs" />
+    <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
