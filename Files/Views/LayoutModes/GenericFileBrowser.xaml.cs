@@ -425,7 +425,7 @@ namespace Files.Views.LayoutModes
         {
             AllView.CommitEdit();
             tapDebounceTimer.Stop();
-            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)

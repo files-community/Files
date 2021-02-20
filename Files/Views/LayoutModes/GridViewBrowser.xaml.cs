@@ -175,7 +175,7 @@ namespace Files.Views.LayoutModes
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private ListedItem renamingItem;
