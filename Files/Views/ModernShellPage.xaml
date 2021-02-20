@@ -12,7 +12,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" xmlns:numerics="using:System.Numerics" xmlns:composition="using:Windows.UI.Composition"
     x:Name="RootPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
@@ -206,36 +206,41 @@
             Canvas.ZIndex="100"
             OffsetX="-2"
             ShadowOpacity=".04">
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="ContentGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition
                         x:Name="PreviewPaneRow"
                         Height="2*"
                         MaxHeight="400" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition
                         x:Name="PreviewPaneColumn"
                         Width="2*"
                         MaxWidth="600" />
-                </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
 
-                <Grid
+            <Grid.Resources>
+                <Windows10version1903:ThemeShadow x:Name="PreviewPaneShadow"/>
+                <Windows10version1903:ThemeShadow x:Name="NavToolBarPaneShadow"/>
+            </Grid.Resources>
+
+            <Grid
                     x:Name="SmallWindowTitlebar"
                     Height="30"
                     x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                     Background="Transparent"
                     Loaded="SmallWindowTitlebar_Loaded" />
 
-                <controls:NavigationToolbar
+            <controls:NavigationToolbar
                     x:Name="NavToolbar"
                     Grid.Row="1"
                     Grid.Column="0"
@@ -263,14 +268,14 @@
                     PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                     ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
 
-                <Frame
+            <Frame
                     x:Name="ItemDisplayFrame"
                     Grid.Row="2"
                     x:FieldModifier="public"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                     Navigated="ItemDisplayFrame_Navigated" />
 
-                <Custom:GridSplitter
+            <Custom:GridSplitter
                     x:Name="PreviewPaneGridSplitter"
                     Grid.Row="1"
                     Grid.Column="1"
@@ -278,9 +283,9 @@
                     Background="Transparent"
                     ResizeBehavior="BasedOnAlignment"
                     ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
-                    <Custom:GridSplitter.Element>
-                        <Grid>
-                            <TextBlock
+                <Custom:GridSplitter.Element>
+                    <Grid>
+                        <TextBlock
                                 x:Name="GripperGlyphTextBlock"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -288,20 +293,22 @@
                                 FontSize="36"
                                 Foreground="{StaticResource SystemChromeHighColor}"
                                 IsHitTestVisible="False" />
-                        </Grid>
-                    </Custom:GridSplitter.Element>
-                </Custom:GridSplitter>
+                    </Grid>
+                </Custom:GridSplitter.Element>
+            </Custom:GridSplitter>
 
-                <controls:PreviewPane
+            <controls:PreviewPane
                     x:Name="PreviewPane"
                     Grid.Row="1"
                     Grid.Column="2"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
                     SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
                     AutomationProperties.Name="Selected file preview pane"
-                    x:Uid="SelectedFilePreviewPane"/>
+                    x:Uid="SelectedFilePreviewPane"
+                    Loaded="PreviewPane_Loaded">
+            </controls:PreviewPane>
 
-                <controls:StatusBarControl
+            <controls:StatusBarControl
                     x:Name="StatusBarControl"
                     Grid.Row="5"
                     Grid.ColumnSpan="3"
@@ -313,9 +320,8 @@
                     SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
                     SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
                     ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
-            </Grid>
+        </Grid>
         </Custom:DropShadowPanel>
-
         <Custom:GridSplitter
             x:Name="SidebarResizer"
             Grid.Column="1"

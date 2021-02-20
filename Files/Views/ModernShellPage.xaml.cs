@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -914,6 +916,7 @@ namespace Files.Views
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+            PreviewPaneShadow?.Receivers.Add(ContentFrame);
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -1388,6 +1391,15 @@ namespace Files.Views
             else
             {
                 AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+            }
+        }
+
+        private void PreviewPane_Loaded(object sender, RoutedEventArgs e)
+        {
+            PreviewPane.Translation = new Vector3(0, 0, 75);
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                PreviewPane.Shadow = PreviewPaneShadow;
             }
         }
     }
