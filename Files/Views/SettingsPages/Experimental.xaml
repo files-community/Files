@@ -56,7 +56,7 @@
                     IsOn="{Binding UsePreemptiveCache, Mode=TwoWay}" />
 
                 <controls:NumberBox
-                    x:Uid="PreemptiveCacheParallelLimits"
+                    x:Uid="PreemptiveCacheParallelLimit"
                     HorizontalAlignment="Left"
                     Header="Preemptive cache parallel limit (smaller numbers should work better for hard drives)"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
