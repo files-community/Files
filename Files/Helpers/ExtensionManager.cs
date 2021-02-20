@@ -184,7 +184,7 @@ namespace Files.Helpers
 
             // load the extension if the package is OK
             if (!ext.Package.Status.VerifyIsOK()
-                /* This is a good place to do package signature verfication
+                /* This is a good place to do package signature verification
                    For the purpose of the sample, we ignore where the package is from
                    Here is an example of how you would ensure that you only load store-signed extensions:
                     && ext.Package.SignatureKind == PackageSignatureKind.Store */

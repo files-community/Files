@@ -83,9 +83,6 @@ namespace Files.Helpers
 
         public void Dispose()
         {
-            Connection?.Dispose();
-            associatedInstance?.Dispose();
-
             associatedInstance = null;
         }
 

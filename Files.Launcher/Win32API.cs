@@ -25,9 +25,11 @@ namespace FilesFullTrust
                 {
                     tcs.SetResult(func());
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    tcs.SetException(e);
+                    //tcs.SetException(e);
+                    tcs.SetResult(default);
+                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
@@ -96,44 +98,7 @@ namespace FilesFullTrust
 
         public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
         {
-            var shfi = new Shell32.SHFILEINFO();
-            var ret = Shell32.SHGetFileInfo(
-                path,
-                0,
-                ref shfi,
-                Shell32.SHFILEINFO.Size,
-                Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
-            if (ret == IntPtr.Zero)
-            {
-                return (null, null, false);
-            }
-
-            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
-            User32.DestroyIcon(shfi.hIcon);
-            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
-            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
-            if (imageList.IsNull || imageList.IsInvalid)
-            {
-                return (null, null, isCustom);
-            }
-
             string iconStr = null, overlayStr = null;
-            var overlayIdx = shfi.iIcon >> 24;
-            if (overlayIdx != 0)
-            {
-                var overlayImage = imageList.Interface.GetOverlayImage(overlayIdx);
-                using var hOverlay = imageList.Interface.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-                {
-                    using var image = hOverlay.ToIcon().ToBitmap();
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                }
-            }
-
-            // The following only returns the icon (not thumbnail) and it's difficult to get a high-res icon
-            //var icon_idx = shfi.iIcon & 0xFFFFFF;
-            //using var hIcon = imageList.Interface.GetIcon(icon_idx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
 
             using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
             if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
@@ -151,6 +116,40 @@ namespace FilesFullTrust
                     }
                 }
                 //Marshal.ReleaseComObject(fctry);
+            }
+
+            var shfi = new Shell32.SHFILEINFO();
+            var ret = Shell32.SHGetFileInfo(
+                path,
+                0,
+                ref shfi,
+                Shell32.SHFILEINFO.Size,
+                Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+            if (ret == IntPtr.Zero)
+            {
+                return (iconStr, null, false);
+            }
+
+            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+            User32.DestroyIcon(shfi.hIcon);
+            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
+            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
+            if (imageList.IsNull || imageList.IsInvalid)
+            {
+                return (iconStr, null, isCustom);
+            }
+
+            var overlayIdx = shfi.iIcon >> 24;
+            if (overlayIdx != 0)
+            {
+                var overlayImage = imageList.Interface.GetOverlayImage(overlayIdx);
+                using var hOverlay = imageList.Interface.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+                if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+                {
+                    using var image = hOverlay.ToIcon().ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                }
             }
 
             return (iconStr, overlayStr, isCustom);

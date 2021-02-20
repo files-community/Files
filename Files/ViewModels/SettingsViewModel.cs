@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
@@ -109,7 +111,7 @@ namespace Files.ViewModels
             get => new GridLength(Math.Min(Math.Max(Get(300d), 50d), 600d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
-        
+
         /// <summary>
         /// Gets or sets a value indicating the width of the preview pane in a vertical layout.
         /// </summary>
@@ -124,8 +126,18 @@ namespace Files.ViewModels
             // Detect QuickLook
             try
             {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
-                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    {
+                        { "Arguments", "DetectQuickLook" }
+                    }, TimeSpan.FromSeconds(10));
+                    if (status == AppServiceResponseStatus.Success)
+                    {
+                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -270,6 +282,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not the date created column should be visible.
+        /// </summary>
+        public bool ShowDateCreatedColumn
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not the type column should be visible.
         /// </summary>
         public bool ShowTypeColumn
@@ -334,6 +355,7 @@ namespace Files.ViewModels
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+        public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
 
@@ -510,7 +532,7 @@ namespace Files.ViewModels
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
         /// <summary>
-        /// Gets or sets an ObservableCollection of the support langauges.
+        /// Gets or sets an ObservableCollection of the support languages.
         /// </summary>
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 
@@ -653,7 +675,25 @@ namespace Files.ViewModels
             get => Get(true);
             set => Set(value);
         }
-        
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to use preemptive caching.
+        /// </summary>
+        public bool UsePreemptiveCache
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
+        /// </summary>
+        public int PreemptiveCacheParallelLimit
+        {
+            get => Get(2);
+            set => Set(value);
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the multiselect option.
         /// </summary>
@@ -760,7 +800,7 @@ namespace Files.ViewModels
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
 
-        public AcrylicTheme AcrylicTheme { get; set; }
+        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
 
         public FolderLayoutModes DefaultLayoutMode
         {
