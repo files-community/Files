@@ -832,7 +832,7 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
-                                if (matchingStorageItem.DisplayName != item.ItemName)
+                                if (matchingStorageItem.DisplayName != item.ItemName && !matchingStorageItem.DisplayName.StartsWith("$R"))
                                 {
                                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                     {
