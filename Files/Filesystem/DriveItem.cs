@@ -88,6 +88,9 @@ namespace Files.Filesystem
         private ObservableCollection<INavigationControlItem> childItems;
         public ObservableCollection<INavigationControlItem> ChildItems { get => childItems; set => childItems = value; }
 
+        private bool isExpanded;
+        public bool IsExpanded { get => isExpanded; set => isExpanded = value; }
+
         private string spaceText;
 
         public string SpaceText

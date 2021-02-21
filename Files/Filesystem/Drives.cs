@@ -141,7 +141,8 @@ namespace Files.Filesystem
 
                     MainPage.SideBarItems.Add(new DriveItem(items)
                     {
-                        Text = "SidebarDrives".GetLocalized()
+                        Text = "SidebarDrives".GetLocalized(),
+                        IsExpanded = false
                     });
                     MainPage.SideBarItems.EndBulkOperation();
                 }

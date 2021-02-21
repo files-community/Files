@@ -107,7 +107,8 @@ namespace Files.Filesystem
 
                     MainPage.SideBarItems.Add(new DriveItem(items)
                     {
-                        Text = "SidebarCloudDrives".GetLocalized()
+                        Text = "SidebarCloudDrives".GetLocalized(),
+                        IsExpanded = false
                     });
 
                     MainPage.SideBarItems.EndBulkOperation();

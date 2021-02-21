@@ -78,7 +78,7 @@
                     DragLeave="NavigationViewItem_DragLeave"
                     DragOver="NavigationViewDriveItem_DragOver"
                     Drop="NavigationViewDriveItem_Drop"
-                    IsExpanded="True"
+                    IsExpanded="{x:Bind IsExpanded}"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"

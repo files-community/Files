@@ -256,9 +256,10 @@ namespace Files.DataModels
 
                 MainPage.SideBarItems.Add(new DriveItem(items)
                 { 
-                    Text = "SidebarQuickAccess".GetLocalized()
+                    Text = "SidebarQuickAccess".GetLocalized(),
+                    IsExpanded = true
                 });
-
+                
                 MainPage.SideBarItems.EndBulkOperation();
             }
             finally
