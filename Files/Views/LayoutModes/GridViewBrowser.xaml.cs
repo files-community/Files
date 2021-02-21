@@ -275,7 +275,11 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+            if (textBox.Parent == null)
+            {
+                // Navigating away, do nothing
+            }
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
