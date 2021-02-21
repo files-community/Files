@@ -2,9 +2,11 @@
 using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -217,14 +219,46 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
+            ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
+
             await MainPage.SideBarItemsSemaphore.WaitAsync();
             try
             {
                 for (int i = 0; i < Items.Count(); i++)
                 {
                     string path = Items[i];
-                    await AddItemToSidebarAsync(path);
+                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                    var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+                    if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+                    {
+                        int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                        && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                        var locationItem = new LocationItem
+                        {
+                            Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                            Path = path,
+                            Glyph = GetItemIcon(path),
+                            IsDefaultLocation = false,
+                            Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                        };
+
+                        if (!MainPage.SideBarItems.Contains(locationItem))
+                        {
+                            items.Add(locationItem);
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
+                        RemoveItem(path);
+                    }
                 }
+
+                MainPage.SideBarItems.Add(new DriveItem(items)
+                { 
+                    Text = "SidebarQuickAccess".GetLocalized()
+                });
+
                 MainPage.SideBarItems.EndBulkOperation();
             }
             finally

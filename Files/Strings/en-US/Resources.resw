@@ -1773,6 +1773,9 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Unpin directory from sidebar</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network drives</value>
   </data>
