@@ -160,6 +160,10 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="F1"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
     </Page.KeyboardAccelerators>
     <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
         <Grid.ColumnDefinitions>

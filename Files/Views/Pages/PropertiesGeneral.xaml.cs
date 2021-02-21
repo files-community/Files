@@ -25,7 +25,7 @@ namespace Files.Views
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },

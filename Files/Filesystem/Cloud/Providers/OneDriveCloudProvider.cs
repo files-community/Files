@@ -22,10 +22,11 @@ namespace Files.Filesystem.Cloud.Providers
                     {
                         { "Arguments", "GetOneDriveAccounts" }
                     }, TimeSpan.FromSeconds(10));
-                    if (status == AppServiceResponseStatus.Success)
+                    if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
                     {
                         var results = new List<CloudProvider>();
                         foreach (var key in response.Message.Keys
+                            .Where(k => k != "Count")
                             .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
                             .ThenBy(o => o))
                         {

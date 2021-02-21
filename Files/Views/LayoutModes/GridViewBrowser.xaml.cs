@@ -175,7 +175,7 @@ namespace Files.Views.LayoutModes
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private ListedItem renamingItem;
@@ -275,7 +275,11 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+            if (textBox.Parent == null)
+            {
+                // Navigating away, do nothing
+            }
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
@@ -429,7 +433,7 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)

@@ -142,7 +142,7 @@ namespace Files.Views.LayoutModes
             var rows = new List<DataGridRow>();
             Interaction.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (rows.Any(x => x.DataContext == listedItem))
@@ -411,6 +411,10 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
+            if (IsRenamingItem)
+            {
+                return;
+            }
 
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
@@ -423,9 +427,13 @@ namespace Files.Views.LayoutModes
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AllView.CommitEdit();
+            if (e != null)
+            {
+                // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
+                AllView.CommitEdit();
+            }
             tapDebounceTimer.Stop();
-            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
