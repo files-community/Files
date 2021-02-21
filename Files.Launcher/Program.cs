@@ -321,7 +321,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet({ { "Count", 0 } }));
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                             return;
                         }
 
@@ -342,7 +342,7 @@ namespace FilesFullTrust
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet({ { "Count", 0 } }));
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                     }
                     break;
 
@@ -353,7 +353,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet({ { "Count", 0 } }));
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                             return;
                         }
 
@@ -401,7 +401,7 @@ namespace FilesFullTrust
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet({ { "Count", 0 } }));
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                     }
                     break;
 
