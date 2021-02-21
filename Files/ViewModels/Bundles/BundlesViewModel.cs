@@ -154,7 +154,7 @@ namespace Files.ViewModels.Bundles
 
             void inputText_Loaded(object s, RoutedEventArgs e)
             {
-                inputText.Focus(FocusState.Keyboard);
+                inputText.Focus(FocusState.Programmatic);
             }
         }
 
