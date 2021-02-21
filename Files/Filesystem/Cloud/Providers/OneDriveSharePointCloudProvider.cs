@@ -22,10 +22,11 @@ namespace Files.Filesystem.Cloud.Providers
                     {
                         { "Arguments", "GetSharePointSyncLocationsFromOneDrive" }
                     }, TimeSpan.FromSeconds(10));
-                    if (status == AppServiceResponseStatus.Success)
+                    if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
                     {
                         var results = new List<CloudProvider>();
                         foreach (var key in response.Message.Keys
+                            .Where(k => k != "Count")
                             .OrderBy(o => o))
                         {
                             results.Add(new CloudProvider()
