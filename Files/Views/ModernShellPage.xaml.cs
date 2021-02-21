@@ -1159,6 +1159,10 @@ namespace Files.Views
                 case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
+
+                case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
+                    break;
             };
 
             switch (args.KeyboardAccelerator.Key)
