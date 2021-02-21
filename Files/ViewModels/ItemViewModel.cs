@@ -912,6 +912,7 @@ namespace Files.ViewModels
                     path.StartsWith("ftp:"))
                 {
                     // Recycle bin and network are enumerated by the fulltrust process
+                    PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
                     await EnumerateItemsFromSpecialFolderAsync(path);
                 }
                 else
@@ -1138,7 +1139,6 @@ namespace Files.ViewModels
                 // Is folder synced to cloud storage?
                 var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
                 PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
-
             }
 
             if (enumFromStorageFolder)
