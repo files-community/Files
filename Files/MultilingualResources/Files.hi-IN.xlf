@@ -283,6 +283,10 @@
           <source>Downloads</source>
           <target state="translated">डाउनलोड्स</target>
         </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">गृह</target>
+        </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
           <target state="translated">संगीत</target>

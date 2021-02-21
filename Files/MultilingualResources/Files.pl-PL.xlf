@@ -157,6 +157,10 @@
           <source>Downloads</source>
           <target state="translated">Pobrane</target>
         </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Strona Główna</target>
+        </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
           <target state="translated">Muzyka</target>

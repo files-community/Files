@@ -234,6 +234,9 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>Overførelser</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Hjem</value>
+  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Musik</value>
   </data>

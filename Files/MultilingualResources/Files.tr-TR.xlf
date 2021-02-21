@@ -160,6 +160,10 @@
           <source>Downloads</source>
           <target state="translated">İndirilenler</target>
         </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Ana Dosya</target>
+        </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
           <target state="translated">Müzikler</target>

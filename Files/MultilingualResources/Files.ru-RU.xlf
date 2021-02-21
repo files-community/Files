@@ -155,6 +155,10 @@
           <source>Downloads</source>
           <target state="translated">Загрузки</target>
         </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Главная</target>
+        </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
           <target state="translated">Музыка</target>

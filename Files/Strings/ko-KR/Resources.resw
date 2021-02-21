@@ -123,6 +123,9 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>다운로드</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>홈</value>
+  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>음악</value>
   </data>

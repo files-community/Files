@@ -216,6 +216,9 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>ଡାଉନଲୋଡଗୁଡ଼ିକ</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>ଘର</value>
+  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>ସଙ୍ଗୀତ</value>
   </data>

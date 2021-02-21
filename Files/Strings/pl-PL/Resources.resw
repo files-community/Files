@@ -123,6 +123,9 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>Pobrane</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Strona Główna</value>
+  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Muzyka</value>
   </data>
