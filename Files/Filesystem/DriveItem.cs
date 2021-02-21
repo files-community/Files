@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -84,12 +85,8 @@ namespace Files.Filesystem
             set => SetProperty(ref text, value);
         }
 
-        private System.Collections.Generic.List<INavigationControlItem> sideBarChildItems;
-        public System.Collections.Generic.List<INavigationControlItem> SideBarChildItems
-        {
-            get => sideBarChildItems;
-            set => SetProperty(ref sideBarChildItems, value);
-        }
+        private ObservableCollection<INavigationControlItem> childItems;
+        public ObservableCollection<INavigationControlItem> ChildItems { get => childItems; set => childItems = value; }
 
         private string spaceText;
 
@@ -99,9 +96,9 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceText, value);
         }
 
-        public DriveItem(System.Collections.Generic.List<INavigationControlItem> _sideBarChildItems)
+        public DriveItem(ObservableCollection<INavigationControlItem> _sideBarChildItems)
         {
-            sideBarChildItems = _sideBarChildItems;
+            ChildItems = _sideBarChildItems;
         }
 
         public DriveItem()

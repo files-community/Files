@@ -31,8 +31,8 @@ namespace Files.Filesystem
             {
                 return new PathBoxItem()
                 {
-                    Title = MainPage.SideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive).SideBarChildItems.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
-                            MainPage.SideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive).SideBarChildItems.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text : $@"Drive ({component}\)",
+                    Title = MainPage.SideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive).ChildItems.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
+                            MainPage.SideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive).ChildItems.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text : $@"Drive ({component}\)",
                     Path = path,
                 };
             }

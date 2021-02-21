@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
@@ -24,6 +25,6 @@ namespace Files.Filesystem
         public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
-        public System.Collections.Generic.List<INavigationControlItem> SideBarChildItems { get; set; }
+        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
     }
 }

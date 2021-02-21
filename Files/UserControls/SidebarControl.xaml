@@ -72,7 +72,7 @@
                     AllowDrop="True"
                     BorderThickness="0.8"
                     Content="{x:Bind Text, Mode=OneWay}"
-                    MenuItemsSource="{x:Bind SideBarChildItems}"
+                    MenuItemsSource="{x:Bind ChildItems}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"

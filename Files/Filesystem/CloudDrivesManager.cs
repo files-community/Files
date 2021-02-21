@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -84,7 +85,7 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                System.Collections.Generic.List<INavigationControlItem> items = new List<INavigationControlItem>();
+                ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
 
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
