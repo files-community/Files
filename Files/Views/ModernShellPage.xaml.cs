@@ -663,6 +663,13 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
+            currentInput = currentInput.Replace("\\\\", "\\");
+
+            if (currentInput.StartsWith("\\") && !currentInput.StartsWith("\\\\"))
+            {
+                currentInput = currentInput.Insert(0, "\\");
+            }
+
             if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
