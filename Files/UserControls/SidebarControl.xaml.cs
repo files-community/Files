@@ -312,6 +312,10 @@ namespace Files.UserControls
                     if (dragOverItem != null)
                     {
                         dragOverTimer.Stop();
+                        if ((dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locItem)
+                        {
+                            locItem.IsExpanded = true;
+                        }
                         SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem));
                         dragOverItem = null;
                     }
@@ -365,6 +369,7 @@ namespace Files.UserControls
                 }
 
                 if (storageItems.Count == 0 ||
+                    string.IsNullOrEmpty(locationItem.Path) ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                 {

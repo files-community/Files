@@ -1,11 +1,12 @@
-﻿using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
-    public class LocationItem : INavigationControlItem
+    public class LocationItem : ObservableObject, INavigationControlItem
     {
         public string Glyph { get; set; }
         public string Text { get; set; }
@@ -33,7 +34,11 @@ namespace Files.Filesystem
         public bool IsExpanded
         {
             get => App.AppSettings.Get(Text == "SidebarQuickAccess".GetLocalized(), $"section:{Text}");
-            set => App.AppSettings.Set(value, $"section:{Text}");
+            set
+            {
+                App.AppSettings.Set(value, $"section:{Text}");
+                OnPropertyChanged(nameof(IsExpanded));
+            }
         }
     }
 }
