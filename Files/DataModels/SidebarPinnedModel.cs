@@ -1,4 +1,5 @@
-﻿using Files.Controllers;
+﻿using Files.Common;
+using Files.Controllers;
 using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
@@ -11,6 +12,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
@@ -18,6 +21,8 @@ namespace Files.DataModels
     public class SidebarPinnedModel
     {
         private SidebarPinnedController controller;
+
+        private LocationItem section;
 
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -28,6 +33,19 @@ namespace Files.DataModels
         public void SetController(SidebarPinnedController controller)
         {
             this.controller = controller;
+        }
+
+        public SidebarPinnedModel()
+        {
+            section = new LocationItem()
+            {
+                Text = "SidebarQuickAccess".GetLocalized(),
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Glyph = "\uea80",
+                IsDefaultLocation = true,
+                Path = "Home",
+                ChildItems = new ObservableCollection<INavigationControlItem>()
+            };
         }
 
         /// <summary>
@@ -65,6 +83,45 @@ namespace Files.DataModels
             }
         }
 
+        public async Task ShowHideRecycleBinItemAsync(bool show)
+        {
+            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            try
+            {
+                if (show)
+                {
+                    var recycleBinItem = new LocationItem
+                    {
+                        Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                        Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                        Glyph = "\uEF87",
+                        IsDefaultLocation = true,
+                        Path = App.AppSettings.RecycleBinPath
+                    };
+                    // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
+                    // TODO: the very first time the app is launched localized name not available
+                    if (!section.ChildItems.Contains(recycleBinItem))
+                    {
+                        section.ChildItems.Add(recycleBinItem);
+                    }
+                }
+                else
+                {
+                    foreach (INavigationControlItem item in section.ChildItems.ToList())
+                    {
+                        if (item is LocationItem && item.Path == App.AppSettings.RecycleBinPath)
+                        {
+                            section.ChildItems.Remove(item);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                MainPage.SideBarItemsSemaphore.Release();
+            }
+        }
+
         /// <summary>
         /// Removes the item from the navigation page
         /// </summary>
@@ -95,8 +152,8 @@ namespace Files.DataModels
 
             if (oldIndex >= 0 && newIndex >= 0)
             {
-                MainPage.SideBarItems.RemoveAt(oldIndex);
-                MainPage.SideBarItems.Insert(newIndex, locationItem);
+                section.ChildItems.RemoveAt(oldIndex);
+                section.ChildItems.Insert(newIndex, locationItem);
                 return true;
             }
 
@@ -161,7 +218,7 @@ namespace Files.DataModels
         /// <returns>Index of the item</returns>
         public int IndexOfItem(INavigationControlItem locationItem)
         {
-            return MainPage.SideBarItems.IndexOf(locationItem);
+            return section.ChildItems.IndexOf(locationItem);
         }
 
         /// <summary>
@@ -191,8 +248,8 @@ namespace Files.DataModels
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
-                int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                var lastItem = section.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
+                int insertIndex = lastItem != null ? section.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
                     Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -202,9 +259,9 @@ namespace Files.DataModels
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
 
-                if (!MainPage.SideBarItems.Contains(locationItem))
+                if (!section.ChildItems.Contains(locationItem))
                 {
-                    MainPage.SideBarItems.Insert(insertIndex, locationItem);
+                    section.ChildItems.Insert(insertIndex, locationItem);
                 }
             }
             else
@@ -219,53 +276,27 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
-
             await MainPage.SideBarItemsSemaphore.WaitAsync();
             try
             {
+                MainPage.SideBarItems.BeginBulkOperation();
                 for (int i = 0; i < Items.Count(); i++)
                 {
                     string path = Items[i];
-                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-                    var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-                    if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
-                    {
-                        int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                        && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
-                        var locationItem = new LocationItem
-                        {
-                            Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                            Path = path,
-                            Glyph = GetItemIcon(path),
-                            IsDefaultLocation = false,
-                            Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                        };
-
-                        if (!MainPage.SideBarItems.Contains(locationItem))
-                        {
-                            items.Add(locationItem);
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
-                        RemoveItem(path);
-                    }
+                    await AddItemToSidebarAsync(path);
                 }
-
-                MainPage.SideBarItems.Add(new DriveItem(items)
-                { 
-                    Text = "SidebarQuickAccess".GetLocalized(),
-                    IsExpanded = true
-                });
-                
+                if (!MainPage.SideBarItems.Contains(section))
+                {
+                    MainPage.SideBarItems.Add(section);
+                }
                 MainPage.SideBarItems.EndBulkOperation();
             }
             finally
             {
                 MainPage.SideBarItemsSemaphore.Release();
             }
+
+            await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);
         }
 
         /// <summary>
@@ -274,14 +305,14 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < MainPage.SideBarItems.Count(); i++)
+            for (int i = 0; i < section.ChildItems.Count(); i++)
             {
-                if (MainPage.SideBarItems[i] is LocationItem)
+                if (section.ChildItems[i] is LocationItem)
                 {
-                    var item = MainPage.SideBarItems[i] as LocationItem;
+                    var item = section.ChildItems[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
-                        MainPage.SideBarItems.RemoveAt(i);
+                        section.ChildItems.RemoveAt(i);
                     }
                 }
             }

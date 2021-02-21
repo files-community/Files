@@ -234,9 +234,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>التنزيلات</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>الصفحة الرئيسية</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>موسيقى</value>
   </data>

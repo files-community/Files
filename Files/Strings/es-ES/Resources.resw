@@ -123,9 +123,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>Descargas</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Inicio</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Música</value>
   </data>

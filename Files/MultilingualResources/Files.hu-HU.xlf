@@ -294,10 +294,6 @@
           <source>Downloads</source>
           <target state="translated">Letöltések</target>
         </trans-unit>
-        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
-          <source>Home</source>
-          <target state="translated">Kezdőoldal</target>
-        </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
           <target state="translated">Zene</target>
@@ -2361,6 +2357,10 @@
         <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More drives options</source>
           <target state="new">More drives options</target>
+        </trans-unit>
+        <trans-unit id="SidebarQuickAccess" translate="yes" xml:space="preserve">
+          <source>Quick access</source>
+          <target state="new">Quick access</target>
         </trans-unit>
       </group>
     </body>

@@ -210,9 +210,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>ダウンロード</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>ホーム</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>ミュージック</value>
   </data>

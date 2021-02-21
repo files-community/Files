@@ -123,9 +123,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>İndirilenler</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Ana Dosya</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Müzikler</value>
   </data>

@@ -123,9 +123,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>下載</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>首頁</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>音樂</value>
   </data>

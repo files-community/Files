@@ -234,9 +234,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>Hämtade filer</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Startsida</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Musik</value>
   </data>

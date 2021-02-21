@@ -119,18 +119,29 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
-
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
                     MainPage.SideBarItems.BeginBulkOperation();
 
-                    foreach (DriveItem drive in Drives)
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
                     {
-                        if (!MainPage.SideBarItems.Contains(drive))
+                        section = new LocationItem()
                         {
-                            items.Add(drive);
+                            Text = "SidebarDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\ueb8b",
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        MainPage.SideBarItems.Add(section);
+                    }
+
+                    foreach (DriveItem drive in Drives.ToList())
+                    {
+                        if (!section.ChildItems.Contains(drive))
+                        {
+                            section.ChildItems.Add(drive);
 
                             if (drive.Type != DriveType.VirtualDrive)
                             {
@@ -139,11 +150,6 @@ namespace Files.Filesystem
                         }
                     }
 
-                    MainPage.SideBarItems.Add(new DriveItem(items)
-                    {
-                        Text = "SidebarDrives".GetLocalized(),
-                        IsExpanded = false
-                    });
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

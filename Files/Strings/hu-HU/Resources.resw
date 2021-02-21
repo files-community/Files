@@ -228,9 +228,6 @@
   <data name="SidebarDownloads" xml:space="preserve">
     <value>Letöltések</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Kezdőoldal</value>
-  </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Zene</value>
   </data>

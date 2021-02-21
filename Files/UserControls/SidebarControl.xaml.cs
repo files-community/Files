@@ -223,47 +223,49 @@ namespace Files.UserControls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
 
-            ShowEmptyRecycleBin = false;
-            ShowUnpinItem = true;
-            ShowProperties = true;
-            ShowEjectDevice = false;
-
-            if (item.IsDefaultLocation)
+            if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarCloudDrives".GetLocalized()))
             {
-                ShowProperties = false;
+                ShowEmptyRecycleBin = false;
+                ShowUnpinItem = true;
+                ShowProperties = true;
+                ShowEjectDevice = false;
 
-                if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                if (item.IsDefaultLocation)
                 {
-                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+                    ShowProperties = false;
 
-                    ShowEmptyRecycleBin = true;
+                    if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+
+                        ShowEmptyRecycleBin = true;
+                    }
+                    else
+                    {
+                        ShowUnpinItem = false;
+                    }
                 }
-                else
-                {
-                    ShowUnpinItem = false;
-                }
+
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+                App.RightClickedItem = item;
             }
-
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            App.RightClickedItem = item;
         }
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
-            
-            if (!item.Text.Equals("SidebarDrives".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) && !item.Text.Equals("SidebarCloudDrives".GetLocalized()) && !item.Text.Equals("SidebarQuickAccess".GetLocalized()))
-            {
-                ShowEjectDevice = item.IsRemovable;
-                ShowUnpinItem = false;
-                ShowEmptyRecycleBin = false;
-                ShowProperties = true;
 
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            ShowEjectDevice = item.IsRemovable;
+            ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+            ShowProperties = true;
 
-                App.RightClickedItem = item;
-            }
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+
+            App.RightClickedItem = item;
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
