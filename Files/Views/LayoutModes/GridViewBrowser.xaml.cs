@@ -175,7 +175,7 @@ namespace Files.Views.LayoutModes
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private ListedItem renamingItem;
@@ -429,7 +429,7 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)

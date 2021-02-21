@@ -142,7 +142,7 @@ namespace Files.Views.LayoutModes
             var rows = new List<DataGridRow>();
             Interaction.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (rows.Any(x => x.DataContext == listedItem))
@@ -425,7 +425,7 @@ namespace Files.Views.LayoutModes
         {
             AllView.CommitEdit();
             tapDebounceTimer.Stop();
-            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)

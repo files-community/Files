@@ -351,11 +351,17 @@ namespace Files.ViewModels
                             if (newListedItem != null)
                             {
                                 await AddFileOrFolderAsync(newListedItem);
+                                await OrderFilesAndFoldersAsync();
+                                await ApplySingleFileChangeAsync(newListedItem);
                             }
                             break;
 
                         case "Deleted":
-                            await RemoveFileOrFolderAsync(itemPath);
+                            var removedItem = await RemoveFileOrFolderAsync(itemPath);
+                            if (removedItem != null)
+                            {
+                                await ApplySingleFileChangeAsync(removedItem);
+                            }
                             break;
 
                         default:
@@ -744,7 +750,7 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
-                                if (matchingStorageItem.DisplayName != item.ItemName)
+                                if (matchingStorageItem.DisplayName != item.ItemName && !matchingStorageItem.DisplayName.StartsWith("$R"))
                                 {
                                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                     {
@@ -1638,10 +1644,28 @@ namespace Files.ViewModels
             }
         }
 
-        private Task AddFileOrFolderAsync(ListedItem item)
+        private async Task AddFileOrFolderAsync(ListedItem item)
         {
-            filesAndFolders.Add(item);
-            return Task.CompletedTask;
+            try
+            {
+                await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            try
+            {
+                if (item != null)
+                {
+                    filesAndFolders.Add(item);
+                }
+            }
+            finally
+            {
+                enumFolderSemaphore.Release();
+            }
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1733,7 +1757,7 @@ namespace Files.ViewModels
             });
         }
 
-        public async Task RemoveFileOrFolderAsync(ListedItem item)
+        private async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
@@ -1742,7 +1766,7 @@ namespace Files.ViewModels
             });
         }
 
-        public async Task RemoveFileOrFolderAsync(string path)
+        public async Task<ListedItem> RemoveFileOrFolderAsync(string path)
         {
             try
             {
@@ -1750,7 +1774,7 @@ namespace Files.ViewModels
             }
             catch (OperationCanceledException)
             {
-                return;
+                return null;
             }
 
             try
@@ -1760,12 +1784,14 @@ namespace Files.ViewModels
                 if (matchingItem != null)
                 {
                     await RemoveFileOrFolderAsync(matchingItem);
+                    return matchingItem;
                 }
             }
             finally
             {
                 enumFolderSemaphore.Release();
             }
+            return null;
         }
 
         public void AddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
