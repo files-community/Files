@@ -411,6 +411,10 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
+            if (IsRenamingItem)
+            {
+                return;
+            }
 
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
@@ -423,7 +427,11 @@ namespace Files.Views.LayoutModes
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AllView.CommitEdit();
+            if (e != null)
+            {
+                // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
+                AllView.CommitEdit();
+            }
             tapDebounceTimer.Stop();
             SelectedItems = AllView.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
