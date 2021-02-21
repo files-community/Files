@@ -251,6 +251,8 @@ namespace Files.UserControls
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
                 App.RightClickedItem = item;
             }
+
+            e.Handled = true;
         }
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -266,6 +268,8 @@ namespace Files.UserControls
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             App.RightClickedItem = item;
+
+            e.Handled = true;
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
