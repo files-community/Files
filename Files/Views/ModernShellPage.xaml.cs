@@ -933,9 +933,9 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            FilesystemViewModel = new ItemViewModel(ServiceConnection, InstanceViewModel?.FolderSettings);
+            FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
             ServiceConnection = await AppServiceConnectionHelper.Instance;
-            FilesystemViewModel.OnAppServiceConnectionChanged();
+            FilesystemViewModel.OnAppServiceConnectionChanged(ServiceConnection);
             InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
@@ -965,26 +965,10 @@ namespace Files.Views
             }
         }
 
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            if (this.ServiceConnection == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                ServiceConnection = await AppServiceConnectionHelper.Instance;
-                FilesystemViewModel?.OnAppServiceConnectionChanged();
-            }
-        }
-
-        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
-        }
-
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
             string value = e.Path;
-            if (!string.IsNullOrWhiteSpace(value) && Path.IsPathRooted(value))
+            if (!string.IsNullOrWhiteSpace(value))
             {
                 UpdatePathUIToWorkingDirectory(value);
             }
@@ -1322,10 +1306,7 @@ namespace Files.Views
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
         {
             ServiceConnection = await e;
-            if (FilesystemViewModel != null)
-            {
-                FilesystemViewModel.OnAppServiceConnectionChanged();
-            }
+            FilesystemViewModel?.OnAppServiceConnectionChanged(ServiceConnection);
         }
 
         private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)

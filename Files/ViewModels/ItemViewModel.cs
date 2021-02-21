@@ -66,6 +66,8 @@ namespace Files.ViewModels
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
+        private AppServiceConnection Connection;
+
         public string WorkingDirectory
         {
             get
@@ -305,11 +307,8 @@ namespace Files.ViewModels
             }
         }
 
-        public AppServiceConnection Connection = null;
-
-        public ItemViewModel(AppServiceConnection associatedServiceConnection, FolderSettingsViewModel folderSettingsViewModel)
+        public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
         {
-            Connection = associatedServiceConnection;
             FolderSettings = folderSettingsViewModel;
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
@@ -319,8 +318,13 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
         }
 
-        public void OnAppServiceConnectionChanged()
+        public void OnAppServiceConnectionChanged(AppServiceConnection connection)
         {
+            if (Connection != null)
+            {
+                Connection.RequestReceived -= Connection_RequestReceived;
+            }
+            Connection = connection;
             if (Connection != null)
             {
                 Connection.RequestReceived += Connection_RequestReceived;
@@ -967,10 +971,6 @@ namespace Files.ViewModels
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
-            }
-            catch (ObjectDisposedException ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             finally
             {
@@ -1818,6 +1818,10 @@ namespace Files.ViewModels
         public void Dispose()
         {
             CancelLoadAndClearFiles();
+            if (Connection != null)
+            {
+                Connection.RequestReceived -= Connection_RequestReceived;
+            }
         }
     }
 
