@@ -142,6 +142,9 @@ namespace Files.Filesystem
                     MainPage.SideBarItems.Add(new DriveItem(items)
                     {
                         Text = "SidebarDrives".GetLocalized(),
+                        Path = App.AppSettings.HomePath,
+                        Type = DriveType.Fixed,
+                        ItemType = NavigationControlItemType.Drive,
                         IsExpanded = false
                     });
                     MainPage.SideBarItems.EndBulkOperation();

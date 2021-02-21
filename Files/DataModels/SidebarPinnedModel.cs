@@ -253,10 +253,13 @@ namespace Files.DataModels
                         RemoveItem(path);
                     }
                 }
-
+   
                 MainPage.SideBarItems.Add(new DriveItem(items)
                 { 
                     Text = "SidebarQuickAccess".GetLocalized(),
+                    Path = App.AppSettings.HomePath,
+                    Type = Filesystem.DriveType.Fixed,
+                    ItemType = NavigationControlItemType.Drive,
                     IsExpanded = true
                 });
                 

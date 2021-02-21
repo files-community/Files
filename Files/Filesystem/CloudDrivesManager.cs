@@ -108,6 +108,9 @@ namespace Files.Filesystem
                     MainPage.SideBarItems.Add(new DriveItem(items)
                     {
                         Text = "SidebarCloudDrives".GetLocalized(),
+                        Path = App.AppSettings.NetworkFolderPath,
+                        ItemType = NavigationControlItemType.CloudDrive,
+                        Type = DriveType.CloudDrive,
                         IsExpanded = false
                     });
 
