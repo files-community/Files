@@ -501,5 +501,6 @@ namespace Files
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
         public Uri Logo { get; set; }
+        public List<INavigationControlItem> SideBarChildItems { get; set; }
     }
 }

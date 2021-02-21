@@ -84,12 +84,24 @@ namespace Files.Filesystem
             set => SetProperty(ref text, value);
         }
 
+        private System.Collections.Generic.List<INavigationControlItem> sideBarChildItems;
+        public System.Collections.Generic.List<INavigationControlItem> SideBarChildItems
+        {
+            get => sideBarChildItems;
+            set => SetProperty(ref sideBarChildItems, value);
+        }
+
         private string spaceText;
 
         public string SpaceText
         {
             get => spaceText;
             set => SetProperty(ref spaceText, value);
+        }
+
+        public DriveItem(System.Collections.Generic.List<INavigationControlItem> _sideBarChildItems)
+        {
+            sideBarChildItems = _sideBarChildItems;
         }
 
         public DriveItem()

@@ -110,7 +110,7 @@ namespace Files.Filesystem
                     MainPage.SideBarItems.BeginBulkOperation();
 
                     var drivesSnapshot = Drives.ToList();
-                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarNetworkDrives".GetLocalized());
+                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is DriveItem && x.Text == "SidebarNetworkDrives".GetLocalized());
 
                     if (drivesSection != null && drivesSnapshot.Count == 0)
                     {
@@ -120,7 +120,7 @@ namespace Files.Filesystem
 
                     if (drivesSection == null && drivesSnapshot.Count > 0)
                     {
-                        drivesSection = new HeaderTextItem()
+                        drivesSection = new DriveItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized()
                         };

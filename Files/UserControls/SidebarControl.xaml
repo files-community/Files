@@ -72,11 +72,13 @@
                     AllowDrop="True"
                     BorderThickness="0.8"
                     Content="{x:Bind Text, Mode=OneWay}"
+                    MenuItemsSource="{x:Bind SideBarChildItems}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     DragOver="NavigationViewDriveItem_DragOver"
                     Drop="NavigationViewDriveItem_Drop"
+                    IsExpanded="True"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
@@ -111,14 +113,9 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
-                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
-            </DataTemplate>
-
             <local:NavItemDataTemplateSelector
                 x:Key="NavItemSelector"
                 DriveNavItemTemplate="{StaticResource DriveNavItem}"
-                HeaderNavItemTemplate="{StaticResource HeaderItem}"
                 LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
                 LocationNavItemTemplate="{StaticResource LocationNavItem}" />
         </ResourceDictionary>

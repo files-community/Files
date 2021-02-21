@@ -252,15 +252,18 @@ namespace Files.UserControls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
+            
+            if (!item.Text.Equals("SidebarDrives".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) && !item.Text.Equals("SidebarCloudDrives".GetLocalized()))
+            {
+                ShowEjectDevice = item.IsRemovable;
+                ShowUnpinItem = false;
+                ShowEmptyRecycleBin = false;
+                ShowProperties = true;
 
-            ShowEjectDevice = item.IsRemovable;
-            ShowUnpinItem = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = true;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-
-            App.RightClickedItem = item;
+                App.RightClickedItem = item;
+            }
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)

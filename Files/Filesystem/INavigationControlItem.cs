@@ -11,6 +11,7 @@
         public string HoverDisplayText { get; }
 
         public NavigationControlItemType ItemType { get; }
+        public System.Collections.Generic.List<INavigationControlItem> SideBarChildItems { get; }
     }
 
     public enum NavigationControlItemType

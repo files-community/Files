@@ -396,7 +396,11 @@ namespace Files.Views
                     }
                 default:
                     {
-                        navigationPath = invokedItemContainer.Tag.ToString();
+                        navigationPath = string.Empty;
+
+                        if (invokedItemContainer.Tag != null)
+                            navigationPath = invokedItemContainer.Tag.ToString();
+
                         break;
                     }
             }
