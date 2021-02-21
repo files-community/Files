@@ -119,6 +119,7 @@ namespace Files.Filesystem
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                             Glyph = "\ueac2",
+                            SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         MainPage.SideBarItems.Add(section);

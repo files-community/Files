@@ -58,6 +58,7 @@
                     Tag="{x:Bind Path}"
                     MenuItemsSource="{x:Bind ChildItems}"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon

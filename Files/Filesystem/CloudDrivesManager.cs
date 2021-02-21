@@ -98,6 +98,7 @@ namespace Files.Filesystem
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                             Glyph = "\ue9b7",
+                            SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         MainPage.SideBarItems.Add(section);

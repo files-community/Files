@@ -51,6 +51,7 @@ namespace Files.DataModels
                 Text = "SidebarQuickAccess".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                 Glyph = "\uEA52",
+                SelectsOnInvoked = false,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
