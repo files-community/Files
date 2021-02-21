@@ -253,7 +253,7 @@ namespace Files.UserControls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
             
-            if (!item.Text.Equals("SidebarDrives".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) && !item.Text.Equals("SidebarCloudDrives".GetLocalized()) && !item.Text.Equals("SidebarQuickAccess".GetLocalized()))
+            if (!item.Text.Equals("SidebarDrives".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) && !item.Text.Equals("SidebarCloudDrives".GetLocalized()) && !item.Text.Equals("SidebarQuickAccess".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()))
             {
                 ShowEjectDevice = item.IsRemovable;
                 ShowUnpinItem = false;
