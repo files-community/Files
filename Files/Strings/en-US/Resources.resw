@@ -1884,7 +1884,7 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>More drives options</value>
   </data>
-  <data name="SidebarQuickAccess" xml:space="preserve">
+  <data name="SidebarFavorites" xml:space="preserve">
     <value>Quick access</value>
   </data>
 </root>

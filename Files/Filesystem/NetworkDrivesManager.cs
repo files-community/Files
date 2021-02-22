@@ -1,4 +1,5 @@
 ﻿using Files.Helpers;
+using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
