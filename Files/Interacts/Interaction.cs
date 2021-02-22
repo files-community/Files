@@ -265,7 +265,7 @@ namespace Files.Interacts
                     { "Arguments", string.Format(terminal.Arguments,
                        Helpers.PathNormalization.NormalizePath(AssociatedInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
-                await Connection.SendMessageAsync(value);
+                await Connection.SendMessageSafeAsync(value);
             }
         }
 
@@ -317,7 +317,7 @@ namespace Files.Interacts
                     value.Add("Arguments", arguments);
                 }
 
-                await Connection.SendMessageAsync(value);
+                await Connection.SendMessageSafeAsync(value);
             }
         }
 
@@ -329,7 +329,7 @@ namespace Files.Interacts
                 var value = new ValueSet();
                 value.Add("ShellCommand", shellCommand);
                 value.Add("Arguments", "ShellCommand");
-                await Connection.SendMessageAsync(value);
+                await Connection.SendMessageSafeAsync(value);
             }
         }
 
@@ -412,7 +412,7 @@ namespace Files.Interacts
         {
             if (Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageSafeAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
@@ -425,7 +425,7 @@ namespace Files.Interacts
         {
             if (Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageSafeAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
@@ -499,14 +499,14 @@ namespace Files.Interacts
             {
                 if (isShortcutItem)
                 {
-                    AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
+                    var (status, response) = await Connection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
                         { "filepath", path }
                     });
 
-                    if (response.Status == AppServiceResponseStatus.Success)
+                    if (status == AppServiceResponseStatus.Success)
                     {
                         shortcutTargetPath = response.Message.Get("TargetPath", string.Empty);
                         shortcutArguments = response.Message.Get("Arguments", string.Empty);
@@ -942,7 +942,7 @@ namespace Files.Interacts
                                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
-                    await Connection.SendMessageAsync(value);
+                    await Connection.SendMessageSafeAsync(value);
                 }
             }
         }
@@ -1073,14 +1073,14 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        var (status, result) = await Connection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
                             { "filepath", filePaths },
                             { "operation", (int)DataPackageOperation.Move }
                         });
-                        if (result.Status == AppServiceResponseStatus.Success)
+                        if (status == AppServiceResponseStatus.Success)
                         {
                             return;
                         }
@@ -1147,7 +1147,7 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        await Connection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
@@ -1242,7 +1242,7 @@ namespace Files.Interacts
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Empty");
                     // Send request to fulltrust process to empty recyclebin
-                    await Connection.SendMessageAsync(value);
+                    await Connection.SendMessageSafeAsync(value);
                 }
             }
         }
@@ -1352,7 +1352,7 @@ namespace Files.Interacts
                         var value = new ValueSet();
                         value.Add("path", clickedOnItem.ItemPath);
                         value.Add("Arguments", "ToggleQuickLook");
-                        await Connection.SendMessageAsync(value);
+                        await Connection.SendMessageSafeAsync(value);
                     }
                 }
             }

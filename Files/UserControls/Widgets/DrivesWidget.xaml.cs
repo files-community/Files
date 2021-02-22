@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using System;
@@ -147,7 +148,7 @@ namespace Files.UserControls.Widgets
         {
             if (AppInstance.ServiceConnection != null)
             {
-                await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                await AppInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "NetworkDriveOperation" },
                         { "netdriveop", "OpenMapNetworkDriveDialog" }
@@ -160,7 +161,7 @@ namespace Files.UserControls.Widgets
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             if (AppInstance.ServiceConnection != null)
             {
-                await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                await AppInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "NetworkDriveOperation" },
                         { "netdriveop", "DisconnectNetworkDrive" },

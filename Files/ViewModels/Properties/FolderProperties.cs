@@ -123,8 +123,8 @@ namespace Files.ViewModels.Properties
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Query");
                     // Send request to fulltrust process to get recyclebin properties
-                    var response = await AppInstance.ServiceConnection.SendMessageAsync(value);
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                    var (status, response) = await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
+                    if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
                         if (response.Message.TryGetValue("BinSize", out var binSize))
                         {
@@ -226,7 +226,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.ServiceConnection.SendMessageAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
                     }
                     break;
             }

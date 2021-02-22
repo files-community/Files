@@ -61,7 +61,10 @@ namespace Files.Filesystem
                 {
                     // Only show consent dialog if the exception is UnauthorizedAccessException
                     // and the drives list is empty (except for Removable drives which don't require FileSystem access)
-                    ShowUserConsentOnInit = true;
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        ShowUserConsentOnInit = true;
+                    });
                 }
             }
 
