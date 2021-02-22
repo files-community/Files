@@ -119,7 +119,7 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
+                //ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
 
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
@@ -152,15 +152,6 @@ namespace Files.Filesystem
                             }
                         }
                     }
-
-                    MainPage.SideBarItems.Add(new DriveItem(items)
-                    {
-                        Text = "SidebarDrives".GetLocalized(),
-                        Path = App.AppSettings.HomePath,
-                        Type = DriveType.Fixed,
-                        ItemType = NavigationControlItemType.Drive,
-                        IsExpanded = false
-                    });
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }

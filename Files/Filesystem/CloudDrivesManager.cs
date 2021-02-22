@@ -108,13 +108,6 @@ namespace Files.Filesystem
 
                     foreach (DriveItem drive in Drives.ToList())
                     {
-                        Text = "SidebarCloudDrives".GetLocalized(),
-                        Path = App.AppSettings.NetworkFolderPath,
-                        ItemType = NavigationControlItemType.CloudDrive,
-                        Type = DriveType.CloudDrive,
-                        IsExpanded = false
-                    });
-
                         if (!section.ChildItems.Contains(drive))
                         {
                             section.ChildItems.Add(drive);

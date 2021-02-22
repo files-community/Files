@@ -2362,7 +2362,7 @@
           <source>More drives options</source>
           <target state="translated">Más opciones de contenedores</target>
         </trans-unit>
-        <trans-unit id="SidebarQuickAccess" translate="yes" xml:space="preserve">
+        <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
           <source>Quick access</source>
           <target state="new">Quick access</target>
         </trans-unit>

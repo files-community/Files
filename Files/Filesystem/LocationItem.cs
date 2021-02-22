@@ -32,7 +32,7 @@ namespace Files.Filesystem
 
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarQuickAccess".GetLocalized(), $"section:{Text}");
+            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
             set => App.AppSettings.Set(value, $"section:{Text}");
         }
     }

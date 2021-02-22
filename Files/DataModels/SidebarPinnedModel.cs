@@ -48,7 +48,7 @@ namespace Files.DataModels
             };
             quickAccessSection = new LocationItem()
             {
-                Text = "SidebarQuickAccess".GetLocalized(),
+                Text = "SidebarFavorites".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                 Glyph = "\uEA52",
                 SelectsOnInvoked = false,

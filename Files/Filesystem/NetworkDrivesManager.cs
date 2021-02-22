@@ -139,15 +139,6 @@ namespace Files.Filesystem
                         }
                     }
 
-                    MainPage.SideBarItems.Add(new DriveItem(items)
-                    {
-                        Text = "SidebarNetworkDrives".GetLocalized(),
-                        Path = App.AppSettings.NetworkFolderPath,
-                        Type = DriveType.Network,
-                        ItemType = NavigationControlItemType.Drive,
-                        IsExpanded = false
-                    });
-
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

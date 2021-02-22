@@ -226,7 +226,7 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
-                !item.Text.Equals("SidebarQuickAccess".GetLocalized()))
+                !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
                 ShowEmptyRecycleBin = false;
                 ShowUnpinItem = true;
@@ -239,13 +239,20 @@ namespace Files.UserControls
 
                     if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
-                        RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
-
-                        ShowEmptyRecycleBin = true;
+                        ShowProperties = false;
                     }
                     else
                     {
-                        ShowUnpinItem = false;
+                        if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                        {
+                            RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+
+                            ShowEmptyRecycleBin = true;
+                        }
+                        else
+                        {
+                            ShowUnpinItem = false;
+                        }
                     }
                 }
 
@@ -261,12 +268,10 @@ namespace Files.UserControls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
          
-            if (!item.Text.Equals("SidebarDrives".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) && !item.Text.Equals("SidebarCloudDrives".GetLocalized()) && !item.Text.Equals("SidebarQuickAccess".GetLocalized()) && !item.Text.Equals("SidebarNetworkDrives".GetLocalized()))
-            {
-                ShowEjectDevice = item.IsRemovable;
-                ShowUnpinItem = false;
-                ShowEmptyRecycleBin = false;
-                ShowProperties = true;
+            ShowEjectDevice = item.IsRemovable;
+            ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+            ShowProperties = true;
 
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
@@ -274,7 +279,6 @@ namespace Files.UserControls
             App.RightClickedItem = item;
 
             e.Handled = true;
-        	}
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
