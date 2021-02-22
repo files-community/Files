@@ -239,18 +239,12 @@ namespace Files.UserControls
 
                     if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
-                        ShowProperties = false;
+                        RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+                        ShowEmptyRecycleBin = true;
                     }
                     else
                     {
-                        if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                        {
-                            ShowEmptyRecycleBin = true;
-                        }
-                        else
-                        {
-                            ShowUnpinItem = false;
-                        }
+                        ShowUnpinItem = false;
                     }
                 }
 

@@ -119,8 +119,6 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                //ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
-
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
