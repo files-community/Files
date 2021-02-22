@@ -245,8 +245,6 @@ namespace Files.UserControls
                     {
                         if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                         {
-                            RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
-
                             ShowEmptyRecycleBin = true;
                         }
                         else

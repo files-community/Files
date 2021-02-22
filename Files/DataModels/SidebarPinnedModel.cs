@@ -285,8 +285,6 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            ObservableCollection<INavigationControlItem> items = new ObservableCollection<INavigationControlItem>();
-
             await MainPage.SideBarItemsSemaphore.WaitAsync();
             try
             {
