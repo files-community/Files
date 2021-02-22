@@ -919,7 +919,7 @@ namespace Files.ViewModels
                 {
                     if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, FolderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
                     {
-                        WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(await currentStorageFolder.ToStorageItem()));
+                        WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item));
                     }
 
                     var parallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
