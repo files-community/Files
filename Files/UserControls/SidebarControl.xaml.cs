@@ -273,7 +273,6 @@ namespace Files.UserControls
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
 
-
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             App.RightClickedItem = item;
