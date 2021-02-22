@@ -825,7 +825,7 @@ namespace Files.ViewModels
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, useCache);
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
+        private async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
         {
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
@@ -858,10 +858,7 @@ namespace Files.ViewModels
                 IsLoadingItems = true;
 
                 filesAndFolders.Clear();
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                {
-                    FilesAndFolders.Clear();
-                });
+                FilesAndFolders.Clear();
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -1792,11 +1789,6 @@ namespace Files.ViewModels
                 enumFolderSemaphore.Release();
             }
             return null;
-        }
-
-        public void AddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
-        {
-            RapidAddItemsToCollectionAsync(path, previousDir, useCache);
         }
 
         public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)

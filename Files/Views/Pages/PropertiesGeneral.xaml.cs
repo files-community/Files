@@ -1,4 +1,5 @@
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
