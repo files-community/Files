@@ -224,7 +224,7 @@ namespace Files.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult) await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
+                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
 
                 if (!fsResult)
                 {
@@ -387,7 +387,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    var fsResult = (FilesystemResult) await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                    var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
 
                     if (!fsResult)
                     {
@@ -449,7 +449,7 @@ namespace Files.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult) await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
 
                 if (!fsResult)
                 {
@@ -570,9 +570,9 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
-                if (associatedInstance.FilesystemViewModel.Connection != null)
+                if (associatedInstance.ServiceConnection != null)
                 {
-                    AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                    AppServiceResponse response = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },

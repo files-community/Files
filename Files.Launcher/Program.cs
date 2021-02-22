@@ -321,7 +321,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet());
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                             return;
                         }
 
@@ -337,11 +337,12 @@ namespace FilesFullTrust
                                 oneDriveAccounts.Add(accountName, userFolder);
                             }
                         }
+                        oneDriveAccounts.Add("Count", oneDriveAccounts.Count);
                         await args.Request.SendResponseAsync(oneDriveAccounts);
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet());
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                     }
                     break;
 
@@ -352,7 +353,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet());
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                             return;
                         }
 
@@ -395,11 +396,12 @@ namespace FilesFullTrust
                             }
                         }
 
+                        sharepointAccounts.Add("Count", sharepointAccounts.Count);
                         await args.Request.SendResponseAsync(sharepointAccounts);
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet());
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                     }
                     break;
 
@@ -477,6 +479,7 @@ namespace FilesFullTrust
                         }
                         return netl;
                     });
+                    networkLocations.Add("Count", networkLocations.Count);
                     await args.Request.SendResponseAsync(networkLocations);
                     break;
 

@@ -6,7 +6,6 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
@@ -56,9 +55,10 @@ namespace Files.Filesystem
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "GetNetworkLocations" }
                 }, TimeSpan.FromSeconds(10));
-                if (status == AppServiceResponseStatus.Success)
+                if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
                 {
-                    foreach (var key in response.Message.Keys)
+                    foreach (var key in response.Message.Keys
+                        .Where(k => k != "Count"))
                     {
                         var networkItem = new DriveItem()
                         {

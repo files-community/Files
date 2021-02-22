@@ -19,7 +19,7 @@ namespace Files.Helpers
                 SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
                 PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
-                CloseButtonText= "PropertySaveErrorDialog/CloseButtonText".GetLocalized(),
+                CloseButtonText = "PropertySaveErrorDialog/CloseButtonText".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
             });
             return dialog;

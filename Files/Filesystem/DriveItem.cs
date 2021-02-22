@@ -17,6 +17,7 @@ namespace Files.Filesystem
         public string Glyph { get; set; }
 
         private string path;
+
         public string Path
         {
             get => path;

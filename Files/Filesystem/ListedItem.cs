@@ -280,7 +280,8 @@ namespace Files.Filesystem
 
         public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
 
-        StorageFile itemFile;
+        private StorageFile itemFile;
+
         public StorageFile ItemFile
         {
             get => itemFile;

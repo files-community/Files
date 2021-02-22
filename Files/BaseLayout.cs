@@ -371,6 +371,7 @@ namespace Files
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {navigationArguments.SearchPathParam}");
                 }
             }
 

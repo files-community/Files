@@ -997,7 +997,7 @@
     <value>Le matériel peut être retiré en toute sécurité</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Le périphériques peut maintenant être retiré en tout sécurité de l'ordinateur.</value>
+    <value>Le périphérique peut maintenant être retiré en tout sécurité de l'ordinateur.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Problème lors de l'éjection du périphérique</value>
@@ -1126,7 +1126,7 @@
     <value>Battements par minute</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>Compositeur :</value>
+    <value>Compositeur</value>
   </data>
   <data name="PropertyConductor" xml:space="preserve">
     <value>Chef d'orchestre</value>
@@ -1207,7 +1207,7 @@
     <value>ADRESSE</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Espace de couleurs :</value>
+    <value>Espace de couleurs</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
     <value>Noms de personne</value>
@@ -1231,13 +1231,13 @@
     <value>Date imprimée</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Temps total d’édition :</value>
+    <value>Temps total d’édition</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
     <value>Modèle</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>statistiques</value>
+    <value>Statistiques</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
     <value>Nombre de caractères</value>
@@ -1318,7 +1318,7 @@
     <value>En savoir plus sur les formats de date</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
-    <value>Déposer ici...</value>
+    <value>Déposer ici</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Rechercher</value>
@@ -1384,10 +1384,10 @@
     <value>Activer les préférences individuelles par dossiers</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Chemin d'origine :</value>
+    <value>Chemin d'origine</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Chemin d'origine :</value>
+    <value>Chemin d'origine</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Ajouter</value>
@@ -1647,6 +1647,9 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Exclu de la synchronisation</value>
   </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Non calculée</value>
+  </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
@@ -1661,5 +1664,35 @@
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Si vous changez l'extension du fichier, celui-ci peut devenir inutilisable. Etes-vous sûr de vouloir la changer ?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>Lecteur CD</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Disque local</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Lecteur disquette</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Lecteur réseau</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Stockage amovible</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Disque virtuel</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Plus d'options...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Connecter un lecteur réseau</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Déconnecter</value>
   </data>
 </root>
