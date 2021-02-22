@@ -5,7 +5,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -85,23 +84,12 @@ namespace Files.Filesystem
             set => SetProperty(ref text, value);
         }
 
-        private ObservableCollection<INavigationControlItem> childItems;
-        public ObservableCollection<INavigationControlItem> ChildItems { get => childItems; set => childItems = value; }
-
-        private bool isExpanded;
-        public bool IsExpanded { get => isExpanded; set => isExpanded = value; }
-
         private string spaceText;
 
         public string SpaceText
         {
             get => spaceText;
             set => SetProperty(ref spaceText, value);
-        }
-
-        public DriveItem(ObservableCollection<INavigationControlItem> _sideBarChildItems)
-        {
-            ChildItems = _sideBarChildItems;
         }
 
         public DriveItem()

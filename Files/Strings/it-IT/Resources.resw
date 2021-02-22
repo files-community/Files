@@ -196,7 +196,7 @@
     <value>Download</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Accesso rapido</value>
+    <value>Pagina iniziale</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Musica</value>
@@ -1659,9 +1659,6 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Mostra i Gruppi nella schermata iniziale</value>
   </data>
-  <data name="SidebarQuickAccess" xml:space="preserve">
-    <value>Quick access</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Dischi di rete</value>
   </data>
@@ -1781,5 +1778,8 @@
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Altre opzioni delle unità</value>
+  </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Accesso rapido</value>
   </data>
 </root>

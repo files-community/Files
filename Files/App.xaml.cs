@@ -17,7 +17,6 @@ using Newtonsoft.Json.Linq;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -502,7 +501,5 @@ namespace Files
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
         public Uri Logo { get; set; }
-
-        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
     }
 }

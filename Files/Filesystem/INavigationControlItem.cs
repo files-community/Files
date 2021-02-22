@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Files.Filesystem
+﻿namespace Files.Filesystem
 {
     public interface INavigationControlItem
     {
@@ -13,7 +11,6 @@ namespace Files.Filesystem
         public string HoverDisplayText { get; }
 
         public NavigationControlItemType ItemType { get; }
-        public ObservableCollection<INavigationControlItem> ChildItems { get; }
     }
 
     public enum NavigationControlItemType

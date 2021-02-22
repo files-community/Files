@@ -92,20 +92,21 @@ namespace Files.Filesystem
                 {
                     MainPage.SideBarItems.BeginBulkOperation();
 
-                    foreach (DriveItem drive in Drives)
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
                     {
-                        if (!MainPage.SideBarItems.Contains(drive))
+                        section = new LocationItem()
                         {
-                            items.Add(drive);
-
-                            if (drive.Type != DriveType.VirtualDrive)
-                            {
-                                DrivesWidget.ItemsAdded.Add(drive);
-                            }
-                        }
+                            Text = "SidebarCloudDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\ue9b7",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        MainPage.SideBarItems.Add(section);
                     }
 
-                    MainPage.SideBarItems.Add(new DriveItem(items)
+                    foreach (DriveItem drive in Drives.ToList())
                     {
                         Text = "SidebarCloudDrives".GetLocalized(),
                         Path = App.AppSettings.NetworkFolderPath,
@@ -113,6 +114,12 @@ namespace Files.Filesystem
                         Type = DriveType.CloudDrive,
                         IsExpanded = false
                     });
+
+                        if (!section.ChildItems.Contains(drive))
+                        {
+                            section.ChildItems.Add(drive);
+                        }
+                    }
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }

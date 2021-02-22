@@ -57,9 +57,10 @@ namespace Files.Filesystem
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "GetNetworkLocations" }
                 }, TimeSpan.FromSeconds(10));
-                if (status == AppServiceResponseStatus.Success)
+                if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
                 {
-                    foreach (var key in response.Message.Keys)
+                    foreach (var key in response.Message.Keys
+                        .Where(k => k != "Count"))
                     {
                         var networkItem = new DriveItem()
                         {
@@ -113,16 +114,28 @@ namespace Files.Filesystem
                 {
                     MainPage.SideBarItems.BeginBulkOperation();
 
-                    foreach (DriveItem drive in Drives)
-                    {
-                        if (!MainPage.SideBarItems.Contains(drive))
-                        {
-                            items.Add(drive);
 
-                            if (drive.Type != DriveType.VirtualDrive)
-                            {
-                                DrivesWidget.ItemsAdded.Add(drive);
-                            }
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
+                    {
+                        section = new LocationItem()
+                        {
+                            Text = "SidebarNetworkDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\ueac2",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        MainPage.SideBarItems.Add(section);
+                    }
+
+                    foreach (var drive in Drives.ToList()
+                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o.Text))
+                    {
+                        if (!section.ChildItems.Contains(drive))
+                        {
+                            section.ChildItems.Add(drive);
                         }
                     }
 

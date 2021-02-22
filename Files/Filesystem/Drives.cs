@@ -126,11 +126,25 @@ namespace Files.Filesystem
                 {
                     MainPage.SideBarItems.BeginBulkOperation();
 
-                    foreach (DriveItem drive in Drives)
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
                     {
-                        if (!MainPage.SideBarItems.Contains(drive))
+                        section = new LocationItem()
                         {
-                            items.Add(drive);
+                            Text = "SidebarDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\ueb8b",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        MainPage.SideBarItems.Add(section);
+                    }
+
+                    foreach (DriveItem drive in Drives.ToList())
+                    {
+                        if (!section.ChildItems.Contains(drive))
+                        {
+                            section.ChildItems.Add(drive);
 
                             if (drive.Type != DriveType.VirtualDrive)
                             {
@@ -147,6 +161,7 @@ namespace Files.Filesystem
                         ItemType = NavigationControlItemType.Drive,
                         IsExpanded = false
                     });
+
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

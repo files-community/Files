@@ -2363,6 +2363,10 @@
           <source>More drives options</source>
           <target state="new">More drives options</target>
         </trans-unit>
+        <trans-unit id="SidebarQuickAccess" translate="yes" xml:space="preserve">
+          <source>Quick access</source>
+          <target state="new">Quick access</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 
@@ -26,5 +27,13 @@ namespace Files.Filesystem
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
+
+        public bool SelectsOnInvoked { get; set; } = true;
+
+        public bool IsExpanded
+        {
+            get => App.AppSettings.Get(Text == "SidebarQuickAccess".GetLocalized(), $"section:{Text}");
+            set => App.AppSettings.Set(value, $"section:{Text}");
+        }
     }
 }
