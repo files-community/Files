@@ -1902,10 +1902,6 @@
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">Dölj skyddade operativsystemfiler (rekommenderas)</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="translated">Aktivera flexibelt förhandsgranskningsfönster</target>
-        </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Visa oindexerade objekt när du söker efter filer och mappar (sökningar kan ta längre tid)</target>
