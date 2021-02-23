@@ -38,7 +38,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS Version: [e.g. Windows 10 1903 18362.175]
- - App version: [e.g. v1.3.0.0]
+ - App version: [e.g. v1.0]
 
 **Additional context**
 Add any other context about the problem here. Does this problem occur again after restarting the app?
