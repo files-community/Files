@@ -345,8 +345,8 @@ namespace Files.Views
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-                var response = await ServiceConnection.SendMessageAsync(value);
-                if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                var (status, response) = await ServiceConnection.SendMessageSafeAsync(value);
+                if (status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
                 {
                     recycleBinHasItems = (long)numItems > 0;
                 }
@@ -738,7 +738,7 @@ namespace Files.Views
                                             { "Application", terminal.Path },
                                             { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
-                                        await ServiceConnection.SendMessageAsync(value);
+                                        await ServiceConnection.SendMessageSafeAsync(value);
                                     }
                                     return;
                                 }

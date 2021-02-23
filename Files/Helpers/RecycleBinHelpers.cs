@@ -37,9 +37,9 @@ namespace Files.Helpers
                     { "Arguments", "RecycleBin" },
                     { "action", "Enumerate" }
                 };
-                AppServiceResponse response = await Connection.SendMessageAsync(value);
+                var (status, response) = await Connection.SendMessageSafeAsync(value);
 
-                if (response.Status == AppServiceResponseStatus.Success
+                if (status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Enumerate"))
                 {
                     List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);

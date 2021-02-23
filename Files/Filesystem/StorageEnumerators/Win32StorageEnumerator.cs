@@ -248,7 +248,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 if (connection != null)
                 {
-                    var response = await connection.SendMessageAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
@@ -259,7 +259,7 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         return null;
                     }
-                    if (response.Status == AppServiceResponseStatus.Success
+                    if (status == AppServiceResponseStatus.Success
                         && response.Message.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
