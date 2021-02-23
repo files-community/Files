@@ -71,13 +71,6 @@
                     Header="Enable individual preferences for individual directories"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="SettingsEnableAdaptiveLayout"
-                    Header="Enable Adaptive Layout that dynamically adjusts the layout mode"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding AdaptiveLayoutEnabled, Mode=TwoWay}"
-                    Visibility="Collapsed"/> <!--  Hide by default  -->
             </StackPanel>
         </ScrollViewer>
     </Grid>
