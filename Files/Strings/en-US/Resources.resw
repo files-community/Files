@@ -294,6 +294,9 @@
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>About</value>
   </data>
+	<data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Appearance</value>
   </data>
@@ -1885,6 +1888,6 @@
     <value>More drives options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Favorites</value>
   </data>
 </root>

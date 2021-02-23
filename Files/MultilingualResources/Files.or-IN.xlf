@@ -219,6 +219,10 @@
           <source>Settings</source>
           <target state="translated">ସେଟିଂସମୂହ</target>
         </trans-unit>
+		  <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="translated">Sidebar</target>
+        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">ବିଷୟରେ</target>
@@ -2376,8 +2380,8 @@
           <target state="new">More drives options</target>
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
-          <source>Quick access</source>
-          <target state="new">Quick access</target>
+          <source>Favorites</source>
+          <target state="new">Favorites</target>
         </trans-unit>
       </group>
     </body>

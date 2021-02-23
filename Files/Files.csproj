@@ -406,6 +406,7 @@
     <Compile Include="ViewModels\SettingsViewModels\ExperimentalViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\FilesAndFoldersViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
@@ -447,6 +448,9 @@
     </Compile>
     <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPages\Sidebar.xaml.cs">
+      <DependentUpon>Sidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\Widgets.xaml.cs">
       <DependentUpon>Widgets.xaml</DependentUpon>
@@ -891,6 +895,10 @@
     <Page Include="Views\SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPages\Sidebar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\Widgets.xaml">
       <Generator>MSBuild:Compile</Generator>

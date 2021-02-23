@@ -194,6 +194,10 @@
           <source>Settings</source>
           <target state="translated">Impostazioni</target>
         </trans-unit>
+		  <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="translated">Sidebar</target>
+        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Informazioni app</target>
@@ -2363,7 +2367,7 @@
           <target state="translated">Altre opzioni delle unità</target>
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
-          <source>Quick access</source>
+          <source>Favorites</source>
           <target state="translated">Accesso rapido</target>
         </trans-unit>
       </group>

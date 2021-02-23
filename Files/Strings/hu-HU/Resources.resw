@@ -183,6 +183,9 @@
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Névjegy</value>
   </data>
+	<data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Megjelenés</value>
   </data>

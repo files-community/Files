@@ -168,6 +168,9 @@
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>אודות</value>
   </data>
+	<data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>מראה</value>
   </data>

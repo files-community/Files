@@ -165,6 +165,9 @@
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Files について</value>
   </data>
+	<data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>外観</value>
   </data>

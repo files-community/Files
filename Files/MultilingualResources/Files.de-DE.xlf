@@ -78,6 +78,10 @@
           <source>Files and Folders</source>
           <target state="translated">Dateien und Ordner</target>
         </trans-unit>
+		  <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="translated">Sidebar</target>
+        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Über</target>
@@ -2365,8 +2369,8 @@
           <target state="translated">Mehr Laufwerkoptionen</target>
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
-          <source>Quick access</source>
-          <target state="new">Quick access</target>
+          <source>Favorites</source>
+          <target state="new">Favorites</target>
         </trans-unit>
       </group>
     </body>

@@ -171,6 +171,9 @@
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Sobre</value>
   </data>
+	<data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Barra Lateral</value>
+  </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Aparência</value>
   </data>
