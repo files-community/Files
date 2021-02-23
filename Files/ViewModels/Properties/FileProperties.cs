@@ -52,6 +52,7 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
+                ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
@@ -155,7 +156,7 @@ namespace Files.ViewModels.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -211,8 +212,12 @@ namespace Files.ViewModels.Properties
 
         public async Task SyncPropertyChangesAsync()
         {
-            StorageFile file = null;
-            file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
+            {
+                // Could not access file, can't save properties
+                return;
+            }
 
             var failedProperties = "";
             foreach (var group in ViewModel.PropertySections)
@@ -228,7 +233,7 @@ namespace Files.ViewModels.Properties
                         {
                             await file.Properties.SavePropertiesAsync(newDict);
                         }
-                        catch (Exception e)
+                        catch
                         {
                             failedProperties += $"{prop.Name}\n";
                         }
@@ -249,12 +254,8 @@ namespace Files.ViewModels.Properties
         public async Task ClearPropertiesAsync()
         {
             var failedProperties = new List<string>();
-            StorageFile file = null;
-            try
-            {
-                file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-            }
-            catch
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
             {
                 return;
             }
@@ -319,7 +320,7 @@ namespace Files.ViewModels.Properties
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (AppInstance.FilesystemViewModel.Connection != null)
+                    if (AppInstance.ServiceConnection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -331,7 +332,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
                     }
                     break;
             }

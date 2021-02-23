@@ -31,7 +31,6 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -224,6 +223,8 @@ namespace Files.Views
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+
+            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -233,6 +234,29 @@ namespace Files.Views
                 case nameof(AppSettings.SidebarWidth):
                     NotifyPropertyChanged(nameof(SidebarWidth));
                     break;
+            }
+        }
+
+        /*
+         * Ensure that the path bar gets updated for user interaction
+         * whenever the path changes. We will get the individual directories from
+         * the updated, most-current path and add them to the UI.
+         */
+        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
+        {
+            // Clear the path UI
+            NavigationToolbar.PathComponents.Clear();
+
+            if (string.IsNullOrWhiteSpace(singleItemOverride))
+            {
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir))
+                {
+                    NavigationToolbar.PathComponents.Add(component);
+                }
+            }
+            else
+            {
+                NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
 
@@ -321,8 +345,8 @@ namespace Files.Views
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-                var response = await ServiceConnection.SendMessageAsync(value);
-                if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                var (status, response) = await ServiceConnection.SendMessageSafeAsync(value);
+                if (status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
                 {
                     recycleBinHasItems = (long)numItems > 0;
                 }
@@ -474,7 +498,7 @@ namespace Files.Views
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.Name
+                            ItemName = x.Folder.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -483,12 +507,12 @@ namespace Files.Views
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.Name
+                            ItemName = x.Folder.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name)
+                                ItemName = Path.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
                             })).ToList();
                     }
                     else
@@ -502,7 +526,7 @@ namespace Files.Views
                     // Here we check whether at least an element is in common between old and new list
                     if (!mNavToolbar.NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
                     {
-                        // No elemets in common, update the list in-place
+                        // No elements in common, update the list in-place
                         for (int si = 0; si < suggestions.Count; si++)
                         {
                             if (si < mNavToolbar.NavigationBarSuggestions.Count)
@@ -639,6 +663,13 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
+            currentInput = currentInput.Replace("\\\\", "\\");
+
+            if (currentInput.StartsWith("\\") && !currentInput.StartsWith("\\\\"))
+            {
+                currentInput = currentInput.Insert(0, "\\");
+            }
+
             if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
@@ -668,7 +699,7 @@ namespace Files.Views
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder || ItemViewModel.CheckFolderAccessWithWin32(currentInput))
+                    if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
@@ -707,7 +738,7 @@ namespace Files.Views
                                             { "Application", terminal.Path },
                                             { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
-                                        await ServiceConnection.SendMessageAsync(value);
+                                        await ServiceConnection.SendMessageSafeAsync(value);
                                     }
                                     return;
                                 }
@@ -909,36 +940,45 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
-            FilesystemViewModel = new ItemViewModel(this);
-            FilesystemViewModel.OnAppServiceConnectionChanged();
+            FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+            ServiceConnection = await AppServiceConnectionHelper.Instance;
+            FilesystemViewModel.OnAppServiceConnectionChanged(ServiceConnection);
             InteractionOperations = new Interaction(this);
-            App.Current.Suspending += Current_Suspending;
-            App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+            FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+            FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+            FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
 
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
-            if (this.ServiceConnection == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
-                FilesystemViewModel?.OnAppServiceConnectionChanged();
-            }
+            InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
         }
 
-        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
         {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
+            if (ContentPage != null)
+            {
+                if (FilesystemViewModel.FilesAndFolders.Count == 1)
+                {
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
+                }
+                else
+                {
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
+                }
+            }
         }
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
             string value = e.Path;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                UpdatePathUIToWorkingDirectory(value);
+            }
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
@@ -1110,6 +1150,10 @@ namespace Files.Views
                 case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
+
+                case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
+                    break;
             };
 
             switch (args.KeyboardAccelerator.Key)
@@ -1183,8 +1227,12 @@ namespace Files.Views
             {
                 return;
             }
-            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\');
+            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
             var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+            if (lastSlashIndex == -1)
+            {
+                lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/");
+            }
             if (lastSlashIndex != -1)
             {
                 parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
@@ -1218,8 +1266,6 @@ namespace Files.Views
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
-            App.Current.Suspending -= Current_Suspending;
-            App.Current.LeavingBackground -= OnLeavingBackground;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
@@ -1256,11 +1302,73 @@ namespace Files.Views
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+                FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+                FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
+                FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.Dispose();
             }
+            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+        }
 
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
+        {
+            ServiceConnection = await e;
+            FilesystemViewModel?.OnAppServiceConnectionChanged(ServiceConnection);
+        }
+
+        private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
+                    NavigationToolbar.CanRefresh = false;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
+                    NavigationToolbar.CanGoBack = ContentFrame.CanGoBack;
+                    NavigationToolbar.CanGoForward = ContentFrame.CanGoForward;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
+                    NavigationToolbar.CanRefresh = true;
+                    // Select previous directory
+                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    {
+                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        {
+                            // Remove the WorkingDir from previous dir
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+
+                            // Get previous dir name
+                            if (e.PreviousDirectory.StartsWith('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Remove(0, 1);
+                            }
+                            if (e.PreviousDirectory.Contains('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Split('\\')[0];
+                            }
+
+                            // Get the first folder and combine it with WorkingDir
+                            string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
+
+                            // Make sure we don't get double \\ in the e.Path
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                            if (folderToSelect.EndsWith('\\'))
+                            {
+                                folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                            }
+
+                            ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                            if (itemToSelect != null)
+                            {
+                                ContentPage.SetSelectedItemOnUi(itemToSelect);
+                                ContentPage.ScrollIntoView(itemToSelect);
+                            }
+                        }
+                    }
+                    break;
+            }
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -1333,7 +1441,7 @@ namespace Files.Views
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
-        /// This is a workaround as the VisualStateManager causes problems. 
+        /// This is a workaround as the VisualStateManager causes problems.
         /// </summary>
         private void UpdatePositioning(bool IsHome = false)
         {

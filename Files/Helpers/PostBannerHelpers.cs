@@ -35,7 +35,7 @@ namespace Files.Helpers
                 {
                     associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Deletion Failed",
-                        "An unknown error has occured.",
+                        "An unknown error has occurred.",
                         0,
                         status,
                         operation);

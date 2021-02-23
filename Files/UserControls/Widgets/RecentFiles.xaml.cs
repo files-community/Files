@@ -34,7 +34,15 @@ namespace Files.UserControls.Widgets
             InitializeComponent();
 
             recentItemsCollection.Clear();
-            PopulateRecentsList();
+
+            try
+            {
+                PopulateRecentsList();
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(ex, "Could not fetch recent items");
+            }
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -52,7 +60,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        public async void PopulateRecentsList()
+        private async void PopulateRecentsList()
         {
             var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 

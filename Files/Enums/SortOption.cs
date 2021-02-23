@@ -4,6 +4,7 @@
     {
         Name,
         DateModified,
+        DateCreated,
         Size,
         FileType,
         OriginalPath,
