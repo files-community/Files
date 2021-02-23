@@ -100,6 +100,11 @@
                             Icon="Add"
                             Label="Add" />
                         <AppBarButton
+                            x:Uid="AppBarButtonAddCurrent"
+                            Command="{Binding AddCurrentPagesCommand}"
+                            Icon="Add"
+                            Label="Add current pages" />
+                        <AppBarButton
                             x:Uid="AppBarButtonEdit"
                             Command="{Binding ChangePageCommand}"
                             Icon="Edit"

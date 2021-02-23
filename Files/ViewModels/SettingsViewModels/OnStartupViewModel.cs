@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Views;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -112,6 +113,7 @@ namespace Files.ViewModels.SettingsViewModels
         public RelayCommand ChangePageCommand => new RelayCommand(() => ChangePage());
         public RelayCommand RemovePageCommand => new RelayCommand(() => RemovePage());
         public RelayCommand AddPageCommand => new RelayCommand(() => AddPage());
+        public RelayCommand AddCurrentPagesCommand => new RelayCommand(() => AddCurrentPages());
 
         public bool AlwaysOpenANewInstance
         {
@@ -158,12 +160,42 @@ namespace Files.ViewModels.SettingsViewModels
 
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
-            if (folder != null)
+            AddPath(folder?.Path);
+        }
+
+        private void AddCurrentPages()
+        {
+            if (PagesOnStartupList != null)
             {
-                if (PagesOnStartupList != null)
+                foreach (var arg in MainPage.AppInstances.Select((i) => i.TabItemArguments.NavigationArg))
                 {
-                    PagesOnStartupList.Add(folder.Path);
+                    if (arg is string path)
+                    {
+                        AddPath(path);
+                    }
+                    else if (arg is PaneNavigationArguments paneArgs)
+                    {
+                        // TODO: make these pages open on the same tab
+                        AddPath(paneArgs.LeftPaneNavPathParam);
+                        AddPath(paneArgs.RightPaneNavPathParam);
+                    }
                 }
+            }
+        }
+
+        private void AddPath(string path)
+        {
+            if (PagesOnStartupList == null || string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+            if (path == "New tab")
+            {
+                path = "Home";
+            }
+            if (!PagesOnStartupList.Contains(path))
+            {
+                PagesOnStartupList.Add(path);
             }
         }
     }
