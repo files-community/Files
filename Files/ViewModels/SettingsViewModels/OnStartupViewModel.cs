@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -8,8 +9,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
+using static Files.Helpers.MenuFlyoutHelper;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -21,6 +25,7 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
         private bool alwaysOpenANewInstance = App.AppSettings.AlwaysOpenANewInstance;
+        private readonly ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
 
         public OnStartupViewModel()
         {
@@ -34,6 +39,60 @@ namespace Files.ViewModels.SettingsViewModels
             }
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+
+            var sidebarItem = new MenuFlyoutSubItemViewModel("Sidebar"/*.GetLocalized()*/);
+            foreach (var item in MainPage.SideBarItems.Where((i) => !(i is HeaderTextItem)))
+            {
+                sidebarItem.Items.Add(new MenuFlyoutItemViewModel(item.Text, item.Path, AddPageCommand));
+            }
+
+            var recentsItem = new MenuFlyoutSubItemViewModel("Recents"/*.GetLocalized()*/);
+            PopulateRecentItems(recentsItem);
+
+            addFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
+                new MenuFlyoutItemViewModel("Browse"/*.GetLocalized()*/, null, AddPageCommand),
+                new MenuFlyoutSeparatorViewModel(),
+                sidebarItem,
+                recentsItem,
+            });
+        }
+
+        private async void PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        {
+            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+
+            foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+            {
+                string mruToken = entry.Token;
+                var added = await FilesystemTasks.Wrap(async () =>
+                {
+                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                    if (item.IsOfType(StorageItemTypes.Folder))
+                    {
+                        menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
+                    }
+
+                });
+                if (added == FileSystemStatusCode.Unauthorized)
+                {
+                    // Skip item until consent is provided
+                }
+                // Exceptions include but are not limited to:
+                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                // 0x8007016A -> The cloud file provider is not running
+                // 0x8000000A -> The data necessary to complete this operation is not yet available
+                // 0x80004005 -> Unspecified error
+                // 0x80270301 -> ?
+                else if (!added)
+                {
+                    await FilesystemTasks.Wrap(() =>
+                    {
+                        mostRecentlyUsed.Remove(mruToken);
+                        return Task.CompletedTask;
+                    });
+                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                }
+            }
         }
 
         private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -113,13 +172,9 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref isPageListEditEnabled, value);
         }
 
-        public ReadOnlyCollection<SidebarItemViewModel> MainPageSidebarItems
+        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
         {
-            get => MainPage.SideBarItems
-                .Where((i) => !(i is HeaderTextItem))
-                .Select((i) => new SidebarItemViewModel(i, AddPageCommand))
-                .ToList()
-                .AsReadOnly();
+            get => addFlyoutItemsSource;
         }
 
         public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
@@ -214,22 +269,6 @@ namespace Files.ViewModels.SettingsViewModels
             public string Path { get; }
 
             internal PageOnStartupViewModel(string path) => Path = path;
-        }
-
-        public class SidebarItemViewModel
-        {
-            public string Text { get; }
-
-            public string Path { get; }
-
-            public RelayCommand<string> OnSelect { get; }
-
-            internal SidebarItemViewModel(INavigationControlItem source, RelayCommand<string> onSelect)
-            {
-                Text = source.Text;
-                Path = source.Path;
-                OnSelect = onSelect;
-            }
         }
     }
 }

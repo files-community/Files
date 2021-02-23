@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Files.SettingsPages.OnStartup"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -97,23 +97,14 @@
                         IsOpen="False">
                         <AppBarButton
                             x:Uid="AppBarButtonAdd"
-                            Command="{Binding AddPageCommand}"
                             Icon="Add"
                             Label="Add">
-                            <AppBarButton.ContextFlyout>
-                                <Flyout
-                                    helpers:FlyoutHelper.ItemsSource="{Binding MainPageSidebarItems}"
-                                    Placement="Bottom">
-                                    <helpers:FlyoutHelper.ItemTemplate>
-                                        <DataTemplate>
-                                            <MenuFlyoutItem
-                                                Text="{Binding Text}"
-                                                Command="{Binding OnSelect}"
-                                                CommandParameter="{Binding Path}" />
-                                        </DataTemplate>
-                                    </helpers:FlyoutHelper.ItemTemplate>
-                                </Flyout>
-                            </AppBarButton.ContextFlyout>
+                            <AppBarButton.Flyout>
+                                <MenuFlyout
+                                    Placement="Bottom"
+                                    helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}">
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
                         </AppBarButton>
                         <AppBarButton
                             x:Uid="AppBarButtonEdit"
