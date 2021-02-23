@@ -1459,7 +1459,7 @@ namespace Files.Views
                     PreviewPane.Visibility = Visibility.Collapsed;
                 }
             }
-            else if (RootGrid.ActualWidth > 1000 || !AppSettings.EnableAdaptivePreviewPane)
+            else if (RootGrid.ActualWidth > 1000)
             {
                 PreviewPane.SetValue(Grid.RowProperty, 2);
                 PreviewPane.SetValue(Grid.ColumnProperty, 2);

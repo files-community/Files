@@ -83,6 +83,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
             Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
+            Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
@@ -594,15 +595,6 @@ namespace Files.ViewModels
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the value indicating whether the preview pane should adapt to the width of the view.
-        /// </summary>
-        public bool EnableAdaptivePreviewPane
-        {
-            get => Get(true);
-            set => Set(value);
         }
 
         #endregion Preferences
