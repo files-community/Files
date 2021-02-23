@@ -95,7 +95,7 @@ namespace Files.ViewModels
 
         public static async void ReportIssueOnGitHub()
         {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
         public GridLength SidebarWidth
