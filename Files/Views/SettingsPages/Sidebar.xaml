@@ -30,32 +30,32 @@
                     Text="Sidebar" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsSidebarQuickAccessExpander"
-                    AutomationProperties.Name="Expand Quick Access on startup"
+                    x:Uid="SettingsSidebarFavoritesExpander"
+                    AutomationProperties.Name="Expand Favorites on startup"
                     Header="Expand Quick Access on startup"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowLibraryCardsWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowSidebarFavoritesExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsSidebarDriversExpander"
                     AutomationProperties.Name="Expand Drivers on startup"
                     Header="Expand Drivers on startup"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowDrivesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowSidebarDrivesExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsSidebarCloudDriversExpander"
                     AutomationProperties.Name="Expand Cloud Drivers on startup"
                     Header="Expand Cloud Drivers on startup"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowBundlesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowSidebarCloudDrivesExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsSidebarNetworkExpander"
                     AutomationProperties.Name="Expand Network on startup"
                     Header="Expand Network on startup"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowBundlesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowSidebarNetworkExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -4,10 +4,10 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class SidebarViewModel : ObservableObject
     {
-        private bool showSidebarFavoritesExpanded = App.AppSettings.IsSidebarFavoritesExpanded;
-        private bool showSidebarDrivesExpanded = App.AppSettings.IsSidebarDrivesExpanded;
-        private bool showSidebarCloudDrivesExpanded = App.AppSettings.IsSidebarCloudDrivesExpanded;
-        private bool showSidebarNetworkExpanded = App.AppSettings.IsSidebarNetworkExpanded;
+        private bool showSidebarFavoritesExpanded = App.AppSettings.ShowSidebarFavoritesExpanded;
+        private bool showSidebarDrivesExpanded = App.AppSettings.ShowSidebarDrivesExpanded;
+        private bool showSidebarCloudDrivesExpanded = App.AppSettings.ShowSidebarCloudDrivesExpanded;
+        private bool showSidebarNetworkExpanded = App.AppSettings.ShowSidebarNetworkExpanded;
 
         public bool ShowSidebarFavoritesExpanded
         {
@@ -19,7 +19,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showSidebarFavoritesExpanded, value))
                 {
-                    App.AppSettings.IsSidebarFavoritesExpanded = value;
+                    App.AppSettings.ShowSidebarFavoritesExpanded = value;
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showSidebarDrivesExpanded, value))
                 {
-                    App.AppSettings.IsSidebarDrivesExpanded = value;
+                    App.AppSettings.ShowSidebarDrivesExpanded = value;
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showSidebarCloudDrivesExpanded, value))
                 {
-                    App.AppSettings.IsSidebarCloudDrivesExpanded = value;
+                    App.AppSettings.ShowSidebarCloudDrivesExpanded = value;
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showSidebarNetworkExpanded, value))
                 {
-                    App.AppSettings.IsSidebarNetworkExpanded = value;
+                    App.AppSettings.ShowSidebarNetworkExpanded = value;
                 }
             }
         }

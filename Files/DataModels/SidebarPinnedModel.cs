@@ -22,7 +22,7 @@ namespace Files.DataModels
     {
         private SidebarPinnedController controller;
 
-        private LocationItem quickAccessSection, homeSection;
+        private LocationItem favoriteSection, homeSection;
 
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -46,12 +46,11 @@ namespace Files.DataModels
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
-            quickAccessSection = new LocationItem()
+            favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                 Glyph = "\uEA52",
-                SelectsOnInvoked = false,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -110,7 +109,7 @@ namespace Files.DataModels
                     // TODO: the very first time the app is launched localized name not available
                     if (!MainPage.SideBarItems.Any(x => x.Path == App.AppSettings.RecycleBinPath))
                     {
-                        int insertIndex = MainPage.SideBarItems.IndexOf(quickAccessSection) + 1;
+                        int insertIndex = MainPage.SideBarItems.IndexOf(favoriteSection) + 1;
                         MainPage.SideBarItems.Insert(insertIndex, recycleBinItem);
                     }
                 }
@@ -161,8 +160,8 @@ namespace Files.DataModels
 
             if (oldIndex >= 0 && newIndex >= 0)
             {
-                quickAccessSection.ChildItems.RemoveAt(oldIndex);
-                quickAccessSection.ChildItems.Insert(newIndex, locationItem);
+                favoriteSection.ChildItems.RemoveAt(oldIndex);
+                favoriteSection.ChildItems.Insert(newIndex, locationItem);
                 return true;
             }
 
@@ -227,7 +226,7 @@ namespace Files.DataModels
         /// <returns>Index of the item</returns>
         public int IndexOfItem(INavigationControlItem locationItem)
         {
-            return quickAccessSection.ChildItems.IndexOf(locationItem);
+            return favoriteSection.ChildItems.IndexOf(locationItem);
         }
 
         /// <summary>
@@ -257,8 +256,8 @@ namespace Files.DataModels
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
-                var lastItem = quickAccessSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
-                int insertIndex = lastItem != null ? quickAccessSection.ChildItems.IndexOf(lastItem) + 1 : 0;
+                var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
+                int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
                     Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -268,9 +267,9 @@ namespace Files.DataModels
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
 
-                if (!quickAccessSection.ChildItems.Contains(locationItem))
+                if (!favoriteSection.ChildItems.Contains(locationItem))
                 {
-                    quickAccessSection.ChildItems.Insert(insertIndex, locationItem);
+                    favoriteSection.ChildItems.Insert(insertIndex, locationItem);
                 }
             }
             else
@@ -298,9 +297,9 @@ namespace Files.DataModels
                 {
                     MainPage.SideBarItems.Add(homeSection);
                 }
-                if (!MainPage.SideBarItems.Contains(quickAccessSection))
+                if (!MainPage.SideBarItems.Contains(favoriteSection))
                 {
-                    MainPage.SideBarItems.Add(quickAccessSection);
+                    MainPage.SideBarItems.Add(favoriteSection);
                 }
 
                 MainPage.SideBarItems.EndBulkOperation();
@@ -319,14 +318,14 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < quickAccessSection.ChildItems.Count(); i++)
+            for (int i = 0; i < favoriteSection.ChildItems.Count(); i++)
             {
-                if (quickAccessSection.ChildItems[i] is LocationItem)
+                if (favoriteSection.ChildItems[i] is LocationItem)
                 {
-                    var item = quickAccessSection.ChildItems[i] as LocationItem;
+                    var item = favoriteSection.ChildItems[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
-                        quickAccessSection.ChildItems.RemoveAt(i);
+                        favoriteSection.ChildItems.RemoveAt(i);
                     }
                 }
             }

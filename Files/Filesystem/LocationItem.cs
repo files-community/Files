@@ -33,9 +33,30 @@ namespace Files.Filesystem
 
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
+            get
+            {
+                if (Text.Equals("SidebarFavorites".GetLocalized()))
+                    return App.AppSettings.ShowSidebarFavoritesExpanded;
+                else if (Text.Equals("SidebarDrives".GetLocalized()))
+                    return App.AppSettings.ShowSidebarDrivesExpanded;
+                else if (Text.Equals("SidebarCloudDrives".GetLocalized()))
+                    return App.AppSettings.ShowSidebarCloudDrivesExpanded;
+                else if (Text.Equals("SidebarNetworkDrives".GetLocalized()))
+                    return App.AppSettings.ShowSidebarNetworkExpanded;
+                else
+                    return false;
+            }
             set
             {
+                if (Text.Equals("SidebarFavorites".GetLocalized()))
+                    App.AppSettings.ShowSidebarFavoritesExpanded = value;
+                else if (Text.Equals("SidebarDrives".GetLocalized()))
+                    App.AppSettings.ShowSidebarDrivesExpanded = value;
+                else if (Text.Equals("SidebarCloudDrives".GetLocalized()))
+                    App.AppSettings.ShowSidebarCloudDrivesExpanded = value;
+                else if (Text.Equals("SidebarNetworkDrives".GetLocalized()))
+                    App.AppSettings.ShowSidebarNetworkExpanded = value;
+
                 App.AppSettings.Set(value, $"section:{Text}");
                 OnPropertyChanged(nameof(IsExpanded));
             }

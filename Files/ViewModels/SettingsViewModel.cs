@@ -707,7 +707,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the favorites section is collapsed or expanded.
         /// </summary>
-        public bool IsSidebarFavoritesExpanded
+        public bool ShowSidebarFavoritesExpanded
         {
             get => Get(true);
             set => Set(value);
@@ -716,7 +716,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the drives section is collapsed or expanded.
         /// </summary>
-        public bool IsSidebarDrivesExpanded
+        public bool ShowSidebarDrivesExpanded
         {
             get => Get(false);
             set => Set(value);
@@ -725,7 +725,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the cloud drives section is collapsed or expanded.
         /// </summary>
-        public bool IsSidebarCloudDrivesExpanded
+        public bool ShowSidebarCloudDrivesExpanded
         {
             get => Get(false);
             set => Set(value);
@@ -734,7 +734,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the network section is collapsed or expanded.
         /// </summary>
-        public bool IsSidebarNetworkExpanded
+        public bool ShowSidebarNetworkExpanded
         {
             get => Get(false);
             set => Set(value);
