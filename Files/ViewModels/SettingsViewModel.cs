@@ -694,46 +694,6 @@ namespace Files.ViewModels
 
         #endregion Startup
 
-        #region Sidebar
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the favorites section is collapsed or expanded.
-        /// </summary>
-        public bool ShowSidebarFavoritesExpanded
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the drives section is collapsed or expanded.
-        /// </summary>
-        public bool ShowSidebarDrivesExpanded
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the cloud drives section is collapsed or expanded.
-        /// </summary>
-        public bool ShowSidebarCloudDrivesExpanded
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the network section is collapsed or expanded.
-        /// </summary>
-        public bool ShowSidebarNetworkExpanded
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        #endregion
-
         /// <summary>
         /// Gets or sets a value indicating whether or not WSL is supported.
         /// </summary>
