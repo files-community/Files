@@ -39,12 +39,12 @@ namespace Files.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-            var recentsItem = new MenuFlyoutSubItemViewModel("Recent locations"/*.GetLocalized()*/);
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home", "Home", AddPageCommand));
+            var recentsItem = new MenuFlyoutSubItemViewModel("RecentLocations".GetLocalized());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home", AddPageCommand));
             PopulateRecentItems(recentsItem);
 
             addFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                new MenuFlyoutItemViewModel("Browse"/*.GetLocalized()*/, null, AddPageCommand),
+                new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
                 recentsItem,
             });
         }
@@ -116,10 +116,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool OpenNewTabPageOnStartup
         {
-            get
-            {
-                return openNewTabPageOnStartup;
-            }
+            get => openNewTabPageOnStartup;
             set
             {
                 if (SetProperty(ref openNewTabPageOnStartup, value))
@@ -131,10 +128,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ContinueLastSessionOnStartUp
         {
-            get
-            {
-                return continueLastSessionOnStartUp;
-            }
+            get => continueLastSessionOnStartUp;
             set
             {
                 if (SetProperty(ref continueLastSessionOnStartUp, value))
@@ -146,10 +140,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool OpenASpecificPageOnStartup
         {
-            get
-            {
-                return openASpecificPageOnStartup;
-            }
+            get => openASpecificPageOnStartup;
             set
             {
                 if (SetProperty(ref openASpecificPageOnStartup, value))
@@ -163,7 +154,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public int SelectedPageIndex
         {
-            get { return selectedPageIndex; }
+            get => selectedPageIndex;
             set
             {
                 if (SetProperty(ref selectedPageIndex, value))
@@ -190,10 +181,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool AlwaysOpenANewInstance
         {
-            get
-            {
-                return alwaysOpenANewInstance;
-            }
+            get => alwaysOpenANewInstance;
             set
             {
                 if (SetProperty(ref alwaysOpenANewInstance, value))
