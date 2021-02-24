@@ -107,19 +107,19 @@ namespace Files.DataModels
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                     // TODO: the very first time the app is launched localized name not available
-                    if (!MainPage.SideBarItems.Any(x => x.Path == App.AppSettings.RecycleBinPath))
+                    if (!favoriteSection.ChildItems.Any(x => x.Path == App.AppSettings.RecycleBinPath))
                     {
-                        int insertIndex = MainPage.SideBarItems.IndexOf(favoriteSection) + 1;
-                        MainPage.SideBarItems.Insert(insertIndex, recycleBinItem);
+                        int insertIndex = favoriteSection.ChildItems.IndexOf(favoriteSection) + 1;
+                        favoriteSection.ChildItems.Insert(insertIndex, recycleBinItem);
                     }
                 }
                 else
                 {
-                    foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
+                    foreach (INavigationControlItem item in favoriteSection.ChildItems.ToList())
                     {
                         if (item is LocationItem && item.Path == App.AppSettings.RecycleBinPath)
                         {
-                            MainPage.SideBarItems.Remove(item);
+                            favoriteSection.ChildItems.Remove(item);
                         }
                     }
                 }
