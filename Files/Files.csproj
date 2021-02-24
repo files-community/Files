@@ -177,7 +177,6 @@
     <Compile Include="Enums\DynamicDialogButtons.cs" />
     <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
-    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FtpFilesystemOperaions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\StorageEnumerators\FtpStorageEnumerator.cs" />

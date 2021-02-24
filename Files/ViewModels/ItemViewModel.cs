@@ -1009,7 +1009,7 @@ namespace Files.ViewModels
                         // run background tasks to iterate through folders and cache all of them preemptively
                         var folders = filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
                         var currentStorageFolderSnapshot = currentStorageFolder;
-                        Task.Run(async () =>
+                        _ = Task.Run(async () =>
                         {
                             try
                             {
@@ -1035,7 +1035,7 @@ namespace Files.ViewModels
                                 // ignore exception. This is fine, it's only a caching that can fail
                                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                             }
-                        }).Forget();
+                        });
                     }
                 }
 

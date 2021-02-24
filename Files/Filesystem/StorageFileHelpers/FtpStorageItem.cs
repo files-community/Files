@@ -8,7 +8,7 @@ using Windows.System.Threading;
 
 namespace Files.Filesystem.StorageFileHelpers
 {
-    public class FtpStorageItem : IStorageItem
+    public class FtpStorageItem : IStorageItem, IStorageItemWithPath
     {
         public FtpStorageItem(IFtpClient ftpClient, string name, string path, FileAttributes attributes, DateTimeOffset dateCreated)
         {
@@ -21,7 +21,7 @@ namespace Files.Filesystem.StorageFileHelpers
 
         public IFtpClient FtpClient { get; set; }
 
-        private async Task<bool> EnsureConnected()
+        public async Task<bool> EnsureConnected()
         {
             if (FtpClient is null)
             {
@@ -86,6 +86,27 @@ namespace Files.Filesystem.StorageFileHelpers
 
         public string Name { get; private set; }
 
-        public string Path { get; private set; }
+        public string Path { get; set; }
+
+        public FilesystemItemType ItemType
+        {
+            get
+            {
+                if (IsOfType(StorageItemTypes.File))
+                {
+                    return FilesystemItemType.File;
+                }
+                else
+                {
+                    return FilesystemItemType.Directory;
+                }
+            }
+        }
+
+        public IStorageItem Item
+        {
+            get => this;
+            set => throw new InvalidOperationException();
+        }
     }
 }
