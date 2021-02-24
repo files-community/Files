@@ -282,7 +282,7 @@ namespace Files.DataModels
         /// Adds the item to sidebar asynchronous.
         /// </summary>
         /// <param name="section">The section.</param>
-        public async Task AddItemToSidebarAsync(LocationItem section)
+        private void AddItemToSidebarAsync(LocationItem section)
         {
             var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
             int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
@@ -304,7 +304,9 @@ namespace Files.DataModels
                 MainPage.SideBarItems.BeginBulkOperation();
 
                 if (homeSection != null)
-                    await AddItemToSidebarAsync(homeSection);
+                {
+                    AddItemToSidebarAsync(homeSection);
+                }                    
 
                 for (int i = 0; i < Items.Count(); i++)
                 {
