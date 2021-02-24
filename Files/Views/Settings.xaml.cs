@@ -75,7 +75,7 @@ namespace Files.Views
             {
                 0 => SettingsContentFrame.Navigate(typeof(Appearance)),
                 1 => SettingsContentFrame.Navigate(typeof(OnStartup)),
-                2 => SettingsContentFrame.Navigate(typeof(Sidebar)),
+                2 => SettingsContentFrame.Navigate(typeof(Preferences)),
                 3 => SettingsContentFrame.Navigate(typeof(Sidebar)),
                 4 => SettingsContentFrame.Navigate(typeof(Widgets)),
                 5 => SettingsContentFrame.Navigate(typeof(Multitasking)),
