@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using Windows.Storage;
 using static Files.ViewModels.FolderLayoutInformation;
 
@@ -310,6 +311,7 @@ namespace Files.ViewModels
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
         {
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            folderPath = folderPath.TakeLast(255).ToString();
             if (dataContainer.Values.ContainsKey(folderPath))
             {
                 var val = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
@@ -324,6 +326,7 @@ namespace Files.ViewModels
         private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
         {
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            folderPath = folderPath.TakeLast(255).ToString();
             if (!dataContainer.Values.ContainsKey(folderPath))
             {
                 if (prefs == LayoutPreferences.DefaultLayoutPreferences)
