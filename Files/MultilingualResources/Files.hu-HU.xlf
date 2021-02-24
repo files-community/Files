@@ -230,7 +230,7 @@
           <source>Settings</source>
           <target state="translated">Beállítások</target>
         </trans-unit>
-		  <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
           <target state="translated">Sidebar</target>
         </trans-unit>

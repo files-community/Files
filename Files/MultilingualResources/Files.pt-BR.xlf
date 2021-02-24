@@ -215,12 +215,14 @@
           <target state="translated">Configurações</target>
         </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>Acerca</source>
-          <target state="translated">Sobre</target>
+          <source>About</source>
+          <target state="needs-review-translation">Sobre</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-		  <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Barra Lateral</source>
-          <target state="translated">Barra Lateral</target>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="needs-review-translation">Barra Lateral</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -2370,8 +2372,8 @@
           <target state="new">More drives options</target>
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
-          <source>Favoritos</source>
-          <target state="new">Favoritos</target>
+          <source>Favorites</source>
+          <target state="new">Favorites</target>
         </trans-unit>
       </group>
     </body>

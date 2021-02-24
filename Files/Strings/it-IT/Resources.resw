@@ -153,11 +153,11 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Impostazioni</value>
   </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Informazioni app</value>
-  </data>
-	<data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Grafica</value>

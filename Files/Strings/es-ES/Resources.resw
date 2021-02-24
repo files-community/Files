@@ -66,11 +66,11 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Carpetas y archivos</value>
   </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Acerca de Files</value>
-  </data>
-	<data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Apariencia</value>

@@ -66,11 +66,11 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>文件和文件夹</value>
   </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>关于</value>
-  </data>
-	<data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>外观</value>

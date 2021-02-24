@@ -159,11 +159,11 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>அமைப்புகள்</value>
   </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>பற்றி</value>
-  </data>
-	<data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>தோற்றம்</value>
