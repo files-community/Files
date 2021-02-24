@@ -1,7 +1,6 @@
 ﻿using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
-using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
