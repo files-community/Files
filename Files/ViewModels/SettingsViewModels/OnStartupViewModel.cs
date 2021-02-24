@@ -40,58 +40,66 @@ namespace Files.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-            var sidebarItem = new MenuFlyoutSubItemViewModel("Sidebar"/*.GetLocalized()*/);
-            foreach (var item in MainPage.SideBarItems.Where((i) => !(i is HeaderTextItem)))
-            {
-                sidebarItem.Items.Add(new MenuFlyoutItemViewModel(item.Text, item.Path, AddPageCommand));
-            }
-
-            var recentsItem = new MenuFlyoutSubItemViewModel("Recents"/*.GetLocalized()*/);
+            var recentsItem = new MenuFlyoutSubItemViewModel("Recent locations"/*.GetLocalized()*/);
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home", "Home", AddPageCommand));
             PopulateRecentItems(recentsItem);
 
             addFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
                 new MenuFlyoutItemViewModel("Browse"/*.GetLocalized()*/, null, AddPageCommand),
-                new MenuFlyoutSeparatorViewModel(),
-                sidebarItem,
                 recentsItem,
             });
         }
 
         private async void PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
-            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-
-            foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+            bool hasRecents = false;
+            menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+            try
             {
-                string mruToken = entry.Token;
-                var added = await FilesystemTasks.Wrap(async () =>
-                {
-                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
-                    }
+                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 
-                });
-                if (added == FileSystemStatusCode.Unauthorized)
+                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
                 {
-                    // Skip item until consent is provided
-                }
-                // Exceptions include but are not limited to:
-                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                // 0x8007016A -> The cloud file provider is not running
-                // 0x8000000A -> The data necessary to complete this operation is not yet available
-                // 0x80004005 -> Unspecified error
-                // 0x80270301 -> ?
-                else if (!added)
-                {
-                    await FilesystemTasks.Wrap(() =>
+                    string mruToken = entry.Token;
+                    var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        mostRecentlyUsed.Remove(mruToken);
-                        return Task.CompletedTask;
+                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
+                            hasRecents = true;
+                        }
+
                     });
-                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    if (added == FileSystemStatusCode.Unauthorized)
+                    {
+                        // Skip item until consent is provided
+                    }
+                    // Exceptions include but are not limited to:
+                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                    // 0x8007016A -> The cloud file provider is not running
+                    // 0x8000000A -> The data necessary to complete this operation is not yet available
+                    // 0x80004005 -> Unspecified error
+                    // 0x80270301 -> ?
+                    else if (!added)
+                    {
+                        await FilesystemTasks.Wrap(() =>
+                        {
+                            mostRecentlyUsed.Remove(mruToken);
+                            return Task.CompletedTask;
+                        });
+                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(ex, "Could not fetch recent items");
+            }
+
+            if (!hasRecents)
+            {
+                menu.Items.RemoveAt(menu.Items.Count - 1);
             }
         }
 
