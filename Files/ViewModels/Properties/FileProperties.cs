@@ -332,7 +332,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.ServiceConnection.SendMessageAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
                     }
                     break;
             }

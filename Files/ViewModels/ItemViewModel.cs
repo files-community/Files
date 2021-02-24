@@ -805,8 +805,8 @@ namespace Files.ViewModels
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
-                var response = await Connection.SendMessageAsync(value);
-                var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
+                var (status, response) = await Connection.SendMessageSafeAsync(value);
+                var hasCustomIcon = (status == AppServiceResponseStatus.Success)
                     && response.Message.Get("HasCustomIcon", false);
                 var icon = response.Message.Get("Icon", (string)null);
                 var overlay = response.Message.Get("Overlay", (string)null);
@@ -825,7 +825,7 @@ namespace Files.ViewModels
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, useCache);
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
+        private async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
         {
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
@@ -858,10 +858,7 @@ namespace Files.ViewModels
                 IsLoadingItems = true;
 
                 filesAndFolders.Clear();
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                {
-                    FilesAndFolders.Clear();
-                });
+                FilesAndFolders.Clear();
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -919,7 +916,7 @@ namespace Files.ViewModels
                 {
                     if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, FolderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
                     {
-                        WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(await currentStorageFolder.ToStorageItem()));
+                        WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item));
                     }
 
                     var parallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
@@ -1123,7 +1120,7 @@ namespace Files.ViewModels
                         value.Add("action", "Unlock");
                         value.Add("drive", Path.GetPathRoot(path));
                         value.Add("password", userInput);
-                        await Connection.SendMessageAsync(value);
+                        await Connection.SendMessageSafeAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {
@@ -1792,11 +1789,6 @@ namespace Files.ViewModels
                 enumFolderSemaphore.Release();
             }
             return null;
-        }
-
-        public void AddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
-        {
-            RapidAddItemsToCollectionAsync(path, previousDir, useCache);
         }
 
         public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)

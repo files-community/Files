@@ -1701,9 +1701,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nieznane</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Włącz adaptacyjny panel podglądowy</value>
-  </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Wielokrotne zaznaczanie</value>
   </data>

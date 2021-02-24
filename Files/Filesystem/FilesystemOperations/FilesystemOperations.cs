@@ -572,14 +572,14 @@ namespace Files.Filesystem
                 // Try again with fulltrust process
                 if (associatedInstance.ServiceConnection != null)
                 {
-                    AppServiceResponse response = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },
                             { "filepath", source.Path },
                             { "permanently", permanently }
                         });
-                    fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success
+                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                         && response.Message.Get("Success", false));
                 }
             }
