@@ -109,8 +109,7 @@ namespace Files.DataModels
                     // TODO: the very first time the app is launched localized name not available
                     if (!favoriteSection.ChildItems.Any(x => x.Path == App.AppSettings.RecycleBinPath))
                     {
-                        int insertIndex = favoriteSection.ChildItems.IndexOf(favoriteSection) + 1;
-                        favoriteSection.ChildItems.Insert(insertIndex, recycleBinItem);
+                        favoriteSection.ChildItems.Add(recycleBinItem);
                     }
                 }
                 else
