@@ -86,21 +86,27 @@ namespace Files.Helpers
                 }
                 else if (item is MenuFlyoutItemViewModel vm)
                 {
-                    menu.Add(new MenuFlyoutItem {
+                    var mfi = new MenuFlyoutItem
+                    {
                         Text = vm.Text,
                         Command = vm.OnSelect,
                         CommandParameter = vm.Path,
                         IsEnabled = vm.IsEnabled,
-                    });
+                    };
+                    if (!string.IsNullOrEmpty(vm.Path))
+                    {
+                        ToolTipService.SetToolTip(mfi, vm.Path);
+                    }
+                    menu.Add(mfi);
                 }
                 else if (item is MenuFlyoutSubItemViewModel svm)
                 {
-                    var subitem = new MenuFlyoutSubItem {
+                    var mfsi = new MenuFlyoutSubItem {
                         Text = svm.Text,
                         IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
                     };
-                    AddItems(subitem.Items, svm.Items);
-                    menu.Add(subitem);
+                    AddItems(mfsi.Items, svm.Items);
+                    menu.Add(mfsi);
                 }
             }
         }
