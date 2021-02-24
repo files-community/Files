@@ -68,7 +68,6 @@ namespace Files.ViewModels.SettingsViewModels
                             menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
                             hasRecents = true;
                         }
-
                     });
                     if (added == FileSystemStatusCode.Unauthorized)
                     {
