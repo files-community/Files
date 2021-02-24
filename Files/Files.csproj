@@ -406,7 +406,6 @@
     <Compile Include="ViewModels\SettingsViewModels\ExperimentalViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\FilesAndFoldersViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
