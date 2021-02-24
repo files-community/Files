@@ -18,7 +18,7 @@ Files is a file manager which leverages the latest features of the Windows platf
 We can confidently assert Files is the platform's best file explorer project to bring your innovations to. We focus heavily on extensibility and code modularity and have no plans to stop doing so. When you contribute to this project, you're helping everyone by fixing reported bugs, adding new features, or correcting existing behavior. These changes are quickly included in the final product for all users to benefit from.
 
 ## Vision for Files
-In the short term, we plan to focus on crucial functionality to achieve parity with Windows File Explorer. Before leaving beta, we'll address many of these pain points and improve accessibility. Later on, the project will reach a point where we can fully celebrate our core audience by adding sought-after power user features. Stay tuned!
+The vision for Files is to make it the best file manager while keeping it simple and easy to use. Whether it's implementing new features, or pushing the boundaries of the platform, your input will help shape the future of Files.
 
 ## Building Files source
 - Install Visual Studio 2019 and the UWP Development Kit.
