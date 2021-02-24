@@ -207,10 +207,6 @@
           <source>Settings</source>
           <target state="translated">அமைப்புகள்</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated">Sidebar</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">பற்றி</target>

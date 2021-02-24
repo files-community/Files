@@ -66,9 +66,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Dateien und Ordner</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Über</value>
   </data>

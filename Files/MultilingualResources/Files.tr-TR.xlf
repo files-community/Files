@@ -82,10 +82,6 @@
           <source>Files and Folders</source>
           <target state="translated">Dosyalar ve Klasörler</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated">Sidebar</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Hakkında</target>

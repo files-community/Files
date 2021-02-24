@@ -242,10 +242,6 @@
           <source>About</source>
           <target state="translated" state-qualifier="tm-suggestion">حول التطبيق</target>
         </trans-unit>
-		  <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated">Sidebar</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
           <target state="translated" state-qualifier="tm-suggestion">المظهر</target>

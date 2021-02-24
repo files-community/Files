@@ -168,9 +168,6 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>सेटिंग्स</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>बारे में</value>
   </data>

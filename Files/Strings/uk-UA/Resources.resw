@@ -129,9 +129,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файли та папки</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Про програму</value>
   </data>

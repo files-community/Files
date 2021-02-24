@@ -293,6 +293,7 @@
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>About</value>
+  </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Appearance</value>
   </data>
