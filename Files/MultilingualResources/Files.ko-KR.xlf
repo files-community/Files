@@ -1902,10 +1902,6 @@
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">보호된 운영 체제 파일 숨기기 (권장)</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="translated">적응형 미리보기 패널 활성화</target>
-        </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">파일, 폴더 검색 시 인덱싱되지 않은 항목 표시 (검색 시간이 길어질 수 있음)</target>

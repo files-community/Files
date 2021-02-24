@@ -325,7 +325,7 @@
     <value>名前を入力</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>拡張子なしで名前を入力</value>
+    <value>ファイル名を入力</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>名前を変更</value>
@@ -1080,8 +1080,14 @@
   <data name="PropertyLatitude" xml:space="preserve">
     <value>緯度</value>
   </data>
+  <data name="PropertyLatitudeDecimal" xml:space="preserve">
+    <value>緯度(10進数)</value>
+  </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>経度</value>
+  </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>経度(10進数)</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>高度</value>
@@ -1630,7 +1636,7 @@
     <value>ファイル名</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>クラウドドライブ</value>
+    <value>クラウド ドライブ</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
     <value>プレビュー利用不可</value>
@@ -1643,6 +1649,12 @@
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>フォルダをサイドバーから外す</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>ネットワーク ドライブ</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>ネットワーク</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>プロパティ</value>
@@ -1689,9 +1701,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>不明</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>アダプティブ プレビュー ペインを有効にする</value>
-  </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>複数選択</value>
   </data>
@@ -1736,5 +1745,26 @@
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>作成日時</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>詳細設定...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>ネットワーク ドライブを割り当てる</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>切断する</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>ファイルを予めキャッシュする量の上限(HDDには小さな値を推奨)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>予めファイルをキャッシュする(子ディレクトリのファイルをプリロードする)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>その他のバンドル オプション</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>その他のドライブ オプション</value>
   </data>
 </root>

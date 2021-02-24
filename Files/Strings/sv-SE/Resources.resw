@@ -1434,9 +1434,6 @@
   <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
     <value>Dölj skyddade operativsystemfiler (rekommenderas)</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Aktivera flexibelt förhandsgranskningsfönster</value>
-  </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Visa oindexerade objekt när du söker efter filer och mappar (sökningar kan ta längre tid)</value>
   </data>

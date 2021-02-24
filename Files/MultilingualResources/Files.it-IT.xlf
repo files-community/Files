@@ -2271,10 +2271,6 @@
           <source>Unknown</source>
           <target state="translated">Sconosciuto</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="translated">Abilita anteprima adattiva</target>
-        </trans-unit>
         <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Selezione multipla</target>

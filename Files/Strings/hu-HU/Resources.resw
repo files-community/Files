@@ -1695,9 +1695,6 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Látogasson el a Files dokumentáció oldalára</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Adaptív előnézeti panel engedélyezése</value>
-  </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Több elem kijelölése</value>
   </data>
