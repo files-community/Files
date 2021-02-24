@@ -279,6 +279,21 @@ namespace Files.DataModels
         }
 
         /// <summary>
+        /// Adds the item to sidebar asynchronous.
+        /// </summary>
+        /// <param name="section">The section.</param>
+        public async Task AddItemToSidebarAsync(LocationItem section)
+        {
+            var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
+            int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
+
+            if (!favoriteSection.ChildItems.Contains(section))
+            {
+                favoriteSection.ChildItems.Insert(insertIndex, section);
+            }
+        }
+
+        /// <summary>
         /// Adds all items to the navigation sidebar
         /// </summary>
         public async Task AddAllItemsToSidebar()
@@ -287,15 +302,16 @@ namespace Files.DataModels
             try
             {
                 MainPage.SideBarItems.BeginBulkOperation();
+
+                if (homeSection != null)
+                    await AddItemToSidebarAsync(homeSection);
+
                 for (int i = 0; i < Items.Count(); i++)
                 {
                     string path = Items[i];
                     await AddItemToSidebarAsync(path);
                 }
-                if (!MainPage.SideBarItems.Contains(homeSection))
-                {
-                    MainPage.SideBarItems.Add(homeSection);
-                }
+
                 if (!MainPage.SideBarItems.Contains(favoriteSection))
                 {
                     MainPage.SideBarItems.Add(favoriteSection);
