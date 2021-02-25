@@ -160,6 +160,11 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="F"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
     <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
         <Grid.ColumnDefinitions>
@@ -276,8 +281,8 @@
                     Grid.Column="1"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
                     Background="Transparent"
-                    ResizeBehavior="BasedOnAlignment"
-                    ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
+                    ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
+                    ResizeBehavior="BasedOnAlignment">
                     <Custom:GridSplitter.Element>
                         <Grid>
                             <TextBlock
@@ -294,12 +299,12 @@
 
                 <controls:PreviewPane
                     x:Name="PreviewPane"
+                    x:Uid="SelectedFilePreviewPane"
                     Grid.Row="1"
                     Grid.Column="2"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
                     AutomationProperties.Name="Selected file preview pane"
-                    x:Uid="SelectedFilePreviewPane"/>
+                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
 
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"

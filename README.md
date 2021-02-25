@@ -1,4 +1,4 @@
-## Files
+﻿﻿## Files
 Meet Files, an enthusiast take on what a modern file explorer should be.
 
 Files [code of conduct](https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md)
@@ -28,3 +28,5 @@ In the short term, we plan to focus on crucial functionality to achieve parity w
 
 ## FAQ
 Have any questions? Check out our documentation [site](https://files-community.github.io/docs/#/)!
+
+

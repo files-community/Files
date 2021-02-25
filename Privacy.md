@@ -1,4 +1,4 @@
-**Privacy Policy**
+﻿**Privacy Policy**
 
 *Personal Information Collection* 
 Files does not collect, store, share or publish any personal information.

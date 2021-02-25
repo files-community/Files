@@ -87,6 +87,7 @@ namespace Files.UserControls
             }
             set
             {
+
                 SetValue(IsPageTypeNotHomeProperty, value);
             }
         }
@@ -927,7 +928,7 @@ namespace Files.UserControls
             IsSearchRegionVisible = false;
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        public void OpenSearchBox()
         {
             IsSearchRegionVisible = true;
 
@@ -938,11 +939,9 @@ namespace Files.UserControls
             SearchRegion.Focus(FocusState.Programmatic);
         }
 
-        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            SearchRegion.Text = "";
-            IsSearchRegionVisible = false;
-        }
+        private void SearchButton_Click(object sender, RoutedEventArgs e) => OpenSearchBox();
+
+        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => CloseSearchBox();
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -953,6 +952,11 @@ namespace Files.UserControls
                 return;
             }
 
+            CloseSearchBox();
+        }
+
+        private void CloseSearchBox()
+        {
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
         }
