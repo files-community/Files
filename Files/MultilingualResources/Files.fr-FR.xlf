@@ -2362,6 +2362,10 @@
           <source>More drives options</source>
           <target state="new">More drives options</target>
         </trans-unit>
+        <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
+          <source>Favorites</source>
+          <target state="new">Favorites</target>
+        </trans-unit>
       </group>
     </body>
   </file>

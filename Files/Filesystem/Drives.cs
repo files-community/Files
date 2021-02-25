@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -126,49 +127,33 @@ namespace Files.Filesystem
                 {
                     MainPage.SideBarItems.BeginBulkOperation();
 
-                    var drivesSnapshot = Drives.ToList();
-                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
-
-                    if (drivesSection != null && drivesSnapshot.Count == 0)
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
                     {
-                        //No drives - remove the header
-                        MainPage.SideBarItems.Remove(drivesSection);
-                    }
-
-                    drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
-
-                    if (drivesSection == null && drivesSnapshot.Count > 0)
-                    {
-                        drivesSection = new HeaderTextItem()
+                        section = new LocationItem()
                         {
-                            Text = "SidebarDrives".GetLocalized()
+                            Text = "SidebarDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\uea9e",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-
-                        MainPage.SideBarItems.Add(drivesSection);
+                        MainPage.SideBarItems.Add(section);
                     }
 
-                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-                    var insertAt = sectionStartIndex + 1;
-
-                    //Remove all existing drives from the sidebar
-                    while (insertAt < MainPage.SideBarItems.Count)
+                    foreach (DriveItem drive in Drives.ToList())
                     {
-                        var item = MainPage.SideBarItems[insertAt];
-                        if (item.ItemType != NavigationControlItemType.Drive)
+                        if (!section.ChildItems.Contains(drive))
                         {
-                            break;
+                            section.ChildItems.Add(drive);
+
+                            if (drive.Type != DriveType.VirtualDrive)
+                            {
+                                DrivesWidget.ItemsAdded.Add(drive);
+                            }
                         }
-                        MainPage.SideBarItems.Remove(item);
-                        DrivesWidget.ItemsAdded.Remove(item);
                     }
 
-                    //Add all drives to the sidebar
-                    foreach (var drive in drivesSnapshot)
-                    {
-                        MainPage.SideBarItems.Insert(insertAt, drive);
-                        DrivesWidget.ItemsAdded.Add(drive);
-                        insertAt++;
-                    }
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

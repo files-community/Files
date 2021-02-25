@@ -38,8 +38,6 @@ namespace Files.ViewModels
         private async Task<SettingsViewModel> Initialize()
         {
             DetectDateTimeFormat();
-            PinSidebarLocationItems();
-            DetectRecycleBinPreference();
             DetectQuickLook();
 
             // Load the supported languages
@@ -144,40 +142,6 @@ namespace Files.ViewModels
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
-        }
-
-        private void DetectRecycleBinPreference()
-        {
-            if (localSettings.Values["PinRecycleBin"] == null)
-            {
-                localSettings.Values["PinRecycleBin"] = true;
-            }
-
-            if ((bool)localSettings.Values["PinRecycleBin"] == true)
-            {
-                PinRecycleBinToSideBar = true;
-            }
-            else
-            {
-                PinRecycleBinToSideBar = false;
-            }
-        }
-
-        private void PinSidebarLocationItems()
-        {
-            AddDefaultLocations();
-        }
-
-        private void AddDefaultLocations()
-        {
-            MainPage.SideBarItems.Add(new LocationItem
-            {
-                Text = "SidebarHome".GetLocalized(),
-                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\uea80",
-                IsDefaultLocation = true,
-                Path = "Home"
-            });
         }
 
         private async void DetectWSLDistros()
@@ -557,42 +521,14 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
         /// </summary>
-        private bool pinRecycleBinToSideBar;
-
         public bool PinRecycleBinToSideBar
         {
-            get => pinRecycleBinToSideBar;
+            get => Get(true);
             set
             {
-                if (value != pinRecycleBinToSideBar)
+                if (Set(value))
                 {
-                    SetProperty(ref pinRecycleBinToSideBar, value);
-                    if (value == true)
-                    {
-                        localSettings.Values["PinRecycleBin"] = true;
-                        var recycleBinItem = new LocationItem
-                        {
-                            Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-                            Glyph = "\uEF87",
-                            IsDefaultLocation = true,
-                            Path = RecycleBinPath
-                        };
-                        // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
-                        // TODO: the very first time the app is launched localized name not available
-                        MainPage.SideBarItems.Insert(MainPage.SideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
-                    }
-                    else
-                    {
-                        localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
-                        {
-                            if (item is LocationItem && item.Path == RecycleBinPath)
-                            {
-                                MainPage.SideBarItems.Remove(item);
-                            }
-                        }
-                    }
+                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
                 }
             }
         }

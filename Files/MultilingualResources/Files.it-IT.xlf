@@ -252,8 +252,7 @@
         </trans-unit>
         <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
           <source>Home</source>
-          <target state="translated">Accesso rapido</target>
-          <note from="MultilingualEditor" annotates="source" priority="4">(volendo può rimanere Home. Ma la funzione è simile a quella dell'accesso rapido</note>
+          <target state="translated">Pagina iniziale</target>
         </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
@@ -2358,6 +2357,10 @@
         <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More drives options</source>
           <target state="translated">Altre opzioni delle unità</target>
+        </trans-unit>
+        <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
+          <source>Favorites</source>
+          <target state="translated">Accesso rapido</target>
         </trans-unit>
       </group>
     </body>

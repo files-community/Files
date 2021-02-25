@@ -1881,4 +1881,7 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>More drives options</value>
   </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
 </root>

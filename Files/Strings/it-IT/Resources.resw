@@ -196,7 +196,7 @@
     <value>Download</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Accesso rapido</value>
+    <value>Pagina iniziale</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Musica</value>
@@ -1775,5 +1775,8 @@
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Altre opzioni delle unità</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Accesso rapido</value>
   </data>
 </root>
