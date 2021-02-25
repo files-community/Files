@@ -1259,7 +1259,8 @@ namespace Files.Views
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
-                SidebarSelectedItem = MainPage.SideBarItems.First(x => x.Path.Equals("Home"));
+                var allItems = MainPage.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
+                SidebarSelectedItem = allItems.FirstOrDefault(x => x.Path.Equals("Home"));
                 NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
         }
