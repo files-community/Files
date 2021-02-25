@@ -50,7 +50,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarFavorites".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\uE082",
+                Glyph = "\ueb83",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -356,7 +356,7 @@ namespace Files.DataModels
         public string GetItemIcon(string path)
         {
             string iconCode;
-
+            
             if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\ue9f1";
