@@ -29,15 +29,11 @@ namespace Files.Filesystem
             }
             else if (component.Contains(":"))
             {
+                var allDrives = MainPage.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
                 return new PathBoxItem()
                 {
-                    Title = MainPage.SideBarItems
-                        .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
-                            x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
-                            MainPage.SideBarItems
-                                .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
-                                    x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text :
-                            $@"Drive ({component}\)",
+                    Title = allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
+                            allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text : $@"Drive ({component}\)",
                     Path = path,
                 };
             }

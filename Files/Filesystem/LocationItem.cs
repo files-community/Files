@@ -1,8 +1,12 @@
-﻿using Windows.UI.Xaml.Media;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
-    public class LocationItem : INavigationControlItem
+    public class LocationItem : ObservableObject, INavigationControlItem
     {
         public string Glyph { get; set; }
         public string Text { get; set; }
@@ -23,28 +27,18 @@ namespace Files.Filesystem
         public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
-    }
+        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
-    public class HeaderTextItem : INavigationControlItem
-    {
-        public string Glyph { get; set; } = null;
+        public bool SelectsOnInvoked { get; set; } = true;
 
-        public string Text { get; set; }
-
-        private string path;
-
-        public string Path
+        public bool IsExpanded
         {
-            get => path;
+            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
             set
             {
-                path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
+                App.AppSettings.Set(value, $"section:{Text}");
+                OnPropertyChanged(nameof(IsExpanded));
             }
         }
-
-        public string HoverDisplayText { get; private set; }
-
-        public NavigationControlItemType ItemType => NavigationControlItemType.Header;
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Files.Helpers;
+using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -110,47 +112,30 @@ namespace Files.Filesystem
                 {
                     MainPage.SideBarItems.BeginBulkOperation();
 
-                    var drivesSnapshot = Drives.ToList();
-                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarNetworkDrives".GetLocalized());
-
-                    if (drivesSection != null && drivesSnapshot.Count == 0)
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
                     {
-                        //No drives - remove the header
-                        MainPage.SideBarItems.Remove(drivesSection);
-                    }
-
-                    if (drivesSection == null && drivesSnapshot.Count > 0)
-                    {
-                        drivesSection = new HeaderTextItem()
+                        section = new LocationItem()
                         {
-                            Text = "SidebarNetworkDrives".GetLocalized()
+                            Text = "SidebarNetworkDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\ueac2",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-
-                        MainPage.SideBarItems.Add(drivesSection);
+                        MainPage.SideBarItems.Add(section);
                     }
 
-                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-                    var insertAt = sectionStartIndex + 1;
-
-                    //Remove all existing network drives from the sidebar
-                    while (insertAt < MainPage.SideBarItems.Count)
-                    {
-                        var item = MainPage.SideBarItems[insertAt];
-                        if (item.ItemType != NavigationControlItemType.Drive)
-                        {
-                            break;
-                        }
-                        MainPage.SideBarItems.Remove(item);
-                    }
-
-                    //Add all network drives to the sidebar
-                    foreach (var drive in drivesSnapshot
+                    foreach (var drive in Drives.ToList()
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
                     {
-                        MainPage.SideBarItems.Insert(insertAt, drive);
-                        insertAt++;
+                        if (!section.ChildItems.Contains(drive))
+                        {
+                            section.ChildItems.Add(drive);
+                        }
                     }
+
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

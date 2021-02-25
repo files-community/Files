@@ -1674,6 +1674,12 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ismeretlen</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Hálózati meghajtó</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Hálózat</value>
+  </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Tulajdonságok</value>
   </data>
@@ -1739,5 +1745,20 @@
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
     <value>Létrehozás dátuma</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>További lehetőségek...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Új hálózati meghajtóvá</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Kapcsolat bontása</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>További munkafelület lehetőségek</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>További meghajtó lehetőségek</value>
   </data>
 </root>

@@ -401,7 +401,11 @@ namespace Files.Views
                     {
                         var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
 
-                        if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+                        if (string.IsNullOrEmpty(ItemPath)) // Section item
+                        {
+                            navigationPath = invokedItemContainer.Tag?.ToString();
+                        }
+                        else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
                             if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
                             {
@@ -413,14 +417,14 @@ namespace Files.Views
                         }
                         else // Any other item
                         {
-                            navigationPath = invokedItemContainer.Tag.ToString();
+                            navigationPath = invokedItemContainer.Tag?.ToString();
                         }
 
                         break;
                     }
                 default:
                     {
-                        navigationPath = invokedItemContainer.Tag.ToString();
+                        navigationPath = invokedItemContainer.Tag?.ToString();
                         break;
                     }
             }
@@ -981,7 +985,10 @@ namespace Files.Views
             }
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+            List<INavigationControlItem> sidebarItems = MainPage.SideBarItems
+                .Where(x => !string.IsNullOrWhiteSpace(x.Path))
+                .Concat(MainPage.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+                .ToList();
 
             item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (item == null)
