@@ -229,7 +229,10 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            MainPage.MultitaskingControl = horizontalMultitaskingControl;
+            if (!(MainPage.MultitaskingControl is HorizontalMultitaskingControl))
+            {
+                MainPage.MultitaskingControl = horizontalMultitaskingControl;
+            }
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)

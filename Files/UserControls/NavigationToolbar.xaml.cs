@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -888,7 +889,10 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            MainPage.MultitaskingControl = VerticalTabs;
+            if (!(MainPage.MultitaskingControl is VerticalTabViewControl))
+            {
+                MainPage.MultitaskingControl = VerticalTabs;
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
