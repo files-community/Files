@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:views="using:Files.Views"
+    xmlns:views="using:Files.Views" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -71,6 +71,7 @@
                                             x:Name="TabContainerGrid"
                                             Background="{TemplateBinding Background}"
                                             XYFocusKeyboardNavigation="Enabled">
+                                            
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition x:Name="LeftContentColumn" Width="Auto" />
@@ -85,7 +86,7 @@
                                                 Content="{TemplateBinding TabStripHeader}"
                                                 ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" />
 
-                                            <Grid x:Name="ShadowReceiver" Grid.ColumnSpan="4" />
+                                            <Grid x:Name="ShadowReceiver" Visibility="Collapsed" Grid.ColumnSpan="4" />
 
                                             <primitives:TabViewListView
                                                 x:Name="TabListView"
@@ -113,7 +114,8 @@
                                             <ContentPresenter
                                                 x:Name="RightContentPresenter"
                                                 Grid.Column="3"
-                                                Margin="0,0,250,0"
+                                                Margin="0,0,0,0"
+                                                MinWidth="250"
                                                 HorizontalAlignment="Stretch"
                                                 Content="{TemplateBinding TabStripFooter}"
                                                 ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
@@ -124,6 +126,7 @@
                                             x:Name="ShadowCaster"
                                             Grid.Row="0"
                                             Height="10"
+                                            Visibility="Collapsed"
                                             Margin="0,0,0,-10"
                                             VerticalAlignment="Bottom"
                                             Background="Transparent" />
@@ -161,7 +164,6 @@
                                     <AddDeleteThemeTransition />
                                     <ContentThemeTransition />
                                     <ReorderThemeTransition />
-                                    <EntranceThemeTransition IsStaggeringEnabled="False" />
                                 </TransitionCollection>
                             </Setter.Value>
                         </Setter>
@@ -366,18 +368,19 @@
                                             Width="1"
                                             Margin="{ThemeResource TabViewItemSeparatorMargin}"
                                             HorizontalAlignment="Right"
-                                            BorderBrush="{ThemeResource SystemControlTransparentBrush}"
+                                            BorderBrush="{StaticResource CheckBoxBorderThemeBrush}"
                                             BorderThickness="1" />
 
                                         <Grid
                                             x:Name="TabContainer"
                                             Grid.Column="1"
-                                            Padding="{ThemeResource TabViewItemHeaderPadding}"
-                                            Background="{ThemeResource TabViewItemHeaderBackground}"
+                                            Canvas.ZIndex="2"
+                                            CornerRadius="{TemplateBinding CornerRadius}"
                                             BorderBrush="{ThemeResource SystemControlHighlightBaseLowRevealBorderBrush}"
-                                            BorderThickness="1"
+                                            BorderThickness="0"
+                                            Padding="{ThemeResource TabViewItemHeaderPadding}"
+                                            Background="Transparent"
                                             Control.IsTemplateFocusTarget="True"
-                                            CornerRadius="4"
                                             FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
 
                                             <Grid.ColumnDefinitions>
@@ -435,6 +438,7 @@
 
                                                 <VisualState x:Name="PointerOver">
                                                     <VisualState.Setters>
+                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
@@ -445,6 +449,7 @@
 
                                                 <VisualState x:Name="Pressed">
                                                     <VisualState.Setters>
+                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPressed}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
@@ -739,42 +744,12 @@
                         </Setter>
                     </Style>
                 </ResourceDictionary>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <AcrylicBrush
-                                x:Key="TabViewBackground"
-                                Windows10version1903:TintLuminosityOpacity="0.75"
-                                AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                                BackgroundSource="HostBackdrop"
-                                FallbackColor="#FFF3F2F1"
-                                TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-                                TintOpacity="0.5" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <AcrylicBrush
-                                x:Key="TabViewBackground"
-                                Windows10version1903:TintLuminosityOpacity="0.75"
-                                AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                                BackgroundSource="HostBackdrop"
-                                FallbackColor="#161514"
-                                TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-                                TintOpacity="0.5" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="TabViewBackground" Color="{ThemeResource SystemColorActiveCaptionColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="{ThemeResource TabViewBackground}" Canvas.ZIndex="4">
-        <Grid
-            x:Name="DragArea"
-            Background="Transparent"
-            Loaded="DragArea_Loaded" />
+    <Grid Background="Transparent" Canvas.ZIndex="4">
+        
         <muxc:TabView
             x:Name="HorizontalTabView"
             HorizontalAlignment="Stretch"
@@ -782,6 +757,7 @@
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             CanDragTabs="True"
+            Background="Transparent"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="True"
             SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -805,6 +781,7 @@
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
+                        CornerRadius="4"
                         FontFamily="{StaticResource FluentUIGlyphs}"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
@@ -812,6 +789,13 @@
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
+            <muxc:TabView.TabStripFooter>
+                <Grid
+                    HorizontalAlignment="Stretch"
+            x:Name="DragArea"
+            Background="Transparent"
+            Loaded="DragArea_Loaded" />
+            </muxc:TabView.TabStripFooter>
         </muxc:TabView>
     </Grid>
 </local:BaseMultitaskingControl>
