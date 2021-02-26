@@ -36,10 +36,21 @@ namespace Files.ViewModels.Previews
             LoadCancelledTokenSource.Cancel();
         }
 
-        public virtual Task<List<FileProperty>> LoadPreviewAndDetails()
+        public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            LoadThumbnail();
-            return Task.FromResult(new List<FileProperty>());
+            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+
+            if (IconData != null)
+            {
+                Item.FileImage = await IconData.ToBitmapAsync();
+            } else
+            {
+                using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
+                Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
+                await Item.FileImage.SetSourceAsync(icon);
+            }
+
+            return new List<FileProperty>();
         }
 
         private async void LoadSystemFileProperties()
@@ -103,49 +114,5 @@ namespace Files.ViewModels.Previews
             {
             }
         }
-
-
-        private async void LoadThumbnail()
-        {
-            try
-            {
-                var (IconData, OverlayData, IsCustom) = await LoadIconOverlayAsync(Item.ItemPath, 400);
-
-                if (IconData != null && !Item.IsLinkItem)
-                {
-                    Item.FileImage = await IconData.ToBitmapAsync();
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-        public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "GetIconOverlay" },
-                    { "filePath", filePath },
-                    { "thumbnailSize", (int)thumbnailSize }
-                };
-                var response = await connection.SendMessageAsync(value);
-                var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
-                    && response.Message.Get("HasCustomIcon", false);
-                var icon = response.Message.Get("Icon", (string)null);
-                var overlay = response.Message.Get("Overlay", (string)null);
-
-                // BitmapImage can only be created on UI thread, so return raw data and create
-                // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                return (icon == null ? null : Convert.FromBase64String(icon),
-                    overlay == null ? null : Convert.FromBase64String(overlay),
-                    hasCustomIcon);
-            }
-            return (null, null, false);
-        }
-
     }
 }
