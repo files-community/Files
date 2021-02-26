@@ -10,59 +10,42 @@ using Files.Enums;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Files.ViewModels.Previews;
+using Files.ViewModels;
 
 namespace Files.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {
-        public static void SetPreferredLayout(string layoutName)
+        public enum GridViewSizeMode
         {
-            string rawPreferredLayoutMode = App.AppSettings.AdaptiveLayoutPreferredLayoutMode;
-
-            if (string.IsNullOrWhiteSpace(rawPreferredLayoutMode) || rawPreferredLayoutMode == "null")
-            {
-                App.AppSettings.AdaptiveLayoutPreferredLayoutMode = layoutName;
-
-                return;
-            }
-            // else
-
-            string serialized = string.Empty;
-
-            foreach (string item in rawPreferredLayoutMode.Split('|'))
-            {
-                string itemToAdd = item;
-
-                if ((item == "GridViewSmall" || item == "GridViewMedium" || item == "GridViewLarge")
-                    && (layoutName == "GridViewSmall" || layoutName == "GridViewMedium" || layoutName == "GridViewLarge"))
-                {
-                    itemToAdd = layoutName;
-                }
-
-                serialized += $"{itemToAdd}|";
-            }
-
-            if (serialized.EndsWith('|'))
-            {
-                serialized = serialized.TrimEnd('|');
-            }
-
-            App.AppSettings.AdaptiveLayoutPreferredLayoutMode = serialized;
+            GridViewSmall,
+            GridViewMedium,
+            GridViewLarge
         }
 
-        public static List<string> GetPreferredLayouts()
+        public static void SetPreferredGridViewSizeMode(GridViewSizeMode gridViewSizeMode, string forPath, FolderSettingsViewModel folderSettingsViewModel)
         {
-            string rawPreferredLayoutMode = App.AppSettings.AdaptiveLayoutPreferredLayoutMode;
+            folderSettingsViewModel.LayoutPreference.PreferredGridViewSizeMode = gridViewSizeMode.ToString();
 
-            List<string> preferredLayouts = new List<string>();
-            if (!string.IsNullOrWhiteSpace(rawPreferredLayoutMode) && rawPreferredLayoutMode != "null")
+            folderSettingsViewModel.UpdateLayoutPreferencesForPath(forPath, folderSettingsViewModel.LayoutPreference);
+        }
+
+        public static GridViewSizeMode GetPreferredGridViewSizeMode(FolderSettingsViewModel folderSettingsViewModel)
+        {
+            switch (folderSettingsViewModel.LayoutPreference.PreferredGridViewSizeMode)
             {
-                preferredLayouts = rawPreferredLayoutMode.Split('|').ToList();
+                case "GridViewSmall":
+                    return GridViewSizeMode.GridViewSmall;
 
-                return preferredLayouts;
+                case "GridViewMedium":
+                    return GridViewSizeMode.GridViewMedium;
+
+                case "GridViewLarge":
+                    return GridViewSizeMode.GridViewLarge;
+
+                default:
+                    return GridViewSizeMode.GridViewSmall;
             }
-
-            return preferredLayouts;
         }
 
         public static async Task<bool> PredictLayoutMode(IShellPage associatedInstance)
@@ -70,26 +53,23 @@ namespace Files.Helpers
             if (App.AppSettings.AdaptiveLayoutEnabled && !associatedInstance.InstanceViewModel.FolderSettings.AdaptiveLayoutSuggestionOverriden)
             {
                 bool desktopIniFound = false;
-                List<string> preferredLayouts = GetPreferredLayouts();
+                GridViewSizeMode preferredGridViewSize = GetPreferredGridViewSizeMode(associatedInstance.InstanceViewModel.FolderSettings);
 
                 ICommand preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall; // Default
 
-                foreach (string item in preferredLayouts)
+                switch (preferredGridViewSize)
                 {
-                    switch (item)
-                    {
-                        case "GridViewSmall":
-                            preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall;
-                            break;
+                    case GridViewSizeMode.GridViewSmall:
+                        preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall;
+                        break;
 
-                        case "GridViewMedium":
-                            preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium;
-                            break;
+                    case GridViewSizeMode.GridViewMedium:
+                        preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium;
+                        break;
 
-                        case "GridViewLarge":
-                            preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge;
-                            break;
-                    }
+                    case GridViewSizeMode.GridViewLarge:
+                        preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge;
+                        break;
                 }
 
                 if (associatedInstance.ServiceConnection != null)

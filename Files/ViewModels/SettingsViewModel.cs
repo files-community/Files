@@ -432,11 +432,11 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        public string AdaptiveLayoutPreferredLayoutMode
-        {
-            get => Get("null");
-            set => Set(value);
-        }
+        //public string AdaptiveLayoutPreferredLayoutMode
+        //{
+        //    get => Get("null");
+        //    set => Set(value);
+        //}
 
         #endregion FilesAndFolder
 
