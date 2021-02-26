@@ -59,6 +59,14 @@ namespace Files.Filesystem
             set => SetProperty(ref loadUnknownTypeGlyph, value);
         }
 
+        private bool loadWebShortcutGlyph;
+
+        public bool LoadWebShortcutGlyph
+        {
+            get => loadWebShortcutGlyph;
+            set => SetProperty(ref loadWebShortcutGlyph, value);
+        }
+
         private double opacity;
 
         public double Opacity

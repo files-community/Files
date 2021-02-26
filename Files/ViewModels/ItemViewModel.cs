@@ -693,10 +693,11 @@ namespace Files.ViewModels
 
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
-                            if (fileIconInfo.IconData != null && !item.IsLinkItem)
+                            if (fileIconInfo.IconData != null)
                             {
                                 item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
                                 item.LoadUnknownTypeGlyph = false;
+                                item.LoadWebShortcutGlyph = false;
                                 item.LoadFileIcon = true;
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();

@@ -837,7 +837,7 @@
                                     Glyph="&#xEA00;" />
                                 <FontIcon
                                     x:Name="WebShortcutGlyph"
-                                    x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                     x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEAAB;" />
