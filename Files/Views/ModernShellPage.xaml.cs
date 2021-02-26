@@ -1261,6 +1261,8 @@ namespace Files.Views
                     PreviewPane.Visibility = Visibility.Collapsed;
                     PreviewPaneDropShadowPanel.Visibility = Visibility.Collapsed;
                 }
+
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.00;
             }
             else if (RootGrid.ActualWidth > 1000)
             {
@@ -1269,6 +1271,7 @@ namespace Files.Views
 
                 PreviewPaneDropShadowPanel.OffsetX = -18;
                 PreviewPaneDropShadowPanel.OffsetY = 0;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
@@ -1293,6 +1296,7 @@ namespace Files.Views
 
                 PreviewPaneDropShadowPanel.OffsetX = 0;
                 PreviewPaneDropShadowPanel.OffsetY = -18;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);

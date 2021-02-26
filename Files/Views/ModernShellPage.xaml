@@ -201,7 +201,7 @@
                 HorizontalContentAlignment="Stretch"
                 BlurRadius="4"
                 OffsetX="-18"
-                ShadowOpacity="0.08">
+                ShadowOpacity="0.04">
                 <controls:PreviewPane
                     x:Name="PreviewPane"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
@@ -240,7 +240,7 @@
                     HorizontalContentAlignment="Stretch"
                     BlurRadius="4"
                     OffsetY="-2"
-                    ShadowOpacity="0.12">
+                    ShadowOpacity="0.04">
                     
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
