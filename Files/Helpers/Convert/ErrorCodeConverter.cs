@@ -1,5 +1,4 @@
 ﻿using Files.Enums;
-using Files.Filesystem;
 
 namespace Files.Helpers
 {

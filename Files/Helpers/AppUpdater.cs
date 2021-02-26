@@ -15,7 +15,6 @@ namespace Files.Helpers
 
         public AppUpdater()
         {
-            context = StoreContext.GetDefault();
         }
 
         public async void CheckForUpdatesAsync(bool mandantoryOnly = true)

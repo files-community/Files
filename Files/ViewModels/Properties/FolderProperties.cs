@@ -42,6 +42,7 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
+                ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
@@ -75,9 +76,9 @@ namespace Files.ViewModels.Properties
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.Icon != null && fileIconInfo.IsCustom)
+            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
             {
-                ViewModel.FileIconSource = fileIconInfo.Icon;
+                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
             }
 
             if (Item.IsShortcutItem)
@@ -116,14 +117,14 @@ namespace Files.ViewModels.Properties
             else if (Item.ItemPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
-                if (AppInstance.FilesystemViewModel.Connection != null)
+                if (AppInstance.ServiceConnection != null)
                 {
                     var value = new ValueSet();
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Query");
                     // Send request to fulltrust process to get recyclebin properties
-                    var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                    var (status, response) = await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
+                    if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
                         if (response.Message.TryGetValue("BinSize", out var binSize))
                         {
@@ -213,7 +214,7 @@ namespace Files.ViewModels.Properties
                         return;
                     }
 
-                    if (AppInstance.FilesystemViewModel.Connection != null)
+                    if (AppInstance.ServiceConnection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -225,7 +226,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
                     }
                     break;
             }

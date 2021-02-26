@@ -4,7 +4,6 @@ using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;

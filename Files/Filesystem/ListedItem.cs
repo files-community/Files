@@ -1,9 +1,11 @@
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -55,6 +57,14 @@ namespace Files.Filesystem
         {
             get => loadUnknownTypeGlyph;
             set => SetProperty(ref loadUnknownTypeGlyph, value);
+        }
+
+        private bool loadWebShortcutGlyph;
+
+        public bool LoadWebShortcutGlyph
+        {
+            get => loadWebShortcutGlyph;
+            set => SetProperty(ref loadWebShortcutGlyph, value);
         }
 
         private double opacity;
@@ -178,6 +188,14 @@ namespace Files.Filesystem
 
         private DateTimeOffset itemDateAccessedReal;
 
+        private ObservableCollection<FileProperty> itemProperties;
+
+        public ObservableCollection<FileProperty> ItemProperties
+        {
+            get => itemProperties;
+            set => SetProperty(ref itemProperties, value);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
@@ -238,6 +256,14 @@ namespace Files.Filesystem
             }
         }
 
+        private ObservableCollection<FileProperty> fileDetails;
+
+        public ObservableCollection<FileProperty> FileDetails
+        {
+            get => fileDetails;
+            set => SetProperty(ref fileDetails, value);
+        }
+
         public override string ToString()
         {
             string suffix;
@@ -260,7 +286,15 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public bool IsPinned { get; set; }
+        public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
+
+        private StorageFile itemFile;
+
+        public StorageFile ItemFile
+        {
+            get => itemFile;
+            set => SetProperty(ref itemFile, value);
+        }
     }
 
     public class RecycleBinItem : ListedItem

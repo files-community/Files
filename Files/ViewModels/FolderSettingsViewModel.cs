@@ -6,7 +6,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using Windows.Storage;
+using static Files.ViewModels.FolderLayoutInformation;
 
 namespace Files.ViewModels
 {
@@ -20,6 +22,8 @@ namespace Files.ViewModels
         {
             this.associatedInstance = associatedInstance;
             this.LayoutPreference = new LayoutPreferences();
+
+            SetLayoutInformation();
         }
 
         public FolderLayoutModes LayoutMode
@@ -29,9 +33,27 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
+                    SetLayoutInformation();
                     UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
                 }
             }
+        }
+
+        private FolderLayoutInformation layoutModeInformation;
+
+        public FolderLayoutInformation LayoutModeInformation
+        {
+            get => layoutModeInformation;
+            set => SetProperty(ref layoutModeInformation, value);
+        }
+
+        public void SetLayoutInformation()
+        {
+            LayoutModeInformation = new FolderLayoutInformation()
+            {
+                Mode = LayoutMode,
+                SizeKind = GridViewSizeKind
+            };
         }
 
         private bool isLayoutModeChanging;
@@ -118,6 +140,25 @@ namespace Files.ViewModels
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
+        public GridViewSizeKind GridViewSizeKind
+        {
+            get
+            {
+                if (GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium)
+                {
+                    return GridViewSizeKind.Small;
+                }
+                else if (GridViewSize >= Constants.Browser.GridViewBrowser.GridViewSizeMedium && GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+                {
+                    return GridViewSizeKind.Medium;
+                }
+                else
+                {
+                    return GridViewSizeKind.Large;
+                }
+            }
+        }
+
         public int GridViewSize
         {
             get => LayoutPreference.GridViewSize;
@@ -181,6 +222,8 @@ namespace Files.ViewModels
                         }
                     }
                 }
+
+                SetLayoutInformation();
             }
         }
 
@@ -268,6 +311,7 @@ namespace Files.ViewModels
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
         {
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            folderPath = folderPath.TakeLast(255).ToString();
             if (dataContainer.Values.ContainsKey(folderPath))
             {
                 var val = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
@@ -282,6 +326,7 @@ namespace Files.ViewModels
         private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
         {
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            folderPath = folderPath.TakeLast(255).ToString();
             if (!dataContainer.Values.ContainsKey(folderPath))
             {
                 if (prefs == LayoutPreferences.DefaultLayoutPreferences)
@@ -358,6 +403,19 @@ namespace Files.ViewModels
             {
                 return base.GetHashCode();
             }
+        }
+    }
+
+    public class FolderLayoutInformation
+    {
+        public FolderLayoutModes Mode { get; set; }
+        public GridViewSizeKind SizeKind { get; set; }
+
+        public enum GridViewSizeKind
+        {
+            Small,
+            Medium,
+            Large
         }
     }
 }

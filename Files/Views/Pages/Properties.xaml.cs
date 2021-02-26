@@ -128,7 +128,6 @@ namespace Files.Views
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
-                tokenSource.Dispose();
                 tokenSource = null;
             }
         }
@@ -141,7 +140,6 @@ namespace Files.Views
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
-                tokenSource.Dispose();
                 tokenSource = null;
             }
             propertiesDialog.Hide();

@@ -139,37 +139,11 @@ namespace Files.Views
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
 
-        public GridLength SidebarWidth
-        {
-            get
-            {
-                return IsPageMainPane ? AppSettings.SidebarWidth : new GridLength(0);
-            }
-            set
-            {
-                if (IsPageMainPane && AppSettings.SidebarWidth != value)
-                {
-                    AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                }
-            }
-        }
-
         public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
-        public INavigationControlItem SidebarSelectedItem
-        {
-            get => SidebarControl?.SelectedSidebarItem;
-            set
-            {
-                if (SidebarControl != null)
-                {
-                    SidebarControl.SelectedSidebarItem = value;
-                }
-            }
-        }
+
         public INavigationToolbar NavigationToolbar => NavToolbar;
 
         public ModernShellPage()
@@ -181,8 +155,6 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -220,15 +192,32 @@ namespace Files.Views
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+
+            App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+
+            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /*
+         * Ensure that the path bar gets updated for user interaction
+         * whenever the path changes. We will get the individual directories from
+         * the updated, most-current path and add them to the UI.
+         */
+        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
         {
-            switch (e.PropertyName)
+            // Clear the path UI
+            NavigationToolbar.PathComponents.Clear();
+
+            if (string.IsNullOrWhiteSpace(singleItemOverride))
             {
-                case nameof(AppSettings.SidebarWidth):
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                    break;
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir))
+                {
+                    NavigationToolbar.PathComponents.Add(component);
+                }
+            }
+            else
+            {
+                NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
 
@@ -307,117 +296,6 @@ namespace Files.Views
             NavParams = eventArgs.Parameter.ToString();
         }
 
-        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
-        {
-            var recycleBinHasItems = false;
-            if (ServiceConnection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var response = await ServiceConnection.SendMessageAsync(value);
-                if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
-                {
-                    recycleBinHasItems = (long)numItems > 0;
-                }
-            }
-            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
-        }
-
-        private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
-        {
-            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
-        }
-
-        private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
-        {
-            if (e.InvokedItemDataContext is DriveItem)
-            {
-                await InteractionOperations.OpenPropertiesWindowAsync(e.InvokedItemDataContext);
-            }
-            else if (e.InvokedItemDataContext is LocationItem)
-            {
-                ListedItem listedItem = new ListedItem(null)
-                {
-                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
-                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true
-                };
-                await InteractionOperations.OpenPropertiesWindowAsync(listedItem);
-            }
-        }
-
-        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
-        {
-            var invokedItemContainer = e.InvokedItemContainer;
-
-            // All items must have DataContext except Settings item
-            if (invokedItemContainer.DataContext is null)
-            {
-                Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(Settings));
-
-                return;
-            }
-
-            string navigationPath; // path to navigate
-            Type sourcePageType = null; // type of page to navigate
-
-            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
-            {
-                case NavigationControlItemType.Location:
-                    {
-                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
-
-                        if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
-                        {
-                            if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
-                            {
-                                return; // return if already selected
-                            }
-
-                            navigationPath = "NewTab".GetLocalized();
-                            sourcePageType = typeof(YourHome);
-                        }
-                        else // Any other item
-                        {
-                            navigationPath = invokedItemContainer.Tag.ToString();
-                        }
-
-                        break;
-                    }
-                default:
-                    {
-                        navigationPath = invokedItemContainer.Tag.ToString();
-                        break;
-                    }
-            }
-
-            if (string.IsNullOrEmpty(navigationPath) ||
-                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
-                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase)) // return if already selected
-            {
-                return;
-            }
-
-            ContentFrame.Navigate(
-                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
-                new NavigationArguments()
-                {
-                    NavPathParam = navigationPath,
-                    AssociatedTabInstance = this
-                },
-                new SuppressNavigationTransitionInfo());
-
-            NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
-        }
-
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
         {
             FilesystemViewModel?.UpdateSortDirectionStatus();
@@ -430,13 +308,16 @@ namespace Files.Views
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            if (IsCurrentInstance)
             {
-                Back_Click();
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                Forward_Click();
+                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                {
+                    Back_Click();
+                }
+                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                {
+                    Forward_Click();
+                }
             }
         }
 
@@ -467,7 +348,7 @@ namespace Files.Views
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.Name
+                            ItemName = x.Folder.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -476,12 +357,12 @@ namespace Files.Views
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.Name
+                            ItemName = x.Folder.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name)
+                                ItemName = Path.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
                             })).ToList();
                     }
                     else
@@ -495,7 +376,7 @@ namespace Files.Views
                     // Here we check whether at least an element is in common between old and new list
                     if (!mNavToolbar.NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
                     {
-                        // No elemets in common, update the list in-place
+                        // No elements in common, update the list in-place
                         for (int si = 0; si < suggestions.Count; si++)
                         {
                             if (si < mNavToolbar.NavigationBarSuggestions.Count)
@@ -632,6 +513,13 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
+            currentInput = currentInput.Replace("\\\\", "\\");
+
+            if (currentInput.StartsWith("\\") && !currentInput.StartsWith("\\\\"))
+            {
+                currentInput = currentInput.Insert(0, "\\");
+            }
+
             if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
@@ -661,7 +549,7 @@ namespace Files.Views
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder || FilesystemViewModel.CheckFolderAccessWithWin32(currentInput))
+                    if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
@@ -700,7 +588,7 @@ namespace Files.Views
                                             { "Application", terminal.Path },
                                             { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
-                                        await ServiceConnection.SendMessageAsync(value);
+                                        await ServiceConnection.SendMessageSafeAsync(value);
                                     }
                                     return;
                                 }
@@ -777,11 +665,11 @@ namespace Files.Views
 
         private async void DisplayFilesystemConsentDialog()
         {
-            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
+            if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
-                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
-                var consentDialogDisplay = new ConsentDialog();
-                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                App.DrivesManager.ShowUserConsentOnInit = false;
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                await dialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -892,6 +780,7 @@ namespace Files.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -901,81 +790,44 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await InitializeAppServiceConnection();
-            FilesystemViewModel = new ItemViewModel(this);
-            FilesystemViewModel.OnAppServiceConnectionChanged();
+            FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+            ServiceConnection = await AppServiceConnectionHelper.Instance;
+            FilesystemViewModel.OnAppServiceConnectionChanged(ServiceConnection);
             InteractionOperations = new Interaction(this);
-            App.Current.Suspending += Current_Suspending;
-            App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+            FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+            FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+            FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
 
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
-            if (this.ServiceConnection == null)
+            InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
+        }
+
+        private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+        {
+            if (ContentPage != null)
             {
-                // Need to reinitialize AppService when app is resuming
-                await InitializeAppServiceConnection();
-                FilesystemViewModel?.OnAppServiceConnectionChanged();
+                if (FilesystemViewModel.FilesAndFolders.Count == 1)
+                {
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
+                }
+                else
+                {
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
+                }
             }
-        }
-
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
-        }
-
-        public async Task InitializeAppServiceConnection()
-        {
-            ServiceConnection = new AppServiceConnection();
-            ServiceConnection.AppServiceName = "FilesInteropService";
-            ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-            ServiceConnection.ServiceClosed += Connection_ServiceClosed;
-            AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                ServiceConnection?.Dispose();
-                ServiceConnection = null;
-            }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
         }
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
             string value = e.Path;
-
-            INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
-
-            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-            if (item == null)
+            if (!string.IsNullOrWhiteSpace(value))
             {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (SidebarSelectedItem != item)
-            {
-                SidebarSelectedItem = item;
+                UpdatePathUIToWorkingDirectory(value);
             }
         }
 
@@ -995,6 +847,15 @@ namespace Files.Views
                 InitialPageType = typeof(ModernShellPage),
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
+
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            {
+                UpdatePositioning(true);
+            }
+            else
+            {
+                UpdatePositioning();
+            }
         }
 
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -1037,7 +898,7 @@ namespace Files.Views
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (ContentPage.IsItemSelected && !NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await FilesystemHelpers.DeleteItemsAsync(
                             ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
@@ -1102,6 +963,10 @@ namespace Files.Views
                     }
                     break;
 
+                case (true, false, false, true, VirtualKey.P):
+                    PreviewPaneEnabled = !PreviewPaneEnabled;
+                    break;
+
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -1109,9 +974,13 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
                     NavigationToolbar.IsEditModeEnabled = true;
+                    break;
+
+                case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
                     break;
             };
 
@@ -1135,7 +1004,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null);
+                ContentOwnedViewModelInstance?.RefreshItems(null, false);
             });
         }
 
@@ -1181,13 +1050,20 @@ namespace Files.Views
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
-            var instance = FilesystemViewModel;
-            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
-            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
 
+            if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+            {
+                return;
+            }
+            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+            if (lastSlashIndex == -1)
+            {
+                lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/");
+            }
             if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
+                parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();
@@ -1204,7 +1080,6 @@ namespace Files.Views
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
-                SidebarSelectedItem = MainPage.SideBarItems.First(x => x.Path.Equals("Home"));
                 NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
         }
@@ -1218,20 +1093,9 @@ namespace Files.Views
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
-            App.Current.Suspending -= Current_Suspending;
-            App.Current.LeavingBackground -= OnLeavingBackground;
-            AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
-            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            if (SidebarControl != null)
-            {
-                SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
-                SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
-                SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
-                SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
-            }
             NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
             NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
             NavigationToolbar.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
@@ -1256,28 +1120,72 @@ namespace Files.Views
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+                FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+                FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
+                FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.Dispose();
             }
-
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
+            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
         {
-            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
-            SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
-            SidebarControl.Loaded -= SidebarControl_Loaded;
+            ServiceConnection = await e;
+            FilesystemViewModel?.OnAppServiceConnectionChanged(ServiceConnection);
         }
 
-        private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
+        private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
         {
-            if (e.InvokedItemDataContext is INavigationControlItem navItem)
+            switch (e.Status)
             {
-                PaneHolder?.OpenPathInNewPane(navItem.Path);
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
+                    NavigationToolbar.CanRefresh = false;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
+                    NavigationToolbar.CanGoBack = ContentFrame.CanGoBack;
+                    NavigationToolbar.CanGoForward = ContentFrame.CanGoForward;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
+                    NavigationToolbar.CanRefresh = true;
+                    // Select previous directory
+                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    {
+                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        {
+                            // Remove the WorkingDir from previous dir
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+
+                            // Get previous dir name
+                            if (e.PreviousDirectory.StartsWith('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Remove(0, 1);
+                            }
+                            if (e.PreviousDirectory.Contains('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Split('\\')[0];
+                            }
+
+                            // Get the first folder and combine it with WorkingDir
+                            string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
+
+                            // Make sure we don't get double \\ in the e.Path
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                            if (folderToSelect.EndsWith('\\'))
+                            {
+                                folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                            }
+
+                            ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                            if (itemToSelect != null)
+                            {
+                                ContentPage.SetSelectedItemOnUi(itemToSelect);
+                                ContentPage.ScrollIntoView(itemToSelect);
+                            }
+                        }
+                    }
+                    break;
             }
         }
 
@@ -1285,7 +1193,7 @@ namespace Files.Views
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
-                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                if (!InstanceViewModel.IsPageTypeSearchResults)
                 {
                     return DataPackageOperation.Move;
                 }
@@ -1308,6 +1216,123 @@ namespace Files.Views
                 }
             }
             return DataPackageOperation.None;
+        }
+
+        private bool previewPaneEnabled;
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the preview pane should be shown.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => previewPaneEnabled;
+            set
+            {
+                previewPaneEnabled = value;
+                NotifyPropertyChanged(nameof(PreviewPaneEnabled));
+                UpdatePositioning();
+            }
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdatePositioning(!InstanceViewModel.IsPageTypeNotHome);
+        }
+
+        /// <summary>
+        /// Call this function to update the positioning of the preview pane.
+        /// This is a workaround as the VisualStateManager causes problems.
+        /// </summary>
+        private void UpdatePositioning(bool IsHome = false)
+        {
+            if (!PreviewPaneEnabled || IsHome)
+            {
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = new GridLength(0);
+                if (PreviewPaneGridSplitter != null)
+                {
+                    PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
+                }
+
+                if (PreviewPane != null)
+                {
+                    PreviewPane.Visibility = Visibility.Collapsed;
+                }
+            }
+            else if (RootGrid.ActualWidth > 1000)
+            {
+                PreviewPane.SetValue(Grid.RowProperty, 2);
+                PreviewPane.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
+                PreviewPaneGridSplitter.Width = 2;
+                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
+
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+                PreviewPane.IsHorizontal = false;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+            }
+            else if (RootGrid.ActualWidth < 1000)
+            {
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneColumn.Width = new GridLength(0);
+
+                PreviewPane.SetValue(Grid.RowProperty, 4);
+                PreviewPane.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneGridSplitter.Height = 2;
+                PreviewPaneGridSplitter.Width = RootGrid.Width;
+                PreviewPane.IsHorizontal = true;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PreviewPane == null)
+            {
+                return;
+            }
+
+            if (PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+            }
+            else
+            {
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+            }
+        }
+
+        public void NavigateToPath(string navigationPath, Type sourcePageType)
+        {
+            if (string.IsNullOrEmpty(navigationPath) ||
+                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase)) // return if already selected
+            {
+                return;
+            }
+
+            ContentFrame.Navigate(
+                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
+                new NavigationArguments()
+                {
+                    NavPathParam = navigationPath,
+                    AssociatedTabInstance = this
+                },
+                new SuppressNavigationTransitionInfo());
+
+            NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
         }
     }
 

@@ -34,11 +34,15 @@ namespace Files.ViewModels.SettingsViewModels
                     break;
 
                 case "ReleaseNotes":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/releases"));
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/releases"));
+                    break;
+                
+                case "Documentation":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
                     break;
 
                 case "Contributors":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/graphs/contributors"));
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/graphs/contributors"));
                     break;
 
                 case "SupportUs":

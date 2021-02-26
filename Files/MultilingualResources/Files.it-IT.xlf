@@ -252,8 +252,7 @@
         </trans-unit>
         <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
           <source>Home</source>
-          <target state="translated">Accesso rapido</target>
-          <note from="MultilingualEditor" annotates="source" priority="4">(volendo può rimanere Home. Ma la funzione è simile a quella dell'accesso rapido</note>
+          <target state="translated">Pagina iniziale</target>
         </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
@@ -1371,10 +1370,6 @@
           <source>Rating</source>
           <target state="translated">Classificazione</target>
         </trans-unit>
-        <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path</source>
-          <target state="translated">Percorso della cartella</target>
-        </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
           <target state="translated">Tipo di file</target>
@@ -2050,6 +2045,330 @@
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">Data di eliminazione</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
+          <source>Item Path</source>
+          <target state="translated">Percorso</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Toggle the preview pane (Ctrl + P)</source>
+          <target state="translated">Mostra anteprima (Ctrl + P)</target>
+        </trans-unit>
+        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
+          <source>Tab Customization</source>
+          <target state="translated">Impostazioni schede</target>
+        </trans-unit>
+        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
+          <source>When Launching Files</source>
+          <target state="translated">Quando si apre Files</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">OK</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
+          <source>Bundle with the same name already exists!</source>
+          <target state="translated">Un gruppo con lo stesso nome esiste già</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleErrorInputEmpty" translate="yes" xml:space="preserve">
+          <source>Input field cannot be empty!</source>
+          <target state="translated">Il campo non può essere vuoto</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="translated">Inserisci nome del gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="translated">Inserisci nome del gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Annulla</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
+          <source>Desired name</source>
+          <target state="translated">Nome desiderato</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">OK</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogSubtitleText" translate="yes" xml:space="preserve">
+          <source>Enter new name</source>
+          <target state="translated">Inserisci il nuovo nome</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
+          <source>Rename "{0}"</source>
+          <target state="translated">Rinomina "{0}"</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Annulla</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+          <source>Desired name</source>
+          <target state="translated">Nome desiderato</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">OK</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogSubtitleText" translate="yes" xml:space="preserve">
+          <source>Add Bundle</source>
+          <target state="translated">Aggiungi gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Export Bundles</source>
+          <target state="translated">Esporta Gruppi</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Import Bundles</source>
+          <target state="translated">Importa Gruppi</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleItem.Text" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">Crea Gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="translated">Apri in una nuova scheda</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouOpenItemLocationMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Open item location</source>
+          <target state="translated">Apri percorso file</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouRemoveFromBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Remove from bundle</source>
+          <target state="translated">Rimuovi dal gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutRemoveBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Remove Bundle</source>
+          <target state="translated">Rimuovi Gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+          <source>Bundles</source>
+          <target state="translated">Gruppi</target>
+        </trans-unit>
+        <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
+          <source>Drag and drop any file or folder here to quickly access it</source>
+          <target state="translated">Trascina qui file o cartelle per accederci velocemente</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleConfirmButton.Content" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="translated">OK</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="translated">Inserisci nome del gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">Crea Gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Rename Bundle</source>
+          <target state="translated">Rinomina Gruppo</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="translated">Altre opzioni...</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">Crea Gruppo</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="translated">Nome dell'elemento</target>
+        </trans-unit>
+        <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
+          <source>Cloud Drives</source>
+          <target state="translated">Archivi Cloud</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin directory from sidebar</source>
+          <target state="translated">Rimuovi la cartella dalla barra laterale</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="translated">Anteprima non disponibile</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="translated">Nessun dettaglio disponibile</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles on the home page</source>
+          <target state="translated">Mostra i Gruppi nella schermata iniziale</target>
+        </trans-unit>
+        <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
+          <source>Network drives</source>
+          <target state="translated">Dischi di rete</target>
+        </trans-unit>
+        <trans-unit id="Network" translate="yes" xml:space="preserve">
+          <source>Network</source>
+          <target state="translated">Rete</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">Proprietà</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File details</source>
+          <target state="translated">Dettagli file</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File preview</source>
+          <target state="translated">Anteprima file</target>
+        </trans-unit>
+        <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selected file preview pane</source>
+          <target state="translated">Riquadro dell'anteprima dell'elemento selezionato</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
+          <source>Documentation</source>
+          <target state="translated">Documentazione</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find tips &amp; tricks and learn more about Files</source>
+          <target state="translated">Impara trucchi e altro ancora riguardo a Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Visit the Files documentation website</source>
+          <target state="translated">Visita la documentazione di Files sul sito</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout</source>
+          <target state="translated">Lista operazioni in corso</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
+          <source>Available when online</source>
+          <target state="translated">Disponibile solo online</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
+          <source>Available offline</source>
+          <target state="translated">Disponibile offline</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
+          <source>Partially available offline</source>
+          <target state="translated">Parzialmente disponibile offline</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
+          <source>Syncing</source>
+          <target state="translated">In sincronizzazione</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
+          <source>Excluded from sync</source>
+          <target state="translated">Escluso dalla sincronizzazione</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+          <source>Not calculated</source>
+          <target state="translated">Non calcolato</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="translated">Sconosciuto</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+          <source>Multiselect</source>
+          <target state="translated">Selezione multipla</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
+          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
+          <target state="translated">Abilita selezione multipla (per ora disponibile solo nelle modalità Elenco e Icone)</target>
+        </trans-unit>
+        <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
+          <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
+          <target state="translated">Modificando l'estensione il file potrebbe essere inutilizzabile. Vuoi cambiare l'estensione del file?</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
+          <source>CD ROM Drive</source>
+          <target state="translated">CD ROM</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
+          <source>Cloud Drive</source>
+          <target state="translated">Disco Cloud</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
+          <source>Fixed Disk Drive</source>
+          <target state="translated">Disco Fisso</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
+          <source>Floppy Disk Drive</source>
+          <target state="translated">Disco Floppy</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
+          <source>Network Drive</source>
+          <target state="translated">Disco di Rete</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeNoRootDirectory" translate="yes" xml:space="preserve">
+          <source>Unmounted Drive</source>
+          <target state="translated">Disco non montato</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
+          <source>RAM Disk Drive</source>
+          <target state="translated">Disco RAM</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
+          <source>Removable Storage Device</source>
+          <target state="translated">Dispositivo Rimuovibile</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="translated">Sconosciuto</target>
+        </trans-unit>
+        <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
+          <source>Virtual Drive</source>
+          <target state="translated">Disco Virtuale</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="translated">Data creazione</target>
+        </trans-unit>
+        <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="translated">Data creazione</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="translated">Altre opzioni...</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Map network drive</source>
+          <target state="translated">Connetti disco di rete</target>
+        </trans-unit>
+        <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
+          <source>Disconnect</source>
+          <target state="translated">Disconnetti</target>
+        </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="translated">Limite di parallelizzazione della cache predittiva (per un hard disk è consigliato un numero piccolo)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="translated">Usa cache predittiva (precarica le sottocartelle durante la navigazione)</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More bundles options</source>
+          <target state="translated">Altre opzioni dei gruppi</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More drives options</source>
+          <target state="translated">Altre opzioni delle unità</target>
+        </trans-unit>
+        <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
+          <source>Favorites</source>
+          <target state="translated">Accesso rapido</target>
+        </trans-unit>
+        <trans-unit id="Browse" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="new">Browse</target>
+        </trans-unit>
+        <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
+          <source>Recent locations</source>
+          <target state="new">Recent locations</target>
         </trans-unit>
       </group>
     </body>

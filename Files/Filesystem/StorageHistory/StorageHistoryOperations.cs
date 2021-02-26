@@ -344,7 +344,6 @@ namespace Files.Filesystem.FilesystemHistory
 
         public void Dispose()
         {
-            associatedInstance?.Dispose();
             filesystemOperations?.Dispose();
             filesystemHelpers?.Dispose();
 

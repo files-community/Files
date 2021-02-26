@@ -7,39 +7,31 @@ namespace Files.Filesystem.Cloud
 {
     public class CloudProviderController
     {
-        private List<CloudProvider> cloudProviders;
-
-        public CloudProviderController()
-        {
-            CloudProviderDetectors = new List<ICloudProviderDetector>
+        private List<ICloudProviderDetector> CloudProviderDetectors => new List<ICloudProviderDetector>
             {
                 new GoogleDriveCloudProvider(),
                 new DropBoxCloudProvider(),
                 new OneDriveCloudProvider(),
-                new OneDriveCommercialCloudProvider(),
                 new MegaCloudProvider(),
                 new BoxCloudProvider(),
                 new AppleCloudProvider(),
-                new AmazonDriveProvider()
+                new AmazonDriveProvider(),
+                new OneDriveSharePointCloudProvider(),
             };
 
-            CloudProviders = new List<CloudProvider>();
-        }
-
-        public List<ICloudProviderDetector> CloudProviderDetectors { get; set; }
-
-        public List<CloudProvider> CloudProviders
+        public async Task<List<CloudProvider>> DetectInstalledCloudProvidersAsync()
         {
-            get => cloudProviders.Where(x => !string.IsNullOrEmpty(x.SyncFolder)).ToList();
-            set => cloudProviders = value;
-        }
+            var tasks = new List<Task<IList<CloudProvider>>>();
+            var results = new List<CloudProvider>();
 
-        public async Task DetectInstalledCloudProvidersAsync()
-        {
             foreach (var provider in CloudProviderDetectors)
             {
-                await provider.DetectAsync(cloudProviders);
+                tasks.Add(provider.DetectAsync());
             }
+
+            await Task.WhenAll(tasks);
+
+            return tasks.SelectMany(o => o.Result).Distinct().ToList();
         }
     }
 }

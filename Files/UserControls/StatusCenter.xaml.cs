@@ -1,5 +1,4 @@
 ﻿using Files.Enums;
-using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -174,6 +173,7 @@ namespace Files.UserControls
         {
             Message = message;
             Title = title;
+            FullTitle = title;
             initialProgress = progress;
             Status = status;
             Operation = operation;

@@ -1,4 +1,5 @@
 using Files.Common;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -54,7 +55,7 @@ namespace FilesFullTrust
                 handleTable = new Win32API.DisposableDictionary();
 
                 // Create shell COM object and get recycle bin folder
-                recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                using var recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
 
                 // Create filesystem watcher to monitor recycle bin folder(s)
@@ -80,7 +81,7 @@ namespace FilesFullTrust
                     binWatchers.Add(watcher);
                 }
 
-                // Preload context menu for better performace
+                // Preload context menu for better performance
                 // We query the context menu for the app's local folder
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
                 using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
@@ -107,7 +108,6 @@ namespace FilesFullTrust
                     watcher.Dispose();
                 }
                 handleTable?.Dispose();
-                recycler?.Dispose();
                 deviceWatcher?.Dispose();
                 cancellation?.Cancel();
                 cancellation?.Dispose();
@@ -141,7 +141,7 @@ namespace FilesFullTrust
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
                     using var folderItem = new ShellItem(e.FullPath);
-                    var shellFileItem = GetRecycleBinItem(folderItem);
+                    var shellFileItem = GetShellFileItem(folderItem);
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
                 // Send message to UWP app to refresh items
@@ -152,7 +152,6 @@ namespace FilesFullTrust
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static CancellationTokenSource cancellation;
-        private static ShellFolder recycler;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
@@ -232,31 +231,18 @@ namespace FilesFullTrust
                     await ParseRecycleBinActionAsync(args, binAction);
                     break;
 
-                case "StartupTasks":
+                case "DetectQuickLook":
                     // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    var available = QuickLook.CheckQuickLookAvailability();
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
+                        { "IsAvailable", available }
+                    });
                     break;
 
                 case "ToggleQuickLook":
                     var path = (string)args.Request.Message["path"];
                     QuickLook.ToggleQuickLook(path);
-                    break;
-
-                case "ShellCommand":
-                    // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-                    // In debug mode this kills this process too??
-#else
-                    var pid = (int)args.Request.Message["pid"];
-                    Process.GetProcessById(pid).Kill();
-#endif
-
-                    Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "explorer.exe";
-                    process.StartInfo.CreateNoWindow = false;
-                    process.StartInfo.Arguments = (string)args.Request.Message["ShellCommand"];
-                    process.Start();
                     break;
 
                 case "LoadContextMenu":
@@ -315,13 +301,146 @@ namespace FilesFullTrust
                 case "GetIconOverlay":
                     var fileIconPath = (string)args.Request.Message["filePath"];
                     var thumbnailSize = (int)args.Request.Message["thumbnailSize"];
-                    var iconOverlay = Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize);
+                    var iconOverlay = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize));
                     await args.Request.SendResponseAsync(new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },
                         { "Overlay", iconOverlay.overlay },
                         { "HasCustomIcon", iconOverlay.isCustom }
                     });
+                    break;
+
+                case "NetworkDriveOperation":
+                    await ParseNetworkDriveOperationAsync(args);
+                    break;
+
+                case "GetOneDriveAccounts":
+                    try
+                    {
+                        var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+
+                        if (oneDriveAccountsKey == null)
+                        {
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                            return;
+                        }
+
+                        var oneDriveAccounts = new ValueSet();
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "OneDrive" : $"OneDrive - {displayName}";
+                            if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.ContainsKey(accountName))
+                            {
+                                oneDriveAccounts.Add(accountName, userFolder);
+                            }
+                        }
+                        oneDriveAccounts.Add("Count", oneDriveAccounts.Count);
+                        await args.Request.SendResponseAsync(oneDriveAccounts);
+                    }
+                    catch
+                    {
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                    }
+                    break;
+
+                case "GetSharePointSyncLocationsFromOneDrive":
+                    try
+                    {
+                        using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+
+                        if (oneDriveAccountsKey == null)
+                        {
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                            return;
+                        }
+
+                        var sharepointAccounts = new ValueSet();
+
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolderToExcludeFromResults = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "SharePoint" : $"SharePoint - {displayName}";
+
+                            var sharePointSyncFolders = new List<string>();
+                            var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
+                            using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
+                            {
+                                if (mountPointsKey == null)
+                                {
+                                    continue;
+                                }
+
+                                var valueNames = mountPointsKey.GetValueNames();
+                                foreach (var valueName in valueNames)
+                                {
+                                    var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
+                                    if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        sharePointSyncFolders.Add(value);
+                                    }
+                                }
+                            }
+
+                            foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
+                            {
+                                var parentFolder = System.IO.Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
+                                if (!sharepointAccounts.Any(acc => string.Equals(acc.Key, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
+                                {
+                                    sharepointAccounts.Add(accountName, parentFolder);
+                                }
+                            }
+                        }
+
+                        sharepointAccounts.Add("Count", sharepointAccounts.Count);
+                        await args.Request.SendResponseAsync(sharepointAccounts);
+                    }
+                    catch
+                    {
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                    }
+                    break;
+
+                case "ShellFolder":
+                    // Enumerate shell folder contents and send response to UWP
+                    var folderPath = (string)args.Request.Message["folder"];
+                    var responseEnum = new ValueSet();
+                    var folderContentsList = await Win32API.StartSTATask(() =>
+                    {
+                        var flc = new List<ShellFileItem>();
+                        try
+                        {
+                            using (var shellFolder = new ShellFolder(folderPath))
+                            {
+                                foreach (var folderItem in shellFolder)
+                                {
+                                    try
+                                    {
+                                        var shellFileItem = GetShellFileItem(folderItem);
+                                        flc.Add(shellFileItem);
+                                    }
+                                    catch (FileNotFoundException)
+                                    {
+                                        // Happens if files are being deleted
+                                    }
+                                    finally
+                                    {
+                                        folderItem.Dispose();
+                                    }
+                                }
+                            }
+                        }
+                        catch
+                        {
+                        }
+                        return flc;
+                    });
+                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
+                    await args.Request.SendResponseAsync(responseEnum);
                     break;
 
                 default:
@@ -339,9 +458,45 @@ namespace FilesFullTrust
             }
         }
 
+        private static async Task ParseNetworkDriveOperationAsync(AppServiceRequestReceivedEventArgs args)
+        {
+            switch (args.Request.Message.Get("netdriveop", ""))
+            {
+                case "GetNetworkLocations":
+                    var networkLocations = await Win32API.StartSTATask(() =>
+                    {
+                        var netl = new ValueSet();
+                        using (var nethood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
+                        {
+                            foreach (var link in nethood)
+                            {
+                                var linkPath = (string)link.Properties["System.Link.TargetParsingPath"];
+                                if (linkPath != null)
+                                {
+                                    netl.Add(link.Name, linkPath);
+                                }
+                            }
+                        }
+                        return netl;
+                    });
+                    networkLocations.Add("Count", networkLocations.Count);
+                    await args.Request.SendResponseAsync(networkLocations);
+                    break;
+
+                case "OpenMapNetworkDriveDialog":
+                    NetworkDrivesAPI.OpenMapNetworkDriveDialog();
+                    break;
+
+                case "DisconnectNetworkDrive":
+                    var drivePath = (string)args.Request.Message["drive"];
+                    NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
+                    break;
+            }
+        }
+
         private static object HandleMenuMessage(ValueSet message, Win32API.DisposableDictionary table)
         {
-            switch ((string)message["Arguments"])
+            switch (message.Get("Arguments", ""))
             {
                 case "LoadContextMenu":
                     var contextMenuResponse = new ValueSet();
@@ -390,7 +545,7 @@ namespace FilesFullTrust
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
                 "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
-                "eject",
+                "eject", "rename", "explore",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };
@@ -406,9 +561,7 @@ namespace FilesFullTrust
 
         private static async Task ParseFileOperationAsync(AppServiceRequestReceivedEventArgs args)
         {
-            var fileOp = (string)args.Request.Message["fileop"];
-
-            switch (fileOp)
+            switch (args.Request.Message.Get("fileop", ""))
             {
                 case "Clipboard":
                     await Win32API.StartSTATask(() =>
@@ -479,13 +632,13 @@ namespace FilesFullTrust
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
                             await args.Request.SendResponseAsync(new ValueSet()
-                            {
-                                { "TargetPath", link.TargetPath },
-                                { "Arguments", link.Arguments },
-                                { "WorkingDirectory", link.WorkingDirectory },
-                                { "RunAsAdmin", link.RunAsAdministrator },
-                                { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
-                            });
+                                {
+                                    { "TargetPath", link.TargetPath },
+                                    { "Arguments", link.Arguments },
+                                    { "WorkingDirectory", link.WorkingDirectory },
+                                    { "RunAsAdmin", link.RunAsAdministrator },
+                                    { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
+                                });
                         }
                         else if (linkPath.EndsWith(".url"))
                         {
@@ -497,13 +650,13 @@ namespace FilesFullTrust
                                 return retVal;
                             });
                             await args.Request.SendResponseAsync(new ValueSet()
-                            {
-                                { "TargetPath", linkUrl },
-                                { "Arguments", null },
-                                { "WorkingDirectory", null },
-                                { "RunAsAdmin", false },
-                                { "IsFolder", false }
-                            });
+                                {
+                                    { "TargetPath", linkUrl },
+                                    { "Arguments", null },
+                                    { "WorkingDirectory", null },
+                                    { "RunAsAdmin", false },
+                                    { "IsFolder", false }
+                                });
                         }
                     }
                     catch (Exception ex)
@@ -511,13 +664,13 @@ namespace FilesFullTrust
                         // Could not parse shortcut
                         Logger.Warn(ex, ex.Message);
                         await args.Request.SendResponseAsync(new ValueSet()
-                        {
-                            { "TargetPath", null },
-                            { "Arguments", null },
-                            { "WorkingDirectory", null },
-                            { "RunAsAdmin", false },
-                            { "IsFolder", false }
-                        });
+                            {
+                                { "TargetPath", null },
+                                { "Arguments", null },
+                                { "WorkingDirectory", null },
+                                { "RunAsAdmin", false },
+                                { "IsFolder", false }
+                            });
                     }
                     break;
 
@@ -572,57 +725,40 @@ namespace FilesFullTrust
                     }
                     break;
 
-                case "Enumerate":
-                    // Enumerate recyclebin contents and send response to UWP
-                    var responseEnum = new ValueSet();
-                    var folderContentsList = new List<ShellFileItem>();
-                    foreach (var folderItem in recycler)
-                    {
-                        try
-                        {
-                            var shellFileItem = GetRecycleBinItem(folderItem);
-                            folderContentsList.Add(shellFileItem);
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            // Happens if files are being deleted
-                        }
-                        finally
-                        {
-                            folderItem.Dispose();
-                        }
-                    }
-                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
-                    await args.Request.SendResponseAsync(responseEnum);
-                    break;
-
                 default:
                     break;
             }
         }
 
-        private static ShellFileItem GetRecycleBinItem(ShellItem folderItem)
+        private static ShellFileItem GetShellFileItem(ShellItem folderItem)
         {
-            string recyclePath = folderItem.FileSystemPath; // True path on disk
-            string fileName = Path.GetFileName(folderItem.Name); // Original file name
-            string filePath = folderItem.Name; // Original file path + name
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
             if (folderItem.Properties == null)
             {
-                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, DateTime.Now, null, 0, null);
+                return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);
             }
+            folderItem.Properties.TryGetValue<string>(
+                Ole32.PROPERTYKEY.System.ParsingPath, out var parsingPath);
+            parsingPath ??= folderItem.FileSystemPath; // True path on disk
+            folderItem.Properties.TryGetValue<string>(
+                Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
+            fileName ??= Path.GetFileName(folderItem.Name); // Original file name
+            string filePath = folderItem.Name; // Original file path + name (recycle bin only)
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
                 Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
                 Ole32.PROPERTYKEY.System.DateModified, out fileTime);
             var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.DateCreated, out fileTime);
+            var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
             string fileSize = folderItem.Properties.TryGetValue<ulong?>(
                 Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, modifiedDate, fileSize, fileSizeBytes ?? 0, fileType);
+            return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
         private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)
@@ -757,12 +893,6 @@ namespace FilesFullTrust
                     process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
                     process.Start();
 
-                    return true;
-                }
-                else if (arguments == "StartupTasks")
-                {
-                    // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
                     return true;
                 }
             }

@@ -25,7 +25,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
+1. Go to '....'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
@@ -37,11 +37,11 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS Version: [e.g. Windows 10 1903 18362.175]
- - App version: [v0.11.0]
+ - OS Version: [e.g. Windows 10 20H2 19042.804]
+ - App version: [e.g. v1.0]
 
 **Additional context**
 Add any other context about the problem here. Does this problem occur again after restarting the app?
 
 **Log file**
-Please upload the log file here so that we can understand your issue better. You can access it from Settings->About->Open log location. You can also find the log file manually by following [this](https://github.com/files-community/Files/wiki/Opening-the-log-file) guide.
+Please upload the log file here so that we can understand your issue better. You can access it from Settings->About->Open log location. You can also find this file by going to `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`, you should see a file in this directory called debug.txt or/and debug_fulltrust.txt.

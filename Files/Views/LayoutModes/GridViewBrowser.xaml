@@ -15,7 +15,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="PageRoot"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Disabled"
+    NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
@@ -25,6 +25,9 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
+        
+        <converters1:BoolToSelectionMode
+            x:Key="BoolToSelectionModeConverter"/>
 
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
@@ -48,6 +51,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     GroupName="SortGroup"
@@ -193,12 +201,23 @@
             </MenuFlyoutSubItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                x:Name="PinToSidebar"
+                x:Name="PinDirectoryToSidebar"
                 x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
+                x:Load="False"
                 Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinDirectoryToSidebar}"
                 Text="Pin directory to sidebar">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="UnpinDirectoryFromSidebar"
+                x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
+                x:Load="False"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
+                Text="Unpin directory from sidebar">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -250,6 +269,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -570,7 +594,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -634,7 +658,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Phase="1"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="28"
@@ -682,7 +706,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Text="{x:Bind ItemName}"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
                 </Grid>
@@ -696,7 +720,7 @@
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Text="{x:Bind ItemName}"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
                         TextChanged="GridViewTextBoxItemName_TextChanged"
                         TextWrapping="Wrap" />
@@ -715,7 +739,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />
@@ -789,7 +813,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         x:Phase="1"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="28"
@@ -821,7 +845,7 @@
                             Margin="0,0,10,0"
                             HorizontalAlignment="Left"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName}"
+                            Text="{x:Bind ItemName, Mode=OneWay}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="Wrap" />
@@ -832,7 +856,7 @@
                             Margin="0,0,10,0"
                             HorizontalAlignment="Left"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName}"
+                            Text="{x:Bind ItemName, Mode=OneWay}"
                             TextAlignment="Left"
                             TextWrapping="Wrap"
                             Visibility="Collapsed" />
@@ -928,11 +952,12 @@
             x:Uid="FileNameTeachingTip"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
+            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" 
+            Visibility="Collapsed"/>
 
         <GridView
             x:Name="FileList"
-            Padding="14,14,14,0"
+            Padding="12,4,4,0"
             VerticalContentAlignment="Stretch"
             animations:ReorderGridAnimation.Duration="350"
             x:FieldModifier="public"
@@ -946,8 +971,17 @@
             ItemClick="FileList_ItemClick"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
-            SelectionMode="Extended"
+            SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
             Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+            <GridView.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush"  Color="{ThemeResource SystemChromeMediumLowColor}"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </GridView.Resources>
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction

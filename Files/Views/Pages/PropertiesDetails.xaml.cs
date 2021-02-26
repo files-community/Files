@@ -1,4 +1,6 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Diagnostics;
@@ -36,7 +38,7 @@ namespace Files.Views
         {
             while (true)
             {
-                var dialog = new PropertySaveError();
+                using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
                 try
                 {
                     await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
@@ -44,24 +46,25 @@ namespace Files.Views
                 }
                 catch
                 {
-                    switch (await dialog.ShowAsync())
+                    // Attempting to open more than one ContentDialog
+                    // at a time will throw an error)
+                    if (Interacts.Interaction.IsAnyContentDialogOpen())
                     {
-                        case ContentDialogResult.Primary:
+                        return false;
+                    }
+                    await dialog.ShowAsync();
+                    switch (dialog.DynamicResult)
+                    {
+                        case DynamicDialogResult.Primary:
                             break;
 
-                        case ContentDialogResult.Secondary:
+                        case DynamicDialogResult.Secondary:
                             return true;
 
-                        default:
+                        case DynamicDialogResult.Cancel:
                             return false;
                     }
                 }
-
-                // Wait for the current dialog to be closed before continuing the loop
-                // and opening another dialog (attempting to open more than one ContentDialog
-                // at a time will throw an error)
-                while (dialog.IsLoaded)
-                { }
             }
         }
 

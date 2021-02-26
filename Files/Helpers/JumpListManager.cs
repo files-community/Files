@@ -21,13 +21,21 @@ namespace Files.Helpers
 
         private async void Initialize()
         {
-            if (JumpList.IsSupported())
+            try
             {
-                instance = await JumpList.LoadCurrentAsync();
+                if (JumpList.IsSupported())
+                {
+                    instance = await JumpList.LoadCurrentAsync();
 
-                // Disable automatic jumplist. It doesn't work with Files UWP.
-                instance.SystemGroupKind = JumpListSystemGroupKind.None;
-                JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
+                    // Disable automatic jumplist. It doesn't work with Files UWP.
+                    instance.SystemGroupKind = JumpListSystemGroupKind.None;
+                    JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                instance = null;
             }
         }
 
