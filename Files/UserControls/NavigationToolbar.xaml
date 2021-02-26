@@ -655,6 +655,7 @@
         x:Name="ToolbarGrid"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"        
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
