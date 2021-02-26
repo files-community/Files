@@ -126,7 +126,6 @@
                                             Grid.Row="0"
                                             Height="10"
                                             Visibility="Collapsed"
-                                            Margin="0,0,0,0"
                                             VerticalAlignment="Bottom"
                                             Background="Transparent" />
 
