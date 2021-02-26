@@ -25,8 +25,6 @@ namespace Files.UserControls
         public PreviewPane()
         {
             InitializeComponent();
-
-            RegisterPropertyChangedCallback(Grid.RowProperty, GridRowChangedCallback);
         }
 
         public static DependencyProperty SelectedItemsProperty { get; } =
@@ -232,31 +230,6 @@ namespace Files.UserControls
             {
                 Debug.WriteLine(e.ToString());
             }
-        }
-
-        private void GridRowChangedCallback(DependencyObject sender, DependencyProperty dp)
-        {
-            UpdatePreviewLayout();
-        }
-
-        private void UpdatePreviewLayout()
-        {
-            // Checking what row the details pane is located in is a reliable way to check where the pane is
-            if ((int)GetValue(Grid.ColumnProperty) == 0)
-            {
-                EdgeTransitionLocation = EdgeTransitionLocation.Bottom;
-                IsHorizontal = true;
-            }
-            else
-            {
-                EdgeTransitionLocation = EdgeTransitionLocation.Right;
-                IsHorizontal = false;
-            }
-        }
-
-        private void UserControl_Loading(FrameworkElement sender, object args)
-        {
-            UpdatePreviewLayout();
         }
     }
 }
