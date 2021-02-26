@@ -159,112 +159,106 @@
                              IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
     </Page.KeyboardAccelerators>
     <Grid x:Name="RootGrid"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
+          BorderThickness="0,0,0,2"
           SizeChanged="RootGrid_SizeChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="PreviewPaneRow"
+                           Height="2*"
+                           MaxHeight="400" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"
-                              MinWidth="300" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition x:Name="PreviewPaneColumn"
+                              Width="2*"
+                              MaxWidth="600" />
         </Grid.ColumnDefinitions>
 
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-              BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-              BorderThickness="0,0,0,2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition x:Name="PreviewPaneRow"
-                               Height="2*"
-                               MaxHeight="400" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid x:Name="SmallWindowTitlebar"
+              Height="30"
+              x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
+              Background="Transparent"
+              Loaded="SmallWindowTitlebar_Loaded" />
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="PreviewPaneColumn"
-                                  Width="2*"
-                                  MaxWidth="600" />
-            </Grid.ColumnDefinitions>
+        <controls:NavigationToolbar x:Name="NavToolbar"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="3"
+                                    Margin="10,0,10,0"
+                                    x:FieldModifier="public"
+                                    AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                    CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
+                                    CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                                    CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
+                                    CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
+                                    CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
+                                    IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                                    IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
+                                    IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
+                                    IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                                    NewFileInvokedCommand="{x:Bind InteractionOperations.CreateNewFile, Mode=OneWay}"
+                                    NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
+                                    NewPaneInvokedCommand="{x:Bind InteractionOperations.OpenNewPane, Mode=OneWay}"
+                                    NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
+                                    NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
+                                    OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
+                                    PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
+                                    PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
+                                    ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
 
-            <Grid x:Name="SmallWindowTitlebar"
-                  Height="30"
-                  x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
-                  Background="Transparent"
-                  Loaded="SmallWindowTitlebar_Loaded" />
+        <Frame x:Name="ItemDisplayFrame"
+               Grid.Row="2"
+               x:FieldModifier="public"
+               Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+               Navigated="ItemDisplayFrame_Navigated" />
 
-            <controls:NavigationToolbar x:Name="NavToolbar"
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="3"
-                                        Margin="10,0,10,0"
-                                        x:FieldModifier="public"
-                                        AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-                                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                        CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
-                                        CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                                        CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                                        CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
-                                        CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
-                                        IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
-                                        IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
-                                        IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
-                                        IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                                        NewFileInvokedCommand="{x:Bind InteractionOperations.CreateNewFile, Mode=OneWay}"
-                                        NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
-                                        NewPaneInvokedCommand="{x:Bind InteractionOperations.OpenNewPane, Mode=OneWay}"
-                                        NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
-                                        NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
-                                        OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
-                                        PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
-                                        PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
-                                        ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
+        <Custom:GridSplitter x:Name="PreviewPaneGridSplitter"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                             Background="Transparent"
+                             ResizeBehavior="BasedOnAlignment"
+                             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
+            <Custom:GridSplitter.Element>
+                <Grid>
+                    <TextBlock x:Name="GripperGlyphTextBlock"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="{StaticResource FluentUIGlyphs}"
+                               FontSize="36"
+                               Foreground="{StaticResource SystemChromeHighColor}"
+                               IsHitTestVisible="False" />
+                </Grid>
+            </Custom:GridSplitter.Element>
+        </Custom:GridSplitter>
 
-            <Frame x:Name="ItemDisplayFrame"
-                   Grid.Row="2"
-                   x:FieldModifier="public"
-                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                   Navigated="ItemDisplayFrame_Navigated" />
+        <controls:PreviewPane x:Name="PreviewPane"
+                              Grid.Row="1"
+                              Grid.Column="2"
+                              x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                              SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
+                              AutomationProperties.Name="Selected file preview pane"
+                              x:Uid="SelectedFilePreviewPane" />
 
-            <Custom:GridSplitter x:Name="PreviewPaneGridSplitter"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
-                                 x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-                                 Background="Transparent"
-                                 ResizeBehavior="BasedOnAlignment"
-                                 ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
-                <Custom:GridSplitter.Element>
-                    <Grid>
-                        <TextBlock x:Name="GripperGlyphTextBlock"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{StaticResource FluentUIGlyphs}"
-                                   FontSize="36"
-                                   Foreground="{StaticResource SystemChromeHighColor}"
-                                   IsHitTestVisible="False" />
-                    </Grid>
-                </Custom:GridSplitter.Element>
-            </Custom:GridSplitter>
-
-            <controls:PreviewPane x:Name="PreviewPane"
-                                  Grid.Row="1"
-                                  Grid.Column="2"
-                                  x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-                                  SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
-                                  AutomationProperties.Name="Selected file preview pane"
-                                  x:Uid="SelectedFilePreviewPane" />
-
-            <controls:StatusBarControl x:Name="StatusBarControl"
-                                       Grid.Row="5"
-                                       Grid.ColumnSpan="3"
-                                       x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                                       ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
-                                       DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-                                       FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
-                                       InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
-                                       SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
-                                       SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                                       ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
-        </Grid>
+        <controls:StatusBarControl x:Name="StatusBarControl"
+                                   Grid.Row="5"
+                                   Grid.ColumnSpan="3"
+                                   x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                                   ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
+                                   DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
+                                   FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
+                                   InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
+                                   SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
+                                   SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
+                                   ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
     </Grid>
 </Page>
