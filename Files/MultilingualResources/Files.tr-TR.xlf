@@ -20,7 +20,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
           <source>Size:</source>
-          <target state="translated">Sürücüler</target>
+          <target state="translated">Boyut:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
