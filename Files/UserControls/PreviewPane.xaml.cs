@@ -110,12 +110,15 @@ namespace Files.UserControls
             // Folders and shortcuts are not supported yet
             if (item.IsShortcutItem)
             {
-                PreviewNotAvaliableText.Visibility = Visibility.Visible;
-                PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
+                //PreviewNotAvaliableText.Visibility = Visibility.Visible;
+                //PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
+                //return;
+                //PreviewGrid.Children.Add(new FolderPreview(new FolderPreviewViewModel(item)));
+                PreviewGrid.Children.Add(new BasicPreview(new ShortcutPreviewViewModel(item)));
                 return;
             }
 
-            if(item.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
                 PreviewGrid.Children.Add(new FolderPreview(new FolderPreviewViewModel(item)));
                 return;

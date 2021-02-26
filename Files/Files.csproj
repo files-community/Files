@@ -270,6 +270,7 @@
     <Compile Include="ViewModels\Previews\MediaPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
     <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />

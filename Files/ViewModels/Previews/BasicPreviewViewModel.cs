@@ -1,11 +1,15 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Storage.FileProperties;
+using Files.Common;
 
 namespace Files.ViewModels.Previews
 {
@@ -13,16 +17,6 @@ namespace Files.ViewModels.Previews
     {
         public BasicPreviewViewModel(ListedItem item) : base(item)
         {
-        }
-
-        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
-        {
-            var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 300, ThumbnailOptions.UseCurrentScale);
-            if(icon != null) 
-            { 
-                await Item.FileImage.SetSourceAsync(icon);
-            }
-            return new List<FileProperty>();
         }
     }
 }

@@ -916,7 +916,6 @@ namespace Files.Views
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-            PreviewPaneShadow?.Receivers.Add(ContentFrame);
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -1395,15 +1394,6 @@ namespace Files.Views
             else
             {
                 AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
-            }
-        }
-
-        private void PreviewPane_Loaded(object sender, RoutedEventArgs e)
-        {
-            PreviewPane.Translation = new Vector3(0, 0, 75);
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                PreviewPane.Shadow = PreviewPaneShadow;
             }
         }
     }

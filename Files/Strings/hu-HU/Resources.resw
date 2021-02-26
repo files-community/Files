@@ -1662,9 +1662,6 @@
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
     <value>Offline részben elérhető</value>
   </data>
-  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Részben elérhető offline módban</value>
-  </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>Szinkronizálás</value>
   </data>

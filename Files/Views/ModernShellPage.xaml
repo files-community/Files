@@ -219,21 +219,16 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition
                         x:Name="PreviewPaneColumn"
                         Width="2*"
                         MaxWidth="600" />
-            </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>
 
-            <Grid.Resources>
-                <Windows10version1903:ThemeShadow x:Name="PreviewPaneShadow"/>
-                <Windows10version1903:ThemeShadow x:Name="NavToolBarPaneShadow"/>
-            </Grid.Resources>
-
-            <Grid
+                <Grid
                     x:Name="SmallWindowTitlebar"
                     Height="30"
                     x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
@@ -268,6 +263,8 @@
                     PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                     ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
 
+                
+                
             <Frame
                     x:Name="ItemDisplayFrame"
                     Grid.Row="2"
@@ -304,8 +301,7 @@
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
                     SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
                     AutomationProperties.Name="Selected file preview pane"
-                    x:Uid="SelectedFilePreviewPane"
-                    Loaded="PreviewPane_Loaded">
+                    x:Uid="SelectedFilePreviewPane">
             </controls:PreviewPane>
 
             <controls:StatusBarControl
@@ -319,7 +315,7 @@
                     InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
                     SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
                     SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
+                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}"/>
         </Grid>
         </Custom:DropShadowPanel>
         <Custom:GridSplitter
