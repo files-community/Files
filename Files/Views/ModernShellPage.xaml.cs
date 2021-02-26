@@ -1342,12 +1342,16 @@ namespace Files.Views
                 if (PreviewPane != null)
                 {
                     PreviewPane.Visibility = Visibility.Collapsed;
+                    PreviewPaneDropShadowPanel.Visibility = Visibility.Collapsed;
                 }
             }
             else if (RootGrid.ActualWidth > 1000 || !AppSettings.EnableAdaptivePreviewPane)
             {
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneDropShadowPanel.OffsetX = -18;
+                PreviewPaneDropShadowPanel.OffsetY = 0;
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
@@ -1360,6 +1364,7 @@ namespace Files.Views
 
                 PreviewPane.Visibility = Visibility.Visible;
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
             else if (RootGrid.ActualWidth < 1000)
             {
@@ -1369,6 +1374,9 @@ namespace Files.Views
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 4);
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
 
+                PreviewPaneDropShadowPanel.OffsetX = 0;
+                PreviewPaneDropShadowPanel.OffsetY = -18;
+
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
                 PreviewPaneGridSplitter.Height = 2;
@@ -1377,6 +1385,7 @@ namespace Files.Views
 
                 PreviewPane.Visibility = Visibility.Visible;
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
         }
 

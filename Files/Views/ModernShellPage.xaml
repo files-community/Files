@@ -244,35 +244,14 @@
                     Navigated="ItemDisplayFrame_Navigated" />
 
 
-                <Custom:GridSplitter
-                    x:Name="PreviewPaneGridSplitter"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-                    Background="Transparent"
-                    ResizeBehavior="BasedOnAlignment"
-                    ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
-                <Custom:GridSplitter.Element>
-                    <Grid>
-                        <TextBlock
-                                x:Name="GripperGlyphTextBlock"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="36"
-                                Foreground="{StaticResource SystemChromeHighColor}"
-                                IsHitTestVisible="False" />
-                    </Grid>
-                </Custom:GridSplitter.Element>
-            </Custom:GridSplitter>
             <Custom:DropShadowPanel 
                 Grid.Row="1"
                 Grid.Column="2"
                 x:Name="PreviewPaneDropShadowPanel"
                 HorizontalContentAlignment="Stretch"
                 BlurRadius="4"
-                OffsetX="-2"
-                ShadowOpacity="0.3">
+                OffsetX="-18"
+                ShadowOpacity="0.08">
                 <controls:PreviewPane
                     x:Name="PreviewPane"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
@@ -282,6 +261,28 @@
                 </controls:PreviewPane>
             </Custom:DropShadowPanel>
 
+                <Custom:GridSplitter
+                    x:Name="PreviewPaneGridSplitter"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                    ResizeBehavior="BasedOnAlignment"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted">
+                    <Custom:GridSplitter.Element>
+                        <Grid>
+                            <TextBlock
+                                x:Name="GripperGlyphTextBlock"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="36"
+                                Foreground="{StaticResource SystemChromeHighColor}"
+                                IsHitTestVisible="False" />
+                        </Grid>
+                    </Custom:GridSplitter.Element>
+                </Custom:GridSplitter>
+                
                 <Custom:DropShadowPanel
                     Grid.Row="5"
                     Grid.ColumnSpan="3"
@@ -289,7 +290,7 @@
                     HorizontalContentAlignment="Stretch"
                     BlurRadius="4"
                     OffsetY="-2"
-                    ShadowOpacity="0.3">
+                    ShadowOpacity="0.12">
                     
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
@@ -312,7 +313,7 @@
                     BlurRadius="4"
                     OffsetY="2"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    ShadowOpacity="0.3">
+                    ShadowOpacity="0.04">
                     <controls:NavigationToolbar
                         x:Name="NavToolbar"
                         x:FieldModifier="public"
