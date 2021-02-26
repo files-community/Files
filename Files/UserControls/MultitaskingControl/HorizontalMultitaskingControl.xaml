@@ -10,7 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:views="using:Files.Views" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:views="using:Files.Views"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">

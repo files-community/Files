@@ -324,6 +324,14 @@ namespace Files.Views
                     break;
             }
         }
+
+        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!(MainPage.MultitaskingControl is HorizontalMultitaskingControl))
+            {
+                MainPage.MultitaskingControl = horizontalMultitaskingControl;
+            }
+        }
     }
 
     public class PaneNavigationArguments

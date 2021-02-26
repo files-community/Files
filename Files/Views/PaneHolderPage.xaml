@@ -9,7 +9,9 @@
     xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views"
+    xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
@@ -78,6 +80,10 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="LeftColumn"
@@ -89,7 +95,15 @@
                 MinWidth="0" />
         </Grid.ColumnDefinitions>
 
-        <Border x:Name="PaneLeftLoader">
+        <multitaskingcontrol:HorizontalMultitaskingControl
+            x:Name="horizontalMultitaskingControl"
+            x:FieldModifier="public"
+            x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+            Loaded="HorizontalMultitaskingControl_Loaded"
+            Grid.ColumnSpan="2"/>
+
+        <Border x:Name="PaneLeftLoader"
+                Grid.Row="1">
             <local:ModernShellPage
                 x:Name="PaneLeft"
                 ContentChanged="Pane_ContentChanged"
@@ -104,6 +118,7 @@
         <Border
             x:Name="PaneRightLoader"
             Grid.Column="1"
+            Grid.Row="1"
             x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
             BorderBrush="{ThemeResource PaneBorderBrush}"
             BorderThickness="2,0,0,0">
