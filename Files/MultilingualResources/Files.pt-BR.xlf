@@ -2366,6 +2366,14 @@
           <source>Favorites</source>
           <target state="new">Favorites</target>
         </trans-unit>
+        <trans-unit id="Browse" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="new">Browse</target>
+        </trans-unit>
+        <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
+          <source>Recent locations</source>
+          <target state="new">Recent locations</target>
+        </trans-unit>
       </group>
     </body>
   </file>

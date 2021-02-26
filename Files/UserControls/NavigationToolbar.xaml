@@ -22,19 +22,22 @@
         <ResourceDictionary>
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{ThemeResource SystemRevealListLowColor}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{ThemeResource SystemRevealListLowColor}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{ThemeResource SystemColorWindowColor}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Name="Light">
+                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#f3f1ef" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Name="Dark">
+                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#161514" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Name="HighContrast">
+                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
 
                 <ResourceDictionary>
                     <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
@@ -680,7 +683,7 @@
                     Background="Transparent"
                     Click="Back_Click"
                     Content="&#xe921;"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="16"
                     IsEnabled="{x:Bind CanGoBack}"
@@ -706,7 +709,7 @@
                     Background="Transparent"
                     Click="Forward_Click"
                     Content="&#xe92b;"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="16"
                     IsEnabled="{x:Bind CanGoForward}"
@@ -731,7 +734,7 @@
                     Background="Transparent"
                     Click="Up_Click"
                     Content="&#xe936;"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -754,7 +757,7 @@
                     Background="Transparent"
                     Click="Refresh_Click"
                     Content="&#xe916;"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -775,6 +778,7 @@
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 BorderThickness="0"
+                CornerRadius="4"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontSize="16"
@@ -799,21 +803,22 @@
                 VerticalAlignment="Center"
                 extensions:Mouse.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                BorderBrush="{ThemeResource TransparentGridRevealBorderBrush}"
+                Background="{ThemeResource ClickablePathBackgroundColor}"
+                BorderBrush="Transparent"
                 BorderThickness="1"
-                CornerRadius="2"
+                CornerRadius="4"
                 PointerPressed="ManualPathEntryItem_Click">
                 <Interactivity:Interaction.Behaviors>
-                    <Core:EventTriggerBehavior EventName="PointerEntered">
-                        <Core:ChangePropertyAction PropertyName="Background" Value="{ThemeResource PathBoxHoverBrush}" />
-                    </Core:EventTriggerBehavior>
-
                     <Core:EventTriggerBehavior EventName="PointerExited">
-                        <Core:ChangePropertyAction PropertyName="Background">
+                        <Core:ChangePropertyAction PropertyName="BorderBrush">
                             <Core:ChangePropertyAction.Value>
                                 <SolidColorBrush Color="Transparent" />
                             </Core:ChangePropertyAction.Value>
                         </Core:ChangePropertyAction>
+                    </Core:EventTriggerBehavior>
+
+                    <Core:EventTriggerBehavior EventName="PointerEntered">
+                        <Core:ChangePropertyAction PropertyName="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
                     </Core:EventTriggerBehavior>
                 </Interactivity:Interaction.Behaviors>
 
@@ -824,7 +829,7 @@
                     VerticalContentAlignment="Stretch"
                     Background="Transparent"
                     CanReorderItems="False"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     IsItemClickEnabled="True"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
                     ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
@@ -857,6 +862,7 @@
                 Width="300"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
+                CornerRadius="4"
                 LostFocus="SearchRegion_LostFocus"
                 PlaceholderText="Search"
                 QuerySubmitted="SearchRegion_QuerySubmitted"
@@ -926,7 +932,7 @@
                 Background="Transparent"
                 Click="SearchButton_Click"
                 Content="&#xEB51;"
-                CornerRadius="2"
+                CornerRadius="4"
                 FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="16"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
@@ -942,7 +948,7 @@
                 Background="Transparent"
                 Click="PreviewPane_Click"
                 Content="&#xEA8D;"
-                CornerRadius="2"
+                CornerRadius="4"
                 FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="16"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
@@ -959,7 +965,7 @@
                 AutomationProperties.Name="Vertical tab strip"
                 Background="Transparent"
                 Content="&#xF5ED;"
-                CornerRadius="2"
+                CornerRadius="4"
                 DragEnter="VerticalTabStripInvokeButton_DragEnter"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
@@ -993,7 +999,7 @@
                 AutomationProperties.Name="More options"
                 Background="Transparent"
                 Content=""
-                CornerRadius="2"
+                CornerRadius="4"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
