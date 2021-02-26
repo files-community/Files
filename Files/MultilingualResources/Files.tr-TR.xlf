@@ -2369,7 +2369,7 @@
         </trans-unit>
         <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
           <source>Recent locations</source>
-          <target state="translated">Son lokasyonlar</target>
+          <target state="translated">Son konumlar</target>
         </trans-unit>
       </group>
     </body>
