@@ -196,7 +196,7 @@
     <value>Download</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Accesso rapido</value>
+    <value>Pagina iniziale</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Musica</value>
@@ -1710,9 +1710,6 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Sconosciuto</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Abilita anteprima adattiva</value>
-  </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Selezione multipla</value>
   </data>
@@ -1778,5 +1775,8 @@
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Altre opzioni delle unità</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Accesso rapido</value>
   </data>
 </root>

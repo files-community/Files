@@ -1413,9 +1413,6 @@
   <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
     <value>보호된 운영 체제 파일 숨기기 (권장)</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>적응형 미리보기 패널 활성화</value>
-  </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>파일, 폴더 검색 시 인덱싱되지 않은 항목 표시 (검색 시간이 길어질 수 있음)</value>
   </data>

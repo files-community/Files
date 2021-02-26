@@ -106,7 +106,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.IconData != null && !Item.IsLinkItem)
+            if (fileIconInfo.IconData != null)
             {
                 ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
             }
@@ -115,7 +115,7 @@ namespace Files.ViewModels.Properties
             {
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
-                ViewModel.LoadLinkIcon = Item.IsLinkItem;
+                ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
                 if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
                 {
                     // Can't show any other property
@@ -320,7 +320,7 @@ namespace Files.ViewModels.Properties
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (AppInstance.FilesystemViewModel.Connection != null)
+                    if (AppInstance.ServiceConnection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -332,7 +332,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
                     }
                     break;
             }

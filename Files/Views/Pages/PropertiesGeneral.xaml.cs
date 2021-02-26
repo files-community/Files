@@ -1,4 +1,5 @@
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -25,7 +26,7 @@ namespace Files.Views
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        await AppInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },

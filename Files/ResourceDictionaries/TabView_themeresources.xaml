@@ -145,7 +145,7 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Thickness x:Key="TabViewHeaderPadding">8,8,4,0</Thickness>
+    <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
     <Thickness x:Key="TabViewItemHeaderPadding">12,8,10,8</Thickness>
 
     <x:Double x:Key="TabViewItemMaxWidth">240</x:Double>
@@ -165,5 +165,5 @@
 
     <x:Double x:Key="TabViewShadowDepth">0</x:Double>
 
-    <Thickness x:Key="TabViewItemSeparatorMargin">0,6,0,6</Thickness>
+    <Thickness x:Key="TabViewItemSeparatorMargin">0,6,2,6</Thickness>
 </ResourceDictionary>
