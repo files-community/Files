@@ -233,11 +233,8 @@ namespace Files.Filesystem.StorageEnumerators
             }
 
             bool itemFolderImgVis = false;
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            itemEmptyImgVis = true;
-            itemThumbnailImgVis = false;
+            bool itemThumbnailImgVis = false;
+            bool itemEmptyImgVis = true;
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -288,6 +285,7 @@ namespace Files.Filesystem.StorageEnumerators
                             FileImage = null,
                             LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
                             LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
+                            LoadWebShortcutGlyph = !(bool)response.Message["IsFolder"] && isUrl && itemEmptyImgVis,
                             LoadFolderGlyph = (bool)response.Message["IsFolder"],
                             ItemName = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
