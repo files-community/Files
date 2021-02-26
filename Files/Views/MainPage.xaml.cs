@@ -518,11 +518,6 @@ namespace Files.Views
             await Launcher.LaunchUriAsync(filesUWPUri);
         }
 
-        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            MultitaskingControl = HorizontalMultitaskingControl;
-        }
-
         private static string GetDriveTypeIcon(DriveInfo drive)
         {
             string type;

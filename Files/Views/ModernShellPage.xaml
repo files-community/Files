@@ -12,7 +12,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     x:Name="RootPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
@@ -238,13 +238,18 @@
                     x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                     Background="Transparent"
                     Loaded="SmallWindowTitlebar_Loaded" />
+                <multitaskingcontrol:HorizontalMultitaskingControl
+                    x:Name="horizontalMultitaskingControl"
+                    x:FieldModifier="public"
+                    x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+                    Loaded="HorizontalMultitaskingControl_Loaded" />
 
                 <controls:NavigationToolbar
                     x:Name="NavToolbar"
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Margin="10,10,10,0"
+                    Margin="10,0,10,0"
                     x:FieldModifier="public"
                     AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
