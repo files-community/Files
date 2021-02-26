@@ -7,6 +7,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Files.Converters"
+    xmlns:controls="using:Files.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views"
     xmlns:local1="using:Files"
@@ -86,6 +87,11 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
+                x:Name="SidebarColumn"
+                Width="{x:Bind SidebarWidth, Mode=TwoWay}"
+                MinWidth="200"
+                MaxWidth="500" />
+            <ColumnDefinition
                 x:Name="LeftColumn"
                 Width="1.5*"
                 MinWidth="500" />
@@ -95,15 +101,24 @@
                 MinWidth="0" />
         </Grid.ColumnDefinitions>
 
+        <controls:SidebarControl
+            x:Name="SidebarControl"
+            Grid.RowSpan="2"
+            CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+            EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
+            Loaded="SidebarControl_Loaded" />
+        
         <multitaskingcontrol:HorizontalMultitaskingControl
             x:Name="horizontalMultitaskingControl"
             x:FieldModifier="public"
             x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
             Loaded="HorizontalMultitaskingControl_Loaded"
+            Grid.Column="1"
             Grid.ColumnSpan="2"/>
 
         <Border x:Name="PaneLeftLoader"
-                Grid.Row="1">
+                Grid.Row="1"
+                Grid.Column="1">
             <local:ModernShellPage
                 x:Name="PaneLeft"
                 ContentChanged="Pane_ContentChanged"
@@ -117,7 +132,7 @@
 
         <Border
             x:Name="PaneRightLoader"
-            Grid.Column="1"
+            Grid.Column="2"
             Grid.Row="1"
             x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
             BorderBrush="{ThemeResource PaneBorderBrush}"
@@ -160,7 +175,8 @@
 
         <Custom:GridSplitter
             x:Name="PaneResizer"
-            Grid.Column="1"
+            Grid.Column="2"
+            Grid.Row="1"
             Width="5"
             MinWidth="5"
             HorizontalAlignment="Left"
