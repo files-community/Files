@@ -114,7 +114,6 @@
                                             <ContentPresenter
                                                 x:Name="RightContentPresenter"
                                                 Grid.Column="3"
-                                                Margin="0,0,0,0"
                                                 MinWidth="250"
                                                 HorizontalAlignment="Stretch"
                                                 Content="{TemplateBinding TabStripFooter}"
