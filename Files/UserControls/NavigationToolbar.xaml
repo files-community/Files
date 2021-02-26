@@ -15,7 +15,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="80"
+    d:DesignHeight="72"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -654,21 +654,121 @@
     <Grid
         x:Name="ToolbarGrid"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        ColumnSpacing="0">
+        VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="36" />
+            <RowDefinition Height="36" />
         </Grid.RowDefinitions>
 
-        <Grid
-            Grid.Row="0"
-            Height="34"
-            VerticalAlignment="Center">
+        <Grid ColumnSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="1"
+                Orientation="Horizontal"
+                Spacing="4">
+                <Button
+                    x:Name="Back"
+                    x:Uid="NavBackButton"
+                    Width="36"
+                    Height="32"
+                    x:FieldModifier="public"
+                    AutomationProperties.Name="Navigate backwards"
+                    Background="Transparent"
+                    Click="Back_Click"
+                    Content="&#xe921;"
+                    CornerRadius="2"
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontSize="16"
+                    IsEnabled="{x:Bind CanGoBack}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Back (Alt + Left Arrow)">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                        <KeyboardAccelerator Key="Back" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                        <KeyboardAccelerator
+                            Key="Left"
+                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
+                            Modifiers="Menu" />
+                    </Button.KeyboardAccelerators>
+                </Button>
+
+                <Button
+                    x:Name="Forward"
+                    x:Uid="NavForwardButton"
+                    Width="36"
+                    Height="32"
+                    x:FieldModifier="public"
+                    AutomationProperties.Name="Navigate forward"
+                    Background="Transparent"
+                    Click="Forward_Click"
+                    Content="&#xe92b;"
+                    CornerRadius="2"
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontSize="16"
+                    IsEnabled="{x:Bind CanGoForward}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                        <KeyboardAccelerator
+                            Key="Right"
+                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
+                            Modifiers="Menu" />
+                    </Button.KeyboardAccelerators>
+                </Button>
+
+                <Button
+                    x:Name="Up"
+                    x:Uid="NavUpButton"
+                    Width="36"
+                    Height="32"
+                    x:FieldModifier="public"
+                    AutomationProperties.Name="Go up one directory"
+                    Background="Transparent"
+                    Click="Up_Click"
+                    Content="&#xe936;"
+                    CornerRadius="2"
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontSize="16"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Up (Alt + Up Arrow)">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="Up"
+                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
+                            Modifiers="Menu" />
+                    </Button.KeyboardAccelerators>
+                </Button>
+
+                <Button
+                    x:Name="Refresh"
+                    x:Uid="NavRefreshButton"
+                    Width="36"
+                    Height="32"
+                    x:FieldModifier="public"
+                    AutomationProperties.Name="Refresh the directory"
+                    Background="Transparent"
+                    Click="Refresh_Click"
+                    Content="&#xe916;"
+                    CornerRadius="2"
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontSize="16"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Refresh (F5)">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F5" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    </Button.KeyboardAccelerators>
+                </Button>
+            </StackPanel>
 
             <AutoSuggestBox
                 x:Name="VisiblePath"
                 x:Uid="NavigationToolbarVisiblePath"
+                Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
@@ -677,7 +777,6 @@
                 BorderThickness="0"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
-                FontFamily="Segoe UI"
                 FontSize="16"
                 FontWeight="SemiBold"
                 ItemsSource="{x:Bind NavigationBarSuggestions}"
@@ -694,6 +793,7 @@
 
             <Grid
                 x:Name="ClickablePath"
+                Grid.Column="1"
                 MinHeight="32"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
@@ -724,6 +824,7 @@
                     VerticalContentAlignment="Stretch"
                     Background="Transparent"
                     CanReorderItems="False"
+                    CornerRadius="2"
                     IsItemClickEnabled="True"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
                     ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
@@ -747,130 +848,13 @@
 
         <StackPanel
             Grid.Row="1"
-            Orientation="Horizontal"
-            Spacing="4">
-            <Button
-                x:Name="Back"
-                x:Uid="NavBackButton"
-                Width="36"
-                Height="32"
-                x:FieldModifier="public"
-                AutomationProperties.Name="Navigate backwards"
-                Background="Transparent"
-                Click="Back_Click"
-                Content="&#xe921;"
-                CornerRadius="2"
-                FontFamily="{StaticResource FluentUIGlyphs}"
-                FontSize="16"
-                IsEnabled="{x:Bind CanGoBack}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Back (Alt + Left Arrow)">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                    <KeyboardAccelerator Key="Back" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                    <KeyboardAccelerator
-                        Key="Left"
-                        IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                        Modifiers="Menu" />
-                </Button.KeyboardAccelerators>
-            </Button>
-
-            <Button
-                x:Name="Forward"
-                x:Uid="NavForwardButton"
-                Width="36"
-                Height="32"
-                x:FieldModifier="public"
-                AutomationProperties.Name="Navigate forward"
-                Background="Transparent"
-                Click="Forward_Click"
-                Content="&#xe92b;"
-                CornerRadius="2"
-                FontFamily="{StaticResource FluentUIGlyphs}"
-                FontSize="16"
-                IsEnabled="{x:Bind CanGoForward}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                    <KeyboardAccelerator
-                        Key="Right"
-                        IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                        Modifiers="Menu" />
-                </Button.KeyboardAccelerators>
-            </Button>
-
-            <Button
-                x:Name="Up"
-                x:Uid="NavUpButton"
-                Width="36"
-                Height="32"
-                x:FieldModifier="public"
-                AutomationProperties.Name="Go up one directory"
-                Background="Transparent"
-                Click="Up_Click"
-                Content="&#xe936;"
-                CornerRadius="2"
-                FontFamily="{StaticResource FluentUIGlyphs}"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Up (Alt + Up Arrow)">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator
-                        Key="Up"
-                        IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                        Modifiers="Menu" />
-                </Button.KeyboardAccelerators>
-            </Button>
-
-            <Button
-                x:Name="Refresh"
-                x:Uid="NavRefreshButton"
-                Width="36"
-                Height="32"
-                x:FieldModifier="public"
-                AutomationProperties.Name="Refresh the directory"
-                Background="Transparent"
-                Click="Refresh_Click"
-                Content="&#xe916;"
-                CornerRadius="2"
-                FontFamily="{StaticResource FluentUIGlyphs}"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Refresh (F5)">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F5" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                </Button.KeyboardAccelerators>
-            </Button>
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="1"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
-            Spacing="2">
-            <Button
-                x:Name="SearchButton"
-                x:Uid="NavSearchButton"
-                Width="36"
-                Height="32"
-                x:Load="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                AutomationProperties.Name="Search"
-                Background="Transparent"
-                Click="SearchButton_Click"
-                Content="&#xEB51;"
-                CornerRadius="2"
-                FontFamily="{StaticResource FluentUIGlyphs}"
-                FontSize="16"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search" />
-
+            Spacing="4">
             <AutoSuggestBox
                 x:Name="SearchRegion"
                 x:Uid="NavigationToolbarSearchReigon"
                 Width="300"
-                Margin="0,0,2,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 LostFocus="SearchRegion_LostFocus"
@@ -931,6 +915,23 @@
                     </DataTemplate>
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
+
+            <Button
+                x:Name="SearchButton"
+                x:Uid="NavSearchButton"
+                Width="36"
+                Height="32"
+                x:Load="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                AutomationProperties.Name="Search"
+                Background="Transparent"
+                Click="SearchButton_Click"
+                Content="&#xEB51;"
+                CornerRadius="2"
+                FontFamily="{StaticResource FluentUIGlyphs}"
+                FontSize="16"
+                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Search" />
 
             <Button
                 x:Name="PreviewPane"

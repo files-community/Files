@@ -56,6 +56,9 @@
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}"
+                    MenuItemsSource="{x:Bind ChildItems}"
+                    IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
@@ -111,14 +114,9 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
-                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
-            </DataTemplate>
-
             <local:NavItemDataTemplateSelector
                 x:Key="NavItemSelector"
                 DriveNavItemTemplate="{StaticResource DriveNavItem}"
-                HeaderNavItemTemplate="{StaticResource HeaderItem}"
                 LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
                 LocationNavItemTemplate="{StaticResource LocationNavItem}" />
         </ResourceDictionary>
