@@ -318,7 +318,7 @@ namespace Files.Views
 
         public void UpdateSidebarSelectedItem()
         {
-            var value = IsLeftPaneActive ? 
+            var value = IsLeftPaneActive ?
                 PaneLeft.TabItemArguments?.NavigationArg as string :
                 PaneRight.TabItemArguments?.NavigationArg as string;
             if (string.IsNullOrEmpty(value))
@@ -344,6 +344,13 @@ namespace Files.Views
             if (item == null)
             {
                 item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                if (value == "NewTab".GetLocalized())
+                {
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                }
             }
 
             if (SidebarSelectedItem != item)
