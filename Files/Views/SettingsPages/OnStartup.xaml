@@ -127,6 +127,8 @@
                         Margin="0,10"
                         HorizontalAlignment="Stretch"
                         IsItemClickEnabled="True"
+                        CanReorderItems="True"
+                        AllowDrop="True"
                         ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
                         SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
                         SelectionMode="Single">
