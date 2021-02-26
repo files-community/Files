@@ -31,7 +31,7 @@
         </TransitionCollection>
     </UserControl.Transitions>
 
-    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch">
+    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

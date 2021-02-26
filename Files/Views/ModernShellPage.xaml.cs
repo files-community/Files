@@ -1346,8 +1346,8 @@ namespace Files.Views
             }
             else if (RootGrid.ActualWidth > 1000 || !AppSettings.EnableAdaptivePreviewPane)
             {
-                PreviewPane.SetValue(Grid.RowProperty, 2);
-                PreviewPane.SetValue(Grid.ColumnProperty, 2);
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
@@ -1366,8 +1366,8 @@ namespace Files.Views
                 PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
                 PreviewPaneColumn.Width = new GridLength(0);
 
-                PreviewPane.SetValue(Grid.RowProperty, 4);
-                PreviewPane.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 4);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);

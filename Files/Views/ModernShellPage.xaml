@@ -265,18 +265,24 @@
                     </Grid>
                 </Custom:GridSplitter.Element>
             </Custom:GridSplitter>
-
-            <controls:PreviewPane
+            <Custom:DropShadowPanel 
+                Grid.Row="1"
+                Grid.Column="2"
+                x:Name="PreviewPaneDropShadowPanel"
+                HorizontalContentAlignment="Stretch"
+                BlurRadius="4"
+                OffsetX="-2"
+                ShadowOpacity="0.3">
+                <controls:PreviewPane
                     x:Name="PreviewPane"
-                    Grid.Row="1"
-                    Grid.Column="2"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
                     SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
                     AutomationProperties.Name="Selected file preview pane"
                     x:Uid="SelectedFilePreviewPane">
-            </controls:PreviewPane>
+                </controls:PreviewPane>
+            </Custom:DropShadowPanel>
 
-            <Custom:DropShadowPanel
+                <Custom:DropShadowPanel
                     Grid.Row="5"
                     Grid.ColumnSpan="3"
                     HorizontalAlignment="Stretch"
