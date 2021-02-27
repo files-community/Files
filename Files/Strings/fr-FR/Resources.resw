@@ -1692,4 +1692,7 @@
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Déconnecter</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
 </root>

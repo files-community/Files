@@ -108,6 +108,13 @@
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowQuickAccessSwitch"
+                    x:Uid="SettingsPreferencesShowQuickAccessSwitch"
+                    Header="Show Quick Access section on sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowQuickAccessSwitch, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

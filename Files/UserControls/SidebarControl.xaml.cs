@@ -226,6 +226,7 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarQuickAccess".GetLocalized()) &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
                 ShowEmptyRecycleBin = false;

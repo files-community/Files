@@ -1308,4 +1308,7 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Tarih silindi</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
 </root>

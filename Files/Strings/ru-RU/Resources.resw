@@ -1434,4 +1434,7 @@
   <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
     <value>Отображать скрытые файлы</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
 </root>

@@ -45,15 +45,18 @@ namespace Files.Controllers
             {
                 try
                 {
-                    var oldPinnedItemsFile = await Folder.GetFileAsync("PinnedItems.txt");
-                    var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
-                    await oldPinnedItemsFile.DeleteAsync();
-
-                    foreach (var line in oldPinnedItems)
+                    if (App.AppSettings.ShowQuickAccessSwitch)
                     {
-                        if (!Model.Items.Contains(line))
+                        var oldPinnedItemsFile = await Folder.GetFileAsync("PinnedItems.txt");
+                        var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
+                        await oldPinnedItemsFile.DeleteAsync();
+
+                        foreach (var line in oldPinnedItems)
                         {
-                            Model.Items.Add(line);
+                            if (!Model.QuickAccessItems.Contains(line))
+                            {
+                                Model.QuickAccessItems.Add(line);
+                            }
                         }
                     }
                 }

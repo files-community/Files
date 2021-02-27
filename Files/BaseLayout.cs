@@ -590,7 +590,7 @@ namespace Files
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
-            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+            var isPinned = App.SidebarPinnedController.Model.QuickAccessItems.Contains(
                 ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
             if (isPinned)
             {

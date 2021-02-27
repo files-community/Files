@@ -1710,4 +1710,7 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Aktivera alternativ vid val av flera filer (för närvarande endast tillgängligt i panel- och rutnätsvyerna)</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
 </root>

@@ -492,6 +492,18 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [show quick access switch].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [show quick access switch]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ShowQuickAccessSwitch
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);

@@ -1623,4 +1623,7 @@
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>الاسم المطلوب</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
 </root>

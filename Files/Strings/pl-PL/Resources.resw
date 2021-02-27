@@ -1704,4 +1704,7 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Włacz opcję wielokrotnego zaznaczania (obecnie dostępne tylko w trybach układu kafelek i siatki)</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
 </root>

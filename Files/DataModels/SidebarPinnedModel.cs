@@ -22,13 +22,16 @@ namespace Files.DataModels
     {
         private SidebarPinnedController controller;
 
-        private LocationItem favoriteSection, homeSection;
+        private LocationItem favoriteSection, homeSection, quickAccessSection;
 
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonProperty("items")]
         public List<string> Items { get; set; } = new List<string>();
+
+        [JsonProperty("quickAccessItems")]
+        public List<string> QuickAccessItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
         {
@@ -53,6 +56,13 @@ namespace Files.DataModels
                 Glyph = "\ueb83",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
+            quickAccessSection = new LocationItem()
+            {
+                Text = "SidebarQuickAccess".GetLocalized(),
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Glyph = "\uEA52",
+                ChildItems = new ObservableCollection<INavigationControlItem>()
+            };
         }
 
         /// <summary>
@@ -69,14 +79,6 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Gets the items from the navigation page
-        /// </summary>
-        public List<string> GetItems()
-        {
-            return Items;
-        }
-
-        /// <summary>
         /// Adds the item to the navigation page
         /// </summary>
         /// <param name="item">Item to remove</param>
@@ -86,6 +88,16 @@ namespace Files.DataModels
             {
                 Items.Add(item);
                 await AddItemToSidebarAsync(item);
+                Save();
+            }
+        }
+
+        public async void AddQuickAccessItem(string item)
+        {
+            if (!QuickAccessItems.Contains(item))
+            {
+                QuickAccessItems.Add(item);
+                await AddItemToQuickAccessSidebarAsync(item);
                 Save();
             }
         }
@@ -139,6 +151,20 @@ namespace Files.DataModels
             {
                 Items.Remove(item);
                 RemoveStaleSidebarItems();
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// Removes the quick access items.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void RemoveQuickAccessItems(string item)
+        {
+            if (QuickAccessItems.Contains(item))
+            {
+                QuickAccessItems.Remove(item);
+                RemoveStaleSidebarQuickAccessItems();
                 Save();
             }
         }
@@ -278,6 +304,35 @@ namespace Files.DataModels
             }
         }
 
+        public async Task AddItemToQuickAccessSidebarAsync(string path)
+        {
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+            {
+                var lastItem = quickAccessSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
+                int insertIndex = lastItem != null ? quickAccessSection.ChildItems.IndexOf(lastItem) + 1 : 0;
+                var locationItem = new LocationItem
+                {
+                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                    Path = path,
+                    Glyph = GetItemIcon(path),
+                    IsDefaultLocation = false,
+                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                };
+
+                if (!quickAccessSection.ChildItems.Contains(locationItem))
+                {
+                    quickAccessSection.ChildItems.Insert(insertIndex, locationItem);
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
+                RemoveItem(path);
+            }
+        }
+
         /// <summary>
         /// Adds the item to sidebar asynchronous.
         /// </summary>
@@ -306,12 +361,17 @@ namespace Files.DataModels
                 if (homeSection != null)
                 {
                     AddItemToSidebarAsync(homeSection);
-                }                    
+                }
 
-                for (int i = 0; i < Items.Count(); i++)
+                if (App.AppSettings.ShowQuickAccessSwitch)
                 {
-                    string path = Items[i];
-                    await AddItemToSidebarAsync(path);
+                    MainPage.SideBarItems.Add(quickAccessSection);
+
+                    for (int i = 0; i < QuickAccessItems.Count(); i++)
+                    {
+                        string path = QuickAccessItems[i];
+                        await AddItemToQuickAccessSidebarAsync(path);
+                    }
                 }
 
                 if (!MainPage.SideBarItems.Contains(favoriteSection))
@@ -343,6 +403,25 @@ namespace Files.DataModels
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes the stale sidebar quick access items.
+        /// </summary>
+        public void RemoveStaleSidebarQuickAccessItems()
+        {
+            // Remove unpinned items from quick access
+            for (int i = 0; i < quickAccessSection.ChildItems.Count(); i++)
+            {
+                if (quickAccessSection.ChildItems[i] is LocationItem)
+                {
+                    var item = quickAccessSection.ChildItems[i] as LocationItem;
+                    if (!item.IsDefaultLocation && !QuickAccessItems.Contains(item.Path))
+                    {
+                        quickAccessSection.ChildItems.RemoveAt(i);
                     }
                 }
             }

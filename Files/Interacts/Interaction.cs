@@ -275,7 +275,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.AddQuickAccessItem(listedItem.ItemPath);
                 }
             }
         }
@@ -286,7 +286,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.RemoveQuickAccessItems(listedItem.ItemPath);
                 }
             }
         }

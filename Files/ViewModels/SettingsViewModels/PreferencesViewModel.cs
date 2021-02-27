@@ -16,6 +16,7 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
+        private bool showQuickAccessSwitch = App.AppSettings.ShowQuickAccessSwitch;
 
         public PreferencesViewModel()
         {
@@ -95,6 +96,21 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showConfirmDeleteDialog, value))
                 {
                     App.AppSettings.ShowConfirmDeleteDialog = value;
+                }
+            }
+        }
+
+        public bool ShowQuickAccessSwitch
+        {
+            get
+            {
+                return showQuickAccessSwitch;
+            }
+            set
+            {
+                if (SetProperty(ref showQuickAccessSwitch, value))
+                {
+                    App.AppSettings.ShowQuickAccessSwitch = value;
                 }
             }
         }
