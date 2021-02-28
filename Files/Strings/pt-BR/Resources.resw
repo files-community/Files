@@ -1779,4 +1779,10 @@
   <data name="RecentLocations" xml:space="preserve">
     <value>Locais recentes</value>
   </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Nenhuma visualização disponível</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Nenhum detalhe disponível</value>
+  </data>
 </root>
