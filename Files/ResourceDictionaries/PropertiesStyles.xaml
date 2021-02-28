@@ -16,8 +16,8 @@
 
     <Style x:Key="PropertyName" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Margin" Value="0,7" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
 
     <Style x:Key="PropertyValueGrid" TargetType="Grid">
@@ -46,18 +46,19 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
 
     <Style
         x:Key="DetailsValueTextBox"
         BasedOn="{StaticResource DefaultTextBoxStyle}"
         TargetType="TextBox">
-        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
+        <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
 
     <converters:StringArrayToString x:Key="StringArrayToString" />

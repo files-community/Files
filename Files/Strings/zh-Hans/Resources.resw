@@ -1647,12 +1647,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>云盘</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>没有可用的预览</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>没有可用的属性</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>在主页上显示包</value>
   </data>

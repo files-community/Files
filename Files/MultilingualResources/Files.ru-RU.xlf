@@ -124,8 +124,7 @@
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from sidebar</source>
-          <target state="needs-review-translation">Открепить от боковой панели</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Открепить от боковой панели</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
@@ -1369,13 +1368,11 @@
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
-          <target state="needs-review-translation">Рейтинг</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Рейтинг</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
-          <target state="needs-review-translation">Тип файла</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Тип файла</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1419,8 +1416,7 @@
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
-          <target state="needs-review-translation">Сжатие</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Сжатие</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
@@ -1504,8 +1500,7 @@
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
           <source>Artist</source>
-          <target state="needs-review-translation">Исполнитель</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Исполнитель</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
@@ -1573,11 +1568,11 @@
         </trans-unit>
         <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
           <source>Season Number</source>
-          <target state="new">Season Number</target>
+          <target state="translated">Номер сезона</target>
         </trans-unit>
         <trans-unit id="PropertyEpisodeNumber" translate="yes" xml:space="preserve">
           <source>Episode Number</source>
-          <target state="new">Episode Number</target>
+          <target state="translated">Номер эпизода</target>
         </trans-unit>
         <trans-unit id="PropertyProducer" translate="yes" xml:space="preserve">
           <source>Producer</source>
@@ -1721,7 +1716,7 @@
         </trans-unit>
         <trans-unit id="PropertySlideCount" translate="yes" xml:space="preserve">
           <source>Slide Count</source>
-          <target state="new">Slide Count</target>
+          <target state="translated">Количество слайдов</target>
         </trans-unit>
         <trans-unit id="PropertyFrameRate" translate="yes" xml:space="preserve">
           <source>Frame Rate</source>
@@ -1961,7 +1956,7 @@
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
-          <target state="translated">Переносить непомещающиеся пункты в подменю</target>
+          <target state="translated">Переносить не помещающиеся пункты в подменю</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
@@ -1981,55 +1976,55 @@
         </trans-unit>
         <trans-unit id="StatusBarControlDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details View</source>
-          <target state="new">Details View</target>
+          <target state="translated">Таблица</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
-          <target state="new">Grid View (Large)</target>
+          <target state="translated">Огромные значки</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
-          <target state="new">Grid View (Medium)</target>
+          <target state="translated">Крупные значки</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
-          <target state="new">Grid View (Small)</target>
+          <target state="translated">Обычные значки</target>
         </trans-unit>
         <trans-unit id="StatusBarControlTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
-          <target state="new">Tiles View</target>
+          <target state="translated">Плитка</target>
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout Mode</source>
-          <target state="new">Layout Mode</target>
+          <target state="translated">Вид значков</target>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
-          <target state="new">Display Options</target>
+          <target state="translated">Параметры отображения</target>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
-          <target state="new">Display Options</target>
+          <target state="translated">Параметры отображения</target>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
-          <target state="new">Display options</target>
+          <target state="translated">Параметры отображения</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
-          <target state="new">Grid View (Large)</target>
+          <target state="translated">Огромные значки</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
-          <target state="new">Grid View (Medium)</target>
+          <target state="translated">Крупные значки</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
-          <target state="new">Grid View (Small)</target>
+          <target state="translated">Обычные значки</target>
         </trans-unit>
         <trans-unit id="StatusBarControlTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
-          <target state="new">Tiles View</target>
+          <target state="translated">Плитка</target>
         </trans-unit>
         <trans-unit id="StatusBarControlShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
@@ -2041,339 +2036,351 @@
         </trans-unit>
         <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Details View</source>
-          <target state="new">Details View</target>
+          <target state="translated">Таблица</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="new">Date deleted</target>
+          <target state="translated">Дата удаления</target>
         </trans-unit>
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="new">Date deleted</target>
+          <target state="translated">Дата удаления</target>
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab Customization</source>
-          <target state="new">Tab Customization</target>
+          <target state="translated">Настройка вкладок</target>
         </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
           <source>When Launching Files</source>
-          <target state="new">When Launching Files</target>
+          <target state="translated">При запуске Files</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
-          <target state="new">Confirm</target>
+          <target state="translated">Создать</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Bundle with the same name already exists!</source>
-          <target state="new">Bundle with the same name already exists!</target>
+          <target state="translated">Коллекция папок с таким именем уже существует</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
-          <target state="new">Input field cannot be empty!</target>
+          <target state="translated">Поле ввода не может быть пустым!</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="new">Enter Bundle name</target>
+          <target state="translated">Введите название Коллекции папок</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="new">Enter Bundle name</target>
+          <target state="translated">Введите название Коллекции папок</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
-          <target state="new">Desired name</target>
+          <target state="translated">Имя Коллекции</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Confirm</source>
-          <target state="new">Confirm</target>
+          <target state="translated">Создать</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogSubtitleText" translate="yes" xml:space="preserve">
           <source>Enter new name</source>
-          <target state="new">Enter new name</target>
+          <target state="translated">Введите новое имя</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Rename "{0}"</source>
-          <target state="new">Rename "{0}"</target>
+          <target state="translated">Изменить "{0}"</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
-          <target state="new">Desired name</target>
+          <target state="translated">Имя Коллекции</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Confirm</source>
-          <target state="new">Confirm</target>
+          <target state="translated">Создать</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogSubtitleText" translate="yes" xml:space="preserve">
           <source>Add Bundle</source>
-          <target state="new">Add Bundle</target>
+          <target state="translated">Добавить Коллекцию папок</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Export Bundles</source>
-          <target state="new">Export Bundles</target>
+          <target state="translated">Экспортировать Коллекцию папок</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Import Bundles</source>
-          <target state="new">Import Bundles</target>
+          <target state="translated">Импортировать Коллекцию папок</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleItem.Text" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
+          <target state="translated">Создать Коллекцию</target>
         </trans-unit>
         <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
-          <target state="new">Open in new tab</target>
+          <target state="translated">Открыть в новой вкладке</target>
         </trans-unit>
         <trans-unit id="BundleItemFlyouOpenItemLocationMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Open item location</source>
-          <target state="new">Open item location</target>
+          <target state="translated">Открыть расположение элемента</target>
         </trans-unit>
         <trans-unit id="BundleItemFlyouRemoveFromBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Remove from bundle</source>
-          <target state="new">Remove from bundle</target>
+          <target state="translated">Удалить из Коллекции</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutRemoveBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Remove Bundle</source>
-          <target state="new">Remove Bundle</target>
+          <target state="translated">Удалить Коллекцию</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
           <source>Bundles</source>
-          <target state="new">Bundles</target>
+          <target state="translated">Коллекции папок</target>
         </trans-unit>
         <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
           <source>Drag and drop any file or folder here to quickly access it</source>
-          <target state="new">Drag and drop any file or folder here to quickly access it</target>
+          <target state="translated">Перетащите сюда любой файл или папку, чтобы быстро получить к ним доступ</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleConfirmButton.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
-          <target state="new">Confirm</target>
+          <target state="translated">Создать</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="new">Enter Bundle name</target>
+          <target state="translated">Введите название Коллекции папок</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
+          <target state="translated">Создать Коллекцию</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Rename Bundle</source>
-          <target state="new">Rename Bundle</target>
+          <target state="translated">Переименовать Коллекцию</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options...</source>
-          <target state="new">More options...</target>
+          <target state="translated">Опции...</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
+          <target state="translated">Создать Коллекцию</target>
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="new">Item Path</target>
+          <target state="translated">Путь элемента</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl + P)</source>
-          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+          <target state="translated">Переключить панель предварительного просмотра (Ctrl + P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="new">Item Name</target>
+          <target state="translated">Имя</target>
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
-          <target state="new">Cloud Drives</target>
-        </trans-unit>
-        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
-          <source>No preview available</source>
-          <target state="new">No preview available</target>
-        </trans-unit>
-        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
-          <source>No details available</source>
-          <target state="new">No details available</target>
+          <target state="translated">Облачные хранилища</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles on the home page</source>
-          <target state="new">Show Bundles on the home page</target>
+          <target state="translated">Показывать Коллекции папок на домашней странице</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
-          <target state="new">Unpin directory from sidebar</target>
+          <target state="translated">Открепить папку от боковой панели</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
-          <target state="new">Network drives</target>
+          <target state="translated">Сетевые диски</target>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
-          <target state="new">Network</target>
+          <target state="translated">Сеть</target>
         </trans-unit>
         <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File details</source>
-          <target state="new">File details</target>
+          <target state="translated">Подробности о файле</target>
         </trans-unit>
         <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File preview</source>
-          <target state="new">File preview</target>
+          <target state="translated">Предварительный просмотр файла</target>
         </trans-unit>
         <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selected file preview pane</source>
-          <target state="new">Selected file preview pane</target>
+          <target state="translated">Панель предварительного просмотра выбранного файла</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
           <source>Documentation</source>
-          <target state="new">Documentation</target>
+          <target state="translated">Документация</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
           <source>Find tips &amp; tricks and learn more about Files</source>
-          <target state="new">Find tips &amp; tricks and learn more about Files</target>
+          <target state="translated">Найдите советы &amp; хитрости и узнайте больше о Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Visit the Files documentation website</source>
-          <target state="new">Visit the Files documentation website</target>
+          <target state="translated">Посетите веб-сайт документации по файлам</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Properties</target>
+          <target state="translated">Свойства</target>
         </trans-unit>
         <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
-          <target state="new">Ongoing tasks flyout</target>
+          <target state="translated">Всплывающее меню текущих задач</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
-          <target state="new">Available when online</target>
+          <target state="translated">Доступно в сети</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
           <source>Available offline</source>
-          <target state="new">Available offline</target>
+          <target state="translated">Доступно оффлайн</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
           <source>Partially available offline</source>
-          <target state="new">Partially available offline</target>
+          <target state="translated">Частично доступно оффлайн</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
           <source>Syncing</source>
-          <target state="new">Syncing</target>
+          <target state="translated">Синхронизация</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
           <source>Excluded from sync</source>
-          <target state="new">Excluded from sync</target>
+          <target state="translated">Исключено из синхронизации</target>
         </trans-unit>
         <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
-          <target state="new">Not calculated</target>
+          <target state="translated">Не рассчитано</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="translated">Неизвестно</target>
         </trans-unit>
         <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
-          <target state="new">Multiselect</target>
+          <target state="translated">Множественный выбор</target>
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
           <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="new">Enable multiselect options (currently only available in the tiles and grid view layout modes)</target>
+          <target state="translated">Включить параметры множественного выбора (в настоящее время доступно только в режимах плитки и сетки)</target>
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
-          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
+          <target state="translated">Если вы измените расширение файла, файл может стать непригодным для использования. Вы уверены, что хотите его изменить?</target>
         </trans-unit>
         <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
           <source>CD ROM Drive</source>
-          <target state="new">CD ROM Drive</target>
+          <target state="translated">CD ROM привод</target>
         </trans-unit>
         <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
           <source>Cloud Drive</source>
-          <target state="new">Cloud Drive</target>
+          <target state="translated">Облачный диск</target>
         </trans-unit>
         <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
           <source>Fixed Disk Drive</source>
-          <target state="new">Fixed Disk Drive</target>
+          <target state="translated">Фиксированный диск</target>
         </trans-unit>
         <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
           <source>Floppy Disk Drive</source>
-          <target state="new">Floppy Disk Drive</target>
+          <target state="translated">Дисковод гибких дисков</target>
         </trans-unit>
         <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
           <source>Network Drive</source>
-          <target state="new">Network Drive</target>
+          <target state="translated">Сетевой диск</target>
         </trans-unit>
         <trans-unit id="DriveTypeNoRootDirectory" translate="yes" xml:space="preserve">
           <source>Unmounted Drive</source>
-          <target state="new">Unmounted Drive</target>
+          <target state="translated">Не смонтированный диск</target>
         </trans-unit>
         <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
           <source>RAM Disk Drive</source>
-          <target state="new">RAM Disk Drive</target>
+          <target state="translated">RAM диск</target>
         </trans-unit>
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
-          <target state="new">Removable Storage Device</target>
+          <target state="translated">Съемное запоминающее устройство</target>
         </trans-unit>
         <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="translated">Неизвестно</target>
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
-          <target state="new">Virtual Drive</target>
+          <target state="translated">Виртуальный диск</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created</source>
-          <target state="new">Date created</target>
+          <target state="translated">Дата создания</target>
         </trans-unit>
         <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date created</source>
-          <target state="new">Date created</target>
+          <target state="translated">Дата создания</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options...</source>
-          <target state="new">More options...</target>
+          <target state="translated">Опции...</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Map network drive</source>
-          <target state="new">Map network drive</target>
+          <target state="translated">Подключить сетевой диск</target>
         </trans-unit>
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
-          <target state="new">Disconnect</target>
+          <target state="translated">Отключить</target>
         </trans-unit>
         <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
           <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="new">Preemptive cache parallel limit (smaller numbers should work better for hard drives)</target>
+          <target state="translated">Параллельный предел кэша (меньшие числа должны работать лучше для жестких дисков)</target>
         </trans-unit>
         <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
           <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="new">Use preemptive cache (preload entries in child directories on navigation)</target>
+          <target state="translated">Использовать кеш (предварительная загрузка записей в дочерних каталогах при навигации)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
-          <target state="new">More bundles options</target>
+          <target state="translated">Опции Коллекций</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More drives options</source>
-          <target state="new">More drives options</target>
+          <target state="translated">Опции дисков</target>
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
           <source>Favorites</source>
-          <target state="new">Favorites</target>
+          <target state="translated">Избранное</target>
         </trans-unit>
         <trans-unit id="Browse" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="new">Browse</target>
+          <target state="translated">Обзор</target>
         </trans-unit>
         <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
           <source>Recent locations</source>
-          <target state="new">Recent locations</target>
+          <target state="translated">Недавние расположения</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="new">No preview available</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="new">No details available</target>
+        </trans-unit>
+        <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
+          <source>No item selected</source>
+          <target state="new">No item selected</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemTarget" translate="yes" xml:space="preserve">
+          <source>Target</source>
+          <target state="new">Target</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+          <source>Arguments</source>
+          <target state="new">Arguments</target>
         </trans-unit>
       </group>
     </body>

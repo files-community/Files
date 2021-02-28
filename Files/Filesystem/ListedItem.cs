@@ -216,6 +216,11 @@ namespace Files.Filesystem
             }
         }
 
+        public ListedItem()
+        {
+
+        }
+
         protected string DateReturnFormat { get; }
 
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
@@ -258,6 +263,7 @@ namespace Files.Filesystem
 
         private ObservableCollection<FileProperty> fileDetails;
 
+        [JsonIgnore]
         public ObservableCollection<FileProperty> FileDetails
         {
             get => fileDetails;

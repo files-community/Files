@@ -5,6 +5,7 @@ using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Helpers
@@ -108,6 +109,11 @@ namespace Files.Helpers
                 DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
+
+            dialog.Opened += (sender, args) =>
+            {
+                inputText.Focus(FocusState.Programmatic);
+            };
 
             return dialog;
         }
