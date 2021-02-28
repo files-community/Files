@@ -211,7 +211,7 @@ namespace Files.UserControls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem == null)
+            if (args.InvokedItem == null || args.InvokedItemContainer == null)
             {
                 return;
             }
