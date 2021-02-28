@@ -95,11 +95,7 @@ namespace Files.ViewModels
 
             if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                // TODO: Finish folder previews and reimplement later
-                //PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
-                PreviewPaneContent = null;
+                PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
                 return;
             }
 
@@ -124,7 +120,6 @@ namespace Files.ViewModels
             control = new BasicPreview(basicModel);
             PreviewPaneContent = control;
         }
-
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
         {
             if(item.IsShortcutItem)
