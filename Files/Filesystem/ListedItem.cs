@@ -263,6 +263,7 @@ namespace Files.Filesystem
 
         private ObservableCollection<FileProperty> fileDetails;
 
+        [JsonIgnore]
         public ObservableCollection<FileProperty> FileDetails
         {
             get => fileDetails;

@@ -42,6 +42,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref selectedItem, value);
+                SelectedItem?.FileDetails?.Clear();
                 SelectedItemChanged();
             }
         }
@@ -58,6 +59,13 @@ namespace Files.ViewModels
         {
             get => detailsErrorText;
             set => SetProperty(ref detailsErrorText, value);
+        }
+        
+        Visibility detailsListVisibility = Visibility.Collapsed;
+        public Visibility DetailsListVisibility
+        {
+            get => detailsListVisibility;
+            set => SetProperty(ref detailsListVisibility, value);
         }
 
         UIElement previewPaneContent;
@@ -80,7 +88,8 @@ namespace Files.ViewModels
             if (SelectedItem.IsHiddenItem)
             {
                 DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
+                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                PreviewPaneContent = null;
                 return;
             }
 
@@ -89,7 +98,8 @@ namespace Files.ViewModels
                 // TODO: Finish folder previews and reimplement later
                 //PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
                 DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
+                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                PreviewPaneContent = null;
                 return;
             }
 
@@ -216,16 +226,20 @@ namespace Files.ViewModels
         {
             if(SelectedItem != null && SelectedItems.Count == 1)
             {
+                DetailsListVisibility = Visibility.Visible;
                 await LoadPreviewControlAsync();
-            } else if (SelectedItem == null)
+            } else if (SelectedItem != null)
             {
                 PreviewPaneContent = null;
                 DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
+                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                DetailsListVisibility = Visibility.Collapsed;
             } else
             {
+                PreviewPaneContent = null;
                 DetailsErrorText = "NoItemSelected".GetLocalized();
                 PreviewErrorText = "NoItemSelected".GetLocalized();
+                DetailsListVisibility = Visibility.Collapsed;
             }
         }
     }

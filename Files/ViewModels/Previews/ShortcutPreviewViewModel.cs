@@ -58,9 +58,14 @@ namespace Files.ViewModels.Previews
 
         public override async Task LoadAsync()
         {
-            var details = await LoadPreviewAndDetails();
-            Item.FileDetails?.Clear();
-            Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
+            try
+            {
+                var details = await LoadPreviewAndDetails();
+                Item.FileDetails?.Clear();
+                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
+            } catch (Exception)
+            {
+            }
         }
     }
 }

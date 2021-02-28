@@ -97,7 +97,7 @@
                 AutomationProperties.Name="File Details"
                 ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
                 SelectionMode="None"
-                Visibility="Collapsed">
+                Visibility="{x:Bind Model.DetailsListVisibility, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
                         <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
@@ -197,17 +197,6 @@
             </VisualStateGroup>
 
             <VisualStateGroup>
-                <VisualState x:Name="NoDetails">
-                    <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPaneDetailsNotAvailableText.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-
-            <VisualStateGroup>
                 <VisualState x:Name="NoDetailsAvailable">
                     <VisualState.StateTriggers>
                         <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
@@ -217,6 +206,7 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+            
             <VisualStateGroup>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>
@@ -224,7 +214,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
-                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
