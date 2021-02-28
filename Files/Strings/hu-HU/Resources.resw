@@ -1750,7 +1750,7 @@
     <value>Új hálózati meghajtóvá</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Leválasztás</value>
+    <value>Kapcsolat bontása</value>
   </data>
     <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
     <value>Use preemptive cache (preload entries in child directories on navigation)</value>
