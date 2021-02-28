@@ -230,7 +230,7 @@ namespace Files.UserControls
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarQuickAccess".GetLocalized()) &&
-                !item.Text.Equals("SidebarFavorites".GetLocalized()))
+                !item.Text.Equals("SidebarLibrary".GetLocalized()))
             {
                 ShowEmptyRecycleBin = false;
                 ShowUnpinItem = true;

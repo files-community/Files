@@ -51,7 +51,7 @@ namespace Files.DataModels
             };
             favoriteSection = new LocationItem()
             {
-                Text = "SidebarFavorites".GetLocalized(),
+                Text = "SidebarLibrary".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                 Glyph = "\ueb83",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
