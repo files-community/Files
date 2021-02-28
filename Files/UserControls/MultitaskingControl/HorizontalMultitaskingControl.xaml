@@ -786,7 +786,7 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Margin="4"
+                        Margin="4,4,4,2"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         DragEnter="TabViewItem_DragEnter"
