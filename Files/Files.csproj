@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -396,23 +396,23 @@
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
-    <Compile Include="ViewModels\Properties\BaseProperties.cs" />
-    <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
-    <Compile Include="ViewModels\Properties\DriveProperties.cs" />
-    <Compile Include="ViewModels\Properties\FileProperties.cs" />
-    <Compile Include="ViewModels\Properties\FolderProperties.cs" />
-    <Compile Include="ViewModels\Properties\PropertiesTab.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\AboutViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\AppearanceViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\ExperimentalViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\FilesAndFoldersViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
-    <Compile Include="Views\PaneHolderPage.xaml.cs">
-      <DependentUpon>PaneHolderPage.xaml</DependentUpon>
+    <Compile Include="View Models\Properties\BaseProperties.cs" />
+    <Compile Include="View Models\Properties\CombinedProperties.cs" />
+    <Compile Include="View Models\Properties\DriveProperties.cs" />
+    <Compile Include="View Models\Properties\FileProperties.cs" />
+    <Compile Include="View Models\Properties\FolderProperties.cs" />
+    <Compile Include="View Models\Properties\PropertiesTab.cs" />
+    <Compile Include="Views\ColumnViewShellPage.xaml.cs">
+      <DependentUpon>ColumnViewShellPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FolderInfo.cs" />
+    <Compile Include="Views\LayoutModes\BlankPage1.xaml.cs">
+      <DependentUpon>BlankPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutModes\ColumnViewBase.xaml.cs">
+      <DependentUpon>ColumnViewBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ColumnViewNavParams.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -421,6 +421,9 @@
     <Compile Include="ViewModels\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
+    <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
+      <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
@@ -856,6 +859,10 @@
     <Page Include="UserControls\StatusCenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\ColumnViewBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>

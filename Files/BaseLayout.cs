@@ -1,22 +1,19 @@
 ﻿using Files.Common;
-using Files.DataModels;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
-using Files.ViewModels;
+using Files.View_Models;
 using Files.Views;
+using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
@@ -28,7 +25,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using static Files.Helpers.PathNormalization;
 
 namespace Files
 {
@@ -43,11 +39,7 @@ namespace Files
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
-
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
-
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
@@ -60,8 +52,6 @@ namespace Files
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
         public bool IsRenamingItem { get; set; } = false;
-
-        private NavigationArguments navigationArguments;
 
         private bool isItemSelected = false;
 
@@ -94,7 +84,7 @@ namespace Files
                 if (value != selectedItems)
                 {
                     selectedItems = value;
-                    if (selectedItems.Count == 0 || selectedItems[0] == null)
+                    if (selectedItems.Count == 0)
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
@@ -113,12 +103,12 @@ namespace Files
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemSelected/Text".GetLocalized();
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemsSelected/Text".GetLocalized();
 
                             if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                             {
@@ -143,8 +133,6 @@ namespace Files
 
         public ListedItem SelectedItem { get; private set; }
 
-        private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
-
         public BaseLayout()
         {
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
@@ -160,19 +148,9 @@ namespace Files
             }
         }
 
-        public abstract void FocusFileList();
-
         public abstract void SelectAllItems();
 
-        public virtual void InvertSelection()
-        {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
-
-            SetSelectedItemsOnUi(newSelectedItems);
-        }
+        public abstract void InvertSelection();
 
         public abstract void ClearSelection();
 
@@ -180,29 +158,13 @@ namespace Files
 
         public abstract void ScrollIntoView(ListedItem item);
 
-        protected abstract void AddSelectedItem(ListedItem item);
+        public abstract int GetSelectedIndex();
 
-        protected abstract IEnumerable GetAllItems();
+        public abstract void SetSelectedItemOnUi(ListedItem selectedItem);
 
-        public virtual void SetSelectedItemOnUi(ListedItem selectedItem)
-        {
-            ClearSelection();
-            AddSelectedItem(selectedItem);
-        }
+        public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
 
-        public virtual void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            ClearSelection();
-            AddSelectedItemsOnUi(selectedItems);
-        }
-
-        public virtual void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            foreach (ListedItem selectedItem in selectedItems)
-            {
-                AddSelectedItem(selectedItem);
-            }
-        }
+        public abstract void AddSelectedItemsOnUi(List<ListedItem> selectedItems);
 
         private void ClearShellContextMenus(MenuFlyout menuFlyout)
         {
@@ -211,7 +173,6 @@ namespace Files
             {
                 menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(contextMenuItems[i]));
             }
-
             if (menuFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
             {
                 menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(flyoutSeperator));
@@ -222,19 +183,19 @@ namespace Files
         {
             ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
-            var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
+            var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var (status, response) = Task.Run(() => Connection.SendMessageSafeAsync(new ValueSet()
+                var response = Connection.SendMessageAsync(new ValueSet()
                 {
-                    { "Arguments", "LoadContextMenu" },
-                    { "FilePath", IsItemSelected ?
-                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
-                    { "ExtendedMenu", shiftPressed },
-                    { "ShowOpenMenu", showOpenMenu }
-                })).Result;
-                if (status == AppServiceResponseStatus.Success
+                        { "Arguments", "LoadContextMenu" },
+                        { "FilePath", IsItemSelected ?
+                            string.Join('|', selectedItems.Select(x => x.ItemPath)) :
+                            ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                        { "ExtendedMenu", shiftPressed },
+                        { "ShowOpenMenu", showOpenMenu }
+                }).AsTask().Result;
+                if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Handle"))
                 {
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
@@ -255,56 +216,25 @@ namespace Files
 
         public abstract void StartRenameItem();
 
-        public virtual void ResetItemOpacity()
-        {
-            IEnumerable items = GetAllItems();
-            if (items == null)
-            {
-                return;
-            }
+        public abstract void ResetItemOpacity();
 
-            foreach (ListedItem listedItem in items)
-            {
-                if (listedItem.IsHiddenItem)
-                {
-                    listedItem.Opacity = 0.4;
-                }
-                else
-                {
-                    listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        public virtual void SetItemOpacity(ListedItem item)
-        {
-            item.Opacity = 0.4;
-        }
+        public abstract void SetItemOpacity(ListedItem item);
 
         protected abstract ListedItem GetItemFromElement(object element);
 
-        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             if (ParentShellPageInstance.ContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
+                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                if (layoutType != ParentShellPageInstance.CurrentPageType)
+                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
                 {
-                    FolderSettings.IsLayoutModeChanging = true;
-                    ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
-                    {
-                        NavPathParam = navigationArguments.NavPathParam,
-                        IsSearchResultPage = navigationArguments.IsSearchResultPage,
-                        SearchPathParam = navigationArguments.SearchPathParam,
-                        SearchResults = navigationArguments.SearchResults,
-                        IsLayoutSwitch = true,
-                        AssociatedTabInstance = ParentShellPageInstance
-                    }, null);
-
-                    // Remove old layout from back stack
-                    ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
-                }
+                    NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
+                    AssociatedTabInstance = ParentShellPageInstance
+                }, null);
             }
         }
 
@@ -319,25 +249,19 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
-            navigationArguments = (NavigationArguments)eventArgs.Parameter;
-            ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
-            IsItemSelected = false;
-            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-            FolderSettings.SetLayoutInformation();
-
-            if (!navigationArguments.IsSearchResultPage)
-            {
+                AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+                Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
+                var parameters = (NavigationArguments)eventArgs.Parameter;
+                ParentShellPageInstance = parameters.AssociatedTabInstance;
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
-                string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
+                IsItemSelected = false;
+                ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-                string pathRoot = GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || NormalizePath(workingDir) == NormalizePath(pathRoot)
-                    || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
+                string pathRoot = Path.GetPathRoot(workingDir);
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 }
@@ -346,85 +270,42 @@ namespace Files
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
                 }
 
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = navigationArguments.NavPathParam;
-                if (!navigationArguments.IsLayoutSwitch)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
-                }
-                else
-                {
-                    ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
-                }
-            }
-            else
-            {
-                ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
-                ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
-                ParentShellPageInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-                if (!navigationArguments.IsLayoutSwitch)
-                {
-                    await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {navigationArguments.SearchPathParam}");
-                }
-            }
 
-            ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
+                ParentShellPageInstance.FilesystemViewModel.RefreshItems();
 
-            FolderSettings.IsLayoutModeChanging = false;
-
-            cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
-
-            FocusFileList(); // Set focus on layout specific file list control
+                ParentShellPageInstance.Clipboard_ContentChanged(null, null);
+                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-
-            var parameter = e.Parameter as NavigationArguments;
-            if (!parameter.IsLayoutSwitch)
-            {
-                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
-            }
+            AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
         {
-            if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
+            var menuItem = this.FindName(nameToUnload) as DependencyObject;
+            if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
             {
-                menuItem.Visibility = Visibility.Collapsed;
+                (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
             }
         }
 
-        private void LoadMenuFlyoutItemByName(string nameToUnload)
+        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
         {
-            if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
-            {
-                menuItem.Visibility = Visibility.Visible;
-            }
-        }
+            var items_count = 0; // Separators do not count for reaching the overflow threshold
+            var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
+            var overflow_items = menuFlyoutItems.Except(menu_items).ToList();
 
-        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList,
-                                        IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-                                        string menuHandle,
-                                        bool showIcons = true,
-                                        int itemsBeforeOverflow = int.MaxValue)
-        {
-            var itemsCount = 0; // Separators do not count for reaching the overflow threshold
-            var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
-            var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
-
-            if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+            if (overflow_items.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
@@ -436,11 +317,11 @@ namespace Files
                         Glyph = "\xEAD0"
                     }
                 };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
+                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
-            foreach (var menuFlyoutItem in menuItems
-                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
+            foreach (var menuFlyoutItem in menu_items
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
             {
@@ -518,7 +399,7 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (Connection != null)
                 {
-                    await Connection.SendMessageSafeAsync(new ValueSet()
+                    await Connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
@@ -535,7 +416,7 @@ namespace Files
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
             if (shellContextMenuTag.menuItem != null && Connection != null)
             {
-                await Connection.SendMessageSafeAsync(new ValueSet()
+                await Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle }
@@ -548,60 +429,6 @@ namespace Files
             ClearSelection();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
-            var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
-            if (newItemMenu == null || cachedNewContextMenuEntries == null)
-            {
-                return;
-            }
-            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
-            {
-                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
-                {
-                    MenuFlyoutItem menuLayoutItem;
-                    if (newEntry.Icon != null)
-                    {
-                        var image = new BitmapImage();
-#pragma warning disable CS4014
-                        image.SetSourceAsync(newEntry.Icon);
-#pragma warning restore CS4014
-                        menuLayoutItem = new MenuFlyoutItemWithImage()
-                        {
-                            Text = newEntry.Name,
-                            BitmapIcon = image,
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    else
-                    {
-                        menuLayoutItem = new MenuFlyoutItem()
-                        {
-                            Text = newEntry.Name,
-                            Icon = new FontIcon()
-                            {
-                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\xea00"
-                            },
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
-                    menuLayoutItem.CommandParameter = newEntry;
-                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
-                }
-            }
-            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
-                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
-            if (isPinned)
-            {
-                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
-                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
-            }
-            else
-            {
-                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
-                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
-            }
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
@@ -613,14 +440,9 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
-            if (!AppSettings.ShowCopyLocationMenuItem)
+            if (!AppSettings.ShowCopyLocationOption)
             {
                 UnloadMenuFlyoutItemByName("CopyLocationItem");
-            }
-
-            if (!AppSettings.ShowOpenInNewTabMenuItem)
-            {
-                UnloadMenuFlyoutItemByName("OpenInNewTab");
             }
 
             if (!DataTransferManager.IsSupported())
@@ -632,10 +454,8 @@ namespace Files
             if (SelectedItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
-                UnloadMenuFlyoutItemByName("SidebarUnpinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-                UnloadMenuFlyoutItemByName("OpenInNewPane");
 
                 if (SelectedItems.Count == 1)
                 {
@@ -643,7 +463,7 @@ namespace Files
                     {
                         if (SelectedItem.IsShortcutItem)
                         {
-                            LoadMenuFlyoutItemByName("OpenItem");
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
@@ -655,42 +475,42 @@ namespace Files
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase) || SelectedItem.FileExtension.Equals(".cmd", StringComparison.OrdinalIgnoreCase))
+                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
                         {
-                            LoadMenuFlyoutItemByName("OpenItem");
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            LoadMenuFlyoutItemByName("RunAsAdmin");
-                            LoadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
+                            (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            LoadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
+                            (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".appxbundle", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
                         {
-                            LoadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else
                         {
-                            LoadMenuFlyoutItemByName("OpenItem");
-                            LoadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                     }
                 }
@@ -713,55 +533,28 @@ namespace Files
                 }
                 else if (SelectedItems.Count == 1)
                 {
-                    LoadMenuFlyoutItemByName("CreateShortcut");
-                    LoadMenuFlyoutItemByName("OpenItem");
-
-                    if (AppSettings.ShowCopyLocationMenuItem)
-                    {
-                        LoadMenuFlyoutItemByName("CopyLocationItem");
-                    }
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    LoadMenuFlyoutItemByName("SidebarPinItem");
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     UnloadMenuFlyoutItemByName("CreateShortcut");
-                }
-
-                if (selectedItems.All(x => !x.IsShortcutItem))
-                {
-                    if (selectedItems.All(x => x.IsPinned))
-                    {
-                        LoadMenuFlyoutItemByName("SidebarUnpinItem");
-                        UnloadMenuFlyoutItemByName("SidebarPinItem");
-                    }
-                    else
-                    {
-                        LoadMenuFlyoutItemByName("SidebarPinItem");
-                        UnloadMenuFlyoutItemByName("SidebarUnpinItem");
-                    }
                 }
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    if (AppSettings.ShowOpenInNewTabMenuItem)
-                    {
-                        LoadMenuFlyoutItemByName("OpenInNewTab");
-                    }
-                    LoadMenuFlyoutItemByName("OpenInNewWindowItem");
+                    (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
+                    //this.FindName("OpenInNewTab");
+                    //this.FindName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-                }
-
-                if (SelectedItems.Count == 1 && ParentShellPageInstance.IsMultiPaneEnabled && ParentShellPageInstance.IsPageMainPane)
-                {
-                    LoadMenuFlyoutItemByName("OpenInNewPane");
-                }
-                else
-                {
-                    UnloadMenuFlyoutItemByName("OpenInNewPane");
                 }
             }
 
@@ -771,14 +564,11 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (ParentShellPageInstance.IsCurrentInstance)
-            {
-                char letterPressed = Convert.ToChar(args.KeyCode);
-                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
-            }
+            char letterPressed = Convert.ToChar(args.KeyCode);
+            ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
         }
 
-        protected async void List_DragEnter(object sender, DragEventArgs e)
+        protected async void List_DragOver(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
@@ -786,37 +576,12 @@ namespace Files
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
+                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 e.DragUIOverride.IsCaptionVisible = true;
-                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
-                {
-                    if (Connection != null)
-                    {
-                        await Connection.SendMessageSafeAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
-                            { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                }
-                if (!draggedItems.Any())
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
 
                 var folderName = Path.GetFileName(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
+                if (draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -899,12 +664,6 @@ namespace Files
             var deferral = e.GetDeferral();
 
             ListedItem item = GetItemFromElement(sender);
-
-            if (item is null && sender is GridViewItem gvi)
-            {
-                item = gvi.Content as ListedItem;
-            }
-
             SetSelectedItemOnUi(item);
 
             if (dragOverItem != item)
@@ -913,7 +672,7 @@ namespace Files
                 dragOverTimer.Stop();
                 dragOverTimer.Debounce(() =>
                 {
-                    if (dragOverItem != null && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (dragOverItem != null)
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
@@ -924,29 +683,10 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                IReadOnlyList<IStorageItem> draggedItems;
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
-
                 e.Handled = true;
-                e.DragUIOverride.IsCaptionVisible = true;
+                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
 
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -971,13 +711,8 @@ namespace Files
             var deferral = e.GetDeferral();
 
             e.Handled = true;
-            dragOverItem = null; // Reset dragged over item
-
             ListedItem rowItem = GetItemFromElement(sender);
-            if (rowItem != null)
-            {
-                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
-            }
+            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
             deferral.Complete();
         }
 
@@ -1002,15 +737,6 @@ namespace Files
             }
         }
 
-        protected void UninitializeDrag(UIElement element)
-        {
-            element.AllowDrop = false;
-            element.DragStarting -= Item_DragStarting;
-            element.DragOver -= Item_DragOver;
-            element.DragLeave -= Item_DragLeave;
-            element.Drop -= Item_Drop;
-        }
-
         // VirtualKey doesn't support / accept plus and minus by default.
         public readonly VirtualKey PlusKey = (VirtualKey)187;
 
@@ -1018,7 +744,7 @@ namespace Files
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            FolderSettings.GridViewSize = FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+            AppSettings.GridViewSize = AppSettings.GridViewSize + 25; // Make Larger
             if (args != null)
             {
                 args.Handled = true;
@@ -1027,7 +753,7 @@ namespace Files
 
         public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            FolderSettings.GridViewSize = FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+            AppSettings.GridViewSize = AppSettings.GridViewSize - 25; // Make Smaller
             if (args != null)
             {
                 args.Handled = true;

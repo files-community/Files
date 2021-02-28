@@ -1,0 +1,31 @@
+<local:BaseLayout
+    x:Class="Files.ColumnViewBrowser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    NavigationCacheMode="Enabled"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+    <local:BaseLayout.Resources>
+        <Style x:Name="BladeStyle" TargetType="controls:BladeItem">
+            <Setter Property="TitleBarVisibility" Value="Collapsed"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,1,0"></Setter>
+        </Style>
+    </local:BaseLayout.Resources>
+    <Grid
+        x:Name="RootGrid"
+        Padding="0,0,0,0"
+        VerticalAlignment="Stretch">
+        <controls:BladeView x:Name="ColumnBladeView" BladeMode="Normal">
+            <controls:BladeItem Background="Transparent" BorderThickness="0,0,1,0" x:Name="FirstBlade" TitleBarVisibility="Collapsed">
+            </controls:BladeItem>
+        </controls:BladeView>
+    </Grid>
+</local:BaseLayout>
