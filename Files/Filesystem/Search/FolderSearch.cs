@@ -72,6 +72,14 @@ namespace Files.Filesystem.Search
                             {
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                                 {
+                                    string itemFileExtension = null;
+                                    string itemType = null;
+                                    if (findData.cFileName.Contains("."))
+                                    {
+                                        itemFileExtension = Path.GetExtension(itemPath);
+                                        itemType = itemFileExtension.Trim('.') + " " + itemType;
+                                    }
+
                                     returnedItems.Add(new ListedItem(null)
                                     {
                                         PrimaryItemAttribute = StorageItemTypes.File,
@@ -81,7 +89,9 @@ namespace Files.Filesystem.Search
                                         LoadFileIcon = false,
                                         LoadUnknownTypeGlyph = true,
                                         LoadFolderGlyph = false,
-                                        ItemPropertiesInitialized = true
+                                        ItemPropertiesInitialized = true,
+                                        FileExtension = itemFileExtension,
+                                        ItemType = itemType
                                     });
                                 }
                                 else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
@@ -166,6 +176,14 @@ namespace Files.Filesystem.Search
                         var bitmapIcon = new BitmapImage();
                         var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
 
+                        string itemFileExtension = null;
+                        string itemType = null;
+                        if (file.Name.Contains("."))
+                        {
+                            itemFileExtension = Path.GetExtension(file.Path);
+                            itemType = itemFileExtension.Trim('.') + " " + itemType;
+                        }
+
                         if (thumbnail != null)
                         {
                             await bitmapIcon.SetSourceAsync(thumbnail);
@@ -178,7 +196,9 @@ namespace Files.Filesystem.Search
                                 FileImage = bitmapIcon,
                                 LoadUnknownTypeGlyph = false,
                                 LoadFolderGlyph = false,
-                                ItemPropertiesInitialized = true
+                                ItemPropertiesInitialized = true,
+                                FileExtension = itemFileExtension,
+                                ItemType = itemType
                             });
                         }
                         else

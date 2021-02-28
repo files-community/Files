@@ -1596,12 +1596,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Облачные хранилища</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Предварительный просмотр недоступен</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Нет подробностей</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Показывать Коллекции папок на домашней странице</value>
   </data>

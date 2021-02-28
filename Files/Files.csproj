@@ -202,6 +202,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileThumbnailHelper.cs" />
     <Compile Include="Helpers\MenuFlyoutHelper.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="Helpers\CollectionDebugView.cs" />
@@ -214,8 +215,11 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
-    <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
-      <DependentUpon>CodePreview.xaml</DependentUpon>
+    <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
+      <DependentUpon>BasicPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\FolderPreview.xaml.cs">
+      <DependentUpon>FolderPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FilePreviews\HtmlPreview.xaml.cs">
       <DependentUpon>HtmlPreview.xaml</DependentUpon>
@@ -255,14 +259,17 @@
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
-    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\FolderPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\MarkdownPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\MediaPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
     <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
@@ -741,15 +748,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\FilePreviews\BasicPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\FolderPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\PreviewPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FileIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\FilePreviews\CodePreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
