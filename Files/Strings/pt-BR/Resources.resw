@@ -1647,12 +1647,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades em Nuvem</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Nenhuma visualização disponível</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Nenhum detalhe disponível</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Mostrar Pacotes na página inicial</value>
   </data>
