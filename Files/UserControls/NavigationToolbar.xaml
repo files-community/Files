@@ -670,6 +670,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <StackPanel
@@ -852,19 +853,14 @@
                     </ListView.ItemTemplateSelector>
                 </ListView>
             </Grid>
-        </Grid>
 
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="4">
             <AutoSuggestBox
                 x:Name="SearchRegion"
                 x:Uid="NavigationToolbarSearchReigon"
-                Width="300"
-                HorizontalAlignment="Right"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Canvas.ZIndex="100"
                 CornerRadius="4"
                 LostFocus="SearchRegion_LostFocus"
                 PlaceholderText="Search"
@@ -925,23 +921,31 @@
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
 
-            <CommandBar VerticalAlignment="Center" Background="Transparent">
-                <AppBarButton
-                    x:Name="SearchButton"
-                    x:Uid="NavSearchButton"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                    AutomationProperties.Name="Search"
-                    Background="Transparent"
-                    Click="SearchButton_Click"
-                    Content="&#xEB51;"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="16"
-                    IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Search" />
+            <Button
+                x:Name="SearchButton"
+                x:Uid="NavSearchButton"
+                Grid.Column="2"
+                Width="36"
+                Height="32"
+                AutomationProperties.Name="Search"
+                Background="Transparent"
+                Click="SearchButton_Click"
+                Content="&#xEB51;"
+                FontFamily="{StaticResource FluentUIGlyphs}"
+                FontSize="16"
+                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Search" />
+        </Grid>
 
+        <StackPanel
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="4">
+
+            <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
                     x:Name="PreviewPane"
                     x:Uid="PreviewPaneToggle"
