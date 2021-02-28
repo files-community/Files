@@ -112,7 +112,7 @@ namespace Files.Helpers
 
             dialog.Opened += (sender, args) =>
             {
-                inputText.Focus(FocusState.Keyboard);
+                inputText.Focus(FocusState.Programmatic);
             };
 
             return dialog;
