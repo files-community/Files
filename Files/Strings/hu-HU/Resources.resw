@@ -1390,7 +1390,7 @@
     <value>Igen</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Frissítés elérhető</value>
+    <value>Frissítés érhető el</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
     <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
