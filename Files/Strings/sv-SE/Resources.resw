@@ -1647,12 +1647,6 @@
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Växla förhandsgranskningsfönstret (Ctrl + P)</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Ingen förhandsgranskning tillgänglig</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Ingen information tillgänglig</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Filnamn</value>
   </data>

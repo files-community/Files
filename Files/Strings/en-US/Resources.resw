@@ -1755,10 +1755,10 @@
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Toggle the preview pane (Ctrl + P)</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
     <value>No details available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
@@ -1889,5 +1889,14 @@
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favorites</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>No item selected</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Arguments</value>
   </data>
 </root>

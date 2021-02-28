@@ -13,7 +13,6 @@
     MinWidth="90"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    Loading="UserControl_Loading"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -31,7 +30,10 @@
         </TransitionCollection>
     </UserControl.Transitions>
 
-    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch">
+    <Grid
+        x:Name="RootGrid"
+        HorizontalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -52,13 +54,14 @@
             VerticalAlignment="Stretch"
             AutomationProperties.Name="File preview">
             <TextBlock
-                x:Name="PreviewNotAvaliableText"
-                x:Uid="DetailsPanePreviewNotAvaliableText"
+                x:Name="PreviewErrorText"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="No preview available"
-                Visibility="Collapsed" />
-            <Grid x:Name="PreviewGrid" />
+                Text="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
+            <ContentControl
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" />
         </Grid>
 
         <controls:GridSplitter
@@ -83,17 +86,18 @@
 
         <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
             <TextBlock
-                x:Name="PreviewPaneDetailsNotAvailableText"
-                x:Uid="PreviewPaneDetailsNotAvailableText"
+                x:Name="DetailsErrorText"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="No details available"
-                Visibility="Collapsed" />
+                Text="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
+
             <ListView
+                x:Name="FileDetailsList"
                 x:Uid="PreviewPaneFileDetails"
                 AutomationProperties.Name="File Details"
-                ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}"
-                SelectionMode="None">
+                ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
+                SelectionMode="None"
+                Visibility="{x:Bind Model.DetailsListVisibility, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
                         <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
@@ -104,6 +108,7 @@
 
                             <TextBlock
                                 Grid.Row="0"
+                                Grid.Column="0"
                                 HorizontalAlignment="Stretch"
                                 Style="{StaticResource PropertyName}"
                                 Text="{x:Bind Name, Mode=OneWay}"
@@ -190,6 +195,29 @@
 
                 <VisualState />
             </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState x:Name="NoDetailsAvailable">
+                    <VisualState.StateTriggers>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            
+            <VisualStateGroup>
+                <VisualState x:Name="NoPreviewAvailable">
+                    <VisualState.StateTriggers>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
         </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

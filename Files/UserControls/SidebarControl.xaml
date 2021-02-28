@@ -53,12 +53,12 @@
                     DragOver="NavigationViewLocationItem_DragOver"
                     DragStarting="NavigationViewItem_DragStarting"
                     Drop="NavigationViewLocationItem_Drop"
-                    IsRightTapEnabled="True"
-                    RightTapped="NavigationViewLocationItem_RightTapped"
-                    Tag="{x:Bind Path}"
-                    MenuItemsSource="{x:Bind ChildItems}"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    IsRightTapEnabled="True"
+                    MenuItemsSource="{x:Bind ChildItems}"
+                    RightTapped="NavigationViewLocationItem_RightTapped"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
+                    Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
