@@ -213,7 +213,7 @@ namespace Files.ViewModels
                 if (result.TryGetValue("details", out object details))
                 {
                     var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
-                    BasePreviewModel.LoadDetailsOnly(item, detailsList);
+                    await BasePreviewModel.LoadDetailsOnly(item, detailsList);
                 }
             }
             catch (Exception e)
