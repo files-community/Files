@@ -1264,7 +1264,7 @@ namespace Files.Views
 
                 PreviewPaneDropShadowPanel.ShadowOpacity = 0.00;
             }
-            else if (RootGrid.ActualWidth > 1000)
+            else if (RootGrid.ActualWidth > 800)
             {
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
@@ -1286,7 +1286,7 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
                 PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
-            else if (RootGrid.ActualWidth < 1000)
+            else if (RootGrid.ActualWidth <= 800)
             {
                 PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
                 PreviewPaneColumn.Width = new GridLength(0);
