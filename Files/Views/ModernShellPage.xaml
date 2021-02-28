@@ -205,7 +205,7 @@
                 <controls:PreviewPane
                     x:Name="PreviewPane"
                     x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
+                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
                     AutomationProperties.Name="Selected file preview pane"
                     x:Uid="SelectedFilePreviewPane">
                 </controls:PreviewPane>

@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.FilePreviews;
+using Files.ViewModels;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Newtonsoft.Json;
@@ -22,58 +23,18 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
+        public PreviewPaneViewModel Model { get; set; } = new PreviewPaneViewModel();
+
         public PreviewPane()
         {
             InitializeComponent();
         }
 
-        public static DependencyProperty SelectedItemsProperty { get; } =
-            DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(PreviewPane), new PropertyMetadata(null));
-
         public List<ListedItem> SelectedItems
         {
-            get => (List<ListedItem>)GetValue(SelectedItemsProperty);
-            set
-            {
-                SetValue(SelectedItemsProperty, value);
-
-                if (value == null)
-                {
-                    SelectedItem = null;
-                    return;
-                }
-
-                PreviewGrid.Children.Clear();
-                previewPaneLoadingCancellationTokenSource?.Cancel();
-
-                if (SelectedItems.Count == 1)
-                {
-                    SelectedItem = SelectedItems[0];
-                    SelectedItem.FileDetails?.Clear();
-                    previewPaneLoadingCancellationTokenSource = new CancellationTokenSource();
-                    LoadPreviewControlAsync(SelectedItems[0], previewPaneLoadingCancellationTokenSource);
-                    return;
-                }
-
-                // Making the item null doesn't clear the ListView, so clear it
-                SelectedItem?.FileDetails?.Clear();
-                SelectedItem = null;
-
-                PreviewNotAvaliableText.Visibility = Visibility.Visible;
-                PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
-            }
+            get => Model.SelectedItems;
+            set => Model.SelectedItems = value;
         }
-
-        public static DependencyProperty SelectedItemProperty { get; } =
-            DependencyProperty.Register("SelectedItem", typeof(ListedItem), typeof(PreviewPane), new PropertyMetadata(null));
-
-        public ListedItem SelectedItem
-        {
-            get => (ListedItem)GetValue(SelectedItemProperty);
-            set => SetValue(SelectedItemProperty, value);
-        }
-
-        private CancellationTokenSource previewPaneLoadingCancellationTokenSource;
 
         public static DependencyProperty IsHorizontalProperty { get; } =
             DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(PreviewPane), new PropertyMetadata(null));
@@ -98,133 +59,6 @@ namespace Files.UserControls
         {
             get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
             set => SetValue(EdgeTransitionLocationProperty, value);
-        }
-
-        private async void LoadPreviewControlAsync(ListedItem item, CancellationTokenSource cancellationTokenSource)
-        {
-            PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
-            PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
-
-            // Folders and shortcuts are not supported yet
-            if (item.IsShortcutItem)
-            {
-                //PreviewNotAvaliableText.Visibility = Visibility.Visible;
-                //PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
-                //return;
-                //PreviewGrid.Children.Add(new FolderPreview(new FolderPreviewViewModel(item)));
-                PreviewGrid.Children.Add(new BasicPreview(new ShortcutPreviewViewModel(item)));
-                return;
-            }
-
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                PreviewGrid.Children.Add(new FolderPreview(new FolderPreviewViewModel(item)));
-                return;
-            }
-
-            foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
-            {
-                if (extension.FileExtensions.Contains(item.FileExtension))
-                {
-                    LoadPreviewControlFromExtension(item, extension);
-                    return;
-                }
-            }
-
-            var control = GetBuiltInPreviewControl(item);
-            if (control != null)
-            {
-                PreviewGrid.Children.Add(control);
-                return;
-            }
-
-            control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
-            if (control != null)
-            {
-                PreviewGrid.Children.Add(control);
-                return;
-            }
-
-            // Exit if the loading has been cancelled since the function was run
-            // prevents duplicate loading
-            if (cancellationTokenSource.IsCancellationRequested)
-            {
-                return;
-            }
-
-            control = new BasicPreview(new BasicPreviewViewModel(item));
-            PreviewGrid.Children.Add(control);
-        }
-
-        private UserControl GetBuiltInPreviewControl(ListedItem item)
-        {
-            if(item.FileExtension == null)
-            {
-                return null;
-            }
-
-            var ext = item.FileExtension.ToLower();
-            if (MediaPreviewViewModel.Extensions.Contains(ext))
-            {
-                return new MediaPreview(new MediaPreviewViewModel(item));
-            }
-
-            if (MarkdownPreviewViewModel.Extensions.Contains(ext))
-            {
-                return new MarkdownPreview(new MarkdownPreviewViewModel(item));
-            }
-
-            if (ImagePreviewViewModel.Extensions.Contains(ext))
-            {
-                return new ImagePreview(new ImagePreviewViewModel(item));
-            }
-
-            if (TextPreviewViewModel.Extensions.Contains(ext))
-            {
-                return new TextPreview(new TextPreviewViewModel(item));
-            }
-
-            if (PDFPreviewViewModel.Extensions.Contains(ext))
-            {
-                return new PDFPreview(new PDFPreviewViewModel(item));
-            }
-
-            if (HtmlPreviewViewModel.Extensions.Contains(ext))
-            {
-                return new HtmlPreview(new HtmlPreviewViewModel(item));
-            }
-
-            if (RichTextPreviewViewModel.Extensions.Contains(ext))
-            {
-                return new RichTextPreview(new RichTextPreviewViewModel(item));
-            }
-
-            return null;
-        }
-
-        private async void LoadPreviewControlFromExtension(ListedItem item, Extension extension)
-        {
-            try
-            {
-                var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-                string sharingToken = SharedStorageAccessManager.AddFile(file);
-                var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
-
-                if (result.TryGetValue("preview", out object preview))
-                {
-                    PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
-                }
-
-                if (result.TryGetValue("details", out object details))
-                {
-                    var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
-                    BasePreviewModel.LoadDetailsOnly(item, detailsList);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
         }
     }
 }

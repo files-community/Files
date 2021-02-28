@@ -51,13 +51,11 @@
             VerticalAlignment="Stretch"
             AutomationProperties.Name="File preview">
             <TextBlock
-                x:Name="PreviewNotAvaliableText"
-                x:Uid="DetailsPanePreviewNotAvaliableText"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="No preview available"
-                Visibility="Collapsed" />
-            <Grid x:Name="PreviewGrid" />
+                    x:Name="PreviewErrorText"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Model.PreviewErrorText, Mode=OneWay}"/>
+            <ContentControl Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
 
         <controls:GridSplitter
@@ -82,17 +80,18 @@
 
         <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
             <TextBlock
-                x:Name="PreviewPaneDetailsNotAvailableText"
-                x:Uid="PreviewPaneDetailsNotAvailableText"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="No details available"
-                Visibility="Collapsed" />
+                    x:Name="DetailsErrorText"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Model.DetailsErrorText, Mode=OneWay}"/>
+            
             <ListView
                 x:Uid="PreviewPaneFileDetails"
                 AutomationProperties.Name="File Details"
-                ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}"
-                SelectionMode="None">
+                ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
+                SelectionMode="None"
+                x:Name="FileDetailsList"
+                Visibility="Collapsed">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
                         <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
@@ -191,6 +190,40 @@
 
                 <VisualState />
             </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState x:Name="NoDetails">
+                    <VisualState.StateTriggers>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPaneDetailsNotAvailableText.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState x:Name="NoDetailsAvailable">
+                    <VisualState.StateTriggers>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.DetailsErrorText, Mode=OneWay}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="NoPreviewAvailable">
+                    <VisualState.StateTriggers>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.PreviewErrorText, Mode=OneWay}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
+                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
         </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

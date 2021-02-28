@@ -57,18 +57,11 @@ namespace Files.ViewModels.Previews
             return details;
         }
 
-        public override async void LoadAsync()
+        public override async Task LoadAsync()
         {
-            try
-            {
-                var details = await LoadPreviewAndDetails();
-                Item.FileDetails?.Clear();
-                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
+            var details = await LoadPreviewAndDetails();
+            Item.FileDetails?.Clear();
+            Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
         }
     }
 }

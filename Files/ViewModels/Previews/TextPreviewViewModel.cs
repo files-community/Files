@@ -59,6 +59,8 @@ namespace Files.ViewModels.Previews
                     TextValue = text,
                 };
 
+                await model.LoadAsync();
+
                 return new TextPreview(model);
             }
             catch
