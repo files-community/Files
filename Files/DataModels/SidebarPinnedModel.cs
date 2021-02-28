@@ -89,7 +89,6 @@ namespace Files.DataModels
             }
         }
 
-
         public async Task ShowHideRecycleBinItemAsync(bool show)
         {
             await MainPage.SideBarItemsSemaphore.WaitAsync();
