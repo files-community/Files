@@ -59,8 +59,8 @@
                 VerticalAlignment="Center"
                 Text="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
             <ContentControl
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
                 Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" />
         </Grid>
 
