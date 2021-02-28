@@ -1635,12 +1635,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades de la nube</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>No hay vista previa disponible</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>No hay detalles disponibles</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Mostrar contenedores en la página de inicio</value>
   </data>

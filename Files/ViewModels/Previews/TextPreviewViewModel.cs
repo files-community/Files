@@ -38,7 +38,7 @@ namespace Files.ViewModels.Previews
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
-            if (ExcludedExtensions.Contains(item.FileExtension.ToLower()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit)
+            if (ExcludedExtensions.Contains(item.FileExtension?.ToLower()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit)
             {
                 return null;
             }
@@ -58,6 +58,8 @@ namespace Files.ViewModels.Previews
                 {
                     TextValue = text,
                 };
+
+                await model.LoadAsync();
 
                 return new TextPreview(model);
             }

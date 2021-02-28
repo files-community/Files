@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -20,6 +21,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -1160,6 +1162,219 @@ namespace Files.Views.Pages
     {
         PasteItems = 0,
         DeleteItems = 1,
+        private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
+                    NavigationToolbar.CanRefresh = false;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
+                    NavigationToolbar.CanGoBack = ContentFrame.CanGoBack;
+                    NavigationToolbar.CanGoForward = ContentFrame.CanGoForward;
+                    break;
+                case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
+                    NavigationToolbar.CanRefresh = true;
+                    // Select previous directory
+                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    {
+                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        {
+                            // Remove the WorkingDir from previous dir
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+
+                            // Get previous dir name
+                            if (e.PreviousDirectory.StartsWith('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Remove(0, 1);
+                            }
+                            if (e.PreviousDirectory.Contains('\\'))
+                            {
+                                e.PreviousDirectory = e.PreviousDirectory.Split('\\')[0];
+                            }
+
+                            // Get the first folder and combine it with WorkingDir
+                            string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
+
+                            // Make sure we don't get double \\ in the e.Path
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                            if (folderToSelect.EndsWith('\\'))
+                            {
+                                folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                            }
+
+                            ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                            if (itemToSelect != null)
+                            {
+                                ContentPage.SetSelectedItemOnUi(itemToSelect);
+                                ContentPage.ScrollIntoView(itemToSelect);
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                if (!InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    return DataPackageOperation.Move;
+                }
+            }
+            return DataPackageOperation.None;
+        }
+
+        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    await InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
+                        DataPackageOperation.Move,
+                        e.DataView,
+                        FilesystemViewModel.WorkingDirectory,
+                        true);
+                    return DataPackageOperation.Move;
+                }
+            }
+            return DataPackageOperation.None;
+        }
+
+        private bool previewPaneEnabled;
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the preview pane should be shown.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => previewPaneEnabled;
+            set
+            {
+                previewPaneEnabled = value;
+                NotifyPropertyChanged(nameof(PreviewPaneEnabled));
+                UpdatePositioning();
+            }
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdatePositioning(!InstanceViewModel.IsPageTypeNotHome);
+        }
+
+        /// <summary>
+        /// Call this function to update the positioning of the preview pane.
+        /// This is a workaround as the VisualStateManager causes problems.
+        /// </summary>
+        private void UpdatePositioning(bool IsHome = false)
+        {
+            if (!PreviewPaneEnabled || IsHome)
+            {
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = new GridLength(0);
+                if (PreviewPaneGridSplitter != null)
+                {
+                    PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
+                }
+
+                if (PreviewPane != null)
+                {
+                    PreviewPane.Visibility = Visibility.Collapsed;
+                    PreviewPaneDropShadowPanel.Visibility = Visibility.Collapsed;
+                }
+
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.00;
+            }
+            else if (RootGrid.ActualWidth > 800)
+            {
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneDropShadowPanel.OffsetX = -18;
+                PreviewPaneDropShadowPanel.OffsetY = 0;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
+                PreviewPaneGridSplitter.Width = 2;
+                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
+
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+                PreviewPane.IsHorizontal = false;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
+            }
+            else if (RootGrid.ActualWidth <= 800)
+            {
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneColumn.Width = new GridLength(0);
+
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 4);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneDropShadowPanel.OffsetX = 0;
+                PreviewPaneDropShadowPanel.OffsetY = -18;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneGridSplitter.Height = 2;
+                PreviewPaneGridSplitter.Width = RootGrid.Width;
+                PreviewPane.IsHorizontal = true;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PreviewPane == null)
+            {
+                return;
+            }
+
+            if (PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+            }
+            else
+            {
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+            }
+        }
+
+        public void NavigateToPath(string navigationPath, Type sourcePageType)
+        {
+            if (string.IsNullOrEmpty(navigationPath) ||
+                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase)) // return if already selected
+            {
+                return;
+            }
+
+            ContentFrame.Navigate(
+                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
+                new NavigationArguments()
+                {
+                    NavPathParam = navigationPath,
+                    AssociatedTabInstance = this
+                },
+                new SuppressNavigationTransitionInfo());
+
+            NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
+        }
     }
 
     public class PathBoxItem

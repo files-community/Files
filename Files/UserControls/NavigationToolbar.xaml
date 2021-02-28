@@ -656,11 +656,14 @@
 
     <Grid
         x:Name="ToolbarGrid"
+        Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        ColumnSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="36" />
-            <RowDefinition Height="36" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid ColumnSpacing="4">

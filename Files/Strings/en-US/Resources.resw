@@ -1205,5 +1205,442 @@
   </data>
   <data name="StatusBarControlColumnView.Text" xml:space="preserve">
     <value>Column View</value>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Some properties may contain personal information.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Clear All Properties</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Check the status of file operations here</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Status Center</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+    <value>Learn more about date formats</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Drop here</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Search results in</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Search results</value>
+  </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>See who contributed to Files</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Find out what's new in Files</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Send the developers an issue report with more information</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Support us on PayPal</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>List and sort directories alongside files</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Do you want to download and install the latest version of Files?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Updates Available</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Hide protected operating system files (Recommended)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Hide protected operating system files (Recommended)</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Enable individual preferences for individual directories</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Customize the right click context menu</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Original path</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Original path</value>
+  </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Cache files and folders for better performance</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ongoing Tasks</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Ongoing Tasks</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Always open new tabs in dual pane mode</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Enable dual pane view</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in secondary pane</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>New pane</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in secondary pane</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Dual Pane</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Show open in new tab menu item</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Enable animations when opening and closing the context menu</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Details View</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>Details View</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>Display Options</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Display Options</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Display options</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+    <value>Grid View (Large)</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Grid View (Large)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+    <value>Grid View (Medium)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Grid View (Medium)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+    <value>Grid View (Small)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Grid View (Small)</value>
+  </data>
+  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+    <value>Tiles View</value>
+  </data>
+  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tiles View</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Show file extensions</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Show hidden items</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>Date deleted</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>Date deleted</value>
+  </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Tab Customization</value>
+  </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>When Launching Files</value>
+  </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Cloud Drives</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Export Bundles</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Import Bundles</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Bundle with the same name already exists!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Input field cannot be empty!</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Open item location</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove from bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove Bundle</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Bundles</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Drag and drop any file or folder here to quickly access it</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Enter new name</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>Rename "{0}"</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Add Bundle</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Rename Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Toggle the preview pane (Ctrl + P)</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>No preview available</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>No details available</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Show Bundles on the home page</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Unpin directory from sidebar</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Network drives</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>File details</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>File preview</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Selected file preview pane</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Find tips &amp; tricks and learn more about Files</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visit the Files documentation website</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Ongoing tasks flyout</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Available when online</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Available offline</value>
+  </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Partially available offline</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Syncing</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Excluded from sync</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Not calculated</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Multiselect</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Enable multiselect options (currently only available in the tiles and grid view layout modes)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD ROM Drive</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Cloud Drive</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fixed Disk Drive</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Floppy Disk Drive</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Network Drive</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Unmounted Drive</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Disk Drive</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Removable Storage Device</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtual Drive</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Date created</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Date created</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Map network drive</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Use preemptive cache (preload entries in child directories on navigation)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More bundles options</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More drives options</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Recent locations</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>No item selected</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Arguments</value>
   </data>
 </root>
