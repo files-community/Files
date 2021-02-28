@@ -552,7 +552,8 @@
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
                                     Glyph="&#xE9A8;"
-                                    Loaded="PathItemSeparator_Loaded">
+                                    Loaded="PathItemSeparator_Loaded"
+                                    DataContextChanged="PathItemSeparator_DataContextChanged">
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="PointerEntered">
                                             <Core:ChangePropertyAction PropertyName="Opacity">
@@ -831,6 +832,7 @@
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
+                    Padding="0,0,12,0"
                     Background="Transparent"
                     CanReorderItems="False"
                     CornerRadius="4"
@@ -845,7 +847,9 @@
                     Style="{StaticResource ListViewStyleNoAnimation}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                            <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView"
+                                             Background="Transparent"
+                                             Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplateSelector>
