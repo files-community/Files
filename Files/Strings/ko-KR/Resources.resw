@@ -1683,7 +1683,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>알 수 없음</value>
   </data>
-  <data name="SidebarQuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+  <data name="SidebarLibrary" xml:space="preserve">
+    <value>Library</value>
   </data>
 </root>

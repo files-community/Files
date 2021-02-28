@@ -28,14 +28,13 @@ namespace Files.Filesystem
         public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
-        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
         public bool SelectsOnInvoked { get; set; } = true;
 
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarLibrary".GetLocalized(), $"section:{Text}");
+            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
             set
             {
                 App.AppSettings.Set(value, $"section:{Text}");

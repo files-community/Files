@@ -1776,10 +1776,10 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Altre opzioni delle unità</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
+  <data name="SidebarFavorites" xml:space="preserve">
     <value>Accesso rapido</value>
   </data>
-  <data name="SidebarQuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+  <data name="SidebarLibrary" xml:space="preserve">
+    <value>Library</value>
   </data>
 </root>

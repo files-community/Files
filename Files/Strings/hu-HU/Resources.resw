@@ -1761,7 +1761,7 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>További meghajtó lehetőségek</value>
   </data>
-  <data name="SidebarQuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+  <data name="SidebarLibrary" xml:space="preserve">
+    <value>Library</value>
   </data>
 </root>

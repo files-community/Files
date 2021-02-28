@@ -1299,7 +1299,7 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="SidebarQuickAccess" xml:space="preserve">
-    <value>Acesso rápido</value>
+  <data name="SidebarLibrary" xml:space="preserve">
+    <value>Biblioteca</value>
   </data>
 </root>

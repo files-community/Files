@@ -590,7 +590,7 @@ namespace Files
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
-            var isPinned = App.SidebarPinnedController.Model.QuickAccessItems.Contains(
+            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
                 ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
             if (isPinned)
             {
@@ -727,26 +727,18 @@ namespace Files
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
-                if (AppSettings.ShowQuickAccessSwitch)
+                if (selectedItems.All(x => !x.IsShortcutItem))
                 {
-                    if (selectedItems.All(x => !x.IsShortcutItem))
+                    if (selectedItems.All(x => x.IsPinned))
                     {
-                        if (selectedItems.All(x => x.IsPinned))
-                        {
-                            LoadMenuFlyoutItemByName("SidebarUnpinItem");
-                            UnloadMenuFlyoutItemByName("SidebarPinItem");
-                        }
-                        else
-                        {
-                            LoadMenuFlyoutItemByName("SidebarPinItem");
-                            UnloadMenuFlyoutItemByName("SidebarUnpinItem");
-                        }
+                        LoadMenuFlyoutItemByName("SidebarUnpinItem");
+                        UnloadMenuFlyoutItemByName("SidebarPinItem");
                     }
-                }
-                else
-                {
-                    UnloadMenuFlyoutItemByName("SidebarUnpinItem");
-                    UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    else
+                    {
+                        LoadMenuFlyoutItemByName("SidebarPinItem");
+                        UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                    }
                 }
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)

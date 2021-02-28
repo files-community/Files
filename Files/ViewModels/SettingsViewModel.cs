@@ -492,12 +492,12 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [show quick access switch].
+        /// Gets or sets a value indicating whether [show library switch].
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [show quick access switch]; otherwise, <c>false</c>.
+        ///   <c>true</c> if [show library switch]; otherwise, <c>false</c>.
         /// </value>
-        public bool ShowQuickAccessSwitch
+        public bool ShowLibrarySwitch
         {
             get => Get(true);
             set => Set(value);

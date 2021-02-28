@@ -286,7 +286,7 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public bool IsPinned => App.SidebarPinnedController.Model.QuickAccessItems.Contains(itemPath);
+        public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
 
         private StorageFile itemFile;
 

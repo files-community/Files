@@ -122,13 +122,10 @@ namespace Files.UserControls
             }
             set
             {
-                if (AppSettings.ShowQuickAccessSwitch)
+                if (value != showUnpinItem)
                 {
-                    if (value != showUnpinItem)
-                    {
-                        showUnpinItem = value;
-                        NotifyPropertyChanged(nameof(ShowUnpinItem));
-                    }
+                    showUnpinItem = value;
+                    NotifyPropertyChanged(nameof(ShowUnpinItem));
                 }
             }
         }
@@ -229,7 +226,7 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
-                !item.Text.Equals("SidebarQuickAccess".GetLocalized()) &&
+                !item.Text.Equals("SidebarFavorites".GetLocalized()) &&
                 !item.Text.Equals("SidebarLibrary".GetLocalized()))
             {
                 ShowEmptyRecycleBin = false;

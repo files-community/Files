@@ -271,28 +271,22 @@ namespace Files.Interacts
 
         public void PinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (App.AppSettings.ShowQuickAccessSwitch)
+            if (AssociatedInstance.ContentPage != null)
             {
-                if (AssociatedInstance.ContentPage != null)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
-                    {
-                        App.SidebarPinnedController.Model.AddQuickAccessItem(listedItem.ItemPath);
-                    }
+                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
                 }
             }
         }
 
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (App.AppSettings.ShowQuickAccessSwitch)
+            if (AssociatedInstance.ContentPage != null)
             {
-                if (AssociatedInstance.ContentPage != null)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
-                    {
-                        App.SidebarPinnedController.Model.RemoveQuickAccessItems(listedItem.ItemPath);
-                    }
+                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
                 }
             }
         }
