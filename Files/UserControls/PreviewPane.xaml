@@ -30,7 +30,10 @@
         </TransitionCollection>
     </UserControl.Transitions>
 
-    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid
+        x:Name="RootGrid"
+        HorizontalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -51,11 +54,14 @@
             VerticalAlignment="Stretch"
             AutomationProperties.Name="File preview">
             <TextBlock
-                    x:Name="PreviewErrorText"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{x:Bind Model.PreviewErrorText, Mode=OneWay}"/>
-            <ContentControl Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                x:Name="PreviewErrorText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
+            <ContentControl
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" />
         </Grid>
 
         <controls:GridSplitter
@@ -80,17 +86,17 @@
 
         <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
             <TextBlock
-                    x:Name="DetailsErrorText"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{x:Bind Model.DetailsErrorText, Mode=OneWay}"/>
-            
+                x:Name="DetailsErrorText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
+
             <ListView
+                x:Name="FileDetailsList"
                 x:Uid="PreviewPaneFileDetails"
                 AutomationProperties.Name="File Details"
                 ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
                 SelectionMode="None"
-                x:Name="FileDetailsList"
                 Visibility="Collapsed">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
@@ -106,8 +112,7 @@
                                 HorizontalAlignment="Stretch"
                                 Style="{StaticResource PropertyName}"
                                 Text="{x:Bind Name, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" >
-                            </TextBlock>
+                                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" />
                             <TextBox
                                 x:Name="PropertyValueTemplateTextBox"
                                 Grid.Row="0"
@@ -205,7 +210,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="NoDetailsAvailable">
                     <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.DetailsErrorText, Mode=OneWay}"/>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
@@ -215,7 +220,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.PreviewErrorText, Mode=OneWay}"/>
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
