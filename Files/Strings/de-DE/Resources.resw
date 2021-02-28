@@ -1644,12 +1644,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudspeicher</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Keine Vorschau verfügbar</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Keine Details verfügbar</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Gruppen auf Startseite anzeigen</value>
   </data>
@@ -1766,5 +1760,14 @@
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr Laufwerkoptionen</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Durchsuchen</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Kürzlich verwendete Orte</value>
   </data>
 </root>

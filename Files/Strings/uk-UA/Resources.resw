@@ -1599,12 +1599,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Хмарні диски</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Попередній перегляд недоступний</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Детальна інформація недоступна</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Показувати Колекції папок на домашній сторінці</value>
   </data>

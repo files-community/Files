@@ -216,6 +216,11 @@ namespace Files.Filesystem
             }
         }
 
+        public ListedItem()
+        {
+
+        }
+
         protected string DateReturnFormat { get; }
 
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)

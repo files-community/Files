@@ -26,34 +26,33 @@ namespace Files.ViewModels.Previews
             {
                 new FileProperty()
                 {
-                    LocalizedName = "Item path",
+                    NameResource = "PropertyItemPathDisplay",
                     Value = item.ItemPath,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Item name",
+                    NameResource = "PropertyItemName",
                     Value = item.ItemName,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Type",
+                    NameResource = "PropertyItemTypeText",
                     Value = item.ItemType,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Target Path",
+                    NameResource = "PropertyItemTarget",
                     Value = item.TargetPath,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Arguments",
+                    NameResource = "PropertyItemName",
                     Value = item.Arguments,
                 }
             };
 
             _ = await base.LoadPreviewAndDetails();
 
-            //await base.LoadPreviewAndDetails();
             return details;
         }
 

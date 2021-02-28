@@ -74,16 +74,22 @@ namespace Files.ViewModels
 
         private async Task LoadPreviewControlAsync()
         {
-            DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-            PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
+            DetailsErrorText = "";
+            PreviewErrorText = "";
+
             if (SelectedItem.IsHiddenItem)
             {
+                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
+                PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
                 return;
             }
 
             if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
+                // TODO: Finish folder previews and reimplement later
+                //PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
+                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
+                PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
                 return;
             }
 
@@ -107,8 +113,6 @@ namespace Files.ViewModels
             await basicModel.LoadAsync();
             control = new BasicPreview(basicModel);
             PreviewPaneContent = control;
-            DetailsErrorText = "";
-            PreviewErrorText = "";
         }
 
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
@@ -216,14 +220,12 @@ namespace Files.ViewModels
             } else if (SelectedItem == null)
             {
                 PreviewPaneContent = null;
-                //DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                //PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
-                DetailsErrorText = "No item selected";
-                PreviewErrorText = "No item selected";
+                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
+                PreviewErrorText = "PreviewPanePreviewNotAvailableText".GetLocalized();
             } else
             {
-                DetailsErrorText = "No item selected";
-                PreviewErrorText = "No item selected";
+                DetailsErrorText = "NoItemSelected".GetLocalized();
+                PreviewErrorText = "NoItemSelected".GetLocalized();
             }
         }
     }
