@@ -59,7 +59,8 @@ namespace Files.DataModels
             quickAccessSection = new LocationItem()
             {
                 Text = "SidebarQuickAccess".GetLocalized(),
-                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                ItemVisibility = (AppSettings.ShowQuickAccessSwitch.Equals(true) ? Visibility.Visible : Visibility.Collapsed),
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,                
                 Glyph = "\uEA52",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };

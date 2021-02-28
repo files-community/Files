@@ -122,10 +122,13 @@ namespace Files.UserControls
             }
             set
             {
-                if (value != showUnpinItem)
+                if (AppSettings.ShowQuickAccessSwitch)
                 {
-                    showUnpinItem = value;
-                    NotifyPropertyChanged(nameof(ShowUnpinItem));
+                    if (value != showUnpinItem)
+                    {
+                        showUnpinItem = value;
+                        NotifyPropertyChanged(nameof(ShowUnpinItem));
+                    }
                 }
             }
         }

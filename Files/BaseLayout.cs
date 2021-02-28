@@ -727,18 +727,26 @@ namespace Files
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
-                if (selectedItems.All(x => !x.IsShortcutItem))
+                if (AppSettings.ShowQuickAccessSwitch)
                 {
-                    if (selectedItems.All(x => x.IsPinned))
+                    if (selectedItems.All(x => !x.IsShortcutItem))
                     {
-                        LoadMenuFlyoutItemByName("SidebarUnpinItem");
-                        UnloadMenuFlyoutItemByName("SidebarPinItem");
+                        if (selectedItems.All(x => x.IsPinned))
+                        {
+                            LoadMenuFlyoutItemByName("SidebarUnpinItem");
+                            UnloadMenuFlyoutItemByName("SidebarPinItem");
+                        }
+                        else
+                        {
+                            LoadMenuFlyoutItemByName("SidebarPinItem");
+                            UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                        }
                     }
-                    else
-                    {
-                        LoadMenuFlyoutItemByName("SidebarPinItem");
-                        UnloadMenuFlyoutItemByName("SidebarUnpinItem");
-                    }
+                }
+                else
+                {
+                    UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                    UnloadMenuFlyoutItemByName("SidebarPinItem");
                 }
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)

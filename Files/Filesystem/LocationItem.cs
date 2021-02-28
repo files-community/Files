@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Uwp.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
@@ -27,6 +28,7 @@ namespace Files.Filesystem
         public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
+        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
         public bool SelectsOnInvoked { get; set; } = true;

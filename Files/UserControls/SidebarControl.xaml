@@ -56,6 +56,7 @@
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}"
+                    Visibility="{x:Bind ItemVisibility}"
                     MenuItemsSource="{x:Bind ChildItems}"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
@@ -82,7 +83,7 @@
                     Drop="NavigationViewDriveItem_Drop"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
-                    Tag="{x:Bind Path}"
+                    Tag="{x:Bind Path}"                    
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>

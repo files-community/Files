@@ -134,7 +134,14 @@ namespace Files
             }
             else
             {
-                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                if (App.AppSettings.ShowQuickAccessSwitch)
+                {
+                    SidebarPinnedController.Model.RemoveQuickAccessItems(RightClickedItem.Path.ToString());
+                }
+                else
+                {
+                    SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                }
             }
         }
 
