@@ -431,7 +431,7 @@
                                                 Style="{StaticResource TabViewCloseButtonStyle}" />
                                         </Grid>
 
-                                        <controls:DropShadowPanel Color="{ThemeResource SystemRevealBaseHighColor}" Visibility="Collapsed" x:Name="SelectedTabViewItemShadow" BlurRadius="6" ShadowOpacity="0.3" HorizontalContentAlignment="Stretch" Grid.Column="1">
+                                        <controls:DropShadowPanel Color="{ThemeResource SystemRevealBaseHighColor}" Visibility="Collapsed" x:Name="SelectedTabViewItemShadow" BlurRadius="5" ShadowOpacity="0.5" HorizontalContentAlignment="Stretch" Grid.Column="1" Margin="0,1,0,0">
                                             <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" RadiusX="4" RadiusY="4"/>
                                         </controls:DropShadowPanel>
 
@@ -442,7 +442,7 @@
                                                 <VisualState x:Name="PointerOver">
                                                     <VisualState.Setters>
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Collapsed" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
@@ -469,6 +469,7 @@
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SystemChromeLowColor}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
@@ -479,10 +480,11 @@
                                                 <VisualState x:Name="PointerOverSelected">
                                                     <VisualState.Setters>
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="SelectedTabViewItemShadow.BlurRadius" Value="8" />
+                                                        <Setter Target="SelectedTabViewItemShadow.ShadowOpacity" Value=".8" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
@@ -493,10 +495,11 @@
                                                 <VisualState x:Name="PressedSelected">
                                                     <VisualState.Setters>
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="SelectedTabViewItemShadow.BlurRadius" Value="8" />
+                                                        <Setter Target="SelectedTabViewItemShadow.ShadowOpacity" Value=".8" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
