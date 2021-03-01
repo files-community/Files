@@ -76,14 +76,6 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Gets the items from the navigation page
-        /// </summary>
-        public List<string> GetItems()
-        {
-            return Items;
-        }
-
-        /// <summary>
         /// Adds the item to the navigation page
         /// </summary>
         /// <param name="item">Item to remove</param>
@@ -346,12 +338,6 @@ namespace Files.DataModels
                 if (homeSection != null)
                 {
                     AddItemToSidebarAsync(homeSection);
-                }
-
-                for (int i = 0; i < Items.Count(); i++)
-                {
-                    string path = Items[i];
-                    await AddItemToSidebarAsync(path);
                 }
 
                 if (!MainPage.SideBarItems.Contains(favoriteSection))
