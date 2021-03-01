@@ -240,17 +240,14 @@ namespace Files.ViewModels.Bundles
                 {
                     if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                     {
-                        if (!System.IO.Path.GetExtension(item.Path).ToLower().EndsWith(".lnk") && !System.IO.Path.GetExtension(item.Path).ToLower().EndsWith(".url"))
+                        if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                         {
-                            if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
+                            AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
                             {
-                                AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
-                                {
-                                    ParentBundleName = BundleName,
-                                    NotifyItemRemoved = NotifyItemRemovedHandle
-                                });
-                                itemsAdded = true;
-                            }
+                                ParentBundleName = BundleName,
+                                NotifyItemRemoved = NotifyItemRemovedHandle
+                            });
+                            itemsAdded = true;
                         }
                     }
                 }

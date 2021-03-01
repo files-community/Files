@@ -5,9 +5,11 @@ using Files.SettingsInterfaces;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
@@ -147,6 +149,18 @@ namespace Files.ViewModels.Bundles
             {
                 try
                 {
+                    if (Path.EndsWith(".lnk"))
+                    {
+                        var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, 24u);
+
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            Icon = await IconData.ToBitmapAsync();
+                        });
+
+                        return;
+                    }
+
                     StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
 
                     if (file == null) // No file found
