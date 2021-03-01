@@ -229,7 +229,7 @@ namespace Files.Filesystem
 
             if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
-                return d.ToString(returnFormat);
+                return d.ToLocalTime().ToString(returnFormat);
             }
             else if (elapsed.TotalDays > 2)
             {
