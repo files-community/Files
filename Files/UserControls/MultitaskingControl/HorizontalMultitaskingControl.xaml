@@ -466,7 +466,7 @@
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SystemChromeLowColor}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
