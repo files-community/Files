@@ -393,7 +393,7 @@ namespace Files.ViewModels
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
                 return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
             }
-            else if (AdaptiveLayoutSuggestionApplied)
+            else if (AdaptiveLayoutSuggestionApplied || App.AppSettings.AdaptiveLayoutEnabled)
             {
                 return LayoutPreference;
             }
