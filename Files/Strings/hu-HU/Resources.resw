@@ -1168,7 +1168,7 @@
     <value>Védelem típusa</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Szerző URL</value>
+    <value>Szerző URL-címe</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Tartalomszolgáltató</value>
@@ -1750,7 +1750,7 @@
     <value>Új hálózati meghajtóvá</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Kapcsolat bontása</value>
+    <value>Szétkapcsolás</value>
   </data>
     <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
     <value>Use preemptive cache (preload entries in child directories on navigation)</value>
