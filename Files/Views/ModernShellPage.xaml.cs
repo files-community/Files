@@ -1275,7 +1275,7 @@ namespace Files.Views
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
 
-                PreviewPaneDropShadowPanel.OffsetX = -18;
+                PreviewPaneDropShadowPanel.OffsetX = -2;
                 PreviewPaneDropShadowPanel.OffsetY = 0;
                 PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
@@ -1301,7 +1301,7 @@ namespace Files.Views
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
 
                 PreviewPaneDropShadowPanel.OffsetX = 0;
-                PreviewPaneDropShadowPanel.OffsetY = -18;
+                PreviewPaneDropShadowPanel.OffsetY = -2;
                 PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
