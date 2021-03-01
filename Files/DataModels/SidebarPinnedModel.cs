@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Controllers;
+using Files.Enums;
 using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
@@ -13,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -23,6 +25,8 @@ namespace Files.DataModels
         private SidebarPinnedController controller;
 
         private LocationItem favoriteSection, homeSection, librarySection;
+
+        private ObservableCollection<LocationItem> recentFoldersCollection = new ObservableCollection<LocationItem>();
 
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -145,7 +149,7 @@ namespace Files.DataModels
             if (Items.Contains(item))
             {
                 Items.Remove(item);
-                RemoveStaleSidebarItems();
+                RemoveStaleSidebarItems(item);
                 Save();
             }
         }
@@ -367,6 +371,17 @@ namespace Files.DataModels
                     }                        
                 }
 
+                recentFoldersCollection.Clear();
+
+                try
+                {
+                    PopulateRecentsList();
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Info(ex, "Could not fetch recent folders");
+                }
+
                 MainPage.SideBarItems.EndBulkOperation();
             }
             finally
@@ -380,6 +395,15 @@ namespace Files.DataModels
         /// <summary>
         /// Removes stale items in the navigation sidebar
         /// </summary>
+        public void RemoveStaleSidebarItems(string unpinFolder)
+        {
+            var item = favoriteSection.ChildItems.Where(x => x.Path.Equals(unpinFolder)).FirstOrDefault();
+            favoriteSection.ChildItems.Remove(item);
+
+            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+            mostRecentlyUsed.Remove(mostRecentlyUsed.Entries.Where(x => x.Metadata.Equals(item.Path)).FirstOrDefault().Token);
+        }
+
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
@@ -392,6 +416,40 @@ namespace Files.DataModels
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
                     }
+                }
+            }
+        }
+
+        private async void PopulateRecentsList()
+        {
+            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+
+            foreach (AccessListEntry entry in mostRecentlyUsed.Entries.Take(5).Reverse().ToList())
+            {
+                string mruToken = entry.Token;
+                var added = await FilesystemTasks.Wrap(async () =>
+                {
+                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                    App.SidebarPinnedController.Model.AddItem(item.Path);
+                });
+                if (added == FileSystemStatusCode.Unauthorized)
+                {
+                    // Skip item until consent is provided
+                }
+                // Exceptions include but are not limited to:
+                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                // 0x8007016A -> The cloud file provider is not running
+                // 0x8000000A -> The data necessary to complete this operation is not yet available
+                // 0x80004005 -> Unspecified error
+                // 0x80270301 -> ?
+                else if (!added)
+                {
+                    await FilesystemTasks.Wrap(() =>
+                    {
+                        mostRecentlyUsed.Remove(mruToken);
+                        return Task.CompletedTask;
+                    });
+                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
                 }
             }
         }
