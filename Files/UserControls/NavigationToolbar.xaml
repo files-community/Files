@@ -549,11 +549,11 @@
                                     x:Name="PathSeaparatorIcon"
                                     Width="32"
                                     Margin="-11,0,-11,0"
+                                    DataContextChanged="PathItemSeparator_DataContextChanged"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
                                     Glyph="&#xE9A8;"
-                                    Loaded="PathItemSeparator_Loaded"
-                                    DataContextChanged="PathItemSeparator_DataContextChanged">
+                                    Loaded="PathItemSeparator_Loaded">
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="PointerEntered">
                                             <Core:ChangePropertyAction PropertyName="Opacity">
@@ -829,10 +829,10 @@
 
                 <ListView
                     x:Name="PathViewInteract"
+                    Padding="0,0,12,0"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    Padding="0,0,12,0"
                     Background="Transparent"
                     CanReorderItems="False"
                     CornerRadius="4"
@@ -847,9 +847,10 @@
                     Style="{StaticResource ListViewStyleNoAnimation}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView"
-                                             Background="Transparent"
-                                             Orientation="Horizontal" />
+                            <ItemsStackPanel
+                                Background="Transparent"
+                                ItemsUpdatingScrollMode="KeepLastItemInView"
+                                Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplateSelector>
@@ -963,7 +964,8 @@
                     FontSize="16"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)" />
+                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
+                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
 
                 <AppBarButton
                     x:Name="VerticalTabStripInvokeButton"
