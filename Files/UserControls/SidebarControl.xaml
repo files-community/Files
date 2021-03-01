@@ -159,7 +159,7 @@
                                 x:Uid="SideBarOpenInNewPane"
                                 x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 Click="OpenInNewPane_Click"
-                                Text="Open in new pane">
+                                Text="Open in secondary pane">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
                                 </MenuFlyoutItem.Icon>

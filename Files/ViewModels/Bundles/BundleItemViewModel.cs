@@ -74,6 +74,11 @@ namespace Files.ViewModels.Bundles
             get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        public Visibility OpenInNewPaneVisibility
+        {
+            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         #endregion Public Properties
 
         #region Commands
@@ -81,6 +86,8 @@ namespace Files.ViewModels.Bundles
         public ICommand OpenItemCommand { get; private set; }
 
         public ICommand OpenInNewTabCommand { get; private set; }
+
+        public ICommand OpenInNewPaneCommand { get; private set; }
 
         public ICommand OpenItemLocationCommand { get; private set; }
 
@@ -99,6 +106,7 @@ namespace Files.ViewModels.Bundles
             // Create commands
             OpenItemCommand = new RelayCommand(OpenItem);
             OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+            OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
             RemoveItemCommand = new RelayCommand(RemoveItem);
 
@@ -117,6 +125,11 @@ namespace Files.ViewModels.Bundles
         private async void OpenInNewTab()
         {
             await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+        }
+
+        private void OpenInNewPane()
+        {
+            associatedInstance.PaneHolder.OpenPathInNewPane(Path);
         }
 
         private async void OpenItemLocation()

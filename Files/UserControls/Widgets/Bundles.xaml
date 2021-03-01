@@ -219,19 +219,19 @@
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem
-                                                x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
-                                                Command="{Binding RemoveBundleCommand, Mode=OneWay}"
-                                                Text="Remove Bundle">
-                                                <MenuFlyoutItem.Icon>
-                                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
-                                                </MenuFlyoutItem.Icon>
-                                            </MenuFlyoutItem>
-                                            <MenuFlyoutItem
                                                 x:Uid="BundleOptionsFlyoutRenameBundleMenuItem"
                                                 Command="{Binding RenameBundleCommand, Mode=OneWay}"
                                                 Text="Rename Bundle">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
+                                                Command="{Binding RemoveBundleCommand, Mode=OneWay}"
+                                                Text="Remove Bundle">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
@@ -313,6 +313,15 @@
                                                             Command="{Binding OpenInNewTabCommand, Mode=OneWay}"
                                                             Text="Open in new tab"
                                                             Visibility="{Binding OpenInNewTabVisibility, Mode=OneWay}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutItem
+                                                            x:Uid="SideBarOpenInNewPane"
+                                                            Command="{Binding OpenInNewPaneCommand, Mode=OneWay}"
+                                                            Text="Open in new Pane"
+                                                            Visibility="{Binding OpenInNewPaneVisibility, Mode=OneWay}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
