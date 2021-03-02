@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>項目を削除</value>
+    <value>削除</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
     <value>キャンセル</value>
@@ -28,13 +28,13 @@
     <value>新しいタブで開く</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>新しいウィンドウで開きます</value>
+    <value>新しいウィンドウで開く</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>新しいタブ</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>新しいウィンドウで開く</value>
+    <value>新しいウィンドウ</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>フォルダ</value>
@@ -88,7 +88,7 @@
     <value>移動先フォルダ</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>ソースフォルダのサブフォルダです</value>
+    <value>は移動元のフォルダのサブフォルダです</value>
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>スキップ</value>
@@ -220,7 +220,7 @@
     <value>ピクチャ</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>サイド バーから固定を解除</value>
+    <value>サイドバーから取り外す</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
@@ -529,7 +529,7 @@
     <value>サイド バーに固定</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
-    <value>更新日時:</value>
+    <value>アクセス日時:</value>
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>所有者</value>
@@ -994,10 +994,10 @@
     <value>ホームに最近の項目を表示する</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>すべてのファイルとフォルダを表示する</value>
+    <value>隠されたファイルとフォルダを表示する</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>すべてのファイルとフォルダを表示する</value>
+    <value>隠されたファイルとフォルダを表示する</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>安全なハードウェアの取り外し</value>
@@ -1363,7 +1363,7 @@
     <value>検索結果</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files に貢献した人を見る</value>
+    <value>Files の開発に貢献した人を見る</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files の新機能を確認</value>
@@ -1414,7 +1414,7 @@
     <value>検索時にインデックスされていない項目を表示する (検索に時間がかかる恐れがあります)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>個々のディレクトリのそれぞれの設定を有効にする</value>
+    <value>ディレクトリごとに設定を保存する</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>元のパス:</value>
@@ -1462,7 +1462,7 @@
     <value>デュアル ペイン</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>「ファイルの場所をコピー」のメニューを表示</value>
+    <value>「場所をコピーする」を表示</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>右クリックメニューの一部をサブメニューに移動する</value>
@@ -1471,13 +1471,13 @@
     <value>右クリックメニューをカスタマイズする</value>
   </data>
   <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>「ファイルを新しいタブで開く」のメニューを表示</value>
+    <value>「新しいタブで開く」を表示</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>フォルダ</value>
   </data>
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>コンテキスト メニューを開いたり閉じたりするときのアニメーションを有効にする</value>
+    <value>右クリックメニューを開いたり閉じたりするときのアニメーションを有効にする</value>
   </data>
   <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細ビュー</value>
@@ -1760,5 +1760,26 @@
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>その他のドライブ オプション</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>ブラウズ</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>最近訪れた場所</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>プレビュー利用不可</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>詳細利用不可</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>選択されていません</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>引数</value>
   </data>
 </root>

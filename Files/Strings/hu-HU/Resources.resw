@@ -229,7 +229,7 @@
     <value>Letöltések</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Kezdőoldal</value>
+    <value>Kezdőlap</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Zene</value>
@@ -1765,10 +1765,10 @@
     <value>Legutóbbi helyek</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Nem érhető el előnézet</value>
+    <value>Nincs elérhető előnézet</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Nem érhetőek el részletek</value>
+    <value>Nincsenek elérhető részletek</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>Nincs elem kiválasztva</value>
