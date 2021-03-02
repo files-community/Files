@@ -116,14 +116,6 @@ namespace Files.ViewModels
 
         public event EventHandler GridViewSizeChangeRequested;
 
-        public RelayCommand ReEnableAdaptiveLayout => new RelayCommand(async () =>
-        {
-            AdaptiveLayoutSuggestionOverriden = false;
-            LayoutPreference.AdaptiveLayoutDisabledOverride = false;
-            UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
-            AdaptiveLayoutSuggestionApplied = await AdaptiveLayoutHelpers.PredictLayoutMode(associatedInstance);
-        });
-
         public async void SwitchAdaptiveLayout(bool enable)
         {
             if (enable)

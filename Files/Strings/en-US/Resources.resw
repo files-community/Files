@@ -1824,9 +1824,6 @@
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
-  <data name="StatusBarControlReEnableAdaptiveLayout.Content" xml:space="preserve">
-    <value>Re-enable Adaptive Layout</value>
-  </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM Drive</value>
   </data>
