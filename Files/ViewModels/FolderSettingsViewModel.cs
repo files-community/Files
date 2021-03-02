@@ -124,7 +124,7 @@ namespace Files.ViewModels
                 AdaptiveLayoutSuggestionOverriden = false;
                 LayoutPreference.AdaptiveLayoutDisabledOverride = false;
                 UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
-                AdaptiveLayoutSuggestionApplied = await AdaptiveLayoutHelpers.PredictLayoutMode(associatedInstance);
+                AdaptiveLayoutSuggestionApplied = await AdaptiveLayoutHelpers.PredictLayoutMode(this, associatedInstance.FilesystemViewModel, associatedInstance.ServiceConnection);
             }
             else
             {
