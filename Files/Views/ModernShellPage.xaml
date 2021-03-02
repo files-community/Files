@@ -225,7 +225,7 @@
             Grid.Row="1"
             Grid.Column="1"
             x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />

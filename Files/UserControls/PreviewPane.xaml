@@ -33,7 +33,7 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -206,7 +206,7 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-            
+
             <VisualStateGroup>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>
