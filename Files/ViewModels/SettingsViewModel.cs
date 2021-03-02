@@ -48,7 +48,6 @@ namespace Files.ViewModels
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
 
-            //DetectWSLDistros();
             TerminalController = await TerminalController.CreateInstance();
 
             // Send analytics to AppCenter
@@ -141,59 +140,6 @@ namespace Files.ViewModels
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-            }
-        }
-
-        private async void DetectWSLDistros()
-        {
-            try
-            {
-                var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-                if ((await distroFolder.GetFoldersAsync()).Count > 0)
-                {
-                    AreLinuxFilesSupported = false;
-                }
-
-                foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
-                {
-                    Uri logoURI = null;
-                    if (folder.DisplayName.Contains("ubuntu", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
-                    }
-                    else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/kalipng.png");
-                    }
-                    else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/debianpng.png");
-                    }
-                    else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/opensusepng.png");
-                    }
-                    else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/alpinepng.png");
-                    }
-                    else
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
-                    }
-
-                    MainPage.SideBarItems.Add(new WSLDistroItem()
-                    {
-                        Text = folder.DisplayName,
-                        Path = folder.Path,
-                        Logo = logoURI
-                    });
-                }
-            }
-            catch (Exception)
-            {
-                // WSL Not Supported/Enabled
-                AreLinuxFilesSupported = false;
             }
         }
 
@@ -693,15 +639,6 @@ namespace Files.ViewModels
         }
 
         #endregion Startup
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not WSL is supported.
-        /// </summary>
-        public bool AreLinuxFilesSupported
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
