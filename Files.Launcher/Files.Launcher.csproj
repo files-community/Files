@@ -162,7 +162,7 @@
       <Version>3.3.4</Version>
     </PackageReference>
     <PackageReference Include="Vanara.Windows.Shell">
-      <Version>3.3.4</Version>
+      <Version>3.3.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
