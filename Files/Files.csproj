@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Enums\DynamicDialogButtons.cs" />
     <Compile Include="Enums\DynamicDialogResult.cs" />
+    <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
