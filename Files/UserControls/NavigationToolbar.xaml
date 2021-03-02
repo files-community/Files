@@ -521,9 +521,8 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
-                                    Margin="0,0,0,4"
-                                    FontSize="16"
-                                    FontWeight="Normal"
+                                    Margin="0,0,0,2"
+                                    FontSize="12"
                                     Tapped="PathBoxItem_Tapped"
                                     Text="{Binding Title}">
                                     <Interactivity:Interaction.Behaviors>
@@ -620,8 +619,8 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
-                                    Margin="0,0,0,4"
-                                    FontSize="16"
+                                    Margin="0,0,0,2"
+                                    FontSize="12"
                                     FontWeight="Medium"
                                     Text="{Binding Title}" />
                                 <FontIcon
@@ -786,7 +785,6 @@
                 CornerRadius="4"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
-                FontSize="16"
                 FontWeight="SemiBold"
                 ItemsSource="{x:Bind NavigationBarSuggestions}"
                 Loaded="VisiblePath_Loaded"

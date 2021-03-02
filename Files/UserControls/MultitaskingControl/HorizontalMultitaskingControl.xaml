@@ -482,7 +482,7 @@
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
                                                         <Setter Target="SelectedTabViewItemShadow.ShadowOpacity" Value=".8" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SystemChromeLowColor}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
