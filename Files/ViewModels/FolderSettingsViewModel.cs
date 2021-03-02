@@ -144,9 +144,9 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
-            if (LastLayoutModeSelected == "GridViewLarge")
+            if (LastLayoutModeSelected == "GridViewLarge" && AdaptiveLayoutSuggestionOverriden)
             {
-                SwitchAdaptiveLayout(!AdaptiveLayoutSuggestionOverriden);
+                SwitchAdaptiveLayout(true);
             }
             else if (LastLayoutModeSelected == "GridViewSmall" || LastLayoutModeSelected == "GridViewMedium" || LastLayoutModeSelected == "GridViewLarge")
             { // Override preferred gridview size
@@ -173,7 +173,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
-            if (LastLayoutModeSelected == "GridViewMedium")
+            if (LastLayoutModeSelected == "GridViewMedium" && AdaptiveLayoutSuggestionOverriden)
             {
                 SwitchAdaptiveLayout(true);
             }
@@ -191,25 +191,6 @@ namespace Files.ViewModels
                 AdaptiveLayoutSuggestionOverriden = false;
             }
 
-            /*
-             if (LastLayoutModeSelected == "GridViewSmall" || LastLayoutModeSelected == "GridViewMedium" || LastLayoutModeSelected == "GridViewLarge")
-            { // Override preferred gridview size
-                AdaptiveLayoutHelpers.SetPreferredLayout("GridViewMedium");
-                AdaptiveLayoutSuggestionOverriden = LayoutPreference.AdaptiveLayoutDisabledOverride;
-            }
-            else if ((manuallySet && AdaptiveLayoutSuggestionApplied) || LayoutPreference.AdaptiveLayoutDisabledOverride)
-            { // Override preferred layout mode
-                AdaptiveLayoutSuggestionOverriden = true;
-                AdaptiveLayoutSuggestionApplied = false;
-                LayoutPreference.AdaptiveLayoutDisabledOverride = true;
-                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
-            }
-            else
-            {
-                AdaptiveLayoutSuggestionOverriden = false;
-            }
-             */
-
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
@@ -221,7 +202,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
-            if (LastLayoutModeSelected == "GridViewSmall")
+            if (LastLayoutModeSelected == "GridViewSmall" && AdaptiveLayoutSuggestionOverriden)
             {
                 SwitchAdaptiveLayout(true);
             }
@@ -250,7 +231,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeTiles => new RelayCommand<bool>((manuallySet) =>
         {
-            if (LastLayoutModeSelected == "TilesView")
+            if (LastLayoutModeSelected == "TilesView" && AdaptiveLayoutSuggestionOverriden)
             {
                 SwitchAdaptiveLayout(true);
             }
@@ -272,7 +253,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (LastLayoutModeSelected == "DetailsView")
+            if (LastLayoutModeSelected == "DetailsView" && AdaptiveLayoutSuggestionOverriden)
             {
                 SwitchAdaptiveLayout(true);
             }
