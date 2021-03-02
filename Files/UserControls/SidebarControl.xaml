@@ -53,8 +53,11 @@
                     DragOver="NavigationViewLocationItem_DragOver"
                     DragStarting="NavigationViewItem_DragStarting"
                     Drop="NavigationViewLocationItem_Drop"
+                    IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
                     IsRightTapEnabled="True"
+                    MenuItemsSource="{x:Bind ChildItems}"
                     RightTapped="NavigationViewLocationItem_RightTapped"
+                    SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
@@ -111,14 +114,9 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
-                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
-            </DataTemplate>
-
             <local:NavItemDataTemplateSelector
                 x:Key="NavItemSelector"
                 DriveNavItemTemplate="{StaticResource DriveNavItem}"
-                HeaderNavItemTemplate="{StaticResource HeaderItem}"
                 LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
                 LocationNavItemTemplate="{StaticResource LocationNavItem}" />
         </ResourceDictionary>

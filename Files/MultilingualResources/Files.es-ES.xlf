@@ -992,7 +992,7 @@
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
-          <target state="translated">Files UWP se encontró con un problema para el que los desarrolladores aún no se prepararon.</target>
+          <target state="translated">Files se encontró con un problema para el que los desarrolladores aún no se prepararon.</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
@@ -2186,14 +2186,6 @@
           <source>Cloud Drives</source>
           <target state="translated">Unidades de la nube</target>
         </trans-unit>
-        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
-          <source>No preview available</source>
-          <target state="translated">No hay vista previa disponible</target>
-        </trans-unit>
-        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
-          <source>No details available</source>
-          <target state="translated">No hay detalles disponibles</target>
-        </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles on the home page</source>
           <target state="translated">Mostrar contenedores en la página de inicio</target>
@@ -2201,6 +2193,14 @@
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="translated">Desanclar directorio de la barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
+          <source>Network drives</source>
+          <target state="translated">Unidades de red</target>
+        </trans-unit>
+        <trans-unit id="Network" translate="yes" xml:space="preserve">
+          <source>Network</source>
+          <target state="translated">Red</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -2262,10 +2262,6 @@
           <source>Unknown</source>
           <target state="translated">Desconocido</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="translated">Habilitar el panel de vista previa adaptable</target>
-        </trans-unit>
         <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Multiselección</target>
@@ -2325,6 +2321,66 @@
         <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Fecha de creación</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="translated">Más opciones...</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Map network drive</source>
+          <target state="translated">Conectar una unidad de red</target>
+        </trans-unit>
+        <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
+          <source>Disconnect</source>
+          <target state="translated">Desconectar</target>
+        </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="translated">Límite paralelo de caché preventivo (números más pequeños deberían funcionar mejor para discos duros)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="translated">Usar caché preventivo (precarga entradas en directorios secundarios en la navegación)</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More bundles options</source>
+          <target state="translated">Más opciones de contenedores</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More drives options</source>
+          <target state="translated">Más opciones de contenedores</target>
+        </trans-unit>
+        <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
+          <source>Favorites</source>
+          <target state="new">Favorites</target>
+        </trans-unit>
+        <trans-unit id="Browse" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="new">Browse</target>
+        </trans-unit>
+        <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
+          <source>Recent locations</source>
+          <target state="new">Recent locations</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="new">No preview available</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="new">No details available</target>
+        </trans-unit>
+        <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
+          <source>No item selected</source>
+          <target state="new">No item selected</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemTarget" translate="yes" xml:space="preserve">
+          <source>Target</source>
+          <target state="new">Target</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+          <source>Arguments</source>
+          <target state="new">Arguments</target>
         </trans-unit>
       </group>
     </body>

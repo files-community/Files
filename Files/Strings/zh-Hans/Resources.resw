@@ -1647,19 +1647,10 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>云盘</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>没有可用的预览</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>没有可用的属性</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>在主页上显示包</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>从侧边栏取消固定路径</value>
-  </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>启用适应式预览窗格</value>
   </data>
 </root>

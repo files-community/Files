@@ -38,7 +38,7 @@ namespace MessageRelay
                 var connection = triggerDetails?.AppServiceConnection;
                 if (connection == null)
                 {
-                    System.Diagnostics.Debug.WriteLine("AppServiceConnection was null, ignorning this request");
+                    System.Diagnostics.Debug.WriteLine("AppServiceConnection was null, ignoring this request");
                     backgroundTaskDeferral.Complete();
                     return;
                 }

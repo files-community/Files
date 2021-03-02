@@ -113,12 +113,16 @@ namespace Files.ViewModels.Bundles
 
         private async void OpenAddBundleDialog()
         {
+            TextBox inputText = new TextBox()
+            {
+                PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
+            };
+
+            inputText.Loaded += inputText_Loaded;
+
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = new TextBox()
-                {
-                    PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
-                },
+                DisplayControl = inputText,
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
@@ -145,6 +149,13 @@ namespace Files.ViewModels.Bundles
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
             await dialog.ShowAsync();
+
+            inputText.Loaded -= inputText_Loaded;
+
+            void inputText_Loaded(object s, RoutedEventArgs e)
+            {
+                inputText.Focus(FocusState.Programmatic);
+            }
         }
 
         private void AddBundle(string name)

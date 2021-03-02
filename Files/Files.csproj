@@ -170,7 +170,6 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -188,6 +187,7 @@
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveSharePointCloudProvider.cs" />
+    <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
@@ -205,6 +205,8 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileThumbnailHelper.cs" />
+    <Compile Include="Helpers\MenuFlyoutHelper.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="Helpers\CollectionDebugView.cs" />
     <Compile Include="Helpers\DynamicDialogFactory.cs" />
@@ -216,9 +218,12 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
-    <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
-    <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
-      <DependentUpon>CodePreview.xaml</DependentUpon>
+	<Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
+      <DependentUpon>BasicPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\FolderPreview.xaml.cs">
+      <DependentUpon>FolderPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FilePreviews\HtmlPreview.xaml.cs">
       <DependentUpon>HtmlPreview.xaml</DependentUpon>
@@ -258,14 +263,17 @@
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
-    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\FolderPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\MarkdownPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\MediaPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
     <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
@@ -744,15 +752,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\FilePreviews\BasicPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\FolderPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\PreviewPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FileIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\FilePreviews\CodePreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -995,10 +1007,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.7</Version>
+      <Version>4.7.8</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.7</Version>
+      <Version>4.7.8</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

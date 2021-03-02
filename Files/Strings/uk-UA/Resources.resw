@@ -994,10 +994,10 @@
     <value>Показувати останні файли на домашній сторінці</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Показуквати приховані файли і папки</value>
+    <value>Показувати приховані файли і папки</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Показуквати приховані файли і папки</value>
+    <value>Показувати приховані файли і папки</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Пристрій безпечно вилучено</value>
@@ -1158,6 +1158,12 @@
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Дата випуску</value>
   </data>
+  <data name="PropertySeasonNumber" xml:space="preserve">
+    <value>Номер сезону</value>
+  </data>
+  <data name="PropertyEpisodeNumber" xml:space="preserve">
+    <value>Номер епізоду</value>
+  </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Продюсер</value>
   </data>
@@ -1238,6 +1244,9 @@
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
     <value>Кількість сторінок</value>
+  </data>
+  <data name="PropertySlideCount" xml:space="preserve">
+    <value>Кількість слайдів</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Частота кадрів</value>
@@ -1412,5 +1421,314 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Подвійна панель</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Показувати пункт меню "Копіювати розташування"</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Переносити пункти меню у підменю</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Налаштування контекстного меню</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Відображати пункт "Відкрити в новій вкладці"</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Папки</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Використовувати анімацію під час відкриття та закриття контекстного меню</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Список</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Величезні піктограми</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Великі піктограми</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Середні піктограми</value>
+  </data>
+  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Плитка</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+    <value>Вид піктограм</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>Параметри відображення</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Параметри відображення</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Параметри відображення</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+    <value>Величезні піктограми</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+    <value>Великі піктограми</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+    <value>Середні піктограми</value>
+  </data>
+  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+    <value>Плитка</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Відображати розширення файлів</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Відображати приховані файли</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>Список</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>Дата видалення</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>Дата видалення</value>
+  </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Налаштування вкладок</value>
+  </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>При запуску Files</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Колекція папок з таким іменем уже існує!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Поле вводу не повинно бути пустим!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Введіть ім'я Колекції папок</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Введіть ім'я Колекції папок</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Бажане ім'я</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Введіть нове ім'я</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>Змінити "{0}"</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Бажане ім'я</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Додати Колекцію папок</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Експортувати Колекцію</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Імпортувати Колекцію</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Створити Колекцію</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>Відкрити в новій вкладці</value>
+  </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Відкрити розташування елемента</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Видалити із Колекції</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Видалити Колекцію</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Колекції папок</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Перетягніть сюди будь-який файл або папку, щоб швидко отримати до них доступ</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Введіть ім'я Колекції папок</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Створити Колекцію</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Змінити назву Колекції</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Опції...</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Створити Колекцію</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Шлях елемента</value>
+  </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Переключити панель попереднього перегляду (Ctrl + P)</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>Ім'я елемента</value>
+  </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Хмарні диски</value>
+  </data>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Показувати Колекції папок на домашній сторінці</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Відкріпити папку від бічної панелі</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Мережні диски</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Мережа</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Властивості</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Спливаюче меню поточних завдань</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Доступно за наявності підключення до мережі</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Доступно в автономному режимі</value>
+  </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Частково доступний офлайн</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Синхронізація…</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Виключено з синхронізації</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Не розраховано</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Відомості про файл</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Попередній перегляд файлу</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Панель попереднього перегляду файлу</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Документація</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Знайдіть поради &amp; фокуси та дізнайтеся більше про Файли</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Відвідайте веб-сайт документації щодо файлів</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Множинний вибір</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Включити параметри множинного вибору (в даний час є тільки в режимах плитки і сітки)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Якщо ви зміните розширення файлу, файл може стати непридатним для використання. Ви впевнені, що хочете його змінити?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-привід</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Хмарний привід</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Привід із фіксованим диском</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Дисковод гнучких дисків</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Мережевий диск</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Немонтований диск</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM диск</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Знімний пристрій зберігання</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Віртуальний диск</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Дата створення</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Дата створення</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Опції...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Підключити диск</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Відключити</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Обмеження кеш-пам’яті (менші числа повинні працювати краще для жорстких дисків)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Використовувати кеш (попередньо завантажувати записи в дочірні каталоги на навігації)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Опції Колекцій</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Опції дисків</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Вибране</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Вибрати</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Нещодавні розташування</value>
   </data>
 </root>

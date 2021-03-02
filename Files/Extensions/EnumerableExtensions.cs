@@ -17,7 +17,7 @@ namespace Files.Extensions
             new List<T>() { item };
 
         /// <summary>
-        /// Executes given lambda parallely on given data set with max degree of parallelism set up
+        /// Executes given lambda parallelly on given data set with max degree of parallelism set up
         /// </summary>
         /// <typeparam name="T">The item type</typeparam>
         /// <param name="source">Data to process</param>

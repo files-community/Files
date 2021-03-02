@@ -664,7 +664,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Phase="1"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="28"
@@ -819,7 +819,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         x:Phase="1"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="28"

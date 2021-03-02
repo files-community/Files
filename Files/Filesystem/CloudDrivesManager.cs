@@ -1,10 +1,12 @@
 using Files.Filesystem.Cloud;
+using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -14,7 +16,7 @@ namespace Files.Filesystem
 {
     public class CloudDrivesManager : ObservableObject
     {
-        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -28,12 +30,11 @@ namespace Files.Filesystem
             }
         }
 
-        //Private as we want to prevent CloudDriveManager being constructed manually
         public CloudDrivesManager()
         {
         }
 
-        public async Task<CloudDrivesManager> EnumerateDrivesAsync()
+        public async Task EnumerateDrivesAsync()
         {
             var cloudProviderController = new CloudProviderController();
             var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
@@ -57,8 +58,6 @@ namespace Files.Filesystem
             }
 
             await RefreshUI();
-
-            return this;
         }
 
         private async Task RefreshUI()
@@ -89,54 +88,30 @@ namespace Files.Filesystem
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var drivesSnapshot = Drives.OrderBy(o => o.Text).ToList();
+                    MainPage.SideBarItems.BeginBulkOperation();
 
-                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
-
-                    if (drivesSection != null && drivesSnapshot.Count == 0)
+                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
                     {
-                        //No drives - remove the header
-                        MainPage.SideBarItems.Remove(drivesSection);
-                    }
-
-                    if (drivesSection == null && drivesSnapshot.Count > 0)
-                    {
-                        drivesSection = new HeaderTextItem()
+                        section = new LocationItem()
                         {
-                            Text = "SidebarCloudDrives".GetLocalized()
+                            Text = "SidebarCloudDrives".GetLocalized(),
+                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Glyph = "\ue9b7",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
+                        MainPage.SideBarItems.Add(section);
+                    }
 
-                        //Get the last location item in the sidebar
-                        var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
-
-                        if (lastLocationItem != null)
+                    foreach (DriveItem drive in Drives.ToList())
+                    {
+                        if (!section.ChildItems.Contains(drive))
                         {
-                            //Get the index of the last location item
-                            var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
-                            //Insert the drives title beneath it
-                            MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
-                        }
-                        else
-                        {
-                            MainPage.SideBarItems.Add(drivesSection);
+                            section.ChildItems.Add(drive);
                         }
                     }
 
-                    //Remove all existing cloud drives from the sidebar
-                    foreach (var item in MainPage.SideBarItems
-                        .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
-                        .ToList())
-                    {
-                        MainPage.SideBarItems.Remove(item);
-                    }
-
-                    //Add all cloud drives to the sidebar
-                    var insertAt = MainPage.SideBarItems.IndexOf(drivesSection) + 1;
-                    foreach (var drive in drivesSnapshot)
-                    {
-                        MainPage.SideBarItems.Insert(insertAt, drive);
-                        insertAt++;
-                    }
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

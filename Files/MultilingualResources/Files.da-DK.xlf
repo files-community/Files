@@ -2186,14 +2186,6 @@
           <source>Cloud Drives</source>
           <target state="new">Cloud Drives</target>
         </trans-unit>
-        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
-          <source>No preview available</source>
-          <target state="new">No preview available</target>
-        </trans-unit>
-        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
-          <source>No details available</source>
-          <target state="new">No details available</target>
-        </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles on the home page</source>
           <target state="new">Show Bundles on the home page</target>
@@ -2201,6 +2193,14 @@
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
+        </trans-unit>
+        <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
+          <source>Network drives</source>
+          <target state="new">Network drives</target>
+        </trans-unit>
+        <trans-unit id="Network" translate="yes" xml:space="preserve">
+          <source>Network</source>
+          <target state="new">Network</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -2262,10 +2262,6 @@
           <source>Unknown</source>
           <target state="new">Unknown</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
-        </trans-unit>
         <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="new">Multiselect</target>
@@ -2325,6 +2321,66 @@
         <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="new">Date created</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="new">More options...</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Map network drive</source>
+          <target state="new">Map network drive</target>
+        </trans-unit>
+        <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
+          <source>Disconnect</source>
+          <target state="new">Disconnect</target>
+        </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="new">Preemptive cache parallel limit (smaller numbers should work better for hard drives)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="new">Use preemptive cache (preload entries in child directories on navigation)</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More bundles options</source>
+          <target state="new">More bundles options</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More drives options</source>
+          <target state="new">More drives options</target>
+        </trans-unit>
+        <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
+          <source>Favorites</source>
+          <target state="new">Favorites</target>
+        </trans-unit>
+        <trans-unit id="Browse" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="new">Browse</target>
+        </trans-unit>
+        <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
+          <source>Recent locations</source>
+          <target state="new">Recent locations</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="new">No preview available</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="new">No details available</target>
+        </trans-unit>
+        <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
+          <source>No item selected</source>
+          <target state="new">No item selected</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemTarget" translate="yes" xml:space="preserve">
+          <source>Target</source>
+          <target state="new">Target</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+          <source>Arguments</source>
+          <target state="new">Arguments</target>
         </trans-unit>
       </group>
     </body>
