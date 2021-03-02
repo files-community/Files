@@ -971,9 +971,10 @@ namespace Files.ViewModels
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
-                AssociatedInstance.InstanceViewModel.FolderSettings.LayoutPreference = AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutPreferencesForPath(path);
-                AssociatedInstance.InstanceViewModel.FolderSettings.AdaptiveLayoutSuggestionOverriden = AssociatedInstance.InstanceViewModel.FolderSettings.LayoutPreference.AdaptiveLayoutDisabledOverride;
-                bool successfulPrediction = await AdaptiveLayoutHelpers.PredictLayoutMode(AssociatedInstance);
+
+                FolderSettings.LayoutPreference = FolderSettings.GetLayoutPreferencesForPath(path);
+                FolderSettings.AdaptiveLayoutSuggestionOverriden = FolderSettings.LayoutPreference.AdaptiveLayoutDisabledOverride;
+                bool successfulPrediction = await AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this, Connection);
                 FolderSettings.AdaptiveLayoutSuggestionApplied = successfulPrediction;
             }
             finally

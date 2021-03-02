@@ -48,37 +48,37 @@ namespace Files.Helpers
             }
         }
 
-        public static async Task<bool> PredictLayoutMode(IShellPage associatedInstance)
+        public static async Task<bool> PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel, AppServiceConnection connection)
         {
-            if (App.AppSettings.AdaptiveLayoutEnabled && !associatedInstance.InstanceViewModel.FolderSettings.AdaptiveLayoutSuggestionOverriden)
+            if (App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.AdaptiveLayoutSuggestionOverriden)
             {
                 bool desktopIniFound = false;
-                GridViewSizeMode preferredGridViewSize = GetPreferredGridViewSizeMode(associatedInstance.InstanceViewModel.FolderSettings);
+                GridViewSizeMode preferredGridViewSize = GetPreferredGridViewSizeMode(folderSettings);
 
-                ICommand preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall; // Default
+                ICommand preferredGridLayout = folderSettings.ToggleLayoutModeGridViewSmall; // Default
 
                 switch (preferredGridViewSize)
                 {
                     case GridViewSizeMode.GridViewSmall:
-                        preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall;
+                        preferredGridLayout = folderSettings.ToggleLayoutModeGridViewSmall;
                         break;
 
                     case GridViewSizeMode.GridViewMedium:
-                        preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium;
+                        preferredGridLayout = folderSettings.ToggleLayoutModeGridViewMedium;
                         break;
 
                     case GridViewSizeMode.GridViewLarge:
-                        preferredGridLayout = associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge;
+                        preferredGridLayout = folderSettings.ToggleLayoutModeGridViewLarge;
                         break;
                 }
 
-                if (associatedInstance.ServiceConnection != null)
+                if (connection != null)
                 {
-                    AppServiceResponse response = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                    AppServiceResponse response = await connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "GetDesktopIniProperties" },
-                        { "FilePath", System.IO.Path.Combine(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, "desktop.ini") },
+                        { "FilePath", System.IO.Path.Combine(filesystemViewModel.CurrentFolder.ItemPath, "desktop.ini") },
                         { "SECTION", "ViewState" },
                         { "KeyName", "FolderType" }
                     });
@@ -95,7 +95,7 @@ namespace Files.Helpers
                             {
                                 case "Documents":
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(false);
+                                        folderSettings.ToggleLayoutModeTiles.Execute(false);
                                         break;
                                     }
 
@@ -107,7 +107,7 @@ namespace Files.Helpers
 
                                 case "Music":
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
                                         break;
                                     }
 
@@ -119,7 +119,7 @@ namespace Files.Helpers
 
                                 default:
                                     {
-                                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
                                         break;
                                     }
                             }
@@ -137,12 +137,12 @@ namespace Files.Helpers
                 {
                     return true;
                 }
-                if (associatedInstance.FilesystemViewModel.FilesAndFolders.Count == 0)
+                if (filesystemViewModel.FilesAndFolders.Count == 0)
                 {
                     return false;
                 }
 
-                int imagesAndVideosCount = associatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) =>
+                int imagesAndVideosCount = filesystemViewModel.FilesAndFolders.Where((item) =>
                     
                     !string.IsNullOrEmpty(item.FileExtension)
 
@@ -153,36 +153,36 @@ namespace Files.Helpers
                     || MediaPreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
                     )).Count();
 
-                int foldersCount = associatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
+                int foldersCount = filesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
 
-                int otherFilesCount = associatedInstance.FilesystemViewModel.FilesAndFolders.Count - (imagesAndVideosCount + foldersCount);
+                int otherFilesCount = filesystemViewModel.FilesAndFolders.Count - (imagesAndVideosCount + foldersCount);
 
                 if (foldersCount > 0)
                 { // There are folders in current directory
 
-                    if ((associatedInstance.FilesystemViewModel.FilesAndFolders.Count - imagesAndVideosCount) < (associatedInstance.FilesystemViewModel.FilesAndFolders.Count - 20) || (associatedInstance.FilesystemViewModel.FilesAndFolders.Count <= 20 && imagesAndVideosCount >= 5))
+                    if ((filesystemViewModel.FilesAndFolders.Count - imagesAndVideosCount) < (filesystemViewModel.FilesAndFolders.Count - 20) || (filesystemViewModel.FilesAndFolders.Count <= 20 && imagesAndVideosCount >= 5))
                     { // Most of items are images/videos
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(false);
+                        folderSettings.ToggleLayoutModeTiles.Execute(false);
                     }
                     else
                     {
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
                     }
                 }
                 else
                 { // There are only files
 
-                    if (imagesAndVideosCount == associatedInstance.FilesystemViewModel.FilesAndFolders.Count)
+                    if (imagesAndVideosCount == filesystemViewModel.FilesAndFolders.Count)
                     { // Only images/videos
                         preferredGridLayout.Execute(false);
                     }
                     else if (otherFilesCount < 20)
                     { // Most of files are images/videos
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(false);
+                        folderSettings.ToggleLayoutModeTiles.Execute(false);
                     }
                     else
                     { // Images/videos and other files
-                        associatedInstance.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
                     }
                 }
 
