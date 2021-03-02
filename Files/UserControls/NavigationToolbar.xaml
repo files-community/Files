@@ -26,20 +26,6 @@
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
                 <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Name="Light">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#f3f1ef" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="Dark">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#161514" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="HighContrast">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-
-                <ResourceDictionary>
                     <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
                         <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
                         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -659,7 +645,7 @@
         Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -806,7 +792,7 @@
                 VerticalAlignment="Center"
                 extensions:Mouse.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource ClickablePathBackgroundColor}"
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="Transparent"
                 BorderThickness="1"
                 CornerRadius="4"
