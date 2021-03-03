@@ -1653,7 +1653,4 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>从侧边栏取消固定路径</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

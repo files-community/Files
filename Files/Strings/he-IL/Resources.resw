@@ -1206,7 +1206,4 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>אפשר הנפשות בפתיחה וסגירה של התפריט תלוי-ההקשר</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

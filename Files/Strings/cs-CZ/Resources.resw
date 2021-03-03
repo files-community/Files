@@ -1488,7 +1488,4 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>Povolit animace při otevírání a zavírání kontextové nabídky</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

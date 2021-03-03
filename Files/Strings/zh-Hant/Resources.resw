@@ -1092,7 +1092,4 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

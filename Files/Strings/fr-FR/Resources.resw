@@ -1686,7 +1686,4 @@
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Déconnecter</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

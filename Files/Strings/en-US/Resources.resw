@@ -156,6 +156,12 @@
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Recent locations</value>
+  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drives</value>
   </data>

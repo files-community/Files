@@ -1704,7 +1704,4 @@
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Aktivera alternativ vid val av flera filer (för närvarande endast tillgängligt i panel- och rutnätsvyerna)</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

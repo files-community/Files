@@ -1542,7 +1542,4 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Sletningsdato</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>

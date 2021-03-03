@@ -1773,7 +1773,4 @@
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Accesso rapido</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
-  </data>
 </root>
