@@ -26,20 +26,6 @@
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
                 <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Name="Light">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#f3f1ef" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="Dark">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#161514" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="HighContrast">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-
-                <ResourceDictionary>
                     <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
                         <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
                         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -521,9 +507,8 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
-                                    Margin="0,0,0,4"
-                                    FontSize="16"
-                                    FontWeight="Normal"
+                                    Margin="0,0,0,2"
+                                    FontSize="12"
                                     Tapped="PathBoxItem_Tapped"
                                     Text="{Binding Title}">
                                     <Interactivity:Interaction.Behaviors>
@@ -620,8 +605,8 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
-                                    Margin="0,0,0,4"
-                                    FontSize="16"
+                                    Margin="0,0,0,2"
+                                    FontSize="12"
                                     FontWeight="Medium"
                                     Text="{Binding Title}" />
                                 <FontIcon
@@ -660,7 +645,7 @@
         Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -786,7 +771,6 @@
                 CornerRadius="4"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
-                FontSize="16"
                 FontWeight="SemiBold"
                 ItemsSource="{x:Bind NavigationBarSuggestions}"
                 Loaded="VisiblePath_Loaded"
@@ -808,7 +792,7 @@
                 VerticalAlignment="Center"
                 extensions:Mouse.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource ClickablePathBackgroundColor}"
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="Transparent"
                 BorderThickness="1"
                 CornerRadius="4"

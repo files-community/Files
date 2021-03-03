@@ -18,51 +18,54 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
-            <TextBlock x:Uid="DrivesWidgetDescription"
-                       HorizontalAlignment="Left"
-                       FontFamily="Segoe UI"
-                       FontSize="14"
-                       FontWeight="Medium"
-                       Opacity=".8"
-                       Text="Drives" />
+
+            <TextBlock
+                x:Uid="DrivesWidgetDescription"
+                HorizontalAlignment="Left"
+                FontFamily="Segoe UI"
+                FontSize="14"
+                FontWeight="Medium"
+                Opacity=".8"
+                Text="Drives" />
 
             <!--  Map Drive button  -->
-            <Button x:Uid="DrivesWidgetMoreOptionsButton"
-                    Grid.Column="1"
-                    Width="36"
-                    Height="32"
-                    Padding="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Background="Transparent"
-                    Style="{StaticResource ButtonRevealStyle}"
-                    AutomationProperties.Name="More drives options"
-                    ToolTipService.ToolTip="More options...">
+            <Button
+                x:Uid="DrivesWidgetMoreOptionsButton"
+                Grid.Column="1"
+                Width="36"
+                Height="32"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutomationProperties.Name="More drives options"
+                Background="Transparent"
+                Style="{StaticResource ButtonRevealStyle}"
+                ToolTipService.ToolTip="More options...">
 
-                <FontIcon HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          FontFamily="Segoe MDL2 Assets"
-                          FontSize="14"
-                          Glyph="&#xe712;" />
+                <FontIcon
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="14"
+                    Glyph="&#xe712;" />
 
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem"
-                                        Click="MapNetworkDrive_Click"
-                                        Text="Map network drive">
+                        <MenuFlyoutItem
+                            x:Uid="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem"
+                            Click="MapNetworkDrive_Click"
+                            Text="Map network drive">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
-                                          Glyph="&#xE903;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
         </Grid>
-        
+
         <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
@@ -86,21 +89,6 @@
                         <animations:Implicit.Animations>
                             <animations:ScaleAnimation Duration="0:0:0.5" />
                         </animations:Implicit.Animations>
-                        <Grid.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.ThemeDictionaries>
-                                    <ResourceDictionary x:Name="Light">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="Dark">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="HighContrast">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                                    </ResourceDictionary>
-                                </ResourceDictionary.ThemeDictionaries>
-                            </ResourceDictionary>
-                        </Grid.Resources>
                         <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
@@ -108,10 +96,10 @@
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind Text, Mode=OneWay}"
-                            Background="{ThemeResource YourHomeCardBackgroundColor}"
+                            Background="Transparent"
                             BorderThickness="1"
                             Click="Button_Click"
-                            CornerRadius="4"
+                            CornerRadius="8"
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
@@ -170,7 +158,8 @@
                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutItem x:Name="DisconnectNetworkDrive"
+                                        <MenuFlyoutItem
+                                            x:Name="DisconnectNetworkDrive"
                                             x:Uid="SideBarDisconnectNetworkDrive"
                                             x:Load="{x:Bind IsNetwork, Mode=OneWay}"
                                             Click="DisconnectNetworkDrive_Click"
