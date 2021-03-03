@@ -7,7 +7,6 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource SolidBackgroundFillColorBase}"
     mc:Ignorable="d">
     <Page.DataContext>
         <settingsviewmodels:OnStartupViewModel />
