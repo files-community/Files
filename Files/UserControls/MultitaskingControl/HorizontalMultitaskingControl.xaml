@@ -131,7 +131,6 @@
                                             <ContentPresenter
                                                 x:Name="RightContentPresenter"
                                                 Grid.Column="3"
-                                                MinWidth="250"
                                                 HorizontalAlignment="Stretch"
                                                 Content="{TemplateBinding TabStripFooter}"
                                                 ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
@@ -800,12 +799,14 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}" Canvas.ZIndex="4">
+    <Grid
+        HorizontalAlignment="Left"
+        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+        Canvas.ZIndex="4">
 
         <muxc:TabView
             x:Name="HorizontalTabView"
             Margin="4,0"
-            HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
@@ -841,13 +842,6 @@
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
-            <muxc:TabView.TabStripFooter>
-                <Grid
-                    x:Name="DragArea"
-                    HorizontalAlignment="Stretch"
-                    Background="Transparent"
-                    Loaded="DragArea_Loaded" />
-            </muxc:TabView.TabStripFooter>
         </muxc:TabView>
     </Grid>
 </local:BaseMultitaskingControl>

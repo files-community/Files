@@ -14,6 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource SolidBackgroundFillColorSecondary}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -32,6 +33,8 @@
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+
+            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
 
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
@@ -80,7 +83,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -101,9 +104,19 @@
             EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
+
+
+        <Grid
+            x:Name="DragArea"
+            Grid.Column="2"
+            HorizontalAlignment="Stretch"
+            Background="Transparent"
+            Loaded="DragArea_Loaded" />
+
         <multitaskingcontrol:HorizontalMultitaskingControl
             x:Name="horizontalMultitaskingControl"
             Grid.Column="1"
+            Margin="{x:Bind DragRegionWidth, Converter={StaticResource WidthToRightMarginConverter}}"
             x:FieldModifier="public"
             x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
             Loaded="HorizontalMultitaskingControl_Loaded" />
@@ -111,6 +124,7 @@
         <Grid
             Grid.Row="1"
             Grid.Column="1"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch"
             Canvas.ZIndex="100">
             <Grid.ColumnDefinitions>
