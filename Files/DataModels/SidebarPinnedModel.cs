@@ -96,7 +96,7 @@ namespace Files.DataModels
             if (!Items.Contains(item))
             {
                 Items.Add(item);
-                await AddItemToSidebarAsync(item);
+                await AddItemToFavoritesSidebarAsync(item);
                 Save();
             }
         }
@@ -149,7 +149,7 @@ namespace Files.DataModels
             if (Items.Contains(item))
             {
                 Items.Remove(item);
-                RemoveStaleSidebarItems(item);
+                RemoveLibrarySidebarItems(item);
                 Save();
             }
         }
@@ -224,7 +224,7 @@ namespace Files.DataModels
             {
                 Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
-                this.RemoveStaleSidebarItems();
+                this.RemoveFavoritesSidebarItems();
                 _ = this.AddAllItemsToSidebar();
             }
         }
@@ -260,7 +260,7 @@ namespace Files.DataModels
         /// </summary>
         /// <param name="path">The path which to save</param>
         /// <returns>Task</returns>
-        public async Task AddItemToSidebarAsync(string path)
+        public async Task AddItemToFavoritesSidebarAsync(string path)
         {
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
@@ -352,12 +352,6 @@ namespace Files.DataModels
                     AddItemToSidebarAsync(homeSection);
                 }
 
-                for (int i = 0; i < Items.Count(); i++)
-                {
-                    string path = Items[i];
-                    await AddItemToSidebarAsync(path);
-                }
-
                 if (!MainPage.SideBarItems.Contains(favoriteSection))
                 {
                     MainPage.SideBarItems.Add(favoriteSection);
@@ -368,7 +362,13 @@ namespace Files.DataModels
                     if (!MainPage.SideBarItems.Contains(librarySection))
                     {
                         MainPage.SideBarItems.Add(librarySection);
-                    }                        
+
+                        for (int i = 0; i < Items.Count(); i++)
+                        {
+                            string path = Items[i];
+                            await AddItemToLibrarySidebarAsync(path);
+                        }
+                    }
                 }
 
                 recentFoldersCollection.Clear();
@@ -395,7 +395,7 @@ namespace Files.DataModels
         /// <summary>
         /// Removes stale items in the navigation sidebar
         /// </summary>
-        public void RemoveStaleSidebarItems(string unpinFolder)
+        public void RemoveLibrarySidebarItems(string unpinFolder)
         {
             var item = favoriteSection.ChildItems.Where(x => x.Path.Equals(unpinFolder)).FirstOrDefault();
             favoriteSection.ChildItems.Remove(item);
@@ -404,7 +404,7 @@ namespace Files.DataModels
             mostRecentlyUsed.Remove(mostRecentlyUsed.Entries.Where(x => x.Metadata.Equals(item.Path)).FirstOrDefault().Token);
         }
 
-        public void RemoveStaleSidebarItems()
+        public void RemoveFavoritesSidebarItems()
         {
             // Remove unpinned items from sidebar
             for (int i = 0; i < favoriteSection.ChildItems.Count(); i++)
@@ -413,6 +413,20 @@ namespace Files.DataModels
                 {
                     var item = favoriteSection.ChildItems[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
+                    {
+                        favoriteSection.ChildItems.RemoveAt(i);
+                    }
+                }
+            }
+        }
+        public void RemoveFavoritesSidebarItems(string path)
+        {
+            // Remove unpinned items from sidebar
+            for (int i = 0; i < favoriteSection.ChildItems.Count(); i++)
+            {
+                if (favoriteSection.ChildItems[i] is LocationItem)
+                {
+                    if (!Items.Contains(path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
                     }
@@ -430,7 +444,7 @@ namespace Files.DataModels
                 var added = await FilesystemTasks.Wrap(async () =>
                 {
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                    App.SidebarPinnedController.Model.AddItem(item.Path);
+                    await AddItemToFavoritesSidebarAsync(item.Path);
                 });
                 if (added == FileSystemStatusCode.Unauthorized)
                 {

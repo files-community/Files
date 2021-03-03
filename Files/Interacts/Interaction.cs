@@ -269,13 +269,13 @@ namespace Files.Interacts
             }
         }
 
-        public void PinItem_Click(object sender, RoutedEventArgs e)
+        public async void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage != null)
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
+                    await App.SidebarPinnedController.Model.AddItemToFavoritesSidebarAsync(listedItem.ItemPath);
                 }
             }
         }
@@ -286,7 +286,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.RemoveFavoritesSidebarItems(listedItem.ItemPath);
                 }
             }
         }
