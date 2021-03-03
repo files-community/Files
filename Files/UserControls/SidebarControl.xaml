@@ -140,6 +140,8 @@
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <muxc:NavigationView.Resources>
                 <ResourceDictionary>
+                    <x:Double x:Key="NavigationViewItemExpandedGlyphFontSize">8.0</x:Double>
+
                     <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                         <MenuFlyout.Items>
                             <MenuFlyoutItem
