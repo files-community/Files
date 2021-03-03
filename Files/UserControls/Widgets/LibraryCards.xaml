@@ -55,8 +55,7 @@
                             Background="Transparent"
                             BorderThickness="1"
                             Click="Button_Click"
-                            CornerRadius="8"
-                            Style="{StaticResource ButtonRevealStyle}"
+                            CornerRadius="4"
                             Tag="{x:Bind Tag}">
 
                             <Grid
