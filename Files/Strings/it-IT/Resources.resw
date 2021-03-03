@@ -1650,12 +1650,6 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Rimuovi la cartella dalla barra laterale</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Anteprima non disponibile</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Nessun dettaglio disponibile</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Mostra i Gruppi nella schermata iniziale</value>
   </data>

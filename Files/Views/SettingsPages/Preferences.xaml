@@ -7,7 +7,6 @@
     xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
         <settingsviewmodels:PreferencesViewModel />

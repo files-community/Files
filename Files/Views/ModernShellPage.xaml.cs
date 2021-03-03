@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -205,18 +207,24 @@ namespace Files.Views
          */
         public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
         {
-            // Clear the path UI
-            NavigationToolbar.PathComponents.Clear();
-
             if (string.IsNullOrWhiteSpace(singleItemOverride))
             {
-                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir))
+                var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
+                var lastCommonItemIndex = NavigationToolbar.PathComponents
+                    .Select((value, index) => new { value, index })
+                    .LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+                while (NavigationToolbar.PathComponents.Count > lastCommonItemIndex)
+                {
+                    NavigationToolbar.PathComponents.RemoveAt(lastCommonItemIndex);
+                }
+                foreach (var component in components.Skip(lastCommonItemIndex))
                 {
                     NavigationToolbar.PathComponents.Add(component);
                 }
             }
             else
             {
+                NavigationToolbar.PathComponents.Clear(); // Clear the path UI
                 NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
@@ -1084,11 +1092,6 @@ namespace Files.Views
             }
         }
 
-        private void SmallWindowTitlebar_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(SmallWindowTitlebar);
-        }
-
         public void Dispose()
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
@@ -1257,12 +1260,19 @@ namespace Files.Views
                 if (PreviewPane != null)
                 {
                     PreviewPane.Visibility = Visibility.Collapsed;
+                    PreviewPaneDropShadowPanel.Visibility = Visibility.Collapsed;
                 }
+
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.00;
             }
-            else if (RootGrid.ActualWidth > 1000)
+            else if (RootGrid.ActualWidth > 800)
             {
-                PreviewPane.SetValue(Grid.RowProperty, 2);
-                PreviewPane.SetValue(Grid.ColumnProperty, 2);
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneDropShadowPanel.OffsetX = -2;
+                PreviewPaneDropShadowPanel.OffsetY = 0;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
@@ -1275,14 +1285,19 @@ namespace Files.Views
 
                 PreviewPane.Visibility = Visibility.Visible;
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
-            else if (RootGrid.ActualWidth < 1000)
+            else if (RootGrid.ActualWidth <= 800)
             {
                 PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
                 PreviewPaneColumn.Width = new GridLength(0);
 
-                PreviewPane.SetValue(Grid.RowProperty, 4);
-                PreviewPane.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 4);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneDropShadowPanel.OffsetX = 0;
+                PreviewPaneDropShadowPanel.OffsetY = -2;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
@@ -1292,6 +1307,7 @@ namespace Files.Views
 
                 PreviewPane.Visibility = Visibility.Visible;
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
         }
 

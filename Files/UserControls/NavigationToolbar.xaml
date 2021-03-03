@@ -26,20 +26,6 @@
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
                 <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Name="Light">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#f3f1ef" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="Dark">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="#161514" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="HighContrast">
-                            <SolidColorBrush x:Key="ClickablePathBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-
-                <ResourceDictionary>
                     <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
                         <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
                         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -521,9 +507,8 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
-                                    Margin="0,0,0,4"
-                                    FontSize="16"
-                                    FontWeight="Normal"
+                                    Margin="0,0,0,2"
+                                    FontSize="12"
                                     Tapped="PathBoxItem_Tapped"
                                     Text="{Binding Title}">
                                     <Interactivity:Interaction.Behaviors>
@@ -549,6 +534,7 @@
                                     x:Name="PathSeaparatorIcon"
                                     Width="32"
                                     Margin="-11,0,-11,0"
+                                    DataContextChanged="PathItemSeparator_DataContextChanged"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
                                     Glyph="&#xE9A8;"
@@ -619,8 +605,8 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
-                                    Margin="0,0,0,4"
-                                    FontSize="16"
+                                    Margin="0,0,0,2"
+                                    FontSize="12"
                                     FontWeight="Medium"
                                     Text="{Binding Title}" />
                                 <FontIcon
@@ -656,17 +642,21 @@
 
     <Grid
         x:Name="ToolbarGrid"
+        Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+        ColumnSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="36" />
-            <RowDefinition Height="36" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <StackPanel
@@ -781,7 +771,6 @@
                 CornerRadius="4"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
-                FontSize="16"
                 FontWeight="SemiBold"
                 ItemsSource="{x:Bind NavigationBarSuggestions}"
                 Loaded="VisiblePath_Loaded"
@@ -803,7 +792,7 @@
                 VerticalAlignment="Center"
                 extensions:Mouse.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource ClickablePathBackgroundColor}"
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="Transparent"
                 BorderThickness="1"
                 CornerRadius="4"
@@ -824,6 +813,7 @@
 
                 <ListView
                     x:Name="PathViewInteract"
+                    Padding="0,0,12,0"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
@@ -841,7 +831,10 @@
                     Style="{StaticResource ListViewStyleNoAnimation}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                            <ItemsStackPanel
+                                Background="Transparent"
+                                ItemsUpdatingScrollMode="KeepLastItemInView"
+                                Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplateSelector>
@@ -849,19 +842,14 @@
                     </ListView.ItemTemplateSelector>
                 </ListView>
             </Grid>
-        </Grid>
 
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="4">
             <AutoSuggestBox
                 x:Name="SearchRegion"
                 x:Uid="NavigationToolbarSearchReigon"
-                Width="300"
-                HorizontalAlignment="Right"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Canvas.ZIndex="100"
                 CornerRadius="4"
                 LostFocus="SearchRegion_LostFocus"
                 PlaceholderText="Search"
@@ -922,23 +910,31 @@
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
 
-            <CommandBar VerticalAlignment="Center" Background="Transparent">
-                <AppBarButton
-                    x:Name="SearchButton"
-                    x:Uid="NavSearchButton"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                    AutomationProperties.Name="Search"
-                    Background="Transparent"
-                    Click="SearchButton_Click"
-                    Content="&#xEB51;"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="16"
-                    IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Search" />
+            <Button
+                x:Name="SearchButton"
+                x:Uid="NavSearchButton"
+                Grid.Column="2"
+                Width="36"
+                Height="32"
+                AutomationProperties.Name="Search"
+                Background="Transparent"
+                Click="SearchButton_Click"
+                Content="&#xEB51;"
+                FontFamily="{StaticResource FluentUIGlyphs}"
+                FontSize="16"
+                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Search" />
+        </Grid>
 
+        <StackPanel
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="4">
+
+            <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
                     x:Name="PreviewPane"
                     x:Uid="PreviewPaneToggle"
@@ -952,7 +948,8 @@
                     FontSize="16"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)" />
+                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
+                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
 
                 <AppBarButton
                     x:Name="VerticalTabStripInvokeButton"

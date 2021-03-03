@@ -1605,12 +1605,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Emplacements Cloud</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Pas d'aperçu disponible</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Pas de détails disponibles</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Afficher les Bundles sur la page d'accueil</value>
   </data>

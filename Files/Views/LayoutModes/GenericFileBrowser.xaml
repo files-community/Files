@@ -16,7 +16,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.UserControls"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
@@ -684,8 +683,8 @@
             Grid.RowSpan="2"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Visibility="Collapsed"
-            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
+            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
+            Visibility="Collapsed" />
 
         <controls:DataGrid
             x:Name="AllView"
@@ -726,15 +725,15 @@
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
                             <SolidColorBrush x:Key="GridLinesBrush" Color="#edebe9" />
-                            <Color x:Key="DataGridColumnHeaderBackgroundColor">White</Color>
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">Transparent</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="GridLinesBrush" Color="#3b3a39" />
-                            <Color x:Key="DataGridColumnHeaderBackgroundColor">#201F1E</Color>
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">Transparent</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="GridLinesBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemColorWindowColor" />
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">Transparent</Color>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <ResourceDictionary.MergedDictionaries>
@@ -808,9 +807,9 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 x:Name="Icon"
+                                AutomationProperties.Name="Thumbnail column"
                                 Opacity="{x:Bind Opacity, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}"
-                                AutomationProperties.Name="Thumbnail column">
+                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
@@ -908,11 +907,11 @@
                             <FontIcon
                                 Margin="12,0,0,0"
                                 HorizontalAlignment="Left"
+                                AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="14"
                                 Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                                Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                 AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"/>
+                                Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
