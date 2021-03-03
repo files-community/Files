@@ -1092,11 +1092,6 @@ namespace Files.Views
             }
         }
 
-        private void SmallWindowTitlebar_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(SmallWindowTitlebar);
-        }
-
         public void Dispose()
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;

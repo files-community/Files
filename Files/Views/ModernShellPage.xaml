@@ -190,13 +190,6 @@
                 MaxWidth="600" />
         </Grid.ColumnDefinitions>
 
-        <Grid
-            x:Name="SmallWindowTitlebar"
-            Height="30"
-            x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
-            Background="Transparent"
-            Loaded="SmallWindowTitlebar_Loaded" />
-
         <Frame
             x:Name="ItemDisplayFrame"
             Grid.Row="2"

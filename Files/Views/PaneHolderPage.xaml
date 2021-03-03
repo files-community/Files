@@ -85,7 +85,7 @@
 
     <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MinHeight="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -103,8 +103,6 @@
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
             EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
-
-
 
         <Grid
             x:Name="DragArea"
