@@ -74,9 +74,6 @@ namespace Files.DataModels
             Items.Add(AppSettings.DesktopPath);
             Items.Add(AppSettings.DownloadsPath);
             Items.Add(AppSettings.DocumentsPath);
-            Items.Add(AppSettings.PicturesPath);
-            Items.Add(AppSettings.MusicPath);
-            Items.Add(AppSettings.VideosPath);
         }
 
         /// <summary>
@@ -357,7 +354,7 @@ namespace Files.DataModels
                     MainPage.SideBarItems.Add(favoriteSection);
                 }
 
-                if (App.AppSettings.ShowLibrarySwitch)
+                if (App.AppSettings.ShowLibrarySection)
                 {
                     if (!MainPage.SideBarItems.Contains(librarySection))
                     {

@@ -109,11 +109,11 @@
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Name="ShowLibrarySwitch"
-                    x:Uid="SettingsPreferencesShowLibrarySwitch"
-                    Header="Show Library section on sidebar"
+                    x:Name="ShowLibrarySection"
+                    x:Uid="SettingsPreferencesShowLibrarySection"
+                    Header="Show Library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowLibrarySwitch, Mode=TwoWay}" />
+                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

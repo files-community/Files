@@ -442,9 +442,9 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether [show library switch].
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [show library switch]; otherwise, <c>false</c>.
+        ///   <c>true</c> if [show library section]; otherwise, <c>false</c>.
         /// </value>
-        public bool ShowLibrarySwitch
+        public bool ShowLibrarySection
         {
             get => Get(true);
             set => Set(value);

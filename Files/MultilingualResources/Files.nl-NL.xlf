@@ -2401,6 +2401,10 @@
           <source>Library</source>
           <target state="new">Library</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+          <source>Show Library section on the sidebar</source>
+          <target state="new">Show Library section on the sidebar</target>
+        </trans-unit>
       </group>
     </body>
   </file>
