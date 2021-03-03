@@ -74,6 +74,8 @@ namespace Files.DataModels
             Items.Add(AppSettings.DesktopPath);
             Items.Add(AppSettings.DownloadsPath);
             Items.Add(AppSettings.DocumentsPath);
+            Items.Add(AppSettings.MusicPath);
+            Items.Add(AppSettings.VideosPath);
         }
 
         /// <summary>
