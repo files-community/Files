@@ -465,14 +465,14 @@
                                             <VisualStateGroup x:Name="CommonStates">
                                                 <VisualState x:Name="Normal">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Collapsed" />
-                                                        <Setter Target="TabContainer.Background" Value="{StaticResource SolidBackgroundFillColorSecondary}" />
-                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
-                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
-                                                        <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonBackground}" />
-                                                        <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonForeground}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
+                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
+                                                        <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
+                                                        <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -510,7 +510,6 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
-                                                        <Setter Target="LayoutRoot.Background" Value="Transparent" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
