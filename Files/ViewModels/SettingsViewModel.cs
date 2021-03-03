@@ -98,9 +98,10 @@ namespace Files.ViewModels
 
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
+
         /// <summary>
         /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
         /// </summary>
@@ -115,7 +116,7 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength PreviewPaneSizeVertical
         {
-            get => new GridLength(Math.Min(Math.Max(Get(200d), 50d), 600d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 50d), 600d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
