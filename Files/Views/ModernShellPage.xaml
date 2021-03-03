@@ -165,7 +165,7 @@
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
         BorderThickness="0,0,0,2"
         SizeChanged="RootGrid_SizeChanged">
