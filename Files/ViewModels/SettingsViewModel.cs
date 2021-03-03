@@ -98,7 +98,7 @@ namespace Files.ViewModels
 
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(250), 250d), 250d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 250d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
