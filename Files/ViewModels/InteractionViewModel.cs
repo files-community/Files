@@ -20,7 +20,6 @@ namespace Files.ViewModels
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
 
-
             // Setup the correct multitasking control
             SetMultitaskingControl();
         }
