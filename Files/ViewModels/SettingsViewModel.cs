@@ -439,11 +439,8 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [show library switch].
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show library section]; otherwise, <c>false</c>.
-        /// </value>
         public bool ShowLibrarySection
         {
             get => Get(true);
