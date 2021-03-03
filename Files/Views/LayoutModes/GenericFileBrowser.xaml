@@ -725,15 +725,15 @@
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
                             <SolidColorBrush x:Key="GridLinesBrush" Color="#edebe9" />
-                            <Color x:Key="DataGridColumnHeaderBackgroundColor">White</Color>
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">Transparent</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="GridLinesBrush" Color="#3b3a39" />
-                            <Color x:Key="DataGridColumnHeaderBackgroundColor">#201F1E</Color>
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">Transparent</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="GridLinesBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemColorWindowColor" />
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">Transparent</Color>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <ResourceDictionary.MergedDictionaries>

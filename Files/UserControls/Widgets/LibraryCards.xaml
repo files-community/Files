@@ -45,21 +45,6 @@
                         <animations:Implicit.Animations>
                             <animations:ScaleAnimation Duration="0:0:0.5" />
                         </animations:Implicit.Animations>
-                        <Grid.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.ThemeDictionaries>
-                                    <ResourceDictionary x:Name="Light">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="Dark">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="HighContrast">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                                    </ResourceDictionary>
-                                </ResourceDictionary.ThemeDictionaries>
-                            </ResourceDictionary>
-                        </Grid.Resources>
                         <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
@@ -67,10 +52,10 @@
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind AutomationProperties}"
-                            Background="{ThemeResource YourHomeCardBackgroundColor}"
+                            Background="Transparent"
                             BorderThickness="1"
                             Click="Button_Click"
-                            CornerRadius="4"
+                            CornerRadius="8"
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Tag}">
 
