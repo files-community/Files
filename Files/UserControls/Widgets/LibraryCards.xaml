@@ -55,7 +55,7 @@
                             Background="Transparent"
                             BorderThickness="1"
                             Click="Button_Click"
-                            CornerRadius="8"
+                            CornerRadius="4"
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Tag}">
 
