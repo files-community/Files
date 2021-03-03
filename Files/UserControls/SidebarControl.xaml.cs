@@ -226,6 +226,7 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
+                !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
                 ShowEmptyRecycleBin = false;
@@ -261,6 +262,24 @@ namespace Files.UserControls
             var item = sidebarItem.DataContext as DriveItem;
          
             ShowEjectDevice = item.IsRemovable;
+            ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+            ShowProperties = true;
+
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+
+            App.RightClickedItem = item;
+
+            e.Handled = true;
+        }
+
+        private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+
+            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var item = sidebarItem.DataContext as WSLDistroItem;
+
+            ShowEjectDevice = false;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;

@@ -102,6 +102,7 @@
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
+                    RightTapped="NavigationViewWSLItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
                     <muxc:NavigationViewItem.Icon>
