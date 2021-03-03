@@ -190,12 +190,21 @@
                 MaxWidth="600" />
         </Grid.ColumnDefinitions>
 
-        <Frame
-            x:Name="ItemDisplayFrame"
+
+        <Custom:DropShadowPanel
             Grid.Row="2"
-            x:FieldModifier="public"
-            Background="{ThemeResource SolidBackgroundFillColorBase}"
-            Navigated="ItemDisplayFrame_Navigated" />
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            BlurRadius="4"
+            Canvas.ZIndex="10"
+            OffsetY="2"
+            ShadowOpacity="0.04">
+            <Frame
+                x:Name="ItemDisplayFrame"
+                x:FieldModifier="public"
+                Background="{ThemeResource SolidBackgroundFillColorBase}"
+                Navigated="ItemDisplayFrame_Navigated" />
+        </Custom:DropShadowPanel>
 
         <Custom:DropShadowPanel
             x:Name="PreviewPaneDropShadowPanel"
@@ -203,6 +212,7 @@
             Grid.Column="2"
             HorizontalContentAlignment="Stretch"
             BlurRadius="4"
+            Canvas.ZIndex="10"
             OffsetX="-2"
             ShadowOpacity="0.04">
             <controls:PreviewPane
@@ -223,26 +233,18 @@
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
 
-        <Custom:DropShadowPanel
+        <controls:StatusBarControl
+            x:Name="StatusBarControl"
             Grid.Row="5"
             Grid.ColumnSpan="3"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            BlurRadius="4"
-            OffsetY="-2"
-            ShadowOpacity="0.04">
-
-            <controls:StatusBarControl
-                x:Name="StatusBarControl"
-                x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
-                DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-                FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
-                InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
-                SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
-                SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
-        </Custom:DropShadowPanel>
+            x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+            ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
+            DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
+            FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
+            InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
+            SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
+            SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
+            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
 
         <Custom:DropShadowPanel
             Grid.Row="1"
@@ -252,6 +254,7 @@
             HorizontalContentAlignment="Stretch"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
             BlurRadius="4"
+            Canvas.ZIndex="100"
             OffsetY="2"
             ShadowOpacity="0.04">
 
