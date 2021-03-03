@@ -20,10 +20,12 @@ namespace Files.ViewModels
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
 
+
+            // Setup the correct multitasking control
             SetMultitaskingControl();
         }
 
-        private void SetMultitaskingControl()
+        public void SetMultitaskingControl()
         {
             if (AppSettings.IsMultitaskingExperienceAdaptive)
             {
@@ -76,7 +78,7 @@ namespace Files.ViewModels
             set => SetProperty(ref isPasteEnabled, value);
         }
 
-        private bool isHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive;
+        private bool isHorizontalTabStripVisible = false;
 
         public bool IsHorizontalTabStripVisible
         {
@@ -84,7 +86,7 @@ namespace Files.ViewModels
             set => SetProperty(ref isHorizontalTabStripVisible, value);
         }
 
-        private bool isVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive;
+        private bool isVerticalTabFlyoutVisible = false;
 
         public bool IsVerticalTabFlyoutVisible
         {
