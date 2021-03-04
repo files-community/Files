@@ -1899,4 +1899,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Arguments</value>
   </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Open in new Pane</value>
+  </data>
 </root>

@@ -325,7 +325,7 @@
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
-                                                            x:Uid="SideBarOpenInNewPane"
+                                                            x:Uid="BundlesOpenInNewPane"
                                                             Command="{Binding OpenInNewPaneCommand, Mode=OneWay}"
                                                             Text="Open in new Pane"
                                                             Visibility="{Binding OpenInNewPaneVisibility, Mode=OneWay}">
