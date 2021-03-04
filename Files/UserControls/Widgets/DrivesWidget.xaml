@@ -23,6 +23,7 @@
                 x:Uid="DrivesWidgetDescription"
                 HorizontalAlignment="Left"
                 FontFamily="Segoe UI"
+                VerticalAlignment="Center"
                 FontSize="14"
                 FontWeight="Medium"
                 Opacity=".8"
