@@ -28,11 +28,16 @@ namespace Files.DataModels
 
         private ObservableCollection<LocationItem> recentFoldersCollection = new ObservableCollection<LocationItem>();
 
+        private const int numberDefaultRecentItems = 3;
+
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        [JsonProperty("items")]
-        public List<string> Items { get; set; } = new List<string>();
+        [JsonProperty("libraryitems")]
+        public List<string> LibraryItems { get; set; } = new List<string>();
+
+        [JsonProperty("favoriteitems")]
+        public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
         {
@@ -71,11 +76,35 @@ namespace Files.DataModels
         /// </summary>
         public void AddDefaultItems()
         {
-            Items.Add(AppSettings.DesktopPath);
-            Items.Add(AppSettings.DownloadsPath);
-            Items.Add(AppSettings.DocumentsPath);
-            Items.Add(AppSettings.MusicPath);
-            Items.Add(AppSettings.VideosPath);
+            LibraryItems.Add(AppSettings.DesktopPath);
+            LibraryItems.Add(AppSettings.DownloadsPath);
+            LibraryItems.Add(AppSettings.DocumentsPath);
+            LibraryItems.Add(AppSettings.MusicPath);
+            LibraryItems.Add(AppSettings.VideosPath);
+        }
+
+        /// <summary>
+        /// Adds the default favorites items.
+        /// </summary>
+        public async void AddDefaultFavoritesItems(int item)
+        {
+            switch (item)
+            {
+                case 1:
+                    FavoriteItems.Add(AppSettings.DesktopPath);
+                    await AddItemToFavoritesSidebarAsync(AppSettings.DesktopPath);
+                    break;
+                case 2:
+                    FavoriteItems.Add(AppSettings.DocumentsPath);
+                    await AddItemToFavoritesSidebarAsync(AppSettings.DocumentsPath);
+                    break;
+                case 3:
+                    FavoriteItems.Add(AppSettings.DownloadsPath);
+                    await AddItemToFavoritesSidebarAsync(AppSettings.DownloadsPath);
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -83,7 +112,7 @@ namespace Files.DataModels
         /// </summary>
         public List<string> GetItems()
         {
-            return Items;
+            return FavoriteItems;
         }
 
         /// <summary>
@@ -92,9 +121,9 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!Items.Contains(item))
+            if (!FavoriteItems.Contains(item))
             {
-                Items.Add(item);
+                FavoriteItems.Add(item);
                 await AddItemToFavoritesSidebarAsync(item);
                 Save();
             }
@@ -145,10 +174,10 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public void RemoveItem(string item)
         {
-            if (Items.Contains(item))
+            if (FavoriteItems.Contains(item))
             {
-                Items.Remove(item);
-                RemoveLibrarySidebarItems(item);
+                FavoriteItems.Remove(item);
+                RemoveFavoritesSidebarItems(item);
                 Save();
             }
         }
@@ -190,7 +219,7 @@ namespace Files.DataModels
             }
 
             // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-            var sidebarItemsBackup = new List<string>(this.Items);
+            var sidebarItemsBackup = new List<string>(this.FavoriteItems);
 
             try
             {
@@ -203,12 +232,12 @@ namespace Files.DataModels
                 // Moves the items in this model and saves the model
                 if (result == true)
                 {
-                    var indexOfFirstItemInModel = this.Items.IndexOf(firstLocationItem.Path);
-                    var indexOfSecondItemInModel = this.Items.IndexOf(secondLocationItem.Path);
+                    var indexOfFirstItemInModel = this.FavoriteItems.IndexOf(firstLocationItem.Path);
+                    var indexOfSecondItemInModel = this.FavoriteItems.IndexOf(secondLocationItem.Path);
                     if (indexOfFirstItemInModel >= 0 && indexOfSecondItemInModel >= 0)
                     {
-                        this.Items.RemoveAt(indexOfFirstItemInModel);
-                        this.Items.Insert(indexOfSecondItemInModel, firstLocationItem.Path);
+                        this.FavoriteItems.RemoveAt(indexOfFirstItemInModel);
+                        this.FavoriteItems.Insert(indexOfSecondItemInModel, firstLocationItem.Path);
                     }
 
                     Save();
@@ -222,7 +251,7 @@ namespace Files.DataModels
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
                 Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
-                this.Items = sidebarItemsBackup;
+                this.FavoriteItems = sidebarItemsBackup;
                 this.RemoveFavoritesSidebarItems();
                 _ = this.AddAllItemsToSidebar();
             }
@@ -362,9 +391,9 @@ namespace Files.DataModels
                     {
                         MainPage.SideBarItems.Add(librarySection);
 
-                        for (int i = 0; i < Items.Count(); i++)
+                        for (int i = 0; i < LibraryItems.Count(); i++)
                         {
-                            string path = Items[i];
+                            string path = LibraryItems[i];
                             await AddItemToLibrarySidebarAsync(path);
                         }
                     }
@@ -374,7 +403,7 @@ namespace Files.DataModels
 
                 try
                 {
-                    PopulateRecentsList();
+                    PopulateRecentsList();                   
                 }
                 catch (Exception ex)
                 {
@@ -411,7 +440,7 @@ namespace Files.DataModels
                 if (favoriteSection.ChildItems[i] is LocationItem)
                 {
                     var item = favoriteSection.ChildItems[i] as LocationItem;
-                    if (!item.IsDefaultLocation && !Items.Contains(item.Path))
+                    if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
                     }
@@ -425,7 +454,7 @@ namespace Files.DataModels
             {
                 if (favoriteSection.ChildItems[i] is LocationItem)
                 {
-                    if (!Items.Contains(path))
+                    if (!FavoriteItems.Contains(path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
                     }
@@ -436,34 +465,45 @@ namespace Files.DataModels
         private async void PopulateRecentsList()
         {
             var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-
-            foreach (AccessListEntry entry in mostRecentlyUsed.Entries.Take(5).Reverse().ToList())
+            try
             {
-                string mruToken = entry.Token;
-                var added = await FilesystemTasks.Wrap(async () =>
+                foreach (AccessListEntry entry in mostRecentlyUsed.Entries.Take(numberDefaultRecentItems).Reverse().ToList())
                 {
-                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                    await AddItemToFavoritesSidebarAsync(item.Path);
-                });
-                if (added == FileSystemStatusCode.Unauthorized)
-                {
-                    // Skip item until consent is provided
-                }
-                // Exceptions include but are not limited to:
-                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                // 0x8007016A -> The cloud file provider is not running
-                // 0x8000000A -> The data necessary to complete this operation is not yet available
-                // 0x80004005 -> Unspecified error
-                // 0x80270301 -> ?
-                else if (!added)
-                {
-                    await FilesystemTasks.Wrap(() =>
+                    string mruToken = entry.Token;
+                    var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        mostRecentlyUsed.Remove(mruToken);
-                        return Task.CompletedTask;
+                        IStorageItem item = await mostRecentlyUsed.GetFolderAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+
+                        FavoriteItems.Add(item.Path);
+                        await AddItemToFavoritesSidebarAsync(item.Path);
+
                     });
-                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    if (added == FileSystemStatusCode.Unauthorized)
+                    {
+                        // Skip item until consent is provided
+                    }
+                    // Exceptions include but are not limited to:
+                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                    // 0x8007016A -> The cloud file provider is not running
+                    // 0x8000000A -> The data necessary to complete this operation is not yet available
+                    // 0x80004005 -> Unspecified error
+                    // 0x80270301 -> ?
+                    else if (!added)
+                    {
+                        await FilesystemTasks.Wrap(() =>
+                        {
+                            mostRecentlyUsed.Remove(mruToken);
+                            return Task.CompletedTask;
+                        });
+                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    }
                 }
+            }
+            catch
+            { }
+            finally
+            {
+                AddDefaultFavoritesItems(numberDefaultRecentItems - FavoriteItems.Count);
             }
         }
 
