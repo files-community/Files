@@ -249,7 +249,10 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 ItemsSource="{Binding Contents, Mode=OneWay}"
-                                SelectionMode="None">
+                                SelectionMode="None"
+                                CanReorderItems="True"
+                                AllowDrop="True"
+                                ReorderMode="Enabled">
 
                                 <!--  Remove Reveal Highlight Effect  -->
                                 <GridView.ItemContainerStyle>

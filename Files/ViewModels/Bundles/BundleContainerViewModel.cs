@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -32,6 +33,10 @@ namespace Files.ViewModels.Bundles
         #region Private Members
 
         private IShellPage associatedInstance;
+
+        private bool itemAddedInternally;
+
+        private int internalCollectionCount;
 
         #endregion Private Members
 
@@ -89,6 +94,18 @@ namespace Files.ViewModels.Bundles
             RenameBundleCommand = new RelayCommand(RenameBundle);
             DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
             DropCommand = new RelayCommand<DragEventArgs>(Drop);
+
+            Contents.CollectionChanged += Contents_CollectionChanged;
+        }
+
+        private void Contents_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (internalCollectionCount < Contents.Count && !itemAddedInternally)
+            {
+                SaveBundle();
+            }
+
+            internalCollectionCount = Contents.Count;
         }
 
         #endregion Constructor
@@ -303,7 +320,9 @@ namespace Files.ViewModels.Bundles
         {
             if (bundleItem != null)
             {
+                itemAddedInternally = true;
                 Contents.Add(bundleItem);
+                itemAddedInternally = false;
                 NoBundleContentsTextVisibility = Visibility.Collapsed;
             }
         }
