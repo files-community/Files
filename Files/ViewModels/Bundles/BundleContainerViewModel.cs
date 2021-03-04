@@ -107,8 +107,9 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                BundlesSettings.SavedBundles.Remove(BundleName);
-                BundlesSettings.NotifyOnValueUpdated(BundlesSettings.SavedBundles, nameof(BundlesSettings.SavedBundles));
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                allBundles.Remove(BundleName);
+                BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }

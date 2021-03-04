@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -140,8 +141,9 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
             {
-                BundlesSettings.SavedBundles.Remove(Path);
-                BundlesSettings.NotifyOnValueUpdated(BundlesSettings.SavedBundles, nameof(BundlesSettings.SavedBundles));
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                allBundles[ParentBundleName].Remove(Path);
+                BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }
