@@ -104,7 +104,15 @@
         <GridView
             HorizontalAlignment="Stretch"
             ItemsSource="{Binding Items, Mode=OneWay}"
-            SelectionMode="None">
+            SelectionMode="None"
+            CanReorderItems="True"
+            ReorderMode="Enabled"
+            DragEnter="GridView_DragEnter"
+            DragItemsCompleted="GridView_DragItemsCompleted"
+            DragItemsStarting="GridView_DragItemsStarting"
+            DragLeave="GridView_DragLeave"
+            DragOver="GridView_DragOver"
+            DragStarting="GridView_DragStarting">
 
             <!--  Remove Reveal Highlight Effect  -->
             <GridView.ItemContainerStyle>

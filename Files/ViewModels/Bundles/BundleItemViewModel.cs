@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -18,7 +17,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Bundles
 {
-    public class BundleItemViewModel : ObservableObject, IDisposable
+    public class BundleItemViewModel : ObservableObject//, IDisposable
     {
         #region Singleton
 
@@ -141,9 +140,8 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
-                allBundles[ParentBundleName].Remove(Path);
-                BundlesSettings.SavedBundles = allBundles;
+                BundlesSettings.SavedBundles.Remove(Path);
+                BundlesSettings.NotifyOnValueUpdated(BundlesSettings.SavedBundles, nameof(BundlesSettings.SavedBundles));
                 NotifyItemRemoved(this);
             }
         }

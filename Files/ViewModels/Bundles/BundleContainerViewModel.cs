@@ -99,9 +99,8 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
-                allBundles.Remove(BundleName);
-                BundlesSettings.SavedBundles = allBundles;
+                BundlesSettings.SavedBundles.Remove(BundleName);
+                BundlesSettings.NotifyOnValueUpdated(BundlesSettings.SavedBundles, nameof(BundlesSettings.SavedBundles));
                 NotifyItemRemoved(this);
             }
         }
@@ -287,9 +286,8 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
-                allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
-                BundlesSettings.SavedBundles = allBundles;
+                BundlesSettings.SavedBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
+                BundlesSettings.NotifyOnValueUpdated(BundlesSettings.SavedBundles, nameof(BundlesSettings.SavedBundles));
 
                 return true;
             }
@@ -301,15 +299,13 @@ namespace Files.ViewModels.Bundles
 
         #region Public Helpers
 
-        public BundleContainerViewModel AddBundleItem(BundleItemViewModel bundleItem)
+        public void AddBundleItem(BundleItemViewModel bundleItem)
         {
             if (bundleItem != null)
             {
                 Contents.Add(bundleItem);
                 NoBundleContentsTextVisibility = Visibility.Collapsed;
             }
-
-            return this;
         }
 
         public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
@@ -349,7 +345,6 @@ namespace Files.ViewModels.Bundles
         {
             foreach (var item in Contents)
             {
-                item.NotifyItemRemoved -= NotifyItemRemovedHandle;
                 item?.Dispose();
             }
 
