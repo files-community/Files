@@ -88,22 +88,25 @@ namespace Files.DataModels
         /// </summary>
         public async void AddDefaultFavoritesItems(int item)
         {
-            switch (item)
+            for (int i = 1; i <= item; i++)
             {
-                case 1:
-                    FavoriteItems.Add(AppSettings.DesktopPath);
-                    await AddItemToFavoritesSidebarAsync(AppSettings.DesktopPath);
-                    break;
-                case 2:
-                    FavoriteItems.Add(AppSettings.DocumentsPath);
-                    await AddItemToFavoritesSidebarAsync(AppSettings.DocumentsPath);
-                    break;
-                case 3:
-                    FavoriteItems.Add(AppSettings.DownloadsPath);
-                    await AddItemToFavoritesSidebarAsync(AppSettings.DownloadsPath);
-                    break;
-                default:
-                    break;
+                switch (i)
+                {
+                    case 1:
+                        FavoriteItems.Add(AppSettings.DesktopPath);
+                        await AddItemToFavoritesSidebarAsync(AppSettings.DesktopPath);
+                        break;
+                    case 2:
+                        FavoriteItems.Add(AppSettings.DocumentsPath);
+                        await AddItemToFavoritesSidebarAsync(AppSettings.DocumentsPath);
+                        break;
+                    case 3:
+                        FavoriteItems.Add(AppSettings.DownloadsPath);
+                        await AddItemToFavoritesSidebarAsync(AppSettings.DownloadsPath);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -473,10 +476,8 @@ namespace Files.DataModels
                     var added = await FilesystemTasks.Wrap(async () =>
                     {
                         IStorageItem item = await mostRecentlyUsed.GetFolderAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-
                         FavoriteItems.Add(item.Path);
                         await AddItemToFavoritesSidebarAsync(item.Path);
-
                     });
                     if (added == FileSystemStatusCode.Unauthorized)
                     {
