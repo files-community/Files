@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Bundles
 {
-    public class BundleItemViewModel : ObservableObject//, IDisposable
+    public class BundleItemViewModel : ObservableObject, IDisposable
     {
         #region Singleton
 

@@ -1,16 +1,11 @@
-﻿using Files.Dialogs;
-using Files.Enums;
-using Files.Helpers;
-using Files.SettingsInterfaces;
-using Files.ViewModels.Dialogs;
+﻿using System;
+using System.Linq;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -19,6 +14,12 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Newtonsoft.Json;
+using Files.Dialogs;
+using Files.Enums;
+using Files.Helpers;
+using Files.SettingsInterfaces;
+using Files.ViewModels.Dialogs;
 
 namespace Files.ViewModels.Bundles
 {
@@ -36,6 +37,10 @@ namespace Files.ViewModels.Bundles
         #region Private Members
 
         private IShellPage associatedInstance;
+
+        private bool itemAddedInternally;
+
+        private int internalCollectionCount;
 
         #endregion Private Members
 
@@ -96,6 +101,8 @@ namespace Files.ViewModels.Bundles
             AddBundleCommand = new RelayCommand(() => AddBundle(BundleNameTextInput));
             ImportBundlesCommand = new RelayCommand(ImportBundles);
             ExportBundlesCommand = new RelayCommand(ExportBundles);
+
+            Items.CollectionChanged += Items_CollectionChanged;
         }
 
         #endregion Constructor
@@ -198,12 +205,14 @@ namespace Files.ViewModels.Bundles
                 };
             }
 
+            itemAddedInternally = true;
             Items.Add(new BundleContainerViewModel(associatedInstance)
             {
                 BundleName = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
             });
             NoBundlesAddItemLoad = false;
+            itemAddedInternally = false;
 
             // Save bundles
             Save();
@@ -284,6 +293,16 @@ namespace Files.ViewModels.Bundles
             }
         }
 
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (internalCollectionCount < Items.Count && !itemAddedInternally)
+            {
+                Save();
+            }
+
+            internalCollectionCount = Items.Count;
+        }
+
         #endregion Handlers
 
         #region Public Helpers
@@ -343,11 +362,13 @@ namespace Files.ViewModels.Bundles
                     }
 
                     // Fill current bundle with collected bundle items
+                    itemAddedInternally = true;
                     Items.Add(new BundleContainerViewModel(associatedInstance)
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
                     }.SetBundleItems(bundleItems));
+                    itemAddedInternally = false;
                 }
 
                 if (Items.Count == 0)
@@ -401,6 +422,7 @@ namespace Files.ViewModels.Bundles
                 item?.Dispose();
             }
 
+            Items.CollectionChanged -= Items_CollectionChanged;
             associatedInstance = null;
             Items = null;
         }
