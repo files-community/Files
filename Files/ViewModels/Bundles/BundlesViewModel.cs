@@ -49,7 +49,7 @@ namespace Files.ViewModels.Bundles
         /// <summary>
         /// Collection of all bundles
         /// </summary>
-        public ObservableCollection<BundleContainerViewModel> Items { get; set; } = new ObservableCollection<BundleContainerViewModel>();
+        public ObservableCollection<BundleContainerViewModel> Items { get; private set; } = new ObservableCollection<BundleContainerViewModel>();
 
         private string bundleNameTextInput = string.Empty;
 

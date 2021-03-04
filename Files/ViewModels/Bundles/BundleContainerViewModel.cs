@@ -95,17 +95,8 @@ namespace Files.ViewModels.Bundles
             DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
             DropCommand = new RelayCommand<DragEventArgs>(Drop);
 
-            Contents.CollectionChanged += Contents_CollectionChanged;
-        }
-
-        private void Contents_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (internalCollectionCount < Contents.Count && !itemAddedInternally)
-            {
-                SaveBundle();
-            }
-
             internalCollectionCount = Contents.Count;
+            Contents.CollectionChanged += Contents_CollectionChanged;
         }
 
         #endregion Constructor
@@ -295,6 +286,16 @@ namespace Files.ViewModels.Bundles
             }
         }
 
+        private void Contents_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (internalCollectionCount < Contents.Count && !itemAddedInternally)
+            {
+                SaveBundle();
+            }
+
+            internalCollectionCount = Contents.Count;
+        }
+
         #endregion Handlers
 
         #region Private Helpers
@@ -303,9 +304,11 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                BundlesSettings.SavedBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
-                BundlesSettings.NotifyOnValueUpdated(BundlesSettings.SavedBundles, nameof(BundlesSettings.SavedBundles));
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
 
+                BundlesSettings.SavedBundles = allBundles;
+                
                 return true;
             }
 
@@ -329,7 +332,11 @@ namespace Files.ViewModels.Bundles
 
         public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
         {
+            Contents.CollectionChanged -= Contents_CollectionChanged;
+
             Contents = new ObservableCollection<BundleItemViewModel>(items);
+            internalCollectionCount = Contents.Count;
+            Contents.CollectionChanged += Contents_CollectionChanged;
 
             if (Contents.Count > 0)
             {
@@ -375,6 +382,7 @@ namespace Files.ViewModels.Bundles
             DropCommand = null;
 
             associatedInstance = null;
+            Contents.CollectionChanged -= Contents_CollectionChanged;
             Contents = null;
         }
 
