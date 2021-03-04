@@ -49,7 +49,17 @@ namespace Files.ViewModels.Bundles
 
         public string Name
         {
-            get => System.IO.Path.GetFileName(this.Path);
+            get
+            {
+                string fileName = System.IO.Path.GetFileName(this.Path);
+
+                if (fileName.EndsWith(".lnk"))
+                {
+                    fileName = fileName.Remove(fileName.Length - 4);
+                }
+
+                return fileName;
+            }
         }
 
         public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
