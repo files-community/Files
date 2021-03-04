@@ -25,6 +25,11 @@ namespace Files.Helpers.FileListCache
             SizeLimit = 1_000_000
         });
 
+        private readonly IMemoryCache fileNamesCache = new MemoryCache(new MemoryCacheOptions
+        {
+            SizeLimit = 1_000_000
+        });
+
         public Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
             if (!App.AppSettings.UseFileListCache)
@@ -66,6 +71,39 @@ namespace Files.Helpers.FileListCache
                 }
             }
             return entry;
+        }
+
+        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        {
+            var displayName = fileNamesCache.Get<string>(path);
+            if (displayName == null)
+            {
+                displayName = await persistentAdapter.ReadFileDisplayNameFromCache(path, cancellationToken);
+                if (displayName != null)
+                {
+                    fileNamesCache.Set(path, displayName, new MemoryCacheEntryOptions
+                    {
+                        Size = 1
+                    });
+                }
+            }
+            return displayName;
+        }
+
+        public Task SaveFileDisplayNameToCache(string path, string displayName)
+        {
+            if (displayName == null)
+            {
+                filesCache.Remove(path);
+                return persistentAdapter.SaveFileDisplayNameToCache(path, displayName);
+            }
+            filesCache.Set(path, displayName, new MemoryCacheEntryOptions
+            {
+                Size = 1
+            });
+
+            // save entry to persistent cache in background
+            return persistentAdapter.SaveFileDisplayNameToCache(path, displayName);
         }
     }
 }

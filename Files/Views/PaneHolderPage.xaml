@@ -6,11 +6,15 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:Files.UserControls"
     xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views"
+    xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource SolidBackgroundFillColorSecondary}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -29,6 +33,8 @@
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+
+            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
 
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
@@ -77,74 +83,194 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
-                x:Name="LeftColumn"
-                Width="1.5*"
-                MinWidth="500" />
-            <ColumnDefinition
-                x:Name="RightColumn"
-                Width="0"
-                MinWidth="0" />
+                x:Name="SidebarColumn"
+                Width="{x:Bind SidebarWidth, Mode=TwoWay}"
+                MinWidth="200"
+                MaxWidth="500" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border x:Name="PaneLeftLoader">
-            <local:ModernShellPage
-                x:Name="PaneLeft"
-                ContentChanged="Pane_ContentChanged"
-                IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-                IsPageMainPane="True"
-                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
-                PaneHolder="{x:Bind}"
-                PointerPressed="PaneLeft_PointerPressed" />
-        </Border>
+        <controls:SidebarControl
+            x:Name="SidebarControl"
+            Grid.RowSpan="2"
+            CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+            EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
+            Loaded="SidebarControl_Loaded" />
 
-        <Border
-            x:Name="PaneRightLoader"
+        <Grid
+            x:Name="DragArea"
+            Grid.Column="2"
+            HorizontalAlignment="Stretch"
+            Background="Transparent"
+            Loaded="DragArea_Loaded" />
+
+        <multitaskingcontrol:HorizontalMultitaskingControl
+            x:Name="horizontalMultitaskingControl"
             Grid.Column="1"
-            x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-            BorderBrush="{ThemeResource PaneBorderBrush}"
-            BorderThickness="2,0,0,0">
-            <local:ModernShellPage
-                x:Name="PaneRight"
-                ContentChanged="Pane_ContentChanged"
-                IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-                IsPageMainPane="False"
-                NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
-                PaneHolder="{x:Bind}"
-                PointerPressed="PaneRight_PointerPressed" />
+            Margin="{x:Bind DragRegionWidth, Converter={StaticResource WidthToRightMarginConverter}}"
+            x:FieldModifier="public"
+            x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+            Loaded="HorizontalMultitaskingControl_Loaded" />
 
-            <animations:Implicit.ShowAnimations>
-                <animations:ScalarAnimation
-                    Target="Translation.X"
-                    From="300"
-                    To="0"
-                    Duration="0:0:0.2" />
-                <animations:ScalarAnimation
-                    Target="Opacity"
-                    From="0"
-                    To="1"
-                    Duration="0:0:0.2" />
-            </animations:Implicit.ShowAnimations>
-            <animations:Implicit.HideAnimations>
-                <animations:ScalarAnimation
-                    Target="Translation.X"
-                    From="0"
-                    To="300"
-                    Duration="0:0:0.2" />
-                <animations:ScalarAnimation
-                    Target="Opacity"
-                    From="1"
-                    To="0"
-                    Duration="0:0:0.2" />
-            </animations:Implicit.HideAnimations>
-        </Border>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            Canvas.ZIndex="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    x:Name="LeftColumn"
+                    Width="1.5*"
+                    MinWidth="300" />
+                <ColumnDefinition
+                    x:Name="RightColumn"
+                    Width="0"
+                    MinWidth="0" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="PaneLeftLoader">
+                <local:ModernShellPage
+                    x:Name="PaneLeft"
+                    ContentChanged="Pane_ContentChanged"
+                    IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                    IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+                    IsPageMainPane="True"
+                    NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
+                    PaneHolder="{x:Bind}"
+                    PointerPressed="PaneLeft_PointerPressed" />
+            </Border>
+
+            <Border
+                x:Name="PaneRightLoader"
+                Grid.Column="1"
+                x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                BorderBrush="{ThemeResource PaneBorderBrush}"
+                BorderThickness="2,0,0,0">
+                <local:ModernShellPage
+                    x:Name="PaneRight"
+                    ContentChanged="Pane_ContentChanged"
+                    IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                    IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+                    IsPageMainPane="False"
+                    NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
+                    PaneHolder="{x:Bind}"
+                    PointerPressed="PaneRight_PointerPressed" />
+
+                <animations:Implicit.ShowAnimations>
+                    <animations:ScalarAnimation
+                        Target="Translation.X"
+                        From="300"
+                        To="0"
+                        Duration="0:0:0.2" />
+                    <animations:ScalarAnimation
+                        Target="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.2" />
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:ScalarAnimation
+                        Target="Translation.X"
+                        From="0"
+                        To="300"
+                        Duration="0:0:0.2" />
+                    <animations:ScalarAnimation
+                        Target="Opacity"
+                        From="1"
+                        To="0"
+                        Duration="0:0:0.2" />
+                </animations:Implicit.HideAnimations>
+            </Border>
+
+            <Custom:GridSplitter
+                x:Name="PaneResizer"
+                Grid.Column="1"
+                Width="5"
+                MinWidth="5"
+                HorizontalAlignment="Left"
+                Background="Transparent"
+                Canvas.ZIndex="150"
+                CursorBehavior="ChangeOnSplitterHover"
+                Foreground="Transparent"
+                GripperCursor="Default"
+                GripperForeground="Transparent"
+                IsTabStop="False"
+                ManipulationCompleted="PaneResizer_ManipulationCompleted"
+                ResizeBehavior="BasedOnAlignment"
+                ResizeDirection="Auto"
+                Style="{StaticResource DefaultGridSplitterStyle}">
+                <Custom:GridSplitter.RenderTransform>
+                    <TranslateTransform X="0" />
+                </Custom:GridSplitter.RenderTransform>
+            </Custom:GridSplitter>
+
+            <Interactivity:Interaction.Behaviors>
+                <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderBrush"
+                        TargetObject="{Binding ElementName=PaneLeft}"
+                        Value="{StaticResource PaneSelectedBorderBrush}" />
+                </Core:DataTriggerBehavior>
+                <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderBrush"
+                        TargetObject="{Binding ElementName=PaneLeft}"
+                        Value="{StaticResource SystemControlTransparentBrush}" />
+                </Core:DataTriggerBehavior>
+                <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderBrush"
+                        TargetObject="{Binding ElementName=PaneRight}"
+                        Value="{StaticResource PaneSelectedBorderBrush}" />
+                </Core:DataTriggerBehavior>
+                <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderBrush"
+                        TargetObject="{Binding ElementName=PaneRight}"
+                        Value="{StaticResource SystemControlTransparentBrush}" />
+                </Core:DataTriggerBehavior>
+                <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
+                    <Core:ChangePropertyAction
+                        PropertyName="MinWidth"
+                        TargetObject="{Binding ElementName=RightColumn}"
+                        Value="290" />
+                    <Core:ChangePropertyAction
+                        PropertyName="Width"
+                        TargetObject="{Binding ElementName=RightColumn}"
+                        Value="*" />
+                    <Core:ChangePropertyAction
+                        PropertyName="Width"
+                        TargetObject="{Binding ElementName=LeftColumn}"
+                        Value="1.5*" />
+                </Core:DataTriggerBehavior>
+                <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="False">
+                    <Core:ChangePropertyAction
+                        PropertyName="MinWidth"
+                        TargetObject="{Binding ElementName=RightColumn}"
+                        Value="0" />
+                    <Core:ChangePropertyAction
+                        PropertyName="Width"
+                        TargetObject="{Binding ElementName=RightColumn}"
+                        Value="0" />
+                    <Core:ChangePropertyAction
+                        PropertyName="Width"
+                        TargetObject="{Binding ElementName=LeftColumn}"
+                        Value="1.5*" />
+                </Core:DataTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
+        </Grid>
 
         <Custom:GridSplitter
-            x:Name="PaneResizer"
+            x:Name="SidebarResizer"
+            Grid.RowSpan="2"
             Grid.Column="1"
             Width="5"
             MinWidth="5"
@@ -156,7 +282,6 @@
             GripperCursor="Default"
             GripperForeground="Transparent"
             IsTabStop="False"
-            ManipulationCompleted="PaneResizer_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}">
@@ -164,63 +289,7 @@
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
-
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="CurrentInstanceBorderBrush"
-                    TargetObject="{Binding ElementName=PaneLeft}"
-                    Value="{StaticResource PaneSelectedBorderBrush}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
-                <Core:ChangePropertyAction
-                    PropertyName="CurrentInstanceBorderBrush"
-                    TargetObject="{Binding ElementName=PaneLeft}"
-                    Value="{StaticResource SystemControlTransparentBrush}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="CurrentInstanceBorderBrush"
-                    TargetObject="{Binding ElementName=PaneRight}"
-                    Value="{StaticResource PaneSelectedBorderBrush}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
-                <Core:ChangePropertyAction
-                    PropertyName="CurrentInstanceBorderBrush"
-                    TargetObject="{Binding ElementName=PaneRight}"
-                    Value="{StaticResource SystemControlTransparentBrush}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="MinWidth"
-                    TargetObject="{Binding ElementName=RightColumn}"
-                    Value="290" />
-                <Core:ChangePropertyAction
-                    PropertyName="Width"
-                    TargetObject="{Binding ElementName=RightColumn}"
-                    Value="*" />
-                <Core:ChangePropertyAction
-                    PropertyName="Width"
-                    TargetObject="{Binding ElementName=LeftColumn}"
-                    Value="1.5*" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="False">
-                <Core:ChangePropertyAction
-                    PropertyName="MinWidth"
-                    TargetObject="{Binding ElementName=RightColumn}"
-                    Value="0" />
-                <Core:ChangePropertyAction
-                    PropertyName="Width"
-                    TargetObject="{Binding ElementName=RightColumn}"
-                    Value="0" />
-                <Core:ChangePropertyAction
-                    PropertyName="Width"
-                    TargetObject="{Binding ElementName=LeftColumn}"
-                    Value="1.5*" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
     </Grid>
-
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
             Key="Left"

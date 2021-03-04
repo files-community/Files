@@ -10,7 +10,36 @@ namespace Files.Helpers
 {
     public static class AppServiceConnectionHelper
     {
-        public static async Task<AppServiceConnection> BuildConnection()
+        public static Task<AppServiceConnection> Instance = BuildConnection();
+
+        public static event EventHandler<Task<AppServiceConnection>> ConnectionChanged;
+
+        static AppServiceConnectionHelper()
+        {
+            App.Current.Suspending += OnSuspending;
+            App.Current.LeavingBackground += OnLeavingBackground;
+        }
+
+        private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            if (await Instance == null)
+            {
+                // Need to reinitialize AppService when app is resuming
+                Instance = BuildConnection();
+                ConnectionChanged?.Invoke(null, Instance);
+            }
+        }
+
+        private async static void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            (await Instance)?.Dispose();
+            Instance = Task.FromResult<AppServiceConnection>(null);
+            ConnectionChanged?.Invoke(null, Instance);
+            deferral.Complete();
+        }
+
+        private static async Task<AppServiceConnection> BuildConnection()
         {
             try
             {
@@ -49,18 +78,46 @@ namespace Files.Helpers
             cts.CancelAfter((int)timeout.TotalMilliseconds);
             while (!cts.Token.IsCancellationRequested)
             {
-                var resp = await serviceConnection.SendMessageAsync(valueSet);
-                if (resp.Status == AppServiceResponseStatus.Success && resp.Message.Any())
+                try
                 {
-                    return (resp.Status, resp);
+                    var resp = await serviceConnection.SendMessageAsync(valueSet);
+                    if (resp.Status == AppServiceResponseStatus.Success && resp.Message.Any())
+                    {
+                        return (resp.Status, resp);
+                    }
+                }
+                catch (ObjectDisposedException)
+                {
+                    break;
                 }
                 await Task.Delay(200);
             }
             return (AppServiceResponseStatus.Failure, null);
         }
 
+        public static async Task<(AppServiceResponseStatus Status, AppServiceResponse Data)> SendMessageSafeAsync(this AppServiceConnection serviceConnection, ValueSet valueSet)
+        {
+            if (serviceConnection == null)
+            {
+                return (AppServiceResponseStatus.Failure, null);
+            }
+
+            try
+            {
+                var resp = await serviceConnection.SendMessageAsync(valueSet);
+                return (resp.Status, resp);
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            return (AppServiceResponseStatus.Failure, null);
+        }
+
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
+            Instance = Task.FromResult<AppServiceConnection>(null);
+            ConnectionChanged?.Invoke(null, Instance);
+            sender.ServiceClosed -= Connection_ServiceClosed;
             sender?.Dispose();
         }
     }

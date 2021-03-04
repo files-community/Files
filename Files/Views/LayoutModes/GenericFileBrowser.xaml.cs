@@ -65,6 +65,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.DateDeleted;
                 }
+                else if (value == dateCreatedColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateCreated;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
@@ -138,7 +142,7 @@ namespace Files.Views.LayoutModes
             var rows = new List<DataGridRow>();
             Interaction.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (rows.Any(x => x.DataContext == listedItem))
@@ -258,6 +262,10 @@ namespace Files.Views.LayoutModes
                     case SortOption.DateDeleted:
                         SortedColumn = dateDeletedColumn;
                         break;
+
+                    case SortOption.DateCreated:
+                        SortedColumn = dateCreatedColumn;
+                        break;
                 }
             }
             else if (e.PropertyName == "DirectorySortDirection")
@@ -313,6 +321,10 @@ namespace Files.Views.LayoutModes
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            if (SelectedItem == null)
+            {
+                return;
+            }
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
@@ -399,6 +411,10 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
+            if (IsRenamingItem)
+            {
+                return;
+            }
 
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
@@ -411,9 +427,13 @@ namespace Files.Views.LayoutModes
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AllView.CommitEdit();
+            if (e != null)
+            {
+                // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
+                AllView.CommitEdit();
+            }
             tapDebounceTimer.Stop();
-            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
@@ -451,21 +471,22 @@ namespace Files.Views.LayoutModes
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
                 ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                e.Handled = true;
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
                 // Unfocus the ListView so keyboard shortcut can be handled
-                Focus(FocusState.Programmatic);
+                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
             }
             else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                Focus(FocusState.Programmatic);
+                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-                Focus(FocusState.Programmatic);
+                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
             }
         }
 
@@ -573,6 +594,9 @@ namespace Files.Views.LayoutModes
 
                 case "dateDeletedColumn":
                     args = new DataGridColumnEventArgs(dateDeletedColumn);
+                    break;
+                case "dateCreatedColumn":
+                    args = new DataGridColumnEventArgs(dateCreatedColumn);
                     break;
             }
 

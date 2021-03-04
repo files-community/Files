@@ -59,6 +59,14 @@ namespace Files.Filesystem
             set => SetProperty(ref loadUnknownTypeGlyph, value);
         }
 
+        private bool loadWebShortcutGlyph;
+
+        public bool LoadWebShortcutGlyph
+        {
+            get => loadWebShortcutGlyph;
+            set => SetProperty(ref loadWebShortcutGlyph, value);
+        }
+
         private double opacity;
 
         public double Opacity
@@ -208,6 +216,11 @@ namespace Files.Filesystem
             }
         }
 
+        public ListedItem()
+        {
+
+        }
+
         protected string DateReturnFormat { get; }
 
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
@@ -216,7 +229,7 @@ namespace Files.Filesystem
 
             if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
-                return d.ToString(returnFormat);
+                return d.ToLocalTime().ToString(returnFormat);
             }
             else if (elapsed.TotalDays > 2)
             {
@@ -250,6 +263,7 @@ namespace Files.Filesystem
 
         private ObservableCollection<FileProperty> fileDetails;
 
+        [JsonIgnore]
         public ObservableCollection<FileProperty> FileDetails
         {
             get => fileDetails;
@@ -280,7 +294,8 @@ namespace Files.Filesystem
 
         public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
 
-        StorageFile itemFile;
+        private StorageFile itemFile;
+
         public StorageFile ItemFile
         {
             get => itemFile;

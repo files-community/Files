@@ -1641,12 +1641,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Dyski w chmurze</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Podgląd niedostępny</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Brak dostępnych szczegółów</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Pokaż Paczki na strone głównej</value>
   </data>
@@ -1697,9 +1691,6 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nieznane</value>
-  </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Włącz adaptacyjny panel podglądowy</value>
   </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Wielokrotne zaznaczanie</value>
