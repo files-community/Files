@@ -259,13 +259,13 @@ namespace Files.ViewModels.Bundles
                         }
                     }
                 }
-                e.Handled = true;
 
                 if (itemsAdded)
                 {
                     SaveBundle();
                 }
             }
+            e.Handled = true;
         }
 
         #endregion Command Implementation
