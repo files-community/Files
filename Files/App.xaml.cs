@@ -88,6 +88,8 @@ namespace Files
                 AppSettings = await SettingsViewModel.CreateInstance();
             }
 
+            await ExternalResourcesHelper.LoadThemeFromAppData();
+            
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             DrivesManager ??= new DrivesManager();
