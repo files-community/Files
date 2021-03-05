@@ -142,7 +142,7 @@
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
                     FontSize="18"
-                    Text="When launching an item from the jumplist" />
+                    Text="When opening a folder in Files" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"
