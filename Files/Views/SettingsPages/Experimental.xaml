@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
         <settingsviewmodels:ExperimentalViewModel x:Name="viewModel" />
@@ -56,7 +55,7 @@
                     IsOn="{Binding UsePreemptiveCache, Mode=TwoWay}" />
 
                 <controls:NumberBox
-                    x:Uid="PreemptiveCacheParallelLimits"
+                    x:Uid="PreemptiveCacheParallelLimit"
                     HorizontalAlignment="Left"
                     Header="Preemptive cache parallel limit (smaller numbers should work better for hard drives)"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"

@@ -173,6 +173,7 @@ namespace Files.UserControls
         {
             Message = message;
             Title = title;
+            FullTitle = title;
             initialProgress = progress;
             Status = status;
             Operation = operation;

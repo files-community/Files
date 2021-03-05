@@ -95,8 +95,29 @@ namespace Files.Helpers
             return (AppServiceResponseStatus.Failure, null);
         }
 
+        public static async Task<(AppServiceResponseStatus Status, AppServiceResponse Data)> SendMessageSafeAsync(this AppServiceConnection serviceConnection, ValueSet valueSet)
+        {
+            if (serviceConnection == null)
+            {
+                return (AppServiceResponseStatus.Failure, null);
+            }
+
+            try
+            {
+                var resp = await serviceConnection.SendMessageAsync(valueSet);
+                return (resp.Status, resp);
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            return (AppServiceResponseStatus.Failure, null);
+        }
+
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
+            Instance = Task.FromResult<AppServiceConnection>(null);
+            ConnectionChanged?.Invoke(null, Instance);
+            sender.ServiceClosed -= Connection_ServiceClosed;
             sender?.Dispose();
         }
     }

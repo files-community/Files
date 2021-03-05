@@ -24,6 +24,8 @@ namespace Files
         public INavigationToolbar NavigationToolbar { get; }
 
         public abstract void Refresh_Click();
+        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
+        public void NavigateToPath(string navigationPath, Type sourcePageType);
     }
 
     public interface IPaneHolder : IDisposable

@@ -129,7 +129,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
             catch (ArgumentException)
             {
-                // Invalid date means invalid findData, do not add to list	
+                // Invalid date means invalid findData, do not add to list
                 return null;
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
@@ -217,7 +217,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
             catch (ArgumentException)
             {
-                // Invalid date means invalid findData, do not add to list	
+                // Invalid date means invalid findData, do not add to list
                 return null;
             }
 
@@ -233,11 +233,8 @@ namespace Files.Filesystem.StorageEnumerators
             }
 
             bool itemFolderImgVis = false;
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            itemEmptyImgVis = true;
-            itemThumbnailImgVis = false;
+            bool itemThumbnailImgVis = false;
+            bool itemEmptyImgVis = true;
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -248,7 +245,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 if (connection != null)
                 {
-                    var response = await connection.SendMessageAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
@@ -259,7 +256,7 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         return null;
                     }
-                    if (response.Status == AppServiceResponseStatus.Success
+                    if (status == AppServiceResponseStatus.Success
                         && response.Message.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
@@ -288,6 +285,7 @@ namespace Files.Filesystem.StorageEnumerators
                             FileImage = null,
                             LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
                             LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
+                            LoadWebShortcutGlyph = !(bool)response.Message["IsFolder"] && isUrl && itemEmptyImgVis,
                             LoadFolderGlyph = (bool)response.Message["IsFolder"],
                             ItemName = itemName,
                             ItemDateModifiedReal = itemModifiedDate,

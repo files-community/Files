@@ -514,13 +514,9 @@ namespace Files.Views
 
         private async void OpenNewWindowAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
+            args.Handled = true;
             var filesUWPUri = new Uri("files-uwp:");
             await Launcher.LaunchUriAsync(filesUWPUri);
-        }
-
-        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            MultitaskingControl = HorizontalMultitaskingControl;
         }
 
         private static string GetDriveTypeIcon(DriveInfo drive)

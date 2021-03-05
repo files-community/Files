@@ -301,7 +301,7 @@ namespace FilesFullTrust
                 case "GetIconOverlay":
                     var fileIconPath = (string)args.Request.Message["filePath"];
                     var thumbnailSize = (int)args.Request.Message["thumbnailSize"];
-                    var iconOverlay = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize));
+                    var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize)).Result;
                     await args.Request.SendResponseAsync(new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },
@@ -321,7 +321,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet());
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                             return;
                         }
 
@@ -337,11 +337,12 @@ namespace FilesFullTrust
                                 oneDriveAccounts.Add(accountName, userFolder);
                             }
                         }
+                        oneDriveAccounts.Add("Count", oneDriveAccounts.Count);
                         await args.Request.SendResponseAsync(oneDriveAccounts);
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet());
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                     }
                     break;
 
@@ -352,7 +353,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet());
+                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                             return;
                         }
 
@@ -395,11 +396,12 @@ namespace FilesFullTrust
                             }
                         }
 
+                        sharepointAccounts.Add("Count", sharepointAccounts.Count);
                         await args.Request.SendResponseAsync(sharepointAccounts);
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet());
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
                     }
                     break;
 
@@ -477,6 +479,7 @@ namespace FilesFullTrust
                         }
                         return netl;
                     });
+                    networkLocations.Add("Count", networkLocations.Count);
                     await args.Request.SendResponseAsync(networkLocations);
                     break;
 
