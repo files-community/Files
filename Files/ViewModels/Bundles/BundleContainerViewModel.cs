@@ -239,33 +239,44 @@ namespace Files.ViewModels.Bundles
 
         private async void Drop(DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            var deferral = e?.GetDeferral();
+            try
             {
-                bool itemsAdded = false;
-                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
-
-                foreach (IStorageItem item in items)
+                if (e.DataView.Contains(StandardDataFormats.StorageItems))
                 {
-                    if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                    bool itemsAdded = false;
+                    IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+
+                    foreach (IStorageItem item in items)
                     {
-                        if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
+                        if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                         {
-                            AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
+                            if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                             {
-                                ParentBundleName = BundleName,
-                                NotifyItemRemoved = NotifyItemRemovedHandle
-                            });
-                            itemsAdded = true;
+                                AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
+                                {
+                                    ParentBundleName = BundleName,
+                                    NotifyItemRemoved = NotifyItemRemovedHandle
+                                });
+                                itemsAdded = true;
+                            }
                         }
                     }
-                }
 
-                if (itemsAdded)
-                {
-                    SaveBundle();
+                    if (itemsAdded)
+                    {
+                        SaveBundle();
+                    }
                 }
             }
-            e.Handled = true;
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                e.Handled = true;
+                deferral?.Complete();
+            }
         }
 
         #endregion Command Implementation
