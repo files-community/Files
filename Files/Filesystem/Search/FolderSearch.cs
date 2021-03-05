@@ -157,63 +157,13 @@ namespace Files.Filesystem.Search
             {
                 foreach (IStorageItem item in items)
                 {
-                    if (item.IsOfType(StorageItemTypes.Folder))
+                    try
                     {
-                        var folder = (StorageFolder)item;
-                        returnedItems.Add(new ListedItem(null)
-                        {
-                            PrimaryItemAttribute = StorageItemTypes.Folder,
-                            ItemName = folder.DisplayName,
-                            ItemPath = folder.Path,
-                            LoadFolderGlyph = true,
-                            LoadUnknownTypeGlyph = false,
-                            ItemPropertiesInitialized = true
-                        });
+                        returnedItems.Add(await GetListedItem(item));
                     }
-                    else if (item.IsOfType(StorageItemTypes.File))
+                    catch (Exception ex)
                     {
-                        var file = (StorageFile)item;
-                        var bitmapIcon = new BitmapImage();
-                        var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
-
-                        string itemFileExtension = null;
-                        string itemType = null;
-                        if (file.Name.Contains("."))
-                        {
-                            itemFileExtension = Path.GetExtension(file.Path);
-                            itemType = itemFileExtension.Trim('.') + " " + itemType;
-                        }
-
-                        if (thumbnail != null)
-                        {
-                            await bitmapIcon.SetSourceAsync(thumbnail);
-                            returnedItems.Add(new ListedItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.File,
-                                ItemName = file.DisplayName,
-                                ItemPath = file.Path,
-                                LoadFileIcon = true,
-                                FileImage = bitmapIcon,
-                                LoadUnknownTypeGlyph = false,
-                                LoadFolderGlyph = false,
-                                ItemPropertiesInitialized = true,
-                                FileExtension = itemFileExtension,
-                                ItemType = itemType
-                            });
-                        }
-                        else
-                        {
-                            returnedItems.Add(new ListedItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.File,
-                                ItemName = file.DisplayName,
-                                ItemPath = file.Path,
-                                LoadFileIcon = false,
-                                LoadUnknownTypeGlyph = true,
-                                LoadFolderGlyph = false,
-                                ItemPropertiesInitialized = true
-                            });
-                        }
+                        NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error creating ListedItem from StorageItem");
                     }
                 }
                 index += (uint)items.Count;
@@ -221,6 +171,69 @@ namespace Files.Filesystem.Search
                 items = await itemQueryResult.GetItemsAsync(index, stepSize);
             }
             return returnedItems;
+        }
+
+        private async static Task<ListedItem> GetListedItem(IStorageItem item)
+        {
+            if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                var folder = (StorageFolder)item;
+                return new ListedItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = folder.DisplayName,
+                    ItemPath = folder.Path,
+                    LoadFolderGlyph = true,
+                    LoadUnknownTypeGlyph = false,
+                    ItemPropertiesInitialized = true
+                };
+            }
+            else if (item.IsOfType(StorageItemTypes.File))
+            {
+                var file = (StorageFile)item;
+                var bitmapIcon = new BitmapImage();
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+
+                string itemFileExtension = null;
+                string itemType = null;
+                if (file.Name.Contains("."))
+                {
+                    itemFileExtension = Path.GetExtension(file.Path);
+                    itemType = itemFileExtension.Trim('.') + " " + itemType;
+                }
+
+                if (thumbnail != null)
+                {
+                    await bitmapIcon.SetSourceAsync(thumbnail);
+                    return new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemName = file.DisplayName,
+                        ItemPath = file.Path,
+                        LoadFileIcon = true,
+                        FileImage = bitmapIcon,
+                        LoadUnknownTypeGlyph = false,
+                        LoadFolderGlyph = false,
+                        ItemPropertiesInitialized = true,
+                        FileExtension = itemFileExtension,
+                        ItemType = itemType
+                    };
+                }
+                else
+                {
+                    return new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemName = file.DisplayName,
+                        ItemPath = file.Path,
+                        LoadFileIcon = false,
+                        LoadUnknownTypeGlyph = true,
+                        LoadFolderGlyph = false,
+                        ItemPropertiesInitialized = true
+                    };
+                }
+            }
+            return null;
         }
     }
 }
