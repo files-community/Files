@@ -469,7 +469,7 @@
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
-                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
@@ -480,6 +480,7 @@
                                                     <VisualState.Setters>
                                                         <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Collapsed" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
