@@ -1181,7 +1181,7 @@ namespace Files.Views
 
                             ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                            if (itemToSelect != null)
+                            if (itemToSelect != null && ContentPage != null)
                             {
                                 ContentPage.SetSelectedItemOnUi(itemToSelect);
                                 ContentPage.ScrollIntoView(itemToSelect);
