@@ -39,7 +39,7 @@ namespace Files
                 }
             }
 
-            if (!ApplicationData.Current.RoamingSettings.Values.Get("AlwaysOpenANewInstance", false))
+            if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
             {
                 IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
 

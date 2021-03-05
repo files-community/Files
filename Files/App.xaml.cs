@@ -195,7 +195,10 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPage.AppInstances.Count > 0))
+                    {
+                        await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    }
                 }
 
                 // Ensure the current window is active
