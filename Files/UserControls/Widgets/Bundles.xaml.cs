@@ -1,4 +1,5 @@
 ﻿using Files.ViewModels.Bundles;
+using System;
 using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
@@ -6,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class Bundles : UserControl
+    public sealed partial class Bundles : UserControl, IDisposable
     {
         public BundlesViewModel ViewModel 
         {
@@ -20,5 +21,17 @@ namespace Files.UserControls.Widgets
 
             this.ViewModel = new BundlesViewModel();
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            // We need dispose to unhook events to avoid memory leaks
+            this.ViewModel?.Dispose();
+
+            this.ViewModel = null;
+        }
+
+        #endregion IDisposable
     }
 }
