@@ -233,8 +233,12 @@ namespace Files.ViewModels.Bundles
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.AcceptedOperation = DataPackageOperation.Move;
-                e.Handled = true;
             }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+            e.Handled = true;
         }
 
         private async void Drop(DragEventArgs e)
@@ -274,7 +278,6 @@ namespace Files.ViewModels.Bundles
             }
             finally
             {
-                e.Handled = true;
                 deferral?.Complete();
             }
         }
