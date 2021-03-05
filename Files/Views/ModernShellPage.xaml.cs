@@ -272,7 +272,8 @@ namespace Files.Views
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
+                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1, 
+                        InstanceViewModel.FolderSettings.GetIconSize())
                 });
                 FilesystemViewModel.IsLoadingIndicatorActive = false;
             }

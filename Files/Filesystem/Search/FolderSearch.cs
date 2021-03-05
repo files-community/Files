@@ -14,7 +14,7 @@ namespace Files.Filesystem.Search
 {
     internal class FolderSearch
     {
-        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, int maxItemCount = 10)
+        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             var returnedItems = new ObservableCollection<ListedItem>();
             maxItemCount = maxItemCount < 0 ? int.MaxValue : maxItemCount;
@@ -23,7 +23,7 @@ namespace Files.Filesystem.Search
             var workingDir = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(WorkingDirectory);
             if (workingDir)
             {
-                foreach (var item in await SearchWithStorageFolder(userText, workingDir, maxItemCount))
+                foreach (var item in await SearchWithStorageFolder(userText, workingDir, maxItemCount, thumbnailSize))
                 {
                     returnedItems.Add(item);
                 }
@@ -89,7 +89,7 @@ namespace Files.Filesystem.Search
                                         LoadFileIcon = false,
                                         LoadUnknownTypeGlyph = true,
                                         LoadFolderGlyph = false,
-                                        ItemPropertiesInitialized = true,
+                                        ItemPropertiesInitialized = false, // Load thumbnail
                                         FileExtension = itemFileExtension,
                                         ItemType = itemType
                                     });
@@ -123,7 +123,7 @@ namespace Files.Filesystem.Search
             return returnedItems;
         }
 
-        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, int maxItemCount = 10)
+        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             QueryOptions options = new QueryOptions()
             {
@@ -159,7 +159,7 @@ namespace Files.Filesystem.Search
                 {
                     try
                     {
-                        returnedItems.Add(await GetListedItem(item));
+                        returnedItems.Add(await GetListedItem(item, thumbnailSize));
                     }
                     catch (Exception ex)
                     {
@@ -173,7 +173,7 @@ namespace Files.Filesystem.Search
             return returnedItems;
         }
 
-        private async static Task<ListedItem> GetListedItem(IStorageItem item)
+        private async static Task<ListedItem> GetListedItem(IStorageItem item, uint thumbnailSize)
         {
             if (item.IsOfType(StorageItemTypes.Folder))
             {
@@ -192,7 +192,7 @@ namespace Files.Filesystem.Search
             {
                 var file = (StorageFile)item;
                 var bitmapIcon = new BitmapImage();
-                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, thumbnailSize, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
 
                 string itemFileExtension = null;
                 string itemType = null;

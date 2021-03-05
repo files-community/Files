@@ -35,7 +35,7 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            currentIconSize = GetIconSize();
+            currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate
@@ -85,7 +85,7 @@ namespace Files.Views.LayoutModes
             if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
                 SetItemTemplate(); // Set ItemTemplate
-                var requestedIconSize = GetIconSize();
+                var requestedIconSize = FolderSettings.GetIconSize();
                 if (requestedIconSize != currentIconSize)
                 {
                     currentIconSize = requestedIconSize;
@@ -395,33 +395,9 @@ namespace Files.Views.LayoutModes
 
         private uint currentIconSize;
 
-        private uint GetIconSize()
-        {
-            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
-            {
-                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
-            }
-            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
-            {
-                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
-            }
-            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
-            {
-                return Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Medium thumbnail
-            }
-            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
-            {
-                return Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Large thumbnail
-            }
-            else
-            {
-                return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
-            }
-        }
-
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
-            var requestedIconSize = GetIconSize(); // Get new icon size
+            var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
             // Prevents reloading icons when the icon size hasn't changed
             if (requestedIconSize != currentIconSize)
