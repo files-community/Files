@@ -286,7 +286,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.RemoveFavoritesSidebarItems(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.RemoveFavoritesSidebarItems(listedItem.ItemPath);                    
                 }
             }
         }

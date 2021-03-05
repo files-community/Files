@@ -450,19 +450,31 @@ namespace Files.DataModels
                 }
             }
         }
-        public void RemoveFavoritesSidebarItems(string path)
-        {
-            // Remove unpinned items from sidebar
-            for (int i = 0; i < favoriteSection.ChildItems.Count(); i++)
+        public async void RemoveFavoritesSidebarItems(string path)
+        {            
+            try
             {
-                if (favoriteSection.ChildItems[i] is LocationItem)
+                var sectionItem = favoriteSection.ChildItems.Where(x => x.Path.Equals(path)).FirstOrDefault();
+                if (sectionItem != null)
                 {
-                    if (!FavoriteItems.Contains(path))
-                    {
-                        favoriteSection.ChildItems.RemoveAt(i);
-                    }
+                    favoriteSection.ChildItems.Remove(sectionItem);
+                }
+
+                FavoriteItems = (from n in FavoriteItems select n).Distinct().ToList();
+                var item = FavoriteItems.Where(x => x.Equals(path)).FirstOrDefault();
+                if (item != null)
+                {
+                    FavoriteItems.Remove(item);
                 }
             }
+            catch
+            { }
+            finally
+            {
+                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+                var item = mostRecentlyUsed.Entries.Where(x => x.Metadata.Equals(path)).FirstOrDefault();
+                mostRecentlyUsed.Remove(item.Token);
+            }          
         }
 
         private async void PopulateRecentsList()
