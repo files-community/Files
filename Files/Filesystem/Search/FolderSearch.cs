@@ -91,7 +91,8 @@ namespace Files.Filesystem.Search
                                         LoadFolderGlyph = false,
                                         ItemPropertiesInitialized = false, // Load thumbnail
                                         FileExtension = itemFileExtension,
-                                        ItemType = itemType
+                                        ItemType = itemType,
+                                        Opacity = isHidden ? 0.4 : 1
                                     });
                                 }
                                 else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
@@ -107,7 +108,8 @@ namespace Files.Filesystem.Search
                                             LoadFileIcon = false,
                                             LoadUnknownTypeGlyph = false,
                                             LoadFolderGlyph = true,
-                                            ItemPropertiesInitialized = true
+                                            ItemPropertiesInitialized = true,
+                                            Opacity = isHidden ? 0.4 : 1
                                         });
                                     }
                                 }
@@ -185,7 +187,8 @@ namespace Files.Filesystem.Search
                     ItemPath = folder.Path,
                     LoadFolderGlyph = true,
                     LoadUnknownTypeGlyph = false,
-                    ItemPropertiesInitialized = true
+                    ItemPropertiesInitialized = true,
+                    Opacity = 1
                 };
             }
             else if (item.IsOfType(StorageItemTypes.File))
@@ -216,7 +219,8 @@ namespace Files.Filesystem.Search
                         LoadFolderGlyph = false,
                         ItemPropertiesInitialized = true,
                         FileExtension = itemFileExtension,
-                        ItemType = itemType
+                        ItemType = itemType,
+                        Opacity = 1
                     };
                 }
                 else
@@ -229,7 +233,8 @@ namespace Files.Filesystem.Search
                         LoadFileIcon = false,
                         LoadUnknownTypeGlyph = true,
                         LoadFolderGlyph = false,
-                        ItemPropertiesInitialized = true
+                        ItemPropertiesInitialized = true,
+                        Opacity = 1
                     };
                 }
             }
