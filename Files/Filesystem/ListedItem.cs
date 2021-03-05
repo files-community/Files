@@ -217,7 +217,9 @@ namespace Files.Filesystem
         }
 
         public ListedItem()
-        { }
+        { 
+        
+        }
 
         protected string DateReturnFormat { get; }
 
