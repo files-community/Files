@@ -66,7 +66,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarLibrary".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\ueb83",
+                Glyph = "\uEC13",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -79,6 +79,7 @@ namespace Files.DataModels
             LibraryItems.Add(AppSettings.DesktopPath);
             LibraryItems.Add(AppSettings.DownloadsPath);
             LibraryItems.Add(AppSettings.DocumentsPath);
+            LibraryItems.Add(AppSettings.PicturesPath);
             LibraryItems.Add(AppSettings.MusicPath);
             LibraryItems.Add(AppSettings.VideosPath);
         }
