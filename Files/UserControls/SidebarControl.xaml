@@ -19,20 +19,20 @@
                 <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        Windows10version1903:TintLuminosityOpacity="0.85"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        Windows10version1903:TintLuminosityOpacity="0.85"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>

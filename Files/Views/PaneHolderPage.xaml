@@ -21,11 +21,11 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="#FAF9F8" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="#323130" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">

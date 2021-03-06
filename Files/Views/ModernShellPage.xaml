@@ -194,7 +194,7 @@
             x:Name="ItemDisplayFrame"
             Grid.Row="2"
             x:FieldModifier="public"
-            Background="{ThemeResource SolidBackgroundFillColorBase}"
+            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
             Navigated="ItemDisplayFrame_Navigated" />
 
         <Custom:DropShadowPanel

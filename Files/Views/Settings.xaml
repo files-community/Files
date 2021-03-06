@@ -19,7 +19,7 @@
                         Windows10version1903:TintLuminosityOpacity="0.9"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
@@ -29,7 +29,7 @@
                         Windows10version1903:TintLuminosityOpacity="0.9"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
@@ -142,7 +142,7 @@
             <Frame
                 x:Name="SettingsContentFrame"
                 Padding="14,30,0,0"
-                Background="{ThemeResource SolidBackgroundFillColorBase}" />
+                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
         </muxc:NavigationView>
     </Grid>
 </Page>
