@@ -72,9 +72,8 @@ namespace Files.Views
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
                 {
-                    AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                    AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {
-                        AssociatedTabInstance = AppInstance,
                         NavPathParam = e.ItemPath
                     });
                 }
@@ -84,9 +83,8 @@ namespace Files.Views
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                             {
-                                AssociatedTabInstance = AppInstance,
                                 NavPathParam = e.ItemPath
                             });
                             return;
@@ -104,19 +102,17 @@ namespace Files.Views
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
-                NavPathParam = e.ItemPath,
-                AssociatedTabInstance = AppInstance
+                NavPathParam = e.ItemPath
             });
         }
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
-                NavPathParam = e.Path,
-                AssociatedTabInstance = AppInstance
+                NavPathParam = e.Path
             });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
@@ -128,10 +124,9 @@ namespace Files.Views
 
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
-                NavPathParam = e.Path,
-                AssociatedTabInstance = AppInstance
+                NavPathParam = e.Path
             });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
@@ -147,8 +142,8 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             AppInstance.NavigationToolbar.CanRefresh = false;
-            AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
-            AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;
+            AppInstance.NavigationToolbar.CanGoBack = AppInstance.CanNavigateBackward;
+            AppInstance.NavigationToolbar.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavigationToolbar.CanNavigateToParent = false;
 
             // Set path of working directory empty

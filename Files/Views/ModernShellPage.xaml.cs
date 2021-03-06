@@ -48,7 +48,9 @@ namespace Files.Views
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
-        public Frame ContentFrame => ItemDisplayFrame;
+        public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
+        public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
+
         private Interaction interactionOperations = null;
 
         public Interaction InteractionOperations
@@ -242,7 +244,7 @@ namespace Files.Views
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(invokedItem.ItemPath), new NavigationArguments()
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(invokedItem.ItemPath), new NavigationArguments()
                 {
                     NavPathParam = invokedItem.ItemPath,
                     AssociatedTabInstance = this
@@ -275,7 +277,7 @@ namespace Files.Views
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
                 FilesystemViewModel.IsLoadingIndicatorActive = true;
-                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
@@ -499,7 +501,7 @@ namespace Files.Views
                 {
                     flyoutItem.Click += (sender, args) =>
                     {
-                        ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(childFolder.Path),
+                        ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(childFolder.Path),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = childFolder.Path,
@@ -514,7 +516,7 @@ namespace Files.Views
 
         private void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = this
@@ -541,12 +543,12 @@ namespace Files.Views
                 return;
             }
 
-            if (currentInput != instance.WorkingDirectory || ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(YourHome))
             {
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    ContentFrame.Navigate(typeof(YourHome),
+                    ItemDisplayFrame.Navigate(typeof(YourHome),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = "NewTab".GetLocalized(),
@@ -568,7 +570,7 @@ namespace Files.Views
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
-                        ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
+                        ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = pathToNavigate,
@@ -648,7 +650,7 @@ namespace Files.Views
         {
             if (IsCurrentInstance)
             {
-                if (ContentFrame.CanGoBack)
+                if (ItemDisplayFrame.CanGoBack)
                 {
                     e.Handled = true;
                     Back_Click();
@@ -720,7 +722,7 @@ namespace Files.Views
             }
             else
             {
-                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -1027,10 +1029,9 @@ namespace Files.Views
         public void Back_Click()
         {
             NavigationToolbar.CanGoBack = false;
-            Frame instanceContentFrame = ContentFrame;
-            if (instanceContentFrame.CanGoBack)
+            if (ItemDisplayFrame.CanGoBack)
             {
-                var previousPageContent = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1];
+                var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
                 var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
                 previousPageNavPath.IsLayoutSwitch = false;
                 if (previousPageContent.SourcePageType != typeof(YourHome))
@@ -1039,17 +1040,16 @@ namespace Files.Views
                     InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
                 }
                 SelectSidebarItemFromPath(previousPageContent.SourcePageType);
-                instanceContentFrame.GoBack();
+                ItemDisplayFrame.GoBack();
             }
         }
 
         public void Forward_Click()
         {
             NavigationToolbar.CanGoForward = false;
-            Frame instanceContentFrame = ContentFrame;
-            if (instanceContentFrame.CanGoForward)
+            if (ItemDisplayFrame.CanGoForward)
             {
-                var incomingPageContent = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1];
+                var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
                 var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
                 incomingPageNavPath.IsLayoutSwitch = false;
                 if (incomingPageContent.SourcePageType != typeof(YourHome))
@@ -1058,15 +1058,13 @@ namespace Files.Views
                     InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
                 }
                 SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
-                instanceContentFrame.GoForward();
+                ItemDisplayFrame.GoForward();
             }
         }
 
         public void Up_Click()
         {
             NavigationToolbar.CanNavigateToParent = false;
-            Frame instanceContentFrame = ContentFrame;
-
             if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
             {
                 return;
@@ -1083,7 +1081,7 @@ namespace Files.Views
             }
 
             SelectSidebarItemFromPath();
-            instanceContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = parentDirectoryOfPath,
@@ -1154,8 +1152,8 @@ namespace Files.Views
                     NavigationToolbar.CanRefresh = false;
                     break;
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
-                    NavigationToolbar.CanGoBack = ContentFrame.CanGoBack;
-                    NavigationToolbar.CanGoForward = ContentFrame.CanGoForward;
+                    NavigationToolbar.CanGoBack = ItemDisplayFrame.CanGoBack;
+                    NavigationToolbar.CanGoForward = ItemDisplayFrame.CanGoForward;
                     break;
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavigationToolbar.CanRefresh = true;
@@ -1337,7 +1335,12 @@ namespace Files.Views
             }
         }
 
-        public void NavigateToPath(string navigationPath, Type sourcePageType)
+        public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
+        {
+            NavigateToPath(navArgs.NavPathParam, sourcePageType, navArgs);
+        }
+
+        public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
             if (string.IsNullOrEmpty(navigationPath) ||
                 string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
@@ -1347,8 +1350,16 @@ namespace Files.Views
             {
                 return;
             }
-
-            ContentFrame.Navigate(
+            if (navArgs != null && navArgs.AssociatedTabInstance != null)
+            {
+                ItemDisplayFrame.Navigate(
+                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
+                navArgs,
+                new SuppressNavigationTransitionInfo());
+            }
+            else
+            {
+                ItemDisplayFrame.Navigate(
                 sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
                 new NavigationArguments()
                 {
@@ -1356,8 +1367,15 @@ namespace Files.Views
                     AssociatedTabInstance = this
                 },
                 new SuppressNavigationTransitionInfo());
+            }
+            
 
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
+        }
+
+        public void RemoveLastPageFromBackStack()
+        {
+            ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
     }
 
