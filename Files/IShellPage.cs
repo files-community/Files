@@ -18,7 +18,6 @@ namespace Files
         public CurrentInstanceViewModel InstanceViewModel { get; }
         public AppServiceConnection ServiceConnection { get; }
         public BaseLayout ContentPage { get; }
-        public Control OperationsControl { get; }
         public Type CurrentPageType { get; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public INavigationToolbar NavigationToolbar { get; }

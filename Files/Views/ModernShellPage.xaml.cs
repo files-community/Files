@@ -143,7 +143,6 @@ namespace Files.Views
 
         public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
 
-        public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
 
         public INavigationToolbar NavigationToolbar => NavToolbar;
