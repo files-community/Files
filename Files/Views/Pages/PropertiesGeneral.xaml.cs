@@ -13,7 +13,7 @@ namespace Files.Views
         public PropertiesGeneral()
         {
             this.InitializeComponent();
-            base.ItemMD5HashProgress = ItemMD5HashProgress;
+            base.ItemHashProgress = ItemHashProgress;
         }
 
         public async Task SaveChangesAsync(ListedItem item)

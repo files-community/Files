@@ -164,29 +164,39 @@
                     Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
             </Grid>
 
-            <TextBlock
-                x:Name="PropertiesMD5Hash"
-                x:Uid="PropertiesItemMD5Hash"
+            <ComboBox
+                x:Name="HashesListCollection"
                 Grid.Row="6"
                 Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="MD5Hash:"
-                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                IsEditable="False"
+                Visibility="{x:Bind ViewModel.ItemHashVisibility, Mode=OneWay}"
+                SelectedIndex="0"
+                SelectedItem="{x:Bind ViewModel.SelectedHashItem, Mode=TwoWay}">
+                
+                <ComboBoxItem Content="SHA256" />
+                <ComboBoxItem Content="SHA1" />
+                <ComboBoxItem Content="BLAKE3" />
+                <ComboBoxItem Content="BLAKE2" />
+                <ComboBoxItem Content="CRC32" />
+                <ComboBoxItem Content="MD5" />
+            </ComboBox>
             <TextBlock
-                x:Name="itemMD5HashValue"
+                x:Name="itemHashValue"
                 Grid.Row="6"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.ItemHash, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemHashVisibility, Mode=OneWay}" />
             <muxc:ProgressBar
-                x:Name="ItemMD5HashProgress"
+                x:Name="ItemHashProgress"
                 Grid.Row="6"
                 Grid.Column="1"
                 Margin="{StaticResource PropertyValueMargin}"
                 VerticalAlignment="Center"
-                ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+                ShowError="{x:Bind ViewModel.ItemHashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemHashProgressVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Name="PropertiesCount"

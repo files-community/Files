@@ -8,13 +8,17 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
     public class SelectedItemsPropertiesViewModel : ObservableObject
     {
+        public Action<IChecksum> GetHashPropertyForFile;
+
         private bool loadFolderGlyph;
 
         public bool LoadFolderGlyph
@@ -195,43 +199,86 @@ namespace Files.ViewModels
             set => SetProperty(ref itemSizeProgressVisibility, value);
         }
 
-        public string itemMD5Hash;
-
-        public string ItemMD5Hash
+        private ComboBoxItem selectedHashItem = new ComboBoxItem() { Content = "SHA256" };
+        public ComboBoxItem SelectedHashItem
         {
-            get => itemMD5Hash;
+            get => selectedHashItem;
             set
             {
-                if (!string.IsNullOrEmpty(value) && value != itemMD5Hash)
+                if (SetProperty(ref selectedHashItem, value))
                 {
-                    SetProperty(ref itemMD5Hash, value);
-                    ItemMD5HashProgressVisibility = Visibility.Collapsed;
+                    string hashName = (string)value.Content;
+                    IChecksum hash = null;
+
+                    switch (hashName)
+                    {
+                        case "SHA256":
+                                hash = new UWPHasher(HashAlgorithmNames.Sha256);
+                                break;
+
+                        case "SHA1":
+                                hash = new UWPHasher(HashAlgorithmNames.Sha1);
+                                break;
+
+                        case "BLAKE3":
+                                hash = new Blake3();
+                                break;
+
+                        case "BLAKE2":
+                                hash = new Blake2();
+                                break;
+
+                        case "CRC32":
+                                hash = new Crc32();
+                                break;
+
+                        case "MD5":
+                                hash = new UWPHasher(HashAlgorithmNames.Md5);
+                                break;
+                    }
+
+                    GetHashPropertyForFile(hash);
                 }
             }
         }
 
-        private bool itemMD5HashCalcError;
+        public string itemHash;
 
-        public bool ItemMD5HashCalcError
+        public string ItemHash
         {
-            get => itemMD5HashCalcError;
-            set => SetProperty(ref itemMD5HashCalcError, value);
+            get => itemHash;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && value != itemHash)
+                {
+                    SetProperty(ref itemHash, value);
+                    ItemHashProgressVisibility = Visibility.Collapsed;
+                }
+            }
         }
 
-        public Visibility itemMD5HashVisibility = Visibility.Collapsed;
+        private bool itemHashCalcError;
 
-        public Visibility ItemMD5HashVisibility
+        public bool ItemHashCalcError
         {
-            get => itemMD5HashVisibility;
-            set => SetProperty(ref itemMD5HashVisibility, value);
+            get => itemHashCalcError;
+            set => SetProperty(ref itemHashCalcError, value);
         }
 
-        public Visibility itemMD5HashProgressVisibiity = Visibility.Collapsed;
+        public Visibility itemHashVisibility = Visibility.Collapsed;
 
-        public Visibility ItemMD5HashProgressVisibility
+        public Visibility ItemHashVisibility
         {
-            get => itemMD5HashProgressVisibiity;
-            set => SetProperty(ref itemMD5HashProgressVisibiity, value);
+            get => itemHashVisibility;
+            set => SetProperty(ref itemHashVisibility, value);
+        }
+
+        public Visibility itemHashProgressVisibiity = Visibility.Collapsed;
+
+        public Visibility ItemHashProgressVisibility
+        {
+            get => itemHashProgressVisibiity;
+            set => SetProperty(ref itemHashProgressVisibiity, value);
         }
 
         public int foldersCount;

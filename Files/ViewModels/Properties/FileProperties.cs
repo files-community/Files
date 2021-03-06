@@ -32,6 +32,7 @@ namespace Files.ViewModels.Properties
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
+            ViewModel.GetHashPropertyForFile = this.GetHashPropertyForFile;
             TokenSource = tokenSource;
             ProgressBar = progressBar;
             Dispatcher = coreDispatcher;
@@ -94,6 +95,27 @@ namespace Files.ViewModels.Properties
             }
         }
 
+        public async void GetHashPropertyForFile(IChecksum hash)
+        {
+            if (hash == null)
+            {
+                return;
+            }
+
+            ViewModel.ItemHashProgressVisibility = Visibility.Visible;
+            ViewModel.ItemHashVisibility = Visibility.Visible;
+            try
+            {
+                ViewModel.ItemHash = await AppInstance.InteractionOperations
+                    .GetHashForFileAsync(Item, hash, TokenSource.Token, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                ViewModel.ItemHashCalcError = true;
+            }
+        }
+
         public override async void GetSpecialProperties()
         {
             ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
@@ -137,23 +159,7 @@ namespace Files.ViewModels.Properties
 
             GetOtherProperties(file.Properties);
 
-            // Get file MD5 hash
-            // TODO: this needs to be adapted into it's own menu, and not just use a hardcoded type
-            // TODO: these should probably be cached, and just invalidate cache if metadata/timestamp changes?
-            var md5 = new UWPHasher(HashAlgorithmNames.Md5);
-            //var md5 = new Crc32();
-            ViewModel.ItemMD5HashProgressVisibility = Visibility.Visible;
-            ViewModel.ItemMD5HashVisibility = Visibility.Visible;
-            try
-            {
-                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
-                    .GetHashForFileAsync(Item, md5, TokenSource.Token, ProgressBar);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                ViewModel.ItemMD5HashCalcError = true;
-            }
+            GetHashPropertyForFile(new UWPHasher(HashAlgorithmNames.Sha256)); // Sha-256 is the default hash
         }
 
         public async void GetSystemFileProperties()
