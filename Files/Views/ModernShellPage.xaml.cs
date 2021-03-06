@@ -152,7 +152,8 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            InstanceViewModel = new CurrentInstanceViewModel(this);
+            InstanceViewModel = new CurrentInstanceViewModel();
+            InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
@@ -198,6 +199,14 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+        }
+
+        private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, EventArgs e)
+        {
+            if (FilesystemViewModel != null)
+            {
+                FolderSettingsViewModel.UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, InstanceViewModel.FolderSettings.LayoutPreference);
+            }
         }
 
         /*
@@ -1117,6 +1126,7 @@ namespace Files.Views
                 navToolbar.PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             }
 
+            InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 
