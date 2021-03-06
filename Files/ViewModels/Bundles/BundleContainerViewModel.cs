@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
 using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -107,12 +108,16 @@ namespace Files.ViewModels.Bundles
 
         private async void RenameBundle()
         {
+            TextBox inputText = new TextBox()
+            {
+                PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
+            };
+
+            inputText.Loaded += inputText_Loaded;
+
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = new TextBox()
-                {
-                    PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
-                },
+                DisplayControl = inputText,
                 TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
                 SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetRenameBundleDialogPrimaryButtonText".GetLocalized(),
@@ -138,9 +143,16 @@ namespace Files.ViewModels.Bundles
                         vm.HideDialog();
                     }
                 },
-                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
             await dialog.ShowAsync();
+
+            inputText.Loaded -= inputText_Loaded;
+
+            void inputText_Loaded(object s, RoutedEventArgs e)
+            {
+                inputText.Focus(FocusState.Programmatic);
+            }
         }
 
         private void RenameBundleConfirm(string bundleRenameText)

@@ -24,6 +24,7 @@ namespace Files.Filesystem.Cloud
         }
 
         private string syncStatusString = "CloudDriveSyncStatus_Unknown".GetLocalized();
+
         public string SyncStatusString
         {
             get => syncStatusString;

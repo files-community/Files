@@ -50,13 +50,14 @@
             <Button
                 x:Uid="BundlesWidgetMoreOptionsButton"
                 Grid.Column="1"
-                Width="29"
-                Height="25"
+                Width="36"
+                Height="32"
                 Padding="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
+                AutomationProperties.Name="More bundles options"
                 Background="Transparent"
                 Style="{StaticResource ButtonRevealStyle}"
                 ToolTipService.ToolTip="More options...">

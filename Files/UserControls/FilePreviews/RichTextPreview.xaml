@@ -15,12 +15,12 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="TextControlBackground" Color="Transparent"/>
-                            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
-                            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
-                            <SolidColorBrush x:Key="TextControlBorderBrush" Color="Transparent"/>
-                            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
-                            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBackground" Color="Transparent" />
+                            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
+                            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent" />
+                            <SolidColorBrush x:Key="TextControlBorderBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
+                            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -645,7 +646,10 @@ namespace Files.UserControls
                 await Task.Delay(1000);
                 if (!cancelFlyoutOpen)
                 {
-                    (sender as Button).Flyout.ShowAt(sender as Button);
+                    if (sender != null)
+                    {
+                        (sender as Button).Flyout.ShowAt(sender as Button);
+                    }
                     cancelFlyoutOpen = false;
                 }
                 else
@@ -677,12 +681,18 @@ namespace Files.UserControls
 
         private void Flyout_Opened(object sender, object e)
         {
-            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+            if (VerticalTabStripInvokeButton != null)
+            {
+                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+            }
         }
 
         private void Flyout_Closed(object sender, object e)
         {
-            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+            if (VerticalTabStripInvokeButton != null)
+            {
+                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+            }
         }
 
         private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
@@ -701,10 +711,13 @@ namespace Files.UserControls
                 cancelFlyoutAutoClose = false;
                 VerticalTabs.PointerEntered += VerticalTabs_PointerEntered;
                 await Task.Delay(1000);
-                VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
+                if (VerticalTabs != null)
+                {
+                    VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
+                }
                 if (!cancelFlyoutAutoClose)
                 {
-                    VerticalTabViewFlyout.Hide();
+                    VerticalTabViewFlyout?.Hide();
                 }
                 cancelFlyoutAutoClose = false;
             }
@@ -786,6 +799,13 @@ namespace Files.UserControls
                 deferral.Complete();
                 return;
             }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
             if (!storageItems.Any(storageItem =>
             storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
@@ -806,6 +826,8 @@ namespace Files.UserControls
 
         private void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverPath = null; // Reset dragged over pathbox item
+
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
@@ -849,15 +871,23 @@ namespace Files.UserControls
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
+            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+        }
+
+        private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            var pathSeparatorIcon = sender as FontIcon;
+            if (pathSeparatorIcon.DataContext == null)
+            {
+                return;
+            }
             ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
             {
                 Item = pathSeparatorIcon.DataContext as PathBoxItem,
                 OpenedFlyout = pathSeparatorIcon.ContextFlyout as MenuFlyout
             });
-
-            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
-            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
-            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
         }
 
         private void PathboxItemFlyout_Opened(object sender, object e)
@@ -867,7 +897,10 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            MainPage.MultitaskingControl = VerticalTabs;
+            if (!(MainPage.MultitaskingControl is VerticalTabViewControl))
+            {
+                MainPage.MultitaskingControl = VerticalTabs;
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

@@ -14,8 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="PageRoot"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Disabled"
+    NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
@@ -25,9 +24,8 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-        
-        <converters1:BoolToSelectionMode
-            x:Key="BoolToSelectionModeConverter"/>
+
+        <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
@@ -51,6 +49,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     GroupName="SortGroup"
@@ -264,6 +267,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -584,7 +592,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -600,16 +608,16 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                        x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Image
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                        x:Phase="1"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
@@ -625,8 +633,8 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Phase="1">
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                     </Viewbox>
                     <Image
@@ -647,8 +655,8 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+                        x:Phase="1">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="28"
@@ -660,8 +668,8 @@
                         Padding="2"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        x:Phase="1"
                         x:Load="{x:Bind IsShortcutItem}"
+                        x:Phase="1"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                         BorderThickness="1">
@@ -685,8 +693,8 @@
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         VerticalAlignment="Stretch"
-                        x:Phase="2"
                         x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                        x:Phase="2"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="18"
                         Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
@@ -696,7 +704,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Text="{x:Bind ItemName}"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
                 </Grid>
@@ -710,7 +718,7 @@
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Text="{x:Bind ItemName}"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
                         TextChanged="GridViewTextBoxItemName_TextChanged"
                         TextWrapping="Wrap" />
@@ -729,7 +737,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />
@@ -739,8 +747,8 @@
                     x:Name="CloudDriveSyncStatusGlyph"
                     Grid.Column="0"
                     Margin="10,0,0,0"
-                    x:Phase="2"
                     x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                    x:Phase="2"
                     FontFamily="Segoe MDL2 Assets"
                     Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                     Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
@@ -756,8 +764,8 @@
                         Margin="0,12,0,12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                        x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Image
@@ -766,8 +774,8 @@
                         Height="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                        x:Phase="1"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
@@ -781,8 +789,8 @@
                         Width="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Phase="1"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Phase="1"
                         FontFamily="{StaticResource FluentUIGlyphs}"
                         FontSize="74"
                         Glyph="&#xEA00;" />
@@ -802,8 +810,8 @@
                         MaxWidth="74"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        x:Phase="1"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+                        x:Phase="1">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
                             FontSize="28"
@@ -815,8 +823,8 @@
                         Padding="2"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        x:Phase="1"
                         x:Load="{x:Bind IsShortcutItem}"
+                        x:Phase="1"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                         BorderThickness="1">
@@ -835,7 +843,7 @@
                             Margin="0,0,10,0"
                             HorizontalAlignment="Left"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName}"
+                            Text="{x:Bind ItemName, Mode=OneWay}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="Wrap" />
@@ -846,7 +854,7 @@
                             Margin="0,0,10,0"
                             HorizontalAlignment="Left"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName}"
+                            Text="{x:Bind ItemName, Mode=OneWay}"
                             TextAlignment="Left"
                             TextWrapping="Wrap"
                             Visibility="Collapsed" />
@@ -942,8 +950,8 @@
             x:Uid="FileNameTeachingTip"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" 
-            Visibility="Collapsed"/>
+            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
+            Visibility="Collapsed" />
 
         <GridView
             x:Name="FileList"
@@ -967,7 +975,7 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush"  Color="{ThemeResource SystemChromeMediumLowColor}"/>
+                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

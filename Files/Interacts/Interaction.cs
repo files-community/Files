@@ -47,21 +47,70 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-        public IFilesystemHelpers FilesystemHelpers => AssociatedInstance.FilesystemHelpers;
-
+        private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
+        private string jumpString = "";
+        private readonly DispatcherTimer jumpTimer = new DispatcherTimer();
         private readonly IShellPage AssociatedInstance;
 
         public SettingsViewModel AppSettings => App.AppSettings;
-
+        public IFilesystemHelpers FilesystemHelpers => AssociatedInstance.FilesystemHelpers;
         public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
-
-        private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
+            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+            jumpTimer.Tick += JumpTimer_Tick;
+        }
+
+        public string JumpString
+        {
+            get => jumpString;
+            set
+            {
+                // If current string is "a", and the next character typed is "a",
+                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+                if (jumpString.Length == 1 && value == jumpString + jumpString)
+                {
+                    value = jumpString;
+                }
+                if (value != "")
+                {
+                    ListedItem jumpedToItem = null;
+                    ListedItem previouslySelectedItem = null;
+
+                    // use FilesAndFolders because only displayed entries should be jumped to
+                    var candidateItems = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
+
+                    if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
+                    {
+                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                    }
+
+                    // If the user is trying to cycle through items
+                    // starting with the same letter
+                    if (value.Length == 1 && previouslySelectedItem != null)
+                    {
+                        // Try to select item lexicographically bigger than the previous item
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                    }
+                    if (jumpedToItem == null)
+                    {
+                        jumpedToItem = candidateItems.FirstOrDefault();
+                    }
+
+                    if (jumpedToItem != null)
+                    {
+                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
+                        AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
+                    }
+
+                    // Restart the timer
+                    jumpTimer.Start();
+                }
+                jumpString = value;
+            }
         }
 
         public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -216,7 +265,7 @@ namespace Files.Interacts
                     { "Arguments", string.Format(terminal.Arguments,
                        Helpers.PathNormalization.NormalizePath(AssociatedInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
-                await Connection.SendMessageAsync(value);
+                await Connection.SendMessageSafeAsync(value);
             }
         }
 
@@ -268,7 +317,7 @@ namespace Files.Interacts
                     value.Add("Arguments", arguments);
                 }
 
-                await Connection.SendMessageAsync(value);
+                await Connection.SendMessageSafeAsync(value);
             }
         }
 
@@ -280,7 +329,7 @@ namespace Files.Interacts
                 var value = new ValueSet();
                 value.Add("ShellCommand", shellCommand);
                 value.Add("Arguments", "ShellCommand");
-                await Connection.SendMessageAsync(value);
+                await Connection.SendMessageSafeAsync(value);
             }
         }
 
@@ -333,6 +382,10 @@ namespace Files.Interacts
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             T parent = null;
+            if (child == null)
+            {
+                return parent;
+            }
             DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
             while (CurrentParent != null)
             {
@@ -359,7 +412,7 @@ namespace Files.Interacts
         {
             if (Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageSafeAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
@@ -372,7 +425,7 @@ namespace Files.Interacts
         {
             if (Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageSafeAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
@@ -394,6 +447,10 @@ namespace Files.Interacts
         public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var item = AssociatedInstance.ContentPage.SelectedItem as ShortcutItem;
+            if (string.IsNullOrEmpty(item?.TargetPath))
+            {
+                return;
+            }
             var folderPath = Path.GetDirectoryName(item.TargetPath);
             // Check if destination path exists
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
@@ -412,7 +469,7 @@ namespace Files.Interacts
             else
             {
                 await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                    string.Format("InvalidItemDialogContent".GetLocalized()), Environment.NewLine, destFolder.ErrorCode.ToString());
+                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
 
@@ -429,7 +486,6 @@ namespace Files.Interacts
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
-            bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
             FilesystemResult opened = (FilesystemResult)false;
 
             // Shortcut item variables
@@ -439,23 +495,18 @@ namespace Files.Interacts
             bool shortcutRunAsAdmin = false;
             bool shortcutIsFolder = false;
 
-            if (!fileExists && !isShortcutItem && !isHiddenItem)
-            {
-                return false;
-            }
-
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
                 if (isShortcutItem)
                 {
-                    AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
+                    var (status, response) = await Connection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
                         { "filepath", path }
                     });
 
-                    if (response.Status == AppServiceResponseStatus.Success)
+                    if (status == AppServiceResponseStatus.Success)
                     {
                         shortcutTargetPath = response.Message.Get("TargetPath", string.Empty);
                         shortcutArguments = response.Message.Get("Arguments", string.Empty);
@@ -524,7 +575,11 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path);
+                        opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+                    }
+                    if (!opened)
+                    {
+                        opened = (FilesystemResult)path.StartsWith("ftp:");
                     }
                     if (opened)
                     {
@@ -618,6 +673,12 @@ namespace Files.Interacts
                                             queryOptions.SortOrder.Add(sortEntry);
                                             break;
 
+                                        case Enums.SortOption.DateCreated:
+                                            sortEntry.PropertyName = "System.DateCreated";
+                                            queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
+                                            break;
+
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
                                         //case Enums.SortOption.Size:
 
@@ -667,7 +728,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
+                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
                 });
             }
 
@@ -681,10 +742,15 @@ namespace Files.Interacts
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-
+            if (AssociatedInstance.ContentPage == null)
+            {
+                return;
+            }
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
-                await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
+                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
+                    FilesystemItemType.Directory : FilesystemItemType.File;
+                await OpenPath(item.ItemPath, type, false, openViaApplicationPicker);
             }
         }
 
@@ -726,13 +792,17 @@ namespace Files.Interacts
                 else
                 {
                     await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .Single(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
+                        .SingleOrDefault(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }
 
         public async Task OpenPropertiesWindowAsync(object item)
         {
+            if (item == null)
+            {
+                return;
+            }
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 CoreApplicationView newWindow = CoreApplication.CreateNewView();
@@ -872,7 +942,7 @@ namespace Files.Interacts
                                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
-                    await Connection.SendMessageAsync(value);
+                    await Connection.SendMessageSafeAsync(value);
                 }
             }
         }
@@ -944,10 +1014,13 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
-                        (listedItem as RecycleBinItem).ItemPath,
-                        itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    if (listedItem is RecycleBinItem binItem)
+                    {
+                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
+                            (listedItem as RecycleBinItem).ItemPath,
+                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    }
                 }
             }
         }
@@ -1000,14 +1073,14 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        var (status, result) = await Connection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
                             { "filepath", filePaths },
                             { "operation", (int)DataPackageOperation.Move }
                         });
-                        if (result.Status == AppServiceResponseStatus.Success)
+                        if (status == AppServiceResponseStatus.Success)
                         {
                             return;
                         }
@@ -1074,7 +1147,7 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        await Connection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
@@ -1169,7 +1242,7 @@ namespace Files.Interacts
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Empty");
                     // Send request to fulltrust process to empty recyclebin
-                    await Connection.SendMessageAsync(value);
+                    await Connection.SendMessageSafeAsync(value);
                 }
             }
         }
@@ -1196,15 +1269,16 @@ namespace Files.Interacts
             }
 
             // Show rename dialog
-            RenameDialog renameDialog = new RenameDialog();
-            var renameResult = await renameDialog.ShowAsync();
-            if (renameResult != ContentDialogResult.Primary)
+            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+            await dialog.ShowAsync();
+
+            if (dialog.DynamicResult != DynamicDialogResult.Primary)
             {
                 return;
             }
 
             // Create file based on dialog result
-            string userInput = renameDialog.storedRenameInput;
+            string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)
@@ -1278,7 +1352,7 @@ namespace Files.Interacts
                         var value = new ValueSet();
                         value.Add("path", clickedOnItem.ItemPath);
                         value.Add("Arguments", "ToggleQuickLook");
-                        await Connection.SendMessageAsync(value);
+                        await Connection.SendMessageSafeAsync(value);
                     }
                 }
             }
@@ -1289,14 +1363,20 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(null);
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
                 });
             }
         }
 
         public void PushJumpChar(char letter)
         {
-            AssociatedInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
+            JumpString += letter.ToString().ToLower();
+        }
+
+        private void JumpTimer_Tick(object sender, object e)
+        {
+            jumpString = "";
+            jumpTimer.Stop();
         }
 
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, IChecksum hasher, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)

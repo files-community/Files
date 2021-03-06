@@ -1381,7 +1381,7 @@
     <value>Unterstütze uns mit PayPal</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Dateien zusammen mit Ordnern sortieren und nicht voneinander trennen</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
@@ -1468,7 +1468,7 @@
     <value>Geteilte Ansicht</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show copy location menu item</value>
+    <value>'Speicherort kopieren' Menüeintrag anzeigen</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Einträge in ein Untermenü verschieben wenn das Menü überläuft</value>
@@ -1618,7 +1618,7 @@
     <value>Gruppen</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner hier durch Ziehen und Ablegen hinzu um schnell Zugriff auf sie zu haben</value>
+    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Bestätigen</value>
@@ -1630,7 +1630,7 @@
     <value>Gruppe erstellen</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Gruppe umbennen</value>
+    <value>Gruppe umbenennen</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mehr Optionen...</value>
@@ -1643,12 +1643,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudspeicher</value>
-  </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Keine Vorschau verfügbar</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Keine Details verfügbar</value>
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Gruppen auf Startseite anzeigen</value>
@@ -1701,7 +1695,79 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unbekannt</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Adaptives Vorschaupanel aktivieren</value>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Mehrfachauswahl</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Wenn du die Dateierweitung veränderts, wird die Datei möglicherweise unbrauchbar. Bist du sicher das du sie ändern möchtest?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-Laufwerk</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Cloudlaufwerk</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fixed Disk Drive</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Diskettenlauferk</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Netzwerklaufwerk</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Nicht hinzugefügtes Laufwerk</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Disk Laufwerk</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Entfernbares Speichermedium</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtuelles Laufwerk</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mehr Optionen...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Netwerklaufwerk hinzufügen</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Verbindung trennen</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Eine kleinerer Wert ist für Festplatten empfohlen</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Vorzeitiges Zwischenspeichern benutzen (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr Gruppenoptionen</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr Laufwerkoptionen</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Durchsuchen</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Kürzlich verwendete Orte</value>
   </data>
 </root>

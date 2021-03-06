@@ -27,11 +27,6 @@ namespace Files.UserControls.MultitaskingControl
             tabHoverTimer.Tick += TabHoverSelected;
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
         private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
         {
             switch (args.CollectionChange)

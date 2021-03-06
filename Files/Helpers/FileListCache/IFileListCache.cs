@@ -8,5 +8,9 @@ namespace Files.Helpers.FileListCache
         public Task<CacheEntry> ReadFileListFromCache(string path, CancellationToken cancellationToken);
 
         public Task SaveFileListToCache(string path, CacheEntry cacheEntry);
+
+        public Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken);
+
+        public Task SaveFileDisplayNameToCache(string path, string displayName);
     }
 }
