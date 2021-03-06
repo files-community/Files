@@ -139,7 +139,10 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Frame x:Name="SettingsContentFrame" Padding="14,30,0,0" />
+            <Frame
+                x:Name="SettingsContentFrame"
+                Padding="14,30,0,0"
+                Background="{ThemeResource SolidBackgroundFillColorBase}" />
         </muxc:NavigationView>
     </Grid>
 </Page>

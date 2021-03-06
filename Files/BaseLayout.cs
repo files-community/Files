@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using static Files.Helpers.PathNormalization;
 
 namespace Files
 {
@@ -224,7 +225,7 @@ namespace Files
             var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
+                var (status, response) = Task.Run(() => Connection.SendMessageSafeAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -232,8 +233,8 @@ namespace Files
                         ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
-                }).AsTask()).Result;
-                if (response.Status == AppServiceResponseStatus.Success
+                })).Result;
+                if (status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Handle"))
                 {
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
@@ -334,8 +335,8 @@ namespace Files
 
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-                string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
+                string pathRoot = GetPathRoot(workingDir);
+                if (string.IsNullOrEmpty(pathRoot) || NormalizePath(workingDir) == NormalizePath(pathRoot)
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -370,6 +371,7 @@ namespace Files
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {navigationArguments.SearchPathParam}");
                 }
             }
 
@@ -438,7 +440,7 @@ namespace Files
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
             foreach (var menuFlyoutItem in menuItems
-                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
             {
@@ -516,7 +518,7 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (Connection != null)
                 {
-                    await Connection.SendMessageAsync(new ValueSet()
+                    await Connection.SendMessageSafeAsync(new ValueSet()
                     {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
@@ -533,7 +535,7 @@ namespace Files
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
             if (shellContextMenuTag.menuItem != null && Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageSafeAsync(new ValueSet()
                 {
                     { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle }
@@ -794,7 +796,7 @@ namespace Files
                 {
                     if (Connection != null)
                     {
-                        await Connection.SendMessageAsync(new ValueSet() {
+                        await Connection.SendMessageSafeAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
                             { "droptext", "DragDropWindowText".GetLocalized() },

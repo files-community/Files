@@ -33,6 +33,10 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="White" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorBase">#F3F3F3</SolidColorBrush>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondary">#EEEEEE</SolidColorBrush>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiary">#F9F9F9</SolidColorBrush>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternary">#FFFFFF</SolidColorBrush>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -40,6 +44,10 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#201F1E" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorBase">#202020</SolidColorBrush>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondary">#1C1C1C</SolidColorBrush>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiary">#282828</SolidColorBrush>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternary">#2C2C2C</SolidColorBrush>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />

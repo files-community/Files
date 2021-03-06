@@ -1539,9 +1539,6 @@
   <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
     <value>Hide protected operating system files (Recommended)</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Enable adaptive preview pane</value>
-  </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
   </data>
@@ -1559,6 +1556,9 @@
   </data>
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
     <value>Cache files and folders for better performance</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
@@ -1755,10 +1755,10 @@
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Toggle the preview pane (Ctrl + P)</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
     <value>No details available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
@@ -1769,6 +1769,12 @@
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Unpin directory from sidebar</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Network drives</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Network</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>File details</value>
@@ -1850,5 +1856,47 @@
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtual Drive</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Date created</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Date created</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Map network drive</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Use preemptive cache (preload entries in child directories on navigation)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More bundles options</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More drives options</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Recent locations</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>No item selected</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Arguments</value>
   </data>
 </root>
