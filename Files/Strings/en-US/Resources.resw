@@ -1890,8 +1890,8 @@
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favorites</value>
   </data>
-  <data name="SidebarLibrary" xml:space="preserve">
-    <value>Library</value>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Libraries</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>No item selected</value>

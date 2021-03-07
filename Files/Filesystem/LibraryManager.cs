@@ -63,7 +63,7 @@ namespace Files.Filesystem
                         {
                             librarySection = new LocationItem()
                             {
-                                Text = "SidebarLibrary".GetLocalized(),
+                                Text = "SidebarLibraries".GetLocalized(),
                                 Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                 Glyph = "\uEC13",
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
