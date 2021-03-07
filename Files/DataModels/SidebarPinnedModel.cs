@@ -1,6 +1,5 @@
 ﻿using Files.Common;
 using Files.Controllers;
-using Files.Enums;
 using Files.Filesystem;
 using Files.ViewModels;
 using Files.Views;
@@ -24,15 +23,10 @@ namespace Files.DataModels
     {
         private SidebarPinnedController controller;
 
-        private LocationItem favoriteSection, homeSection, librarySection;
-
-        private const int numberDefaultRecentItems = 3;
+        private LocationItem favoriteSection, homeSection;
 
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
-
-        [JsonProperty("libraryitems")]
-        public List<string> LibraryItems { get; set; } = new List<string>();
 
         [JsonProperty("favoriteitems")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
@@ -60,26 +54,6 @@ namespace Files.DataModels
                 Glyph = "\ueb83",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
-            librarySection = new LocationItem()
-            {
-                Text = "SidebarLibrary".GetLocalized(),
-                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\uEC13",
-                ChildItems = new ObservableCollection<INavigationControlItem>()
-            };
-        }
-
-        /// <summary>
-        /// Adds the default items to the navigation page
-        /// </summary>
-        public void AddDefaultItems()
-        {
-            LibraryItems.Add(AppSettings.DesktopPath);
-            LibraryItems.Add(AppSettings.DownloadsPath);
-            LibraryItems.Add(AppSettings.DocumentsPath);
-            LibraryItems.Add(AppSettings.PicturesPath);
-            LibraryItems.Add(AppSettings.MusicPath);
-            LibraryItems.Add(AppSettings.VideosPath);
         }
 
         /// <summary>
@@ -308,39 +282,6 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Adds the item to library sidebar asynchronous.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        public async Task AddItemToLibrarySidebarAsync(string path)
-        {
-            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
-            {
-                var lastItem = librarySection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
-                int insertIndex = lastItem != null ? librarySection.ChildItems.IndexOf(lastItem) + 1 : 0;
-                var locationItem = new LocationItem
-                {
-                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                    Path = path,
-                    Glyph = GetItemIcon(path),
-                    IsDefaultLocation = false,
-                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                };
-
-                if (!librarySection.ChildItems.Contains(locationItem))
-                {
-                    librarySection.ChildItems.Insert(insertIndex, locationItem);
-                }
-            }
-            else
-            {
-                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
-                RemoveItem(path);
-            }
-        }
-
-        /// <summary>
         /// Adds the item to sidebar asynchronous.
         /// </summary>
         /// <param name="section">The section.</param>
@@ -374,20 +315,6 @@ namespace Files.DataModels
                 {
                     MainPage.SideBarItems.Add(favoriteSection);
                     AddDefaultFavoritesItems();
-                }
-
-                if (App.AppSettings.ShowLibrarySection)
-                {
-                    if (!MainPage.SideBarItems.Contains(librarySection))
-                    {
-                        MainPage.SideBarItems.Add(librarySection);
-
-                        for (int i = 0; i < LibraryItems.Count(); i++)
-                        {
-                            string path = LibraryItems[i];
-                            await AddItemToLibrarySidebarAsync(path);
-                        }
-                    }
                 }
 
                 MainPage.SideBarItems.EndBulkOperation();
@@ -427,8 +354,9 @@ namespace Files.DataModels
                 }
             }
         }
+
         public async void RemoveFavoritesSidebarItems(string path)
-        {            
+        {
             try
             {
                 var sectionItem = favoriteSection.ChildItems.Where(x => x.Path.Equals(path)).FirstOrDefault();
@@ -451,7 +379,7 @@ namespace Files.DataModels
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
                 var item = mostRecentlyUsed.Entries.Where(x => x.Metadata.Equals(path)).FirstOrDefault();
                 mostRecentlyUsed.Remove(item.Token);
-            }          
+            }
         }
 
         /// <summary>
@@ -462,7 +390,7 @@ namespace Files.DataModels
         public string GetItemIcon(string path)
         {
             string iconCode;
-            
+
             if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\ue9f1";

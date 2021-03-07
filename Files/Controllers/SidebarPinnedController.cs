@@ -59,7 +59,7 @@ namespace Files.Controllers
                 }
                 catch (FileNotFoundException)
                 {
-                    Model.AddDefaultItems();
+                    Model.AddDefaultFavoritesItems();
                 }
 
                 JsonFile = await Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting);
@@ -80,7 +80,7 @@ namespace Files.Controllers
                 await JsonFile.DeleteAsync();
                 Model = new SidebarPinnedModel();
                 Model.SetController(this);
-                Model.AddDefaultItems();
+                Model.AddDefaultFavoritesItems();
                 Model.Save();
             }
 
