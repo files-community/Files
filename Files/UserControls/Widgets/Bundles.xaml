@@ -65,7 +65,7 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="Segoe MDL2 Assets"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="14"
                     Glyph="&#xe712;" />
 
@@ -76,7 +76,7 @@
                             Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
                             Text="Create Bundle">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
@@ -85,7 +85,7 @@
                             Command="{Binding ImportBundlesCommand, Mode=OneWay}"
                             Text="Import Bundles">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB64;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8B6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -93,7 +93,7 @@
                             Command="{Binding ExportBundlesCommand, Mode=OneWay}"
                             Text="Export Bundles">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB62;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xEDE1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -215,7 +215,7 @@
                                     VerticalContentAlignment="Center"
                                     Background="Transparent"
                                     Content="&#xe712;"
-                                    FontFamily="Segoe MDL2 Assets"
+                                    FontFamily="{StaticResource FluentGlyphs}"
                                     FontSize="12">
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
@@ -224,7 +224,7 @@
                                                 Command="{Binding RemoveBundleCommand, Mode=OneWay}"
                                                 Text="Remove Bundle">
                                                 <MenuFlyoutItem.Icon>
-                                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
+                                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE738;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutItem
@@ -232,7 +232,7 @@
                                                 Command="{Binding RenameBundleCommand, Mode=OneWay}"
                                                 Text="Rename Bundle">
                                                 <MenuFlyoutItem.Icon>
-                                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
+                                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8AC;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
@@ -323,7 +323,7 @@
                                                             Command="{Binding OpenItemLocationCommand, Mode=OneWay}"
                                                             Text="Open item location">
                                                             <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                                                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xED25;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutSeparator />
@@ -332,7 +332,7 @@
                                                             Command="{Binding RemoveItemCommand, Mode=OneWay}"
                                                             Text="Remove from bundle">
                                                             <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
+                                                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE738;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                     </MenuFlyout>
@@ -360,9 +360,9 @@
                                 </Grid.RowDefinitions>
 
                                 <FontIcon
-                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontFamily="{StaticResource FluentGlyphs}"
                                     FontSize="20"
-                                    Glyph="&#xe919;" />
+                                    Glyph="&#xE74B;" />
                                 <TextBlock
                                     x:Uid="BundleNoContentsTextBlock"
                                     Grid.Row="1"
@@ -405,9 +405,9 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="18"
-                    Glyph="&#xe903;" />
+                    Glyph="&#xE710;" />
 
                 <!--  Same as the top one  -->
                 <Button.Flyout>

@@ -535,9 +535,9 @@
                                     Width="32"
                                     Margin="-11,0,-11,0"
                                     DataContextChanged="PathItemSeparator_DataContextChanged"
-                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontFamily="{StaticResource FluentGlyphs}"
                                     FontSize="10"
-                                    Glyph="&#xE9A8;"
+                                    Glyph="&#xE76C;"
                                     Loaded="PathItemSeparator_Loaded">
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="PointerEntered">
@@ -610,9 +610,9 @@
                                     FontWeight="Medium"
                                     Text="{Binding Title}" />
                                 <FontIcon
-                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontFamily="{StaticResource FluentGlyphs}"
                                     FontSize="10"
-                                    Glyph="&#xE9A8;" />
+                                    Glyph="&#xE76C;" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
@@ -672,9 +672,9 @@
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
                     Click="Back_Click"
-                    Content="&#xe921;"
+                    Content="&#xE72B;"
                     CornerRadius="4"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     IsEnabled="{x:Bind CanGoBack}"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -698,9 +698,9 @@
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
                     Click="Forward_Click"
-                    Content="&#xe92b;"
+                    Content="&#xE72A;"
                     CornerRadius="4"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     IsEnabled="{x:Bind CanGoForward}"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -723,9 +723,9 @@
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
                     Click="Up_Click"
-                    Content="&#xe936;"
+                    Content="&#xE74A;"
                     CornerRadius="4"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Up (Alt + Up Arrow)">
@@ -746,9 +746,9 @@
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
                     Click="Refresh_Click"
-                    Content="&#xe916;"
+                    Content="&#xE72C;"
                     CornerRadius="4"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Refresh (F5)">
@@ -861,9 +861,9 @@
                 Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
                 <AutoSuggestBox.QueryIcon>
                     <FontIcon
-                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontFamily="{StaticResource FluentGlyphs}"
                         FontSize="16"
-                        Glyph="&#xEB51;" />
+                        Glyph="&#xE721;" />
                 </AutoSuggestBox.QueryIcon>
                 <AutoSuggestBox.ItemTemplate>
                     <DataTemplate x:DataType="filesystem:ListedItem">
@@ -887,8 +887,8 @@
                                     <FontIcon
                                         x:Name="EmptyIconGlyph"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph}"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
-                                        Glyph="&#xEA00;" />
+                                        FontFamily="{StaticResource FluentGlyphs}"
+                                        Glyph="&#xE7C3;" />
                                     <Image
                                         x:Name="FolderGlyph"
                                         HorizontalAlignment="Stretch"
@@ -919,8 +919,8 @@
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
-                Content="&#xEB51;"
-                FontFamily="{StaticResource FluentUIGlyphs}"
+                Content="&#xE721;"
+                FontFamily="{StaticResource FluentGlyphs}"
                 FontSize="16"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
@@ -943,8 +943,8 @@
                     AutomationProperties.Name="Toggle preview pane"
                     Background="Transparent"
                     Click="PreviewPane_Click"
-                    Content="&#xEA8D;"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    Content="&#xE946;"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -962,7 +962,7 @@
                     Background="Transparent"
                     Content="&#xF5ED;"
                     DragEnter="VerticalTabStripInvokeButton_DragEnter"
-                    FontFamily="Segoe MDL2 Assets"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     IsTapEnabled="True"
                     Loaded="VerticalTabStripInvokeButton_Loaded"
@@ -993,8 +993,8 @@
                     HorizontalAlignment="Right"
                     AutomationProperties.Name="More options"
                     Background="Transparent"
-                    Content=""
-                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE712;"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="More options">
@@ -1008,7 +1008,7 @@
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 Text="New Pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1038,7 +1038,7 @@
                                 Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
                                 Text="New Window">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE78B;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1055,7 +1055,7 @@
                                 IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
                                 Text="Copy location">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
+                                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE9B1;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
@@ -1079,7 +1079,7 @@
                                 IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
                                 Text="Paste">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B2;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE77F;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1096,7 +1096,7 @@
                                 IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
                                 Text="New">
                                 <MenuFlyoutSubItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE710;" />
                                 </MenuFlyoutSubItem.Icon>
                                 <MenuFlyoutSubItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1110,7 +1110,7 @@
                                     Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
                                     Text="Folder">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
+                                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8B7;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
@@ -1122,7 +1122,7 @@
                                     IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                                     Text="File">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
+                                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7C3;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyoutSubItem>

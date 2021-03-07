@@ -63,7 +63,7 @@
                         VerticalAlignment="Bottom"
                         AutomationProperties.Name="Learn more about date formats"
                         Content="&#xE946;"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{StaticResource FluentGlyphs}"
                         NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         ToolTipService.ToolTip="Learn more about date formats" />
