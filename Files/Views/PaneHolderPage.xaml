@@ -112,9 +112,9 @@
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            BlurRadius="4"
+            BlurRadius="16"
             Canvas.ZIndex="100"
-            OffsetX="-2"
+            OffsetX="-8"
             ShadowOpacity="0.04 ">
             <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}">
                 <Grid.ColumnDefinitions>
