@@ -62,8 +62,8 @@
                 Height="32"
                 AutomationProperties.Name="Selection options"
                 Background="Transparent"
-                Content="&#xEAD3;"
-                FontFamily="{StaticResource FluentUIGlyphs}"
+                Content="&#xE762;"
+                FontFamily="{StaticResource FluentGlyphs}"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Selection options">
@@ -76,7 +76,7 @@
                             Text="Multiselect"
                             Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE762;" />
                             </MenuFlyoutItem.Icon>
                         </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
@@ -85,7 +85,7 @@
                             Command="{x:Bind SelectAllInvokedCommand}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8B3;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
@@ -109,7 +109,7 @@
                             Command="{x:Bind ClearSelectionInvokedCommand}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB55;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8E6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -123,7 +123,7 @@
                 AutomationProperties.Name="Display Options"
                 Background="Transparent"
                 Content="&#xE152;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="{StaticResource FluentGlyphs}"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Display Options">
@@ -191,7 +191,7 @@
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
                                         Margin="0,1,0,0"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontFamily="{StaticResource OldFluentUIGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xEBA1;" />
                                 </RadioButton>
@@ -207,9 +207,9 @@
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
                                         Margin="0,1,0,0"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xEA72;" />
+                                        Glyph="&#xF0E2;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewLarge"
@@ -222,7 +222,7 @@
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
                                         Margin="0,1,0,0"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontFamily="{StaticResource OldFluentUIGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xE9A0;" />
                                 </RadioButton>
@@ -247,7 +247,7 @@
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
                     Content="&#xF16A;"
-                    FontFamily="Segoe MDL2 Assets"
+                    FontFamily="{StaticResource FluentGlyphs}"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Ongoing Tasks"

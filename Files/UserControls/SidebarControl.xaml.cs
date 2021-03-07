@@ -572,8 +572,8 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\xEB5D"
+                FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                Glyph = "\xE713"
             };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;
