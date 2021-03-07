@@ -66,11 +66,6 @@ namespace Files.ViewModels
             }
         }
 
-        public string WorkingDirectory
-        {
-            get => associatedInstance.FilesystemViewModel.WorkingDirectory;
-        }
-
         public FolderLayout LastLayoutModeSelected { get; private set; } = FolderLayout.DetailsView;
 
         private FolderLayoutInformation layoutModeInformation;
@@ -138,13 +133,12 @@ namespace Files.ViewModels
             if (enable)
             {
                 LayoutPreference.IsAdaptiveLayoutOverridden = false;
-                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
-                AdaptiveLayoutHelpers.PredictLayoutMode(this, associatedInstance.FilesystemViewModel);
+                LayoutPreferencesUpdateRequired?.Invoke(this, EventArgs.Empty);
             }
             else
             {
                 LayoutPreference.IsAdaptiveLayoutOverridden = true;
-                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                LayoutPreferencesUpdateRequired?.Invoke(this, EventArgs.Empty);
             }
         }
 
