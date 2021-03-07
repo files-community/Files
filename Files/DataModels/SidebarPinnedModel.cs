@@ -26,8 +26,6 @@ namespace Files.DataModels
 
         private LocationItem favoriteSection, homeSection, librarySection;
 
-        private ObservableCollection<LocationItem> recentFoldersCollection = new ObservableCollection<LocationItem>();
-
         private const int numberDefaultRecentItems = 3;
 
         [JsonIgnore]
@@ -375,6 +373,7 @@ namespace Files.DataModels
                 if (!MainPage.SideBarItems.Contains(favoriteSection))
                 {
                     MainPage.SideBarItems.Add(favoriteSection);
+                    AddDefaultFavoritesItems();
                 }
 
                 if (App.AppSettings.ShowLibrarySection)
@@ -389,17 +388,6 @@ namespace Files.DataModels
                             await AddItemToLibrarySidebarAsync(path);
                         }
                     }
-                }
-
-                recentFoldersCollection.Clear();
-
-                try
-                {
-                    PopulateRecentsList();                   
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Info(ex, "Could not fetch recent folders");
                 }
 
                 MainPage.SideBarItems.EndBulkOperation();
@@ -464,52 +452,6 @@ namespace Files.DataModels
                 var item = mostRecentlyUsed.Entries.Where(x => x.Metadata.Equals(path)).FirstOrDefault();
                 mostRecentlyUsed.Remove(item.Token);
             }          
-        }
-
-        private async void PopulateRecentsList()
-        {
-            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-            try
-            {
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries.Take(numberDefaultRecentItems).Reverse().ToList())
-                {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetFolderAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                        FavoriteItems.Add(item.Path);
-                        await AddItemToFavoritesSidebarAsync(item.Path);
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
-                }
-            }
-            catch
-            { }
-            finally
-            {
-                if (FavoriteItems.Count <= 0)
-                {
-                    AddDefaultFavoritesItems();
-                }                
-            }
         }
 
         /// <summary>
