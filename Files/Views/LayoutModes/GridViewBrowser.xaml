@@ -622,8 +622,8 @@
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
-                                RasterizePixelHeight="638"
-                                RasterizePixelWidth="900"
+                                RasterizePixelHeight="256"
+                                RasterizePixelWidth="256"
                                 UriSource="{x:Bind FolderIconSourceLarge}" />
                         </Image.Source>
                     </Image>
