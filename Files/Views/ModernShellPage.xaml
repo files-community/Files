@@ -197,7 +197,7 @@
             HorizontalContentAlignment="Stretch"
             BlurRadius="8"
             Canvas.ZIndex="10"
-            OffsetY="4"
+            OffsetY="2"
             ShadowOpacity="0.04">
             <Frame
                 x:Name="ItemDisplayFrame"
@@ -252,7 +252,7 @@
             HorizontalContentAlignment="Stretch"
             BlurRadius="8"
             Canvas.ZIndex="100"
-            OffsetY="4"
+            OffsetY="2"
             ShadowOpacity="0.04">
 
             <controls:NavigationToolbar
