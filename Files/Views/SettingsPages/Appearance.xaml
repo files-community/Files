@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -64,7 +63,7 @@
                         VerticalAlignment="Bottom"
                         AutomationProperties.Name="Learn more about date formats"
                         Content="&#xE946;"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{StaticResource FluentGlyphs}"
                         NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         ToolTipService.ToolTip="Learn more about date formats" />

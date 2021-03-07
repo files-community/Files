@@ -167,6 +167,7 @@
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
+    <Compile Include="Converters\WidthToRightMargin.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
@@ -180,6 +181,8 @@
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
+    <Compile Include="Filesystem\LibraryManager.cs" />
+    <Compile Include="Filesystem\WSLDistroManager.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
@@ -205,6 +208,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
     <Compile Include="Helpers\MenuFlyoutHelper.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />
@@ -489,8 +493,6 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
-    <Content Include="Assets\Files UWP Beta Icon.png" />
-    <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
@@ -515,8 +517,13 @@
     <Content Include="Assets\Custom Glyphs\Custom-Glyphs.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Custom Glyphs\fluentui.ttf" />
     <Content Include="Assets\AnimatedVisuals\LottiePulseStatusCenter.json" />
+    <Content Include="Assets\Custom Glyphs\FluentIcons.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Custom Glyphs\fluentui.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -618,7 +625,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
-    <Content Include="Assets\SettingsAssets\VerticalTabsFlyout.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />

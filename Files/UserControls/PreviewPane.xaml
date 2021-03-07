@@ -33,7 +33,7 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -75,11 +75,11 @@
                         x:Name="GripperGlyphTextBlock"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontFamily="{StaticResource FluentGlyphs}"
                         FontSize="36"
                         Foreground="{StaticResource SystemChromeHighColor}"
                         IsHitTestVisible="False"
-                        Text="&#xEB3D;" />
+                        Text="&#xE738;" />
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
@@ -206,7 +206,7 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-            
+
             <VisualStateGroup>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>

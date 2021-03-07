@@ -226,6 +226,8 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarLibraries".GetLocalized()) &&
+                !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
                 ShowEmptyRecycleBin = false;
@@ -261,6 +263,24 @@ namespace Files.UserControls
             var item = sidebarItem.DataContext as DriveItem;
          
             ShowEjectDevice = item.IsRemovable;
+            ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+            ShowProperties = true;
+
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+
+            App.RightClickedItem = item;
+
+            e.Handled = true;
+        }
+
+        private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+
+            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var item = sidebarItem.DataContext as WSLDistroItem;
+
+            ShowEjectDevice = false;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
@@ -553,8 +573,8 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\xEB5D"
+                FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                Glyph = "\xE713"
             };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;

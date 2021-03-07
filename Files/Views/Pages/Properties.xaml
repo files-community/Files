@@ -52,7 +52,7 @@
                     Content="General"
                     Tag="General">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7C3;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
@@ -73,7 +73,7 @@
                     Tag="Details"
                     Visibility="Collapsed">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

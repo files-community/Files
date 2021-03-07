@@ -444,11 +444,11 @@
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
-          <target state="translated">明るい</target>
+          <target state="translated">ライト</target>
         </trans-unit>
         <trans-unit id="DarkTheme" translate="yes" xml:space="preserve">
           <source>Dark</source>
-          <target state="translated">暗い</target>
+          <target state="translated">ダーク</target>
         </trans-unit>
         <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
           <source>Application</source>
@@ -2381,6 +2381,14 @@
         <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="translated">引数</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+          <source>Show Library section on the sidebar</source>
+          <target state="new">Show Library section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
+          <source>Libraries</source>
+          <target state="new">Libraries</target>
         </trans-unit>
       </group>
     </body>
