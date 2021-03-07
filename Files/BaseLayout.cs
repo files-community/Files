@@ -383,15 +383,21 @@ namespace Files
 
             FocusFileList(); // Set focus on layout specific file list control
 
-            if (navigationArguments.SelectItems != null && navigationArguments.SelectItems.Count() > 0)
+            try
             {
-                List<ListedItem> liItemsToSelect = new List<ListedItem>();
-                foreach (string item in navigationArguments.SelectItems)
+                if (navigationArguments.SelectItems != null && navigationArguments.SelectItems.Count() > 0)
                 {
-                    liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
-                }
+                    List<ListedItem> liItemsToSelect = new List<ListedItem>();
+                    foreach (string item in navigationArguments.SelectItems)
+                    {
+                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
+                    }
 
-                SetSelectedItemsOnUi(liItemsToSelect);
+                    SetSelectedItemsOnUi(liItemsToSelect);
+                }
+            }
+            catch (Exception e)
+            {
             }
         }
 
