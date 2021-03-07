@@ -21,11 +21,11 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="#FAF9F8" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="#323130" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
@@ -116,7 +116,7 @@
             Grid.Column="1"
             Margin="{x:Bind DragRegionWidth, Converter={StaticResource WidthToRightMarginConverter}}"
             x:FieldModifier="public"
-            x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+            x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
             Loaded="HorizontalMultitaskingControl_Loaded" />
 
         <Grid

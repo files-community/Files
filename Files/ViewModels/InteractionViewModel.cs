@@ -12,12 +12,20 @@ namespace Files.ViewModels
         public InteractionViewModel()
         {
             Window.Current.SizeChanged += Current_SizeChanged;
+
+            SetMultitaskingControl();
         }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
 
+            // Setup the correct multitasking control
+            SetMultitaskingControl();
+        }
+
+        public void SetMultitaskingControl()
+        {
             if (AppSettings.IsMultitaskingExperienceAdaptive)
             {
                 if (IsWindowCompactSize)
@@ -69,7 +77,7 @@ namespace Files.ViewModels
             set => SetProperty(ref isPasteEnabled, value);
         }
 
-        private bool isHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
+        private bool isHorizontalTabStripVisible = false;
 
         public bool IsHorizontalTabStripVisible
         {
@@ -77,7 +85,7 @@ namespace Files.ViewModels
             set => SetProperty(ref isHorizontalTabStripVisible, value);
         }
 
-        private bool isVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
+        private bool isVerticalTabFlyoutVisible = false;
 
         public bool IsVerticalTabFlyoutVisible
         {
@@ -98,16 +106,6 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref isWindowCompactSize, value);
-                if (value)
-                {
-                    IsHorizontalTabStripVisible = false;
-                    IsVerticalTabFlyoutVisible = true;
-                }
-                else
-                {
-                    IsHorizontalTabStripVisible = true;
-                    IsVerticalTabFlyoutVisible = false;
-                }
             }
         }
 

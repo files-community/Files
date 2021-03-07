@@ -202,7 +202,7 @@
             <Frame
                 x:Name="ItemDisplayFrame"
                 x:FieldModifier="public"
-                Background="{ThemeResource SolidBackgroundFillColorBase}"
+                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                 Navigated="ItemDisplayFrame_Navigated" />
         </Custom:DropShadowPanel>
 
