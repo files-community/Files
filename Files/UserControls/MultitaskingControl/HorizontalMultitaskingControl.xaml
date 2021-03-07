@@ -835,7 +835,6 @@
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
-                        FontFamily="{StaticResource FluentGlyphs}"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource UndockedTabViewItemStyle}"

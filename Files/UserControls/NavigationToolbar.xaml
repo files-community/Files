@@ -675,7 +675,6 @@
                     Content="&#xE72B;"
                     CornerRadius="4"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     IsEnabled="{x:Bind CanGoBack}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Back (Alt + Left Arrow)">
@@ -701,7 +700,6 @@
                     Content="&#xE72A;"
                     CornerRadius="4"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     IsEnabled="{x:Bind CanGoForward}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
@@ -726,7 +724,6 @@
                     Content="&#xE74A;"
                     CornerRadius="4"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Up (Alt + Up Arrow)">
                     <Button.KeyboardAccelerators>
@@ -749,7 +746,6 @@
                     Content="&#xE72C;"
                     CornerRadius="4"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Refresh (F5)">
                     <Button.KeyboardAccelerators>
@@ -862,7 +858,6 @@
                 <AutoSuggestBox.QueryIcon>
                     <FontIcon
                         FontFamily="{StaticResource FluentGlyphs}"
-                        FontSize="16"
                         Glyph="&#xE721;" />
                 </AutoSuggestBox.QueryIcon>
                 <AutoSuggestBox.ItemTemplate>
@@ -921,7 +916,6 @@
                 Click="SearchButton_Click"
                 Content="&#xE721;"
                 FontFamily="{StaticResource FluentGlyphs}"
-                FontSize="16"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search" />
@@ -945,7 +939,6 @@
                     Click="PreviewPane_Click"
                     Content="&#xE946;"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
@@ -963,7 +956,6 @@
                     Content="&#xF5ED;"
                     DragEnter="VerticalTabStripInvokeButton_DragEnter"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     IsTapEnabled="True"
                     Loaded="VerticalTabStripInvokeButton_Loaded"
                     PointerEntered="Button_PointerEntered"
@@ -995,7 +987,6 @@
                     Background="Transparent"
                     Content="&#xE712;"
                     FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="More options">
                     <Button.Flyout>

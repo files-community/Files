@@ -63,7 +63,6 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{x:Bind Font}"
-                            FontSize="18"
                             Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
@@ -88,7 +87,6 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{StaticResource FluentGlyphs}"
-                            FontSize="18"
                             Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>

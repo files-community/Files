@@ -111,7 +111,7 @@
                     BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xeba9;" />
+                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" FontSize="16" Glyph="&#xeba9;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -135,7 +135,7 @@
                     BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xe95f;" />
+                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" FontSize="16" Glyph="&#xe95f;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
