@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -603,49 +602,6 @@ namespace FilesFullTrust
                         return form.DropTargets;
                     });
                     break;
-
-                case "GetDesktopIniProperties":
-                        {
-                            try
-                            {
-                                string filePath = (string)args.Request.Message["FilePath"];
-                                string SECTION = (string)args.Request.Message["SECTION"];
-                                string keyName = (string)args.Request.Message["KeyName"];
-                                StringBuilder sb = new StringBuilder();
-                                Kernel32.GetPrivateProfileString(SECTION, keyName, null, sb, int.MaxValue, filePath);
-                                string result = sb.ToString();
-
-                                if (sb.Length == 0)
-                                {
-                                    await args.Request.SendResponseAsync(new ValueSet()
-                                    {
-                                        { "Props", "null" },
-                                        { "Status", "Failed" },
-                                        { "Exception", "The retrived property value was empty." }
-                                    });
-
-                                    return;
-                                }
-
-                                await args.Request.SendResponseAsync(new ValueSet()
-                                {
-                                     { "Props", result },
-                                     { "Status", "Success" },
-                                     { "Exception", "null" }
-                                });
-                            }
-                            catch (Exception e)
-                            {
-                                await args.Request.SendResponseAsync(new ValueSet()
-                                {
-                                    { "Props", "null" },
-                                    { "Status", "Failed" },
-                                    { "Exception", e.Message }
-                                });
-                            }
-                            break;
-                        }
-
 
                 case "DeleteItem":
                     var fileToDeletePath = (string)args.Request.Message["filepath"];

@@ -974,7 +974,7 @@ namespace Files.ViewModels
 
                 FolderSettings.LayoutPreference = FolderSettings.GetLayoutPreferencesForPath(path);
                 FolderSettings.AdaptiveLayoutSuggestionOverriden = FolderSettings.LayoutPreference.AdaptiveLayoutDisabledOverride;
-                bool successfulPrediction = await AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this, Connection);
+                bool successfulPrediction = AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this);
                 FolderSettings.AdaptiveLayoutSuggestionApplied = successfulPrediction;
             }
             finally

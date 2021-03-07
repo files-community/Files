@@ -48,7 +48,7 @@ namespace Files.Helpers
             }
         }
 
-        public static async Task<bool> PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel, AppServiceConnection connection)
+        public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel)
         {
             if (App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.AdaptiveLayoutSuggestionOverriden)
             {
@@ -72,67 +72,60 @@ namespace Files.Helpers
                         break;
                 }
 
-                if (connection != null)
+                var iniPath = System.IO.Path.Combine(filesystemViewModel.CurrentFolder.ItemPath, "desktop.ini");
+                var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
+                if (!string.IsNullOrEmpty(iniContents))
                 {
-                    AppServiceResponse response = await connection.SendMessageAsync(new ValueSet()
+                    var parser = new IniParser.Parser.IniDataParser();
+                    parser.Configuration.ThrowExceptionsOnError = false;
+                    var data = parser.Parse(iniContents);
+                    if (data != null)
                     {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "GetDesktopIniProperties" },
-                        { "FilePath", System.IO.Path.Combine(filesystemViewModel.CurrentFolder.ItemPath, "desktop.ini") },
-                        { "SECTION", "ViewState" },
-                        { "KeyName", "FolderType" }
-                    });
-
-                    if (response.Status == AppServiceResponseStatus.Success)
-                    {
-                        string status = response.Message.Get("Status", string.Empty);
-
-                        if (status == "Success")
+                        var viewModeSection = data.Sections.FirstOrDefault(x => "ViewState".Equals(x.SectionName, StringComparison.OrdinalIgnoreCase));
+                        if (viewModeSection != null)
                         {
-                            string result = response.Message.Get("Props", string.Empty);
-
-                            switch (result)
+                            var folderTypeKey = viewModeSection.Keys.FirstOrDefault(s => "FolderType".Equals(s.KeyName, StringComparison.OrdinalIgnoreCase));
+                            if (folderTypeKey != null)
                             {
-                                case "Documents":
-                                    {
-                                        folderSettings.ToggleLayoutModeTiles.Execute(false);
-                                        break;
-                                    }
+                                switch (folderTypeKey.Value)
+                                {
+                                    case "Documents":
+                                        {
+                                            folderSettings.ToggleLayoutModeTiles.Execute(false);
+                                            break;
+                                        }
 
-                                case "Pictures":
-                                    {
-                                        preferredGridLayout.Execute(false);
-                                        break;
-                                    }
+                                    case "Pictures":
+                                        {
+                                            preferredGridLayout.Execute(false);
+                                            break;
+                                        }
 
-                                case "Music":
-                                    {
-                                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
-                                        break;
-                                    }
+                                    case "Music":
+                                        {
+                                            folderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                                            break;
+                                        }
 
-                                case "Videos":
-                                    {
-                                        preferredGridLayout.Execute(false);
-                                        break;
-                                    }
+                                    case "Videos":
+                                        {
+                                            preferredGridLayout.Execute(false);
+                                            break;
+                                        }
 
-                                default:
-                                    {
-                                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
-                                        break;
-                                    }
+                                    default:
+                                        {
+                                            folderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                                            break;
+                                        }
+                                }
+
+                                desktopIniFound = true;
                             }
-
-                            desktopIniFound = true;
-                        }
-                        else // error trying to get the properties
-                        {
-                            string exception = response.Message.Get("Exception", string.Empty);
                         }
                     }
                 }
-                
+
                 if (desktopIniFound)
                 {
                     return true;
@@ -143,7 +136,7 @@ namespace Files.Helpers
                 }
 
                 int imagesAndVideosCount = filesystemViewModel.FilesAndFolders.Where((item) =>
-                    
+
                     !string.IsNullOrEmpty(item.FileExtension)
 
                     // Images
