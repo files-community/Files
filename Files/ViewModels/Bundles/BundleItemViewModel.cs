@@ -171,7 +171,7 @@ namespace Files.ViewModels.Bundles
 
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
-                            Icon = await IconData?.ToBitmapAsync();
+                            Icon = await IconData.ToBitmapAsync();
                         });
 
                         return;
