@@ -75,10 +75,11 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripEnabled)} {IsHorizontalTabStripEnabled}");
+            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
+            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
@@ -352,7 +353,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
         /// </summary>
-        public bool IsVerticalTabFlyoutEnabled
+        public bool IsVerticalTabFlyoutOn
         {
             get => Get(false);
             set => Set(value);
@@ -361,7 +362,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
         /// </summary>
-        public bool IsHorizontalTabStripEnabled
+        public bool IsHorizontalTabStripOn
         {
             get => Get(false);
             set => Set(value);
