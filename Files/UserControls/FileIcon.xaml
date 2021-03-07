@@ -30,9 +30,9 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-            FontFamily="{StaticResource FluentUIGlyphs}"
+            FontFamily="{StaticResource FluentGlyphs}"
             FontSize="{x:Bind ItemSize}"
-            Glyph="&#xea00;" />
+            Glyph="&#xE7C3;" />
         <FontIcon
             x:Name="CombinedItemsIcon"
             HorizontalAlignment="Left"
@@ -46,7 +46,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadDriveItemGlyph, Mode=OneWay}"
-            FontFamily="{StaticResource FluentUIGlyphs}"
+            FontFamily="{StaticResource FluentGlyphs}"
             FontSize="{x:Bind LargerItemSize}"
             Glyph="{x:Bind ViewModel.DriveItemGlyphSource, Mode=OneWay}" />
         <FontIcon
@@ -54,9 +54,9 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-            FontFamily="{StaticResource FluentUIGlyphs}"
+            FontFamily="{StaticResource FluentGlyphs}"
             FontSize="{x:Bind ItemSize}"
-            Glyph="&#xEAAB;" />
+            Glyph="&#xE71B;" />
         <Image
             x:Name="ItemIcon"
             Height="{x:Bind ItemSize}"

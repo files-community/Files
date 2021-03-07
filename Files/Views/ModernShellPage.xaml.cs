@@ -16,17 +16,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -282,7 +279,8 @@ namespace Files.Views
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
+                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1,
+                        InstanceViewModel.FolderSettings.GetIconSize())
                 });
                 FilesystemViewModel.IsLoadingIndicatorActive = false;
             }
@@ -464,7 +462,7 @@ namespace Files.Views
             {
                 var flyoutItem = new MenuFlyoutItem
                 {
-                    Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uEC17" },
+                    Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily, Glyph = "\uE7BA" },
                     Text = "SubDirectoryAccessDenied".GetLocalized(),
                     //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
                     FontSize = 12
@@ -475,7 +473,7 @@ namespace Files.Views
 
             var boldFontWeight = new FontWeight { Weight = 800 };
             var normalFontWeight = new FontWeight { Weight = 400 };
-            var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
+            var customGlyphFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily;
 
             var workingPath = NavigationToolbar.PathComponents
                     [NavigationToolbar.PathComponents.Count - 1].
@@ -489,7 +487,7 @@ namespace Files.Views
                     Icon = new FontIcon
                     {
                         FontFamily = customGlyphFamily,
-                        Glyph = "\uEA5A",
+                        Glyph = "\uED25",
                         FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
                     },
                     Text = childFolder.Item.Name,
@@ -1188,7 +1186,7 @@ namespace Files.Views
 
                             ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                            if (itemToSelect != null)
+                            if (itemToSelect != null && ContentPage != null)
                             {
                                 ContentPage.SetSelectedItemOnUi(itemToSelect);
                                 ContentPage.ScrollIntoView(itemToSelect);
@@ -1394,5 +1392,6 @@ namespace Files.Views
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
         public bool IsLayoutSwitch { get; set; } = false;
+        public IEnumerable<string> SelectItems { get; set; }
     }
 }

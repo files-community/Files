@@ -19,6 +19,7 @@
 
             public static class GenericFileBrowser
             {
+                public const int DetailsViewSize = 24;
             }
         }
 

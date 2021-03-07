@@ -71,9 +71,9 @@
                             Spacing="14"
                             Tag="Feedback">
                             <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontFamily="{StaticResource FluentGlyphs}"
                                 Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xeb05;" />
+                                Glyph="&#xED15;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
                                 <TextBlock
@@ -98,9 +98,9 @@
                             Spacing="14"
                             Tag="ReleaseNotes">
                             <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontFamily="{StaticResource FluentGlyphs}"
                                 Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEB3A;" />
+                                Glyph="&#xF000;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release Notes" />
                                 <TextBlock
@@ -125,9 +125,9 @@
                             Spacing="14"
                             Tag="Documentation">
                             <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontFamily="{StaticResource FluentGlyphs}"
                                 Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEB39;" />
+                                Glyph="&#xE736;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
                                 <TextBlock
@@ -152,9 +152,9 @@
                             Spacing="14"
                             Tag="Contributors">
                             <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontFamily="{StaticResource FluentGlyphs}"
                                 Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEAF7;" />
+                                Glyph="&#xE716;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
                                 <TextBlock
@@ -179,7 +179,7 @@
                             Spacing="14"
                             Tag="SupportUs">
                             <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xEB3B;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
