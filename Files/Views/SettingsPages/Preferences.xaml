@@ -107,6 +107,13 @@
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowLibrarySection"
+                    x:Uid="SettingsPreferencesShowLibrarySection"
+                    Header="Show Library section on the sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

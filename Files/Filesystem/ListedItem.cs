@@ -217,9 +217,7 @@ namespace Files.Filesystem
         }
 
         public ListedItem()
-        {
-
-        }
+        { }
 
         protected string DateReturnFormat { get; }
 
@@ -292,7 +290,7 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
+        public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private StorageFile itemFile;
 

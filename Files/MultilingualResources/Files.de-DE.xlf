@@ -2384,6 +2384,14 @@
           <source>Arguments</source>
           <target state="new">Arguments</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+          <source>Show Library section on the sidebar</source>
+          <target state="new">Show Library section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
+          <source>Libraries</source>
+          <target state="new">Libraries</target>
+        </trans-unit>
       </group>
     </body>
   </file>
