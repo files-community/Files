@@ -14,7 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -229,40 +229,24 @@
                             PropertyName="CurrentInstanceBorderBrush"
                             TargetObject="{Binding ElementName=PaneLeft}"
                             Value="{StaticResource PaneSelectedBorderBrush}" />
-                        <Core:ChangePropertyAction
-                            PropertyName="CurrentInstanceBorderThickness"
-                            TargetObject="{Binding ElementName=PaneLeft}"
-                            Value="0,0,0,2" />
                     </Core:DataTriggerBehavior>
                     <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
                         <Core:ChangePropertyAction
                             PropertyName="CurrentInstanceBorderBrush"
                             TargetObject="{Binding ElementName=PaneLeft}"
                             Value="{StaticResource SystemControlTransparentBrush}" />
-                        <Core:ChangePropertyAction
-                            PropertyName="CurrentInstanceBorderThickness"
-                            TargetObject="{Binding ElementName=PaneLeft}"
-                            Value="0" />
                     </Core:DataTriggerBehavior>
                     <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
                         <Core:ChangePropertyAction
                             PropertyName="CurrentInstanceBorderBrush"
                             TargetObject="{Binding ElementName=PaneRight}"
                             Value="{StaticResource PaneSelectedBorderBrush}" />
-                        <Core:ChangePropertyAction
-                            PropertyName="CurrentInstanceBorderThickness"
-                            TargetObject="{Binding ElementName=PaneRight}"
-                            Value="0,0,0,2" />
                     </Core:DataTriggerBehavior>
                     <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
                         <Core:ChangePropertyAction
                             PropertyName="CurrentInstanceBorderBrush"
                             TargetObject="{Binding ElementName=PaneRight}"
                             Value="{StaticResource SystemControlTransparentBrush}" />
-                        <Core:ChangePropertyAction
-                            PropertyName="CurrentInstanceBorderThickness"
-                            TargetObject="{Binding ElementName=PaneRight}"
-                            Value="0" />
                     </Core:DataTriggerBehavior>
                     <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
                         <Core:ChangePropertyAction
