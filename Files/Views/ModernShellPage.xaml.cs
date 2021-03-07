@@ -1342,14 +1342,6 @@ namespace Files.Views
 
         public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
-            if (string.IsNullOrEmpty(navigationPath) ||
-                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
-                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase)) // return if already selected
-            {
-                return;
-            }
             if (navArgs != null && navArgs.AssociatedTabInstance != null)
             {
                 ItemDisplayFrame.Navigate(
@@ -1359,6 +1351,15 @@ namespace Files.Views
             }
             else
             {
+                if (string.IsNullOrEmpty(navigationPath) ||
+                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase)) // return if already selected
+                {
+                    return;
+                }
+
                 ItemDisplayFrame.Navigate(
                 sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
                 new NavigationArguments()
