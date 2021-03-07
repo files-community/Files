@@ -340,10 +340,10 @@
     <value>システム設定の使用</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>ライト</value>
+    <value>明るい</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>ダーク</value>
+    <value>暗い</value>
   </data>
   <data name="ApplicationTimeStye" xml:space="preserve">
     <value>アプリ</value>

@@ -890,7 +890,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.F): // ctrl + f
-                    if (tabInstance) NavigationToolbar.OpenSearchBox();
+                    NavigationToolbar.OpenSearchBox();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
