@@ -138,15 +138,6 @@ namespace Files.Views
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
 
-        public Thickness CurrentInstanceBorderThickness
-        {
-            get { return (Thickness)GetValue(CurrentInstanceBorderThicknessProperty); }
-            set { SetValue(CurrentInstanceBorderThicknessProperty, value); }
-        }
-
-        public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
-    DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
-
         public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
 
         public Control OperationsControl => null;
