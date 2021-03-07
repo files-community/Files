@@ -2392,6 +2392,10 @@
           <source>Libraries</source>
           <target state="new">Libraries</target>
         </trans-unit>
+        <trans-unit id="BundlesOpenInNewPane" translate="yes" xml:space="preserve">
+          <source>Open in new Pane</source>
+          <target state="new">Open in new Pane</target>
+        </trans-unit>
       </group>
     </body>
   </file>

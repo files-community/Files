@@ -1057,7 +1057,7 @@
                                 IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
                                 Text="Open in Terminal...">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE756;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE756;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
