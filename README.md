@@ -1,4 +1,4 @@
-﻿﻿## Files
+## Files
 Meet Files, an enthusiast take on what a modern file explorer should be.
 
 Files [code of conduct](https://github.com/files-community/Files/blob/master/CODE_OF_CONDUCT.md)
