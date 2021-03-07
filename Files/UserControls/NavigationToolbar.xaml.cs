@@ -623,8 +623,11 @@ namespace Files.UserControls
 
             var element = FocusManager.GetFocusedElement();
             var elementAsControl = element as Control;
-
-            if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
+            if (elementAsControl == null)
+            {
+                return;
+            }
+            else if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
                 (this as INavigationToolbar).IsEditModeEnabled = false;
             }

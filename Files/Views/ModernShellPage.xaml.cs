@@ -272,7 +272,8 @@ namespace Files.Views
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
+                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1, 
+                        InstanceViewModel.FolderSettings.GetIconSize())
                 });
                 FilesystemViewModel.IsLoadingIndicatorActive = false;
             }
@@ -1181,7 +1182,7 @@ namespace Files.Views
 
                             ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                            if (itemToSelect != null)
+                            if (itemToSelect != null && ContentPage != null)
                             {
                                 ContentPage.SetSelectedItemOnUi(itemToSelect);
                                 ContentPage.ScrollIntoView(itemToSelect);

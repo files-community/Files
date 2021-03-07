@@ -53,7 +53,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (SetProperty(ref isHorizontalTabStripOn, value))
+                if (SetProperty(ref isVerticalTabFlyoutOn, value))
                 {
                     App.AppSettings.IsVerticalTabFlyoutOn = value;
 
