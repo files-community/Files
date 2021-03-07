@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Controllers;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -258,7 +259,7 @@ namespace Files.DataModels
                 {
                     Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                     Path = path,
-                    Glyph = GetItemIcon(path),
+                    Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
@@ -343,51 +344,6 @@ namespace Files.DataModels
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets the icon for the items in the navigation sidebar
-        /// </summary>
-        /// <param name="path">The path in the sidebar</param>
-        /// <returns>The icon code</returns>
-        public string GetItemIcon(string path)
-        {
-            string iconCode;
-
-            if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8FC";
-            }
-            else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE896";
-            }
-            else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8A5";
-            }
-            else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEB9F";
-            }
-            else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEC4F";
-            }
-            else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8B2";
-            }
-            else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEDA2";
-            }
-            else
-            {
-                iconCode = "\uE8B7";
-            }
-
-            return iconCode;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -63,7 +64,7 @@ namespace Files.Filesystem
                             librarySection = new LocationItem()
                             {
                                 Text = "SidebarLibrary".GetLocalized(),
-                                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                                Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                 Glyph = "\uEC13",
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
@@ -82,8 +83,9 @@ namespace Files.Filesystem
 
                                 var locationItem = new LocationItem
                                 {
-                                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                                     Path = path,
+                                    Glyph = GlyphHelper.GetItemIcon(path),
                                     IsDefaultLocation = false,
                                     Text = Path.GetFileName(path.TrimEnd('\\'))
                                 };
