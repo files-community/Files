@@ -936,7 +936,7 @@
                     AutomationProperties.Name="Toggle preview pane"
                     Background="Transparent"
                     Click="PreviewPane_Click"
-                    Content="&#xE946;"
+                    Content="&#xE146;"
                     FontFamily="{StaticResource FluentGlyphs}"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"

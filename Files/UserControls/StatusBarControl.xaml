@@ -100,7 +100,7 @@
                             Command="{x:Bind InvertSelectionInvokedCommand}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf102;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE746;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -160,9 +160,10 @@
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Details View">
                                     <FontIcon
-                                        FontFamily="{StaticResource CustomGlyph}"
+                                        Margin="0,2,0,0"
+                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xF101;" />
+                                        Glyph="&#xE179;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlTilesView"
@@ -174,9 +175,10 @@
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Tiles View">
                                     <FontIcon
-                                        FontFamily="{StaticResource CustomGlyph}"
+                                        Margin="0,2,0,0"
+                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xF100;" />
+                                        Glyph="&#xE15C;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewSmall"
@@ -190,10 +192,10 @@
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
-                                        Margin="0,1,0,0"
-                                        FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                        Margin="0,2,0,0"
+                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xEBA1;" />
+                                        Glyph="&#xE80A;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewMedium"
@@ -206,7 +208,7 @@
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
-                                        Margin="0,1,0,0"
+                                        Margin="0,2,0,0"
                                         FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xF0E2;" />
@@ -221,10 +223,10 @@
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
-                                        Margin="0,1,0,0"
-                                        FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                        Margin="0,2,0,0"
+                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xE9A0;" />
+                                        Glyph="&#xE739;" />
                                 </RadioButton>
                             </StackPanel>
                         </StackPanel>
