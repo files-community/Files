@@ -87,28 +87,16 @@ namespace Files.DataModels
         /// <summary>
         /// Adds the default favorites items.
         /// </summary>
-        public async void AddDefaultFavoritesItems(int item)
+        public async void AddDefaultFavoritesItems()
         {
-            for (int i = 1; i <= item; i++)
-            {
-                switch (i)
-                {
-                    case 1:
-                        FavoriteItems.Add(AppSettings.DesktopPath);
-                        await AddItemToFavoritesSidebarAsync(AppSettings.DesktopPath);
-                        break;
-                    case 2:
-                        FavoriteItems.Add(AppSettings.DocumentsPath);
-                        await AddItemToFavoritesSidebarAsync(AppSettings.DocumentsPath);
-                        break;
-                    case 3:
-                        FavoriteItems.Add(AppSettings.DownloadsPath);
-                        await AddItemToFavoritesSidebarAsync(AppSettings.DownloadsPath);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            FavoriteItems.Add(AppSettings.DesktopPath);
+            await AddItemToFavoritesSidebarAsync(AppSettings.DesktopPath);
+
+            FavoriteItems.Add(AppSettings.DocumentsPath);
+            await AddItemToFavoritesSidebarAsync(AppSettings.DocumentsPath);
+
+            FavoriteItems.Add(AppSettings.DownloadsPath);
+            await AddItemToFavoritesSidebarAsync(AppSettings.DownloadsPath);
         }
 
         /// <summary>
@@ -517,7 +505,10 @@ namespace Files.DataModels
             { }
             finally
             {
-                AddDefaultFavoritesItems(numberDefaultRecentItems - FavoriteItems.Count);
+                if (FavoriteItems.Count <= 0)
+                {
+                    AddDefaultFavoritesItems();
+                }                
             }
         }
 
