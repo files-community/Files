@@ -362,7 +362,11 @@ namespace Files.Filesystem
         {
             try
             {
-                if (operation.HasFlag(DataPackageOperation.Copy))
+                if (destination == null)
+                {
+                    return default;
+                }
+                else if (operation.HasFlag(DataPackageOperation.Copy))
                 {
                     return await CopyItemsFromClipboard(packageView, destination, registerHistory);
                 }

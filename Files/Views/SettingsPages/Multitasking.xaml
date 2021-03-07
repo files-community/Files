@@ -37,6 +37,7 @@
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
                             Padding="8,3,0,0"
+                            Checked="HorizontalMultToggle_Checked"
                             Content="Adaptive (Recommended)"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
@@ -54,10 +55,11 @@
                             x:Uid="SettingsMultitaskingHorizontal"
                             Margin="0,18,0,0"
                             Padding="8,3,0,0"
+                            Checked="HorizontalMultToggle_Checked"
                             Content="Horizontal"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind ViewModel.IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsHorizontalTabStripOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingHorizontalDescription"
                             MaxWidth="450"
@@ -71,10 +73,11 @@
                             x:Uid="SettingsMultitaskingVertical"
                             Margin="0,18,0,0"
                             Padding="8,3,0,0"
+                            Checked="HorizontalMultToggle_Checked"
                             Content="Vertical"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingVerticalDescription"
                             MaxWidth="450"

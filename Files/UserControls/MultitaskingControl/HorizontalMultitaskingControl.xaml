@@ -36,7 +36,7 @@
                             Click="{x:Bind views:MainPage.DuplicateTabAtIndex}"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97D;" />
+                                <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE97D;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -45,7 +45,7 @@
                             Click="{x:Bind views:MainPage.MoveTabToNewWindow}"
                             Text="Move tab to new window">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE979;" />
+                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8A7;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -835,7 +835,6 @@
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource UndockedTabViewItemStyle}"

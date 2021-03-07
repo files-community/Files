@@ -156,6 +156,12 @@
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Recent locations</value>
+  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drives</value>
   </data>
@@ -1881,14 +1887,11 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>More drives options</value>
   </data>
-  <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Recent locations</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favorites</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Libraries</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>No item selected</value>
@@ -1898,5 +1901,11 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Arguments</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Open in new Pane</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Show Library section on the sidebar</value>
   </data>
 </root>

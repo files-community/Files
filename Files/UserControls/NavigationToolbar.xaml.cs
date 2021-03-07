@@ -624,8 +624,11 @@ namespace Files.UserControls
 
             var element = FocusManager.GetFocusedElement();
             var elementAsControl = element as Control;
-
-            if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
+            if (elementAsControl == null)
+            {
+                return;
+            }
+            else if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
                 (this as INavigationToolbar).IsEditModeEnabled = false;
             }
@@ -873,8 +876,8 @@ namespace Files.UserControls
         {
             var pathSeparatorIcon = sender as FontIcon;
             pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
-            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
-            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };
         }
 
         private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -1016,8 +1019,8 @@ namespace Files.UserControls
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\xea00"
+                                FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                                Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"
                         };

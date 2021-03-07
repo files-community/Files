@@ -152,40 +152,42 @@ namespace Files.Filesystem
             switch (type)
             {
                 case DriveType.Fixed:
-                    Glyph = "\ueb8b";
+                    Glyph = "\xEDA2";
                     break;
 
                 case DriveType.Removable:
-                    Glyph = "\uec0a";
+                    Glyph = "\xE88E";
                     break;
 
                 case DriveType.Network:
-                    Glyph = "\ueac2";
+                    Glyph = "\xE8CE";
                     break;
 
                 case DriveType.Ram:
+                    Glyph = "\xE950";
                     break;
 
                 case DriveType.CDRom:
-                    Glyph = "\uec39";
+                    Glyph = "\uE958";
                     break;
 
                 case DriveType.Unknown:
                     break;
 
                 case DriveType.NoRootDirectory:
+                    Glyph = "\xED25";
                     break;
 
                 case DriveType.VirtualDrive:
-                    Glyph = "\ue9b7";
+                    Glyph = "\uE753";
                     break;
 
                 case DriveType.CloudDrive:
-                    Glyph = "\ue9b7";
+                    Glyph = "\uE753";
                     break;
 
                 case DriveType.FloppyDisk:
-                    Glyph = "\ueb4a";
+                    Glyph = "\xE74E";
                     break;
 
                 default:

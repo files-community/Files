@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -32,6 +33,10 @@ namespace Files.ViewModels.Bundles
         #region Private Members
 
         private IShellPage associatedInstance;
+
+        private bool itemAddedInternally;
+
+        private int internalCollectionCount;
 
         #endregion Private Members
 
@@ -68,6 +73,8 @@ namespace Files.ViewModels.Bundles
 
         #region Commands
 
+        public ICommand OpenItemCommand { get; private set; }
+
         public ICommand RemoveBundleCommand { get; private set; }
 
         public ICommand RenameBundleCommand { get; private set; }
@@ -89,6 +96,13 @@ namespace Files.ViewModels.Bundles
             RenameBundleCommand = new RelayCommand(RenameBundle);
             DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
             DropCommand = new RelayCommand<DragEventArgs>(Drop);
+
+            internalCollectionCount = Contents.Count;
+            Contents.CollectionChanged += Contents_CollectionChanged;
+            OpenItemCommand = new RelayCommand<ItemClickEventArgs>((e) =>
+            {
+                (e.ClickedItem as BundleItemViewModel).OpenItem();
+            });
         }
 
         #endregion Constructor
@@ -99,7 +113,7 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
                 allBundles.Remove(BundleName);
                 BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
@@ -113,18 +127,42 @@ namespace Files.ViewModels.Bundles
                 PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
             };
 
-            inputText.Loaded += inputText_Loaded;
+            TextBlock tipText = new TextBlock()
+            {
+                Text = string.Empty,
+                Visibility = Visibility.Collapsed
+            };
 
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = inputText,
+                DisplayControl = new Grid()
+                {
+                    Children =
+                    {
+                        new StackPanel()
+                        {
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
+                },
                 TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
                 SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetRenameBundleDialogPrimaryButtonText".GetLocalized(),
                 CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
-                    RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
+                    if (!CanAddBundleSetErrorMessage())
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    RenameBundleConfirm(inputText.Text);
                 },
                 CloseButtonAction = (vm, e) =>
                 {
@@ -135,7 +173,12 @@ namespace Files.ViewModels.Bundles
                 {
                     if (e.Key == VirtualKey.Enter)
                     {
-                        RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
+                        if (!CanAddBundleSetErrorMessage())
+                        {
+                            return;
+                        }
+
+                        RenameBundleConfirm(inputText.Text);
                     }
                     else if (e.Key == VirtualKey.Escape)
                     {
@@ -147,17 +190,20 @@ namespace Files.ViewModels.Bundles
             });
             await dialog.ShowAsync();
 
-            inputText.Loaded -= inputText_Loaded;
-
-            void inputText_Loaded(object s, RoutedEventArgs e)
+            bool CanAddBundleSetErrorMessage()
             {
-                inputText.Focus(FocusState.Programmatic);
+                var (result, reason) = CanRenameBundle(inputText.Text);
+
+                tipText.Text = reason;
+                tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+
+                return result;
             }
         }
 
         private void RenameBundleConfirm(string bundleRenameText)
         {
-            if (CanRenameBundle(bundleRenameText))
+            if (CanRenameBundle(bundleRenameText).result)
             {
                 if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
                 {
@@ -193,22 +239,27 @@ namespace Files.ViewModels.Bundles
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.AcceptedOperation = DataPackageOperation.Move;
-                e.Handled = true;
             }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+            e.Handled = true;
         }
 
         private async void Drop(DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            var deferral = e?.GetDeferral();
+            try
             {
-                bool itemsAdded = false;
-                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
-
-                foreach (IStorageItem item in items)
+                if (e.DataView.Contains(StandardDataFormats.StorageItems))
                 {
-                    if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                    bool itemsAdded = false;
+                    IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+
+                    foreach (IStorageItem item in items)
                     {
-                        if (!System.IO.Path.GetExtension(item.Path).ToLower().EndsWith(".lnk") && !System.IO.Path.GetExtension(item.Path).ToLower().EndsWith(".url"))
+                        if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                         {
                             if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                             {
@@ -221,13 +272,19 @@ namespace Files.ViewModels.Bundles
                             }
                         }
                     }
-                }
-                e.Handled = true;
 
-                if (itemsAdded)
-                {
-                    SaveBundle();
+                    if (itemsAdded)
+                    {
+                        SaveBundle();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                deferral?.Complete();
             }
         }
 
@@ -250,6 +307,16 @@ namespace Files.ViewModels.Bundles
             }
         }
 
+        private void Contents_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (internalCollectionCount < Contents.Count && !itemAddedInternally)
+            {
+                SaveBundle();
+            }
+
+            internalCollectionCount = Contents.Count;
+        }
+
         #endregion Handlers
 
         #region Private Helpers
@@ -258,10 +325,11 @@ namespace Files.ViewModels.Bundles
         {
             if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
                 allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
-                BundlesSettings.SavedBundles = allBundles;
 
+                BundlesSettings.SavedBundles = allBundles;
+                
                 return true;
             }
 
@@ -272,20 +340,24 @@ namespace Files.ViewModels.Bundles
 
         #region Public Helpers
 
-        public BundleContainerViewModel AddBundleItem(BundleItemViewModel bundleItem)
+        public void AddBundleItem(BundleItemViewModel bundleItem)
         {
             if (bundleItem != null)
             {
+                itemAddedInternally = true;
                 Contents.Add(bundleItem);
+                itemAddedInternally = false;
                 NoBundleContentsTextVisibility = Visibility.Collapsed;
             }
-
-            return this;
         }
 
         public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
         {
+            Contents.CollectionChanged -= Contents_CollectionChanged;
+
             Contents = new ObservableCollection<BundleItemViewModel>(items);
+            internalCollectionCount = Contents.Count;
+            Contents.CollectionChanged += Contents_CollectionChanged;
 
             if (Contents.Count > 0)
             {
@@ -295,20 +367,20 @@ namespace Files.ViewModels.Bundles
             return this;
         }
 
-        public bool CanRenameBundle(string name)
+        public (bool result, string reason) CanRenameBundle(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
             }
 
             if (!BundlesSettings.SavedBundles.Any((item) => item.Key == name))
             {
-                return true;
+                return (true, string.Empty);
             }
             else
             {
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
             }
         }
 
@@ -320,7 +392,6 @@ namespace Files.ViewModels.Bundles
         {
             foreach (var item in Contents)
             {
-                item.NotifyItemRemoved -= NotifyItemRemovedHandle;
                 item?.Dispose();
             }
 
@@ -330,8 +401,10 @@ namespace Files.ViewModels.Bundles
             RenameBundleCommand = null;
             DragOverCommand = null;
             DropCommand = null;
+            OpenItemCommand = null;
 
             associatedInstance = null;
+            Contents.CollectionChanged -= Contents_CollectionChanged;
             Contents = null;
         }
 

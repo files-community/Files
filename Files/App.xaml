@@ -19,7 +19,8 @@
                 x:Key="LargeGridInfo"
                 Mode="GridView"
                 SizeKind="Large" />
-            <FontFamily x:Key="FluentUIGlyphs">/Assets/Custom Glyphs/fluentui.ttf#fluentui</FontFamily>
+            <FontFamily x:Key="OldFluentUIGlyphs">/Assets/Custom Glyphs/fluentui.ttf#fluentui</FontFamily>
+            <FontFamily x:Key="FluentGlyphs">/Assets/Custom Glyphs/FluentIcons.ttf#Segoe Fluent Icons</FontFamily>
             <FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
             <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
             <ResourceDictionary.MergedDictionaries>
@@ -33,10 +34,28 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="White" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorBase">#F3F3F3</SolidColorBrush>
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondary">#EEEEEE</SolidColorBrush>
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiary">#F9F9F9</SolidColorBrush>
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternary">#FFFFFF</SolidColorBrush>
+                            <Color x:Key="SolidBackgroundFillColorBase">#F3F3F3</Color>
+                            <Color x:Key="SolidBackgroundFillColorSecondary">#EEEEEE</Color>
+                            <Color x:Key="SolidBackgroundFillColorTertiary">#F9F9F9</Color>
+                            <Color x:Key="SolidBackgroundFillColorQuarternary">#FFFFFF</Color>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
+                            <Color x:Key="ControlStrokeColorDefault">#0F000000</Color>
+                            <Color x:Key="ControlStrokeColorSecondary">#29000000</Color>
+                            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#B3FFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#80F9F9F9" />
+                            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="#4DF9F9F9" />
+                            <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="#4DF9F9F9" />
+                            <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="#00FFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="#FFFFFF" />
+                            <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{StaticResource ControlStrokeColorDefault}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{StaticResource ControlStrokeColorSecondary}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush" Color="#0F000000" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="#29000000" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="#37000000" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#0F000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -44,10 +63,28 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#201F1E" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorBase">#202020</SolidColorBrush>
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondary">#1C1C1C</SolidColorBrush>
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiary">#282828</SolidColorBrush>
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternary">#2C2C2C</SolidColorBrush>
+                            <Color x:Key="SolidBackgroundFillColorBase">#202020</Color>
+                            <Color x:Key="SolidBackgroundFillColorSecondary">#1C1C1C</Color>
+                            <Color x:Key="SolidBackgroundFillColorTertiary">#282828</Color>
+                            <Color x:Key="SolidBackgroundFillColorQuarternary">#2C2C2C</Color>
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
+                            <Color x:Key="ControlStrokeColorDefault">#33000000</Color>
+                            <Color x:Key="ControlStrokeColorSecondary">#73000000</Color>
+                            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#0FFFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#15FFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="#0BFFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="#0BFFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="#00FFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="#15FFFFFF" />
+                            <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{StaticResource ControlStrokeColorDefault}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{StaticResource ControlStrokeColorSecondary}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush" Color="#33000000" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="#73000000" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="#37000000" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#33000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -55,6 +92,19 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemColorWindowColor}" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
+                            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
+                            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
+                            <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
+                            <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="#00FFFFFF" />
+                            <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{StaticResource SystemColorControlAccentColor}" />
+
+                            <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="{StaticResource SystemColorWindowTextColor}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

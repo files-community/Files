@@ -54,6 +54,7 @@ namespace Files
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
         public static WSLDistroManager WSLDistroManager { get; private set; }
+        public static LibraryManager LibraryManager { get; private set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -90,6 +91,7 @@ namespace Files
 
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
+            LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
@@ -98,6 +100,7 @@ namespace Files
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
+                await LibraryManager.EnumerateDrivesAsync();
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();

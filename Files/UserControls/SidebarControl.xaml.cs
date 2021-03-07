@@ -226,6 +226,7 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarLibraries".GetLocalized()) &&
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
@@ -572,8 +573,8 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\xEB5D"
+                FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                Glyph = "\xE713"
             };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;
