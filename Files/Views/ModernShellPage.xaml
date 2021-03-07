@@ -167,7 +167,7 @@
         x:Name="RootGrid"
         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-        BorderThickness="0,0,0,2"
+        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
         SizeChanged="RootGrid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -195,7 +195,7 @@
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            BlurRadius="4"
+            BlurRadius="8"
             Canvas.ZIndex="10"
             OffsetY="2"
             ShadowOpacity="0.04">
@@ -211,9 +211,9 @@
             Grid.Row="1"
             Grid.Column="2"
             HorizontalContentAlignment="Stretch"
-            BlurRadius="4"
+            BlurRadius="16"
             Canvas.ZIndex="10"
-            OffsetX="-2"
+            OffsetX="-4"
             ShadowOpacity="0.04">
             <controls:PreviewPane
                 x:Name="PreviewPane"
@@ -228,7 +228,6 @@
             Grid.Row="1"
             Grid.Column="1"
             x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
-            Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
@@ -248,12 +247,10 @@
 
         <Custom:DropShadowPanel
             Grid.Row="1"
-            Grid.Column="0"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-            BlurRadius="4"
+            BlurRadius="8"
             Canvas.ZIndex="100"
             OffsetY="2"
             ShadowOpacity="0.04">

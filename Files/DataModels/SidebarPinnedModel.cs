@@ -40,7 +40,7 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
-                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
                 Path = "Home",
@@ -49,7 +49,7 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
-                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -256,7 +256,7 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
@@ -356,35 +356,35 @@ namespace Files.DataModels
 
             if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\ue9f1";
+                iconCode = "\uE8FC";
             }
             else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE91c";
+                iconCode = "\uE896";
             }
             else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uea11";
+                iconCode = "\uE8A5";
             }
             else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uea83";
+                iconCode = "\uEB9F";
             }
             else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uead4";
+                iconCode = "\uEC4F";
             }
             else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uec0d";
+                iconCode = "\uE8B2";
             }
             else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\ueb8b";
+                iconCode = "\uEDA2";
             }
             else
             {
-                iconCode = "\uea55";
+                iconCode = "\uE8B7";
             }
 
             return iconCode;

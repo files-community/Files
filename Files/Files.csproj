@@ -488,8 +488,6 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
-    <Content Include="Assets\Files UWP Beta Icon.png" />
-    <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
@@ -514,8 +512,13 @@
     <Content Include="Assets\Custom Glyphs\Custom-Glyphs.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Custom Glyphs\fluentui.ttf" />
     <Content Include="Assets\AnimatedVisuals\LottiePulseStatusCenter.json" />
+    <Content Include="Assets\Custom Glyphs\FluentIcons.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Custom Glyphs\fluentui.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -617,7 +620,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
-    <Content Include="Assets\SettingsAssets\VerticalTabsFlyout.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />

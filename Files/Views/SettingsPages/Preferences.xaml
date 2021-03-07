@@ -88,7 +88,7 @@
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="View sample profiles"
                             Content="&#xE946;"
-                            FontFamily="Segoe MDL2 Assets"
+                            FontFamily="{StaticResource FluentGlyphs}"
                             NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}"
                             ToolTipService.ToolTip="View sample profiles" />
