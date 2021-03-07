@@ -27,7 +27,7 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        [JsonProperty("items")]
+        [JsonProperty("favoriteitems")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
@@ -356,35 +356,35 @@ namespace Files.DataModels
 
             if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE8FC";
+                iconCode = "\ue9f1";
             }
             else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE896";
+                iconCode = "\uE91c";
             }
             else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE8A5";
+                iconCode = "\uea11";
             }
             else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uEB9F";
+                iconCode = "\uea83";
             }
             else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uEC4F";
+                iconCode = "\uead4";
             }
             else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE8B2";
+                iconCode = "\uec0d";
             }
             else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uEDA2";
+                iconCode = "\ueb8b";
             }
             else
             {
-                iconCode = "\uE8B7";
+                iconCode = "\uea55";
             }
 
             return iconCode;
