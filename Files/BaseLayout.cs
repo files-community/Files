@@ -443,8 +443,8 @@ namespace Files
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
-                        FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                        Glyph = "\xEAD0"
+                        FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                        Glyph = "\xE712"
                     }
                 };
                 LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
@@ -590,8 +590,8 @@ namespace Files
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\xea00"
+                                FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                                Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"
                         };

@@ -39,6 +39,34 @@ namespace Files.ViewModels
             }
         }
 
+        public uint GetIconSize()
+        {
+            if (LayoutMode == FolderLayoutModes.DetailsView)
+            {
+                return Constants.Browser.GenericFileBrowser.DetailsViewSize; // ListView thumbnail
+            }
+            else if (LayoutMode == FolderLayoutModes.TilesView)
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
+            }
+            else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
+            }
+            else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Medium thumbnail
+            }
+            else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Large thumbnail
+            }
+            else
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
+            }
+        }
+
         private FolderLayoutInformation layoutModeInformation;
 
         public FolderLayoutInformation LayoutModeInformation

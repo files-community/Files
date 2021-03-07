@@ -25,37 +25,37 @@ namespace Files.UserControls.Widgets
             itemsAdded.Clear();
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                Icon = "\xe9f1",
+                Icon = "\xE8FC",
                 Text = "SidebarDesktop".GetLocalized(),
                 Tag = "Desktop"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                Icon = "\xe91c",
+                Icon = "\xE896",
                 Text = "SidebarDownloads".GetLocalized(),
                 Tag = "Downloads"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                Icon = "\xea11",
+                Icon = "\xE8A5",
                 Text = "SidebarDocuments".GetLocalized(),
                 Tag = "Documents"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                Icon = "\xea83",
+                Icon = "\xEB9F",
                 Text = "SidebarPictures".GetLocalized(),
                 Tag = "Pictures"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                Icon = "\xead4",
+                Icon = "\xEC4F",
                 Text = "SidebarMusic".GetLocalized(),
                 Tag = "Music"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                Icon = "\xec0d",
+                Icon = "\xE8B2",
                 Text = "SidebarVideos".GetLocalized(),
                 Tag = "Videos"
             });

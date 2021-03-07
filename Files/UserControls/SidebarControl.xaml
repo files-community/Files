@@ -19,20 +19,20 @@
                 <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        Windows10version1903:TintLuminosityOpacity="0.85"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        Windows10version1903:TintLuminosityOpacity="0.85"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
@@ -63,7 +63,6 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{x:Bind Font}"
-                            FontSize="18"
                             Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
@@ -87,8 +86,7 @@
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="{StaticResource FluentUIGlyphs}"
-                            FontSize="18"
+                            FontFamily="{StaticResource FluentGlyphs}"
                             Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
@@ -162,7 +160,7 @@
                                 Click="OpenInNewPane_Click"
                                 Text="Open in new pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -190,7 +188,7 @@
                                 Click="{x:Bind local1:App.UnpinItem_Click}"
                                 Text="Unpin from Sidebar">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE77A;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -210,7 +208,7 @@
                                 Click="Properties_Click"
                                 Text="Properties">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout.Items>
