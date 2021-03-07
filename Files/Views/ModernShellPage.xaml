@@ -195,7 +195,7 @@
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            BlurRadius="16"
+            BlurRadius="8"
             Canvas.ZIndex="10"
             OffsetY="4"
             ShadowOpacity="0.04">
@@ -250,7 +250,7 @@
             Grid.ColumnSpan="3"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            BlurRadius="16"
+            BlurRadius="8"
             Canvas.ZIndex="100"
             OffsetY="4"
             ShadowOpacity="0.04">
