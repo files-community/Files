@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Common;
-using System.Diagnostics;
-using Files.Enums;
-using System.Collections.Generic;
 using System.Windows.Input;
 using Files.ViewModels.Previews;
 using Files.ViewModels;
@@ -16,61 +9,11 @@ namespace Files.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {
-        public enum GridViewSizeMode
-        {
-            GridViewSmall,
-            GridViewMedium,
-            GridViewLarge
-        }
-
-        public static void SetPreferredGridViewSizeMode(GridViewSizeMode gridViewSizeMode, string forPath, FolderSettingsViewModel folderSettingsViewModel)
-        {
-            folderSettingsViewModel.LayoutPreference.PreferredGridViewSizeMode = gridViewSizeMode.ToString();
-
-            folderSettingsViewModel.UpdateLayoutPreferencesForPath(forPath, folderSettingsViewModel.LayoutPreference);
-        }
-
-        public static GridViewSizeMode GetPreferredGridViewSizeMode(FolderSettingsViewModel folderSettingsViewModel)
-        {
-            switch (folderSettingsViewModel.LayoutPreference.PreferredGridViewSizeMode)
-            {
-                case "GridViewSmall":
-                    return GridViewSizeMode.GridViewSmall;
-
-                case "GridViewMedium":
-                    return GridViewSizeMode.GridViewMedium;
-
-                case "GridViewLarge":
-                    return GridViewSizeMode.GridViewLarge;
-
-                default:
-                    return GridViewSizeMode.GridViewSmall;
-            }
-        }
-
         public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel)
         {
-            if (App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.AdaptiveLayoutSuggestionOverriden)
+            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.AdaptiveLayoutDisabledOverride)
             {
                 bool desktopIniFound = false;
-                GridViewSizeMode preferredGridViewSize = GetPreferredGridViewSizeMode(folderSettings);
-
-                ICommand preferredGridLayout = folderSettings.ToggleLayoutModeGridViewSmall; // Default
-
-                switch (preferredGridViewSize)
-                {
-                    case GridViewSizeMode.GridViewSmall:
-                        preferredGridLayout = folderSettings.ToggleLayoutModeGridViewSmall;
-                        break;
-
-                    case GridViewSizeMode.GridViewMedium:
-                        preferredGridLayout = folderSettings.ToggleLayoutModeGridViewMedium;
-                        break;
-
-                    case GridViewSizeMode.GridViewLarge:
-                        preferredGridLayout = folderSettings.ToggleLayoutModeGridViewLarge;
-                        break;
-                }
 
                 var iniPath = System.IO.Path.Combine(filesystemViewModel.CurrentFolder.ItemPath, "desktop.ini");
                 var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
@@ -97,7 +40,7 @@ namespace Files.Helpers
 
                                     case "Pictures":
                                         {
-                                            preferredGridLayout.Execute(false);
+                                            folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
                                             break;
                                         }
 
@@ -109,7 +52,7 @@ namespace Files.Helpers
 
                                     case "Videos":
                                         {
-                                            preferredGridLayout.Execute(false);
+                                            folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
                                             break;
                                         }
 
@@ -167,7 +110,7 @@ namespace Files.Helpers
 
                     if (imagesAndVideosCount == filesystemViewModel.FilesAndFolders.Count)
                     { // Only images/videos
-                        preferredGridLayout.Execute(false);
+                        folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
                     }
                     else if (otherFilesCount < 20)
                     { // Most of files are images/videos

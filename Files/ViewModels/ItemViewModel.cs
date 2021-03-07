@@ -972,10 +972,7 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                FolderSettings.LayoutPreference = FolderSettings.GetLayoutPreferencesForPath(path);
-                FolderSettings.AdaptiveLayoutSuggestionOverriden = FolderSettings.LayoutPreference.AdaptiveLayoutDisabledOverride;
-                bool successfulPrediction = AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this);
-                FolderSettings.AdaptiveLayoutSuggestionApplied = successfulPrediction;
+                AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this);
             }
             finally
             {
