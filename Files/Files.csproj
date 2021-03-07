@@ -487,8 +487,6 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
-    <Content Include="Assets\Files UWP Beta Icon.png" />
-    <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
@@ -621,7 +619,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
-    <Content Include="Assets\SettingsAssets\VerticalTabsFlyout.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
