@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Dialogs;
+using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -199,12 +200,15 @@ namespace Files.Views
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, EventArgs e)
+        private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
             if (FilesystemViewModel != null)
             {
-                FolderSettingsViewModel.UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, InstanceViewModel.FolderSettings.LayoutPreference);
-                //AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
+                FolderSettingsViewModel.UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+                if (e.IsAdaptiveLayoutUpdateRequired)
+                {
+                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
+                }
             }
         }
 
