@@ -858,6 +858,7 @@
                 <AutoSuggestBox.QueryIcon>
                     <FontIcon
                         FontFamily="{StaticResource FluentGlyphs}"
+                        FontSize="14"
                         Glyph="&#xE721;" />
                 </AutoSuggestBox.QueryIcon>
                 <AutoSuggestBox.ItemTemplate>
