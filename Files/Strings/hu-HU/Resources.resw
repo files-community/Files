@@ -151,7 +151,7 @@
     <value>Visszajelzés küldése a fejlesztőknek</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Harmadik fél licenszei</value>
+    <value>Harmadik fél licencei</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Névjegy</value>
@@ -199,7 +199,7 @@
     <value>Működés</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>VIGYÁZAT: Kísérleti beállítások!</value>
+    <value>FIGYELEM: AZ ALÁBBI BEÁLLÍTÁSOK KÍSÉRLETI FUNKCIÓKHOZ TARTOZNAK!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Folytassa ott, ahol bezárta a programot</value>
@@ -382,7 +382,7 @@
     <value>Előre (Alt + Jobb nyíl)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fel a szülőmappába(Alt + Felfelé nyíl)</value>
+    <value>Szülőmappába (Alt + Felfelé nyíl)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Frissítés (F5)</value>
@@ -1168,7 +1168,7 @@
     <value>Védelem típusa</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Szerző URL-címe</value>
+    <value>Szerző weboldal</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Tartalomszolgáltató</value>
@@ -1188,6 +1188,12 @@
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producer</value>
   </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Promóciós weboldal</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Szolgáltatói műfaj</value>
+  </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Kiadó</value>
   </data>
@@ -1202,6 +1208,9 @@
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
     <value>Kis indexkép URI</value>
+  </data>
+  <data name="PropertyUserWebUrl" xml:space="preserve">
+    <value>Személyes weboldal</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Író</value>
@@ -1339,10 +1348,10 @@
     <value>Állapotközpont</value>
   </data>
   <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licensz</value>
+    <value>Licenc</value>
   </data>
   <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licensz</value>
+    <value>Licenc</value>
   </data>
   <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
     <value>Weboldal</value>
@@ -1669,7 +1678,7 @@
     <value>Ismeretlen</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Hálózati meghajtó</value>
+    <value>Hálózati meghajtók</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Hálózat</value>
@@ -1702,10 +1711,10 @@
     <value>Többszörös kijelölés (jelenleg lista és ikon nézetekben elérhető)</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Ha módosítja a fájlnév kiterjesztését, akkor a fájl használhatatlanná válhat. Végrehajtja a módosítást?</value>
+    <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD-RW meghajtó</value>
+    <value>CD meghajtó</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
     <value>Felhőtárhely</value>
@@ -1744,13 +1753,19 @@
     <value>További lehetőségek...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Új hálózati meghajtóvá</value>
+    <value>Hálózati meghajtó csatlakoztatása</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Szétkapcsolás</value>
   </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Előzetes gyorsítótár szálak maximális száma (kisebb érték jobb lehet HDD esetén)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Előzetes gyorsítótárazás (almappák beolvasása navigáláskor)</value>
+  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>További munkafelület lehetőségek</value>
+    <value>További munkaterület lehetőségek</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>További meghajtó lehetőségek</value>
