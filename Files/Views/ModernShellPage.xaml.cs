@@ -16,17 +16,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -140,6 +137,15 @@ namespace Files.Views
 
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
+
+        public Thickness CurrentInstanceBorderThickness
+        {
+            get { return (Thickness)GetValue(CurrentInstanceBorderThicknessProperty); }
+            set { SetValue(CurrentInstanceBorderThicknessProperty, value); }
+        }
+
+        public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
+    DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
 
         public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
 
@@ -272,7 +278,7 @@ namespace Files.Views
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1, 
+                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1,
                         InstanceViewModel.FolderSettings.GetIconSize())
                 });
                 FilesystemViewModel.IsLoadingIndicatorActive = false;
