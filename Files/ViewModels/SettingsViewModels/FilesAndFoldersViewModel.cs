@@ -11,7 +11,6 @@ namespace Files.ViewModels.SettingsViewModels
         private bool listAndSortDirectoriesAlongsideFiles = App.AppSettings.ListAndSortDirectoriesAlongsideFiles;
         private bool searchUnindexedItems = App.AppSettings.SearchUnindexedItems;
         private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
-        private bool adaptiveLayoutEnabled = App.AppSettings.AdaptiveLayoutEnabled;
 
         public bool AreHiddenItemsVisible
         {
@@ -114,21 +113,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref areLayoutPreferencesPerFolder, value))
                 {
                     App.AppSettings.AreLayoutPreferencesPerFolder = value;
-                }
-            }
-        }
-
-        public bool AdaptiveLayoutEnabled
-        {
-            get
-            {
-                return adaptiveLayoutEnabled;
-            }
-            set
-            {
-                if (SetProperty(ref adaptiveLayoutEnabled, value))
-                {
-                    App.AppSettings.AdaptiveLayoutEnabled = value;
                 }
             }
         }
