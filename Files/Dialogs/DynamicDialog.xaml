@@ -35,7 +35,7 @@
         </icore:EventTriggerBehavior>
         <!--  No need to specify CommandParameter - `e` is passed by default  -->
         <icore:EventTriggerBehavior EventName="KeyDown">
-            <icore:InvokeCommandAction Command="{Binding DynamicKeyDownCommand, Mode=OneWay}" />
+            <icore:InvokeCommandAction Command="{Binding KeyDownCommand, Mode=OneWay}" />
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
@@ -64,6 +64,13 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             x:Load="{x:Bind ViewModel.DisplayControlLoad, Mode=OneWay}"
-            Content="{Binding DisplayControl, Mode=OneWay}" />
+            Content="{Binding DisplayControl, Mode=OneWay}">
+            <i:Interaction.Behaviors>
+                <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                <icore:EventTriggerBehavior EventName="Loaded">
+                    <icore:InvokeCommandAction Command="{Binding DisplayControlOnLoadedCommand, Mode=OneWay}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </ContentControl>
     </Grid>
 </ContentDialog>

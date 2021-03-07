@@ -7,6 +7,8 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Files.Enums;
+using Windows.UI.Xaml;
+using Files.Interacts;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -342,10 +344,26 @@ namespace Files.ViewModels.Dialogs
             {
                 if (SetProperty(ref keyDownAction, value))
                 {
-                    DynamicKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>((e) =>
+                    KeyDownCommand = new RelayCommand<KeyRoutedEventArgs>((e) =>
                     {
                         DynamicResult = DynamicDialogResult.Cancel;
                         KeyDownAction(this, e);
+                    });
+                }
+            }
+        }
+
+        private Action<DynamicDialogViewModel, RoutedEventArgs> displayControlOnLoaded;
+        public Action<DynamicDialogViewModel, RoutedEventArgs> DisplayControlOnLoaded
+        {
+            get => displayControlOnLoaded;
+            set
+            {
+                if (SetProperty(ref displayControlOnLoaded, value))
+                {
+                    DisplayControlOnLoadedCommand = new RelayCommand<RoutedEventArgs>((e) =>
+                    {
+                        DisplayControlOnLoaded(this, e);
                     });
                 }
             }
@@ -361,7 +379,9 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand CloseButtonCommand { get; private set; }
 
-        public ICommand DynamicKeyDownCommand { get; private set; }
+        public ICommand KeyDownCommand { get; private set; }
+
+        public ICommand DisplayControlOnLoadedCommand { get; private set; }
 
         #endregion Commands
 
@@ -382,6 +402,18 @@ namespace Files.ViewModels.Dialogs
                     HideDialog();
                 }
             };
+            DisplayControlOnLoaded = (vm, e) =>
+            {
+                Control control = (vm.DisplayControl as Control);
+
+                if (control == null)
+                {
+                    control = Interaction.FindChild<Control>(vm.DisplayControl as DependencyObject);
+                }
+
+                control?.Focus(FocusState.Programmatic);
+            };
+
             DynamicButtons = DynamicDialogButtons.Primary;
             DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel;
         }
@@ -394,6 +426,7 @@ namespace Files.ViewModels.Dialogs
         {
             (displayControl as IDisposable)?.Dispose();
 
+            AdditionalData = null;
             displayControl = null;
             titleText = null;
             subtitleText = null;
@@ -401,14 +434,18 @@ namespace Files.ViewModels.Dialogs
             secondaryButtonText = null;
             closeButtonText = null;
 
+            HideDialog = null;
             primaryButtonAction = null;
             secondaryButtonAction = null;
             closeButtonAction = null;
             keyDownAction = null;
+            displayControlOnLoaded = null;
 
             PrimaryButtonCommand = null;
             SecondaryButtonCommand = null;
             CloseButtonCommand = null;
+            KeyDownCommand = null;
+            DisplayControlOnLoadedCommand = null;
         }
 
         #endregion IDisposable
