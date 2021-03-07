@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Controllers;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -27,8 +28,8 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        [JsonProperty("items")]
-        public List<string> Items { get; set; } = new List<string>();
+        [JsonProperty("favoriteitems")]
+        public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
         {
@@ -60,12 +61,9 @@ namespace Files.DataModels
         /// </summary>
         public void AddDefaultItems()
         {
-            Items.Add(AppSettings.DesktopPath);
-            Items.Add(AppSettings.DownloadsPath);
-            Items.Add(AppSettings.DocumentsPath);
-            Items.Add(AppSettings.PicturesPath);
-            Items.Add(AppSettings.MusicPath);
-            Items.Add(AppSettings.VideosPath);
+            FavoriteItems.Add(AppSettings.DesktopPath);
+            FavoriteItems.Add(AppSettings.DownloadsPath);
+            FavoriteItems.Add(AppSettings.DocumentsPath);
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace Files.DataModels
         /// </summary>
         public List<string> GetItems()
         {
-            return Items;
+            return FavoriteItems;
         }
 
         /// <summary>
@@ -82,9 +80,9 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!Items.Contains(item))
+            if (!FavoriteItems.Contains(item))
             {
-                Items.Add(item);
+                FavoriteItems.Add(item);
                 await AddItemToSidebarAsync(item);
                 Save();
             }
@@ -135,9 +133,9 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public void RemoveItem(string item)
         {
-            if (Items.Contains(item))
+            if (FavoriteItems.Contains(item))
             {
-                Items.Remove(item);
+                FavoriteItems.Remove(item);
                 RemoveStaleSidebarItems();
                 Save();
             }
@@ -180,7 +178,7 @@ namespace Files.DataModels
             }
 
             // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-            var sidebarItemsBackup = new List<string>(this.Items);
+            var sidebarItemsBackup = new List<string>(this.FavoriteItems);
 
             try
             {
@@ -193,12 +191,12 @@ namespace Files.DataModels
                 // Moves the items in this model and saves the model
                 if (result == true)
                 {
-                    var indexOfFirstItemInModel = this.Items.IndexOf(firstLocationItem.Path);
-                    var indexOfSecondItemInModel = this.Items.IndexOf(secondLocationItem.Path);
+                    var indexOfFirstItemInModel = this.FavoriteItems.IndexOf(firstLocationItem.Path);
+                    var indexOfSecondItemInModel = this.FavoriteItems.IndexOf(secondLocationItem.Path);
                     if (indexOfFirstItemInModel >= 0 && indexOfSecondItemInModel >= 0)
                     {
-                        this.Items.RemoveAt(indexOfFirstItemInModel);
-                        this.Items.Insert(indexOfSecondItemInModel, firstLocationItem.Path);
+                        this.FavoriteItems.RemoveAt(indexOfFirstItemInModel);
+                        this.FavoriteItems.Insert(indexOfSecondItemInModel, firstLocationItem.Path);
                     }
 
                     Save();
@@ -212,7 +210,7 @@ namespace Files.DataModels
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
                 Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
-                this.Items = sidebarItemsBackup;
+                this.FavoriteItems = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
                 _ = this.AddAllItemsToSidebar();
             }
@@ -261,7 +259,7 @@ namespace Files.DataModels
                 {
                     Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                     Path = path,
-                    Glyph = GetItemIcon(path),
+                    Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
@@ -306,11 +304,11 @@ namespace Files.DataModels
                 if (homeSection != null)
                 {
                     AddItemToSidebarAsync(homeSection);
-                }                    
+                }
 
-                for (int i = 0; i < Items.Count(); i++)
+                for (int i = 0; i < FavoriteItems.Count(); i++)
                 {
-                    string path = Items[i];
+                    string path = FavoriteItems[i];
                     await AddItemToSidebarAsync(path);
                 }
 
@@ -340,57 +338,12 @@ namespace Files.DataModels
                 if (favoriteSection.ChildItems[i] is LocationItem)
                 {
                     var item = favoriteSection.ChildItems[i] as LocationItem;
-                    if (!item.IsDefaultLocation && !Items.Contains(item.Path))
+                    if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets the icon for the items in the navigation sidebar
-        /// </summary>
-        /// <param name="path">The path in the sidebar</param>
-        /// <returns>The icon code</returns>
-        public string GetItemIcon(string path)
-        {
-            string iconCode;
-            
-            if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8FC";
-            }
-            else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE896";
-            }
-            else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8A5";
-            }
-            else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEB9F";
-            }
-            else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEC4F";
-            }
-            else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8B2";
-            }
-            else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEDA2";
-            }
-            else
-            {
-                iconCode = "\uE8B7";
-            }
-
-            return iconCode;
         }
     }
 }
