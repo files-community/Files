@@ -1,4 +1,5 @@
 ﻿using Files.Enums;
+using Files.EventArguments;
 using Files.Filesystem;
 using Files.UserControls.Selection;
 using System;
@@ -13,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using static Files.ViewModels.FolderSettingsViewModel;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files.Views.LayoutModes
@@ -80,7 +82,7 @@ namespace Files.Views.LayoutModes
             FileList.Focus(FocusState.Programmatic);
         }
 
-        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {

@@ -11,6 +11,7 @@
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
+    xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="PageRoot"
@@ -81,41 +82,46 @@
                     <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE152;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutGridViewLarge"
-                        Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
-                        Text="Grid View (Large)">
+                    x:Uid="BaseLayoutContextFlyoutGridViewLarge"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
+                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                    Text="Grid View (Large)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE9A0;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutGridViewMedium"
-                        Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
-                        Text="Grid View (Medium)">
+                    x:Uid="BaseLayoutContextFlyoutGridViewMedium"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
+                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                    Text="Grid View (Medium)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF0E2;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutGridViewSmall"
-                        Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                        Text="Grid View (Small)">
+                    x:Uid="BaseLayoutContextFlyoutGridViewSmall"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
+                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                    Text="Grid View (Small)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEBA1;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutTilesView"
-                        Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                        Text="Tiles View">
+                    x:Uid="BaseLayoutContextFlyoutTilesView"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
+                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                    Text="Tiles View">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutDetails"
-                        Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
-                        Text="Details View">
+                    x:Uid="BaseLayoutContextFlyoutDetails"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
+                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                    Text="Details View">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
                     </MenuFlyoutItem.Icon>
