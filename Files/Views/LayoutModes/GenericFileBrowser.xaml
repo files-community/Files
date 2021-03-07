@@ -106,7 +106,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Grid View (Large)">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE9A0;" />
+                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE739;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -124,7 +124,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Grid View (Small)">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEBA1;" />
+                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE80A;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -133,7 +133,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Tiles View">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
+                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE15C;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -142,7 +142,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Details View">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
+                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE179;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
@@ -183,7 +183,7 @@
                     IsEnabled="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     Text="Open in Terminal...">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE756;" />
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE756;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
@@ -376,7 +376,7 @@
                     Tag="OpenWith"
                     Text="Open With">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF108;" />
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE17D;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
