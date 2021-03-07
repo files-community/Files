@@ -426,6 +426,7 @@ namespace Files.ViewModels.Dialogs
         {
             (displayControl as IDisposable)?.Dispose();
 
+            AdditionalData = null;
             displayControl = null;
             titleText = null;
             subtitleText = null;
@@ -433,6 +434,7 @@ namespace Files.ViewModels.Dialogs
             secondaryButtonText = null;
             closeButtonText = null;
 
+            HideDialog = null;
             primaryButtonAction = null;
             secondaryButtonAction = null;
             closeButtonAction = null;

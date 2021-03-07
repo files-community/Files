@@ -73,6 +73,8 @@ namespace Files.ViewModels.Bundles
 
         #region Commands
 
+        public ICommand OpenItemCommand { get; private set; }
+
         public ICommand RemoveBundleCommand { get; private set; }
 
         public ICommand RenameBundleCommand { get; private set; }
@@ -97,6 +99,10 @@ namespace Files.ViewModels.Bundles
 
             internalCollectionCount = Contents.Count;
             Contents.CollectionChanged += Contents_CollectionChanged;
+            OpenItemCommand = new RelayCommand<ItemClickEventArgs>((e) =>
+            {
+                (e.ClickedItem as BundleItemViewModel).OpenItem();
+            });
         }
 
         #endregion Constructor
@@ -395,6 +401,7 @@ namespace Files.ViewModels.Bundles
             RenameBundleCommand = null;
             DragOverCommand = null;
             DropCommand = null;
+            OpenItemCommand = null;
 
             associatedInstance = null;
             Contents.CollectionChanged -= Contents_CollectionChanged;

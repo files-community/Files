@@ -13,6 +13,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -93,8 +94,6 @@ namespace Files.ViewModels.Bundles
 
         #region Commands
 
-        public ICommand OpenItemCommand { get; private set; }
-
         public ICommand OpenInNewTabCommand { get; private set; }
 
         public ICommand OpenInNewPaneCommand { get; private set; }
@@ -114,7 +113,6 @@ namespace Files.ViewModels.Bundles
             this.TargetType = targetType;
 
             // Create commands
-            OpenItemCommand = new RelayCommand(OpenItem);
             OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
             OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
@@ -126,11 +124,6 @@ namespace Files.ViewModels.Bundles
         #endregion Constructor
 
         #region Command Implementation
-
-        private async void OpenItem()
-        {
-            await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
-        }
 
         private async void OpenInNewTab()
         {
@@ -178,7 +171,7 @@ namespace Files.ViewModels.Bundles
 
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
-                            Icon = await IconData.ToBitmapAsync();
+                            Icon = await IconData?.ToBitmapAsync();
                         });
 
                         return;
@@ -212,6 +205,15 @@ namespace Files.ViewModels.Bundles
 
         #endregion Private Helpers
 
+        #region Public Helpers
+
+        public async void OpenItem()
+        {
+            await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
+        }
+
+        #endregion
+
         #region IDisposable
 
         public void Dispose()
@@ -219,7 +221,6 @@ namespace Files.ViewModels.Bundles
             Path = null;
             Icon = null;
 
-            OpenItemCommand = null;
             OpenInNewTabCommand = null;
             OpenItemLocationCommand = null;
             RemoveItemCommand = null;
