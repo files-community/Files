@@ -103,9 +103,9 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength SidebarWidth
         {
-            /// 250: min. open sidebar width
-            /// 363: max. open sidebar width, don't go under control box when window width is minimal
-            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 363d), GridUnitType.Pixel);
+            /// Note: if the upper limit is increased over 363, the sidebar might be covered
+            ///       by the control box when window size is the mimimal allowed (500 px)
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 350d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 

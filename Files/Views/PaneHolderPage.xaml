@@ -106,7 +106,7 @@
 
                     <VisualState.Setters>
                         <Setter Target="SidebarColumn.MinWidth" Value="250"/>
-                        <Setter Target="SidebarColumn.MaxWidth" Value="363"/>
+                        <Setter Target="SidebarColumn.MaxWidth" Value="350"/>
                         <Setter Target="SidebarResizer.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
