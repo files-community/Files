@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class YourHome : Page
+    public sealed partial class YourHome : Page, IDisposable
     {
         private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -165,5 +165,16 @@ namespace Files.Views
             };
             AppInstance.NavigationToolbar.PathComponents.Add(item);
         }
+
+        #region IDisposable
+
+        // TODO: This Dispose() is never called, please implement the functionality to call this function.
+        //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
+        public void Dispose()
+        {
+            BundlesWidget?.Dispose();
+        }
+
+        #endregion IDisposable
     }
 }

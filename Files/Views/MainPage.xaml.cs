@@ -211,7 +211,7 @@ namespace Files.Views
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
 
             TabItem tabItem = new TabItem()
             {
@@ -232,7 +232,7 @@ namespace Files.Views
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
 
             if (string.IsNullOrEmpty(path))
             {
@@ -259,47 +259,47 @@ namespace Files.Views
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {
                 tabLocationHeader = "SidebarSettings/Text".GetLocalized();
-                fontIconSource.Glyph = "\xeb5d";
+                fontIconSource.Glyph = "\xE713";
             }
             else if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home")
             {
                 tabLocationHeader = "NewTab".GetLocalized();
-                fontIconSource.Glyph = "\xe90c";
+                fontIconSource.Glyph = "\xE8A1";
             }
             else if (currentPath.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDesktop".GetLocalized();
-                fontIconSource.Glyph = "\xe9f1";
+                fontIconSource.Glyph = "\xE8FC";
             }
             else if (currentPath.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDownloads".GetLocalized();
-                fontIconSource.Glyph = "\xe91c";
+                fontIconSource.Glyph = "\xE896";
             }
             else if (currentPath.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDocuments".GetLocalized();
-                fontIconSource.Glyph = "\xEA11";
+                fontIconSource.Glyph = "\xE8A5";
             }
             else if (currentPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarPictures".GetLocalized();
-                fontIconSource.Glyph = "\xEA83";
+                fontIconSource.Glyph = "\xEB9F";
             }
             else if (currentPath.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarMusic".GetLocalized();
-                fontIconSource.Glyph = "\xead4";
+                fontIconSource.Glyph = "\xEC4F";
             }
             else if (currentPath.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarVideos".GetLocalized();
-                fontIconSource.Glyph = "\xec0d";
+                fontIconSource.Glyph = "\xE8B2";
             }
             else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
@@ -311,14 +311,14 @@ namespace Files.Views
             else if (currentPath.Equals(App.AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
-                fontIconSource.Glyph = "\ueac2";
+                fontIconSource.Glyph = "\uE8CE";
             }
             else
             {
                 var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Equals(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
                 if (matchingCloudDrive != null)
                 {
-                    fontIconSource.Glyph = "\xe9b7";
+                    fontIconSource.Glyph = "\xE753";
                     tabLocationHeader = matchingCloudDrive.Text;
                 }
                 else if (NormalizePath(GetPathRoot(currentPath)) == NormalizePath(currentPath)) // If path is a drive's root
@@ -326,7 +326,7 @@ namespace Files.Views
                     var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
                     if (matchingNetDrive != null)
                     {
-                        fontIconSource.Glyph = "\ueac2";
+                        fontIconSource.Glyph = "\uE8CE";
                         tabLocationHeader = matchingNetDrive.Text;
                     }
                     else
@@ -346,17 +346,17 @@ namespace Files.Views
                                 }
                                 else
                                 {
-                                    fontIconSource.Glyph = "\xeb8b"; //Drive icon
+                                    fontIconSource.Glyph = "\xEDA2"; //Drive icon
                                 }
                             }
                             else
                             {
-                                fontIconSource.Glyph = "\xeb4a"; //Floppy icon
+                                fontIconSource.Glyph = "\xE74E"; //Floppy icon
                             }
                         }
                         catch (Exception)
                         {
-                            fontIconSource.Glyph = "\xeb8b"; //Fallback
+                            fontIconSource.Glyph = "\xEDA2"; //Fallback
                         }
 
                         tabLocationHeader = NormalizePath(currentPath);
@@ -364,7 +364,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    fontIconSource.Glyph = "\xea55"; //Folder icon
+                    fontIconSource.Glyph = "\xE8B7"; //Folder icon
                     tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
                     FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
@@ -526,42 +526,42 @@ namespace Files.Views
             switch (drive.DriveType)
             {
                 case System.IO.DriveType.CDRom:
-                    type = "\xec39";
+                    type = "\xE958";
                     break;
 
                 case System.IO.DriveType.Fixed:
-                    type = "\xeb8b";
+                    type = "\xEDA2";
                     break;
 
                 case System.IO.DriveType.Network:
-                    type = "\xeac2";
+                    type = "\xE8CE";
                     break;
 
                 case System.IO.DriveType.NoRootDirectory:
-                    type = "\xea5a";
+                    type = "\xED25";
                     break;
 
                 case System.IO.DriveType.Ram:
-                    type = "\xe9f2";
+                    type = "\xE950";
                     break;
 
                 case System.IO.DriveType.Removable:
-                    type = "\xec0a";
+                    type = "\xE88E";
                     break;
 
                 case System.IO.DriveType.Unknown:
                     if (NormalizePath(drive.Name) != NormalizePath("A:") && NormalizePath(drive.Name) != NormalizePath("B:"))
                     {
-                        type = "\xeb8b";
+                        type = "\xEDA2";
                     }
                     else
                     {
-                        type = "\xeb4a";    //Floppy icon
+                        type = "\xE74E";    //Floppy icon
                     }
                     break;
 
                 default:
-                    type = "\xeb8b";    //Drive icon
+                    type = "\xEDA2";    //Drive icon
                     break;
             }
 

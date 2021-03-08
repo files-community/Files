@@ -88,7 +88,7 @@
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="View sample profiles"
                             Content="&#xE946;"
-                            FontFamily="Segoe MDL2 Assets"
+                            FontFamily="{StaticResource FluentGlyphs}"
                             NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}"
                             ToolTipService.ToolTip="View sample profiles" />
@@ -107,6 +107,13 @@
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowLibrarySection"
+                    x:Uid="SettingsPreferencesShowLibrarySection"
+                    Header="Show Library section on the sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

@@ -32,6 +32,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.ViewModels.FolderSettingsViewModel;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.ViewModels
@@ -970,6 +971,8 @@ namespace Files.ViewModels
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
+
+                AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this);
             }
             finally
             {
