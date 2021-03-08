@@ -549,6 +549,9 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// </summary>
         public string PathToThemeFile
         {
             get => Get("DefaultScheme".GetLocalized());
