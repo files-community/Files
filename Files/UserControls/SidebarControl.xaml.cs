@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.ViewModels;
@@ -54,14 +54,16 @@ namespace Files.UserControls
 
         public ICommand EmptyRecycleBinCommand
         {
-            get
-            {
-                return (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-            }
-            set
-            {
-                SetValue(EmptyRecycleBinCommandProperty, value);
-            }
+            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            set => SetValue(EmptyRecycleBinCommandProperty, value);
+        }
+
+        public static readonly DependencyProperty IsSidebarOpenProperty = DependencyProperty.Register("IsSidebarOpen", typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
+
+        public bool IsSidebarOpen
+        {
+            get => (bool)GetValue(IsSidebarOpenProperty);
+            set => SetValue(IsSidebarOpenProperty, value);
         }
 
         public SidebarControl()

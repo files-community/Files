@@ -98,10 +98,24 @@ namespace Files.ViewModels
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the width of the sidebar pane (when open).
+        /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
+            /// 250: min. open sidebar width
+            /// 363: max. open sidebar width, don't go under control box when window width is minimal
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 363d), GridUnitType.Pixel);
             set => Set(value.Value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the open state of the sidebar pane.
+        /// </summary>
+        public bool IsSidebarOpen
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         /// <summary>

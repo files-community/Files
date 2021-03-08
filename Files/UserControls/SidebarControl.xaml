@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Files.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -126,8 +126,8 @@
             x:Name="SidebarNavView"
             HorizontalAlignment="Stretch"
             IsBackButtonVisible="Collapsed"
-            IsPaneOpen="True"
-            IsPaneToggleButtonVisible="False"
+            IsPaneOpen="{x:Bind IsSidebarOpen, Mode=TwoWay}"
+            IsPaneToggleButtonVisible="True"
             IsSettingsVisible="True"
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
@@ -215,6 +215,12 @@
                     </MenuFlyout>
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
+
+            <muxc:NavigationView.PaneToggleButtonStyle>
+                <Style TargetType="Button" BasedOn="{StaticResource PaneToggleButtonStyle}">
+                    <Setter Property="FontFamily" Value="{StaticResource FluentGlyphs}" />
+                </Style>
+            </muxc:NavigationView.PaneToggleButtonStyle>
         </muxc:NavigationView>
     </Grid>
 </UserControl>

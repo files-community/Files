@@ -32,10 +32,7 @@ namespace Files.Views
 
         public GridLength SidebarWidth
         {
-            get
-            {
-                return AppSettings.SidebarWidth;
-            }
+            get => AppSettings.SidebarWidth;
             set
             {
                 if (AppSettings.SidebarWidth != value)
@@ -58,6 +55,7 @@ namespace Files.Views
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
 
+            this.IsSidebarOpen = AppSettings.IsSidebarOpen;
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
         }
@@ -73,6 +71,10 @@ namespace Files.Views
                 case nameof(AppSettings.SidebarWidth):
                     NotifyPropertyChanged(nameof(SidebarWidth));
                     break;
+
+                case nameof(AppSettings.IsSidebarOpen):
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
+                    break;
             }
         }
 
@@ -83,8 +85,26 @@ namespace Files.Views
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            IsWindowCompactSize = Window.Current.Bounds.Width <= 800;
+            IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
         }
+
+        private bool isSidebarOpen;
+
+        public bool IsSidebarOpen
+        {
+            get => isSidebarOpen;
+            set
+            {
+                isSidebarOpen = value;
+                if (AppSettings.IsSidebarOpen != value)
+                {
+                    AppSettings.IsSidebarOpen = value;
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
+                }
+            }
+        }
+
+        private bool wasSidebarOpen;
 
         private bool wasRightPaneVisible;
 
@@ -100,16 +120,27 @@ namespace Files.Views
                     isWindowCompactSize = value;
                     if (isWindowCompactSize)
                     {
+                        wasSidebarOpen = isSidebarOpen;
                         wasRightPaneVisible = isRightPaneVisible;
+                        IsSidebarOpen = false;
                         IsRightPaneVisible = false;
                     }
-                    else if (wasRightPaneVisible)
+                    else
                     {
-                        IsRightPaneVisible = true;
-                        wasRightPaneVisible = false;
+                        if (wasSidebarOpen)
+                        {
+                            IsSidebarOpen = true;
+                            wasSidebarOpen = false;
+                        }
+                        if (wasRightPaneVisible)
+                        {
+                            IsRightPaneVisible = true;
+                            wasRightPaneVisible = false;
+                        }
                     }
                     NotifyPropertyChanged(nameof(IsWindowCompactSize));
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
         }

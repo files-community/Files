@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Files.Views.PaneHolderPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -92,15 +92,31 @@
             <ColumnDefinition
                 x:Name="SidebarColumn"
                 Width="{x:Bind SidebarWidth, Mode=TwoWay}"
-                MinWidth="200"
-                MaxWidth="500" />
+                MinWidth="{ThemeResource NavigationViewCompactPaneLength}"
+                MaxWidth="{ThemeResource NavigationViewCompactPaneLength}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind IsSidebarOpen, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="SidebarColumn.MinWidth" Value="250"/>
+                        <Setter Target="SidebarColumn.MaxWidth" Value="363"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <controls:SidebarControl
             x:Name="SidebarControl"
             Grid.RowSpan="2"
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+            IsSidebarOpen="{x:Bind IsSidebarOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
