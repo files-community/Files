@@ -17,13 +17,17 @@ namespace Files.UserControls
 {
     public sealed partial class StatusCenter : UserControl, IStatusCenterActions
     {
-        #region Private Members
+        #region Public Properties
 
-        private ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
+        public ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
 
         #endregion
 
+        #region Events
+
         public event EventHandler ProgressBannerPosted;
+
+        #endregion
 
         #region Constructor
 
