@@ -53,6 +53,7 @@
             x:Name="SettingsPane"
             BackRequested="SettingsPane_BackRequested"
             CompactModeThresholdWidth="0"
+            ExpandedModeThresholdWidth="750"
             IsBackButtonVisible="Visible"
             IsBackEnabled="True"
             IsPaneOpen="True"

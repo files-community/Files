@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="Files.Views.PaneHolderPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -107,6 +107,7 @@
                     <VisualState.Setters>
                         <Setter Target="SidebarColumn.MinWidth" Value="250"/>
                         <Setter Target="SidebarColumn.MaxWidth" Value="363"/>
+                        <Setter Target="SidebarResizer.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -312,12 +313,14 @@
             IsTabStop="False"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
-            Style="{StaticResource DefaultGridSplitterStyle}">
+            Style="{StaticResource DefaultGridSplitterStyle}"
+            Visibility="Collapsed">
             <Custom:GridSplitter.RenderTransform>
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
     </Grid>
+
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
             Key="Left"
