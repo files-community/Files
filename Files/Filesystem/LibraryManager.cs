@@ -64,6 +64,7 @@ namespace Files.Filesystem
                                 Text = "SidebarLibraries".GetLocalized(),
                                 Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                 Glyph = "\uEC13",
+                                SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
                             MainPage.SideBarItems.Add(librarySection);

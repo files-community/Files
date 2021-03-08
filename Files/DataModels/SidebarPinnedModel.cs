@@ -51,6 +51,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarFavorites".GetLocalized(),
                 Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                SelectsOnInvoked = false,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
