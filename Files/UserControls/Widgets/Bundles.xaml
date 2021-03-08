@@ -12,22 +12,10 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary>
-            <!--  Converters  -->
-            <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
+        <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="ControlFillColorDefaultBrush"/>
 
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Name="Light">
-                    <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Name="Dark">
-                    <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Name="HighContrast">
-                    <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
+        <!--  Converters  -->
+        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
     </UserControl.Resources>
 
     <StackPanel Spacing="12">
@@ -136,9 +124,9 @@
                         Width="270"
                         Height="256"
                         AllowDrop="True"
-                        Background="{ThemeResource YourHomeCardBackgroundColor}"
+                        Background="{StaticResource YourHomeCardBackgroundColor}"
                         ColumnSpacing="8"
-                        CornerRadius="4">
+                        CornerRadius="8">
                         <i:Interaction.Behaviors>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <icore:EventTriggerBehavior EventName="DragOver">
@@ -149,22 +137,6 @@
                                 <icore:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}" />
                             </icore:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
-
-                        <Grid.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.ThemeDictionaries>
-                                    <ResourceDictionary x:Name="Light">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="Dark">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="HighContrast">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                                    </ResourceDictionary>
-                                </ResourceDictionary.ThemeDictionaries>
-                            </ResourceDictionary>
-                        </Grid.Resources>
 
                         <!--  Contents of a Bundle  -->
                         <Grid
