@@ -359,7 +359,7 @@
                     Tag="OpenPane_FlyoutItem"
                     Text="Open in new pane">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
+                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF57C;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -370,7 +370,7 @@
                     Tag="OpenTab_FlyoutItem"
                     Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -381,7 +381,7 @@
                     Tag="OpenWindow_FlyoutItem"
                     Text="Open in new window">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
+                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE737;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSubItem
@@ -394,7 +394,7 @@
                         Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                         Text="Set as desktop background">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE771;" />
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE91B;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -403,7 +403,7 @@
                         Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
                         Text="Set as lockscreen background">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF114;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
@@ -474,7 +474,7 @@
                     Command="{x:Bind ParentShellPageInstance.InteractionOperations.CopyPathOfSelectedItem}"
                     Text="Copy location">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE9B1;" />
+                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE167;"  />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
