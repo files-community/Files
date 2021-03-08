@@ -293,7 +293,7 @@ namespace Files
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
                     FolderSettings.IsLayoutModeChanging = true;
-                    ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                    ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
                         IsSearchResultPage = navigationArguments.IsSearchResultPage,
@@ -301,10 +301,10 @@ namespace Files
                         SearchResults = navigationArguments.SearchResults,
                         IsLayoutSwitch = true,
                         AssociatedTabInstance = ParentShellPageInstance
-                    }, null);
+                    });
 
                     // Remove old layout from back stack
-                    ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                    ParentShellPageInstance.RemoveLastPageFromBackStack();
                 }
             }
         }

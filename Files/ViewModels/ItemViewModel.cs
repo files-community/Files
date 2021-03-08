@@ -53,7 +53,7 @@ namespace Files.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-        public FolderSettingsViewModel FolderSettings = null;
+        private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -197,12 +197,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByName
         {
-            get => FolderSettings.DirectorySortOption == SortOption.Name;
+            get => folderSettings.DirectorySortOption == SortOption.Name;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.Name;
+                    folderSettings.DirectorySortOption = SortOption.Name;
                     NotifyPropertyChanged(nameof(IsSortedByName));
                 }
             }
@@ -210,12 +210,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByOriginalPath
         {
-            get => FolderSettings.DirectorySortOption == SortOption.OriginalPath;
+            get => folderSettings.DirectorySortOption == SortOption.OriginalPath;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                    folderSettings.DirectorySortOption = SortOption.OriginalPath;
                     NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
@@ -223,12 +223,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByDateDeleted
         {
-            get => FolderSettings.DirectorySortOption == SortOption.DateDeleted;
+            get => folderSettings.DirectorySortOption == SortOption.DateDeleted;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
+                    folderSettings.DirectorySortOption = SortOption.DateDeleted;
                     NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
                 }
             }
@@ -236,12 +236,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByDate
         {
-            get => FolderSettings.DirectorySortOption == SortOption.DateModified;
+            get => folderSettings.DirectorySortOption == SortOption.DateModified;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.DateModified;
+                    folderSettings.DirectorySortOption = SortOption.DateModified;
                     NotifyPropertyChanged(nameof(IsSortedByDate));
                 }
             }
@@ -249,12 +249,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByDateCreated
         {
-            get => FolderSettings.DirectorySortOption == SortOption.DateCreated;
+            get => folderSettings.DirectorySortOption == SortOption.DateCreated;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.DateCreated;
+                    folderSettings.DirectorySortOption = SortOption.DateCreated;
                     NotifyPropertyChanged(nameof(IsSortedByDateCreated));
                 }
             }
@@ -262,12 +262,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByType
         {
-            get => FolderSettings.DirectorySortOption == SortOption.FileType;
+            get => folderSettings.DirectorySortOption == SortOption.FileType;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.FileType;
+                    folderSettings.DirectorySortOption = SortOption.FileType;
                     NotifyPropertyChanged(nameof(IsSortedByType));
                 }
             }
@@ -275,12 +275,12 @@ namespace Files.ViewModels
 
         public bool IsSortedBySize
         {
-            get => FolderSettings.DirectorySortOption == SortOption.Size;
+            get => folderSettings.DirectorySortOption == SortOption.Size;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.Size;
+                    folderSettings.DirectorySortOption = SortOption.Size;
                     NotifyPropertyChanged(nameof(IsSortedBySize));
                 }
             }
@@ -288,10 +288,10 @@ namespace Files.ViewModels
 
         public bool IsSortedAscending
         {
-            get => FolderSettings.DirectorySortDirection == SortDirection.Ascending;
+            get => folderSettings.DirectorySortDirection == SortDirection.Ascending;
             set
             {
-                FolderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                folderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
                 NotifyPropertyChanged(nameof(IsSortedAscending));
                 NotifyPropertyChanged(nameof(IsSortedDescending));
             }
@@ -302,7 +302,7 @@ namespace Files.ViewModels
             get => !IsSortedAscending;
             set
             {
-                FolderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+                folderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
                 NotifyPropertyChanged(nameof(IsSortedAscending));
                 NotifyPropertyChanged(nameof(IsSortedDescending));
             }
@@ -310,7 +310,7 @@ namespace Files.ViewModels
 
         public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
         {
-            FolderSettings = folderSettingsViewModel;
+            folderSettings = folderSettingsViewModel;
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
             addFilesCTS = new CancellationTokenSource();
@@ -527,7 +527,7 @@ namespace Files.ViewModels
                 static object orderByNameFunc(ListedItem item) => item.ItemName;
                 Func<ListedItem, object> orderFunc = orderByNameFunc;
                 var naturalStringComparer = NaturalStringComparer.GetForProcessor();
-                switch (FolderSettings.DirectorySortOption)
+                switch (folderSettings.DirectorySortOption)
                 {
                     case SortOption.Name:
                         orderFunc = orderByNameFunc;
@@ -563,9 +563,9 @@ namespace Files.ViewModels
                 static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File);
                 IOrderedEnumerable<ListedItem> ordered;
 
-                if (FolderSettings.DirectorySortDirection == SortDirection.Ascending)
+                if (folderSettings.DirectorySortDirection == SortDirection.Ascending)
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (folderSettings.DirectorySortOption == SortOption.Name)
                     {
                         if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                         {
@@ -590,7 +590,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (folderSettings.DirectorySortOption == SortOption.Name)
                     {
                         if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                         {
@@ -615,9 +615,9 @@ namespace Files.ViewModels
                 }
 
                 // Further order by name if applicable
-                if (FolderSettings.DirectorySortOption != SortOption.Name)
+                if (folderSettings.DirectorySortOption != SortOption.Name)
                 {
-                    if (FolderSettings.DirectorySortDirection == SortDirection.Ascending)
+                    if (folderSettings.DirectorySortDirection == SortDirection.Ascending)
                     {
                         ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
                     }
@@ -763,7 +763,7 @@ namespace Files.ViewModels
                                         item.ItemName = matchingStorageItem.DisplayName;
                                     });
                                     await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageItem.DisplayName);
-                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
+                                    if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
                                     {
                                         await OrderFilesAndFoldersAsync();
                                         await ApplySingleFileChangeAsync(item);
@@ -916,7 +916,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, FolderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
+                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
                     {
                         WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item));
                     }
@@ -945,7 +945,7 @@ namespace Files.ViewModels
                                             storageFolder = res.Result;
                                         }
                                     }
-                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, FolderSettings.GetLayoutType(path), addFilesCTS.Token, null, cacheOnly: true);
+                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, null, cacheOnly: true);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception ex)
@@ -972,7 +972,7 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this);
+                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
             }
             finally
             {
