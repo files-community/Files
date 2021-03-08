@@ -26,8 +26,8 @@ namespace Files.Helpers
 
         public async Task LoadSelectedTheme()
         {
-            ThemeFolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("themes")) as StorageFolder;
-            ThemeFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("themes");
+            ThemeFolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("Themes")) as StorageFolder;
+            ThemeFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes");
 
             if (App.AppSettings.PathToThemeFile != "DefaultScheme".GetLocalized())
             {

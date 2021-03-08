@@ -1911,7 +1911,7 @@
     <data name="DefaultScheme" xml:space="preserve">
     <value>Default</value>
   </data>
-    <data name="SettingsApperanceColorScheme.Header" xml:space="preserve">
+    <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Color scheme</value>
   </data>
 </root>
