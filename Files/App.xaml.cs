@@ -90,7 +90,7 @@ namespace Files
             }
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadThemesAsync();
+            await ExternalResourcesHelper.LoadSelectedTheme();
 
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();

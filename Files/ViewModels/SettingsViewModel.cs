@@ -529,6 +529,11 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        public string PathToThemeFile
+        {
+            get => Get("Default");
+            set => Set(value);
+        }
         #endregion Appearance
 
         #region Experimental

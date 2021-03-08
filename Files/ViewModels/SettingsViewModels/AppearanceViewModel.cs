@@ -17,6 +17,9 @@ namespace Files.ViewModels.SettingsViewModels
         private bool showCopyLocationMenuItem = App.AppSettings.ShowCopyLocationMenuItem;
         private bool showOpenInNewTabMenuItem = App.AppSettings.ShowOpenInNewTabMenuItem;
         private bool areRightClickContentMenuAnimationsEnabled = App.AppSettings.AreRightClickContentMenuAnimationsEnabled;
+        private string selectedThemeName = App.AppSettings.PathToThemeFile;
+        private bool showRestartDialog = false;
+
 
         public AppearanceViewModel()
         {
@@ -35,6 +38,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         public List<string> Themes { get; set; }
+        public List<string> ColorSchemes => App.ExternalResourcesHelper.Themes;
 
         public int SelectedThemeIndex
         {
@@ -139,5 +143,27 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+        public string SelectedThemeName
+        {
+            get
+            {
+                return selectedThemeName;
+            }
+            set
+            {
+                if (SetProperty(ref selectedThemeName, value))
+                {
+                    App.AppSettings.PathToThemeFile = selectedThemeName;
+                    ShowRestartDialog = true;
+                }
+            }
+        }
+
+        public bool ShowRestartDialog
+        {
+            get => showRestartDialog;
+            set => SetProperty(ref showRestartDialog, value);
+        }
+
     }
 }

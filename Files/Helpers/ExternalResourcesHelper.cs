@@ -13,24 +13,55 @@ namespace Files.Helpers
 {
     public class ExternalResourcesHelper
     {
-        public List<AppTheme> Themes { get; set; } = new List<AppTheme>();
-        public async Task LoadThemesAsync()
+
+        public List<string> Themes = new List<string>()
+        {
+            "Default"
+        };
+        
+        private StorageFolder ThemeFolder { get; set; }
+        public async Task LoadSelectedTheme()
+        {
+            ThemeFolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("themes")) as StorageFolder;
+            ThemeFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("themes");
+
+            if (App.AppSettings.PathToThemeFile != "Default")
+            {
+                await TryLoadThemeAsync(App.AppSettings.PathToThemeFile);
+            }
+
+            LoadOtherThemesAsync();
+        }
+
+        private async void LoadOtherThemesAsync()
         {
             try
             {
-                var themefolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("themes")) as StorageFolder;
-                themefolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("themes");
-                foreach (var file in (await themefolder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
+                foreach (var file in (await ThemeFolder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
                 {
-                    var text = await FileIO.ReadTextAsync(file);
-                    var theme = new AppTheme { ResourceDictionary = XamlReader.Load(text) as ResourceDictionary, Name = file.Name.Replace(".xaml", "") };
-                    Themes.Add(theme);
-                    App.Current.Resources.MergedDictionaries.Add(theme.ResourceDictionary);
+                    Themes.Add(file.Name);
                 }
             }
             catch (Exception)
             {
                 Debug.WriteLine($"Error loading themes");
+            }
+        }
+        
+        public async Task<bool> TryLoadThemeAsync(string name)
+        {
+            try
+            {
+                var file = await ThemeFolder.GetFileAsync(name);
+                var text = await FileIO.ReadTextAsync(file);
+                var xaml = XamlReader.Load(text) as ResourceDictionary;
+                App.Current.Resources.MergedDictionaries.Add(xaml);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
