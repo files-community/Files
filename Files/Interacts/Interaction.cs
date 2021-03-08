@@ -814,7 +814,6 @@ namespace Files.Interacts
                 await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     Frame frame = new Frame();
-                    
                     frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                     {
                         Item = item,

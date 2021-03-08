@@ -21,6 +21,9 @@ namespace Files.Helpers
         };
         
         private StorageFolder ThemeFolder { get; set; }
+
+        public string CurrentThemeResources { get; set; }
+
         public async Task LoadSelectedTheme()
         {
             ThemeFolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("themes")) as StorageFolder;
@@ -54,8 +57,8 @@ namespace Files.Helpers
             try
             {
                 var file = await ThemeFolder.GetFileAsync(name);
-                var text = await FileIO.ReadTextAsync(file);
-                var xaml = XamlReader.Load(text) as ResourceDictionary;
+                CurrentThemeResources = await FileIO.ReadTextAsync(file);
+                var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
                 App.Current.Resources.MergedDictionaries.Add(xaml);
 
                 return true;
