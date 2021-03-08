@@ -1758,4 +1758,34 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Más opciones de contenedores</value>
   </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Ubicaciones recientes</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>No hay vista previa disponible</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>No hay detalles disponibles</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Ningun elemento seleccionado</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Destino</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumentos</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Mostrar Bibliotecas en la barra lateral</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Abrir en nuevo Panel</value>
+  </data>
 </root>

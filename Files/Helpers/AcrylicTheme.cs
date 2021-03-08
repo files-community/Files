@@ -66,16 +66,16 @@ namespace Files.Helpers
 
         public void SetLightTheme()
         {
-            FallbackColor = Color.FromArgb(255, 250, 249, 248);
-            TintColor = Colors.White;
-            TintOpacity = 0.9;
+            FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
+            TintColor = Color.FromArgb(255, 252, 252, 252);
+            TintOpacity = 0.0;
         }
 
         public void SetDarkTheme()
         {
-            FallbackColor = Color.FromArgb(255, 50, 49, 48);
-            TintColor = Colors.Black;
-            TintOpacity = 0.7;
+            FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
+            TintColor = Color.FromArgb(255, 44, 44, 44);
+            TintOpacity = 0.15;
         }
     }
 }

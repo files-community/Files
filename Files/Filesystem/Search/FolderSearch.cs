@@ -14,7 +14,7 @@ namespace Files.Filesystem.Search
 {
     internal class FolderSearch
     {
-        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, int maxItemCount = 10)
+        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             var returnedItems = new ObservableCollection<ListedItem>();
             maxItemCount = maxItemCount < 0 ? int.MaxValue : maxItemCount;
@@ -23,7 +23,7 @@ namespace Files.Filesystem.Search
             var workingDir = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(WorkingDirectory);
             if (workingDir)
             {
-                foreach (var item in await SearchWithStorageFolder(userText, workingDir, maxItemCount))
+                foreach (var item in await SearchWithStorageFolder(userText, workingDir, maxItemCount, thumbnailSize))
                 {
                     returnedItems.Add(item);
                 }
@@ -89,9 +89,10 @@ namespace Files.Filesystem.Search
                                         LoadFileIcon = false,
                                         LoadUnknownTypeGlyph = true,
                                         LoadFolderGlyph = false,
-                                        ItemPropertiesInitialized = true,
+                                        ItemPropertiesInitialized = false, // Load thumbnail
                                         FileExtension = itemFileExtension,
-                                        ItemType = itemType
+                                        ItemType = itemType,
+                                        Opacity = isHidden ? 0.4 : 1
                                     });
                                 }
                                 else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
@@ -107,7 +108,8 @@ namespace Files.Filesystem.Search
                                             LoadFileIcon = false,
                                             LoadUnknownTypeGlyph = false,
                                             LoadFolderGlyph = true,
-                                            ItemPropertiesInitialized = true
+                                            ItemPropertiesInitialized = true,
+                                            Opacity = isHidden ? 0.4 : 1
                                         });
                                     }
                                 }
@@ -123,7 +125,7 @@ namespace Files.Filesystem.Search
             return returnedItems;
         }
 
-        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, int maxItemCount = 10)
+        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             QueryOptions options = new QueryOptions()
             {
@@ -157,63 +159,13 @@ namespace Files.Filesystem.Search
             {
                 foreach (IStorageItem item in items)
                 {
-                    if (item.IsOfType(StorageItemTypes.Folder))
+                    try
                     {
-                        var folder = (StorageFolder)item;
-                        returnedItems.Add(new ListedItem(null)
-                        {
-                            PrimaryItemAttribute = StorageItemTypes.Folder,
-                            ItemName = folder.DisplayName,
-                            ItemPath = folder.Path,
-                            LoadFolderGlyph = true,
-                            LoadUnknownTypeGlyph = false,
-                            ItemPropertiesInitialized = true
-                        });
+                        returnedItems.Add(await GetListedItem(item, thumbnailSize));
                     }
-                    else if (item.IsOfType(StorageItemTypes.File))
+                    catch (Exception ex)
                     {
-                        var file = (StorageFile)item;
-                        var bitmapIcon = new BitmapImage();
-                        var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
-
-                        string itemFileExtension = null;
-                        string itemType = null;
-                        if (file.Name.Contains("."))
-                        {
-                            itemFileExtension = Path.GetExtension(file.Path);
-                            itemType = itemFileExtension.Trim('.') + " " + itemType;
-                        }
-
-                        if (thumbnail != null)
-                        {
-                            await bitmapIcon.SetSourceAsync(thumbnail);
-                            returnedItems.Add(new ListedItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.File,
-                                ItemName = file.DisplayName,
-                                ItemPath = file.Path,
-                                LoadFileIcon = true,
-                                FileImage = bitmapIcon,
-                                LoadUnknownTypeGlyph = false,
-                                LoadFolderGlyph = false,
-                                ItemPropertiesInitialized = true,
-                                FileExtension = itemFileExtension,
-                                ItemType = itemType
-                            });
-                        }
-                        else
-                        {
-                            returnedItems.Add(new ListedItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.File,
-                                ItemName = file.DisplayName,
-                                ItemPath = file.Path,
-                                LoadFileIcon = false,
-                                LoadUnknownTypeGlyph = true,
-                                LoadFolderGlyph = false,
-                                ItemPropertiesInitialized = true
-                            });
-                        }
+                        NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error creating ListedItem from StorageItem");
                     }
                 }
                 index += (uint)items.Count;
@@ -221,6 +173,72 @@ namespace Files.Filesystem.Search
                 items = await itemQueryResult.GetItemsAsync(index, stepSize);
             }
             return returnedItems;
+        }
+
+        private async static Task<ListedItem> GetListedItem(IStorageItem item, uint thumbnailSize)
+        {
+            if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                var folder = (StorageFolder)item;
+                return new ListedItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = folder.DisplayName,
+                    ItemPath = folder.Path,
+                    LoadFolderGlyph = true,
+                    LoadUnknownTypeGlyph = false,
+                    ItemPropertiesInitialized = true,
+                    Opacity = 1
+                };
+            }
+            else if (item.IsOfType(StorageItemTypes.File))
+            {
+                var file = (StorageFile)item;
+                var bitmapIcon = new BitmapImage();
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, thumbnailSize, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+
+                string itemFileExtension = null;
+                string itemType = null;
+                if (file.Name.Contains("."))
+                {
+                    itemFileExtension = Path.GetExtension(file.Path);
+                    itemType = itemFileExtension.Trim('.') + " " + itemType;
+                }
+
+                if (thumbnail != null)
+                {
+                    await bitmapIcon.SetSourceAsync(thumbnail);
+                    return new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemName = file.DisplayName,
+                        ItemPath = file.Path,
+                        LoadFileIcon = true,
+                        FileImage = bitmapIcon,
+                        LoadUnknownTypeGlyph = false,
+                        LoadFolderGlyph = false,
+                        ItemPropertiesInitialized = true,
+                        FileExtension = itemFileExtension,
+                        ItemType = itemType,
+                        Opacity = 1
+                    };
+                }
+                else
+                {
+                    return new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemName = file.DisplayName,
+                        ItemPath = file.Path,
+                        LoadFileIcon = false,
+                        LoadUnknownTypeGlyph = true,
+                        LoadFolderGlyph = false,
+                        ItemPropertiesInitialized = true,
+                        Opacity = 1
+                    };
+                }
+            }
+            return null;
         }
     }
 }

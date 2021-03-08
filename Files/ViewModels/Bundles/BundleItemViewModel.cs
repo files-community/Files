@@ -1,15 +1,19 @@
-﻿using Files.Filesystem;
+﻿using Files.Extensions;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.SettingsInterfaces;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -46,7 +50,17 @@ namespace Files.ViewModels.Bundles
 
         public string Name
         {
-            get => System.IO.Path.GetFileName(this.Path);
+            get
+            {
+                string fileName = System.IO.Path.GetFileName(this.Path);
+
+                if (fileName.EndsWith(".lnk"))
+                {
+                    fileName = fileName.Remove(fileName.Length - 4);
+                }
+
+                return fileName;
+            }
         }
 
         public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
@@ -71,13 +85,18 @@ namespace Files.ViewModels.Bundles
             get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        public Visibility OpenInNewPaneVisibility
+        {
+            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         #endregion Public Properties
 
         #region Commands
 
-        public ICommand OpenItemCommand { get; private set; }
-
         public ICommand OpenInNewTabCommand { get; private set; }
+
+        public ICommand OpenInNewPaneCommand { get; private set; }
 
         public ICommand OpenItemLocationCommand { get; private set; }
 
@@ -94,8 +113,8 @@ namespace Files.ViewModels.Bundles
             this.TargetType = targetType;
 
             // Create commands
-            OpenItemCommand = new RelayCommand(OpenItem);
             OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+            OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
             RemoveItemCommand = new RelayCommand(RemoveItem);
 
@@ -106,26 +125,26 @@ namespace Files.ViewModels.Bundles
 
         #region Command Implementation
 
-        private async void OpenItem()
-        {
-            await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
-        }
-
         private async void OpenInNewTab()
         {
             await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
         }
 
+        private void OpenInNewPane()
+        {
+            associatedInstance.PaneHolder.OpenPathInNewPane(Path);
+        }
+
         private async void OpenItemLocation()
         {
-            await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory);
+            await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
         }
 
         private void RemoveItem()
         {
             if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
                 allBundles[ParentBundleName].Remove(Path);
                 BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
@@ -146,6 +165,18 @@ namespace Files.ViewModels.Bundles
             {
                 try
                 {
+                    if (Path.EndsWith(".lnk"))
+                    {
+                        var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, 24u);
+
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            Icon = await IconData.ToBitmapAsync();
+                        });
+
+                        return;
+                    }
+
                     StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
 
                     if (file == null) // No file found
@@ -174,6 +205,15 @@ namespace Files.ViewModels.Bundles
 
         #endregion Private Helpers
 
+        #region Public Helpers
+
+        public async void OpenItem()
+        {
+            await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
+        }
+
+        #endregion
+
         #region IDisposable
 
         public void Dispose()
@@ -181,7 +221,6 @@ namespace Files.ViewModels.Bundles
             Path = null;
             Icon = null;
 
-            OpenItemCommand = null;
             OpenInNewTabCommand = null;
             OpenItemLocationCommand = null;
             RemoveItemCommand = null;

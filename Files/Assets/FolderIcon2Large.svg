@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="900" height="638" viewBox="0 -50 902 700" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" style="enable-background:new 0 0 1400 980;" >
+<svg width="256" height="256" viewBox="0 -50 902 700" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" style="enable-background:new 0 0 1400 980;" >
 	<g transform="matrix(7.65625, 0, 0, 7.65625, -39.2357177734375, -172.37891387939453)">
 		<g filter="url(#filter0_dd)">
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M48.6863 25C50.808 25 52.8429 25.8429 54.3431 27.3431L60 33H116C118.209 33 120 34.7909 120 37V102C120 102.552 119.552 103 119 103H9C8.44772 103 8 102.552 8 102V29C8 26.7909 9.79086 25 12 25H48.6863Z" fill="#FFCB3C"/>
