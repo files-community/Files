@@ -40,6 +40,8 @@ namespace Files.ViewModels.SettingsViewModels
         public List<string> Themes { get; set; }
         public List<string> ColorSchemes => App.ExternalResourcesHelper.Themes;
 
+        public Visibility ShowColorSchemeSelector => App.ExternalResourcesHelper.Themes.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
+
         public int SelectedThemeIndex
         {
             get => selectedThemeIndex;

@@ -51,7 +51,8 @@
                     Header="Color scheme"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" />
+                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" 
+                    Visibility="{Binding ShowColorSchemeSelector}"/>
 
                 <StackPanel
                     Width="Auto"
