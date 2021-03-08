@@ -1,5 +1,4 @@
-﻿using Files.DataModels;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -11,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 
@@ -102,7 +100,7 @@ namespace Files.Filesystem
                     }
                     catch (Exception)
                     {
-                       
+
                     }
 
 
