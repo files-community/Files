@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Files.Helpers
 
         public List<string> Themes = new List<string>()
         {
-            "Default"
+            "DefaultScheme".GetLocalized()
         };
         
         private StorageFolder ThemeFolder { get; set; }
@@ -25,7 +26,7 @@ namespace Files.Helpers
             ThemeFolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("themes")) as StorageFolder;
             ThemeFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("themes");
 
-            if (App.AppSettings.PathToThemeFile != "Default")
+            if (App.AppSettings.PathToThemeFile != "DefaultScheme".GetLocalized())
             {
                 await TryLoadThemeAsync(App.AppSettings.PathToThemeFile);
             }

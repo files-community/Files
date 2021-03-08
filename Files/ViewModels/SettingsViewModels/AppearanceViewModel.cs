@@ -20,7 +20,6 @@ namespace Files.ViewModels.SettingsViewModels
         private string selectedThemeName = App.AppSettings.PathToThemeFile;
         private bool showRestartDialog = false;
 
-
         public AppearanceViewModel()
         {
             Themes = new List<string>()
@@ -166,6 +165,5 @@ namespace Files.ViewModels.SettingsViewModels
             get => showRestartDialog;
             set => SetProperty(ref showRestartDialog, value);
         }
-
     }
 }

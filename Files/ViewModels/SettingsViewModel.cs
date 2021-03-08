@@ -551,7 +551,7 @@ namespace Files.ViewModels
 
         public string PathToThemeFile
         {
-            get => Get("Default");
+            get => Get("DefaultScheme".GetLocalized());
             set => Set(value);
         }
         #endregion Appearance

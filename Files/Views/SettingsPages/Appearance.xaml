@@ -45,6 +45,7 @@
 
                 <ComboBox
                     x:Name="ColorSchemeChooser"
+                    x:Uid="SettingsApperanceColorScheme"
                     Width="Auto"
                     MinWidth="200"
                     MaxWidth="250"
