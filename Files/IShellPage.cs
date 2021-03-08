@@ -1,5 +1,4 @@
-﻿using Files.Enums;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
@@ -12,7 +11,7 @@ namespace Files
 {
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
-        public IStatusCenterActions StatusCenterActions { get; }
+        IStatusCenterActions StatusCenterActions { get; }
         public Frame ContentFrame { get; }
         public Interaction InteractionOperations { get; }
         public ItemViewModel FilesystemViewModel { get; }

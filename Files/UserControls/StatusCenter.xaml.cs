@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -19,7 +20,7 @@ namespace Files.UserControls
     {
         #region Public Properties
 
-        public ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
+        public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
         #endregion
 
@@ -121,7 +122,7 @@ namespace Files.UserControls
             }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                Debugger.Break(); // Argument out of range :(
             }
         }
 
