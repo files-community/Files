@@ -1,6 +1,4 @@
 ﻿using Files.Filesystem;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
@@ -35,64 +33,27 @@ namespace Files.Helpers
 
         public async Task<bool> PinFolderAsync(string path, string name, string glyph)
         {
-            var file = await GenerateAssetAsync(glyph, GetTileID(name));
+            var logoPath = new Uri($"ms-appx:///Assets/Tiles/tile-{(int)glyph[0]}.png");
+            try
+            {
+                var logo = await StorageFile.GetFileFromApplicationUriAsync(logoPath);
+            } catch
+            {
+                // Specified icon file does not exist, use default
+                logoPath = new Uri($"ms-appx:///Assets/Tiles/tile-0.png");
+            }
 
             SecondaryTile tile = new SecondaryTile(
                 GetTileID(path),
                 name,
                 path,
-                new Uri("ms-appx:///Assets/Tiles/Files Icon.png"),
-                TileSize.Default);
-
-            TileContent content = new TileContent()
-            {
-                Visual = new TileVisual()
-                {
-                    TileMedium = new TileBinding()
-                    {
-                        Content = new TileBindingContentAdaptive()
-                        {
-                            Children =
-                            {
-                                new AdaptiveImage()
-                                {
-                                    Source = $"{file.Path}",
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-
+                logoPath,
+                TileSize.Square150x150);
 
             tile.VisualElements.ShowNameOnSquare150x150Logo = true;
             var result = await tile.RequestCreateAsync();
 
-            // Generate the tile notification content and update the tile
-            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
             return result;
-        }
-
-        public async Task<StorageFile> GenerateAssetAsync(string glyph, string id)
-        {
-            var image = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Tiles/TileBaseLogo.png"));
-            
-            CanvasDevice device = CanvasDevice.GetSharedDevice();
-            CanvasRenderTarget offscreen = new CanvasRenderTarget(device, 259, 229, 32);
-            using CanvasDrawingSession ds = offscreen.CreateDrawingSession();
-            ds.Clear(Colors.Transparent);
-            var thing = await CanvasBitmap.LoadAsync(device, await image.OpenAsync(FileAccessMode.Read));
-            ds.DrawImage(thing);
-            ds.DrawText(glyph, 60, 60, Colors.Black, new Microsoft.Graphics.Canvas.Text.CanvasTextFormat()
-            {
-                FontFamily = "Segoe Fluent Icons",
-                FontSize = 90
-            });
-
-            ds.Flush();
-            var saveFile = await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync($"{id}.png", CreationCollisionOption.ReplaceExisting);
-            await offscreen.SaveAsync(await saveFile.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
-            return saveFile;
         }
     }
 }

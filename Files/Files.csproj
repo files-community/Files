@@ -611,7 +611,46 @@
     <Content Include="Assets\StoreLogo.scale-400_contrast-black.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-white.png" />
     <Content Include="Assets\TileBaseLogo.png" />
-    <Content Include="Assets\Tiles\TileBaseLogo.png" />
+    <Content Include="Assets\Tiles\tile-0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59155.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59214.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59219.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59534.png" />
+    <Content Include="Assets\Tiles\tile-59542.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59553.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59557.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59570.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59598.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-59644.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-60319.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-60495.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\tile-60834.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-black.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-white.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125_contrast-black.png" />
@@ -1023,9 +1062,6 @@
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="Win2D.uwp">
-      <Version>1.25.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
