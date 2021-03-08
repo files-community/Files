@@ -81,16 +81,22 @@ namespace Files.Filesystem
                             {
                                 string path = libraryItems[i];
 
-                                var locationItem = new LocationItem
-                                {
-                                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
-                                    Path = path,
-                                    Glyph = GlyphHelper.GetItemIcon(path),
-                                    IsDefaultLocation = false,
-                                    Text = Path.GetFileName(path.TrimEnd('\\'))
-                                };
+                                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 
-                                librarySection.ChildItems.Insert(i, locationItem);
+                                if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+                                {
+                                    var locationItem = new LocationItem
+                                    {
+                                        Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                                        Path = path,
+                                        Glyph = GlyphHelper.GetItemIcon(path),
+                                        IsDefaultLocation = false,
+                                        Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                                    };
+
+                                    librarySection.ChildItems.Insert(i, locationItem);
+                                }
                             }
                         }
                     }
