@@ -6,8 +6,6 @@ namespace Files.EventArguments
     {
         public readonly LayoutPreferences LayoutPreference;
 
-public readonly FolderSettingsViewModel FolderSettingsViewModel;
-
         public readonly bool IsAdaptiveLayoutUpdateRequired;
 
         internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired = false)

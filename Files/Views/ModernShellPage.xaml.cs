@@ -204,7 +204,7 @@ namespace Files.Views
         {
             if (FilesystemViewModel != null)
             {
-                FolderSettingsViewModel.UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+                (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
                 if (e.IsAdaptiveLayoutUpdateRequired)
                 {
                     AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);

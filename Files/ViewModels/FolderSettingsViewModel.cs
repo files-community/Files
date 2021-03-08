@@ -421,7 +421,7 @@ namespace Files.ViewModels
             return LayoutPreferences.DefaultLayoutPreferences;
         }
 
-        public static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
+        public void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {

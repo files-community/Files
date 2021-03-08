@@ -5,7 +5,6 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
