@@ -1159,7 +1159,8 @@ namespace Files.ViewModels
                     ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? storageFolderForGivenPath.Path : rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0
+                    FileSizeBytes = 0,
+                    IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(path),
                 };
                 if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
                 {
@@ -1225,7 +1226,8 @@ namespace Files.ViewModels
                     ItemPath = path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0
+                    FileSizeBytes = 0,
+                    IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(path),
                 };
                 if (!cacheOnly)
                 {

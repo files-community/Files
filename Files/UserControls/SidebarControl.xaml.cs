@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -7,6 +8,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -584,6 +586,19 @@ namespace Files.UserControls
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+        }
+
+        private async void PinItemToStart_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuFlyoutItem).DataContext as INavigationControlItem;
+            try
+            {
+                await App.SecondaryTileHelper.PinFolderAsync(item.Path, item.Text, item.Glyph);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
     }
 

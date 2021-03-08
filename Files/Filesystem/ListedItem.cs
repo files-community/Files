@@ -99,6 +99,12 @@ namespace Files.Filesystem
             }
         }
 
+        bool isItemPinnedToStart;
+        public bool IsItemPinnedToStart {
+            get => isItemPinnedToStart;
+            set => SetProperty(ref isItemPinnedToStart, value);
+        }
+
         private BitmapImage iconOverlay;
 
         [JsonIgnore]

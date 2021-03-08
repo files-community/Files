@@ -192,6 +192,15 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
+                                x:Name="PinItemToStart"
+                                x:Uid="PinFolderToStart"
+                                Click="PinItemToStart_Click"
+                                Text="Pin item to start">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Pin" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
                                 x:Name="EjectDevice"
                                 x:Uid="SideBarEjectDevice"
                                 x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"

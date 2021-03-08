@@ -163,7 +163,7 @@ namespace Files.Filesystem.StorageEnumerators
                 FileSize = null,
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath),
-                //FolderTooltipText = tooltipString,
+                IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(itemPath)
             };
         }
 

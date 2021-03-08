@@ -175,8 +175,8 @@ namespace Files.Filesystem.StorageEnumerators
                     ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0
-                    //FolderTooltipText = tooltipString,
+                    FileSizeBytes = 0,
+                    IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(folder.Path),
                 };
             }
             return null;
