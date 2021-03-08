@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.Interacts;
+using Files.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,6 +10,8 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
+        private IStatusCenterActions statusCenterActions => OngoingTasksControl;
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
         public FolderSettingsViewModel FolderSettings { get; set; } = null;
@@ -49,10 +52,10 @@ namespace Files.UserControls
         public StatusBarControl()
         {
             this.InitializeComponent();
-            OngoingTasksControl.ProgressBannerPosted += OngoingTasksControl_ProgressBannerPosted;
+            statusCenterActions.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
 
-        private void OngoingTasksControl_ProgressBannerPosted(object sender, EventArgs e)
+        private void StatusCenterActions_ProgressBannerPosted(object sender, EventArgs e)
         {
             if (AppSettings.ShowStatusCenterTeachingTip)
             {

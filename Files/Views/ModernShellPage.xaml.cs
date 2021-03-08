@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -44,7 +45,7 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public StatusBarControl BottomStatusStripControl => StatusBarControl;
+        public IStatusCenterActions StatusCenterActions => StatusBarControl.OngoingTasksControl;
         public Frame ContentFrame => ItemDisplayFrame;
         private Interaction interactionOperations = null;
 
