@@ -26,7 +26,7 @@ namespace Files.UserControls
 
         #region Events
 
-        public event EventHandler ProgressBannerPosted;
+        public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
         #endregion
 
@@ -43,17 +43,22 @@ namespace Files.UserControls
 
         public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
         {
-            StatusBanner item = new StatusBanner(message, title, initialProgress, status, operation);
-            StatusBannersSource.Add(item);
-            ProgressBannerPosted?.Invoke(this, EventArgs.Empty);
-            return new PostedStatusBanner(item, this);
+            StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
         }
 
         public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
         {
-            StatusBanner item = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
-            StatusBannersSource.Add(item);
-            return new PostedStatusBanner(item, this);
+            StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
         }
 
         public bool CloseBanner(StatusBanner banner)
@@ -103,6 +108,8 @@ namespace Files.UserControls
 
         #endregion
 
+        #region Constructor
+
         public PostedStatusBanner(StatusBanner banner, IStatusCenterActions statusCenterActions)
         {
             this.Banner = banner;
@@ -111,6 +118,10 @@ namespace Files.UserControls
             this.Progress = new Progress<float>(ReportProgressToBanner);
             this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
+
+        #endregion
+
+        #region Private Helpers
 
         private void ReportProgressToBanner(float value)
         {
@@ -130,10 +141,16 @@ namespace Files.UserControls
         {
         }
 
+        #endregion
+
+        #region Public Helpers
+
         public void Remove()
         {
             statusCenterActions.CloseBanner(Banner);
         }
+
+        #endregion
     }
 
     public class StatusBanner : ObservableObject

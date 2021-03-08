@@ -10,13 +10,28 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
-        private IStatusCenterActions statusCenterActions => OngoingTasksControl;
+        #region Singleton
 
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-        public FolderSettingsViewModel FolderSettings { get; set; } = null;
+
+        #endregion
+
+        #region Private Members
+
+        private IStatusCenterActions statusCenterActions => OngoingTasksControl;
+
+        #endregion
+
+        #region Public Properties
+
+        public FolderSettingsViewModel FolderSettings { get; set; }
+
         public ICommand SelectAllInvokedCommand { get; set; }
+
         public ICommand InvertSelectionInvokedCommand { get; set; }
+
         public ICommand ClearSelectionInvokedCommand { get; set; }
 
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
@@ -49,13 +64,36 @@ namespace Files.UserControls
             }
         }
 
+        private bool showStatusCenter;
+
+        public bool ShowStatusCenter
+        {
+            get => showStatusCenter;
+            set
+            {
+                if (value != showStatusCenter)
+                {
+                    showStatusCenter = value;
+                    NotifyPropertyChanged(nameof(ShowStatusCenter));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+
         public StatusBarControl()
         {
             this.InitializeComponent();
             statusCenterActions.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
 
-        private void StatusCenterActions_ProgressBannerPosted(object sender, EventArgs e)
+        #endregion
+
+        #region Event Handlers
+
+        private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
         {
             if (AppSettings.ShowStatusCenterTeachingTip)
             {
@@ -72,6 +110,10 @@ namespace Files.UserControls
             PlayBannerAddedVisualAnimation();
         }
 
+        #endregion
+
+        #region Public Helpers
+
         public async void PlayBannerAddedVisualAnimation()
         {
             StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -80,6 +122,10 @@ namespace Files.UserControls
             StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
+        #endregion
+
+        #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -87,19 +133,6 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private bool showStatusCenter;
-
-        public bool ShowStatusCenter
-        {
-            get => showStatusCenter;
-            set
-            {
-                if (value != showStatusCenter)
-                {
-                    showStatusCenter = value;
-                    NotifyPropertyChanged(nameof(ShowStatusCenter));
-                }
-            }
-        }
+        #endregion
     }
 }

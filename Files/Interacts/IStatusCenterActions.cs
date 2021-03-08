@@ -6,7 +6,7 @@ namespace Files.Interacts
 {
     public interface IStatusCenterActions
     {
-        event EventHandler ProgressBannerPosted;
+        event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
         /// <summary>
         /// Posts a new banner to the Status Center control for an operation.
