@@ -2,18 +2,20 @@
     x:Class="Files.UserControls.FilePreviews.FolderPreview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.UserControls.FilePreviews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:previews="using:Files.ViewModels.Previews" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
+    xmlns:local="using:Files.UserControls.FilePreviews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:previews="using:Files.ViewModels.Previews"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    mc:Ignorable="d">
 
     <Grid>
         <GridView ItemsSource="{x:Bind ViewModel.Contents}" SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="previews:FolderContent">
-                    <Image Source="{x:Bind Image}" Width="40"/>
+                    <Image Width="40" Source="{x:Bind Image}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

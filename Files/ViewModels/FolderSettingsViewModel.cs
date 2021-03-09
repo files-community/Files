@@ -16,6 +16,7 @@ namespace Files.ViewModels
     public class FolderSettingsViewModel : ObservableObject
     {
         private static readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
         public FolderSettingsViewModel()

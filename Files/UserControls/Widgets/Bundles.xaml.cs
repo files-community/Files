@@ -8,7 +8,7 @@ namespace Files.UserControls.Widgets
 {
     public sealed partial class Bundles : UserControl, IDisposable
     {
-        public BundlesViewModel ViewModel 
+        public BundlesViewModel ViewModel
         {
             get => (BundlesViewModel)DataContext;
             private set => DataContext = value;

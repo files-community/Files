@@ -53,7 +53,6 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    
                     FontSize="14"
                     Glyph="&#xe712;" />
 
@@ -64,7 +63,7 @@
                             Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
                             Text="Create Bundle">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon  Glyph="&#xE710;" />
+                                <FontIcon Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
@@ -73,7 +72,7 @@
                             Command="{Binding ImportBundlesCommand, Mode=OneWay}"
                             Text="Import Bundles">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon  Glyph="&#xE8B6;" />
+                                <FontIcon Glyph="&#xE8B6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -81,7 +80,7 @@
                             Command="{Binding ExportBundlesCommand, Mode=OneWay}"
                             Text="Export Bundles">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon  Glyph="&#xEDE1;" />
+                                <FontIcon Glyph="&#xEDE1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -92,11 +91,11 @@
         <!--  Collection of bundles  -->
         <GridView
             HorizontalAlignment="Stretch"
-            ItemsSource="{Binding Items, Mode=OneWay}"
-            SelectionMode="None"
-            CanReorderItems="True"
             AllowDrop="True"
-            ReorderMode="Enabled">
+            CanReorderItems="True"
+            ItemsSource="{Binding Items, Mode=OneWay}"
+            ReorderMode="Enabled"
+            SelectionMode="None">
 
             <!--  Remove Reveal Highlight Effect  -->
             <GridView.ItemContainerStyle>
@@ -191,7 +190,6 @@
                                     VerticalContentAlignment="Center"
                                     Background="Transparent"
                                     Content="&#xe712;"
-                                    
                                     FontSize="12">
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
@@ -200,7 +198,7 @@
                                                 Command="{Binding RenameBundleCommand, Mode=OneWay}"
                                                 Text="Rename Bundle">
                                                 <MenuFlyoutItem.Icon>
-                                                    <FontIcon  Glyph="&#xE8AC;" />
+                                                    <FontIcon Glyph="&#xE8AC;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutItem
@@ -208,7 +206,7 @@
                                                 Command="{Binding RemoveBundleCommand, Mode=OneWay}"
                                                 Text="Remove Bundle">
                                                 <MenuFlyoutItem.Icon>
-                                                    <FontIcon  Glyph="&#xE738;" />
+                                                    <FontIcon Glyph="&#xE738;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
@@ -221,12 +219,12 @@
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                ItemsSource="{Binding Contents, Mode=OneWay}"
-                                SelectionMode="None"
-                                CanReorderItems="True"
                                 AllowDrop="True"
+                                CanReorderItems="True"
+                                IsItemClickEnabled="True"
+                                ItemsSource="{Binding Contents, Mode=OneWay}"
                                 ReorderMode="Enabled"
-                                IsItemClickEnabled="True">
+                                SelectionMode="None">
 
                                 <i:Interaction.Behaviors>
                                     <!--  No need to specify CommandParameter - `e` is passed by default  -->
@@ -316,7 +314,7 @@
                                                             Command="{Binding OpenItemLocationCommand, Mode=OneWay}"
                                                             Text="Open item location">
                                                             <MenuFlyoutItem.Icon>
-                                                                <FontIcon  Glyph="&#xED25;" />
+                                                                <FontIcon Glyph="&#xED25;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutSeparator />
@@ -325,7 +323,7 @@
                                                             Command="{Binding RemoveItemCommand, Mode=OneWay}"
                                                             Text="Remove from bundle">
                                                             <MenuFlyoutItem.Icon>
-                                                                <FontIcon  Glyph="&#xE738;" />
+                                                                <FontIcon Glyph="&#xE738;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                     </MenuFlyout>
@@ -352,10 +350,7 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <FontIcon
-                                    
-                                    FontSize="20"
-                                    Glyph="&#xE74B;" />
+                                <FontIcon FontSize="20" Glyph="&#xE74B;" />
                                 <TextBlock
                                     x:Uid="BundleNoContentsTextBlock"
                                     Grid.Row="1"
@@ -398,7 +393,6 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    
                     FontSize="18"
                     Glyph="&#xE710;" />
 

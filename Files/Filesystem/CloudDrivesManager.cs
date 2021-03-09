@@ -1,5 +1,4 @@
 using Files.Filesystem.Cloud;
-using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -95,7 +94,7 @@ namespace Files.Filesystem
                     {
                         section = new LocationItem()
                         {
-                            Text = "SidebarCloudDrives".GetLocalized(),                            
+                            Text = "SidebarCloudDrives".GetLocalized(),
                             Glyph = "\uE753",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()

@@ -28,6 +28,9 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        [JsonIgnore]
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         [JsonProperty("favoriteitems")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
@@ -41,7 +44,7 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
-                
+                Font = InteractionViewModel.FontName,
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
                 Path = "Home",
@@ -50,7 +53,7 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
-                
+                Font = InteractionViewModel.FontName,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -257,7 +260,7 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    
+                    Font = InteractionViewModel.FontName,
                     Path = path,
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,

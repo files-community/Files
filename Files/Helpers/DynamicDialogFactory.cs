@@ -1,9 +1,9 @@
-﻿using System;
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.Extensions;
+using System;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

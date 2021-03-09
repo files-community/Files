@@ -1,5 +1,4 @@
 ﻿using Files.Helpers;
-using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -118,7 +117,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
-                            
+
                             Glyph = "\uE8CE",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
