@@ -112,47 +112,10 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showLibrarySection, value))
                 {
                     App.AppSettings.ShowLibrarySection = value;
-                    if (showLibrarySection)
-                    {
-                        DiaplyContentDialog();
-                    }
                 }
             }
         }
 
-        private async void DiaplyContentDialog()
-        {
-            ContentDialog dialog = new ContentDialog()
-            {
-                Title = "Apply change",
-                Content = "Do you want to apply that change on Files?",
-                SecondaryButtonText = "On next startup",
-                PrimaryButtonText = "Restart"
-            };
-            
-            dialog.PrimaryButtonClick += Dialog_PrimaryButtonClick;
-
-            await dialog.ShowAsync();
-        }
-
-        private async void Dialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            //AppRestartFailureReason result = await CoreApplication.RequestRestartAsync(string.Empty);
-
-            //if (result == AppRestartFailureReason.NotInForeground ||
-            //    result == AppRestartFailureReason.RestartPending ||
-            //    result == AppRestartFailureReason.Other)
-            //{
-
-            //}
-            //else
-            //{
-            //    var appSource = new Core
-            //    CoreApplication.Run(appSource);
-            //}
-
-            Environment.Exit(0);
-        }
 
         private async void LaunchTerminalsConfigFile()
         {
