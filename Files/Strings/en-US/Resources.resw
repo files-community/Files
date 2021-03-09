@@ -136,10 +136,10 @@
     <value>Open in new window</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>New tab</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>New window</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Folder</value>

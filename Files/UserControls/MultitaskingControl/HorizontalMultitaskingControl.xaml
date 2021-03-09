@@ -28,7 +28,7 @@
                             Click="{x:Bind views:MainPage.AddNewTabAtIndex}"
                             Text="New tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
