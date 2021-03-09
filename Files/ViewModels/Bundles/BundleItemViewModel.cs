@@ -213,8 +213,6 @@ namespace Files.ViewModels.Bundles
 
         #endregion
         
-        #endregion Public Helpers
-
         #region IDisposable
 
         public void Dispose()
