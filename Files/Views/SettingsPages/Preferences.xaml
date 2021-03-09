@@ -79,19 +79,19 @@
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="Edit terminal applications"
                             Command="{Binding EditTerminalApplicationsCommand}"
-                            Content=""
-                            FontFamily="Segoe MDL2 Assets"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
+                            Style="{ThemeResource TextBlockButtonStyle}">
+                            <FontIcon FontSize="14" Glyph="&#xE104;" />
+                        </HyperlinkButton>
 
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="View sample profiles"
-                            Content="&#xE946;"
-                            FontFamily="{StaticResource FluentGlyphs}"
                             NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}"
-                            ToolTipService.ToolTip="View sample profiles" />
+                            ToolTipService.ToolTip="View sample profiles">
+                            <FontIcon FontSize="14" Glyph="&#xE946;" />
+                        </HyperlinkButton>
                     </StackPanel>
                 </StackPanel>
 

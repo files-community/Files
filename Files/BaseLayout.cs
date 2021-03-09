@@ -450,7 +450,6 @@ namespace Files
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
-                        FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                         Glyph = "\xE712"
                     }
                 };
@@ -597,7 +596,6 @@ namespace Files
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                                 Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"

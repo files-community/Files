@@ -43,7 +43,7 @@
                     x:Uid="BaseLayoutContextFlyoutSortBy"
                     Text="Sort by">
                     <MenuFlyoutSubItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8CB;" />
+                        <FontIcon  Glyph="&#xE8CB;" />
                     </MenuFlyoutSubItem.Icon>
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByName"
@@ -98,7 +98,7 @@
                 </MenuFlyoutSubItem>
                 <MenuFlyoutSubItem x:Uid="BaseLayoutContextFlyoutLayoutMode" Text="Layout mode">
                     <MenuFlyoutSubItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE152;" />
+                        <FontIcon  Glyph="&#xE152;" />
                     </MenuFlyoutSubItem.Icon>
                     <MenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutGridViewLarge"
@@ -106,7 +106,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Grid View (Large)">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE739;" />
+                            <FontIcon  Glyph="&#xE739;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -115,7 +115,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Grid View (Medium)">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF0E2;" />
+                            <FontIcon  Glyph="&#xF0E2;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -124,7 +124,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Grid View (Small)">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE80A;" />
+                            <FontIcon  Glyph="&#xE80A;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -133,7 +133,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Tiles View">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE15C;" />
+                            <FontIcon  Glyph="&#xE15C;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -142,7 +142,7 @@
                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                         Text="Details View">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE179;" />
+                            <FontIcon  Glyph="&#xE179;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
@@ -152,7 +152,7 @@
                     Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
                     Text="Refresh">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE72C;" />
+                        <FontIcon  Glyph="&#xE72C;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F5" IsEnabled="False" />
@@ -166,7 +166,7 @@
                     IsEnabled="{x:Bind converters1:MultiBooleanConverter.AndConvert(InstanceViewModel.CanPasteInPage, local:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
                     Text="Paste">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE77F;" />
+                        <FontIcon  Glyph="&#xE77F;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -183,7 +183,7 @@
                     IsEnabled="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     Text="Open in Terminal...">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE756;" />
+                        <FontIcon  Glyph="&#xE756;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
@@ -192,7 +192,7 @@
                     x:Uid="BaseLayoutContextFlyoutNew"
                     Text="New">
                     <MenuFlyoutSubItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE710;" />
+                        <FontIcon  Glyph="&#xE710;" />
                     </MenuFlyoutSubItem.Icon>
                     <MenuFlyoutSubItem.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -206,7 +206,7 @@
                         Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFolder}"
                         Text="Folder">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8B7;" />
+                            <FontIcon  Glyph="&#xE8B7;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
@@ -218,7 +218,7 @@
                         IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                         Text="File">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7C3;" />
+                            <FontIcon  Glyph="&#xE7C3;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
@@ -230,7 +230,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinDirectoryToSidebar}"
                     Text="Pin directory to sidebar">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE840;" />
+                        <FontIcon  Glyph="&#xE840;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -240,7 +240,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
                     Text="Unpin directory from sidebar">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE77A;" />
+                        <FontIcon  Glyph="&#xE77A;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -249,7 +249,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                     Text="Properties">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                        <FontIcon  Glyph="&#xE946;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyout>
@@ -260,7 +260,7 @@
                     x:Uid="BaseLayoutContextFlyoutSortBy"
                     Text="Sort by">
                     <MenuFlyoutSubItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8CB;" />
+                        <FontIcon  Glyph="&#xE8CB;" />
                     </MenuFlyoutSubItem.Icon>
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByName"
@@ -333,7 +333,7 @@
                     Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
                     Text="Refresh">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE72C;" />
+                        <FontIcon  Glyph="&#xE72C;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F5" IsEnabled="False" />
@@ -365,7 +365,7 @@
                     Tag="Open_FlyoutItem"
                     Text="Open">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8E5;" />
+                        <FontIcon  Glyph="&#xE8E5;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -376,7 +376,7 @@
                     Tag="OpenWith"
                     Text="Open With">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE17D;" />
+                        <FontIcon  Glyph="&#xE17D;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -386,7 +386,7 @@
                     Text="Open file location"
                     Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8DA;" />
+                        <FontIcon  Glyph="&#xE8DA;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -396,7 +396,7 @@
                     Tag="OpenPane_FlyoutItem"
                     Text="Open in new pane">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF57C;" />
+                        <FontIcon  Glyph="&#xF57C;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -418,7 +418,7 @@
                     Tag="OpenWindow_FlyoutItem"
                     Text="Open in new window">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE737;" />
+                        <FontIcon  Glyph="&#xE737;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSubItem
@@ -431,7 +431,7 @@
                         Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                         Text="Set as desktop background">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE91B;" />
+                            <FontIcon  Glyph="&#xE91B;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -452,7 +452,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAdmin_Click}"
                     Text="Run as another user">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7EF;" />
+                        <FontIcon  Glyph="&#xE7EF;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -462,7 +462,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAnotherUser_Click}"
                     Text="RunAsAnotherUser">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7EE;" />
+                        <FontIcon  Glyph="&#xE7EE;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -471,7 +471,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShareItem_Click}"
                     Text="Share">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE72D;" />
+                        <FontIcon  Glyph="&#xE72D;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
@@ -481,7 +481,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
                     Text="Cut">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8C6;" />
+                        <FontIcon  Glyph="&#xE8C6;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -496,7 +496,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.CopyItem_ClickAsync}"
                     Text="Copy">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8C8;" />
+                        <FontIcon  Glyph="&#xE8C8;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -511,7 +511,7 @@
                     Command="{x:Bind ParentShellPageInstance.InteractionOperations.CopyPathOfSelectedItem}"
                     Text="Copy location">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE167;" />
+                        <FontIcon  Glyph="&#xE167;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
@@ -530,7 +530,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                     Text="Delete">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE74D;" />
+                        <FontIcon  Glyph="&#xE74D;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Delete" IsEnabled="False" />
@@ -542,7 +542,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.RenameItem_Click}"
                     Text="Rename">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8AC;" />
+                        <FontIcon  Glyph="&#xE8AC;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F2" IsEnabled="False" />
@@ -557,7 +557,7 @@
                     Tag="PinItem_FlyoutItem"
                     Text="Pin to sidebar">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE718;" />
+                        <FontIcon  Glyph="&#xE718;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -568,7 +568,7 @@
                     Tag="PinItem_FlyoutItem"
                     Text="Unpin from sidebar">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE77A;" />
+                        <FontIcon  Glyph="&#xE77A;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -577,7 +577,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                     Text="Properties">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                        <FontIcon  Glyph="&#xE946;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -599,7 +599,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.RestoreItem_Click}"
                     Text="Restore">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7A7;" />
+                        <FontIcon  Glyph="&#xE7A7;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
@@ -622,7 +622,7 @@
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                     Text="Properties">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                        <FontIcon  Glyph="&#xE946;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyout>
@@ -838,13 +838,13 @@
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     x:Phase="1"
-                                    FontFamily="{StaticResource FluentGlyphs}"
+                                    
                                     Glyph="&#xE7C3;" />
                                 <FontIcon
                                     x:Name="WebShortcutGlyph"
                                     x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                     x:Phase="1"
-                                    FontFamily="{StaticResource FluentGlyphs}"
+                                    
                                     Glyph="&#xE71B;" />
                                 <Image
                                     x:Name="FileImageElement"
@@ -914,7 +914,7 @@
                                 Margin="12,0,0,0"
                                 HorizontalAlignment="Left"
                                 AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"
-                                FontFamily="{StaticResource FluentGlyphs}"
+                                
                                 FontSize="14"
                                 Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                                 Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />

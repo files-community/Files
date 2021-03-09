@@ -573,7 +573,6 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\xE713"
             };
 
