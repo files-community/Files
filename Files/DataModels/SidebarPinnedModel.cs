@@ -53,6 +53,7 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
+                SelectsOnInvoked = false,
                 Font = InteractionViewModel.FontName,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
