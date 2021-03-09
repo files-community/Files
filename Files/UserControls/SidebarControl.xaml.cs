@@ -241,7 +241,7 @@ namespace Files.UserControls
                 {
                     var isLibrary = (MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem)?
                         .ChildItems?
-                        .Any(x => x.Path == item.Path) ?? false;
+                        .Contains(item) ?? false;
                     if (!isLibrary)
                     {
                         ShowProperties = false;
