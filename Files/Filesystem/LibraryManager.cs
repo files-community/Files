@@ -81,9 +81,7 @@ namespace Files.Filesystem
                 }
             }
             catch (Exception)
-            {
-
-            }
+            { }
 
             MainPage.SideBarItems.EndBulkOperation();
         }
@@ -134,10 +132,7 @@ namespace Files.Filesystem
                         }
                     }
                     catch (Exception)
-                    {
-                       
-                    }
-
+                    { }
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }

@@ -116,7 +116,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-
         private async void LaunchTerminalsConfigFile()
         {
             await Launcher.LaunchFileAsync(
