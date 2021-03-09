@@ -316,7 +316,7 @@ namespace Files.ViewModels.Bundles
                     {
                         if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                         {
-                            if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
+                            if (!Contents.Any((i) => i.Path == itemPath)) // Don't add existing items!
                             {
                                 AddBundleItem(new BundleItemViewModel(associatedInstance, itemPath, itemPath.EndsWith(".lnk") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File))
                                 {
