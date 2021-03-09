@@ -38,18 +38,28 @@ namespace Files.ViewModels.Previews
             {
                 new FileProperty()
                 {
-                    LocalizedName = "Item count",
+                    NameResource = "PropertyItemCount",
                     Value = items.Count,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Date Modified",
+                    NameResource = "PropertyDateModified",
                     Value = info.DateModified,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Date Created",
+                    NameResource = "PropertyDateCreated",
                     Value = info.ItemDate,
+                },
+                new FileProperty()
+                {
+                    NameResource = "PropertyItemName",
+                    Value = Folder.Name,
+                },
+                new FileProperty()
+                {
+                    NameResource = "PropertyItemPathDisplay",
+                    Value = Folder.Path,
                 }
             };
         }
