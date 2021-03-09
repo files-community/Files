@@ -4,7 +4,6 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -16,14 +15,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
