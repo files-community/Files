@@ -12,6 +12,7 @@
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Unloaded="Properties_Unloaded"
+    Loading="Page_Loading"
     mc:Ignorable="d">
 
     <Page.Resources>

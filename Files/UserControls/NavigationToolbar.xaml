@@ -5,7 +5,6 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -998,7 +997,7 @@
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 Text="New Pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF57C;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1013,7 +1012,7 @@
                                 Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
                                 Text="New Tab">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1028,7 +1027,7 @@
                                 Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
                                 Text="New Window">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE78B;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE737;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
@@ -1045,7 +1044,7 @@
                                 IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
                                 Text="Copy location">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE9B1;" />
+                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE167;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
