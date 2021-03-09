@@ -86,7 +86,7 @@ namespace Files.Filesystem
                                     
                                     Path = path,
                                     Glyph = GlyphHelper.GetItemIcon(path),
-                                    IsDefaultLocation = false,
+                                    IsDefaultLocation = true,
                                     Text = Path.GetFileName(path.TrimEnd('\\'))
                                 };
 

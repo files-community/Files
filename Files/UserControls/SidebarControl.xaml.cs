@@ -2,11 +2,13 @@
 using Files.Filesystem;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -237,7 +239,13 @@ namespace Files.UserControls
 
                 if (item.IsDefaultLocation)
                 {
-                    ShowProperties = false;
+                    var isLibrary = (MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem)?
+                        .ChildItems?
+                        .Any(x => x.Path == item.Path) ?? false;
+                    if (!isLibrary)
+                    {
+                        ShowProperties = false;
+                    }
 
                     if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
