@@ -30,7 +30,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref selectedItems, value);
-                SelectedItem = SelectedItems.FirstOrDefault();
+                SelectedItem = SelectedItems?.FirstOrDefault();
             }
         }
 

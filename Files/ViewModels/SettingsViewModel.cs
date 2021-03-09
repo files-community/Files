@@ -119,6 +119,15 @@ namespace Files.ViewModels
             set => Set(value.Value);
         }
 
+        /// <summary>
+        /// If Keep preview pane open is enabled, the preview pane is bound to this
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook
@@ -495,6 +504,13 @@ namespace Files.ViewModels
                     _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
                 }
             }
+        }
+
+
+        public bool KeepPreviewPaneOpen
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         #endregion Preferences

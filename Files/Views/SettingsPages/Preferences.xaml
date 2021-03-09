@@ -112,6 +112,13 @@
                     Header="Show library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
+                
+                <ToggleSwitch
+                    x:Name="KeepPreviewPaneOpen"
+                    x:Uid="SettingsPreferencesKeepPreviewPaneOpened"
+                    Header="Keep preview pane open"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding KeepPreviewPaneOpen, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

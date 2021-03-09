@@ -1236,10 +1236,19 @@ namespace Files.Views
         /// </summary>
         public bool PreviewPaneEnabled
         {
-            get => previewPaneEnabled;
+            get
+            {
+                if(AppSettings.KeepPreviewPaneOpen)
+                {
+                    return AppSettings.PreviewPaneEnabled;
+                }
+                return previewPaneEnabled;
+            }
             set
             {
+                AppSettings.PreviewPaneEnabled = value;
                 previewPaneEnabled = value;
+
                 NotifyPropertyChanged(nameof(PreviewPaneEnabled));
                 UpdatePositioning();
             }
