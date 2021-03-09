@@ -329,7 +329,7 @@ namespace Files.ViewModels.Bundles
                 allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
 
                 BundlesSettings.SavedBundles = allBundles;
-                
+
                 return true;
             }
 

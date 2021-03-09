@@ -70,12 +70,9 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Feedback">
-                            <FontIcon
-                                
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xED15;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
+                                <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit feedback" />
                                 <TextBlock
                                     x:Uid="SettingsAboutSubmitFeedbackDescription"
                                     FontSize="12"
@@ -97,12 +94,9 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="ReleaseNotes">
-                            <FontIcon
-                                
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xF000;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release Notes" />
+                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release notes" />
                                 <TextBlock
                                     x:Uid="SettingsAboutReleaseNotesDescription"
                                     FontSize="12"
@@ -124,10 +118,7 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Documentation">
-                            <FontIcon
-                                
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xE736;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
                                 <TextBlock
@@ -151,10 +142,7 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Contributors">
-                            <FontIcon
-                                
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xE716;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
                                 <TextBlock
@@ -210,7 +198,7 @@
                     x:Uid="SettingsAboutThirdPartyLicenses"
                     Margin="0,16,0,0"
                     FontSize="18"
-                    Text="Third Party Licenses">
+                    Text="Third party licenses">
                     <TextBlock.Transitions>
                         <TransitionCollection>
                             <RepositionThemeTransition />

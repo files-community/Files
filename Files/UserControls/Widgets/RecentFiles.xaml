@@ -71,7 +71,7 @@
                                             Click="RemoveRecentItem_Click"
                                             Text="Remove this item">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon  Glyph="&#xE738;" />
+                                                <FontIcon Glyph="&#xE738;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -79,7 +79,7 @@
                                             Click="ClearRecentItems_Click"
                                             Text="Clear all items">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon  Glyph="&#xE74D;" />
+                                                <FontIcon Glyph="&#xE74D;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -88,7 +88,7 @@
                                             Text="Open file location"
                                             Visibility="{x:Bind IsFile}">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon  Glyph="&#xED25;" />
+                                                <FontIcon Glyph="&#xED25;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -106,7 +106,6 @@
                                         x:Name="FolderImg"
                                         x:Load="{x:Bind FolderImg}"
                                         x:Phase="1"
-                                        
                                         FontSize="24"
                                         Foreground="#ffe793"
                                         Glyph="&#xE8B7;" />
@@ -114,7 +113,6 @@
                                         x:Name="EmptyImg"
                                         x:Load="{x:Bind EmptyImgVis}"
                                         x:Phase="1"
-                                        
                                         FontSize="24"
                                         Glyph="&#xE7C3;" />
                                     <Image

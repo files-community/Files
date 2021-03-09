@@ -6,7 +6,6 @@ using Files.ViewModels;
 using Files.Views;
 using System;
 using Windows.ApplicationModel.AppService;
-using Windows.UI.Xaml.Controls;
 
 namespace Files
 {
@@ -25,9 +24,13 @@ namespace Files
         public bool CanNavigateForward { get; }
 
         public abstract void Refresh_Click();
+
         public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
+
         public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+
         public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
+
         public void RemoveLastPageFromBackStack();
     }
 

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Files.ViewModels;
+using Files.ViewModels.Previews;
+using System;
 using System.Linq;
 using Windows.Storage;
-using System.Windows.Input;
-using Files.ViewModels.Previews;
-using Files.ViewModels;
 
 namespace Files.Helpers
 {
@@ -95,7 +94,6 @@ namespace Files.Helpers
 
                 if (foldersCount > 0)
                 { // There are folders in current directory
-
                     if ((filesystemViewModel.FilesAndFolders.Count - imagesAndVideosCount) < (filesystemViewModel.FilesAndFolders.Count - 20) || (filesystemViewModel.FilesAndFolders.Count <= 20 && imagesAndVideosCount >= 5))
                     { // Most of items are images/videos
                         folderSettings.ToggleLayoutModeTiles.Execute(false);
@@ -107,7 +105,6 @@ namespace Files.Helpers
                 }
                 else
                 { // There are only files
-
                     if (imagesAndVideosCount == filesystemViewModel.FilesAndFolders.Count)
                     { // Only images/videos
                         folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);

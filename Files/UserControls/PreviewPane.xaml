@@ -216,7 +216,6 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

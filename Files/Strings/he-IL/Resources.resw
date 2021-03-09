@@ -732,12 +732,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>עלה תיקייה אחת למעלה</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>שפת האפליקצה</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>אפליקציות מסוף תוכנה</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ערוך אפליקציות מסוף תוכנה</value>
   </data>
@@ -1011,14 +1005,8 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>כוננים:</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>הצג כוננים בדף הבית</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>הצג כוננים בדף הבית</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>הצג קבצים שנגשו לאחרונה בדף הבית</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>הצג קבצים שנגשו לאחרונה בדף הבית</value>

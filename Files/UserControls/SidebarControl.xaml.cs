@@ -14,7 +14,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
@@ -261,7 +260,7 @@ namespace Files.UserControls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
-         
+
             ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
@@ -276,7 +275,6 @@ namespace Files.UserControls
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as WSLDistroItem;
 

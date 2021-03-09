@@ -795,7 +795,6 @@
                 CornerRadius="4"
                 PointerPressed="ManualPathEntryItem_Click">
 
-
                 <ListView
                     x:Name="PathViewInteract"
                     Padding="0,0,12,0"

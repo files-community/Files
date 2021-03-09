@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
@@ -14,12 +12,11 @@ namespace Files.Helpers
 {
     public class ExternalResourcesHelper
     {
-
         public List<string> Themes = new List<string>()
         {
             "DefaultScheme".GetLocalized()
         };
-        
+
         private StorageFolder ThemeFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
@@ -51,7 +48,7 @@ namespace Files.Helpers
                 Debug.WriteLine($"Error loading themes");
             }
         }
-        
+
         public async Task<bool> TryLoadThemeAsync(string name)
         {
             try
