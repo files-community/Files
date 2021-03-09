@@ -139,17 +139,6 @@ namespace Files.ViewModels.Bundles
             await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
         }
 
-        private void RemoveItem()
-        {
-            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
-            {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
-                allBundles[ParentBundleName].Remove(Path);
-                BundlesSettings.SavedBundles = allBundles;
-                NotifyItemRemoved(this);
-            }
-        }
-
         #endregion Command Implementation
 
         #region Private Helpers
@@ -211,8 +200,19 @@ namespace Files.ViewModels.Bundles
             await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
         }
 
-        #endregion Public Helpers
+        public void RemoveItem()
+        {
+            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
+            {
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                allBundles[ParentBundleName].Remove(Path);
+                BundlesSettings.SavedBundles = allBundles;
+                NotifyItemRemoved(this);
+            }
+        }
 
+        #endregion
+        
         #region IDisposable
 
         public void Dispose()

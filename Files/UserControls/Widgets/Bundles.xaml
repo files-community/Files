@@ -220,6 +220,7 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 AllowDrop="True"
+                                CanDragItems="True"
                                 CanReorderItems="True"
                                 IsItemClickEnabled="True"
                                 ItemsSource="{Binding Contents, Mode=OneWay}"
@@ -227,6 +228,10 @@
                                 SelectionMode="None">
 
                                 <i:Interaction.Behaviors>
+                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                    <icore:EventTriggerBehavior EventName="DragItemsStarting">
+                                        <icore:InvokeCommandAction Command="{Binding DragItemsStartingCommand, Mode=OneWay}" />
+                                    </icore:EventTriggerBehavior>
                                     <!--  No need to specify CommandParameter - `e` is passed by default  -->
                                     <icore:EventTriggerBehavior EventName="ItemClick">
                                         <icore:InvokeCommandAction Command="{Binding OpenItemCommand, Mode=OneWay}" />
