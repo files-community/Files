@@ -506,7 +506,6 @@ namespace Files.ViewModels
             }
         }
 
-
         public bool KeepPreviewPaneOpen
         {
             get => Get(false);
