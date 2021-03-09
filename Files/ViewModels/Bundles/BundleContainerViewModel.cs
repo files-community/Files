@@ -470,7 +470,8 @@ namespace Files.ViewModels.Bundles
             }
 
             BundleName = null;
-
+            NotifyBundleItemRemoved = null;
+            NotifyItemRemoved = null;
             RemoveBundleCommand = null;
             RenameBundleCommand = null;
             DragOverCommand = null;
