@@ -32,7 +32,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using static Files.ViewModels.FolderSettingsViewModel;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.ViewModels
@@ -60,7 +59,7 @@ namespace Files.ViewModels
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public event EventHandler DirectoryInfoUpdated;
 
         private string customPath;
@@ -81,12 +80,15 @@ namespace Files.ViewModels
         private StorageFolderWithPath workingRoot;
 
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
+
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
 
         public delegate void PageTypeUpdatedEventHandler(object sender, PageTypeUpdatedEventArgs e);
+
         public event PageTypeUpdatedEventHandler PageTypeUpdated;
 
         public delegate void ItemLoadStatusChangedEventHandler(object sender, ItemLoadStatusChangedEventArgs e);
+
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
         public async Task<FilesystemResult> SetWorkingDirectoryAsync(string value)
@@ -1843,11 +1845,12 @@ namespace Files.ViewModels
         public ItemLoadStatus Status { get; set; }
 
         /// <summary>
-        /// This property may not be provided consistently if Status is not Complete 
+        /// This property may not be provided consistently if Status is not Complete
         /// </summary>
         public string PreviousDirectory { get; set; }
+
         /// <summary>
-        /// This property may not be provided consistently if Status is not Complete 
+        /// This property may not be provided consistently if Status is not Complete
         /// </summary>
         public string Path { get; set; }
     }

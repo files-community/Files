@@ -921,12 +921,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>수직 탭 표시 줄</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>언어</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>터미널</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>터미널 편집</value>
   </data>
@@ -1290,20 +1284,11 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>위젯</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>홈 화면에 드라이브 표시</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>홈 화면에 드라이브 표시</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>홈 화면에 라이브러리 표시</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>홈 화면에 라이브러리 표시</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>홈 화면에 최근 사용한 파일 표시</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>홈 화면에 최근 사용한 파일 표시</value>

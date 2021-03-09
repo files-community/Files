@@ -1,8 +1,6 @@
 ﻿using Files.ViewModels;
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {

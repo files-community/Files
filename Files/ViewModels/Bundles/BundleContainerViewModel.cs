@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -329,7 +330,7 @@ namespace Files.ViewModels.Bundles
                 allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
 
                 BundlesSettings.SavedBundles = allBundles;
-                
+
                 return true;
             }
 

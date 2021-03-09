@@ -795,7 +795,6 @@
                 CornerRadius="4"
                 PointerPressed="ManualPathEntryItem_Click">
 
-
                 <ListView
                     x:Name="PathViewInteract"
                     Padding="0,0,12,0"
@@ -981,7 +980,7 @@
                                 x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
                                 Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                                Text="New Pane">
+                                Text="New pane">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xF57C;" />
                                 </MenuFlyoutItem.Icon>
@@ -996,7 +995,7 @@
                                 x:Name="NavToolbarNewTab"
                                 x:Uid="NavigationToolbarNewTab"
                                 Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
-                                Text="New Tab">
+                                Text="New tab">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                                 </MenuFlyoutItem.Icon>
@@ -1011,7 +1010,7 @@
                                 x:Name="NavToolbarNewWindow"
                                 x:Uid="NavigationToolbarNewWindow"
                                 Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
-                                Text="New Window">
+                                Text="New window">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE737;" />
                                 </MenuFlyoutItem.Icon>

@@ -19,7 +19,6 @@ namespace Files.Filesystem
     {
         public LibraryManager()
         {
-
         }
 
         public async Task EnumerateDrivesAsync()
@@ -102,7 +101,6 @@ namespace Files.Filesystem
                     {
 
                     }
-
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }

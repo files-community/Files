@@ -13,7 +13,6 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -212,7 +211,7 @@ namespace Files.ViewModels.Bundles
             await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
         }
 
-        #endregion
+        #endregion Public Helpers
 
         #region IDisposable
 

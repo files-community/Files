@@ -136,10 +136,10 @@
     <value>Open in new window</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>New tab</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>New window</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Folder</value>
@@ -256,13 +256,13 @@
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Submit Feedback</value>
+    <value>Submit feedback</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
     <value>Send the developers an issue report with detailed information</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third Party Licenses</value>
+    <value>Third party licenses</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>About</value>
@@ -331,7 +331,7 @@
     <value>On Startup</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Show Owner in properties</value>
+    <value>Show item owner in properties</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
@@ -781,7 +781,7 @@
     <value>Recent</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>App Language</value>
+    <value>App language</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
@@ -895,7 +895,7 @@
     <value>See who contributed to Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Release notes</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Find out what's new in Files</value>
@@ -1050,12 +1050,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertical tab strip</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>App Language</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal Applications</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
   </data>
@@ -1066,10 +1060,10 @@
     <value>View sample profiles</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>App Language</value>
+    <value>App language</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal Applications</value>
+    <value>Terminal aspplications</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
     <value>Show copy location menu item</value>
@@ -1422,20 +1416,11 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Show drives on the home page</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>Show drives on the home page</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Show library cards on the home page</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>Show library cards on the home page</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Show recent files on the home page</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Show recent files on the home page</value>
@@ -1600,7 +1585,7 @@
     <value>Open in secondary pane</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Dual pane</value>
   </data>
   <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
     <value>Show open in new tab menu item</value>
@@ -1663,10 +1648,10 @@
     <value>Date deleted</value>
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Tab Customization</value>
+    <value>Tab customization</value>
   </data>
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>When Launching Files</value>
+    <value>When launching Files</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud Drives</value>
@@ -1771,7 +1756,7 @@
     <value>Item Name</value>
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Show Bundles on the home page</value>
+    <value>Show bundles on the home page</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Unpin directory from sidebar</value>
@@ -1906,7 +1891,7 @@
     <value>Open in new Pane</value>
   </data>
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>Show Library section on the sidebar</value>
+    <value>Show library section on the sidebar</value>
   </data>
     <data name="DefaultScheme" xml:space="preserve">
     <value>Default</value>
