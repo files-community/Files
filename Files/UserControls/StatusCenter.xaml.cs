@@ -20,7 +20,7 @@ namespace Files.UserControls
     {
         #region Public Properties
 
-        public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+        public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
         #endregion
 
