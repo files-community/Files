@@ -825,9 +825,6 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>Vooruit gaan</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>App-taal</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
     <value>App-taal</value>
   </data>

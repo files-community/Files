@@ -190,7 +190,7 @@ namespace Files.UserControls
                                 Title = "ExtractInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                                    FontFamily = Application.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                     Glyph = "\xEA5C"    // Extract glyph
                                 };
                                 break;
@@ -199,8 +199,7 @@ namespace Files.UserControls
                                 Title = "CopyInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xE9B2"    // Copy glyph
+                                    Glyph = "\xE8C8"    // Copy glyph
                                 };
                                 break;
 
@@ -208,8 +207,7 @@ namespace Files.UserControls
                                 Title = "MoveInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xE9B2"    // Move glyph
+                                    Glyph = "\xE77F"    // Move glyph
                                 };
                                 break;
 
@@ -217,8 +215,7 @@ namespace Files.UserControls
                                 Title = "DeleteInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xE9EE"    // Delete glyph
+                                    Glyph = "\xE74D"    // Delete glyph
                                 };
                                 break;
 
@@ -246,8 +243,7 @@ namespace Files.UserControls
                         StrokeColor = new SolidColorBrush(Colors.Green);
                         GlyphSource = new FontIconSource()
                         {
-                            FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                            Glyph = "\xE9A1"    // CheckMark glyph
+                            Glyph = "\xE73E"    // CheckMark glyph
                         };
                     }
                     break;
@@ -264,8 +260,7 @@ namespace Files.UserControls
                         StrokeColor = new SolidColorBrush(Colors.Red);
                         GlyphSource = new FontIconSource()
                         {
-                            FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                            Glyph = "\xEA41"    // Error glyph
+                            Glyph = "\xE783"    // Error glyph
                         };
                     }
                     break;
@@ -304,8 +299,7 @@ namespace Files.UserControls
                 StrokeColor = new SolidColorBrush(Colors.Red);
                 GlyphSource = new FontIconSource()
                 {
-                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                    Glyph = "\xEA41"    // Error glyph
+                    Glyph = "\xE783"    // Error glyph
                 };
             }
         }

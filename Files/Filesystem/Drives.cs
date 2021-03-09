@@ -133,8 +133,8 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarDrives".GetLocalized(),
-                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                            Glyph = "\uea9e",
+
+                            Glyph = "\uE7F8",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };

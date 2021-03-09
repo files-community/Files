@@ -1,5 +1,4 @@
 using Files.Filesystem.Cloud;
-using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -96,8 +95,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
-                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                            Glyph = "\ue9b7",
+                            Glyph = "\uE753",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };

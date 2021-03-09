@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -46,7 +47,7 @@ namespace Files.Views
         }
 
         public Interaction InteractionOperations => ActivePane?.InteractionOperations;
-
+        public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
         public PaneHolderPage()
@@ -73,6 +74,11 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(SidebarWidth));
                     break;
             }
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)

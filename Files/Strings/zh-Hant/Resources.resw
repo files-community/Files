@@ -759,9 +759,6 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>向前巡覽</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>應用程式語言</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
     <value>應用程式語言</value>
   </data>

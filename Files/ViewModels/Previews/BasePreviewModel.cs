@@ -8,12 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
-using Files.Common;
 
 namespace Files.ViewModels.Previews
 {
@@ -42,7 +39,8 @@ namespace Files.ViewModels.Previews
             if (IconData != null)
             {
                 Item.FileImage = await IconData.ToBitmapAsync();
-            } else
+            }
+            else
             {
                 using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
                 Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
@@ -73,12 +71,11 @@ namespace Files.ViewModels.Previews
             {
                 var detailsFull = new List<FileProperty>();
                 Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-                var detailsFromPreview = await LoadPreviewAndDetails();
+                DetailsFromPreview = await LoadPreviewAndDetails();
                 RaiseLoadedEvent();
                 var props = await GetSystemFileProperties();
 
                 DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
-                detailsFromPreview?.ForEach(i => detailsFull.Add(i));
                 props?.ForEach(i => detailsFull.Add(i));
 
                 Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
@@ -99,15 +96,21 @@ namespace Files.ViewModels.Previews
             LoadedEvent?.Invoke(this, new EventArgs());
         }
 
-        public static void LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
+        public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
         {
-            _ = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
+            var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
+            await temp.LoadAsync();
         }
 
         internal class DetailsOnlyPreviewModel : BasePreviewModel
         {
             public DetailsOnlyPreviewModel(ListedItem item) : base(item)
             {
+            }
+
+            public override Task<List<FileProperty>> LoadPreviewAndDetails()
+            {
+                return Task.FromResult(DetailsFromPreview);
             }
         }
     }

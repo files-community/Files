@@ -4,7 +4,6 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -16,14 +15,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -48,7 +45,6 @@ namespace Files.ViewModels
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
 
-            //DetectWSLDistros();
             TerminalController = await TerminalController.CreateInstance();
 
             // Send analytics to AppCenter
@@ -76,13 +72,15 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripEnabled)} {IsHorizontalTabStripEnabled}");
+            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
+            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
+            Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
@@ -99,9 +97,10 @@ namespace Files.ViewModels
 
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
+
         /// <summary>
         /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
         /// </summary>
@@ -116,7 +115,7 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength PreviewPaneSizeVertical
         {
-            get => new GridLength(Math.Min(Math.Max(Get(200d), 50d), 600d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 50d), 600d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
@@ -141,59 +140,6 @@ namespace Files.ViewModels
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-            }
-        }
-
-        private async void DetectWSLDistros()
-        {
-            try
-            {
-                var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-                if ((await distroFolder.GetFoldersAsync()).Count > 0)
-                {
-                    AreLinuxFilesSupported = false;
-                }
-
-                foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
-                {
-                    Uri logoURI = null;
-                    if (folder.DisplayName.Contains("ubuntu", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
-                    }
-                    else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/kalipng.png");
-                    }
-                    else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/debianpng.png");
-                    }
-                    else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/opensusepng.png");
-                    }
-                    else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/alpinepng.png");
-                    }
-                    else
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
-                    }
-
-                    MainPage.SideBarItems.Add(new WSLDistroItem()
-                    {
-                        Text = folder.DisplayName,
-                        Path = folder.Path,
-                        Logo = logoURI
-                    });
-                }
-            }
-            catch (Exception)
-            {
-                // WSL Not Supported/Enabled
-                AreLinuxFilesSupported = false;
             }
         }
 
@@ -389,6 +335,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
+        /// </summary>
+        public bool AdaptiveLayoutEnabled
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -405,7 +360,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
         /// </summary>
-        public bool IsVerticalTabFlyoutEnabled
+        public bool IsVerticalTabFlyoutOn
         {
             get => Get(false);
             set => Set(value);
@@ -414,7 +369,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
         /// </summary>
-        public bool IsHorizontalTabStripEnabled
+        public bool IsHorizontalTabStripOn
         {
             get => Get(false);
             set => Set(value);
@@ -488,6 +443,15 @@ namespace Files.ViewModels
         public bool ShowConfirmDeleteDialog
         {
             get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// </summary>
+        public bool ShowLibrarySection
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -582,6 +546,14 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// </summary>
+        public string PathToThemeFile
+        {
+            get => Get("DefaultScheme".GetLocalized());
+            set => Set(value);
+        }
         #endregion Appearance
 
         #region Experimental
@@ -693,15 +665,6 @@ namespace Files.ViewModels
         }
 
         #endregion Startup
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not WSL is supported.
-        /// </summary>
-        public bool AreLinuxFilesSupported
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
