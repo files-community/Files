@@ -210,13 +210,9 @@ namespace Files.Views
 
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
-
             TabItem tabItem = new TabItem()
             {
                 Header = null,
-                IconSource = fontIconSource,
                 Description = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
@@ -231,9 +227,6 @@ namespace Files.Views
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
-
             if (string.IsNullOrEmpty(path))
             {
                 path = "NewTab".GetLocalized();
@@ -242,7 +235,6 @@ namespace Files.Views
             TabItem tabItem = new TabItem()
             {
                 Header = null,
-                IconSource = fontIconSource,
                 Description = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
@@ -259,7 +251,6 @@ namespace Files.Views
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {

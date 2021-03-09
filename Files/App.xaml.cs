@@ -55,6 +55,7 @@ namespace Files
         public static DrivesManager DrivesManager { get; private set; }
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
+        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -88,6 +89,9 @@ namespace Files
             {
                 AppSettings = await SettingsViewModel.CreateInstance();
             }
+
+            ExternalResourcesHelper ??= new ExternalResourcesHelper();
+            await ExternalResourcesHelper.LoadSelectedTheme();
 
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();

@@ -41,7 +41,7 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
                 Path = "Home",
@@ -50,7 +50,7 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -257,7 +257,7 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                    
                     Path = path,
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,

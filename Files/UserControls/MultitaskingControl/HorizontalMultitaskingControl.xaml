@@ -45,7 +45,7 @@
                             Click="{x:Bind views:MainPage.MoveTabToNewWindow}"
                             Text="Move tab to new window">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8A7;" />
+                                <FontIcon Glyph="&#xE8A7;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

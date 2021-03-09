@@ -16,12 +16,10 @@ namespace Files.ViewModels
     public class FolderSettingsViewModel : ObservableObject
     {
         private static readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
-        private IShellPage associatedInstance;
-
-        public FolderSettingsViewModel(IShellPage associatedInstance)
+        public FolderSettingsViewModel()
         {
-            this.associatedInstance = associatedInstance;
             this.LayoutPreference = new LayoutPreferences();
 
             SetLayoutInformation();
@@ -35,7 +33,7 @@ namespace Files.ViewModels
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
                     SetLayoutInformation();
-                    UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                 }
             }
         }
@@ -66,11 +64,6 @@ namespace Files.ViewModels
             {
                 return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
             }
-        }
-
-        public string WorkingDirectory
-        {
-            get => associatedInstance.FilesystemViewModel.WorkingDirectory;
         }
 
         public FolderLayout LastLayoutModeSelected { get; private set; } = FolderLayout.DetailsView;
@@ -140,13 +133,12 @@ namespace Files.ViewModels
             if (enable)
             {
                 LayoutPreference.IsAdaptiveLayoutOverridden = false;
-                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
-                AdaptiveLayoutHelpers.PredictLayoutMode(this, associatedInstance.FilesystemViewModel);
+                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, true));
             }
             else
             {
                 LayoutPreference.IsAdaptiveLayoutOverridden = true;
-                UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
             }
         }
 
@@ -347,7 +339,7 @@ namespace Files.ViewModels
                         }
                         else
                         {
-                            UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                            LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                         }
 
                         GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
@@ -374,7 +366,7 @@ namespace Files.ViewModels
                         }
                         else
                         {
-                            UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                            LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                         }
 
                         if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
@@ -399,7 +391,7 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.DirectorySortOption, value, nameof(DirectorySortOption)))
                 {
-                    UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
@@ -412,13 +404,13 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.DirectorySortDirection, value, nameof(DirectorySortDirection)))
                 {
-                    UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
         }
 
-        public LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
+        public static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
@@ -499,7 +491,7 @@ namespace Files.ViewModels
             dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
 
-        public LayoutPreferences LayoutPreference { get; set; }
+        public LayoutPreferences LayoutPreference { get; private set; }
 
         public class LayoutPreferences
         {

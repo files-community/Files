@@ -2409,6 +2409,14 @@
           <source>Open in new Pane</source>
           <target state="new">Open in new Pane</target>
         </trans-unit>
+        <trans-unit id="DefaultScheme" translate="yes" xml:space="preserve">
+          <source>Default</source>
+          <target state="new">Default</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceColorScheme.Header" translate="yes" xml:space="preserve">
+          <source>Color scheme</source>
+          <target state="new">Color scheme</target>
+        </trans-unit>
       </group>
     </body>
   </file>

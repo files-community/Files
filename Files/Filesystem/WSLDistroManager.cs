@@ -56,7 +56,7 @@ namespace Files.Filesystem
                             section = new LocationItem()
                             {
                                 Text = "WSL",
-                                Font = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                                
                                 Glyph = "\uEC7A",
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
