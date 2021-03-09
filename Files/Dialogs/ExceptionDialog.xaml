@@ -29,12 +29,10 @@
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <FontIcon
                             x:Name="ExpandIcon"
-                            
                             FontSize="14"
                             Glyph="&#xE70D;" />
                         <FontIcon
                             x:Name="CollapseIcon"
-                            
                             FontSize="14"
                             Glyph="&#xE70E;"
                             Visibility="Collapsed" />

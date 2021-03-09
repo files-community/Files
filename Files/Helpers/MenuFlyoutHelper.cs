@@ -40,10 +40,12 @@ namespace Files.Helpers
         {
             public IList<IMenuFlyoutItem> Items { get; } = new List<IMenuFlyoutItem>();
 
-            internal MenuFlyoutSubItemViewModel(string text) : base(text) { }
+            internal MenuFlyoutSubItemViewModel(string text) : base(text)
+            {
+            }
         }
 
-        #endregion
+        #endregion View Models
 
         #region ItemsSource
 
@@ -55,7 +57,7 @@ namespace Files.Helpers
 
         private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
 
-        #endregion
+        #endregion ItemsSource
 
         private static async void SetupItems(MenuFlyout menu)
         {
@@ -101,7 +103,8 @@ namespace Files.Helpers
                 }
                 else if (item is MenuFlyoutSubItemViewModel svm)
                 {
-                    var mfsi = new MenuFlyoutSubItem {
+                    var mfsi = new MenuFlyoutSubItem
+                    {
                         Text = svm.Text,
                         IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
                     };

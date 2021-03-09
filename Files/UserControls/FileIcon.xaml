@@ -30,7 +30,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-            
             FontSize="{x:Bind ItemSize}"
             Glyph="&#xE7C3;" />
         <FontIcon
@@ -46,7 +45,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadDriveItemGlyph, Mode=OneWay}"
-            
             FontSize="{x:Bind LargerItemSize}"
             Glyph="{x:Bind ViewModel.DriveItemGlyphSource, Mode=OneWay}" />
         <FontIcon
@@ -54,7 +52,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-            
             FontSize="{x:Bind ItemSize}"
             Glyph="&#xE71B;" />
         <Image

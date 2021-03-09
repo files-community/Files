@@ -29,7 +29,7 @@
                     x:Uid="SettingsTabCustomization"
                     Padding="0,10,0,0"
                     FontSize="18"
-                    Text="Tab Customization" />
+                    Text="Tab customization" />
 
                 <StackPanel Orientation="Vertical" Spacing="12">
                     <StackPanel Orientation="Vertical">
@@ -92,7 +92,7 @@
                     x:Uid="SettingsDualPane"
                     Padding="0,10,0,0"
                     FontSize="18"
-                    Text="Dual Pane" />
+                    Text="Dual pane" />
 
                 <ToggleSwitch
                     x:Uid="SettingsMultitaskingEnableDualPane"

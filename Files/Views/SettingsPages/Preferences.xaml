@@ -36,8 +36,7 @@
                     x:Uid="SettingsPreferencesAppLanguage"
                     Width="200"
                     HorizontalAlignment="Left"
-                    AutomationProperties.Name="App Language"
-                    Header="App Language"
+                    Header="App language"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding DefaultLanguages}"
                     SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
@@ -60,8 +59,7 @@
                             Width="Auto"
                             MinWidth="200"
                             MaxWidth="250"
-                            AutomationProperties.Name="Terminal Applications"
-                            Header="Terminal Applications"
+                            Header="Terminal applications"
                             HeaderTemplate="{StaticResource CustomHeaderStyle}"
                             ItemsSource="{Binding Terminals}"
                             SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
@@ -111,7 +109,7 @@
                 <ToggleSwitch
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsPreferencesShowLibrarySection"
-                    Header="Show Library section on the sidebar"
+                    Header="Show library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>

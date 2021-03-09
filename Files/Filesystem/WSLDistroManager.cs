@@ -14,7 +14,6 @@ namespace Files.Filesystem
     {
         public WSLDistroManager()
         {
-
         }
 
         public async Task EnumerateDrivesAsync()
@@ -56,13 +55,12 @@ namespace Files.Filesystem
                             section = new LocationItem()
                             {
                                 Text = "WSL",
-                                
+
                                 Glyph = "\uEC7A",
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
                             MainPage.SideBarItems.Add(section);
-
 
                             foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
                             {
@@ -99,14 +97,12 @@ namespace Files.Filesystem
                                     Logo = logoURI
                                 });
                             }
-
                         }
                     }
                     catch (Exception)
                     {
                         // WSL Not Supported/Enabled
                     }
-
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }

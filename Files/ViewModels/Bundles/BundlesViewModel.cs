@@ -1,11 +1,17 @@
-﻿using System;
-using System.Linq;
+﻿using Files.Dialogs;
+using Files.Enums;
+using Files.Helpers;
+using Files.SettingsInterfaces;
+using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -14,12 +20,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Newtonsoft.Json;
-using Files.Dialogs;
-using Files.Enums;
-using Files.Helpers;
-using Files.SettingsInterfaces;
-using Files.ViewModels.Dialogs;
 
 namespace Files.ViewModels.Bundles
 {

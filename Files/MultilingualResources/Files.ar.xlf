@@ -31,12 +31,14 @@
           <target state="translated" state-qualifier="tm-suggestion">فتح في نافذة جديدة</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New Tab</source>
-          <target state="translated" state-qualifier="tm-suggestion">علامة تبويب جديدة</target>
+          <source>New tab</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">علامة تبويب جديدة</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
-          <source>New Window</source>
-          <target state="translated" state-qualifier="tm-suggestion">نافذة جديدة</target>
+          <source>New window</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">نافذة جديدة</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
@@ -183,16 +185,18 @@
           <target state="translated" state-qualifier="tm-suggestion">الملفات</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
-          <source>Submit Feedback</source>
-          <target state="translated" state-qualifier="tm-suggestion">إرسال ملاحظات</target>
+          <source>Submit feedback</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">إرسال ملاحظات</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
           <target state="translated">ارسل المشكلة للموطور بمعلومات مفصلة</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses</source>
-          <target state="translated">تراخيص الطرف الثالث</target>
+          <source>Third party licenses</source>
+          <target state="needs-review-translation">تراخيص الطرف الثالث</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -283,8 +287,9 @@
           <target state="translated">عند بدء التشغيل</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
-          <source>Show Owner in properties</source>
-          <target state="translated">اظهر المالك في الخصائص</target>
+          <source>Show item owner in properties</source>
+          <target state="needs-review-translation">اظهر المالك في الخصائص</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -879,7 +884,7 @@
           <target state="translated" state-qualifier="tm-suggestion">الأخيرة</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
-          <source>App Language</source>
+          <source>App language</source>
           <target state="translated">لغة التطبيق</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
@@ -1031,8 +1036,9 @@
           <target state="translated">تعرف على من ساهم في التطبيق</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
-          <source>Release Notes</source>
-          <target state="translated" state-qualifier="tm-suggestion">ملاحظات الإصدار</target>
+          <source>Release notes</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ملاحظات الإصدار</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
@@ -1238,14 +1244,6 @@
           <source>Vertical tab strip</source>
           <target state="translated">شريط علامة تبويب عمودي</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>App Language</source>
-          <target state="translated">لغة التطبيق</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">تطبيقات المحطة الطرفية</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">تعديل التطبيقات الطرفية</target>
@@ -1259,12 +1257,13 @@
           <target state="translated">عرض نماذج لمحات</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
-          <source>App Language</source>
+          <source>App language</source>
           <target state="translated">لغة التطبيق</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">تطبيقات المحطة الطرفية</target>
+          <source>Terminal aspplications</source>
+          <target state="needs-review-translation">تطبيقات المحطة الطرفية</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show copy location menu item</source>
@@ -1730,25 +1729,13 @@
           <source>Widgets</source>
           <target state="translated">الحاجيات</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show drives on the home page</source>
-          <target state="translated">عرض محركات الأقراص على الصفحة الرئيسية</target>
-        </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
           <target state="translated">عرض محركات الأقراص على الصفحة الرئيسية</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show library cards on the home page</source>
-          <target state="translated">إظهار بطاقات المكتبة على الصفحة الرئيسية</target>
-        </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
           <target state="translated">إظهار بطاقات المكتبة على الصفحة الرئيسية</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show recent files on the home page</source>
-          <target state="translated">إظهار الملفات الأخيرة على الصفحة الرئيسية</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
@@ -1963,8 +1950,9 @@
           <target state="translated">فتح في الجزء الثانوي</target>
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
-          <source>Dual Pane</source>
-          <target state="translated">جزء مزدوج</target>
+          <source>Dual pane</source>
+          <target state="needs-review-translation">جزء مزدوج</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show open in new tab menu item</source>
@@ -2047,12 +2035,14 @@
           <target state="translated" state-qualifier="tm-suggestion">‏‏تاريخ الحذف</target>
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
-          <source>Tab Customization</source>
-          <target state="translated">تخصيص علامة التبويب</target>
+          <source>Tab customization</source>
+          <target state="needs-review-translation">تخصيص علامة التبويب</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
-          <source>When Launching Files</source>
-          <target state="translated">عند تشغيل الملفات</target>
+          <source>When launching Files</source>
+          <target state="needs-review-translation">عند تشغيل الملفات</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options...</source>
@@ -2191,8 +2181,8 @@
           <target state="new">Unpin directory from sidebar</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
-          <source>Show Bundles on the home page</source>
-          <target state="new">Show Bundles on the home page</target>
+          <source>Show bundles on the home page</source>
+          <target state="new">Show bundles on the home page</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
@@ -2383,8 +2373,8 @@
           <target state="new">Arguments</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
-          <source>Show Library section on the sidebar</source>
-          <target state="new">Show Library section on the sidebar</target>
+          <source>Show library section on the sidebar</source>
+          <target state="new">Show library section on the sidebar</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
