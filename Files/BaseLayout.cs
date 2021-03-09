@@ -293,7 +293,7 @@ namespace Files
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
                     FolderSettings.IsLayoutModeChanging = true;
-                    ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                    ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
                         IsSearchResultPage = navigationArguments.IsSearchResultPage,
@@ -301,10 +301,10 @@ namespace Files
                         SearchResults = navigationArguments.SearchResults,
                         IsLayoutSwitch = true,
                         AssociatedTabInstance = ParentShellPageInstance
-                    }, null);
+                    });
 
                     // Remove old layout from back stack
-                    ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                    ParentShellPageInstance.RemoveLastPageFromBackStack();
                 }
             }
         }
@@ -383,6 +383,23 @@ namespace Files
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
             FocusFileList(); // Set focus on layout specific file list control
+
+            try
+            {
+                if (navigationArguments.SelectItems != null && navigationArguments.SelectItems.Count() > 0)
+                {
+                    List<ListedItem> liItemsToSelect = new List<ListedItem>();
+                    foreach (string item in navigationArguments.SelectItems)
+                    {
+                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
+                    }
+
+                    SetSelectedItemsOnUi(liItemsToSelect);
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -433,7 +450,6 @@ namespace Files
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
-                        FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                         Glyph = "\xE712"
                     }
                 };
@@ -580,7 +596,6 @@ namespace Files
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                                 Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"

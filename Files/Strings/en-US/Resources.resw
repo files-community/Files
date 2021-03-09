@@ -1902,7 +1902,16 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Arguments</value>
   </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Open in new Pane</value>
+  </data>
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
     <value>Show Library section on the sidebar</value>
+  </data>
+    <data name="DefaultScheme" xml:space="preserve">
+    <value>Default</value>
+  </data>
+    <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Color scheme</value>
   </data>
 </root>

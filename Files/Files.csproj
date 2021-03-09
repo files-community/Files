@@ -179,6 +179,7 @@
     <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExternalResourcesHelper.cs" />
     <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
     <Compile Include="Helpers\MenuFlyoutHelper.cs" />
@@ -222,7 +224,7 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
-	<Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
@@ -518,9 +520,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\AnimatedVisuals\LottiePulseStatusCenter.json" />
-    <Content Include="Assets\Custom Glyphs\FluentIcons.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\Custom Glyphs\fluentui.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

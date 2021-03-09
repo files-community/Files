@@ -456,7 +456,7 @@ namespace Files.Interacts
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
             if (destFolder)
             {
-                AssociatedInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+                AssociatedInstance.NavigateWithArguments(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
                     AssociatedTabInstance = AssociatedInstance
@@ -480,7 +480,8 @@ namespace Files.Interacts
         /// <param name="itemType"></param>
         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
-        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false)
+        /// <param name="selectItems">List of filenames that are selected upon navigation</param>
+        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null)
         // TODO: This function reliability has not been extensively tested
         {
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -545,11 +546,12 @@ namespace Files.Interacts
                     else
                     {
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = shortcutTargetPath;
-                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
+                        AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutTargetPath,
-                            AssociatedTabInstance = AssociatedInstance
-                        }, new SuppressNavigationTransitionInfo());
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems
+                        });
 
                         return true;
                     }
@@ -557,11 +559,11 @@ namespace Files.Interacts
                 else if (isHiddenItem)
                 {
                     AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
-                    AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
                         AssociatedTabInstance = AssociatedInstance
-                    }, new SuppressNavigationTransitionInfo());
+                    });
 
                     return true;
                 }
@@ -584,11 +586,12 @@ namespace Files.Interacts
                     if (opened)
                     {
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
-                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
-                            AssociatedTabInstance = AssociatedInstance
-                        }, new SuppressNavigationTransitionInfo());
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems
+                        });
                     }
                 }
             }
@@ -829,6 +832,7 @@ namespace Files.Interacts
                         Window.Current.Close();
                     };
                 });
+
                 bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
                 // Set window size again here as sometimes it's not resized in the page Loaded event
                 newView.TryResizeView(new Size(400, 550));

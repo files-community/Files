@@ -199,7 +199,7 @@ namespace Files.UserControls
                                 Title = "CopyInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily,
+
                                     Glyph = "\xE8C8"    // Copy glyph
                                 };
                                 break;
@@ -208,7 +208,7 @@ namespace Files.UserControls
                                 Title = "MoveInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily,
+
                                     Glyph = "\xE77F"    // Move glyph
                                 };
                                 break;
@@ -217,7 +217,7 @@ namespace Files.UserControls
                                 Title = "DeleteInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily,
+
                                     Glyph = "\xE74D"    // Delete glyph
                                 };
                                 break;
@@ -246,7 +246,7 @@ namespace Files.UserControls
                         StrokeColor = new SolidColorBrush(Colors.Green);
                         GlyphSource = new FontIconSource()
                         {
-                            FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily,
+
                             Glyph = "\xE73E"    // CheckMark glyph
                         };
                     }
@@ -264,7 +264,7 @@ namespace Files.UserControls
                         StrokeColor = new SolidColorBrush(Colors.Red);
                         GlyphSource = new FontIconSource()
                         {
-                            FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily,
+
                             Glyph = "\xE783"    // Error glyph
                         };
                     }
@@ -304,7 +304,7 @@ namespace Files.UserControls
                 StrokeColor = new SolidColorBrush(Colors.Red);
                 GlyphSource = new FontIconSource()
                 {
-                    FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily,
+
                     Glyph = "\xE783"    // Error glyph
                 };
             }

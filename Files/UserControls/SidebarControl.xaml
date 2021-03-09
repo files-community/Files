@@ -61,9 +61,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontFamily="{x:Bind Font}"
-                            Glyph="{x:Bind Glyph}" />
+                        <FontIcon FontFamily="{x:Bind Font}" Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -85,9 +83,7 @@
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontFamily="{StaticResource FluentGlyphs}"
-                            Glyph="{x:Bind Glyph}" />
+                        <FontIcon Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -188,7 +184,7 @@
                                 Click="{x:Bind local1:App.UnpinItem_Click}"
                                 Text="Unpin from Sidebar">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE77A;" />
+                                    <FontIcon Glyph="&#xE77A;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -208,7 +204,7 @@
                                 Click="Properties_Click"
                                 Text="Properties">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                                    <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout.Items>

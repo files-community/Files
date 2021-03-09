@@ -24,7 +24,7 @@
                     <DataTemplate x:DataType="Button">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <FontIcon
-                                FontFamily="{StaticResource FluentGlyphs}"
+                                
                                 FontSize="14"
                                 Glyph="&#xEA18;" />
                             <TextBlock Text="{Binding PrimaryButtonText, ElementName=BitlockerDriveDialog}" />
