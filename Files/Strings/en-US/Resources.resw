@@ -1891,7 +1891,7 @@
     <value>Open in new Pane</value>
   </data>
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>Show Library section on the sidebar</value>
+    <value>Show library section on the sidebar</value>
   </data>
     <data name="DefaultScheme" xml:space="preserve">
     <value>Default</value>

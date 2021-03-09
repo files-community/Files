@@ -109,7 +109,7 @@
                 <ToggleSwitch
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsPreferencesShowLibrarySection"
-                    Header="Show Library section on the sidebar"
+                    Header="Show library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>
