@@ -210,6 +210,7 @@ namespace Files.ViewModels.Bundles
             {
                 BundleName = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
+                NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle
             });
             NoBundlesAddItemLoad = false;
             itemAddedInternally = false;
@@ -270,6 +271,17 @@ namespace Files.ViewModels.Bundles
             {
                 NoBundlesAddItemLoad = true;
             }
+        }
+
+        /// <summary>
+        /// This function gets called when an item is removed to update the collection
+        /// </summary>
+        /// <param name="bundleContainer"></param>
+        /// <param name="bundleItemPath"></param>
+        private void NotifyBundleItemRemovedHandle(string bundleContainer, string bundleItemPath)
+        {
+            BundleItemViewModel itemToRemove = this.Items.Where((item) => item.BundleName == bundleContainer).First().Contents.Where((item) => item.Path == bundleItemPath).First();
+            itemToRemove.RemoveItem();
         }
 
         /// <summary>
@@ -367,6 +379,7 @@ namespace Files.ViewModels.Bundles
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
+                        NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle
                     }.SetBundleItems(bundleItems));
                     itemAddedInternally = false;
                 }

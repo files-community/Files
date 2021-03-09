@@ -1,5 +1,7 @@
 ﻿using Files.Dialogs;
 using Files.Enums;
+using Files.Filesystem;
+using Files.Helpers;
 using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -44,6 +46,8 @@ namespace Files.ViewModels.Bundles
 
         public Action<BundleContainerViewModel> NotifyItemRemoved { get; set; }
 
+        public Action<string, string> NotifyBundleItemRemoved { get; set; }
+
         #endregion Actions
 
         #region Public Properties
@@ -83,6 +87,8 @@ namespace Files.ViewModels.Bundles
 
         public ICommand DropCommand { get; private set; }
 
+        public ICommand DragItemsStartingCommand { get; private set; }
+
         #endregion Commands
 
         #region Constructor
@@ -103,6 +109,7 @@ namespace Files.ViewModels.Bundles
             {
                 (e.ClickedItem as BundleItemViewModel).OpenItem();
             });
+            DragItemsStartingCommand = new RelayCommand<DragItemsStartingEventArgs>(DragItemsStarting);
         }
 
         #endregion Constructor
@@ -236,9 +243,12 @@ namespace Files.ViewModels.Bundles
 
         private void DragOver(DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) || e.DataView.Contains(StandardDataFormats.Text))
             {
-                e.AcceptedOperation = DataPackageOperation.Move;
+                if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle) // Don't exceed the limit!
+                {
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
             }
             else
             {
@@ -252,9 +262,10 @@ namespace Files.ViewModels.Bundles
             var deferral = e?.GetDeferral();
             try
             {
+                bool itemsAdded = false;
+
                 if (e.DataView.Contains(StandardDataFormats.StorageItems))
                 {
-                    bool itemsAdded = false;
                     IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
 
                     foreach (IStorageItem item in items)
@@ -263,7 +274,51 @@ namespace Files.ViewModels.Bundles
                         {
                             if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                             {
-                                AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
+                                AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)
+                                {
+                                    ParentBundleName = BundleName,
+                                    NotifyItemRemoved = NotifyItemRemovedHandle
+                                });
+                                itemsAdded = true;
+                            }
+                        }
+                    }
+                }
+                else if (e.DataView.Contains(StandardDataFormats.Text))
+                {
+                    string itemText = await e.DataView.GetTextAsync();
+
+                    if (string.IsNullOrWhiteSpace(itemText))
+                    {
+                        return;
+                    }
+
+                    bool dragFromBundle = false;
+                    string itemPath = null;
+                    string originBundle = null;
+
+                    if (itemText.Contains("|"))
+                    {
+                        dragFromBundle = true;
+
+                        originBundle = itemText.Split('|')[0];
+                        itemPath = itemText.Split('|')[1];
+                    }
+                    else
+                    {
+                        dragFromBundle = false;
+                        itemPath = itemText;
+                    }
+
+                    IStorageItem item = await StorageItemHelpers.ToStorageItem<IStorageItem>(itemPath, associatedInstance);
+
+                    if (item != null || itemPath.EndsWith(".lnk"))
+                    {
+                        if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                        {
+                            if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
+                            {
+                                AddBundleItem(new BundleItemViewModel(associatedInstance, itemPath, itemPath.EndsWith(".lnk") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File))
                                 {
                                     ParentBundleName = BundleName,
                                     NotifyItemRemoved = NotifyItemRemovedHandle
@@ -273,10 +328,23 @@ namespace Files.ViewModels.Bundles
                         }
                     }
 
-                    if (itemsAdded)
+                    if (itemsAdded && dragFromBundle)
                     {
-                        SaveBundle();
+                        // Also remove the item from the collection
+                        if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
+                        {
+                            Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                            allBundles[originBundle].Remove(itemPath);
+                            BundlesSettings.SavedBundles = allBundles;
+
+                            NotifyBundleItemRemoved(originBundle, itemPath);
+                        }
                     }
+                }
+
+                if (itemsAdded)
+                {
+                    SaveBundle();
                 }
             }
             catch (Exception ex)
@@ -286,6 +354,12 @@ namespace Files.ViewModels.Bundles
             {
                 deferral?.Complete();
             }
+        }
+
+        private void DragItemsStarting(DragItemsStartingEventArgs e)
+        {
+            string itemPathAndData = $"{BundleName}|{(e.Items.First() as BundleItemViewModel).Path}";
+            e.Data.SetData(StandardDataFormats.Text, itemPathAndData);
         }
 
         #endregion Command Implementation
@@ -402,6 +476,7 @@ namespace Files.ViewModels.Bundles
             DragOverCommand = null;
             DropCommand = null;
             OpenItemCommand = null;
+            DragItemsStartingCommand = null;
 
             associatedInstance = null;
             Contents.CollectionChanged -= Contents_CollectionChanged;
