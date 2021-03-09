@@ -1,6 +1,5 @@
 ﻿using Files.Dialogs;
 using Files.Enums;
-using Files.Filesystem;
 using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -265,7 +264,7 @@ namespace Files.ViewModels.Bundles
                         {
                             if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                             {
-                                AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)
+                                AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
                                 {
                                     ParentBundleName = BundleName,
                                     NotifyItemRemoved = NotifyItemRemovedHandle
@@ -273,11 +272,11 @@ namespace Files.ViewModels.Bundles
                                 itemsAdded = true;
                             }
                         }
+                    }
 
-                        if (itemsAdded)
-                        {
-                            SaveBundle();
-                        }
+                    if (itemsAdded)
+                    {
+                        SaveBundle();
                     }
                 }
             }
