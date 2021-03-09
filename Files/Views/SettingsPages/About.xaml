@@ -71,7 +71,7 @@
                             Spacing="14"
                             Tag="Feedback">
                             <FontIcon
-                                FontFamily="{StaticResource FluentGlyphs}"
+                                
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xED15;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
@@ -98,7 +98,7 @@
                             Spacing="14"
                             Tag="ReleaseNotes">
                             <FontIcon
-                                FontFamily="{StaticResource FluentGlyphs}"
+                                
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xF000;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
@@ -125,7 +125,7 @@
                             Spacing="14"
                             Tag="Documentation">
                             <FontIcon
-                                FontFamily="{StaticResource FluentGlyphs}"
+                                
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xE736;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
@@ -152,7 +152,7 @@
                             Spacing="14"
                             Tag="Contributors">
                             <FontIcon
-                                FontFamily="{StaticResource FluentGlyphs}"
+                                
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xE716;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">

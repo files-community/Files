@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:dialogs="using:Files.Dialogs"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -49,11 +50,11 @@
                     Width="Auto"
                     MinWidth="200"
                     MaxWidth="250"
+                    x:Load="{x:Bind ShowColorSchemeSelector}"
                     Header="Color scheme"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" 
-                    x:Load="{x:Bind ShowColorSchemeSelector}"/>
+                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" />
 
                 <StackPanel
                     Width="Auto"
@@ -74,11 +75,11 @@
                         x:Uid="SettingsAppearanceDateFormatsTip"
                         VerticalAlignment="Bottom"
                         AutomationProperties.Name="Learn more about date formats"
-                        Content="&#xE946;"
-                        FontFamily="{StaticResource FluentGlyphs}"
                         NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
                         Style="{ThemeResource TextBlockButtonStyle}"
-                        ToolTipService.ToolTip="Learn more about date formats" />
+                        ToolTipService.ToolTip="Learn more about date formats">
+                        <FontIcon FontSize="14" Glyph="&#xE946;" />
+                    </HyperlinkButton>
                 </StackPanel>
 
                 <ToggleSwitch

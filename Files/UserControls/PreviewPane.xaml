@@ -71,15 +71,14 @@
             Background="Transparent">
             <controls:GridSplitter.Element>
                 <Grid>
-                    <TextBlock
+                    <FontIcon
                         x:Name="GripperGlyphTextBlock"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FluentGlyphs}"
                         FontSize="36"
                         Foreground="{StaticResource SystemChromeHighColor}"
-                        IsHitTestVisible="False"
-                        Text="&#xE738;" />
+                        Glyph="&#xE738;"
+                        IsHitTestVisible="False" />
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>

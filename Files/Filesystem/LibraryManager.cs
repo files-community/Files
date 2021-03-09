@@ -83,7 +83,7 @@ namespace Files.Filesystem
 
                                 var locationItem = new LocationItem
                                 {
-                                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                                    
                                     Path = path,
                                     Glyph = GlyphHelper.GetItemIcon(path),
                                     IsDefaultLocation = false,

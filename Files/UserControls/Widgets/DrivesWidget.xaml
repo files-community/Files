@@ -66,7 +66,7 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FluentGlyphs}"
+                    
                     FontSize="14"
                     Glyph="&#xe712;" />
 
@@ -77,7 +77,7 @@
                             Click="MapNetworkDrive_Click"
                             Text="Map network drive">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE710;" />
+                                <FontIcon  Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -160,7 +160,7 @@
                                             DataContext="{x:Bind}"
                                             Text="Properties">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                                                <FontIcon  Glyph="&#xE946;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -199,7 +199,7 @@
                                 <FontIcon
                                     Grid.Column="0"
                                     x:Phase="1"
-                                    FontFamily="{StaticResource FluentGlyphs}"
+                                    
                                     FontSize="28"
                                     Glyph="{x:Bind Glyph}" />
                                 <StackPanel

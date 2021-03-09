@@ -467,7 +467,7 @@ namespace Files.Views
             {
                 var flyoutItem = new MenuFlyoutItem
                 {
-                    Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily, Glyph = "\uE7BA" },
+                    Icon = new FontIcon {  Glyph = "\uE7BA" },
                     Text = "SubDirectoryAccessDenied".GetLocalized(),
                     //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
                     FontSize = 12
@@ -478,7 +478,6 @@ namespace Files.Views
 
             var boldFontWeight = new FontWeight { Weight = 800 };
             var normalFontWeight = new FontWeight { Weight = 400 };
-            var customGlyphFamily = Application.Current.Resources["FluentGlyphs"] as FontFamily;
 
             var workingPath = NavigationToolbar.PathComponents
                     [NavigationToolbar.PathComponents.Count - 1].
@@ -491,7 +490,6 @@ namespace Files.Views
                 {
                     Icon = new FontIcon
                     {
-                        FontFamily = customGlyphFamily,
                         Glyph = "\uED25",
                         FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
                     },
