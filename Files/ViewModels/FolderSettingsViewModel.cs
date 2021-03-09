@@ -33,7 +33,7 @@ namespace Files.ViewModels
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
                     SetLayoutInformation();
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this));
                 }
             }
         }
@@ -133,12 +133,12 @@ namespace Files.ViewModels
             if (enable)
             {
                 LayoutPreference.IsAdaptiveLayoutOverridden = false;
-                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, true));
+                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this, true));
             }
             else
             {
                 LayoutPreference.IsAdaptiveLayoutOverridden = true;
-                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this));
             }
         }
 
@@ -339,7 +339,7 @@ namespace Files.ViewModels
                         }
                         else
                         {
-                            LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                            LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this));
                         }
 
                         GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
@@ -366,7 +366,7 @@ namespace Files.ViewModels
                         }
                         else
                         {
-                            LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                            LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this));
                         }
 
                         if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
@@ -391,7 +391,7 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.DirectorySortOption, value, nameof(DirectorySortOption)))
                 {
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this));
                     SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
@@ -404,7 +404,7 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.DirectorySortDirection, value, nameof(DirectorySortDirection)))
                 {
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, this));
                     SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
@@ -491,7 +491,7 @@ namespace Files.ViewModels
             dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
 
-        public LayoutPreferences LayoutPreference { get; private set; }
+        internal LayoutPreferences LayoutPreference { get; private set; }
 
         public class LayoutPreferences
         {

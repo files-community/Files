@@ -1,4 +1,5 @@
-﻿using static Files.ViewModels.FolderSettingsViewModel;
+﻿using Files.ViewModels;
+using static Files.ViewModels.FolderSettingsViewModel;
 
 namespace Files.EventArguments
 {
@@ -8,10 +9,13 @@ namespace Files.EventArguments
 
         public readonly bool IsAdaptiveLayoutUpdateRequired;
 
-        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired = false)
+        public readonly FolderSettingsViewModel FolderSettingsViewModel;
+
+        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, FolderSettingsViewModel folderSettingsViewModel, bool isAdaptiveLayoutUpdateRequired = false)
         {
-            LayoutPreference = layoutPref;
-            IsAdaptiveLayoutUpdateRequired = isAdaptiveLayoutUpdateRequired;
+            this.LayoutPreference = layoutPref;
+            this.FolderSettingsViewModel = folderSettingsViewModel;
+            this.IsAdaptiveLayoutUpdateRequired = isAdaptiveLayoutUpdateRequired;
         }
     }
 }

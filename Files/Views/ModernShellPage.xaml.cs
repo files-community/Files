@@ -204,10 +204,10 @@ namespace Files.Views
         {
             if (FilesystemViewModel != null)
             {
-                (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+                e.FolderSettingsViewModel.UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
                 if (e.IsAdaptiveLayoutUpdateRequired)
                 {
-                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
+                    AdaptiveLayoutHelpers.PredictLayoutMode(e.FolderSettingsViewModel, FilesystemViewModel);
                 }
             }
         }
