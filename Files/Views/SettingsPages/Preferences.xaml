@@ -112,7 +112,6 @@
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsPreferencesShowLibrarySection"
                     Header="Show Library section on the sidebar"
-                    Toggled="ShowLibrarySection_Toggled"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>
