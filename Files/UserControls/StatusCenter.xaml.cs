@@ -1,9 +1,11 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.Interacts;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -14,57 +16,69 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
-    public sealed partial class StatusCenter : UserControl
+    public sealed partial class StatusCenter : UserControl, IStatusCenterActions
     {
-        public static ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
+        #region Public Properties
 
-        public event EventHandler ProgressBannerPosted;
+        public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
+
+        #endregion
+
+        #region Constructor
 
         public StatusCenter()
         {
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Posts a new banner to the Status Center control for an operation.
-        /// It may be used to return the progress, success, or failure of the respective operation.
-        /// </summary>
-        /// <param name="title">Reserved for success and error banners. Otherwise, pass an empty string for this argument.</param>
-        /// <param name="message"></param>
-        /// <param name="initialProgress"></param>
-        /// <param name="status"></param>
-        /// <param name="operation"></param>
-        /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
+        #endregion
+
+        #region IStatusCenterActions
+
         public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
         {
-            StatusBanner item = new StatusBanner(message, title, initialProgress, status, operation);
-            StatusBannersSource.Add(item);
-            ProgressBannerPosted?.Invoke(this, EventArgs.Empty);
-            return new PostedStatusBanner(item);
+            StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
         }
 
-        /// <summary>
-        /// Posts a new banner with expanded height to the Status Center control. This is typically
-        /// used to represent a failure during a prior operation which must be acted upon.
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="primaryButtonText"></param>
-        /// <param name="cancelButtonText"></param>
-        /// <param name="primaryAction"></param>
-        /// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
         public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
         {
-            StatusBanner item = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
-            StatusBannersSource.Add(item);
-            return new PostedStatusBanner(item);
+            StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
         }
+
+        public bool CloseBanner(StatusBanner banner)
+        {
+            if (!StatusBannersSource.Contains(banner))
+            {
+                return false;
+            }
+
+            StatusBannersSource.Remove(banner);
+            return true;
+        }
+
+        #endregion
 
         // Dismiss banner button event handler
         private void DismissBanner(object sender, RoutedEventArgs e)
         {
             StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
-            StatusBannersSource.Remove(itemToDismiss);
+            CloseBanner(itemToDismiss);
         }
 
         // Primary action button click
@@ -72,22 +86,42 @@ namespace Files.UserControls
         {
             StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
             await Task.Run(itemToDismiss.PrimaryButtonClick);
-            StatusBannersSource.Remove(itemToDismiss);
+            CloseBanner(itemToDismiss);
         }
     }
 
     public class PostedStatusBanner
     {
-        internal StatusBanner Banner;
-        public Progress<float> Progress;
-        public Progress<FileSystemStatusCode> ErrorCode;
+        #region Private Members
 
-        public PostedStatusBanner(StatusBanner bannerArg)
+        private readonly IStatusCenterActions statusCenterActions;
+        
+        private readonly StatusBanner Banner;
+
+        #endregion
+
+        #region Public Members
+
+        public readonly Progress<float> Progress;
+
+        public readonly Progress<FileSystemStatusCode> ErrorCode;
+
+        #endregion
+
+        #region Constructor
+
+        public PostedStatusBanner(StatusBanner banner, IStatusCenterActions statusCenterActions)
         {
-            Banner = bannerArg;
-            Progress = new Progress<float>(ReportProgressToBanner);
-            ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+            this.Banner = banner;
+            this.statusCenterActions = statusCenterActions;
+
+            this.Progress = new Progress<float>(ReportProgressToBanner);
+            this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
+
+        #endregion
+
+        #region Private Helpers
 
         private void ReportProgressToBanner(float value)
         {
@@ -99,7 +133,7 @@ namespace Files.UserControls
             }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                Debugger.Break(); // Argument out of range :(
             }
         }
 
@@ -107,13 +141,16 @@ namespace Files.UserControls
         {
         }
 
+        #endregion
+
+        #region Public Helpers
+
         public void Remove()
         {
-            if (StatusCenter.StatusBannersSource.Contains(Banner))
-            {
-                StatusCenter.StatusBannersSource.Remove(Banner);
-            }
+            statusCenterActions.CloseBanner(Banner);
         }
+
+        #endregion
     }
 
     public class StatusBanner : ObservableObject

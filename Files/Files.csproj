@@ -225,6 +225,7 @@
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="Interacts\IStatusCenterActions.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
