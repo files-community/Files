@@ -654,7 +654,7 @@
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid ColumnSpacing="4">
@@ -906,70 +906,204 @@
             </Button>
         </Grid>
 
-        <CommandBar Background="Transparent" Grid.Row="1" Grid.ColumnSpan="3"  Margin="5" DefaultLabelPosition="Right">
-            <AppBarButton Icon="Add" Label="New" >
-                
-            </AppBarButton>
-            
-            <AppBarButton Icon="Paste" Label="Paste" >
+        <StackPanel
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="4">
 
-            </AppBarButton>
-            <AppBarButton Label="Selection">
-                <FontIcon Glyph="&#xE133;"/>
-            </AppBarButton>
-            <AppBarButton Label="Layout">
-                <FontIcon Glyph="&#xE8A9;"/>
-            </AppBarButton>
-            <AppBarButton Label="Sorting">
-                <FontIcon Glyph="&#xE8CB;"/>
-            </AppBarButton>
-            <AppBarSeparator/>
-
-            <AppBarButton
+            <CommandBar VerticalAlignment="Center" Background="Transparent">
+                <AppBarButton
                     x:Name="PreviewPane"
                     x:Uid="PreviewPaneToggle"
+                    Width="36"
+                    Height="32"
                     AutomationProperties.Name="Toggle preview pane"
                     Background="Transparent"
-                    Label="Preview pane"
-                    IsCompact="True"
                     Click="PreviewPane_Click"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
                     Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                <FontIcon Glyph="&#xE146;" />
-            </AppBarButton>
+                    <FontIcon FontSize="14" Glyph="&#xE146;" />
+                </AppBarButton>
 
-            <AppBarButton
+                <AppBarButton
                     x:Name="VerticalTabStripInvokeButton"
                     x:Uid="VerticalTabStrip"
+                    Width="36"
+                    Height="32"
                     x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
                     AllowDrop="True"
                     AutomationProperties.Name="Vertical tab strip"
+                    Background="Transparent"
                     DragEnter="VerticalTabStripInvokeButton_DragEnter"
                     IsTapEnabled="True"
                     Loaded="VerticalTabStripInvokeButton_Loaded"
                     PointerEntered="Button_PointerEntered"
                     PointerExited="VerticalTabStripInvokeButton_PointerExited"
+                    Style="{StaticResource ToolBarButtonStyle}"
                     Tapped="Button_Tapped"
                     ToolTipService.ToolTip="Open tabs">
-                <FontIcon Glyph="&#xF5ED;" />
-                <Button.Flyout>
-                    <Flyout
+                    <FontIcon FontSize="14" Glyph="&#xF5ED;" />
+                    <Button.Flyout>
+                        <Flyout
                             x:Name="VerticalTabViewFlyout"
                             Closed="Flyout_Closed"
                             Opened="Flyout_Opened">
-                        <local:VerticalTabViewControl
+                            <local:VerticalTabViewControl
                                 x:Name="VerticalTabs"
                                 Width="275"
                                 MaxHeight="300"
                                 x:FieldModifier="public"
                                 PointerExited="VerticalTabs_PointerExited" />
-                    </Flyout>
-                </Button.Flyout>
-            </AppBarButton>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="OpenPane" Label="New Pane"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
+                        </Flyout>
+                    </Button.Flyout>
+                </AppBarButton>
+
+                <AppBarButton
+                    x:Uid="NavMoreButton"
+                    Width="36"
+                    Height="32"
+                    HorizontalAlignment="Right"
+                    AutomationProperties.Name="More options"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="More options">
+                    <FontIcon FontSize="14" Glyph="&#xE712;" />
+                    <Button.Flyout>
+                        <MenuFlyout Opening="NavMoreButtonFlyout_Opening" Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem
+                                x:Name="NavToolbarNewPane"
+                                x:Uid="NavigationToolbarNewPane"
+                                x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                                Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                Text="New pane">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xF57C;" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="Add"
+                                        IsEnabled="False"
+                                        Modifiers="Menu,Shift" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="NavToolbarNewTab"
+                                x:Uid="NavigationToolbarNewTab"
+                                Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
+                                Text="New tab">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="T"
+                                        IsEnabled="False"
+                                        Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="NavToolbarNewWindow"
+                                x:Uid="NavigationToolbarNewWindow"
+                                Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
+                                Text="New window">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE737;" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="N"
+                                        IsEnabled="False"
+                                        Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="CopyPathButton"
+                                x:Uid="NavigationToolbarCopyPath"
+                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                                Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
+                                Text="Copy location">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE167;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                            <MenuFlyoutItem
+                                x:Name="OpenInTerminalButton"
+                                x:Uid="NavigationToolbarOpenInTerminal"
+                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                                Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
+                                Text="Open in Terminal...">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE756;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                            <MenuFlyoutItem
+                                x:Name="PasteButton"
+                                x:Uid="NavigationToolbarPaste"
+                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                                Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
+                                Text="Paste">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE77F;" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="V"
+                                        IsEnabled="False"
+                                        Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator x:Name="SeparatorBar2" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                            <MenuFlyoutSubItem
+                                x:Name="NewEmptySpace"
+                                x:Uid="BaseLayoutContextFlyoutNew"
+                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                                IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
+                                Text="New">
+                                <MenuFlyoutSubItem.Icon>
+                                    <FontIcon Glyph="&#xE710;" />
+                                </MenuFlyoutSubItem.Icon>
+                                <MenuFlyoutSubItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="N"
+                                        IsEnabled="False"
+                                        Modifiers="Control,Shift" />
+                                </MenuFlyoutSubItem.KeyboardAccelerators>
+                                <MenuFlyoutItem
+                                    x:Name="ToolbarNewFolderItem"
+                                    x:Uid="ModernNavigationToolbaNewFolder"
+                                    Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
+                                    Text="Folder">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8B7;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
+                                <MenuFlyoutItem
+                                    x:Name="NewFile"
+                                    x:Uid="BaseLayoutContextFlyoutNewFile"
+                                    Command="{x:Bind NewFileInvokedCommand, Mode=OneWay}"
+                                    CommandParameter="{x:Null}"
+                                    IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
+                                    Text="File">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE7C3;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyoutSubItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </AppBarButton>
+            </CommandBar>
+        </StackPanel>
     </Grid>
 </UserControl>
