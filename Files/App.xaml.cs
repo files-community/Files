@@ -140,7 +140,14 @@ namespace Files
             }
             else
             {
-                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                if (RightClickedItem.Section.Equals("SidebarFavorites".GetLocalized()))
+                {
+                    SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                }
+                else if (RightClickedItem.Section.Equals("SidebarLibraries".GetLocalized()))
+                {
+                    SidebarPinnedController.Model.RemoveLibraryItem(RightClickedItem.Path.ToString());                    
+                }                
             }
         }
 
@@ -507,5 +514,7 @@ namespace Files
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
         public Uri Logo { get; set; }
+
+        public string Section { get; set; }
     }
 }

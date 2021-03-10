@@ -10,6 +10,7 @@ namespace Files.Filesystem
     {
         public string Glyph { get; set; }
         public string Text { get; set; }
+        public string Section { get; set; }
 
         private string path;
 

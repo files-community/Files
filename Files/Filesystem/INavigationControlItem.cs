@@ -7,6 +7,7 @@
         public string Text { get; }
 
         public string Path { get; }
+        public string Section { get; }
 
         public string HoverDisplayText { get; }
 

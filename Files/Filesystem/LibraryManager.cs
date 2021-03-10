@@ -85,6 +85,7 @@ namespace Files.Filesystem
                                 {
                                     Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                                     Path = path,
+                                    Section = "SidebarLibraries".GetLocalized(),
                                     Glyph = GlyphHelper.GetItemIcon(path),
                                     IsDefaultLocation = false,
                                     Text = Path.GetFileName(path.TrimEnd('\\'))
@@ -95,10 +96,8 @@ namespace Files.Filesystem
                         }
                     }
                     catch (Exception)
-                    {
-                       
+                    {                       
                     }
-
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }
