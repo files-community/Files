@@ -17,6 +17,8 @@ namespace Files.Filesystem
 {
     public class LibraryManager : ObservableObject
     {
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public LibraryManager()
         {
         }
@@ -88,6 +90,7 @@ namespace Files.Filesystem
                                     {
                                         Path = path,
                                         Glyph = GlyphHelper.GetItemIcon(path),
+                                        Font = InteractionViewModel.FontName,
                                         IsDefaultLocation = false,
                                         Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                                     };
