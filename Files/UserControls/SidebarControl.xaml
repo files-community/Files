@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="Files.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -127,14 +127,15 @@
             HorizontalAlignment="Stretch"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="{x:Bind IsSidebarOpen, Mode=TwoWay}"
-            IsPaneToggleButtonVisible="True"
             IsSettingsVisible="True"
             IsTitleBarAutoPaddingEnabled="False"
+            CompactModeThresholdWidth="0"
+            ExpandedModeThresholdWidth="750"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
             MenuItemsSource="{x:Bind local3:MainPage.SideBarItems, Mode=OneWay}"
-            OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
-            PaneDisplayMode="Left"
+            OpenPaneLength="250"
+            PaneDisplayMode="Auto"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <muxc:NavigationView.Resources>
                 <ResourceDictionary>
@@ -221,6 +222,18 @@
                     <Setter Property="FontFamily" Value="{StaticResource FluentGlyphs}" />
                 </Style>
             </muxc:NavigationView.PaneToggleButtonStyle>
+
+            <muxc:NavigationView.PaneHeader>
+                <TextBlock
+                    x:Uid="SidebarHeader"
+                    Margin="10,6"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    Text="Files" />
+            </muxc:NavigationView.PaneHeader>
+
+            <ContentPresenter Content="{x:Bind Child}"/>
+
         </muxc:NavigationView>
     </Grid>
 </UserControl>

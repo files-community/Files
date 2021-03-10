@@ -99,17 +99,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating the width of the sidebar pane (when open).
-        /// </summary>
-        public GridLength SidebarWidth
-        {
-            /// Note: if the upper limit is increased over 363, the sidebar might be covered
-            ///       by the control box when window size is the mimimal allowed (500 px)
-            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 350d), GridUnitType.Pixel);
-            set => Set(value.Value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating the open state of the sidebar pane.
         /// </summary>
         public bool IsSidebarOpen

@@ -30,19 +30,6 @@ namespace Files.Views
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public GridLength SidebarWidth
-        {
-            get => AppSettings.SidebarWidth;
-            set
-            {
-                if (AppSettings.SidebarWidth != value)
-                {
-                    AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                }
-            }
-        }
-
         public Interaction InteractionOperations => ActivePane?.InteractionOperations;
         public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
@@ -68,12 +55,16 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
 
-                case nameof(AppSettings.SidebarWidth):
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                    break;
-
                 case nameof(AppSettings.IsSidebarOpen):
-                    NotifyPropertyChanged(nameof(IsSidebarOpen));
+                    if (isWindowCompactSize)
+                    {
+                        wasSidebarOpen = AppSettings.IsSidebarOpen;
+                    }
+                    else
+                    {
+                        isSidebarOpen = AppSettings.IsSidebarOpen;
+                        NotifyPropertyChanged(nameof(IsSidebarOpen));
+                    }
                     break;
             }
         }
@@ -86,22 +77,6 @@ namespace Files.Views
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
-        }
-
-        private bool isSidebarOpen;
-
-        public bool IsSidebarOpen
-        {
-            get => isSidebarOpen;
-            set
-            {
-                isSidebarOpen = value;
-                if (AppSettings.IsSidebarOpen != value)
-                {
-                    AppSettings.IsSidebarOpen = value;
-                    NotifyPropertyChanged(nameof(IsSidebarOpen));
-                }
-            }
         }
 
         private bool wasSidebarOpen;
@@ -140,7 +115,25 @@ namespace Files.Views
                     }
                     NotifyPropertyChanged(nameof(IsWindowCompactSize));
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                }
+            }
+        }
+
+        private bool isSidebarOpen;
+
+        public bool IsSidebarOpen
+        {
+            get => isSidebarOpen;
+            set
+            {
+                if (isSidebarOpen != value)
+                {
+                    isSidebarOpen = value;
                     NotifyPropertyChanged(nameof(IsSidebarOpen));
+                }
+                if (!isWindowCompactSize && AppSettings.IsSidebarOpen != value)
+                {
+                    AppSettings.IsSidebarOpen = value;
                 }
             }
         }

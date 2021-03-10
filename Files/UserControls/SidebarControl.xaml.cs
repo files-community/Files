@@ -14,10 +14,12 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
+    [ContentProperty(Name = nameof(Child))]
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -45,25 +47,28 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(
-          "EmptyRecycleBinCommand",
-          typeof(ICommand),
-          typeof(SidebarControl),
-          new PropertyMetadata(null)
-        );
+        public static readonly DependencyProperty ChildProperty = DependencyProperty.Register(nameof(Child), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
 
-        public ICommand EmptyRecycleBinCommand
+        public UIElement Child
         {
-            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-            set => SetValue(EmptyRecycleBinCommandProperty, value);
+            get => (UIElement)GetValue(ChildProperty);
+            set => SetValue(ChildProperty, value);
         }
 
-        public static readonly DependencyProperty IsSidebarOpenProperty = DependencyProperty.Register("IsSidebarOpen", typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsSidebarOpenProperty = DependencyProperty.Register(nameof(IsSidebarOpen), typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
 
         public bool IsSidebarOpen
         {
             get => (bool)GetValue(IsSidebarOpenProperty);
             set => SetValue(IsSidebarOpenProperty, value);
+        }
+
+        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
+
+        public ICommand EmptyRecycleBinCommand
+        {
+            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
         public SidebarControl()
