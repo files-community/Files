@@ -1063,7 +1063,7 @@
     <value>App language</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal aspplications</value>
+    <value>Terminal applications</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
     <value>Show copy location menu item</value>
