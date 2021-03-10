@@ -48,6 +48,14 @@
                                 <FontIcon Glyph="&#xE8A7;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="HorizontalMultitaskingControlCloseTabsToRight"
+                            Click="{x:Bind views:MainPage.CloseTabsToRight}"
+                            Text="Close tabs to right">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE97D;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </ResourceDictionary>
                 <ResourceDictionary>

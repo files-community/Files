@@ -188,6 +188,23 @@ namespace Files.Views
             }
         }
 
+        public static async void CloseTabsToRight(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            int index = AppInstances.IndexOf(tabItem);
+            List<TabItem> tabsToClose = new List<TabItem>();
+
+            for (int i = index + 1; i < AppInstances.Count; i++)
+            {
+                tabsToClose.Add(AppInstances[i]);
+            }
+
+            foreach (var item in tabsToClose)
+            {
+                MultitaskingControl?.RemoveTab(item);
+            }
+        }
+
         public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
