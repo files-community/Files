@@ -18,6 +18,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -343,7 +344,21 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.Unknown:
-                                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                    if (command.Payload.Equals("."))
+                                    {
+                                        rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
+                                    } else
+                                    {
+                                        var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
+                                        if(!string.IsNullOrEmpty(command.Payload))
+                                        {
+                                            rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
+                                        } else
+                                        {
+                                            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                        }
+                                    }
+                                    
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
