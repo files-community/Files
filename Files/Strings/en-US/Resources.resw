@@ -1899,4 +1899,7 @@
     <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Color scheme</value>
   </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Item count</value>
+  </data>
 </root>

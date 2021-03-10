@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
@@ -15,7 +17,7 @@ namespace Files.ViewModels.Previews
 
         public ListedItem Item { get; set; }
 
-        public ObservableCollection<FolderContent> Contents { get; set; } = new ObservableCollection<FolderContent>();
+        public BitmapImage Thumbnail { get; set; } = new BitmapImage();
 
         public FolderPreviewViewModel(ListedItem item)
         {
@@ -28,48 +30,38 @@ namespace Files.ViewModels.Previews
             Folder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
             var items = await Folder.GetItemsAsync();
 
-            foreach (var item in items.Take(Constants.PreviewPane.FolderPreviewThumbnailCount))
-            {
-                if (item is StorageFile)
-                {
-                    var icon = await (item as StorageFile).GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale);
-                    var imageSource = new BitmapImage();
-                    if (icon != null)
-                    {
-                        await imageSource.SetSourceAsync(icon);
-                    }
-
-                    Contents.Add(new FolderContent
-                    {
-                        Image = imageSource
-                    });
-                }
-            }
+            using var icon = await Folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
+            await Thumbnail.SetSourceAsync(icon);
 
             var info = await Folder.GetBasicPropertiesAsync();
             Item.FileDetails = new ObservableCollection<FileProperty>()
             {
                 new FileProperty()
                 {
-                    LocalizedName = "Item count",
+                    NameResource = "PropertyItemCount",
                     Value = items.Count,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Date Modified",
+                    NameResource = "PropertyDateModified",
                     Value = info.DateModified,
                 },
                 new FileProperty()
                 {
-                    LocalizedName = "Date Created",
+                    NameResource = "PropertyDateCreated",
                     Value = info.ItemDate,
+                },
+                new FileProperty()
+                {
+                    NameResource = "PropertyItemName",
+                    Value = Folder.Name,
+                },
+                new FileProperty()
+                {
+                    NameResource = "PropertyItemPathDisplay",
+                    Value = Folder.Path,
                 }
             };
         }
-    }
-
-    public struct FolderContent
-    {
-        public BitmapImage Image;
     }
 }
