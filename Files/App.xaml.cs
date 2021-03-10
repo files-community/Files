@@ -109,7 +109,7 @@ namespace Files
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
                 await WSLDistroManager.EnumerateDrivesAsync();
-            });            
+            });
         }
 
         private async void StartAppCenter()
