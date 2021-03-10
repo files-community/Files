@@ -211,7 +211,7 @@
     <value>Eigenschaften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>Links</value>
+    <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Neues Fenster</value>
@@ -885,12 +885,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertikale Tab-Ansicht</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Sprache</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal-Anwendungen</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendungen bearbeiten</value>
   </data>
@@ -969,9 +963,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Laufwerke</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Bibliotheken auf Startseite anzeigen</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>Bibliotheken auf Startseite anzeigen</value>
   </data>
@@ -981,14 +972,8 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Laufwerke auf Startseite anzeigen</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>Laufwerke auf Startseite anzeigen</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Zuletzt verwendete Dateien auf Startseite anzeigen</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Zuletzt verwendete Dateien auf Startseite anzeigen</value>
@@ -1644,12 +1629,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudspeicher</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Keine Vorschau verfügbar</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Keine Details verfügbar</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Gruppen auf Startseite anzeigen</value>
   </data>
@@ -1766,5 +1745,14 @@
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr Laufwerkoptionen</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Durchsuchen</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Kürzlich verwendete Orte</value>
   </data>
 </root>

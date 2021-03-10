@@ -26,7 +26,7 @@ namespace Files.Views
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
+                        await AppInstance.ServiceConnection?.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
@@ -35,7 +35,7 @@ namespace Files.Views
                         _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
                             await drive.UpdateLabelAsync();
-                            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync(drive.Path);
+                            await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
                         });
                     }
                 }
@@ -44,7 +44,7 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.RenameFileItemAsync(item,
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.RenameFileItemAsync(item,
                           ViewModel.OriginalItemName,
                           ViewModel.ItemName));
                 }
@@ -56,13 +56,13 @@ namespace Files.Views
                     var items = (BaseProperties as CombinedProperties).List;
                     foreach (var fileOrFolder in items)
                     {
-                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden));
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden));
                     }
                 }
                 else
                 {
                     // Handle the visibility attribute for a single file
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.SetHiddenAttributeItem(item, ViewModel.IsHidden));
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.SetHiddenAttributeItem(item, ViewModel.IsHidden));
                 }
             }
         }

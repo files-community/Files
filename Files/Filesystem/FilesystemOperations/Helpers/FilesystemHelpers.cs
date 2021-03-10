@@ -90,7 +90,7 @@ namespace Files.Filesystem
             PostedStatusBanner banner;
             if (permanently)
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -98,7 +98,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -198,7 +198,7 @@ namespace Files.Filesystem
 
             if (permanently)
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -206,7 +206,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -276,7 +276,7 @@ namespace Files.Filesystem
 
             if (permanently)
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -284,7 +284,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -362,7 +362,11 @@ namespace Files.Filesystem
         {
             try
             {
-                if (operation.HasFlag(DataPackageOperation.Copy))
+                if (destination == null)
+                {
+                    return default;
+                }
+                else if (operation.HasFlag(DataPackageOperation.Copy))
                 {
                     return await CopyItemsFromClipboard(packageView, destination, registerHistory);
                 }
@@ -404,7 +408,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -453,7 +457,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+                associatedInstance.StatusCenterActions.PostBanner(
                     "Copy Complete",
                     "The operation has completed.",
                     0,
@@ -466,7 +470,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -493,7 +497,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+                associatedInstance.StatusCenterActions.PostBanner(
                     "Copy Complete",
                     "The operation has completed.",
                     0,
@@ -576,7 +580,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -625,7 +629,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+                associatedInstance.StatusCenterActions.PostBanner(
                     "Move Complete",
                     "The operation has completed.",
                     0,
@@ -638,7 +642,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -665,7 +669,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+                associatedInstance.StatusCenterActions.PostBanner(
                     "Move Complete",
                     "The operation has completed.",
                     0,

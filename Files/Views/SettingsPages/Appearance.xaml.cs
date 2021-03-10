@@ -8,5 +8,7 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
         }
+
+        private bool ShowColorSchemeSelector => App.ExternalResourcesHelper.Themes.Count > 1;
     }
 }

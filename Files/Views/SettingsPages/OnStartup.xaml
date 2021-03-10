@@ -1,12 +1,12 @@
-﻿<Page
+<Page
     x:Class="Files.SettingsPages.OnStartup"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
         <settingsviewmodels:OnStartupViewModel />
@@ -37,7 +37,7 @@
                 <TextBlock
                     x:Uid="SettingsWhenLaunchingFiles"
                     FontSize="18"
-                    Text="When Launching Files" />
+                    Text="When launching Files" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"
@@ -96,9 +96,12 @@
                         IsOpen="False">
                         <AppBarButton
                             x:Uid="AppBarButtonAdd"
-                            Command="{Binding AddPageCommand}"
                             Icon="Add"
-                            Label="Add" />
+                            Label="Add">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}" Placement="Bottom" />
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                         <AppBarButton
                             x:Uid="AppBarButtonEdit"
                             Command="{Binding ChangePageCommand}"
@@ -119,6 +122,8 @@
                         Grid.ColumnSpan="2"
                         Margin="0,10"
                         HorizontalAlignment="Stretch"
+                        AllowDrop="True"
+                        CanReorderItems="True"
                         IsItemClickEnabled="True"
                         ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
                         SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
@@ -126,9 +131,9 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
-                                    Text="{Binding}"
+                                    Text="{Binding Text}"
                                     TextTrimming="CharacterEllipsis"
-                                    ToolTipService.ToolTip="{Binding}" />
+                                    ToolTipService.ToolTip="{Binding Text}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

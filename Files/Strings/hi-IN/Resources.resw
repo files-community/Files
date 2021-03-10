@@ -789,9 +789,6 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>ऐप भाषा</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
     <value>ऐप भाषा</value>
   </data>

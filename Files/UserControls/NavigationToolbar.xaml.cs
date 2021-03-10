@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -622,8 +623,11 @@ namespace Files.UserControls
 
             var element = FocusManager.GetFocusedElement();
             var elementAsControl = element as Control;
-
-            if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
+            if (elementAsControl == null)
+            {
+                return;
+            }
+            else if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
                 (this as INavigationToolbar).IsEditModeEnabled = false;
             }
@@ -870,15 +874,23 @@ namespace Files.UserControls
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
+            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };
+        }
+
+        private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            var pathSeparatorIcon = sender as FontIcon;
+            if (pathSeparatorIcon.DataContext == null)
+            {
+                return;
+            }
             ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
             {
                 Item = pathSeparatorIcon.DataContext as PathBoxItem,
                 OpenedFlyout = pathSeparatorIcon.ContextFlyout as MenuFlyout
             });
-
-            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
-            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
-            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
         }
 
         private void PathboxItemFlyout_Opened(object sender, object e)
@@ -888,7 +900,10 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            MainPage.MultitaskingControl = VerticalTabs;
+            if (!(MainPage.MultitaskingControl is VerticalTabViewControl))
+            {
+                MainPage.MultitaskingControl = VerticalTabs;
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -994,8 +1009,7 @@ namespace Files.UserControls
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\xea00"
+                                Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"
                         };
