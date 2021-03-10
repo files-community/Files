@@ -112,7 +112,6 @@
                     Header="Show library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
-                
             </StackPanel>
         </ScrollViewer>
 
