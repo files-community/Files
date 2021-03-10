@@ -120,7 +120,7 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// If Keep preview pane open is enabled, the preview pane is bound to this
+        /// True if the user has opened the preview pane
         /// </summary>
         public bool PreviewPaneEnabled
         {
@@ -504,12 +504,6 @@ namespace Files.ViewModels
                     _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
                 }
             }
-        }
-
-        public bool KeepPreviewPaneOpen
-        {
-            get => Get(false);
-            set => Set(value);
         }
 
         #endregion Preferences

@@ -17,7 +17,6 @@ namespace Files.ViewModels.SettingsViewModels
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
-        private bool keepPreviewPaneOpen = App.AppSettings.KeepPreviewPaneOpen;
 
         public PreferencesViewModel()
         {
@@ -112,20 +111,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showLibrarySection, value))
                 {
                     App.AppSettings.ShowLibrarySection = value;
-                }
-            }
-        }
-        public bool KeepPreviewPaneOpen
-        {
-            get
-            {
-                return keepPreviewPaneOpen;
-            }
-            set
-            {
-                if (SetProperty(ref keepPreviewPaneOpen, value))
-                {
-                    App.AppSettings.KeepPreviewPaneOpen = value;
                 }
             }
         }
