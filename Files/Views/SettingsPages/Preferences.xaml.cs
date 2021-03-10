@@ -8,6 +8,5 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
         }
-
     }
 }
