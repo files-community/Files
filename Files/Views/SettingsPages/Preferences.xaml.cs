@@ -6,7 +6,6 @@ namespace Files.SettingsPages
     {
         public Preferences()
         {
-
             InitializeComponent();
         }
 
