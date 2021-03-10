@@ -1902,7 +1902,7 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToRight" xml:space="preserve">
-    <value>Close tabs to right</value>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight" xml:space="preserve">
+    <value>Close tabs to the right</value>
   </data>
 </root>
