@@ -1204,8 +1204,8 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ऐप भाषा</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal aspplications</source>
-          <target state="new">Terminal aspplications</target>
+          <source>Terminal applications</source>
+          <target state="new">Terminal applications</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -2398,6 +2398,10 @@
         <trans-unit id="SettingsAppearanceColorScheme.Header" translate="yes" xml:space="preserve">
           <source>Color scheme</source>
           <target state="new">Color scheme</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
+          <source>Item count</source>
+          <target state="new">Item count</target>
         </trans-unit>
       </group>
     </body>
