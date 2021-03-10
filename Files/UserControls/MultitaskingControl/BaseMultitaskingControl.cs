@@ -3,13 +3,15 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public class BaseMultitaskingControl : UserControl, IMultitaskingControl
+    public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
         protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -18,6 +20,7 @@ namespace Files.UserControls.MultitaskingControl
         public const string TabPathIdentifier = "FilesTabViewItemPath";
 
         public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
@@ -95,6 +98,11 @@ namespace Files.UserControls.MultitaskingControl
                 tabItem?.Unload(); // Dispose and save tab arguments
                 RecentlyClosedTabs.Add((ITabItem)tabItem);
             }
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

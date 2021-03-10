@@ -1893,13 +1893,16 @@
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
     <value>Show library section on the sidebar</value>
   </data>
-    <data name="DefaultScheme" xml:space="preserve">
+  <data name="DefaultScheme" xml:space="preserve">
     <value>Default</value>
   </data>
-    <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Color scheme</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight" xml:space="preserve">
+    <value>Close tabs to the right</value>
   </data>
 </root>

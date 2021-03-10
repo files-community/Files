@@ -50,6 +50,7 @@ namespace Files.Views
             }
         }
 
+
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
@@ -185,6 +186,23 @@ namespace Files.Views
             else
             {
                 await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            }
+        }
+
+        public static async void CloseTabsToTheRight(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            int index = AppInstances.IndexOf(tabItem);
+            List<TabItem> tabsToClose = new List<TabItem>();
+
+            for (int i = index + 1; i < AppInstances.Count; i++)
+            {
+                tabsToClose.Add(AppInstances[i]);
+            }
+
+            foreach (var item in tabsToClose)
+            {
+                MultitaskingControl?.RemoveTab(item);
             }
         }
 
