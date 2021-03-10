@@ -13,562 +13,592 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Elem(ek) törlése</value>
+    <value>Dzēst vienumu(s)</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Törlés</value>
+    <value>Dzēst</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Végleges törlés</value>
+    <value>Neatgriezeniski dzēst</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>Megnyitás új lapon</value>
+    <value>Atvērt jaunā cilnē</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Megnyitás új ablakban</value>
+    <value>Atvērt jaunā logā</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Új lap</value>
+    <value>Jauna cilne</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Új ablak</value>
+    <value>Jauns logs</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Mappa</value>
+    <value>Mape</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap kép</value>
+    <value>Bitkartes attēls</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Szöveges dokumentum</value>
+    <value>Teksta dokuments</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Elérési út másolása</value>
+    <value>Kopēt atrašanās vietu</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Beillesztés</value>
+    <value>Ielīmēt</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Pārlūkot</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Pēdējās atrašanās vietas</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
-    <value>Meghajtók</value>
+    <value>Diski</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
-    <value>Név</value>
+    <value>Nosaukums</value>
   </data>
   <data name="dateColumn.Header" xml:space="preserve">
-    <value>Módosítás dátuma</value>
+    <value>Modificēšanas datums</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
-    <value>Típus</value>
+    <value>Tips</value>
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
-    <value>Méret</value>
+    <value>Izmērs</value>
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Megnyitás terminálban...</value>
+    <value>Atvērt Komandu uzvednē...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Létrehozva:</value>
+    <value>Izveidoja:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Név</value>
+    <value>Vienuma nosaukums</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Elérési út:</value>
+    <value>Ceļš:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Méret:</value>
+    <value>Izmērs:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Ez a művelet nem hajtható végre</value>
+    <value>Šī darbība nevar tikt veikta</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>A célmappa</value>
+    <value>Mērķa mape</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>almappája a forrásmappának</value>
+    <value>ir avota mapes apakšmape</value>
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>Kihagyás</value>
+    <value>Izlaist</value>
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Típus:</value>
+    <value>Vienuma tips:</value>
   </data>
   <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
-    <value>Összes kijelölése</value>
+    <value>Atlasīt visu</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
-    <value>Kijelölés megfordítása</value>
+    <value>Mainīt atlasi uz pretējo</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
-    <value>Kijelölés megszüntetése</value>
+    <value>Notīrīt atlasi</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Részletek</value>
+    <value>Detalizēts skats</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Módosítva:</value>
+    <value>Modificēts:</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
-    <value>Hozzáférés:</value>
+    <value>Piekļūts:</value>
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Tulajdonos:</value>
+    <value>Īpašnieks:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Minden elem eltávolítása</value>
+    <value>Notīrīt visus vienumus</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Elérési út megadása</value>
+    <value>Ievadīt ceļu</value>
   </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
-    <value>Keresés</value>
+    <value>Meklēt</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Itt fognak megjelenni a korábban megnyitott fájlok</value>
+    <value>Iepriekš skatītie faili parādīsies šeit</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Fájlt tartalmazó mappa megnyitása</value>
+    <value>Atvērt faila atrašanās vietu</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Elem eltávolítása</value>
+    <value>Noņemt šo vienumu</value>
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
-    <value>Előzmények</value>
+    <value>Nesenie vienumi</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
+    <value>Faili</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Visszajelzés küldése</value>
+    <value>Iesniegt atsauksmes</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Visszajelzés küldése a fejlesztőknek</value>
+    <value>Nosūtīt izstrādātājiem kļūdas detalizēto aprakstu</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Harmadik fél licencei</value>
+    <value>Trešās puses licences</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>Névjegy</value>
+    <value>Par</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akril oldalsáv</value>
+    <value>Akrila sānu josla</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
-    <value>Dátumformátum</value>
+    <value>Datuma formāts</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Téma</value>
+    <value>Lietotnes motīvs</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
-    <value>Megjelenés</value>
+    <value>Izskats</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Kiterjesztés megjelenítése ismert fájltípusoknál</value>
+    <value>Rādīt zināmus failu paplašinājumus</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Rādīt slēptos failus un mapes</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Rādīt slēptos failus un mapes</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Fájlok és mappák</value>
+    <value>Faili un mapes</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Kísérleti beállítások</value>
+    <value>Eksperimentāli</value>
   </data>
   <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Beállítások</value>
+    <value>Iestatījumi</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Névjegy</value>
+    <value>Par</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Megjelenés</value>
+    <value>Izskats</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Kísérleti beállítások</value>
+    <value>Eksperimentāli</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Fájlok és mappák</value>
+    <value>Faili un mapes</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Induláskor</value>
+    <value>Startējot</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Működés</value>
+    <value>Iestatījumi</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>FIGYELEM: AZ ALÁBBI BEÁLLÍTÁSOK KÍSÉRLETI FUNKCIÓKHOZ TARTOZNAK!</value>
+    <value>UZMANĪBU: EKSPERIMENTĀLAS FUNKCIJAS!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Folytassa ott, ahol bezárta a programot</value>
+    <value>Turpināt, kur beidzāt</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Új lap megnyitása</value>
+    <value>Atvērt jaunu cilni</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Megadott mappák megnyitása</value>
+    <value>Atvērt konkrētu lapu vai lapas</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Induláskor</value>
+    <value>Startējot</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Tulajdonos mutatása a tulajdonságoknál</value>
+    <value>Rekvizītos rādīt vienuma īpašnieku</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Működés</value>
+    <value>Iestatījumi</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
-    <value>Asztal</value>
+    <value>Darbvirsma</value>
   </data>
   <data name="SidebarDocuments" xml:space="preserve">
-    <value>Dokumentumok</value>
+    <value>Dokumenti</value>
   </data>
   <data name="SidebarDownloads" xml:space="preserve">
-    <value>Letöltések</value>
+    <value>Lejupielādes</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Kezdőlap</value>
+    <value>Sākums</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
-    <value>Zene</value>
+    <value>Mūzika</value>
   </data>
   <data name="SidebarPictures" xml:space="preserve">
-    <value>Képek</value>
+    <value>Attēli</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Eltávolítás az oldalsávról</value>
+    <value>Atspraust no sānu joslas</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
-    <value>Videók</value>
+    <value>Video</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Rendezés</value>
+    <value>Kārtot pēc</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
-    <value>Név</value>
+    <value>Nosaukums</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Módosítás dátuma</value>
+    <value>Modificēšanas datums</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Típus</value>
+    <value>Tips</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Méret</value>
+    <value>Izmērs</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
-    <value>Növekvő</value>
+    <value>Augošā secībā</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Csökkenő</value>
+    <value>Dilstošā secībā</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Frissítés</value>
+    <value>Atsvaidzināt</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>Beillesztés</value>
+    <value>Ielīmēt</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Megnyitás terminálban...</value>
+    <value>Atvērt Komandu uzvednē...</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 hash:</value>
+    <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Új</value>
+    <value>Jauns</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Mappa</value>
+    <value>Mape</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Fails</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Tulajdonságok</value>
+    <value>Rekvizīti</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Rekvizīti</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Kicsomagolás</value>
+    <value>Izvērst</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
-    <value>Megnyitás</value>
+    <value>Atvērt</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Megnyitás új lapon</value>
+    <value>Atvērt jaunā cilnē</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Megnyitás új ablakban</value>
+    <value>Atvērt jaunā logā</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Beállítás asztali háttérképként</value>
+    <value>Iestatīt kā darbvirsmas fonu</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>Megosztás</value>
+    <value>Kopīgot</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Kivágás</value>
+    <value>Izgriezt</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Másolás</value>
+    <value>Kopēt</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Törlés</value>
+    <value>Dzēst</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Átnevezés</value>
+    <value>Pārdēvēt</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Kitűzés az oldalsávra</value>
+    <value>Piespraust sānu joslā</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Tulajdonságok</value>
+    <value>Rekvizīti</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Üdv a Files-ban!</value>
+    <value>Laipni lūgti Failos!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Engedély megadása</value>
+    <value>Piešķirt atļauju</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Kezdésként, engedélyt kell adnia a fájljai megjelenítéséhez. Ez meg fogja nyitni a Gépházat ahol ezt elvégezheti. Az engedély megadása és a Gépház bezárása után nyissa meg újra a Files-t.</value>
+    <value>Lietotnei nepieciešama atļauja, lai piekļūtu Jūsu failiem. Tiks atvērta Iestatījumu lapa, kurā Jūs varēsiet to piešķirt. Pēc tam lietotne būs jāatver atkārtoti.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>Fájlmappa</value>
+    <value>Failu mape</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
-    <value>Fájl</value>
+    <value>Fails</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Adja meg az elem új nevét</value>
+    <value>Ievadiet vienuma nosaukumu</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Adja meg az elem új nevét</value>
+    <value>Ievadiet vienuma nosaukumu</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Átnevezés</value>
+    <value>Noteikt nosaukumu</value>
   </data>
   <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>Új lap</value>
+    <value>Jauna cilne</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Rendszer</value>
+    <value>Windows noklusējums</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Világos</value>
+    <value>Gaišs</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Sötét</value>
+    <value>Tumšs</value>
   </data>
   <data name="ApplicationTimeStye" xml:space="preserve">
-    <value>Alkalmazás</value>
+    <value>Lietojumprogramma</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
-    <value>Rendszer</value>
+    <value>Sistēma</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Új mappa</value>
+    <value>Jauna mape</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Jauns fails</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Ez a mappa üres.</value>
+    <value>Šī mape ir tukša.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vissza (Alt + Bal nyíl)</value>
+    <value>Atpakaļ (Alt + Kreisā bultiņa)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Előre (Alt + Jobb nyíl)</value>
+    <value>Uz priekšu (Alt + Labā bultiņa)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Szülőmappába (Alt + Felfelé nyíl)</value>
+    <value>Augšup (Alt + Bultiņa uz augšu)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Frissítés (F5)</value>
+    <value>Atsvaidzināt (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Keresés</value>
+    <value>Meklēt</value>
   </data>
   <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>További lehetőségek</value>
+    <value>Papildu opcijas</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
-    <value>Tulajdonságok</value>
+    <value>Rekvizīti</value>
   </data>
   <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attribútumok:</value>
+    <value>Atribūti:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Tulajdonságok</value>
+    <value>Rekvizīti</value>
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Példa beállítások</value>
+    <value>Apskatīt profilu piemērus</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Ezzel a névvel már létezik elem ebben a mappában.</value>
+    <value>Šajā mapē jau pastāv vienums ar šādu nosaukumu.</value>
   </data>
   <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Átnevezés</value>
+    <value>Ģenerēt jaunu nosaukumu</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Felülírás/összefésülés</value>
+    <value>Aizvietot esošo vienumu</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Az elem már létezik</value>
+    <value>Vienums jau pastāv</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Beállítás zárolási képernyő háttérként</value>
+    <value>Iestatīt kā bloķēšanas ekrāna fonu</value>
   </data>
   <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
-    <value>Nagy ikonok</value>
+    <value>Režģa skats (Liels)</value>
   </data>
   <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
-    <value>Közepes ikonok</value>
+    <value>Režģa skats (Vidējs)</value>
   </data>
   <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
-    <value>Kis ikonok</value>
+    <value>Režģa skats (Mazs)</value>
   </data>
   <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
-    <value>Lista</value>
+    <value>Mozaīkas skats</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>Nem sikerült törölni ezt az elemet</value>
+    <value>Mēs nevarējām izdzēst šo vienumu</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Hozzáférés megtagadva</value>
+    <value>Piekļuve liegta</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Helyezze be a meghajtót a fájlhoz való hozzáféréshez.</value>
+    <value>Lūdzu ievietojiet vajadzīgo disku, lai piekļūtu šim vienumam.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Meghajtó leválasztva</value>
+    <value>Disks atsprausts</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>A fájl, amit próbál megnyitni, már nem található ezen a helyen.</value>
+    <value>Fails, kuram mēģināt piekļūt, iespējams, tika pārvietots vai dzēsts.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>A fájl nem található</value>
+    <value>Fails nav atrasts</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>A fájl, amelynek az előnézetét próbálja betölteni, már nem található ezen a helyen.</value>
+    <value>Fails, kuru mēģināt priekšskatīt, iespējams, tika pārvietots vai dzēsts.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>A mappa, amit próbál megnyitni, már nem található ezen a helyen.</value>
+    <value>Mape, kurai mēģināt piekļūt, iespējams, tika pārvietota vai dzēsta.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Ön törölte ezt a mappát?</value>
+    <value>Vai Jūs izdzēsāt šo mapi?</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>A törölni kívánt fájl jelenleg használatban van.</value>
+    <value>Fails, kuru mēģināt dzēst, tiek izmantots citā lietotnē.</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>A fájl használatban van</value>
+    <value>Fails tiek lietots</value>
   </data>
   <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Újra</value>
+    <value>Mēģināt vēlreiz</value>
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+    <value>Izkārtojuma veids</value>
+  </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kijelölési lehetőségek</value>
+    <value>Atlases opcijas</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Tikai lasāms</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Slēpts</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Lomtár ürítése</value>
+    <value>Iztukšot atkritni</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>Visszaállítás</value>
+    <value>Atjaunot</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} nappal ezelőtt</value>
+    <value>Pirms {0} dienām</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
-    <value>{0} nappal ezelőtt</value>
+    <value>Pirms {0} dienas</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} órával ezelőtt</value>
+    <value>Pirms {0} stundām</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>{0} órával ezelőtt</value>
+    <value>Pirms {0} stundas</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} perccel ezelőtt</value>
+    <value>Pirms {0} minūtēm</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>{0} perccel ezelőtt</value>
+    <value>Pirms {0} minūtes</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} másodperccel ezelőtt</value>
+    <value>Pirms {0} sekundēm</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Új lap</value>
+    <value>Jauna cilne</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>Ez a művelet nem támogatott</value>
+    <value>Pieprasītā operācija netiek atbalstīta</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>Szabad hely: {0} / {1}</value>
+    <value>{0} brīvi no {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Társítás</value>
+    <value>Atvērt ar</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
+    <value>Vienuma nosaukums nevar saterēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
+    <value>Vienuma nosaukums nevar saterēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Naplózás helyének megnyitása</value>
+    <value>Atvērt datu žurnāla atrašanās vietu</value>
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Új lap (Ctrl + T)</value>
+    <value>Jauna cilne (Ctrl + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>kijelölt elem</value>
+    <value>vienums atlasīts</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>kijelölt elem</value>
+    <value>vienumi atlasīti</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>elem</value>
+    <value>vienums</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elem</value>
+    <value>vienumi</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Fájlok törlése</value>
+    <value>Failu dzēšana</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Fájlok beillesztése</value>
+    <value>Failu ielīmēšana</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Fájlok áthelyezése a lomtárba</value>
+    <value>Failu pārvietošana uz Atkritni</value>
   </data>
   <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Mappa kitűzése az oldalsávra</value>
+    <value>Piespraust mapi sānu joslā</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Igen</value>
+    <value>Jā</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Biztosan véglegesen törölni szeretné ezeket az elemeket?</value>
+    <value>Vai esat pārliecināti, ka vēlaties dzēst visus šos failus?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Lomtár kiürítése</value>
+    <value>Iztukšot atkritni</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>bájt</value>
+    <value>baiti</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -589,1209 +619,1182 @@
     <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>Futtatás rendszergazdaként</value>
+    <value>Palaist kā administratoram</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tudjon meg többet a dátumformátumokról</value>
+    <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Feloldás</value>
+    <value>Atbloķēt</value>
   </data>
   <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Adja meg a jelszót a meghajtó feloldásához</value>
+    <value>Ievadiet paroli, lai atbloķētu disku</value>
   </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Jelszó</value>
+    <value>Parole</value>
   </data>
   <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Ellenőrizze a jelszót és próbálja újra.</value>
+    <value>Pārbaudiet paroli un mēģiniet vēlreiz.</value>
   </data>
   <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker hiba</value>
+    <value>BitLocker kļūda</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Tartalom:</value>
+    <value>Satur:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} fájl, {1:#,##0} mappa</value>
+    <value>{0:#,##0} Faili, {1:#,##0} Mapes</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>Futtatás másik felhasználóként</value>
+    <value>Palaist kā citam lietotājam</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>{0} (mindegyik)</value>
+    <value>Visi ir ar tipu {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>Különböző típusok</value>
+    <value>Dažādi datu tipi</value>
   </data>
   <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>{0} (mindegyik)</value>
+    <value>Visi iekš {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Foglalt:</value>
+    <value>Izmantotā vieta:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>Szabad:</value>
+    <value>Brīvā vieta:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>Kapacitás:</value>
+    <value>Ietilpība:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>Fájlrendszer:</value>
+    <value>Failu sistēma:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>Előzmények</value>
+    <value>Nesenie</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Alkalmazás nyelve</value>
+    <value>Lietotnes valoda</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Lap áthelyezése ide</value>
+    <value>Pārvietot cilni šeit</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Állapot</value>
+    <value>Statuss</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Oldal hozzáadása</value>
+    <value>Pievienot jaunu lapu</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Oldalak:</value>
+    <value>Lapas:</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Új ablakban</value>
+    <value>Vienmēr atvērt jaunu instanci</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Új lapon</value>
+    <value>Atvērt mapi jaunā cilnē</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Elem előzménylistáról megnyitása</value>
+    <value>Atverot vienumu no izlēcošā saraksta</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Rendszer</value>
+    <value>Windows noklusējums</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>Nincs találat</value>
+    <value>Nav rezultātu</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>Egy megjeleníthető elem sem elérhető</value>
+    <value>Nevar piekļūt nevienam vienumam, ko parādīt</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>Áthelyezés ide: {0}</value>
+    <value>Pārvietot uz {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>A forrás- és a célfájlnév azonos.</value>
+    <value>Avota un mērķa failu nosaukumi sakrīt.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>A forrás- és a célmappa azonos.</value>
+    <value>Mērķa mape ir arī avota mape.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>Másolás ide: {0}</value>
+    <value>Kopēt uz {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Parancsikon létrehozása</value>
+    <value>Izveidot saīsni</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
-    <value>Fájlt tartalmazó mappa megnyitása</value>
+    <value>Atvērt faila atrašanās vietu</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Argumentumok:</value>
+    <value>Argumenti:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>Cél:</value>
+    <value>Mērķis:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>Parancsikon típusa:</value>
+    <value>Saīsnes veids:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Munkakönyvtár:</value>
+    <value>Darba mape:</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Alkalmazás</value>
+    <value>Lietojumprogramma</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Fájl</value>
+    <value>Fails</value>
   </data>
   <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Mappa</value>
+    <value>Mape</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Internet parancsikon</value>
+    <value>Tīmekļa saite</value>
   </data>
   <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
-    <value>Általános</value>
+    <value>Vispārīgi</value>
   </data>
   <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
-    <value>Parancsikon</value>
+    <value>Saīsne</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
-    <value>Parancsikon</value>
+    <value>Saīsne</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet parancsikon</value>
+    <value>Interneta saīsne</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - parancsikon</value>
+    <value>{0} - saīsne</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Fájlt tartalmazó mappa megnyitása</value>
+    <value>Atvērt faila atrašanās vietu</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Ismeretlen</value>
+    <value>Nezināms</value>
   </data>
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Naplózás helyének megnyitása</value>
+    <value>Atvērt datu žurnāla atrašanās vietu</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>A Files egy problémába ütközött, amire a fejlesztők még nem készültek fel.</value>
+    <value>Failiem radās problēma, kurai izstrādātāji vēl nebija sagatavojušies.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Valami hiba történt!</value>
+    <value>Kaut kas nogāja greizi!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Hiba jelentése</value>
+    <value>Ziņot par šo problēmu</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>Közreműködők</value>
+    <value>Ieguldītāji</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Akik hozzájárultak a Files-hoz</value>
+    <value>Skatīt, kas izstrādāja Failus</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Változások</value>
+    <value>Laidiena piezīmes</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Újdonságok a Files-ban</value>
+    <value>Uzzini jaunums lietotnē Faili</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>A hivatkozott elem érvénytelen vagy nem elérhető.{0}Hibaüzenet:{0}{1}</value>
+    <value>Atsauktais vienums ir vai nu nederīgs vai nepieejams.{0}Kļūdas ziņojums:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Érvénytelen elem</value>
+    <value>Nederīgs vienums</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Verzió:</value>
+    <value>Versija:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Nincs mit megosztani...</value>
+    <value>Pašlaik šeit nav nekā koplietojama...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>A kijelölt elemek meg lesznek osztva</value>
+    <value>Atlasītie vienumi tiks koplietoti</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>A kijelölt elem meg lesz osztva</value>
+    <value>Atlasītais vienums tiks koplietots</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>{0} megosztása</value>
+    <value>Kopīgo {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>{0} {1} megosztása</value>
+    <value>Kopīgo {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Az elem, amit át szeretne nevezni már nem létezik.</value>
+    <value>Vienums, kuru mēģināt pārdēvēt, vairs nepastāv. Pārbaudiet pārdēvējamā faila atrašanās vietu.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Az elem már nem létezik</value>
+    <value>Vienums vairs nepastāv</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>A megadott név helytelen. Ellenőrizze és próbálja újra!</value>
+    <value>Norādītais nosaukums nav derīgs. Pārbaudiet vēlamo nosaukumu un mēģiniet vēlreiz.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>Helytelen név</value>
+    <value>Nederīgs vienuma nosaukums</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>A név hosszabb, mint ami maximálisan megengedett. Kérjük válasszon rövidebb nevet!</value>
+    <value>Vienuma nosaukuma garums pārsniedz maksimālo atļauto garumu. Pārbaudiet vēlamo nosaukumu un mēģiniet vēlreiz.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>Túl hosszú név</value>
+    <value>Vienuma nosaukums bijā pārāk garš.</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>Továbbiak</value>
+    <value>Vēl</value>
   </data>
   <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Nem</value>
+    <value>Nē</value>
   </data>
   <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Igen</value>
+    <value>Jā</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>A Files újraindítása szükséges a nyelv beállítás érvénybe lépéséhez. Szeretné most újraindítani?</value>
+    <value>Lietotni nepieciešams restartēt, lai pielietotu valodas iestatījumu. Vai vēlaties restartēt lietotni?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Támogatás</value>
+    <value>Atbalstiet mūs</value>
   </data>
   <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Támogatás PayPal-on</value>
+    <value>Atbalstiet mūs PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Nem sikerült létrehozni a fájlt</value>
+    <value>Mēs nevarējām izveidot šo vienumu</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
-    <value>Hozzáférés megtagadva</value>
+    <value>Piekļuve liegta</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Biztosan törölni szeretne {0} fájlt?</value>
+    <value>Vai esat droši, ka vēlaties dzēst šos {0} vienumus?</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Bizotsan törölni szeretné a fájlt?</value>
+    <value>Vai tiešām vēlaties dzēst šo vienumu?</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Lap hozzáadása</value>
+    <value>Pievienot cilni</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Lapok megnyitása</value>
+    <value>Atvērt cilnes</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Automatikus (ajánlott)</value>
+    <value>Adaptīvs (Ieteicams)</value>
   </data>
   <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>A legjobb lehetőség kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap sáv egy menüelemmé alakul át.</value>
+    <value>Atlasa labāko daudzuzdevumu veikšanas režīmu, balstoties uz lietotnes loga izmēriem. Kad logs ir mazs, horizontālā ciļņu josla tiek saspiesta izlidojošajā logā navigācijas rīkjoslā.</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Vízszintes</value>
+    <value>Horizontāls</value>
   </data>
   <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Menüelem elrejtése, az eredeti vízszintes lap sáv használata. Olyan felhasználóknak, akik szeretik állandóan figyelemmel követni az összes megnyitott lapot.</value>
+    <value>Vienmēr paslēpj vertikālo daudzuzdevumu veikšanas logu no navigācijas rīkjoslas, un parāda tradicionālo horizontālo ciļņu rīkjoslu lietotnes logā. Šis ir piemērots lietotājiem, kuriem nepārtraukti nepieciešams sekot līdzi visām lietotnes instancēm.</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitaszking</value>
+    <value>Vairākuzdevumu režīms</value>
   </data>
   <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Függőleges</value>
+    <value>Vertikāls</value>
   </data>
   <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>A vízszintes lap sáv egy menüelemmé alakul át, azoknak a felhasználóknak tervezve, akik egy letisztult felhasználói felületet szeretnének, de a multitaszking lehetőségével.</value>
+    <value>Sakļauj horizontālo lietotnes instanču sarakstu vertikālā izlidojošajā logā navigācijas rīkjoslā. Izstrādāts lietotājiem, kuri vēlas tīru saskarni ar vieglu piekļuvi citām instancēm.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multitaszking</value>
+    <value>Vairākuzdevumu režīms</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Beállítás mint</value>
+    <value>Iestatīt kā</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Elérési út másolása</value>
+    <value>Kopēt atrašanās vietu</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Atcelt</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Új elem létrehozása</value>
+    <value>Izveidot jaunu vienumu</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Válasszon típust az alábbiak közül</value>
+    <value>Izvēlieties jaunā vienuma tipu zemāk</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Fails</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Izveido tukšu failu</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
-    <value>Mappa</value>
+    <value>Mape</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Új mappa létrehozása</value>
+    <value>Izveido tukšu mapi</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Elrendezés</value>
+    <value>Izkārtojuma režīms</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Vissza navigálás</value>
+    <value>Pāriet atpakaļ</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Előre navigálás</value>
+    <value>Pāriet uz priekšu</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Könyvtár frissítése</value>
+    <value>Atsvaidzināt mapi</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Egy szinttel feljebb</value>
+    <value>Pāriet vienu mapi augšup</value>
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Függőleges lap lista</value>
+    <value>Vertikālā ciļņu josla</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminál alkalmazások módosítása</value>
+    <value>Mainīt komandu uzvednes lietotnes</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Terminál alkalmazások módosítása</value>
+    <value>Mainīt komandu uzvednes lietotnes</value>
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Példa beeállítások</value>
+    <value>Skatīt profilu piemērus</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Alkalmazás nyelve</value>
+    <value>Lietotnes valoda</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
+    <value>Komandu uzvednes lietotnes</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Rādīt atrašanās vietas kopēšanas izvēlnes vienumu</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Pārvietot pārpildītos vienumus apakšizvēlnē</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Lomtár kitűzése az oldalsávra</value>
+    <value>Piespraust Atkritni sānu joslā</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Megerősítő üzenet fájlok vagy mappák törlésekor</value>
+    <value>Rādīt piekrišanas izvēlni, kad tiek dzēsti faili vai mapes</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>További lehetőségek</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Kijelölési lehetőségek</value>
-  </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>Állapotközpont</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Elemek megnyitása egy kattintással</value>
-  </data>
-  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Áthelyezés ide</value>
-  </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
-    <value>Meghajtók</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Könyvtárak megjelenítése a kezdőlapon</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgetek</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgetek</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Meghajtók megjelenítése a kezdőlapon</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Előzmények megjelenítése a kezdőlapon</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>Mappa</value>
-  </data>
-  <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Lomtár elem</value>
-  </data>
-  <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Parancsikon elem</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Rejtett fájlok és mappák mutatása</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Rejtett fájlok és mappák mutatása</value>
-  </data>
-  <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Eszköz kiadása</value>
-  </data>
-  <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Az eszköz biztonságosan eltávolítható.</value>
-  </data>
-  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Hiba történt az eszköz kiadása közben</value>
-  </data>
-  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Az eszköz jelenleg használatban van. Zárjon be minden programot, ablakot vagy oldalt, ami használhatja, majd próbálja újra.</value>
-  </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>Kiadás</value>
-  </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Lap megkettőzése</value>
-  </data>
-  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Lap áthelyezése új ablakba</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Új lap</value>
-  </data>
-  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Keresés</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Írásvédett</value>
-  </data>
-  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>Rejtett</value>
-  </data>
-  <data name="PropertyRatingText" xml:space="preserve">
-    <value>Minősítés</value>
-  </data>
-  <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Típus</value>
-  </data>
-  <data name="PropertyTitle" xml:space="preserve">
-    <value>Cím</value>
-  </data>
-  <data name="PropertySubject" xml:space="preserve">
-    <value>Tárgy</value>
-  </data>
-  <data name="PropertyComment" xml:space="preserve">
-    <value>Megjegyzés</value>
-  </data>
-  <data name="PropertyCopyright" xml:space="preserve">
-    <value>Szerzői jog</value>
-  </data>
-  <data name="PropertyDateModified" xml:space="preserve">
-    <value>Módosítás dátuma</value>
-  </data>
-  <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Bitmélység</value>
-  </data>
-  <data name="PropertyDimensions" xml:space="preserve">
-    <value>Méretek</value>
-  </data>
-  <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Széleség</value>
-  </data>
-  <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Magasság</value>
-  </data>
-  <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>Vízszintes felbontás</value>
-  </data>
-  <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>Függőleges felbontás</value>
-  </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
-    <value>Tömörítés</value>
-  </data>
-  <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Színtér</value>
-  </data>
-  <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>GPS szélesség (egész)</value>
-  </data>
-  <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>GPS magasság (egész)</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>GPS szélesség</value>
-  </data>
-  <data name="PropertyLongitude" xml:space="preserve">
-    <value>GPS magasság</value>
-  </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>GPS szélesség ref</value>
-  </data>
-  <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>GPS magasság ref</value>
-  </data>
-  <data name="PropertyAltitude" xml:space="preserve">
-    <value>GPS magasság</value>
-  </data>
-  <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Készítés dátuma</value>
-  </data>
-  <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>Fényképezőgép gyártója</value>
-  </data>
-  <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Fényképezőgép modell</value>
-  </data>
-  <data name="PropertyExposureTime" xml:space="preserve">
-    <value>Expozíciós idő</value>
-  </data>
-  <data name="PropertyFocalLength" xml:space="preserve">
-    <value>Fókusztávolság</value>
-  </data>
-  <data name="PropertyAperture" xml:space="preserve">
-    <value>Rekesz</value>
-  </data>
-  <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>Megjelenő személyek</value>
-  </data>
-  <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Csatornák száma</value>
-  </data>
-  <data name="PropertyFormat" xml:space="preserve">
-    <value>Formátum</value>
-  </data>
-  <data name="PropertySampleRate" xml:space="preserve">
-    <value>Mintavételi frekvencia</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Előadó</value>
-  </data>
-  <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Album előadója</value>
-  </data>
-  <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>Album</value>
-  </data>
-  <data name="PropertyArtist" xml:space="preserve">
-    <value>Előadó</value>
-  </data>
-  <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>Ütem / perc</value>
-  </data>
-  <data name="PropertyComposer" xml:space="preserve">
-    <value>Zeneszerző</value>
-  </data>
-  <data name="PropertyConductor" xml:space="preserve">
-    <value>Karmester</value>
-  </data>
-  <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>Lemez száma</value>
-  </data>
-  <data name="PropertyGenre" xml:space="preserve">
-    <value>Műfaj</value>
-  </data>
-  <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>Szám száma</value>
-  </data>
-  <data name="PropertyDuration" xml:space="preserve">
-    <value>Hossz</value>
-  </data>
-  <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Képkockák száma</value>
-  </data>
-  <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Védelem típusa</value>
-  </data>
-  <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Szerző weboldal</value>
-  </data>
-  <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Tartalomszolgáltató</value>
-  </data>
-  <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Megjelenés dátuma</value>
-  </data>
-  <data name="PropertySeriesName" xml:space="preserve">
-    <value>Sorozat</value>
-  </data>
-  <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>Évad</value>
-  </data>
-  <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>Epizód</value>
-  </data>
-  <data name="PropertyProducer" xml:space="preserve">
-    <value>Producer</value>
-  </data>
-  <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Promóciós weboldal</value>
-  </data>
-  <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Szolgáltatói műfaj</value>
-  </data>
-  <data name="PropertyPublisher" xml:space="preserve">
-    <value>Kiadó</value>
-  </data>
-  <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Nagy indexkép elérési útja</value>
-  </data>
-  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Nagy indexkép URI</value>
-  </data>
-  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Kis indexkép elérési útja</value>
-  </data>
-  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Kis indexkép URI</value>
-  </data>
-  <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>Személyes weboldal</value>
-  </data>
-  <data name="PropertyWriter" xml:space="preserve">
-    <value>Író</value>
-  </data>
-  <data name="PropertyYear" xml:space="preserve">
-    <value>Év</value>
-  </data>
-  <data name="PropertyContributor" xml:space="preserve">
-    <value>Közreműködő</value>
-  </data>
-  <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>Legutóbb módosította</value>
-  </data>
-  <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Felülvizsgálat száma</value>
-  </data>
-  <data name="PropertyVersion" xml:space="preserve">
-    <value>Verzió</value>
-  </data>
-  <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Létrehozás dátuma</value>
-  </data>
-  <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Mentés dátuma</value>
-  </data>
-  <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Nyomtatás dátuma</value>
-  </data>
-  <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Teljes szerkesztési idő</value>
-  </data>
-  <data name="PropertyTemplate" xml:space="preserve">
-    <value>Sablon</value>
-  </data>
-  <data name="PropertyWordCount" xml:space="preserve">
-    <value>Szavak száma</value>
-  </data>
-  <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Karakterek száma</value>
-  </data>
-  <data name="PropertyLineCount" xml:space="preserve">
-    <value>Sorok száma</value>
-  </data>
-  <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>Bekezdések száma</value>
-  </data>
-  <data name="PropertyPageCount" xml:space="preserve">
-    <value>Oldalak száma</value>
-  </data>
-  <data name="PropertySlideCount" xml:space="preserve">
-    <value>Diák száma</value>
-  </data>
-  <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Képkockasebesség</value>
-  </data>
-  <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Kódolási bitráta</value>
-  </data>
-  <data name="PropertyCompression" xml:space="preserve">
-    <value>Tömörítés</value>
-  </data>
-  <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>Szélesség</value>
-  </data>
-  <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>Magasság</value>
-  </data>
-  <data name="PropertyOrientation" xml:space="preserve">
-    <value>Tájolás</value>
-  </data>
-  <data name="PropertySectionCore" xml:space="preserve">
-    <value>Alap információk</value>
-  </data>
-  <data name="PropertySectionImage" xml:space="preserve">
-    <value>Kép</value>
-  </data>
-  <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Fotó</value>
-  </data>
-  <data name="PropertySectionGPS" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Média</value>
-  </data>
-  <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audió</value>
-  </data>
-  <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Zene</value>
-  </data>
-  <data name="PropertySectionVideo" xml:space="preserve">
-    <value>Videó</value>
-  </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
-    <value>Dokumentum</value>
-  </data>
-  <data name="PropertyAddress" xml:space="preserve">
-    <value>Cím</value>
-  </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Hiba</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Újra</value>
-  </data>
-  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Bezárás mindenképpen</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Mégse</value>
+    <value>Komandu uzvednes lietotnes</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>Probléma adódott a tulajdonságok mentése közben.</value>
+    <value>Bija problēma, saglabājot rekvizītus.</value>
   </data>
-  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>Némelyik tulajdonság személyes adatokat tartalmazhat.</value>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Kļūda</value>
   </data>
-  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>Eltávolítás</value>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Mēģināt vēlreiz</value>
   </data>
-  <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>Mindegyik tulajdonság eltávolítása</value>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Tomēr aizvērt</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Atcelt</value>
+  </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Vērtējums</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Vienuma ceļš</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Vienuma tips</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Virsraksts</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Tēma</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Komentārs</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Autortiesības</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Modificēšanas datums</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Bitu dziļums</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Izmēri</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Horizontālais izmērs</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Vertikālais izmērs</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Horizontālā izšķirtspēja</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Vertikālā izšķirtspēja</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Saspiešana</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Krāsu telpa</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
-    <value>Nem meghatározott</value>
+    <value>Nenorādīts</value>
+  </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Decimālais ģeogrāfiskais garums</value>
+  </data>
+  <data name="PropertyLatitudeDecimal" xml:space="preserve">
+    <value>Decimālais ģeogrāfiskais platums</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Ģeogr. platums</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Ģeogr. garums</value>
+  </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Ģeogr. platums Ref</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Ģeogr. garums Ref</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Augstums</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Uzņemšanas datums</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Kameras ražotājs</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Kameras modelis</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Ekspozīcijas laiks</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Fokusa attālums</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Apertūra</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Personu vārdi</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Kanālu skaits</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Formāts</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Parauga ātrums</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>Izpildītājs</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Albuma izpildītājs</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Albuma nosaukums</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Izpildītājs</value>
+  </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Sitieni minūtē</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Komponists</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Diriģents</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>Diska numurs</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Žanrs</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Celiņa numurs</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Ilgums</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Kadru skaits</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Aizsardzības tips</value>
+  </data>
+  <data name="PropertyAuthorUrl" xml:space="preserve">
+    <value>Autora URL</value>
+  </data>
+  <data name="PropertyContentDistributor" xml:space="preserve">
+    <value>Satura izplatītājs</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Izlaišanas datums</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Sērijas nosaukums</value>
+  </data>
+  <data name="PropertySeasonNumber" xml:space="preserve">
+    <value>Sezonas numurs</value>
+  </data>
+  <data name="PropertyEpisodeNumber" xml:space="preserve">
+    <value>Epizodes numurs</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Producents</value>
+  </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Kampaņas URL</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Nodrošinātāja stils</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Izdevējs</value>
+  </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Sīktēla (Lielā) ceļš</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Sīktēla (Lielā) URI</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Sīktēla (Mazā) ceļš</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Sīktēla (Mazā) URI</value>
+  </data>
+  <data name="PropertyUserWebUrl" xml:space="preserve">
+    <value>Lietotāja interneta URL</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Rakstnieks</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Gads</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Līdzstrādnieks</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Pēdējais autors</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Pārskatījuma numurs</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Versija</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Izveides datums</value>
+  </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Saglabāšanas datums</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>Printēšanas datums</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Kopējais rediģēšanas laiks</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Veidne</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Vārdu skaits</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Simbolu skaits</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Rindu skaits</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Rindkopu skaits</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Lappušu skaits</value>
+  </data>
+  <data name="PropertySlideCount" xml:space="preserve">
+    <value>Lapu skaits</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Kadru nomaiņas ātrums</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Kodēšanas bitu ātrums</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Saspiešana</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Kadra platums</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Kadra augstums</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Orientācija</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Kodols</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Attēls</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Fotoattēls</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Multivide</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Mūzika</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Dokuments</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Adrese</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Papildu opcijas</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Atlases opcijas</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Statusa centrs</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Atvērt vienumus ar vienu klikšķi</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Fails</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Mape</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Atkritnes vienums</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Saīsnes vienums</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Diski</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Pārvietot šeit</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Logrīki</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Rādīt diskus sākumlapā</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Rādīt bibliotēkas sākumekrānā</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Rādīt nesenos failus sākumekrānā</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Logrīki</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Aparatūru izņemt ir droši</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Tagad ierīci var droši izņemt no datora.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problēma izstumjot ierīci</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Ierīce pašlaik tiek lietota. Aizveriet visas lietotnes, logus vai cilnes, kas varētu lietot šo ierīci, un mēģiniet vēlreiz.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Izstumt</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Dublicēt cilni</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Pārvietot cilni uz jaunu logu</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Jauna cilne</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Rekvizīti var saturēt personīgu informāciju.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Notīrīt</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Notīrīt visus rekvizītus</value>
   </data>
   <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
-    <value>Itt ellenőrizheti a fájlműveletek állapotát</value>
+    <value>Pārbaudīt failu darbību statusu šeit</value>
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
-    <value>Állapotközpont</value>
+    <value>Statusa centrs</value>
   </data>
   <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licenc</value>
+    <value>Licence</value>
   </data>
   <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licenc</value>
+    <value>Licence</value>
   </data>
   <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Weboldal</value>
+    <value>Tīmekļa vietne</value>
   </data>
   <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Weboldal</value>
+    <value>Tīmekļa vietne</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Tudjon meg többet a dátumformátumokról</value>
+    <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
-    <value>Ejtse ide</value>
+    <value>Nomest šeit</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Meklēt</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Keresés eredménye itt:</value>
+    <value>Meklēšanas rezultāti</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Keresési eredmények</value>
+    <value>Meklēšanas rezultāti</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Közreműködők</value>
+    <value>Skatīt, kas palīdzēja Failu izstrādē</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Újdonságok a Files-ban</value>
+    <value>Uzzini jaunumus lietotnē Faili</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Visszajelzés küldése a fejlesztőknek</value>
+    <value>Nosūtīt izstrādātājiem detalizētu problēmas ziņojumu</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Támogatás PayPal-on</value>
+    <value>Atbalstiet mūs PayPal</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Mappák rendszerezése a fájlokkal</value>
+    <value>Parādiet un kārtojiet mapes kopā ar failiem</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
-    <value>Részletek</value>
+    <value>Detaļas</value>
   </data>
   <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
-    <value>Nem</value>
+    <value>Nē</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Szeretné letölteni és telepíteni a Files legújabb verzióját?</value>
+    <value>Vai Jūs vēlaties lejupielādēt un instalēt jaunāko Failu versiju?</value>
   </data>
   <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Igen</value>
+    <value>Jā</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Frissítés érhető el</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
+    <value>Pieejami atjauninājumi</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
+    <value>Paslēpt aizsargātos operētājsistēmas failus (ieteicams)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
-  <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>Üres fájl létrehozása</value>
-  </data>
-  <data name="NewFile" xml:space="preserve">
-    <value>Új fájl</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Egyedi beállítások megjegyzése minden mappához</value>
-  </data>
-  <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Eredeti elérési út</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Eredeti elérési út</value>
-  </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
-    <value>Hozzáadás</value>
-  </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
-    <value>Szerkesztés</value>
-  </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
-    <value>Törlés</value>
-  </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Fájlok és mappák gyorsítótárazása a jobb teljesítményért</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Mégse</value>
-  </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Folyamatban lévő műveletek</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
-    <value>Folyamatban lévő műveletek</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Mindig osztott nézetben nyissa meg az új lapokat</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Osztott nézet bekapcsolása</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Megnyitás a jobb oldali panelen</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>Új panel</value>
-  </data>
-  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Megnyitás a jobb oldali panelen</value>
-  </data>
-  <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Osztott nézet</value>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Paslēpt aizsargātos operētājsistēmas failus (ieteicams)</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</value>
+    <value>Meklējot parādīt neindeksētos vienumus (meklēšana var būt ilgāka)</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>"Elérési út másolása" elem megjelenítése</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Ki nem férő elemek almenübe helyezése</value>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Iespējot atsevišķus iestatījumus katrai mapei</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Helyi menü testreszabása</value>
+    <value>Pielāgot labā klikšķa izvēlni</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>"Megnyitás új oldalon" elem megjelenítése</value>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Oriģinālais ceļš</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
-    <value>Mappák</value>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Oriģinālais ceļš</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Animációk a menü megnyitásakor és bezárásakor</value>
-  </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Részletek</value>
-  </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nagy ikonok</value>
-  </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Közepes ikonok</value>
-  </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kis ikonok</value>
-  </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lista</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
-    <value>Rendezés</value>
-  </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
-    <value>Megjelenítési lehetőségek</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Megjelenítési lehetőségek</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Megjelenítési lehetőségek</value>
-  </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
-    <value>Nagy ikonok</value>
-  </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
-    <value>Közepes ikonok</value>
-  </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
-    <value>Kis ikonok</value>
-  </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
-    <value>Lista</value>
-  </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
-    <value>Fájlkiterjesztések megjelenítése</value>
-  </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
-    <value>Rejtett fájlok megjelenítése</value>
-  </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
-    <value>Részletek</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>Törlés dátuma</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
-    <value>Törlés dátuma</value>
-  </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Lap testreszabása</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>A Files indulásakor</value>
-  </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>Elérési út</value>
-  </data>
-  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Előnézet panel (Ctrl + P)</value>
-  </data>
-  <data name="PropertyItemName" xml:space="preserve">
-    <value>Név</value>
-  </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>Létrehozás</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Már létezik munkaterület ezzel a névvel!</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>A mező nem lehet üres!</value>
-  </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Munkaterület neve</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Munkaterület neve</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Mégse</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Név</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Átnevezés</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Adja meg az új nevet</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>"{0}" átnevezése</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Mégse</value>
-  </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
-    <value>Munkaterület neve</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Létrehozás</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Új munkaterület</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Munkaterületek exportálása</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Munkaterületek importálása</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>Munkaterület létrehozása</value>
-  </data>
-  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Megnyitás új lapon</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Elem helyének megnyitása</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Eltávolítás a munkaterületről</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Munkaterület eltávolítása</value>
-  </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
-    <value>Munkaterületek</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Húzza ide a fájlokat és mappákat a gyors elérésükhöz</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>Létrehozás</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Adja meg a munkaterület nevét</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Munkaterület létrehozása</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Munkaterület átnevezése</value>
-  </data>
-  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>További lehetőségek...</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
-    <value>Munkaterület létrehozása</value>
-  </data>
-  <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Felhőtárhely</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Munkaterületek megjelenítése a kezdőlapon</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Levétel az oldalsávról</value>
-  </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Folyamatban lévő műveletek panel</value>
-  </data>
-  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Online elérhető</value>
-  </data>
-  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Offline is elérhető</value>
-  </data>
-  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Offline részben elérhető</value>
-  </data>
-  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Szinkronizálás</value>
-  </data>
-  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>Kizárva a szinkronizálásból</value>
-  </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
-    <value>Nem meghatározott</value>
-  </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Ismeretlen</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Hálózati meghajtók</value>
-  </data>
-  <data name="Network" xml:space="preserve">
-    <value>Hálózat</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Tulajdonságok</value>
-  </data>
-  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Fájl részletei</value>
-  </data>
-  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>Fájl előnézet</value>
-  </data>
-  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
-    <value>Kiválasztott fájl előnézeti panele</value>
-  </data>
-  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>Dokumentáció</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Tudjon meg többet a Files-ról</value>
-  </data>
-  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Látogasson el a Files dokumentációs oldalára</value>
-  </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
-    <value>Több elem kijelölése</value>
-  </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Többszörös kijelölés (jelenleg lista és ikon nézetekben elérhető)</value>
-  </data>
-  <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
-  </data>
-  <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD meghajtó</value>
-  </data>
-  <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Felhőtárhely</value>
-  </data>
-  <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Helyi lemez</value>
-  </data>
-  <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Floppy meghajtó</value>
-  </data>
-  <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>Hálózati meghajtó</value>
-  </data>
-  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Objektumnév nélküli helyi lemez</value>
-  </data>
-  <data name="DriveTypeRam" xml:space="preserve">
-    <value>RAM meghajtó</value>
-  </data>
-  <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Eltávolítható meghajtó</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Ismeretlen</value>
-  </data>
-  <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Virtuális meghajtó</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
-    <value>Létrehozás dátuma</value>
-  </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>Létrehozás dátuma</value>
-  </data>
-  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>További lehetőségek...</value>
-  </data>
-  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Hálózati meghajtó csatlakoztatása</value>
-  </data>
-  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Szétkapcsolás</value>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Ātrdarbībai glabāt failus un mapes kešatmiņā</value>
   </data>
   <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Előzetes gyorsítótár szálak maximális száma (kisebb érték jobb lehet HDD esetén)</value>
+    <value>Preventīās kešatmiņas paralēlais ierobežojums (mazākam skaitlim vajadzētu strādāt labāk uz cietajiem diskiem)</value>
   </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Előzetes gyorsítótárazás (almappák beolvasása navigáláskor)</value>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Pievienot</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>További munkaterület lehetőségek</value>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Rediģēt</value>
   </data>
-  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>További meghajtó lehetőségek</value>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Dzēst</value>
   </data>
-  <data name="SidebarFavorites" xml:space="preserve">
-    <value>Kedvencek</value>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Atcelt</value>
   </data>
-  <data name="Browse" xml:space="preserve">
-    <value>Tallózás</value>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Notiekošās darbības</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Legutóbbi helyek</value>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Notiekošās darbības</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Vienmēr atvērt jaunas cilnes dubultajā paneļu režīmā</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Iespējot dubulto paneļu skatu</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Atvērt otrajā panelī</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>Jauns panelis</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Atvērt otrajā panelī</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Dubulti paneļi</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Rādīt atvērt jaunā cilnē vienumu izvēlnē</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Mapes</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Iespējot animācijas, atverot un aizverot konteksta izvēlni</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Detalizēts skats</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>Detalizēts skats</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>Attēlojuma opcijas</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Attēlojuma opcijas</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Attēlojuma opcijas</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+    <value>Režģa skats (Liels)</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Režģa skats (Liels)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+    <value>Režģa skats (Vidējs)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Režģa skats (Vidējs)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+    <value>Režģa skats (Mazs)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Režģa skats (Mazs)</value>
+  </data>
+  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+    <value>Mozaīkas skats</value>
+  </data>
+  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mozaīkas skats</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Rādīt failu paplašinājumus</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Rādīt paslēptos vienumus</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>Dzēšanas datums</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>Dzēšanas datums</value>
+  </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Ciļņu pielāgošana</value>
+  </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>Atverot lietotni Faili</value>
+  </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Tiešsaites diski</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Papildu opcijas...</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>Apstiprināt</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Eksportēt saišķus</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Importēt saišķus</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Saišķis ar to pašu nosaukumu jau pastāv!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Ievades lauks nevar būt tukšs!</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Izveidot saišķi</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Ievadīt saišķa nosaukumu</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Ievadīt saišķa nosaukumu</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>Atvērt jaunā cilnē</value>
+  </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Atvērt vienuma atrašanās vietu</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Izņemt no saišķa</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Dzēst saišķi</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Saišķi</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Velciet un nometiet failus vai mapes šeit</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>Apstiprināt</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Ievadīt saišķa nosaukumu</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Atcelt</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Vēlamais nosaukums</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Apstiprināt</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Ievadiet jaunu nosaukumu</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>Pārdēvēt "{0}"</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Izveidot saišķi</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Atcelt</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Apstiprināt</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Pievienot saišķi</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Izveidot saišķi</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Pārdēvēt saišķi</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Vēlamais nosaukums</value>
+  </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pārslēgt priekšskata paneli (Ctrl + P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Nincs elérhető előnézet</value>
+    <value>Priekšskatījums nav pieejams</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Nincsenek elérhető részletek</value>
+    <value>Detaļas nav pieejamas</value>
   </data>
-  <data name="NoItemSelected" xml:space="preserve">
-    <value>Nincs elem kiválasztva</value>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>Vienuma nosaukums</value>
   </data>
-  <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Cél</value>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Rādīt saišķus sākumlapā</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
-    <value>Argumentumok</value>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Atspraust mapi no sānu joslas</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>Könyvtárak megjelenítése az oldalsávon</value>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Tīkla diski</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Tīkls</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Faila detaļas</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Faila priekšskatījums</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Atlasītā faila priekšskatījuma panelis</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Dokumentācija</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Atrast padomus &amp; un uzzināt vairāk par Failiem</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Apmeklējiet Failu dokumentācijas vietni</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Notiekošo uzdevumu logs</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Pieejams tiešsaistes režīmā</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Pieejams bezsaistē</value>
+  </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Daļēji pieejams bezsaitē</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Sinhronizēšana</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Izslēgts no sinhronizēšanas</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Nav aprēķināts</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Nezināms</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Vairākatlase</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Iespējot vairākatlases opcijas (šobrīd pieejams tikai mozaīkas un režģa skatu režīmos)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Ja nomainīsiet faila paplašinājumu, fails var palikt nelietojams. Vai tiešām vēlaties to mainīt?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD ROM disks</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Tiešsaites disks</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fiksēts disku diskdzinis</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Diskešu diskdzinis</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Tīkla disks</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Neievietots disks</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM diska diskdzinis</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Izņemama atmiņas ierīce</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Nezināms</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtuāla ierīce</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Izveides datums</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Izveides datums</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Papildu opcijas...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Kartēt tīkla disku</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Atvienot</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Izmantot preventīvu saglabāšanu kešatmiņā (preventīvi ielādēt apakšvienumus)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Papildus saišķu opcijas</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Papildus disku opcijas</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Izlase</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Könyvtárak</value>
+    <value>Bibliotēkas</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Nav atlasīts neviens vienums</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Mērķis</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumenti</value>
   </data>
   <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Megnyitás jobb oldali panelen</value>
+    <value>Atvērt jaunā panelī</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Rādīt bibliotēku sadaļu sānu joslā</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">
-    <value>Alapértelmezett</value>
+    <value>Noklusējums</value>
   </data>
   <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Színösszeállítás</value>
+    <value>Krāsu shēma</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Vienumu skaits</value>
   </data>
 </root>

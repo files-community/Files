@@ -1635,6 +1635,12 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Ordner von Seitenleiste entfernen</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Netzwerklaufwerke</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Netzwerk</value>
+  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Dateidetails</value>
   </data>
@@ -1754,5 +1760,35 @@
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Kürzlich verwendete Orte</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Keine Vorschau verfügbar</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Keine Details verfügbar</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Keine Objekt ausgewählt</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Ziel</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumente</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Unter Bibliotheken in der Seitenleise anzeigen</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliotheken</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>In neuem Panel öffnen</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Farbschema</value>
   </data>
 </root>

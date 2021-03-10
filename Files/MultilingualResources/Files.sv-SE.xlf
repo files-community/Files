@@ -1265,7 +1265,7 @@
           <target state="translated">Appspråk</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal aspplications</source>
+          <source>Terminal applications</source>
           <target state="needs-review-translation">Terminal-appar</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -2392,6 +2392,10 @@
         <trans-unit id="SettingsAppearanceColorScheme.Header" translate="yes" xml:space="preserve">
           <source>Color scheme</source>
           <target state="new">Color scheme</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
+          <source>Item count</source>
+          <target state="new">Item count</target>
         </trans-unit>
       </group>
     </body>
