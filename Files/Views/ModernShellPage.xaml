@@ -209,7 +209,7 @@
             <controls:PreviewPane
                 x:Name="PreviewPane"
                 x:Uid="SelectedFilePreviewPane"
-                x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"
                 AutomationProperties.Name="Selected file preview pane"
                 SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
         </Custom:DropShadowPanel>
@@ -218,7 +218,7 @@
             x:Name="PreviewPaneGridSplitter"
             Grid.Row="1"
             Grid.Column="1"
-            x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+            x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />

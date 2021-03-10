@@ -9,8 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
@@ -25,17 +23,19 @@ namespace Files.ViewModels
     public class PreviewPaneViewModel : ObservableObject
     {
         private List<ListedItem> selectedItems;
+
         public List<ListedItem> SelectedItems
         {
             get => selectedItems;
             set
             {
                 SetProperty(ref selectedItems, value);
-                SelectedItem = SelectedItems.FirstOrDefault();
+                SelectedItem = SelectedItems?.FirstOrDefault();
             }
         }
 
         private ListedItem selectedItem;
+
         public ListedItem SelectedItem
         {
             get => selectedItem;
@@ -47,28 +47,32 @@ namespace Files.ViewModels
             }
         }
 
-        string previewErrorText;
+        private string previewErrorText;
+
         public string PreviewErrorText
         {
             get => previewErrorText;
             set => SetProperty(ref previewErrorText, value);
         }
 
-        string detailsErrorText;
+        private string detailsErrorText;
+
         public string DetailsErrorText
         {
             get => detailsErrorText;
             set => SetProperty(ref detailsErrorText, value);
         }
-        
-        Visibility detailsListVisibility = Visibility.Collapsed;
+
+        private Visibility detailsListVisibility = Visibility.Collapsed;
+
         public Visibility DetailsListVisibility
         {
             get => detailsListVisibility;
             set => SetProperty(ref detailsListVisibility, value);
         }
 
-        UIElement previewPaneContent;
+        private UIElement previewPaneContent;
+
         public UIElement PreviewPaneContent
         {
             get => previewPaneContent;
@@ -77,7 +81,6 @@ namespace Files.ViewModels
 
         public PreviewPaneViewModel()
         {
-
         }
 
         private async Task LoadPreviewControlAsync()
@@ -95,11 +98,7 @@ namespace Files.ViewModels
 
             if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                // TODO: Finish folder previews and reimplement later
-                //PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
-                PreviewPaneContent = null;
+                PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
                 return;
             }
 
@@ -124,10 +123,9 @@ namespace Files.ViewModels
             control = new BasicPreview(basicModel);
             PreviewPaneContent = control;
         }
-
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
         {
-            if(item.IsShortcutItem)
+            if (item.IsShortcutItem)
             {
                 var model = new ShortcutPreviewViewModel(SelectedItem);
                 await model.LoadAsync();
@@ -182,7 +180,7 @@ namespace Files.ViewModels
             }
 
             if (RichTextPreviewViewModel.Extensions.Contains(ext))
-            {   
+            {
                 var model = new RichTextPreviewViewModel(item);
                 await model.LoadAsync();
                 return new RichTextPreview(model);
@@ -224,17 +222,19 @@ namespace Files.ViewModels
 
         private async void SelectedItemChanged()
         {
-            if(SelectedItem != null && SelectedItems.Count == 1)
+            if (SelectedItem != null && SelectedItems.Count == 1)
             {
                 DetailsListVisibility = Visibility.Visible;
                 await LoadPreviewControlAsync();
-            } else if (SelectedItem != null)
+            }
+            else if (SelectedItem != null)
             {
                 PreviewPaneContent = null;
                 DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
                 PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
                 DetailsListVisibility = Visibility.Collapsed;
-            } else
+            }
+            else
             {
                 PreviewPaneContent = null;
                 DetailsErrorText = "NoItemSelected".GetLocalized();

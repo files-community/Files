@@ -87,7 +87,7 @@
                     BorderThickness="0.8"
                     Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE7E8;" />
+                        <FontIcon  Glyph="&#xE7E8;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -103,7 +103,7 @@
                     BorderThickness="0.8"
                     Content="Widgets">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF246;" />
+                        <FontIcon  Glyph="&#xF246;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -119,7 +119,7 @@
                     BorderThickness="0.8"
                     Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8B7;" />
+                        <FontIcon  Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -127,7 +127,7 @@
                     BorderThickness="0.8"
                     Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xF1AD;" />
+                        <FontIcon  Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
