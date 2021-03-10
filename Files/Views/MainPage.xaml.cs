@@ -50,6 +50,7 @@ namespace Files.Views
             }
         }
 
+
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
