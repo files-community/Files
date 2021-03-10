@@ -34,6 +34,8 @@ namespace Files.Views
         public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
+        private readonly GridLength CompactSidebarWidth;
+
         public PaneHolderPage()
         {
             this.InitializeComponent();
@@ -42,9 +44,18 @@ namespace Files.Views
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
 
-            this.IsSidebarOpen = AppSettings.IsSidebarOpen;
+            this.SidebarWidth = AppSettings.SidebarWidth;
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
+
+            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
+            {
+                if (paneLength is double paneLengthDouble)
+                {
+                    this.CompactSidebarWidth = new GridLength(paneLengthDouble);
+                }
+            }
+            // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -55,15 +66,14 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
 
-                case nameof(AppSettings.IsSidebarOpen):
+                case nameof(AppSettings.SidebarWidth):
                     if (isWindowCompactSize)
                     {
-                        wasSidebarOpen = AppSettings.IsSidebarOpen;
+                        sidebarOpenWidth = AppSettings.SidebarWidth;
                     }
                     else
                     {
-                        isSidebarOpen = AppSettings.IsSidebarOpen;
-                        NotifyPropertyChanged(nameof(IsSidebarOpen));
+                        SidebarWidth = AppSettings.SidebarWidth;
                     }
                     break;
             }
@@ -79,8 +89,6 @@ namespace Files.Views
             IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
         }
 
-        private bool wasSidebarOpen;
-
         private bool wasRightPaneVisible;
 
         private bool isWindowCompactSize;
@@ -95,22 +103,23 @@ namespace Files.Views
                     isWindowCompactSize = value;
                     if (isWindowCompactSize)
                     {
-                        wasSidebarOpen = isSidebarOpen;
                         wasRightPaneVisible = isRightPaneVisible;
-                        IsSidebarOpen = false;
                         IsRightPaneVisible = false;
+
+                        sidebarOpenWidth = sidebarWidth;
+                        SidebarWidth = CompactSidebarWidth;
                     }
                     else
                     {
-                        if (wasSidebarOpen)
-                        {
-                            IsSidebarOpen = true;
-                            wasSidebarOpen = false;
-                        }
                         if (wasRightPaneVisible)
                         {
                             IsRightPaneVisible = true;
                             wasRightPaneVisible = false;
+                        }
+                        if (sidebarOpenWidth.HasValue)
+                        {
+                            SidebarWidth = sidebarOpenWidth.Value;
+                            sidebarOpenWidth = null;
                         }
                     }
                     NotifyPropertyChanged(nameof(IsWindowCompactSize));
@@ -119,21 +128,23 @@ namespace Files.Views
             }
         }
 
-        private bool isSidebarOpen;
+        private GridLength sidebarWidth;
 
-        public bool IsSidebarOpen
+        private GridLength? sidebarOpenWidth;
+
+        public GridLength SidebarWidth
         {
-            get => isSidebarOpen;
+            get => sidebarWidth;
             set
             {
-                if (isSidebarOpen != value)
+                if (sidebarWidth != value)
                 {
-                    isSidebarOpen = value;
-                    NotifyPropertyChanged(nameof(IsSidebarOpen));
+                    sidebarWidth = value;
+                    NotifyPropertyChanged(nameof(SidebarWidth));
                 }
-                if (!isWindowCompactSize && AppSettings.IsSidebarOpen != value)
+                if (!isWindowCompactSize && AppSettings.SidebarWidth != value)
                 {
-                    AppSettings.IsSidebarOpen = value;
+                    AppSettings.SidebarWidth = value;
                 }
             }
         }

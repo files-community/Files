@@ -96,12 +96,12 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating the open state of the sidebar pane.
+        /// Gets or sets a value indicating the width of the the sidebar pane when open.
         /// </summary>
-        public bool IsSidebarOpen
+        public GridLength SidebarWidth
         {
-            get => Get(true);
-            set => Set(value);
+            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
+            set => Set(value.Value);
         }
 
         /// <summary>
