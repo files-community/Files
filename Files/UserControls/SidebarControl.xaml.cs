@@ -2,11 +2,13 @@
 using Files.Filesystem;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -15,7 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
@@ -223,7 +224,13 @@ namespace Files.UserControls
 
                 if (item.IsDefaultLocation)
                 {
-                    ShowProperties = false;
+                    var isLibrary = (MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem)?
+                        .ChildItems?
+                        .Contains(item) ?? false;
+                    if (!isLibrary)
+                    {
+                        ShowProperties = false;
+                    }
 
                     if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
@@ -247,7 +254,7 @@ namespace Files.UserControls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
-         
+
             ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
@@ -262,7 +269,6 @@ namespace Files.UserControls
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as WSLDistroItem;
 
@@ -559,7 +565,6 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\xE713"
             };
 

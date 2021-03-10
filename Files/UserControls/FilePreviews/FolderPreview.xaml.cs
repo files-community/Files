@@ -20,10 +20,10 @@ namespace Files.UserControls.FilePreviews
 {
     public sealed partial class FolderPreview : UserControl
     {
-        public FolderPreviewViewModel ViewModel { get; set; }
-        public FolderPreview(FolderPreviewViewModel viewModel)
+        public FolderPreviewViewModel Model { get; set; }
+        public FolderPreview(FolderPreviewViewModel model)
         {
-            ViewModel = viewModel;
+            Model = model;
             this.InitializeComponent();
         }
     }

@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
@@ -21,7 +20,6 @@ using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -211,7 +209,7 @@ namespace Files.Views
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             TabItem tabItem = new TabItem()
             {
@@ -232,7 +230,7 @@ namespace Files.Views
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             if (string.IsNullOrEmpty(path))
             {
@@ -259,7 +257,7 @@ namespace Files.Views
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {
