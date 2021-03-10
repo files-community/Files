@@ -91,7 +91,7 @@ namespace Files.Filesystem
                                         Path = path,
                                         Glyph = GlyphHelper.GetItemIcon(path),
                                         Font = InteractionViewModel.FontName,
-                                        IsDefaultLocation = false,
+                                        IsDefaultLocation = true,
                                         Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                                     };
 
