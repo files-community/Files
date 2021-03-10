@@ -504,7 +504,7 @@
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
                                                         <!--<Setter Target="SelectedTabViewItemShadow.Visibility" Value="Collapsed" />-->
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource ControlFillColorDefaultBrush}"/>
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}"/>
                                                         <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
