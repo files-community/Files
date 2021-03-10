@@ -1900,6 +1900,6 @@
     <value>Color scheme</value>
   </data>
   <data name="SettingsPreferencesKeepPreviewPaneOpened.Header" xml:space="preserve">
-    <value>Keep preview pane open</value>
+    <value>Make preview pane persistent</value>
   </data>
 </root>
