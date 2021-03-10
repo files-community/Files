@@ -37,7 +37,7 @@
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New window</source>
           <target state="translated">Nova janela</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Pasta</target>
@@ -185,7 +185,7 @@
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
           <target state="translated">Enviar comentários</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
           <target state="translated">Envie aos desenvolvedores um relatório de problemas com informações detalhadas</target>
@@ -193,7 +193,7 @@
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
           <target state="needs-review-translation">Licenças de terceiros</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Sobre</target>
@@ -293,7 +293,7 @@
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from sidebar</source>
           <target state="translated">Desafixar da barra lateral</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
           <target state="translated">Vídeos</target>
@@ -725,7 +725,7 @@
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
           <target state="translated">Tem certeza de que deseja excluir permanentemente todos esses itens?</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">Esvaziar lixeira</target>
@@ -969,7 +969,7 @@
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release notes</source>
           <target state="translated">Notas de lançamento</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
           <target state="translated">Descubra o que há de novo no Files</target>
@@ -1324,7 +1324,7 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
           <source>Duplicate tab</source>
-          <target state="translated" >Duplicar guia</target>
+          <target state="translated">Duplicar guia</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Move tab to new window</source>
@@ -1840,7 +1840,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="translated" >Ocultar arquivos protegidos do sistema operacional (Recomendado)</target>
+          <target state="translated">Ocultar arquivos protegidos do sistema operacional (Recomendado)</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
@@ -1929,7 +1929,7 @@
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual pane</source>
           <target state="translated">Painel duplo</target>
-         </trans-unit>
+        </trans-unit>
         <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show copy location menu item</source>
           <target state="translated">Mostrar item de menu de localização de cópia</target>
@@ -2029,11 +2029,11 @@
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab customization</source>
           <target state="translated">Personalização da guia</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
           <source>When launching Files</source>
           <target state="translated">Ao iniciar o Files</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">Confirmar</target>
@@ -2169,7 +2169,7 @@
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show bundles on the home page</source>
           <target state="translated">Mostrar pacotes na página inicial</target>
-          </trans-unit>
+        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="translated">Desafixar diretório da barra lateral</target>

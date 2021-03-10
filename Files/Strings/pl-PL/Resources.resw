@@ -820,7 +820,7 @@
     <value>Zawsze ukrywa menu rozwijane wielozadaniowości w pionie na pasku narzędzi nawigacji i wyświetla tradycyjny poziomy pasek kart w oknie aplikacji. Jest to odpowiednie dla użytkowników, którzy muszą przez cały czas śledzić każdą otwartą instancję aplikacji.</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Obsługa wielu zadań</value>
+    <value>Wielozadaniowość</value>
   </data>
   <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
     <value>Pionowo</value>
@@ -829,7 +829,7 @@
     <value>Zwija poziomą listę instancji aplikacji do pionowego menu rozwijanego na pasku narzędzi nawigacji, zaprojektowanego dla użytkowników, którzy chcą mieć przejrzysty interfejs aplikacji z dostępem na żądanie do wielozadaniowości.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Obsługa wielu zadań</value>
+    <value>Wielozadaniowość</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Ustaw jako</value>
@@ -1682,5 +1682,104 @@
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Włacz opcję wielokrotnego zaznaczania (obecnie dostępne tylko w trybach układu kafelek i siatki)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Jeżeli zmienisz rozszerzenie, plik może zostać nieużywalny. Czy na pewno chcesz to zmienić?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>Dysk CD ROM</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Chmura</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Dysk twardy</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Dyskietka</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Dysk Sieciowy</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Niezamontowany dysk</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>Dysk RAM</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Wymienny urządzenie magazynujące</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Nieznany</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Dysk wirtualny</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Data utworzenia</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Data utworzenia</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Więcej opcji...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Mapuj dysk sieciowy</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Odłącz</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Równoległy limit wyprzedzającego buforowania pamięci podręcznej (mniejsza ilość powinna działać lepiej dla dysków twardych)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Używaj wyprzedzającego buforowania (wstępne wczytywanie wpisów w podrzędnych katalogach podczas nawigacji)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Więcej opcji paczek</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Więcej opcji dysków</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Ulubione</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Wyszukaj</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Ostatnie lokalizacje</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Podgląd niedostępny</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Brak dostępnych szczegółów</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Nie wybrano żadnego elementu</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Cel</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumenty</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Pokaż sekcję biblioteki na pasku bocznym</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Biblioteki</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Otwórz w nowym Panelu</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Domyślny</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Schemat koloru</value>
   </data>
 </root>

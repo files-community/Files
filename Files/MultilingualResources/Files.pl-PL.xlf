@@ -2400,10 +2400,6 @@
           <source>Item count</source>
           <target state="new">Item count</target>
         </trans-unit>
-        <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
-          <source>Item count</source>
-          <target state="new">Item count</target>
-        </trans-unit>
       </group>
     </body>
   </file>
