@@ -188,7 +188,7 @@ namespace Files.Views
             }
         }
 
-        public static async void CloseTabsToRight(object sender, RoutedEventArgs e)
+        public static async void CloseTabsToTheRight(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = ((FrameworkElement)sender).DataContext as TabItem;
             int index = AppInstances.IndexOf(tabItem);
