@@ -120,7 +120,7 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// True if the user has opened the preview pane
+        /// Gets or sets a value indicating if the preview pane should be open or closed.
         /// </summary>
         public bool PreviewPaneEnabled
         {
