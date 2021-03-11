@@ -115,12 +115,12 @@ namespace Files.Interacts
 
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            SetAsBackground(WallpaperType.Desktop, AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+            SetAsBackground(WallpaperType.Desktop, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
         }
 
         public void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            SetAsBackground(WallpaperType.LockScreen, AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+            SetAsBackground(WallpaperType.LockScreen, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
         }
 
         public async void SetAsBackground(WallpaperType type, string filePath)
@@ -1278,13 +1278,13 @@ namespace Files.Interacts
 
         public void ClearAllItems(BaseLayout contentPage) => contentPage.ClearSelection();
 
-        public async void ToggleQuickLook(IShellPage associatedInstance)
+        public async void ToggleQuickLook()
         {
             try
             {
-                if (associatedInstance.ContentPage.IsItemSelected && !associatedInstance.ContentPage.IsRenamingItem)
+                if (AssociatedInstance.ContentPage.IsItemSelected && !AssociatedInstance.ContentPage.IsRenamingItem)
                 {
-                    var clickedOnItem = associatedInstance.ContentPage.SelectedItem;
+                    var clickedOnItem = AssociatedInstance.ContentPage.SelectedItem;
 
                     Logger.Info("Toggle QuickLook");
                     Debug.WriteLine("Toggle QuickLook");
@@ -1300,10 +1300,10 @@ namespace Files.Interacts
             catch (FileNotFoundException)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
-                associatedInstance.NavigationToolbar.CanRefresh = false;
+                AssociatedInstance.NavigationToolbar.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
+                    var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
                     ContentOwnedViewModelInstance?.RefreshItems(null);
                 });
             }

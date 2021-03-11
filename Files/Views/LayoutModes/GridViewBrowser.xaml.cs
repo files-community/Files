@@ -326,7 +326,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (IsQuickLookEnabled)
                     {
-                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook(ParentShellPageInstance);
+                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook();
                     }
                     e.Handled = true;
                 }

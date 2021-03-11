@@ -956,7 +956,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.SelectAllItems();
+                        InteractionOperations.SelectAllItems(this.ContentPage);
                     }
 
                     break;
@@ -978,7 +978,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
-                            InteractionOperations.ToggleQuickLook(this);
+                            InteractionOperations.ToggleQuickLook();
                         }
                     }
                     break;
