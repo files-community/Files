@@ -2,19 +2,34 @@
 using Files.ViewModels.Previews;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {
-        public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel)
+        public static async Task<bool> PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel)
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
             {
                 bool desktopIniFound = false;
 
-                var iniPath = System.IO.Path.Combine(filesystemViewModel.WorkingDirectory, "desktop.ini");
+                string path = filesystemViewModel?.WorkingDirectory;
+
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    return false;
+                }    
+                else
+                {
+                    if (!(await StorageItemHelpers.ToStorageItem<StorageFolder>(path) is StorageFolder folder) || folder == null)
+                    {
+                        return false;
+                    }
+                }
+
+                var iniPath = System.IO.Path.Combine(path, "desktop.ini");
                 var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
                 if (!string.IsNullOrEmpty(iniContents))
                 {
