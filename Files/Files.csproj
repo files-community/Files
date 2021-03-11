@@ -165,6 +165,7 @@
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
+    <Compile Include="Converters\NavigationViewCompactConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\WidthToRightMargin.cs" />

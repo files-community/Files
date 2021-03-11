@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -44,7 +44,6 @@ namespace Files.Views
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
 
-            this.SidebarWidth = AppSettings.SidebarWidth;
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
 
@@ -67,14 +66,11 @@ namespace Files.Views
                     break;
 
                 case nameof(AppSettings.SidebarWidth):
-                    if (isWindowCompactSize)
-                    {
-                        sidebarOpenWidth = AppSettings.SidebarWidth;
-                    }
-                    else
-                    {
-                        SidebarWidth = AppSettings.SidebarWidth;
-                    }
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    break;
+
+                case nameof(AppSettings.IsSidebarOpen):
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
                     break;
             }
         }
@@ -105,9 +101,6 @@ namespace Files.Views
                     {
                         wasRightPaneVisible = isRightPaneVisible;
                         IsRightPaneVisible = false;
-
-                        sidebarOpenWidth = sidebarWidth;
-                        SidebarWidth = CompactSidebarWidth;
                     }
                     else
                     {
@@ -116,35 +109,47 @@ namespace Files.Views
                             IsRightPaneVisible = true;
                             wasRightPaneVisible = false;
                         }
-                        if (sidebarOpenWidth.HasValue)
-                        {
-                            SidebarWidth = sidebarOpenWidth.Value;
-                            sidebarOpenWidth = null;
-                        }
                     }
                     NotifyPropertyChanged(nameof(IsWindowCompactSize));
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
         }
 
-        private GridLength sidebarWidth;
-
-        private GridLength? sidebarOpenWidth;
-
         public GridLength SidebarWidth
         {
-            get => sidebarWidth;
+            get => IsWindowCompactSize || !IsSidebarOpen ? CompactSidebarWidth : AppSettings.SidebarWidth;
             set
             {
-                if (sidebarWidth != value)
+                if (IsWindowCompactSize || !IsSidebarOpen)
                 {
-                    sidebarWidth = value;
-                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    return;
                 }
-                if (!isWindowCompactSize && AppSettings.SidebarWidth != value)
+                if (AppSettings.SidebarWidth != value)
                 {
                     AppSettings.SidebarWidth = value;
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                }
+            }
+        }
+
+        public bool IsSidebarOpen
+        {
+            get => !IsWindowCompactSize && AppSettings.IsSidebarOpen;
+            set
+            {
+                if (IsWindowCompactSize)
+                {
+                    return;
+                }
+                // TODO: why restoring the window width sets this to true???
+                if (AppSettings.IsSidebarOpen != value)
+                {
+                    AppSettings.IsSidebarOpen = value;
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
         }

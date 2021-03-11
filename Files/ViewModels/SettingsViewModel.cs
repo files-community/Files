@@ -105,6 +105,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating if the sidebar pane should be open or closed.
+        /// </summary>
+        public bool IsSidebarOpen
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
         /// </summary>
         public GridLength PreviewPaneSizeHorizontal
