@@ -129,7 +129,7 @@ namespace Files.ViewModels
             if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
                 var model = new FolderPreviewViewModel(SelectedItem);
-                await model.Load();
+                await model.LoadAsync();
                 return new FolderPreview(model);
             }
 

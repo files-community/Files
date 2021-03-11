@@ -24,7 +24,7 @@ namespace Files.ViewModels.Previews
             Item = item;
         }
 
-        public async Task Load()
+        public async Task LoadAsync()
         {
             try
             {
