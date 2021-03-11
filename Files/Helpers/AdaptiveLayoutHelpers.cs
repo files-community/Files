@@ -14,7 +14,7 @@ namespace Files.Helpers
             {
                 bool desktopIniFound = false;
 
-                var iniPath = System.IO.Path.Combine(filesystemViewModel.CurrentFolder.ItemPath, "desktop.ini");
+                var iniPath = System.IO.Path.Combine(filesystemViewModel.WorkingDirectory, "desktop.ini");
                 var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
                 if (!string.IsNullOrEmpty(iniContents))
                 {
