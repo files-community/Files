@@ -31,7 +31,7 @@ namespace Files.DataModels
         [JsonIgnore]
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        [JsonProperty("favoriteitems")]
+        [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
