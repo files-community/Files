@@ -974,7 +974,7 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                await AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
             }
             finally
             {
