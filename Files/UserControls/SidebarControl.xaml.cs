@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
@@ -569,7 +570,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+            await DeviceHelpers.EjectDeviceAsync(App.RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)

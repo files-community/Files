@@ -940,7 +940,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        await InteractionOperations.PasteItemAsync();
+                        await InteractionOperations.PasteItemAsync(FilesystemViewModel.WorkingDirectory);
                     }
 
                     break;
@@ -978,7 +978,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
-                            InteractionOperations.ToggleQuickLook();
+                            InteractionOperations.ToggleQuickLook(this);
                         }
                     }
                     break;

@@ -968,7 +968,7 @@
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
-            DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
+            DoubleTapped="FileList_DoubleTapped"
             DragEnter="List_DragEnter"
             Drop="List_Drop"
             IsDoubleTapEnabled="True"
