@@ -12,8 +12,6 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="ControlFillColorDefaultBrush"/>
-
         <!--  Converters  -->
         <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
     </UserControl.Resources>
@@ -123,7 +121,7 @@
                         Width="270"
                         Height="256"
                         AllowDrop="True"
-                        Background="{StaticResource YourHomeCardBackgroundColor}"
+                        Background="{ThemeResource ControlFillColorDefaultBrush}"
                         ColumnSpacing="8"
                         CornerRadius="8">
                         <i:Interaction.Behaviors>
@@ -188,9 +186,8 @@
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    Content="&#xe712;"
-                                    FontSize="12">
+                                    Background="Transparent">
+                                    <FontIcon FontSize="12" Glyph="&#xe712;" />
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem
@@ -382,10 +379,8 @@
             Height="256"
             HorizontalAlignment="Left"
             x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Mode=OneWay}"
-            Background="Transparent"
-            BorderBrush="Gray"
-            BorderThickness="1"
-            CornerRadius="4">
+            Background="{ThemeResource ControlFillColorDefaultBrush}"
+            CornerRadius="8">
 
             <!--  heh xD  -->
             <Button
