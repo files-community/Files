@@ -20,13 +20,6 @@ namespace Files.Helpers
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     return false;
-                }    
-                else
-                {
-                    if (!(await StorageItemHelpers.ToStorageItem<StorageFolder>(path) is StorageFolder folder) || folder == null)
-                    {
-                        return false;
-                    }
                 }
 
                 var iniPath = System.IO.Path.Combine(path, "desktop.ini");
