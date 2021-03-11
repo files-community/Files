@@ -412,15 +412,23 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+
+            try
             {
-                listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) != null)
+                foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
                 {
-                    listedItem.ItemPropertiesInitialized = true;
-                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                    listedItem.ItemPropertiesInitialized = false;
+                    if (FileList.ContainerFromItem(listedItem) != null)
+                    {
+                        listedItem.ItemPropertiesInitialized = true;
+                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
+            }           
         }
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
