@@ -2,7 +2,6 @@
 using Files.ViewModels.Previews;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.Helpers
