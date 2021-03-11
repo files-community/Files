@@ -8,6 +8,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 
 namespace Files.Filesystem
@@ -92,6 +93,14 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceText, value);
         }
 
+        private Color progressColor = Color.FromArgb(255, 41, 132, 204);
+
+        public Color ProgressColor
+        {
+	        get => progressColor;
+	        set => SetProperty(ref progressColor, value);
+        }
+
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
@@ -130,14 +139,22 @@ namespace Files.Filesystem
 
                 if (properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
                 {
-                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+	                ulong maxSpace = (ulong) properties["System.Capacity"];
+	                ulong freeSpace = (ulong) properties["System.FreeSpace"];
+
+                    MaxSpace = ByteSize.FromBytes(maxSpace);
+                    FreeSpace = ByteSize.FromBytes(freeSpace);
                     SpaceUsed = MaxSpace - FreeSpace;
 
                     SpaceText = string.Format(
                         "DriveFreeSpaceAndCapacity".GetLocalized(),
                         FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
                         MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+
+                    if (freeSpace < maxSpace * 0.1)
+                    {
+	                    ProgressColor = Colors.Red;
+                    }
                 }
             }
             catch (Exception)

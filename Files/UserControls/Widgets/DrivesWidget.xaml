@@ -220,7 +220,11 @@
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
-                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}">
+                                        <muxc:ProgressBar.Foreground>
+                                            <SolidColorBrush Color="{x:Bind ProgressColor, Mode=OneWay}"/>
+                                        </muxc:ProgressBar.Foreground>
+                                    </muxc:ProgressBar>
                                     <TextBlock
                                         x:Phase="1"
                                         FontSize="12"
