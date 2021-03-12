@@ -74,7 +74,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in MainPage.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowLibrarySection && MainPage.SideBarItems.Contains(librarySection))
+                if (!App.AppSettings.ShowLibrarySection && item != null)
                 {
                     MainPage.SideBarItems.Remove(item);
                 }
@@ -105,8 +105,10 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-                            MainPage.SideBarItems.Add(librarySection);
+                            
+                            MainPage.SideBarItems.Insert(1, librarySection);
 
+                            libraryItems.Clear();
                             libraryItems.Add(AppSettings.DesktopPath);
                             libraryItems.Add(AppSettings.DownloadsPath);
                             libraryItems.Add(AppSettings.DocumentsPath);

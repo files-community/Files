@@ -8,5 +8,9 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
         }
+        private void ShowLibrarySection_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            App.AppSettings.ShowLibrarySection = ShowLibrarySection.IsOn;
+        }
     }
 }
