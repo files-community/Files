@@ -56,6 +56,7 @@ namespace Files.Filesystem
                             section = new LocationItem()
                             {
                                 Text = "WSL",
+                                Section = SectionType.WSL,
                                 Font = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                                 Glyph = "\uEC7A",
                                 SelectsOnInvoked = false,

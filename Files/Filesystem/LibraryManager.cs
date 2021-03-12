@@ -64,6 +64,7 @@ namespace Files.Filesystem
                             librarySection = new LocationItem()
                             {
                                 Text = "SidebarLibraries".GetLocalized(),
+                                Section = SectionType.Library,
                                 Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                 Glyph = "\uEC13",
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -85,7 +86,7 @@ namespace Files.Filesystem
                                 {
                                     Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                                     Path = path,
-                                    Section = "SidebarLibraries".GetLocalized(),
+                                    Section = SectionType.Library,
                                     Glyph = GlyphHelper.GetItemIcon(path),
                                     IsDefaultLocation = false,
                                     Text = Path.GetFileName(path.TrimEnd('\\'))

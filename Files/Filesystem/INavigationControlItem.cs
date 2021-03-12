@@ -7,7 +7,7 @@
         public string Text { get; }
 
         public string Path { get; }
-        public string Section { get; }
+        public SectionType Section { get; }
 
         public string HoverDisplayText { get; }
 
@@ -21,5 +21,16 @@
         LinuxDistro,
         Location,
         CloudDrive
+    }
+
+    public enum SectionType
+    {
+        Home,
+        Favorites,
+        Library,
+        Drives,
+        CloudDrives,
+        Network,
+        WSL
     }
 }

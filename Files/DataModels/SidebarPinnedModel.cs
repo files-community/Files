@@ -41,6 +41,7 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
+                Section = SectionType.Home,
                 Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
@@ -50,6 +51,7 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
+                Section = SectionType.Favorites,
                 Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -147,7 +149,7 @@ namespace Files.DataModels
         /// <param name="item">The item.</param>
         public void RemoveLibraryItem(string path)
         {
-            var item = (LocationItem)(from n in MainPage.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
+            var item = (LocationItem)(from n in MainPage.SideBarItems where n.Section == SectionType.Library select n).FirstOrDefault();
             item.ChildItems.Remove(item.ChildItems.Where(x => x.Path.Equals(path)).FirstOrDefault());
             //ask yaichenbaum if will library items should be added and removed from Model?
             //Save();
@@ -271,7 +273,6 @@ namespace Files.DataModels
                 {
                     Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
                     Path = path,
-                    Section = "SidebarFavorites".GetLocalized(),
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))

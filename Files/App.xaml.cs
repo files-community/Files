@@ -140,11 +140,11 @@ namespace Files
             }
             else
             {
-                if (RightClickedItem.Section.Equals("SidebarFavorites".GetLocalized()))
+                if (RightClickedItem.Section == SectionType.Favorites)
                 {
                     SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
                 }
-                else if (RightClickedItem.Section.Equals("SidebarLibraries".GetLocalized()))
+                else if (RightClickedItem.Section == SectionType.Library)
                 {
                     SidebarPinnedController.Model.RemoveLibraryItem(RightClickedItem.Path.ToString());                    
                 }                
@@ -515,6 +515,6 @@ namespace Files
 
         public Uri Logo { get; set; }
 
-        public string Section { get; set; }
+        public SectionType Section { get; private set; }
     }
 }

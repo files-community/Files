@@ -96,6 +96,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
+                            Section = SectionType.CloudDrives,
                             Font = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                             Glyph = "\uE753",
                             SelectsOnInvoked = false,

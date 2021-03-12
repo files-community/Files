@@ -92,12 +92,7 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceText, value);
         }
 
-        private string section;
-        public string Section
-        {
-            get => section;
-            set => SetProperty(ref section, value);
-        }
+        public SectionType Section { get; set; }
 
         public DriveItem()
         {
