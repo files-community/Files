@@ -209,6 +209,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DeviceHelpers.cs" />
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
     <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
     <Compile Include="Interacts\IStatusCenterActions.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">

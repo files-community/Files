@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
+using Files.Helpers.XamlHelpers;
 using Files.UserControls.Selection;
 using System;
 using System.Collections;
@@ -55,7 +56,7 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             var selectorItems = new List<SelectorItem>();
-            Interaction.FindChildren<SelectorItem>(selectorItems, FileList);
+            DependencyObjectHelpers.FindChildren<SelectorItem>(selectorItems, FileList);
             foreach (SelectorItem gvi in selectorItems)
             {
                 base.UninitializeDrag(gvi);
@@ -158,7 +159,7 @@ namespace Files.Views.LayoutModes
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (parentContainer.IsSelected)
             {
                 return;
@@ -359,7 +360,7 @@ namespace Files.Views.LayoutModes
                         || focusedElement is Button
                         || focusedElement is TextBox
                         || focusedElement is PasswordBox
-                        || Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                        || DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }
@@ -459,6 +460,15 @@ namespace Files.Views.LayoutModes
 
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+            }
+        }
+
+        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            // Skip opening selected items if the double tap doesn't capture an item
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
+            {
+                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
             }
         }
     }
