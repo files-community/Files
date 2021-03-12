@@ -180,6 +180,7 @@
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
@@ -224,9 +225,14 @@
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
+    <Compile Include="Helpers\QuickLookHelpers.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="Interacts\BaseLayoutCommandImplementationModel.cs" />
+    <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
+    <Compile Include="Interacts\IBaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\IStatusCenterActions.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>

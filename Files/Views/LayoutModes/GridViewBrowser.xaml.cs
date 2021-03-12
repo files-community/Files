@@ -1,13 +1,17 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.UserControls.Selection;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -311,7 +315,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                    ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
                     e.Handled = true;
                 }
             }
@@ -326,7 +330,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (IsQuickLookEnabled)
                     {
-                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook();
+                        QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
                     e.Handled = true;
                 }
@@ -439,7 +443,7 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
             }
         }
 
@@ -469,6 +473,105 @@ namespace Files.Views.LayoutModes
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+            }
+        }
+
+        private void QuickLook_Click(object sender, RoutedEventArgs e)
+        {
+            QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+        }
+
+        private void EmptyRecycleBin_Click(object sender, RoutedEventArgs e)
+        {
+            RecycleBinHelpers.EmptyRecycleBin(ParentShellPageInstance);
+        }
+
+        private void UnpinDirectoryFromSidebar_Click(object sender, RoutedEventArgs e)
+        {
+            App.SidebarPinnedController.Model.RemoveItem(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        private void OpenItem_Click(object sender, RoutedEventArgs e)
+        {
+            ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+        }
+
+        private void SidebarUnpinItem_Click(object sender, RoutedEventArgs e)
+        {
+            SidebarHelpers.UnpinItems(SelectedItems);
+        }
+
+        private void SidebarPinItem_Click(object sender, RoutedEventArgs e)
+        {
+            SidebarHelpers.PinItems(SelectedItems);
+        }
+
+        private async void RunAsAnotherUser_Click(object sender, RoutedEventArgs e)
+        {
+            if (Connection != null)
+            {
+                await Connection.SendMessageSafeAsync(new ValueSet()
+                {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", SelectedItem.ItemPath },
+                    { "Verb", "runasuser" }
+                });
+            }
+        }
+
+        private async void RunAsAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            if (Connection != null)
+            {
+                await Connection.SendMessageSafeAsync(new ValueSet()
+                {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", SelectedItem.ItemPath },
+                    { "Verb", "runas" }
+                });
+            }
+        }
+
+        private void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
+        {
+            ParentShellPageInstance.InteractionOperations.SetAsBackground(WallpaperType.Desktop, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
+        }
+
+        private void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
+        {
+            ParentShellPageInstance.InteractionOperations.SetAsBackground(WallpaperType.LockScreen, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
+        }
+
+        private async void CreateShortcut_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem selectedItem in SelectedItems)
+            {
+                if (Connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "CreateLink" },
+                        { "targetpath", selectedItem.ItemPath },
+                        { "arguments", "" },
+                        { "workingdir", "" },
+                        { "runasadmin", false },
+                        {
+                            "filepath",
+                            Path.Combine(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
+                                string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
+                        }
+                    };
+                    await Connection.SendMessageSafeAsync(value);
+                }
+            }
+        }
+
+        private void RenameItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsItemSelected)
+            {
+                StartRenameItem();
             }
         }
     }

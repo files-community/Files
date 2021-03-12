@@ -978,7 +978,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
-                            InteractionOperations.ToggleQuickLook();
+                            QuickLookHelpers.ToggleQuickLook(this);
                         }
                     }
                     break;
@@ -1011,7 +1011,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsItemSelected)
                         {
-                            InteractionOperations.RenameItem_Click(null, null);
+                            ContentPage.StartRenameItem();
                         }
                     }
                     break;

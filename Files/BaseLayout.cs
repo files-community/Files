@@ -5,6 +5,7 @@ using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
@@ -39,7 +40,7 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
+        protected AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
@@ -58,6 +59,8 @@ namespace Files
         public MenuFlyout BaseLayoutContextFlyout { get; set; }
 
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
+
+        public BaseLayoutCommandsViewModel CommandsViewModel { get; private set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
@@ -160,6 +163,7 @@ namespace Files
             {
                 IsQuickLookEnabled = true;
             }
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
 
         public abstract void FocusFileList();
@@ -934,7 +938,7 @@ namespace Files
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
-                        ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                        ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
             }

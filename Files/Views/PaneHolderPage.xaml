@@ -101,7 +101,7 @@
             x:Name="SidebarControl"
             Grid.RowSpan="2"
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-            EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
+            EmptyRecycleBinCommand="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
         <Custom:DropShadowPanel

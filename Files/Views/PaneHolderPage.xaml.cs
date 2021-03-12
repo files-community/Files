@@ -4,6 +4,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -46,6 +48,8 @@ namespace Files.Views
             }
         }
 
+        public ICommand EmptyRecycleBinCommand { get; private set; }
+
         public Interaction InteractionOperations => ActivePane?.InteractionOperations;
         public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
@@ -60,6 +64,7 @@ namespace Files.Views
 
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
+            EmptyRecycleBinCommand = new RelayCommand(() => RecycleBinHelpers.EmptyRecycleBin(ActivePane));
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)

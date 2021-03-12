@@ -218,7 +218,7 @@
                     x:Name="UnpinDirectoryFromSidebar"
                     x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
+                    Click="UnpinDirectoryFromSidebar_Click"
                     Text="Unpin directory from sidebar">
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE77A;" />
@@ -306,7 +306,7 @@
             <MenuFlyoutItem
                     x:Name="EmptyRecycleBin"
                     x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                    Click="EmptyRecycleBin_Click"
                     IsEnabled="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
@@ -324,7 +324,7 @@
                     x:Name="OpenItem"
                     x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItem_Click}"
+                    Click="OpenItem_Click"
                     Tag="Open_FlyoutItem"
                     Text="Open">
                 <MenuFlyoutItem.Icon>
@@ -391,7 +391,7 @@
                 <MenuFlyoutItem
                         x:Name="SetAsDesktopBackgroundItem"
                         x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                        Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
+                        Click="SetAsDesktopBackgroundItem_Click"
                         Text="Set as desktop background">
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE91B;" />
@@ -400,7 +400,7 @@
                 <MenuFlyoutItem
                         x:Name="SetAsLockscreenBackgroundItem"
                         x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                        Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
+                        Click="SetAsLockscreenBackgroundItem_Click"
                         Text="Set as lockscreen background">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF114;" />
@@ -412,7 +412,7 @@
                     x:Name="RunAsAdmin"
                     x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAdmin_Click}"
+                    Click="RunAsAdmin_Click"
                     Text="Run as another user">
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE7EF;" />
@@ -422,7 +422,7 @@
                     x:Name="RunAsAnotherUser"
                     x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAnotherUser_Click}"
+                    Click="RunAsAnotherUser_Click"
                     Text="RunAsAnotherUser">
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE7EE;" />
@@ -481,7 +481,7 @@
             <MenuFlyoutItem
                     x:Name="CreateShortcut"
                     x:Uid="BaseLayoutItemContextFlyoutShortcut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CreateShortcutFromItem_Click}"
+                    Click="CreateShortcut_Click"
                     Text="Create shortcut">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
@@ -502,7 +502,7 @@
             <MenuFlyoutItem
                     x:Name="RenameItem"
                     x:Uid="BaseLayoutItemContextFlyoutRename"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RenameItem_Click}"
+                    Click="RenameItem_Click"
                     Text="Rename">
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE8AC;" />
@@ -516,7 +516,7 @@
                     x:Name="SidebarPinItem"
                     x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinItem_Click}"
+                    Click="SidebarPinItem_Click"
                     Tag="PinItem_FlyoutItem"
                     Text="Pin to sidebar">
                 <MenuFlyoutItem.Icon>
@@ -527,7 +527,7 @@
                     x:Name="SidebarUnpinItem"
                     x:Uid="SideBarUnpinFromSideBar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
+                    Click="SidebarUnpinItem_Click"
                     Tag="PinItem_FlyoutItem"
                     Text="Unpin from sidebar">
                 <MenuFlyoutItem.Icon>
@@ -546,7 +546,7 @@
             <MenuFlyoutItem
                     x:Name="QuickLook"
                     x:Uid="BaseLayoutItemContextFlyoutQuickLook"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ToggleQuickLook}"
+                    Click="QuickLook_Click"
                     Text="QuickLook"
                     Visibility="{x:Bind IsQuickLookEnabled}">
                 <MenuFlyoutItem.Icon>

@@ -113,16 +113,6 @@ namespace Files.Interacts
             }
         }
 
-        public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
-        {
-            SetAsBackground(WallpaperType.Desktop, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
-        }
-
-        public void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
-        {
-            SetAsBackground(WallpaperType.LockScreen, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
-        }
-
         public async void SetAsBackground(WallpaperType type, string filePath)
         {
             if (UserProfilePersonalizationSettings.IsSupported())
@@ -260,28 +250,6 @@ namespace Files.Interacts
             }
         }
 
-        public void PinItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (AssociatedInstance.ContentPage != null)
-            {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
-                {
-                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
-                }
-            }
-        }
-
-        public void UnpinItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (AssociatedInstance.ContentPage != null)
-            {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
-                {
-                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
-                }
-            }
-        }
-
         public async Task InvokeWin32ComponentAsync(string applicationPath, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
             await InvokeWin32ComponentsAsync(new List<string>() { applicationPath }, arguments, runAsAdmin, workingDir);
@@ -312,67 +280,10 @@ namespace Files.Interacts
             }
         }
 
-        public async Task OpenShellCommandInExplorerAsync(string shellCommand)
-        {
-            Debug.WriteLine("Launching shell command in FullTrustProcess");
-            if (Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("ShellCommand", shellCommand);
-                value.Add("Arguments", "ShellCommand");
-                await Connection.SendMessageSafeAsync(value);
-            }
-        }
-
-        public async void GrantAccessPermissionHandler(IUICommand command)
-        {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
-        }
-
         public static bool IsAnyContentDialogOpen()
         {
             var openedPopups = VisualTreeHelper.GetOpenPopups(Window.Current);
             return openedPopups.Any(popup => popup.Child is ContentDialog);
-        }
-
-        public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
-        {
-            if (!typeof(TEnum).GetTypeInfo().IsEnum)
-            {
-                throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
-            }
-            return (TEnum)Enum.Parse(typeof(TEnum), text);
-        }
-
-        public async void RunAsAdmin_Click()
-        {
-            if (Connection != null)
-            {
-                await Connection.SendMessageSafeAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runas" }
-                });
-            }
-        }
-
-        public async void RunAsAnotherUser_Click()
-        {
-            if (Connection != null)
-            {
-                await Connection.SendMessageSafeAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runasuser" }
-                });
-            }
-        }
-
-        public void OpenItem_Click(object sender, RoutedEventArgs e)
-        {
-            OpenSelectedItems(false);
         }
 
         public void OpenItemWithApplicationPicker_Click(object sender, RoutedEventArgs e)
@@ -801,11 +712,6 @@ namespace Files.Interacts
             App.SidebarPinnedController.Model.AddItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
-        public void UnpinDirectoryFromSidebar(object sender, RoutedEventArgs e)
-        {
-            App.SidebarPinnedController.Model.RemoveItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-        }
-
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
@@ -866,31 +772,6 @@ namespace Files.Interacts
             dataRequestDeferral.Complete();
         }
 
-        public async void CreateShortcutFromItem_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem selectedItem in AssociatedInstance.ContentPage.SelectedItems)
-            {
-                if (Connection != null)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "CreateLink" },
-                        { "targetpath", selectedItem.ItemPath },
-                        { "arguments", "" },
-                        { "workingdir", "" },
-                        { "runasadmin", false },
-                        {
-                            "filepath",
-                            Path.Combine(AssociatedInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
-                        }
-                    };
-                    await Connection.SendMessageSafeAsync(value);
-                }
-            }
-        }
-
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             await FilesystemHelpers.DeleteItemsAsync(
@@ -898,14 +779,6 @@ namespace Files.Interacts
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                 true, false, true);
-        }
-
-        public void RenameItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (AssociatedInstance.ContentPage.IsItemSelected)
-            {
-                AssociatedInstance.ContentPage.StartRenameItem();
-            }
         }
 
         public async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName)
@@ -1156,39 +1029,6 @@ namespace Files.Interacts
             }
         }
 
-        private enum ImpossibleActionResponseTypes
-        {
-            Skip,
-            Abort
-        }
-
-        public RelayCommand EmptyRecycleBin => new RelayCommand(() => EmptyRecycleBin_ClickAsync());
-
-        public async void EmptyRecycleBin_ClickAsync()
-        {
-            var ConfirmEmptyBinDialog = new ContentDialog()
-            {
-                Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
-                Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
-                PrimaryButtonText = "ConfirmEmptyBinDialog/PrimaryButtonText".GetLocalized(),
-                SecondaryButtonText = "ConfirmEmptyBinDialog/SecondaryButtonText".GetLocalized()
-            };
-
-            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                if (Connection != null)
-                {
-                    var value = new ValueSet();
-                    value.Add("Arguments", "RecycleBin");
-                    value.Add("action", "Empty");
-                    // Send request to fulltrust process to empty recyclebin
-                    await Connection.SendMessageSafeAsync(value);
-                }
-            }
-        }
-
         public RelayCommand PasteItemsFromClipboard => new RelayCommand(async () => await PasteItemAsync(AssociatedInstance.FilesystemViewModel.WorkingDirectory));
 
         public async Task PasteItemAsync(string destinationPath)
@@ -1278,37 +1118,6 @@ namespace Files.Interacts
 
         public void ClearAllItems(BaseLayout contentPage) => contentPage.ClearSelection();
 
-        public async void ToggleQuickLook()
-        {
-            try
-            {
-                if (AssociatedInstance.ContentPage.IsItemSelected && !AssociatedInstance.ContentPage.IsRenamingItem)
-                {
-                    var clickedOnItem = AssociatedInstance.ContentPage.SelectedItem;
-
-                    Logger.Info("Toggle QuickLook");
-                    Debug.WriteLine("Toggle QuickLook");
-                    if (Connection != null)
-                    {
-                        var value = new ValueSet();
-                        value.Add("path", clickedOnItem.ItemPath);
-                        value.Add("Arguments", "ToggleQuickLook");
-                        await Connection.SendMessageSafeAsync(value);
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
-                AssociatedInstance.NavigationToolbar.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(null);
-                });
-            }
-        }
-
         public void PushJumpChar(char letter)
         {
             JumpString += letter.ToString().ToLower();
@@ -1318,61 +1127,6 @@ namespace Files.Interacts
         {
             jumpString = "";
             jumpTimer.Stop();
-        }
-
-        public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
-        {
-            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, AssociatedInstance);
-            if (file == null)
-            {
-                return "";
-            }
-
-            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
-            if (stream == null)
-            {
-                return "";
-            }
-
-            var inputStream = stream.AsInputStream();
-            var str = inputStream.AsStreamForRead();
-            var cap = (long)(0.5 * str.Length) / 100;
-            uint capacity;
-            if (cap >= uint.MaxValue)
-            {
-                capacity = uint.MaxValue;
-            }
-            else
-            {
-                capacity = Convert.ToUInt32(cap);
-            }
-
-            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
-            var hash = algorithmProvider.CreateHash();
-            while (!token.IsCancellationRequested)
-            {
-                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
-                if (buffer.Length > 0)
-                {
-                    hash.Append(buffer);
-                }
-                else
-                {
-                    break;
-                }
-                if (progress != null)
-                {
-                    progress.Value = (double)str.Position / str.Length * 100;
-                }
-            }
-            inputStream.Dispose();
-            stream.Dispose();
-            if (token.IsCancellationRequested)
-            {
-                return "";
-            }
-            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
 }
