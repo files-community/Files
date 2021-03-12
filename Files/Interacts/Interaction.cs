@@ -128,7 +128,7 @@ namespace Files.Interacts
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 // Get the path of the selected file
-                StorageFile sourceFile = await StorageItemHelpers.ToStorageItem<StorageFile>(filePath);
+                StorageFile sourceFile = await StorageItemHelpers.ToStorageItem<StorageFile>(filePath, AssociatedInstance);
                 if (sourceFile == null)
                 {
                     return;
@@ -830,14 +830,14 @@ namespace Files.Interacts
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    if (await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath) is StorageFolder folder)
+                    if (await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, AssociatedInstance) is StorageFolder folder)
                     {
                         items.Add(folder);
                     }
                 }
                 else
                 {
-                    if (await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath) is StorageFile file)
+                    if (await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, AssociatedInstance) is StorageFile file)
                     {
                         items.Add(file);
                     }
@@ -1323,7 +1323,7 @@ namespace Files.Interacts
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
+            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, AssociatedInstance);
             if (file == null)
             {
                 return "";
