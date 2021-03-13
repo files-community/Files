@@ -37,8 +37,6 @@ namespace FilesFullTrust
             LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
-            //Thread.Sleep(10 * 1000);
-
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())
