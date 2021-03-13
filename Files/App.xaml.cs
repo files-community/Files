@@ -143,11 +143,7 @@ namespace Files
                 if (RightClickedItem.Section == SectionType.Favorites)
                 {
                     SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
-                }
-                else if (RightClickedItem.Section == SectionType.Library)
-                {
-                    SidebarPinnedController.Model.RemoveLibraryItem(RightClickedItem.Path.ToString());                    
-                }                
+                }               
             }
         }
 

@@ -144,18 +144,6 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Removes the library item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        public void RemoveLibraryItem(string path)
-        {
-            var item = (LocationItem)(from n in MainPage.SideBarItems where n.Section == SectionType.Library select n).FirstOrDefault();
-            item.ChildItems.Remove(item.ChildItems.Where(x => x.Path.Equals(path)).FirstOrDefault());
-            //ask yaichenbaum if will library items should be added and removed from Model?
-            //Save();
-        }
-
-        /// <summary>
         /// Moves the location item in the navigation sidebar from the old position to the new position
         /// </summary>
         /// <param name="locationItem">Location item to move</param>
