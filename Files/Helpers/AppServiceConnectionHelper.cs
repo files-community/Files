@@ -82,7 +82,7 @@ namespace Files.Helpers
                 var ClientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
                 ClientStream.ReadMode = PipeTransmissionMode.Message;
 
-                return ClientStream.IsConnected ? new NamedPipeAsAppServiceConnection(ClientStream) : null;
+                return new NamedPipeAsAppServiceConnection(ClientStream, PipeHandle);
             }
             catch (Exception ex)
             {
@@ -95,34 +95,33 @@ namespace Files.Helpers
     public class NamedPipeAsAppServiceConnection : IDisposable
     {
         private NamedPipeClientStream clientStream;
+        private SafePipeHandle pipeHandle;
 
         public event EventHandler<Dictionary<string, object>> RequestReceived;
 
         private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
 
-        public NamedPipeAsAppServiceConnection(NamedPipeClientStream clientStream)
+        public NamedPipeAsAppServiceConnection(NamedPipeClientStream clientStream, SafePipeHandle pipeHandle)
         {
             this.clientStream = clientStream;
+            this.pipeHandle = pipeHandle;
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
 
             _ = Task.Run(() =>
             {
                 var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
                 BeginRead(info);
-            }).ContinueWith((task) =>
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(task.Exception, "Error reading from pipe.");
-            }, TaskContinuationOptions.OnlyOnFaulted);
+            });
         }
 
         private void BeginRead((byte[] Buffer, StringBuilder Message) info)
         {
-            clientStream.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
+            clientStream?.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
         }
 
         private void EndReadCallBack(IAsyncResult result)
         {
-            var readBytes = clientStream.EndRead(result);
+            var readBytes = clientStream?.EndRead(result) ?? 0;
             if (readBytes > 0)
             {
                 var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
@@ -226,8 +225,15 @@ namespace Files.Helpers
 
         public void Dispose()
         {
+            foreach (var m in messageList)
+            {
+                m.Value.TrySetCanceled();
+            }
+            messageList.Clear();
             clientStream?.Dispose();
             clientStream = null;
+            pipeHandle?.Dispose();
+            pipeHandle = null;
         }
     }
 }

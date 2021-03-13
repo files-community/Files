@@ -548,7 +548,7 @@ namespace FilesFullTrust
                                 break;
 
                             default:
-                                cMenuExec?.InvokeItem((int)menuId);
+                                cMenuExec?.InvokeItem((int)(long)menuId);
                                 break;
                         }
                     }

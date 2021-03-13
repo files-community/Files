@@ -59,7 +59,7 @@ namespace Files.Filesystem
                 if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
                 {
                     foreach (var key in response.Message.Keys
-                        .Where(k => k != "Count"))
+                        .Where(k => k != "Count" && k != "RequestID"))
                     {
                         var networkItem = new DriveItem()
                         {

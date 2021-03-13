@@ -26,7 +26,7 @@ namespace Files.Filesystem.Cloud.Providers
                     {
                         var results = new List<CloudProvider>();
                         foreach (var key in response.Message.Keys
-                            .Where(k => k != "Count")
+                            .Where(k => k != "Count" && k != "RequestID")
                             .OrderBy(o => o))
                         {
                             results.Add(new CloudProvider()
