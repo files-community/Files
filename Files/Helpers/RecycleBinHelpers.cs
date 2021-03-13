@@ -19,7 +19,7 @@ namespace Files.Helpers
 
         private IShellPage associatedInstance;
 
-        private AppServiceConnection Connection => associatedInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection Connection => associatedInstance?.ServiceConnection;
 
         #endregion Private Members
 

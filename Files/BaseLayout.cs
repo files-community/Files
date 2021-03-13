@@ -39,7 +39,7 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 

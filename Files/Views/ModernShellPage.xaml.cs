@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -736,7 +737,7 @@ namespace Files.Views
         public static readonly DependencyProperty NavParamsProperty =
             DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
 
-        public AppServiceConnection ServiceConnection { get; private set; }
+        public NamedPipeAsAppServiceConnection ServiceConnection { get; private set; }
 
         private TabItemArguments tabItemArguments;
 
@@ -1140,7 +1141,7 @@ namespace Files.Views
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
         {
             ServiceConnection = await e;
             FilesystemViewModel?.OnAppServiceConnectionChanged(ServiceConnection);

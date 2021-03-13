@@ -101,7 +101,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 // Could not access folder, can't show any other property
                 return;
             }
@@ -181,7 +181,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 

@@ -47,7 +47,7 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-        private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private string jumpString = "";
         private readonly DispatcherTimer jumpTimer = new DispatcherTimer();

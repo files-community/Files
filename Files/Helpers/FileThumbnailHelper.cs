@@ -8,11 +8,10 @@ namespace Files.Helpers
 {
     public static class FileThumbnailHelper
     {
-        private static AppServiceConnection AppServiceConnection { get; set; }
         public static async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
-            AppServiceConnection ??= await AppServiceConnectionHelper.Instance;
-            if (AppServiceConnection != null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
                 var value = new ValueSet
                 {
@@ -20,8 +19,8 @@ namespace Files.Helpers
                     { "filePath", filePath },
                     { "thumbnailSize", (int)thumbnailSize }
                 };
-                var response = await AppServiceConnection.SendMessageAsync(value);
-                var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
+                var (status, response) = await connection.SendMessageSafeAsync(value);
+                var hasCustomIcon = (status == AppServiceResponseStatus.Success)
                     && response.Message.Get("HasCustomIcon", false);
                 var icon = response.Message.Get("Icon", (string)null);
                 var overlay = response.Message.Get("Overlay", (string)null);

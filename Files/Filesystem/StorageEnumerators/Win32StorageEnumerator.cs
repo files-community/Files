@@ -26,7 +26,7 @@ namespace Files.Filesystem.StorageEnumerators
             string returnformat,
             IntPtr hFile,
             WIN32_FIND_DATA findData,
-            AppServiceConnection connection,
+            NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken,
             List<string> skipItems,
             int countLimit,
@@ -171,7 +171,7 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             string pathRoot,
             string dateReturnFormat,
-            AppServiceConnection connection,
+            NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken
         )
         {
