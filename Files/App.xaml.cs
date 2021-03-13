@@ -18,6 +18,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,12 +47,16 @@ namespace Files
 
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
 
-        public static SettingsViewModel AppSettings { get; set; }
-        public static InteractionViewModel InteractionViewModel { get; set; }
+        public static SettingsViewModel AppSettings { get; private set; }
+        public static InteractionViewModel InteractionViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
-        public static SidebarPinnedController SidebarPinnedController { get; set; }
-        public static CloudDrivesManager CloudDrivesManager { get; set; }
-        public static DrivesManager DrivesManager { get; set; }
+        public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static CloudDrivesManager CloudDrivesManager { get; private set; }
+        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
+        public static DrivesManager DrivesManager { get; private set; }
+        public static WSLDistroManager WSLDistroManager { get; private set; }
+        public static LibraryManager LibraryManager { get; private set; }
+        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -79,50 +84,33 @@ namespace Files
             StartAppCenter();
         }
 
-        internal static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+        private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             if (AppSettings == null)
             {
-                //We can't create AppSettings at the same time as everything else as other dependencies depend on AppSettings
                 AppSettings = await SettingsViewModel.CreateInstance();
-                if (App.AppSettings?.AcrylicTheme == null)
-                {
-                    Helpers.ThemeHelper.Initialize();
-                }
             }
 
-            if (CloudDrivesManager == null)
+            ExternalResourcesHelper ??= new ExternalResourcesHelper();
+            await ExternalResourcesHelper.LoadSelectedTheme();
+
+            InteractionViewModel ??= new InteractionViewModel();
+            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
+            LibraryManager ??= new LibraryManager();
+            DrivesManager ??= new DrivesManager();
+            NetworkDrivesManager ??= new NetworkDrivesManager();
+            CloudDrivesManager ??= new CloudDrivesManager();
+            WSLDistroManager ??= new WSLDistroManager();
+
+            // Start off a list of tasks we need to run before we can continue startup
+            _ = Task.Factory.StartNew(async () =>
             {
-                //Enumerate cloud drives on in the background. It will update the UI itself when finished
-                _ = Files.Filesystem.CloudDrivesManager.Instance.ContinueWith(o =>
-                  {
-                      CloudDrivesManager = o.Result;
-                  });
-            }
-
-            //Start off a list of tasks we need to run before we can continue startup
-            var tasksToRun = new List<Task>();
-
-            if (SidebarPinnedController == null)
-            {
-                tasksToRun.Add(Files.Controllers.SidebarPinnedController.CreateInstance().ContinueWith(o => SidebarPinnedController = o.Result));
-            }
-
-            if (DrivesManager == null)
-            {
-                tasksToRun.Add(Files.Filesystem.DrivesManager.Instance.ContinueWith(o => DrivesManager = o.Result));
-            }
-
-            if (InteractionViewModel == null)
-            {
-                InteractionViewModel = new InteractionViewModel();
-            }
-
-            if (tasksToRun.Any())
-            {
-                //Only proceed when all tasks are completed
-                await Task.WhenAll(tasksToRun);
-            }
+                await LibraryManager.EnumerateDrivesAsync();
+                await DrivesManager.EnumerateDrivesAsync();
+                await CloudDrivesManager.EnumerateDrivesAsync();
+                await NetworkDrivesManager.EnumerateDrivesAsync();
+                await WSLDistroManager.EnumerateDrivesAsync();
+            });
         }
 
         private async void StartAppCenter()
@@ -356,7 +344,21 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.Unknown:
-                                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                    if (command.Payload.Equals("."))
+                                    {
+                                        rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
+                                    } else
+                                    {
+                                        var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
+                                        if(!string.IsNullOrEmpty(command.Payload))
+                                        {
+                                            rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
+                                        } else
+                                        {
+                                            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                        }
+                                    }
+                                    
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
@@ -508,6 +510,7 @@ namespace Files
         public string Text { get; set; }
 
         private string path;
+
         public string Path
         {
             get => path;
@@ -517,6 +520,7 @@ namespace Files
                 HoverDisplayText = Path.Contains("?") ? Text : Path;
             }
         }
+
         public string HoverDisplayText { get; private set; }
 
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;

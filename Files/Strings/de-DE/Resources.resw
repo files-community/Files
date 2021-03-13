@@ -211,7 +211,7 @@
     <value>Eigenschaften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>Links</value>
+    <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Neues Fenster</value>
@@ -885,12 +885,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertikale Tab-Ansicht</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Sprache</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal-Anwendungen</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendungen bearbeiten</value>
   </data>
@@ -969,9 +963,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Laufwerke</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Bibliotheken auf Startseite anzeigen</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>Bibliotheken auf Startseite anzeigen</value>
   </data>
@@ -981,14 +972,8 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Laufwerke auf Startseite anzeigen</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>Laufwerke auf Startseite anzeigen</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Zuletzt verwendete Dateien auf Startseite anzeigen</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Zuletzt verwendete Dateien auf Startseite anzeigen</value>
@@ -1618,7 +1603,7 @@
     <value>Gruppen</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner hier durch Ziehen und Ablegen hinzu um schnell Zugriff auf sie zu haben</value>
+    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Bestätigen</value>
@@ -1630,7 +1615,7 @@
     <value>Gruppe erstellen</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Gruppe umbennen</value>
+    <value>Gruppe umbenennen</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mehr Optionen...</value>
@@ -1644,17 +1629,17 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudspeicher</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
-    <value>Keine Vorschau verfügbar</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
-    <value>Keine Details verfügbar</value>
-  </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Gruppen auf Startseite anzeigen</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Ordner von Seitenleiste entfernen</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Netzwerklaufwerke</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Netzwerk</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Dateidetails</value>
@@ -1701,13 +1686,109 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unbekannt</value>
   </data>
-  <data name="SettingsPreferencesEnableAdaptivePreviewPane.Header" xml:space="preserve">
-    <value>Adaptives Vorschaupanel aktivieren</value>
-  </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Mehrfachauswahl</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Wenn du die Dateierweitung veränderts, wird die Datei möglicherweise unbrauchbar. Bist du sicher das du sie ändern möchtest?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-Laufwerk</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Cloudlaufwerk</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fixed Disk Drive</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Diskettenlauferk</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Netzwerklaufwerk</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Nicht hinzugefügtes Laufwerk</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Disk Laufwerk</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Entfernbares Speichermedium</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtuelles Laufwerk</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mehr Optionen...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Netwerklaufwerk hinzufügen</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Verbindung trennen</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Eine kleinerer Wert ist für Festplatten empfohlen</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Vorzeitiges Zwischenspeichern benutzen (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr Gruppenoptionen</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr Laufwerkoptionen</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Durchsuchen</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Kürzlich verwendete Orte</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Keine Vorschau verfügbar</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Keine Details verfügbar</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Keine Objekt ausgewählt</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Ziel</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumente</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Unter Bibliotheken in der Seitenleise anzeigen</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliotheken</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>In neuem Panel öffnen</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Farbschema</value>
   </data>
 </root>

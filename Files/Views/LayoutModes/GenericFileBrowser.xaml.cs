@@ -1,6 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
@@ -65,6 +66,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.DateDeleted;
                 }
+                else if (value == dateCreatedColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateCreated;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
@@ -112,11 +117,14 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
             AllView.UnloadingRow += AllView_UnloadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            if (AllView.ItemsSource == null)
+            {
+                AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+            }
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -127,16 +135,15 @@ namespace Files.Views.LayoutModes
 
         private void AllView_UnloadingRow(object sender, DataGridRowEventArgs e)
         {
-            e.Row.CanDrag = false;
             base.UninitializeDrag(e.Row);
         }
 
         private async void ReloadItemIcons()
         {
             var rows = new List<DataGridRow>();
-            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (rows.Any(x => x.DataContext == listedItem))
@@ -154,8 +161,10 @@ namespace Files.Views.LayoutModes
             AllView.LoadingRow -= AllView_LoadingRow;
             AllView.UnloadingRow -= AllView_UnloadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-
-            AllView.ItemsSource = null;
+            if (e.SourcePageType != typeof(GenericFileBrowser))
+            {
+                AllView.ItemsSource = null;
+            }
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -188,7 +197,7 @@ namespace Files.Views.LayoutModes
             if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
             {
                 var rows = new List<DataGridRow>();
-                Interaction.FindChildren<DataGridRow>(rows, AllView);
+                DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
 
                 foreach (DataGridRow row in rows)
                 {
@@ -254,6 +263,10 @@ namespace Files.Views.LayoutModes
                     case SortOption.DateDeleted:
                         SortedColumn = dateDeletedColumn;
                         break;
+
+                    case SortOption.DateCreated:
+                        SortedColumn = dateCreatedColumn;
+                        break;
                 }
             }
             else if (e.PropertyName == "DirectorySortDirection")
@@ -309,6 +322,10 @@ namespace Files.Views.LayoutModes
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            if (SelectedItem == null)
+            {
+                return;
+            }
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
@@ -395,6 +412,10 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
+            if (IsRenamingItem)
+            {
+                return;
+            }
 
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
@@ -407,9 +428,13 @@ namespace Files.Views.LayoutModes
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AllView.CommitEdit();
+            if (e != null)
+            {
+                // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
+                AllView.CommitEdit();
+            }
             tapDebounceTimer.Stop();
-            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
@@ -447,21 +472,22 @@ namespace Files.Views.LayoutModes
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
                 ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                e.Handled = true;
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
                 // Unfocus the ListView so keyboard shortcut can be handled
-                Focus(FocusState.Programmatic);
+                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
             }
             else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                Focus(FocusState.Programmatic);
+                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-                Focus(FocusState.Programmatic);
+                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
             }
         }
 
@@ -480,7 +506,7 @@ namespace Files.Views.LayoutModes
 
         private void HandleRightClick(object sender, RoutedEventArgs e)
         {
-            var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var rowPressed = DependencyObjectHelpers.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
                 var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
@@ -512,7 +538,7 @@ namespace Files.Views.LayoutModes
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
                     if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
-                        Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                        DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }
@@ -525,6 +551,7 @@ namespace Files.Views.LayoutModes
 
         private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            e.Row.CanDrag = false;
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
@@ -568,6 +595,9 @@ namespace Files.Views.LayoutModes
 
                 case "dateDeletedColumn":
                     args = new DataGridColumnEventArgs(dateDeletedColumn);
+                    break;
+                case "dateCreatedColumn":
+                    args = new DataGridColumnEventArgs(dateCreatedColumn);
                     break;
             }
 

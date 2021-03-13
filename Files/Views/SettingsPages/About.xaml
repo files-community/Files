@@ -7,7 +7,6 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
         <settingsviewmodels:AboutViewModel />
@@ -71,12 +70,9 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Feedback">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xeb05;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
+                                <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit feedback" />
                                 <TextBlock
                                     x:Uid="SettingsAboutSubmitFeedbackDescription"
                                     FontSize="12"
@@ -98,12 +94,9 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="ReleaseNotes">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEB3A;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release Notes" />
+                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release notes" />
                                 <TextBlock
                                     x:Uid="SettingsAboutReleaseNotesDescription"
                                     FontSize="12"
@@ -125,10 +118,7 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Documentation">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEB39;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
                                 <TextBlock
@@ -152,10 +142,7 @@
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Contributors">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEAF7;" />
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
                                 <TextBlock
@@ -180,7 +167,7 @@
                             Spacing="14"
                             Tag="SupportUs">
                             <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xEB3B;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
@@ -211,7 +198,7 @@
                     x:Uid="SettingsAboutThirdPartyLicenses"
                     Margin="0,16,0,0"
                     FontSize="18"
-                    Text="Third Party Licenses">
+                    Text="Third party licenses">
                     <TextBlock.Transitions>
                         <TransitionCollection>
                             <RepositionThemeTransition />

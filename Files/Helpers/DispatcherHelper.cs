@@ -59,7 +59,7 @@ namespace Files.Helpers
             }
 
             /// <summary>
-            /// Fired once task has complated for notify completion
+            /// Fired once task has completed for notify completion
             /// </summary>
             /// <param name="continuation">Continuation action</param>
             public async void OnCompleted(Action continuation)

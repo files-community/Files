@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <Grid>
@@ -30,7 +29,7 @@
                     x:Uid="SettingsTabCustomization"
                     Padding="0,10,0,0"
                     FontSize="18"
-                    Text="Tab Customization" />
+                    Text="Tab customization" />
 
                 <StackPanel Orientation="Vertical" Spacing="12">
                     <StackPanel Orientation="Vertical">
@@ -38,6 +37,7 @@
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
                             Padding="8,3,0,0"
+                            Checked="HorizontalMultToggle_Checked"
                             Content="Adaptive (Recommended)"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
@@ -55,10 +55,11 @@
                             x:Uid="SettingsMultitaskingHorizontal"
                             Margin="0,18,0,0"
                             Padding="8,3,0,0"
+                            Checked="HorizontalMultToggle_Checked"
                             Content="Horizontal"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind ViewModel.IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsHorizontalTabStripOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingHorizontalDescription"
                             MaxWidth="450"
@@ -72,10 +73,11 @@
                             x:Uid="SettingsMultitaskingVertical"
                             Margin="0,18,0,0"
                             Padding="8,3,0,0"
+                            Checked="HorizontalMultToggle_Checked"
                             Content="Vertical"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingVerticalDescription"
                             MaxWidth="450"
@@ -90,7 +92,7 @@
                     x:Uid="SettingsDualPane"
                     Padding="0,10,0,0"
                     FontSize="18"
-                    Text="Dual Pane" />
+                    Text="Dual pane" />
 
                 <ToggleSwitch
                     x:Uid="SettingsMultitaskingEnableDualPane"

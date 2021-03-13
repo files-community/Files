@@ -31,7 +31,7 @@ namespace Files.ViewModels.Properties
         /// <summary>
         /// The name of the section to display
         /// </summary>
-        public string Section => SectionResource.GetLocalized();
+        public string Section => SectionResource?.GetLocalized();
 
         /// <summary>
         /// The name of the string resource for the section name
@@ -94,6 +94,8 @@ namespace Files.ViewModels.Properties
         public bool Modified { get; private set; }
 
         public Visibility Visibility { get; set; } = Visibility.Visible;
+
+        public bool InProgress { get; set; }
 
         /// <summary>
         /// If a property has an enumerated list of strings to display, add a dictionary in the JSON file that has the number as it's key

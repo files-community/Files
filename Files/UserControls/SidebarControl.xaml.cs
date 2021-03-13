@@ -1,12 +1,15 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -14,7 +17,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
@@ -211,7 +213,7 @@ namespace Files.UserControls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem == null)
+            if (args.InvokedItem == null || args.InvokedItemContainer == null)
             {
                 return;
             }
@@ -223,29 +225,44 @@ namespace Files.UserControls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
 
-            ShowEmptyRecycleBin = false;
-            ShowUnpinItem = true;
-            ShowProperties = true;
-            ShowEjectDevice = false;
-
-            if (item.IsDefaultLocation)
+            if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarLibraries".GetLocalized()) &&
+                !item.Text.Equals("WSL") &&
+                !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
-                ShowProperties = false;
+                ShowEmptyRecycleBin = false;
+                ShowUnpinItem = true;
+                ShowProperties = true;
+                ShowEjectDevice = false;
 
-                if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                if (item.IsDefaultLocation)
                 {
-                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+                    var isLibrary = (MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem)?
+                        .ChildItems?
+                        .Contains(item) ?? false;
+                    if (!isLibrary)
+                    {
+                        ShowProperties = false;
+                    }
 
-                    ShowEmptyRecycleBin = true;
+                    if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+                        ShowEmptyRecycleBin = true;
+                    }
+                    else
+                    {
+                        ShowUnpinItem = false;
+                    }
                 }
-                else
-                {
-                    ShowUnpinItem = false;
-                }
+
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+                App.RightClickedItem = item;
             }
 
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            App.RightClickedItem = item;
+            e.Handled = true;
         }
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -261,6 +278,25 @@ namespace Files.UserControls
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             App.RightClickedItem = item;
+
+            e.Handled = true;
+        }
+
+        private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var item = sidebarItem.DataContext as WSLDistroItem;
+
+            ShowEjectDevice = false;
+            ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+            ShowProperties = true;
+
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+
+            App.RightClickedItem = item;
+
+            e.Handled = true;
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -302,6 +338,10 @@ namespace Files.UserControls
                     if (dragOverItem != null)
                     {
                         dragOverTimer.Stop();
+                        if ((dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locItem)
+                        {
+                            locItem.IsExpanded = true;
+                        }
                         SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem));
                         dragOverItem = null;
                     }
@@ -355,6 +395,7 @@ namespace Files.UserControls
                 }
 
                 if (storageItems.Count == 0 ||
+                    string.IsNullOrEmpty(locationItem.Path) ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                 {
@@ -409,6 +450,8 @@ namespace Files.UserControls
 
         private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverItem = null; // Reset dragged over item
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
@@ -492,6 +535,8 @@ namespace Files.UserControls
 
         private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
+            dragOverItem = null; // Reset dragged over item
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
             {
                 return;
@@ -525,7 +570,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+            await DeviceHelpers.EjectDeviceAsync(App.RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
@@ -535,8 +580,7 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\xEB5D"
+                Glyph = "\xE713"
             };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;

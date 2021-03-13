@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Helpers.XamlHelpers;
+using Files.Interacts;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -69,7 +70,7 @@ namespace Files.UserControls.Selection
             if (currentPoint.Properties.IsLeftButtonPressed)
             {
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
-                base.DrawRectangle(currentPoint, originDragPointShifted);
+                base.DrawRectangle(currentPoint, originDragPointShifted, uiElement);
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
                 var dataGridRowsPosition = new Dictionary<DataGridRow, System.Drawing.Rectangle>();
@@ -84,7 +85,7 @@ namespace Files.UserControls.Selection
                     if (actualWidth < 0)
                     {
                         var temp = new List<DataGridCell>();
-                        Interaction.FindChildren<DataGridCell>(temp, row); // Find cells inside row
+                        DependencyObjectHelpers.FindChildren<DataGridCell>(temp, row); // Find cells inside row
                         actualWidth = temp.Sum(x => x.ActualWidth); // row.ActualWidth reports incorrect width
                     }
 
@@ -161,7 +162,7 @@ namespace Files.UserControls.Selection
         {
             itemsPosition.Clear();
             dataGridRows.Clear();
-            Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement); // Find visible/loaded rows
+            DependencyObjectHelpers.FindChildren<DataGridRow>(dataGridRows, uiElement); // Find visible/loaded rows
             prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             var verticalOffset = (scrollBar?.Value ?? 0) - uiElement.ColumnHeaderHeight;
@@ -172,7 +173,7 @@ namespace Files.UserControls.Selection
                 return;
             }
 
-            var clickedRow = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var clickedRow = DependencyObjectHelpers.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (clickedRow != null && uiElement.SelectedItems.Contains(clickedRow.DataContext))
             {
                 // If the item under the pointer is selected do not trigger selection rectangle
@@ -256,7 +257,7 @@ namespace Files.UserControls.Selection
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
                 uiElement.LoadingRow += RectangleSelection_LoadingRow;
                 uiElement.UnloadingRow += RectangleSelection_UnloadingRow;
-                scrollBar = Interaction.FindChild<ScrollBar>(uiElement);
+                scrollBar = DependencyObjectHelpers.FindChild<ScrollBar>(uiElement);
             }
         }
 

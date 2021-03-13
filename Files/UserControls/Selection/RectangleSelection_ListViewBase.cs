@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Helpers.XamlHelpers;
+using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace Files.UserControls.Selection
             if (currentPoint.Properties.IsLeftButtonPressed)
             {
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
-                base.DrawRectangle(currentPoint, originDragPointShifted);
+                base.DrawRectangle(currentPoint, originDragPointShifted, uiElement);
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
                 foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
@@ -170,7 +171,7 @@ namespace Files.UserControls.Selection
         {
             if (scrollViewer == null)
             {
-                scrollViewer = Interaction.FindChild<ScrollViewer>(uiElement);
+                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement);
             }
 
             if (scrollViewer != null)
@@ -193,7 +194,7 @@ namespace Files.UserControls.Selection
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
 
-                scrollViewer = Interaction.FindChild<ScrollViewer>(uiElement);
+                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement);
                 if (scrollViewer == null)
                 {
                     uiElement.LayoutUpdated += RectangleSelection_LayoutUpdated;

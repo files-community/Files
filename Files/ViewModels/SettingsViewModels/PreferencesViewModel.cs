@@ -16,6 +16,7 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
+        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
 
         public PreferencesViewModel()
         {
@@ -99,16 +100,17 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private bool enableAdaptivePreviewPane = App.AppSettings.EnableAdaptivePreviewPane;
-
-        public bool EnableAdaptivePreviewPane
+        public bool ShowLibrarySection
         {
-            get => enableAdaptivePreviewPane;
+            get
+            {
+                return showLibrarySection;
+            }
             set
             {
-                if (SetProperty(ref enableAdaptivePreviewPane, value))
+                if (SetProperty(ref showLibrarySection, value))
                 {
-                    App.AppSettings.EnableAdaptivePreviewPane = value;
+                    App.AppSettings.ShowLibrarySection = value;
                 }
             }
         }

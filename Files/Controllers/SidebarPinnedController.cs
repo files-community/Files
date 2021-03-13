@@ -51,9 +51,9 @@ namespace Files.Controllers
 
                     foreach (var line in oldPinnedItems)
                     {
-                        if (!Model.Items.Contains(line))
+                        if (!Model.FavoriteItems.Contains(line))
                         {
-                            Model.Items.Add(line);
+                            Model.FavoriteItems.Add(line);
                         }
                     }
                 }
@@ -84,7 +84,7 @@ namespace Files.Controllers
                 Model.Save();
             }
 
-            Model.AddAllItemsToSidebar();
+            await Model.AddAllItemsToSidebar();
         }
 
         public void SaveModel()
