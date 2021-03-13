@@ -8,12 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
-using Files.Common;
 
 namespace Files.ViewModels.Previews
 {
@@ -42,7 +39,8 @@ namespace Files.ViewModels.Previews
             if (IconData != null)
             {
                 Item.FileImage = await IconData.ToBitmapAsync();
-            } else
+            }
+            else
             {
                 using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
                 Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();

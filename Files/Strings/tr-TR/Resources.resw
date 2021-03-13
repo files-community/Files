@@ -885,12 +885,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Dikey sekme şeridi</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Uygulama Dili</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal Uygulamaları</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal uygulamalarını düzenle</value>
   </data>
@@ -969,9 +963,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Sürücüler</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Anasayfada kütüphane kartlarını göster</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>Anasayfada kütüphane kartlarını göster</value>
   </data>
@@ -981,14 +972,8 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>Pencere Öğeleri</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Anasayfada sürücüleri göster</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>Anasayfada sürücüleri göster</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Anasayfada son dosyaları göster</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Anasayfada son dosyaları göster</value>

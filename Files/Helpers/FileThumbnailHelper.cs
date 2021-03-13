@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Files.Common;
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Files.Common;
 
 namespace Files.Helpers
 {
     public static class FileThumbnailHelper
     {
+        private static AppServiceConnection AppServiceConnection { get; set; }
         public static async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            AppServiceConnection ??= await AppServiceConnectionHelper.Instance;
+            if (AppServiceConnection != null)
             {
                 var value = new ValueSet
                 {
@@ -22,7 +20,7 @@ namespace Files.Helpers
                     { "filePath", filePath },
                     { "thumbnailSize", (int)thumbnailSize }
                 };
-                var response = await connection.SendMessageAsync(value);
+                var response = await AppServiceConnection.SendMessageAsync(value);
                 var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
                     && response.Message.Get("HasCustomIcon", false);
                 var icon = response.Message.Get("Icon", (string)null);

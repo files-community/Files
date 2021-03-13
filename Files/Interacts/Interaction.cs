@@ -113,31 +113,22 @@ namespace Files.Interacts
             }
         }
 
-        public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
-            {
-                OpenSelectedItems(false);
-            }
-        }
-
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            SetAsBackground(WallpaperType.Desktop);
+            SetAsBackground(WallpaperType.Desktop, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
         }
 
         public void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            SetAsBackground(WallpaperType.LockScreen);
+            SetAsBackground(WallpaperType.LockScreen, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
         }
 
-        public async void SetAsBackground(WallpaperType type)
+        public async void SetAsBackground(WallpaperType type, string filePath)
         {
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 // Get the path of the selected file
-                var sourceFile = (StorageFile)await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+                StorageFile sourceFile = await StorageItemHelpers.ToStorageItem<StorageFile>(filePath, AssociatedInstance);
                 if (sourceFile == null)
                 {
                     return;
@@ -250,9 +241,9 @@ namespace Files.Interacts
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
-        public RelayCommand OpenDirectoryInDefaultTerminal => new RelayCommand(() => OpenDirectoryInTerminal());
+        public RelayCommand OpenDirectoryInDefaultTerminal => new RelayCommand(() => OpenDirectoryInTerminal(AssociatedInstance.FilesystemViewModel.WorkingDirectory));
 
-        private async void OpenDirectoryInTerminal()
+        private async void OpenDirectoryInTerminal(string workingDir)
         {
             var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
@@ -260,22 +251,22 @@ namespace Files.Interacts
             {
                 var value = new ValueSet
                 {
-                    { "WorkingDirectory", AssociatedInstance.FilesystemViewModel.WorkingDirectory },
+                    { "WorkingDirectory", workingDir },
                     { "Application", terminal.Path },
                     { "Arguments", string.Format(terminal.Arguments,
-                       Helpers.PathNormalization.NormalizePath(AssociatedInstance.FilesystemViewModel.WorkingDirectory)) }
+                       Helpers.PathNormalization.NormalizePath(workingDir)) }
                 };
                 await Connection.SendMessageSafeAsync(value);
             }
         }
 
-        public async void PinItem_Click(object sender, RoutedEventArgs e)
+        public void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage != null)
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    await App.SidebarPinnedController.Model.AddItemToSidebarAsync(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
                 }
             }
         }
@@ -286,7 +277,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);                    
+                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
                 }
             }
         }
@@ -344,61 +335,6 @@ namespace Files.Interacts
             return openedPopups.Any(popup => popup.Child is ContentDialog);
         }
 
-        public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
-        {
-            int count = VisualTreeHelper.GetChildrenCount(startNode);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
-                {
-                    T asType = (T)current;
-                    return asType;
-                }
-                var retVal = FindChild<T>(current);
-                if (retVal != null)
-                {
-                    return retVal;
-                }
-            }
-            return null;
-        }
-
-        public static void FindChildren<T>(IList<T> results, DependencyObject startNode) where T : DependencyObject
-        {
-            int count = VisualTreeHelper.GetChildrenCount(startNode);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if (current.GetType().Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
-                {
-                    T asType = (T)current;
-                    results.Add(asType);
-                }
-                FindChildren<T>(results, current);
-            }
-        }
-
-        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            T parent = null;
-            if (child == null)
-            {
-                return parent;
-            }
-            DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
-            while (CurrentParent != null)
-            {
-                if (CurrentParent is T)
-                {
-                    parent = (T)CurrentParent;
-                    break;
-                }
-                CurrentParent = VisualTreeHelper.GetParent(CurrentParent);
-            }
-            return parent;
-        }
-
         public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
         {
             if (!typeof(TEnum).GetTypeInfo().IsEnum)
@@ -446,7 +382,7 @@ namespace Files.Interacts
 
         public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
-            var item = AssociatedInstance.ContentPage.SelectedItem as ShortcutItem;
+            var item = ((sender as MenuFlyoutItem).DataContext as ShortcutItem);
             if (string.IsNullOrEmpty(item?.TargetPath))
             {
                 return;
@@ -456,7 +392,7 @@ namespace Files.Interacts
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
             if (destFolder)
             {
-                AssociatedInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+                AssociatedInstance.NavigateWithArguments(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
                     AssociatedTabInstance = AssociatedInstance
@@ -480,7 +416,8 @@ namespace Files.Interacts
         /// <param name="itemType"></param>
         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
-        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false)
+        /// <param name="selectItems">List of filenames that are selected upon navigation</param>
+        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null)
         // TODO: This function reliability has not been extensively tested
         {
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -527,7 +464,7 @@ namespace Files.Interacts
                 }
                 else
                 {
-                    itemType = await StorageItemHelpers.GetTypeFromPath(path, AssociatedInstance);
+                    itemType = await StorageItemHelpers.GetTypeFromPath(path);
                 }
             }
 
@@ -545,11 +482,12 @@ namespace Files.Interacts
                     else
                     {
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = shortcutTargetPath;
-                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
+                        AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutTargetPath,
-                            AssociatedTabInstance = AssociatedInstance
-                        }, new SuppressNavigationTransitionInfo());
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems
+                        });
 
                         return true;
                     }
@@ -557,11 +495,11 @@ namespace Files.Interacts
                 else if (isHiddenItem)
                 {
                     AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
-                    AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
                         AssociatedTabInstance = AssociatedInstance
-                    }, new SuppressNavigationTransitionInfo());
+                    });
 
                     return true;
                 }
@@ -584,11 +522,12 @@ namespace Files.Interacts
                     if (opened)
                     {
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
-                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
-                            AssociatedTabInstance = AssociatedInstance
-                        }, new SuppressNavigationTransitionInfo());
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems
+                        });
                     }
                 }
             }
@@ -735,7 +674,7 @@ namespace Files.Interacts
             return opened;
         }
 
-        private async void OpenSelectedItems(bool openViaApplicationPicker = false)
+        public async void OpenSelectedItems(bool openViaApplicationPicker = false)
         {
             if (AssociatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
@@ -829,6 +768,7 @@ namespace Files.Interacts
                         Window.Current.Close();
                     };
                 });
+
                 bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
                 // Set window size again here as sometimes it's not resized in the page Loaded event
                 newView.TryResizeView(new Size(400, 550));
@@ -890,13 +830,17 @@ namespace Files.Interacts
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(folderAsItem => items.Add(folderAsItem));
+                    if (await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, AssociatedInstance) is StorageFolder folder)
+                    {
+                        items.Add(folder);
+                    }
                 }
                 else
                 {
-                    await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(fileAsItem => items.Add(fileAsItem));
+                    if (await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, AssociatedInstance) is StorageFile file)
+                    {
+                        items.Add(file);
+                    }
                 }
             }
 
@@ -1182,7 +1126,6 @@ namespace Files.Interacts
             {
                 if (AssociatedInstance.ContentPage != null)
                 {
-                    Clipboard.Clear();
                     DataPackage data = new DataPackage();
                     data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
                     Clipboard.SetContent(data);
@@ -1202,7 +1145,6 @@ namespace Files.Interacts
             {
                 if (AssociatedInstance.ContentPage != null)
                 {
-                    Clipboard.Clear();
                     DataPackage data = new DataPackage();
                     data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
                     Clipboard.SetContent(data);
@@ -1247,14 +1189,13 @@ namespace Files.Interacts
             }
         }
 
-        public RelayCommand PasteItemsFromClipboard => new RelayCommand(async () => await PasteItemAsync());
+        public RelayCommand PasteItemsFromClipboard => new RelayCommand(async () => await PasteItemAsync(AssociatedInstance.FilesystemViewModel.WorkingDirectory));
 
-        public async Task PasteItemAsync()
+        public async Task PasteItemAsync(string destinationPath)
         {
             DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
             if (packageView != null)
             {
-                string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
                 await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
                 AssociatedInstance.ContentPage.ResetItemOpacity();
             }
@@ -1325,17 +1266,17 @@ namespace Files.Interacts
             CreateFileFromDialogResultType(AddItemType.File, itemType);
         }
 
-        public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());
+        public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems(AssociatedInstance.ContentPage));
 
-        public void SelectAllItems() => AssociatedInstance.ContentPage.SelectAllItems();
+        public void SelectAllItems(BaseLayout contentPage) => contentPage.SelectAllItems();
 
-        public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems());
+        public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems(AssociatedInstance.ContentPage));
 
-        public void InvertAllItems() => AssociatedInstance.ContentPage.InvertSelection();
+        public void InvertAllItems(BaseLayout contentPage) => contentPage.InvertSelection();
 
-        public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems());
+        public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems(AssociatedInstance.ContentPage));
 
-        public void ClearAllItems() => AssociatedInstance.ContentPage.ClearSelection();
+        public void ClearAllItems(BaseLayout contentPage) => contentPage.ClearSelection();
 
         public async void ToggleQuickLook()
         {
@@ -1382,13 +1323,13 @@ namespace Files.Interacts
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
-            if (itemFromPath == null)
+            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, AssociatedInstance);
+            if (file == null)
             {
                 return "";
             }
 
-            Stream stream = await FilesystemTasks.Wrap(() => itemFromPath.OpenStreamForReadAsync());
+            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
             if (stream == null)
             {
                 return "";
@@ -1432,56 +1373,6 @@ namespace Files.Interacts
                 return "";
             }
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
-        }
-
-        public static async Task EjectDeviceAsync(string path)
-        {
-            var removableDevice = new RemovableDevice(path);
-            bool result = await removableDevice.EjectAsync();
-            if (result)
-            {
-                Debug.WriteLine("Device successfully ejected");
-
-                var toastContent = new ToastContent()
-                {
-                    Visual = new ToastVisual()
-                    {
-                        BindingGeneric = new ToastBindingGeneric()
-                        {
-                            Children =
-                            {
-                                new AdaptiveText()
-                                {
-                                    Text = "EjectNotificationHeader".GetLocalized()
-                                },
-                                new AdaptiveText()
-                                {
-                                    Text = "EjectNotificationBody".GetLocalized()
-                                }
-                            },
-                            Attribution = new ToastGenericAttributionText()
-                            {
-                                Text = "SettingsAboutAppName".GetLocalized()
-                            }
-                        }
-                    },
-                    ActivationType = ToastActivationType.Protocol
-                };
-
-                // Create the toast notification
-                var toastNotif = new ToastNotification(toastContent.GetXml());
-
-                // And send the notification
-                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-            }
-            else
-            {
-                Debug.WriteLine("Can't eject device");
-
-                await DialogDisplayHelper.ShowDialogAsync(
-                    "EjectNotificationErrorDialogHeader".GetLocalized(),
-                    "EjectNotificationErrorDialogBody".GetLocalized());
-            }
         }
     }
 }

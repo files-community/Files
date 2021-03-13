@@ -4,7 +4,6 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -16,14 +15,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -120,6 +117,15 @@ namespace Files.ViewModels
         {
             get => new GridLength(Math.Min(Math.Max(Get(250d), 50d), 600d), GridUnitType.Pixel);
             set => Set(value.Value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should be open or closed.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         public async void DetectQuickLook()
@@ -338,6 +344,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
+        /// </summary>
+        public bool AdaptiveLayoutEnabled
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -540,6 +555,14 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// </summary>
+        public string PathToThemeFile
+        {
+            get => Get("DefaultScheme".GetLocalized());
+            set => Set(value);
+        }
         #endregion Appearance
 
         #region Experimental

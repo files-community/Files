@@ -28,7 +28,10 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        [JsonProperty("favoriteitems")]
+        [JsonIgnore]
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
+        [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
@@ -42,7 +45,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarHome".GetLocalized(),
                 Section = SectionType.Home,
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                Font = InteractionViewModel.FontName,
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
                 Path = "Home",
@@ -52,7 +55,8 @@ namespace Files.DataModels
             {
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                SelectsOnInvoked = false,
+                Font = InteractionViewModel.FontName,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -259,7 +263,7 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                    Font = InteractionViewModel.FontName,
                     Path = path,
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,

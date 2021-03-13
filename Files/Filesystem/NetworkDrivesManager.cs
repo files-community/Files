@@ -1,5 +1,4 @@
 ﻿using Files.Helpers;
-using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -119,7 +118,6 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
-                            Font = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                             Glyph = "\uE8CE",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
