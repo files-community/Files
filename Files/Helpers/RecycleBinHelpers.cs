@@ -34,8 +34,9 @@ namespace Files.Helpers
             {
                 ValueSet value = new ValueSet
                 {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Enumerate" }
+                    { "Arguments", "ShellFolder" },
+                    { "action", "Enumerate" },
+                    { "folder", App.AppSettings.RecycleBinPath }
                 };
                 var (status, response) = await Connection.SendMessageForResponseAsync(value);
 
