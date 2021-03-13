@@ -40,7 +40,7 @@ namespace Files.Helpers
         private async static void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            (await Instance)?.SendMessageSafeAsync(new ValueSet() { { "Arguments", "Terminate" } });
+            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
             (await Instance)?.Dispose();
             Instance = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
             ConnectionChanged?.Invoke(null, Instance);
@@ -154,16 +154,16 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<(AppServiceResponseStatus Status, (AppServiceResponseStatus Status, Dictionary<string, object> Message) Data)> SendMessageWithRetryAsync(ValueSet valueSet, TimeSpan timeout)
+        public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet, TimeSpan timeout = default)
         {
             if (clientStream == null)
             {
-                return (AppServiceResponseStatus.Failure, (AppServiceResponseStatus.Failure, null));
+                return (AppServiceResponseStatus.Failure, null);
             }
 
             using var cts = new CancellationTokenSource();
             cts.CancelAfter((int)timeout.TotalMilliseconds);
-            while (!cts.Token.IsCancellationRequested)
+            do
             {
                 try
                 {
@@ -177,7 +177,7 @@ namespace Files.Helpers
                         await clientStream.WriteAsync(serialized, 0, serialized.Length);
                         var response = await tcs.Task;
 
-                        return (AppServiceResponseStatus.Success, (AppServiceResponseStatus.Success, response));
+                        return (AppServiceResponseStatus.Success, response);
                     }
                 }
                 catch (Exception ex)
@@ -185,16 +185,20 @@ namespace Files.Helpers
                     NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
                     break;
                 }
-                await Task.Delay(200);
-            }
-            return (AppServiceResponseStatus.Failure, (AppServiceResponseStatus.Failure, null));
+                if (!cts.Token.IsCancellationRequested)
+                {
+                    await Task.Delay(200);
+                }
+            } while (!cts.Token.IsCancellationRequested);
+
+            return (AppServiceResponseStatus.Failure, null);
         }
 
-        public async Task<(AppServiceResponseStatus Status, (AppServiceResponseStatus Status, Dictionary<string, object> Message) Data)> SendMessageSafeAsync(ValueSet valueSet)
+        public async Task<AppServiceResponseStatus> SendMessageAsync(ValueSet valueSet)
         {
             if (clientStream == null)
             {
-                return (AppServiceResponseStatus.Failure, (AppServiceResponseStatus.Failure, null));
+                return AppServiceResponseStatus.Failure;
             }
 
             try
@@ -203,13 +207,9 @@ namespace Files.Helpers
                 {
                     var guid = Guid.NewGuid().ToString();
                     valueSet.Add("RequestID", guid);
-                    var tcs = new TaskCompletionSource<Dictionary<string, object>>();
-                    messageList.TryAdd(guid, tcs);
                     var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
                     await clientStream.WriteAsync(serialized, 0, serialized.Length);
-                    var response = await tcs.Task;
-
-                    return (AppServiceResponseStatus.Success, (AppServiceResponseStatus.Success, response));
+                    return AppServiceResponseStatus.Success;
                 }
             }
             catch (Exception ex)
@@ -217,7 +217,7 @@ namespace Files.Helpers
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
             }
 
-            return (AppServiceResponseStatus.Failure, (AppServiceResponseStatus.Failure, null));
+            return AppServiceResponseStatus.Failure;
         }
 
         public void Dispose()

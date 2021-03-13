@@ -18,14 +18,14 @@ namespace Files.Filesystem.Cloud.Providers
                 var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "GetSharePointSyncLocationsFromOneDrive" }
                     }, TimeSpan.FromSeconds(10));
-                    if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
+                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("Count"))
                     {
                         var results = new List<CloudProvider>();
-                        foreach (var key in response.Message.Keys
+                        foreach (var key in response.Keys
                             .Where(k => k != "Count" && k != "RequestID")
                             .OrderBy(o => o))
                         {
@@ -33,7 +33,7 @@ namespace Files.Filesystem.Cloud.Providers
                             {
                                 ID = CloudProviders.OneDrive,
                                 Name = key,
-                                SyncFolder = (string)response.Message[key]
+                                SyncFolder = (string)response[key]
                             });
                         }
 

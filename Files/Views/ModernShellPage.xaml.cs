@@ -609,7 +609,7 @@ namespace Files.Views
                                             { "Application", terminal.Path },
                                             { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
-                                        await ServiceConnection.SendMessageSafeAsync(value);
+                                        await ServiceConnection.SendMessageAsync(value);
                                     }
                                     return;
                                 }

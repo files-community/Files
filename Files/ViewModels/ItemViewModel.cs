@@ -803,12 +803,12 @@ namespace Files.ViewModels
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageSafeAsync(value);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)
                 {
-                    var hasCustomIcon = response.Message.Get("HasCustomIcon", false);
-                    var icon = response.Message.Get("Icon", (string)null);
-                    var overlay = response.Message.Get("Overlay", (string)null);
+                    var hasCustomIcon = response.Get("HasCustomIcon", false);
+                    var icon = response.Get("Icon", (string)null);
+                    var overlay = response.Get("Overlay", (string)null);
 
                     // BitmapImage can only be created on UI thread, so return raw data and create
                     // BitmapImage later to prevent exceptions once SynchorizationContext lost
@@ -1027,16 +1027,16 @@ namespace Files.ViewModels
                     value.Add("action", "Enumerate");
                     value.Add("folder", path);
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
+                    var (status, response) = await Connection.SendMessageForResponseAsync(value, TimeSpan.FromSeconds(10));
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
                         return;
                     }
                     if (status == AppServiceResponseStatus.Success
-                        && response.Message.ContainsKey("Enumerate"))
+                        && response.ContainsKey("Enumerate"))
                     {
-                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
                         for (int count = 0; count < folderContentsList.Count; count++)
                         {
                             var item = folderContentsList[count];
@@ -1122,7 +1122,7 @@ namespace Files.ViewModels
                         value.Add("action", "Unlock");
                         value.Add("drive", Path.GetPathRoot(path));
                         value.Add("password", userInput);
-                        await Connection.SendMessageSafeAsync(value);
+                        await Connection.SendMessageAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {

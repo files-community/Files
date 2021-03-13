@@ -37,12 +37,12 @@ namespace Files.Helpers
                     { "Arguments", "RecycleBin" },
                     { "action", "Enumerate" }
                 };
-                var (status, response) = await Connection.SendMessageSafeAsync(value);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
 
                 if (status == AppServiceResponseStatus.Success
-                    && response.Message.ContainsKey("Enumerate"))
+                    && response.ContainsKey("Enumerate"))
                 {
-                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
                     return items;
                 }
             }

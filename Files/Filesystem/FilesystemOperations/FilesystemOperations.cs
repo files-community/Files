@@ -572,7 +572,7 @@ namespace Files.Filesystem
                 // Try again with fulltrust process
                 if (associatedInstance.ServiceConnection != null)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },
@@ -580,7 +580,7 @@ namespace Files.Filesystem
                             { "permanently", permanently }
                         });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                        && response.Message.Get("Success", false));
+                        && response.Get("Success", false));
                 }
             }
             else if (fsResult == FileSystemStatusCode.InUse)
