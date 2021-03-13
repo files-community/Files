@@ -138,12 +138,9 @@ namespace Files
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
-            else
+            else if (RightClickedItem.Section == SectionType.Favorites)
             {
-                if (RightClickedItem.Section == SectionType.Favorites)
-                {
-                    SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
-                }               
+                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
         }
 

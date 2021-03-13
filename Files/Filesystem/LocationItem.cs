@@ -11,7 +11,7 @@ namespace Files.Filesystem
         public string Glyph { get; set; }
         public string Text { get; set; }
 
-        private string path;        
+        private string path;
 
         public string Path
         {
@@ -40,6 +40,7 @@ namespace Files.Filesystem
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
+
         public SectionType Section { get; set; }
     }
 }
