@@ -265,6 +265,7 @@ namespace Files.DataModels
                 {
                     Font = InteractionViewModel.FontName,
                     Path = path,
+                    Section = SectionType.Favorites,
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
