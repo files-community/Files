@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -75,7 +76,7 @@ namespace Files.Views
             }
             else
             {
-                propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }

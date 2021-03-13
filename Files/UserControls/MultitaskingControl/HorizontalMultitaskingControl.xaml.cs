@@ -4,6 +4,7 @@ using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -19,6 +20,20 @@ namespace Files.UserControls.MultitaskingControl
         private TabViewItem hoveredTabViewItem = null;
 
         private SettingsViewModel AppSettings => App.AppSettings;
+
+        private bool closeTabsToTheRightEnabled = true;
+        public bool CloseTabsToTheRightEnabled
+        {
+            get => closeTabsToTheRightEnabled;
+            private set
+            {
+                if (value != closeTabsToTheRightEnabled)
+                {
+                    closeTabsToTheRightEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public HorizontalMultitaskingControl()
         {
@@ -172,6 +187,17 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContextMenu_Opening(object sender, object e)
         {
+            TabItem tabItem = (((MenuFlyout)sender).Items.First()).DataContext as TabItem;
+
+            if (MainPage.AppInstances.IndexOf(tabItem) == MainPage.AppInstances.Count - 1)
+            {
+                CloseTabsToTheRightEnabled = false;
+            }
+            else
+            {
+                CloseTabsToTheRightEnabled = true;
+            }
+
             if (MainPage.MultitaskingControl.Items.Count == 1)
             {
                 MenuItemMoveTabToNewWindow.IsEnabled = false;

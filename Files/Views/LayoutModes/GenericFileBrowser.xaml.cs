@@ -1,6 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
@@ -140,7 +141,7 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             var rows = new List<DataGridRow>();
-            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
@@ -196,7 +197,7 @@ namespace Files.Views.LayoutModes
             if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
             {
                 var rows = new List<DataGridRow>();
-                Interaction.FindChildren<DataGridRow>(rows, AllView);
+                DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
 
                 foreach (DataGridRow row in rows)
                 {
@@ -505,7 +506,7 @@ namespace Files.Views.LayoutModes
 
         private void HandleRightClick(object sender, RoutedEventArgs e)
         {
-            var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var rowPressed = DependencyObjectHelpers.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
                 var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
@@ -537,7 +538,7 @@ namespace Files.Views.LayoutModes
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
                     if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
-                        Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                        DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }

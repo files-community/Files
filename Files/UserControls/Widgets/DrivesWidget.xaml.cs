@@ -59,7 +59,7 @@ namespace Files.UserControls.Widgets
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await Interaction.EjectDeviceAsync(item.Path);
+            await DeviceHelpers.EjectDeviceAsync(item.Path);
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)

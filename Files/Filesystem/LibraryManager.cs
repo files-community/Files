@@ -1,5 +1,4 @@
-﻿using Files.DataModels;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -11,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 
@@ -19,9 +17,10 @@ namespace Files.Filesystem
 {
     public class LibraryManager : ObservableObject
     {
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         public LibraryManager()
         {
-
         }
 
         public async Task EnumerateDrivesAsync()
@@ -66,6 +65,7 @@ namespace Files.Filesystem
                                 Text = "SidebarLibraries".GetLocalized(),
                                 Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                 Glyph = "\uEC13",
+                                SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
                             MainPage.SideBarItems.Add(librarySection);
@@ -81,24 +81,29 @@ namespace Files.Filesystem
                             {
                                 string path = libraryItems[i];
 
-                                var locationItem = new LocationItem
-                                {
-                                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
-                                    Path = path,
-                                    Glyph = GlyphHelper.GetItemIcon(path),
-                                    IsDefaultLocation = false,
-                                    Text = Path.GetFileName(path.TrimEnd('\\'))
-                                };
+                                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 
-                                librarySection.ChildItems.Insert(i, locationItem);
+                                if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+                                {
+                                    var locationItem = new LocationItem
+                                    {
+                                        Path = path,
+                                        Glyph = GlyphHelper.GetItemIcon(path),
+                                        Font = InteractionViewModel.FontName,
+                                        IsDefaultLocation = true,
+                                        Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                                    };
+
+                                    librarySection.ChildItems.Insert(i, locationItem);
+                                }
                             }
                         }
                     }
                     catch (Exception)
                     {
-                       
-                    }
 
+                    }
 
                     MainPage.SideBarItems.EndBulkOperation();
                 }

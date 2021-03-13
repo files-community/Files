@@ -63,11 +63,10 @@
                 Height="32"
                 AutomationProperties.Name="Selection options"
                 Background="Transparent"
-                Content="&#xE762;"
-                FontFamily="{StaticResource FluentGlyphs}"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Selection options">
+                <FontIcon FontSize="16" Glyph="&#xE762;" />
                 <Button.Flyout>
                     <MenuFlyout>
                         <ToggleMenuFlyoutItem
@@ -77,7 +76,7 @@
                             Text="Multiselect"
                             Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE762;" />
+                                <FontIcon Glyph="&#xE762;" />
                             </MenuFlyoutItem.Icon>
                         </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
@@ -86,7 +85,7 @@
                             Command="{x:Bind SelectAllInvokedCommand}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8B3;" />
+                                <FontIcon Glyph="&#xE8B3;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
@@ -101,7 +100,7 @@
                             Command="{x:Bind InvertSelectionInvokedCommand}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE746;" />
+                                <FontIcon Glyph="&#xE746;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -110,7 +109,7 @@
                             Command="{x:Bind ClearSelectionInvokedCommand}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE8E6;" />
+                                <FontIcon Glyph="&#xE8E6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -123,11 +122,9 @@
                 Height="32"
                 AutomationProperties.Name="Display Options"
                 Background="Transparent"
-                Content="&#xE152;"
-                FontFamily="{StaticResource FluentGlyphs}"
-                FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Display Options">
+                <FontIcon FontSize="16" Glyph="&#xE152;" />
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel Spacing="12">
@@ -150,7 +147,7 @@
                                 x:Uid="StatusBarControlLayoutMode"
                                 FontWeight="Medium"
                                 Text="Layout Mode" />
-                            
+
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <RadioButton
                                     x:Uid="StatusBarControlDetailsView"
@@ -164,7 +161,6 @@
                                     ToolTipService.ToolTip="Details View">
                                     <FontIcon
                                         Margin="0,2,0,0"
-                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xE179;" />
                                 </RadioButton>
@@ -180,7 +176,6 @@
                                     ToolTipService.ToolTip="Tiles View">
                                     <FontIcon
                                         Margin="0,2,0,0"
-                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xE15C;" />
                                 </RadioButton>
@@ -198,7 +193,6 @@
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
                                         Margin="0,2,0,0"
-                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xE80A;" />
                                 </RadioButton>
@@ -215,7 +209,6 @@
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
                                         Margin="0,2,0,0"
-                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xF0E2;" />
                                 </RadioButton>
@@ -231,7 +224,6 @@
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
                                         Margin="0,2,0,0"
-                                        FontFamily="{StaticResource FluentGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xE739;" />
                                 </RadioButton>
@@ -255,12 +247,10 @@
                     Height="32"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
-                    Content="&#xF16A;"
-                    FontFamily="{StaticResource FluentGlyphs}"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
+                    <FontIcon FontSize="16" Glyph="&#xF16A;" />
                     <Button.Flyout>
                         <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter
