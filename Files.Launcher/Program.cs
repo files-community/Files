@@ -18,8 +18,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -47,11 +45,11 @@ namespace FilesFullTrust
 
             // Only one instance of the fulltrust process allowed
             // This happens if multiple instances of the UWP app are launched
-            using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
-            if (!isNew)
-            {
-                return;
-            }
+            //using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
+            //if (!isNew)
+            //{
+            //    return;
+            //}
 
             try
             {
@@ -116,7 +114,7 @@ namespace FilesFullTrust
                 cancellation?.Cancel();
                 cancellation?.Dispose();
                 appServiceExit?.Dispose();
-                mutex?.ReleaseMutex();
+                //mutex?.ReleaseMutex();
             }
         }
 

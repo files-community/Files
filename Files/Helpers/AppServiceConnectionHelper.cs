@@ -107,11 +107,8 @@ namespace Files.Helpers
             this.pipeHandle = pipeHandle;
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
 
-            _ = Task.Run(() =>
-            {
-                var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
-                BeginRead(info);
-            });
+            var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+            BeginRead(info);
         }
 
         private void BeginRead((byte[] Buffer, StringBuilder Message) info)
