@@ -20,7 +20,7 @@ namespace Files.Helpers
                     Debug.WriteLine("Toggle QuickLook");
                     if (associatedInstance.ServiceConnection != null)
                     {
-                        await associatedInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
+                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
                             { "Arguments", "ToggleQuickLook" }

@@ -107,7 +107,7 @@ namespace Files.Helpers
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Empty");
                     // Send request to fulltrust process to empty recyclebin
-                    await Connection.SendMessageSafeAsync(value);
+                    await Connection.SendMessageAsync(value);
                 }
             }
         }
