@@ -576,11 +576,11 @@
                     Text="Rename">
                     <i:Interaction.Behaviors>
                         <icore:EventTriggerBehavior EventName="Click">
-                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RenameItemCommand}"/>
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RenameItemCommand, Mode=OneWay}"/>
                         </icore:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE8AC;" />
+                        <FontIcon Glyph="&#xE8AC;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F2" IsEnabled="False" />

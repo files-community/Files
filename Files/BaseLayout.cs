@@ -329,6 +329,7 @@ namespace Files
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
+            InitializeCommandsViewModel();
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
@@ -385,8 +386,6 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
 
             FolderSettings.IsLayoutModeChanging = false;
-
-            InitializeCommandsViewModel();
 
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
