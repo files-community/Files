@@ -645,66 +645,6 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
         }
 
-        private void QuickLook_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.QuickLookCommand.Execute(e);
-        }
-
-        private void EmptyRecycleBin_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.EmptyRecycleBinCommand.Execute(e);
-        }
-
-        private void UnpinDirectoryFromSidebar_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.UnpinDirectoryFromSidebarCommand.Execute(e);
-        }
-
-        private void OpenItem_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.OpenItemCommand.Execute(e);
-        }
-
-        private void SidebarUnpinItem_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.SidebarUnpinItemCommand.Execute(e);
-        }
-
-        private void SidebarPinItem_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.SidebarPinItemCommand.Execute(e);
-        }
-
-        private void RunAsAnotherUser_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.RunAsAnotherUserCommand.Execute(e);
-        }
-
-        private void RunAsAdmin_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.RunAsAdminCommand.Execute(e);
-        }
-
-        private void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(e);
-        }
-
-        private void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.SetAsLockscreenBackgroundItemCommand.Execute(e);
-        }
-
-        private void CreateShortcut_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.CreateShortcutCommand.Execute(e);
-        }
-
-        private void RenameItem_Click(object sender, RoutedEventArgs e)
-        {
-            CommandsViewModel.RenameItemCommand.Execute(e);
-        }
-
         #region IDisposable
 
         public override void Dispose()
