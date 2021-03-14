@@ -245,30 +245,38 @@
             Canvas.ZIndex="100"
             OffsetY="2"
             ShadowOpacity="0.04">
-
-            <controls:NavigationToolbar
-                x:Name="NavToolbar"
-                HorizontalAlignment="Stretch"
-                x:FieldModifier="public"
-                AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-                CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
-                CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
-                CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
-                IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
-                IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
-                IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
-                IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                NewFileInvokedCommand="{x:Bind InteractionOperations.CreateNewFile, Mode=OneWay}"
-                NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
-                NewPaneInvokedCommand="{x:Bind InteractionOperations.OpenNewPane, Mode=OneWay}"
-                NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
-                NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
-                OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
-                PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
-                PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
-                ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <controls:ExpandRibbonToolbar x:Name="NavToolbar1"
+                                                  HorizontalAlignment="Stretch"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <controls:NavigationToolbar
+                                x:Name="NavToolbar"
+                                HorizontalAlignment="Stretch"
+                                x:FieldModifier="public"
+                                AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+                                CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
+                                CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                                CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
+                                CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
+                                CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
+                                IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                                IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
+                                IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
+                                IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                                NewFileInvokedCommand="{x:Bind InteractionOperations.CreateNewFile, Mode=OneWay}"
+                                NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
+                                NewPaneInvokedCommand="{x:Bind InteractionOperations.OpenNewPane, Mode=OneWay}"
+                                NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
+                                NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
+                                OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
+                                PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
+                                PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
+                                ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+            
         </Custom:DropShadowPanel>
     </Grid>
 </Page>
