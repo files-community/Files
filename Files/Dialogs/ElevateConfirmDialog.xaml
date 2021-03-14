@@ -5,13 +5,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="ConfirmElevationDialog"
     x:Uid="ElevateConfirmDialog"
-    Title="This action requires adminstrator rights, would you like to continue as administrator?"
+    Title="This action requires adminstrator rights"
+    Content="Would you like to continue as administrator?"
     CloseButtonStyle="{ThemeResource DefaultButtonStyle}"
     CloseButtonText="No"
     CornerRadius="4"
-    DefaultButton="Primary"
-    PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
+    DefaultButton="None"
     PrimaryButtonText="Yes"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
-    mc:Ignorable="d" />
+    mc:Ignorable="d">
+    
+    <ContentDialog.PrimaryButtonStyle>
+        <Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate x:DataType="Button">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <FontIcon FontSize="14" Glyph="&#xEA18;" />
+                            <TextBlock Text="{Binding PrimaryButtonText, ElementName=ConfirmElevationDialog}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+
+</ContentDialog>

@@ -2431,15 +2431,19 @@
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="new">No</target>
+          <target state="translated">No</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="new">Yes</target>
+          <target state="translated">Sì</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires adminstrator rights, would you like to continue as administrator?</source>
-          <target state="new">This action requires adminstrator rights, would you like to continue as administrator?</target>
+          <source>This action requires adminstrator rights</source>
+          <target state="translated">Questa operazione richiede privilegi elevati</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
+          <source>Would you like to continue as administrator?</source>
+          <target state="translated">Vuoi continuare come amministratore?</target>
         </trans-unit>
       </group>
     </body>

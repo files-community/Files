@@ -2444,8 +2444,12 @@
           <target state="new">Yes</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires adminstrator rights, would you like to continue as administrator?</source>
-          <target state="new">This action requires adminstrator rights, would you like to continue as administrator?</target>
+          <source>This action requires adminstrator rights</source>
+          <target state="new">This action requires adminstrator rights</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
+          <source>Would you like to continue as administrator?</source>
+          <target state="new">Would you like to continue as administrator?</target>
         </trans-unit>
       </group>
     </body>
