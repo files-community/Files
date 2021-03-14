@@ -515,7 +515,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool IsAcrylicDisabled
         {
-            get => Get(true);
+            get => Get(false);
             set => Set(value);
         }
 
