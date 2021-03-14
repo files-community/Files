@@ -2329,11 +2329,11 @@
         </trans-unit>
         <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
           <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="translated">Anzahl an vorzeitigen Zwischenspeichervorgängen (Eine kleinerer Wert ist für Festplatten empfohlen</target>
+          <target state="translated">Anzahl an vorzeitigen Zwischenspeichervorgängen (Ein kleinerer Wert ist für Festplatten empfohlen)</target>
         </trans-unit>
         <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
           <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">Vorzeitiges Zwischenspeichern benutzen (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</target>
+          <target state="translated">Vorzeitiges Zwischenspeichern aktivieren (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
@@ -2398,7 +2398,7 @@
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
-          <target state="new">Item count</target>
+          <target state="translated">Anzahl an Objekten</target>
         </trans-unit>
       </group>
     </body>
