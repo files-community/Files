@@ -63,6 +63,7 @@ namespace Files.Filesystem
                             librarySection = new LocationItem()
                             {
                                 Text = "SidebarLibraries".GetLocalized(),
+                                Section = SectionType.Library,
                                 Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                 Glyph = "\uEC13",
                                 SelectsOnInvoked = false,
@@ -89,6 +90,7 @@ namespace Files.Filesystem
                                     var locationItem = new LocationItem
                                     {
                                         Path = path,
+                                        Section = SectionType.Library,
                                         Glyph = GlyphHelper.GetItemIcon(path),
                                         Font = InteractionViewModel.FontName,
                                         IsDefaultLocation = true,
@@ -102,7 +104,6 @@ namespace Files.Filesystem
                     }
                     catch (Exception)
                     {
-
                     }
 
                     MainPage.SideBarItems.EndBulkOperation();

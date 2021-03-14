@@ -48,7 +48,14 @@ namespace FilesFullTrust
             //using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
             //if (!isNew)
             //{
-            //    return;
+            //    if (args.ElementAtOrDefault(0) != "elevate")
+            //    {
+            //        return;
+            //    }
+            //    if (!mutex.WaitOne(TimeSpan.FromSeconds(10)))
+            //    {
+            //        return;
+            //    }
             //}
 
             try
@@ -242,6 +249,13 @@ namespace FilesFullTrust
             }
         }
 
+        private static bool IsAdministrator()
+        {
+            using var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
         private static async Task ParseArgumentsAsync(Dictionary<string, object> message, string arguments, ApplicationDataContainer localSettings)
         {
             switch (arguments)
@@ -249,6 +263,30 @@ namespace FilesFullTrust
                 case "Terminate":
                     // Exit fulltrust process (UWP is closed or suspended)
                     appServiceExit.Set();
+                    break;
+
+                case "Elevate":
+                    // Relaunch fulltrust process as admin
+                    if (!IsAdministrator())
+                    {
+                        try
+                        {
+                            using (Process elevatedProcess = new Process())
+                            {
+                                elevatedProcess.StartInfo.Verb = "runas";
+                                elevatedProcess.StartInfo.UseShellExecute = true;
+                                elevatedProcess.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+                                elevatedProcess.StartInfo.Arguments = "elevate";
+                                elevatedProcess.Start();
+                            }
+                            appServiceExit.Set();
+                            messageDeferral.Complete();
+                        }
+                        catch (Win32Exception)
+                        {
+                            // If user cancels UAC
+                        }
+                    }
                     break;
 
                 case "RecycleBin":
@@ -798,7 +836,7 @@ namespace FilesFullTrust
 
             try
             {
-                Process process = new Process();
+                using Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = application;
                 // Show window if workingDirectory (opening terminal)
@@ -832,7 +870,7 @@ namespace FilesFullTrust
             }
             catch (Win32Exception)
             {
-                Process process = new Process();
+                using Process process = new Process();
                 process.StartInfo.UseShellExecute = true;
                 process.StartInfo.Verb = "runas";
                 process.StartInfo.FileName = application;
@@ -908,7 +946,7 @@ namespace FilesFullTrust
                     Process.GetProcessById(pid).Kill();
 #endif
 
-                    Process process = new Process();
+                    using Process process = new Process();
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.FileName = "explorer.exe";
                     process.StartInfo.CreateNoWindow = false;

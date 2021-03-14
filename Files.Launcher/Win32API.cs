@@ -163,7 +163,7 @@ namespace FilesFullTrust
         {
             try
             {
-                Process process = new Process();
+                using Process process = new Process();
                 if (runAsAdmin)
                 {
                     process.StartInfo.UseShellExecute = true;
