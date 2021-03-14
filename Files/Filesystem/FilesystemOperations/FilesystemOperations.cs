@@ -575,18 +575,18 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
+                await associatedInstance.ServiceConnection?.Elevate();
                 if (associatedInstance.ServiceConnection != null)
                 {
-                    await associatedInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet() { { "Arguments", "Elevate" } });
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageWithRetryAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },
                             { "filepath", source.Path },
                             { "permanently", permanently }
-                        }, TimeSpan.FromSeconds(20));
+                        });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                        && response.Message.Get("Success", false));
+                        && response.Get("Success", false));
                 }
             }
             else if (fsResult == FileSystemStatusCode.InUse)
