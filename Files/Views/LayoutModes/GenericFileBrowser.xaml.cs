@@ -646,6 +646,5 @@ namespace Files.Views.LayoutModes
                 listedItem.IsItemPinnedToStart = !(await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath));
             }
         }
-
     }
 }
