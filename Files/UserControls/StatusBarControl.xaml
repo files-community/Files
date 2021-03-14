@@ -57,6 +57,8 @@
             Orientation="Horizontal"
             Spacing="4">
 
+            <FontIcon x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}" Glyph="&#xEA18;" />
+
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
