@@ -1277,22 +1277,6 @@ namespace Files.Interacts
         public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems(AssociatedInstance.ContentPage));
 
         public void ClearAllItems(BaseLayout contentPage) => contentPage.ClearSelection();
-
-        public async void PinItemToStart_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
-            {
-                listedItem.IsItemPinnedToStart = await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
-            }
-        }
-        public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
-            {
-                listedItem.IsItemPinnedToStart = !(await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath));
-            }
-        }
-
         public async void ToggleQuickLook()
         {
             try

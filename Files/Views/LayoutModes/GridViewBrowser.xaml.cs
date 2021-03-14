@@ -471,5 +471,20 @@ namespace Files.Views.LayoutModes
                 ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
             }
         }
+
+        public async void PinItemToStart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SelectedItems)
+            {
+                listedItem.IsItemPinnedToStart = await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+            }
+        }
+        public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SelectedItems)
+            {
+                listedItem.IsItemPinnedToStart = !(await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath));
+            }
+        }
     }
 }

@@ -538,7 +538,7 @@
                     x:Name="PinItemToStart"
                     x:Uid="PinItemToStart"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinItemToStart_Click}"
+                    Click="PinItemToStart_Click"
                     Text="Pin to the Start Menu">
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE840;" />
@@ -548,7 +548,7 @@
                     x:Name="UnpinItemFromStart"
                     x:Uid="UnpinItemFromStart"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItemFromStart_Click}"
+                    Click="UnpinItemFromStart_Click"
                     Text="Unpin from the Start Menu">
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE77A;" />
