@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
@@ -19,7 +20,7 @@ namespace Files
 
         CurrentInstanceViewModel InstanceViewModel { get; }
 
-        AppServiceConnection ServiceConnection { get; }
+        NamedPipeAsAppServiceConnection ServiceConnection { get; }
 
         IBaseLayout SlimContentPage { get; }
 
@@ -33,7 +34,7 @@ namespace Files
 
         bool CanNavigateForward { get; }
 
-        abstract void Refresh_Click();
+        void Refresh_Click();
 
         void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
 

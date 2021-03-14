@@ -1073,10 +1073,6 @@
       <Project>{d4e6a3ab-df72-44a4-9acb-c8a222656a20}</Project>
       <Name>Files.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MessageRelay\Files.MessageRelay.csproj">
-      <Project>{7684e128-d854-4c00-b086-0dd7d52f6e54}</Project>
-      <Name>Files.MessageRelay</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

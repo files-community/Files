@@ -143,7 +143,7 @@ namespace Files
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
-            else
+            else if (RightClickedItem.Section == SectionType.Favorites)
             {
                 SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
@@ -526,5 +526,7 @@ namespace Files
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
         public Uri Logo { get; set; }
+
+        public SectionType Section { get; private set; }
     }
 }

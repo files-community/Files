@@ -136,13 +136,13 @@ namespace Files.ViewModels
                 var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "DetectQuickLook" }
-                    }, TimeSpan.FromSeconds(10));
+                    });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                        localSettings.Values["quicklook_enabled"] = response.Get("IsAvailable", false);
                     }
                 }
             }

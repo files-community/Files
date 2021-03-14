@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -66,7 +67,7 @@ namespace Files.ViewModels
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-        private AppServiceConnection Connection;
+        private NamedPipeAsAppServiceConnection Connection;
 
         public string WorkingDirectory
         {
@@ -321,7 +322,7 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
         }
 
-        public void OnAppServiceConnectionChanged(AppServiceConnection connection)
+        public void OnAppServiceConnectionChanged(NamedPipeAsAppServiceConnection connection)
         {
             if (Connection != null)
             {
@@ -334,19 +335,15 @@ namespace Files.ViewModels
             }
         }
 
-        private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
         {
-            // Get a deferral because we use an awaitable API below to respond to the message
-            // and we don't want this call to get cancelled while we are waiting.
-            var messageDeferral = args.GetDeferral();
-
             // The fulltrust process signaled that something in the recycle bin folder has changed
-            if (args.Request.Message.ContainsKey("FileSystem"))
+            if (message.ContainsKey("FileSystem"))
             {
-                var folderPath = (string)args.Request.Message["FileSystem"];
-                var itemPath = (string)args.Request.Message["Path"];
-                var changeType = (string)args.Request.Message["Type"];
-                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
+                var folderPath = (string)message["FileSystem"];
+                var itemPath = (string)message["Path"];
+                var changeType = (string)message["Type"];
+                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
                 // If we are currently displaying the reycle bin lets refresh the items
                 if (CurrentFolder?.ItemPath == folderPath)
@@ -381,15 +378,12 @@ namespace Files.ViewModels
                 }
             }
             // The fulltrust process signaled that a drive has been connected/disconnected
-            else if (args.Request.Message.ContainsKey("DeviceID"))
+            else if (message.ContainsKey("DeviceID"))
             {
-                var deviceId = (string)args.Request.Message["DeviceID"];
-                var eventType = (DeviceEvent)(int)args.Request.Message["EventType"];
+                var deviceId = (string)message["DeviceID"];
+                var eventType = (DeviceEvent)(long)message["EventType"];
                 await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
-            // Complete the deferral so that the platform knows that we're done responding to the app service call.
-            // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-            messageDeferral.Complete();
         }
 
         public void CancelLoadAndClearFiles()
@@ -513,7 +507,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
         }
 
@@ -809,17 +803,19 @@ namespace Files.ViewModels
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageSafeAsync(value);
-                var hasCustomIcon = (status == AppServiceResponseStatus.Success)
-                    && response.Message.Get("HasCustomIcon", false);
-                var icon = response.Message.Get("Icon", (string)null);
-                var overlay = response.Message.Get("Overlay", (string)null);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var hasCustomIcon = response.Get("HasCustomIcon", false);
+                    var icon = response.Get("Icon", (string)null);
+                    var overlay = response.Get("Overlay", (string)null);
 
-                // BitmapImage can only be created on UI thread, so return raw data and create
-                // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                return (icon == null ? null : Convert.FromBase64String(icon),
-                    overlay == null ? null : Convert.FromBase64String(overlay),
-                    hasCustomIcon);
+                    // BitmapImage can only be created on UI thread, so return raw data and create
+                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                    return (icon == null ? null : Convert.FromBase64String(icon),
+                        overlay == null ? null : Convert.FromBase64String(overlay),
+                        hasCustomIcon);
+                }
             }
             return (null, null, false);
         }
@@ -953,7 +949,7 @@ namespace Files.ViewModels
                             catch (Exception ex)
                             {
                                 // ignore exception. This is fine, it's only a caching that can fail
-                                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                             }
                         }).Forget();
                     }
@@ -1031,16 +1027,16 @@ namespace Files.ViewModels
                     value.Add("action", "Enumerate");
                     value.Add("folder", path);
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
+                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
                         return;
                     }
                     if (status == AppServiceResponseStatus.Success
-                        && response.Message.ContainsKey("Enumerate"))
+                        && response.ContainsKey("Enumerate"))
                     {
-                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
                         for (int count = 0; count < folderContentsList.Count; count++)
                         {
                             var item = folderContentsList[count];
@@ -1126,7 +1122,7 @@ namespace Files.ViewModels
                         value.Add("action", "Unlock");
                         value.Add("drive", Path.GetPathRoot(path));
                         value.Add("password", userInput);
-                        await Connection.SendMessageSafeAsync(value);
+                        await Connection.SendMessageAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {
@@ -1546,7 +1542,7 @@ namespace Files.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                            NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                         }
 
                         if (sampler.CheckNow())

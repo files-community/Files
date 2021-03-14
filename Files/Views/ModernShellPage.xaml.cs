@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -608,7 +609,7 @@ namespace Files.Views
                                             { "Application", terminal.Path },
                                             { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
-                                        await ServiceConnection.SendMessageSafeAsync(value);
+                                        await ServiceConnection.SendMessageAsync(value);
                                     }
                                     return;
                                 }
@@ -736,7 +737,7 @@ namespace Files.Views
         public static readonly DependencyProperty NavParamsProperty =
             DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
 
-        public AppServiceConnection ServiceConnection { get; private set; }
+        public NamedPipeAsAppServiceConnection ServiceConnection { get; private set; }
 
         private TabItemArguments tabItemArguments;
 
@@ -811,14 +812,14 @@ namespace Files.Views
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-            ServiceConnection = await AppServiceConnectionHelper.Instance;
-            FilesystemViewModel.OnAppServiceConnectionChanged(ServiceConnection);
             InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             OnNavigationParamsChanged();
+            ServiceConnection = await AppServiceConnectionHelper.Instance;
+            FilesystemViewModel.OnAppServiceConnectionChanged(ServiceConnection);
             this.Loaded -= Page_Loaded;
         }
 
@@ -1140,7 +1141,7 @@ namespace Files.Views
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
         {
             ServiceConnection = await e;
             FilesystemViewModel?.OnAppServiceConnectionChanged(ServiceConnection);
