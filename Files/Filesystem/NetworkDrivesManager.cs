@@ -55,7 +55,7 @@ namespace Files.Filesystem
                 {
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "GetNetworkLocations" }
-                }, TimeSpan.FromSeconds(10));
+                });
                 if (status == AppServiceResponseStatus.Success && response.ContainsKey("Count"))
                 {
                     foreach (var key in response.Keys

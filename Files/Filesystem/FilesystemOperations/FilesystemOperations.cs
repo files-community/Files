@@ -584,7 +584,7 @@ namespace Files.Filesystem
                             { "fileop", "DeleteItem" },
                             { "filepath", source.Path },
                             { "permanently", permanently }
-                        }, TimeSpan.FromSeconds(20));
+                        });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                         && response.Get("Success", false));
                 }

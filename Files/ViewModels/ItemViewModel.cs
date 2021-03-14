@@ -1027,7 +1027,7 @@ namespace Files.ViewModels
                     value.Add("action", "Enumerate");
                     value.Add("folder", path);
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageForResponseAsync(value, TimeSpan.FromSeconds(10));
+                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {

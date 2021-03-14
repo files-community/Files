@@ -139,7 +139,7 @@ namespace Files.ViewModels
                     var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "DetectQuickLook" }
-                    }, TimeSpan.FromSeconds(10));
+                    });
                     if (status == AppServiceResponseStatus.Success)
                     {
                         localSettings.Values["quicklook_enabled"] = response.Get("IsAvailable", false);

@@ -154,42 +154,32 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet, TimeSpan timeout = default)
+        public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
         {
             if (clientStream == null)
             {
                 return (AppServiceResponseStatus.Failure, null);
             }
 
-            using var cts = new CancellationTokenSource();
-            cts.CancelAfter((int)timeout.TotalMilliseconds);
-            do
+            try
             {
-                try
+                if (clientStream.IsConnected)
                 {
-                    if (clientStream.IsConnected)
-                    {
-                        var guid = Guid.NewGuid().ToString();
-                        valueSet.Add("RequestID", guid);
-                        var tcs = new TaskCompletionSource<Dictionary<string, object>>();
-                        messageList.TryAdd(guid, tcs);
-                        var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                        await clientStream.WriteAsync(serialized, 0, serialized.Length);
-                        var response = await tcs.Task;
+                    var guid = Guid.NewGuid().ToString();
+                    valueSet.Add("RequestID", guid);
+                    var tcs = new TaskCompletionSource<Dictionary<string, object>>();
+                    messageList.TryAdd(guid, tcs);
+                    var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                    await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                    var response = await tcs.Task;
 
-                        return (AppServiceResponseStatus.Success, response);
-                    }
+                    return (AppServiceResponseStatus.Success, response);
                 }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
-                    break;
-                }
-                if (!cts.Token.IsCancellationRequested)
-                {
-                    await Task.Delay(200);
-                }
-            } while (!cts.Token.IsCancellationRequested);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+            }
 
             return (AppServiceResponseStatus.Failure, null);
         }

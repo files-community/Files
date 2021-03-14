@@ -21,7 +21,7 @@ namespace Files.Filesystem.Cloud.Providers
                     var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "GetOneDriveAccounts" }
-                    }, TimeSpan.FromSeconds(10));
+                    });
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("Count"))
                     {
                         var results = new List<CloudProvider>();

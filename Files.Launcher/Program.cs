@@ -58,6 +58,8 @@ namespace FilesFullTrust
             //    }
             //}
 
+            //Thread.Sleep(10 * 1000);
+
             try
             {
                 // Create handle table to store e.g. context menu references
@@ -280,7 +282,6 @@ namespace FilesFullTrust
                                 elevatedProcess.Start();
                             }
                             appServiceExit.Set();
-                            messageDeferral.Complete();
                         }
                         catch (Win32Exception)
                         {
