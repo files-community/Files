@@ -61,17 +61,17 @@ namespace Files.Helpers
                 var res = response.Get("Success", 1L);
                 switch (res)
                 {
-                    case 0:
+                    case 0: // FTP is restarting as admin
                         var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
                         ConnectionChanged?.Invoke(null, nullConn);
                         (await Instance)?.Dispose();
                         Instance = BuildConnection(false); // Fulltrust process is already running
                         _ = await Instance;
                         ConnectionChanged?.Invoke(null, Instance);
-                        break;
-                    case -1:
                         return true;
-                    default:
+                    case -1: // FTP is already admin
+                        return true;
+                    default: // Failed (e.g canceled UAC)
                         return false;
                 }
             }

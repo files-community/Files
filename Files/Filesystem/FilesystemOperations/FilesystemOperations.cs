@@ -576,23 +576,41 @@ namespace Files.Filesystem
 
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
-                // Try again with fulltrust process
-                var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                if (elevateConfirmResult == ContentDialogResult.Primary)
+                // Try again with fulltrust process (non admin: for shortcuts and hidden files)
+                if (associatedInstance.ServiceConnection != null)
                 {
-                    //await associatedInstance.ServiceConnection?.Elevate();
-                    if (associatedInstance.ServiceConnection != null)
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                     {
-                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "DeleteItem" },
+                        { "filepath", source.Path },
+                        { "permanently", permanently }
+                    });
+                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                        && response.Get("Success", false));
+                }
+                if (!fsResult)
+                {
+                    var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                    var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                    if (elevateConfirmResult == ContentDialogResult.Primary)
+                    {
+                        if (false && await associatedInstance.ServiceConnection?.Elevate()) // TODO: enable this
                         {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DeleteItem" },
-                            { "filepath", source.Path },
-                            { "permanently", permanently }
-                        });
-                        fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                            && response.Get("Success", false));
+                            // Try again with fulltrust process (admin)
+                            if (associatedInstance.ServiceConnection != null)
+                            {
+                                var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                                {
+                                    { "Arguments", "FileOperation" },
+                                    { "fileop", "DeleteItem" },
+                                    { "filepath", source.Path },
+                                    { "permanently", permanently }
+                                });
+                                fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                                    && response.Get("Success", false));
+                            }
+                        }
                     }
                 }
             }
