@@ -554,8 +554,10 @@ namespace Files.Filesystem
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
 
-            fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
-
+            if (permanently)
+            {
+                fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
+            }
             if (!fsResult)
             {
                 if (source.ItemType == FilesystemItemType.File)
@@ -575,7 +577,7 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
-                await associatedInstance.ServiceConnection?.Elevate();
+                //await associatedInstance.ServiceConnection?.Elevate();
                 if (associatedInstance.ServiceConnection != null)
                 {
                     var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
