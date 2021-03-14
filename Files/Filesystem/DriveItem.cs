@@ -93,7 +93,7 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceText, value);
         }
 
-        private Color progressColor = Color.FromArgb(255, 41, 132, 204);
+        private Color progressColor;
 
         public Color ProgressColor
         {
@@ -113,6 +113,8 @@ namespace Files.Filesystem
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             DeviceID = deviceId;
             Root = root;
+
+            ProgressColor = new Windows.UI.ViewManagement.UISettings().GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
 
             CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
         }
