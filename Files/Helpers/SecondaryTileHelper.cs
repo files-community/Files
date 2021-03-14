@@ -42,12 +42,13 @@ namespace Files.Helpers
             var result = false;
             try
             {
-                var glyph = GlyphHelper.GetItemIcon(path);
+                var glyph = "";
+                //var glyph = GlyphHelper.GetItemIcon(path);
                 // ignore the default
-                if (glyph == "\uE8B7")
-                {
-                    glyph = "";
-                }
+                //if (glyph == "\uE8B7")
+                //{
+                //    glyph = "";
+                //}
 
                 (Uri Path150x150, Uri Path71x71) logos = await FolderGlyphAssetHelper.GenerateAssetsAsync(glyph);
 
