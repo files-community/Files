@@ -794,6 +794,13 @@ namespace Files
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewPane");
                 }
+
+                //Shift key is not held, remove extras here
+                if(Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift) != CoreVirtualKeyStates.Down)
+                {
+                    UnloadMenuFlyoutItemByName("PinItemToStart");
+                    UnloadMenuFlyoutItemByName("UnpinItemFromStart");
+                }
             }
 
             //check the file extension of the selected item
