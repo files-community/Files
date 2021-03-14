@@ -239,10 +239,7 @@ namespace Files.UserControls
 
                 if (item.IsDefaultLocation)
                 {
-                    var isLibrary = (MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem)?
-                        .ChildItems?
-                        .Contains(item) ?? false;
-                    if (!isLibrary)
+                    if (item.Section != SectionType.Library)
                     {
                         ShowProperties = false;
                     }

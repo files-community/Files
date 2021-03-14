@@ -117,7 +117,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
-
+                            Section = SectionType.Network,
                             Glyph = "\uE8CE",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
