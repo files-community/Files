@@ -6,7 +6,7 @@
     xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="ElevateConfirmDialog"
-    Title="This action requires Files adminstrator rights, would you like to continue as administrator?"
+    Title="This action requires adminstrator rights, would you like to continue as administrator?"
     CloseButtonText="No"
     CornerRadius="4"
     DefaultButton="Primary"
