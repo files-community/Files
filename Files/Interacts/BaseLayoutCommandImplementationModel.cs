@@ -8,6 +8,10 @@ using System;
 
 namespace Files.Interacts
 {
+    /// <summary>
+    /// This class provides default implementation for BaseLayout commands.
+    /// This class can be also inherited from and functions overridden to provide custom functionality
+    /// </summary>
     public class BaseLayoutCommandImplementationModel : IBaseLayoutCommandImplementationModel
     {
         #region Singleton
@@ -44,12 +48,12 @@ namespace Files.Interacts
 
         #region Command Implementation
 
-        public void RenameItem(RoutedEventArgs e)
+        public virtual void RenameItem(RoutedEventArgs e)
         {
             associatedInstance.SlimContentPage.StartRenameItem();
         }
 
-        public async void CreateShortcut(RoutedEventArgs e)
+        public virtual async void CreateShortcut(RoutedEventArgs e)
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
@@ -74,17 +78,17 @@ namespace Files.Interacts
             }
         }
 
-        public void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
+        public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
         {
             associatedInstance.InteractionOperations.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public void SetAsDesktopBackgroundItem(RoutedEventArgs e)
+        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
         {
             associatedInstance.InteractionOperations.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public async void RunAsAdmin(RoutedEventArgs e)
+        public virtual async void RunAsAdmin(RoutedEventArgs e)
         {
             if (ServiceConnection != null)
             {
@@ -97,7 +101,7 @@ namespace Files.Interacts
             }
         }
 
-        public async void RunAsAnotherUser(RoutedEventArgs e)
+        public virtual async void RunAsAnotherUser(RoutedEventArgs e)
         {
             if (ServiceConnection != null)
             {
@@ -110,32 +114,32 @@ namespace Files.Interacts
             }
         }
 
-        public void SidebarPinItem(RoutedEventArgs e)
+        public virtual void SidebarPinItem(RoutedEventArgs e)
         {
             SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
         }
 
-        public void SidebarUnpinItem(RoutedEventArgs e)
+        public virtual void SidebarUnpinItem(RoutedEventArgs e)
         {
             SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
         }
 
-        public void OpenItem(RoutedEventArgs e)
+        public virtual void OpenItem(RoutedEventArgs e)
         {
             associatedInstance.InteractionOperations.OpenSelectedItems(false);
         }
 
-        public void UnpinDirectoryFromSidebar(RoutedEventArgs e)
+        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
-        public void EmptyRecycleBin(RoutedEventArgs e)
+        public virtual void EmptyRecycleBin(RoutedEventArgs e)
         {
             RecycleBinHelpers.EmptyRecycleBin(associatedInstance);
         }
 
-        public void QuickLook(RoutedEventArgs e)
+        public virtual void QuickLook(RoutedEventArgs e)
         {
             QuickLookHelpers.ToggleQuickLook(associatedInstance);
         }

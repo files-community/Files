@@ -576,7 +576,7 @@
                     Text="Rename">
                     <i:Interaction.Behaviors>
                         <icore:EventTriggerBehavior EventName="Click">
-                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RenameItemCommand, Mode=OneWay}"/>
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RenameItemCommand}"/>
                         </icore:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
