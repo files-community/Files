@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
@@ -15,7 +16,7 @@ namespace Files
         public Interaction InteractionOperations { get; }
         public ItemViewModel FilesystemViewModel { get; }
         public CurrentInstanceViewModel InstanceViewModel { get; }
-        public AppServiceConnection ServiceConnection { get; }
+        public NamedPipeAsAppServiceConnection ServiceConnection { get; }
         public BaseLayout ContentPage { get; }
         public Type CurrentPageType { get; }
         public IFilesystemHelpers FilesystemHelpers { get; }

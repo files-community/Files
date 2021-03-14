@@ -39,7 +39,7 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
@@ -227,7 +227,7 @@ namespace Files
             var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var (status, response) = Task.Run(() => Connection.SendMessageSafeAsync(new ValueSet()
+                var (status, response) = Task.Run(() => Connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -237,12 +237,12 @@ namespace Files
                     { "ShowOpenMenu", showOpenMenu }
                 })).Result;
                 if (status == AppServiceResponseStatus.Success
-                    && response.Message.ContainsKey("Handle"))
+                    && response.ContainsKey("Handle"))
                 {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
+                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
+                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response["Handle"], true, maxItems);
                     }
                 }
             }
@@ -536,7 +536,7 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (Connection != null)
                 {
-                    await Connection.SendMessageSafeAsync(new ValueSet()
+                    await Connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
@@ -553,7 +553,7 @@ namespace Files
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
             if (shellContextMenuTag.menuItem != null && Connection != null)
             {
-                await Connection.SendMessageSafeAsync(new ValueSet()
+                await Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle }
@@ -813,7 +813,7 @@ namespace Files
                 {
                     if (Connection != null)
                     {
-                        await Connection.SendMessageSafeAsync(new ValueSet() {
+                        await Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
                             { "droptext", "DragDropWindowText".GetLocalized() },

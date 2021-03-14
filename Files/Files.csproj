@@ -175,6 +175,9 @@
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ElevateConfirmDialog.xaml.cs">
+      <DependentUpon>ElevateConfirmDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\DynamicDialogButtons.cs" />
     <Compile Include="Enums\DynamicDialogResult.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
@@ -370,9 +373,6 @@
     </Compile>
     <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\LayoutDialog.xaml.cs">
-      <DependentUpon>LayoutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\PropertiesDialog.xaml.cs">
       <DependentUpon>PropertiesDialog.xaml</DependentUpon>
@@ -737,6 +737,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\ElevateConfirmDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\RestartDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -822,10 +826,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ExceptionDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\LayoutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1065,10 +1065,6 @@
     <ProjectReference Include="..\Files.Extensions\Files.Extensions.vcxproj">
       <Project>{d4e6a3ab-df72-44a4-9acb-c8a222656a20}</Project>
       <Name>Files.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MessageRelay\Files.MessageRelay.csproj">
-      <Project>{7684e128-d854-4c00-b086-0dd7d52f6e54}</Project>
-      <Name>Files.MessageRelay</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

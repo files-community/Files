@@ -20,7 +20,7 @@ namespace Files.Views
         private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
-        public AppServiceConnection Connection => AppInstance?.ServiceConnection;
+        public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
         public YourHome()
         {

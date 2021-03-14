@@ -201,7 +201,7 @@ namespace Files.UserControls
         public string FullTitle
         {
             get => fullTitle;
-            set => SetProperty(ref fullTitle, value);
+            set => SetProperty(ref fullTitle, value ?? string.Empty);
         }
 
         #endregion Public Properties

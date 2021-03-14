@@ -208,7 +208,14 @@ namespace Files.Views.LayoutModes
 
         public override void ScrollIntoView(ListedItem item)
         {
-            AllView.ScrollIntoView(item, null);
+            try
+            {
+                AllView.ScrollIntoView(item, null);
+            }
+            catch (Exception)
+            {
+                // Catch error where row index could not be found
+            }
         }
 
         public override void FocusFileList()
