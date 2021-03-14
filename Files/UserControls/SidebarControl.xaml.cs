@@ -592,19 +592,6 @@ namespace Files.UserControls
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
         }
-
-        private async void PinItemToStart_Click(object sender, RoutedEventArgs e)
-        {
-            var item = (sender as MenuFlyoutItem).DataContext as INavigationControlItem;
-            try
-            {
-                await App.SecondaryTileHelper.PinFolderAsync(item.Path, item.Text, item.Glyph);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
     }
 
     public class SidebarItemDroppedEventArgs : EventArgs

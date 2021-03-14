@@ -650,6 +650,8 @@ namespace Files
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                UnloadMenuFlyoutItemByName("PinItemToStart");
+                UnloadMenuFlyoutItemByName("UnpinItemFromStart");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                 UnloadMenuFlyoutItemByName("OpenInNewPane");
@@ -726,6 +728,7 @@ namespace Files
                 if (SelectedItems.Any(x => x.IsShortcutItem))
                 {
                     UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    UnloadMenuFlyoutItemByName("PinItemToStart");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
                 else if (SelectedItems.Count == 1)
@@ -755,6 +758,17 @@ namespace Files
                     {
                         LoadMenuFlyoutItemByName("SidebarPinItem");
                         UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                    }
+
+                    if (selectedItems.All(x => x.IsItemPinnedToStart))
+                    {
+                        UnloadMenuFlyoutItemByName("PinItemToStart");
+                        LoadMenuFlyoutItemByName("UnpinItemFromStart");
+                    }
+                    else
+                    {
+                        LoadMenuFlyoutItemByName("PinItemToStart");
+                        UnloadMenuFlyoutItemByName("UnpinItemFromStart");
                     }
                 }
 
