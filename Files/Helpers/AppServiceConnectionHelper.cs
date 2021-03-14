@@ -40,55 +40,23 @@ namespace Files.Helpers
         private async static void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+            var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
+            ConnectionChanged?.Invoke(null, nullConn);
             (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
             (await Instance)?.Dispose();
-            Instance = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
-            ConnectionChanged?.Invoke(null, Instance);
+            Instance = nullConn;
             deferral.Complete();
         }
 
         private static async Task<NamedPipeAsAppServiceConnection> BuildConnection()
         {
-            try
+            var connection = new NamedPipeAsAppServiceConnection();
+            if (await connection.Connect(@$"\\.\pipe\{"FilesInteropService_ServerPipe"}", TimeSpan.FromSeconds(15)))
             {
-                SafePipeHandle PipeHandle = null;
-                bool firstLoop = true;
-
-                using var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(30));
-                while (true)
-                {
-                    IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(@$"\\.\pipe\{"FilesInteropService_ServerPipe"}", NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
-
-                    PipeHandle = new SafePipeHandle(Handle, true);
-
-                    if (!PipeHandle.IsInvalid)
-                    {
-                        break;
-                    }
-                    else if (cts.Token.IsCancellationRequested)
-                    {
-                        return null;
-                    }
-                    else if (firstLoop)
-                    {
-                        firstLoop = false;
-                        // Launch fulltrust process
-                        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-                    }
-                    await Task.Delay(200);
-                }
-
-                var ClientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
-                ClientStream.ReadMode = PipeTransmissionMode.Message;
-
-                return new NamedPipeAsAppServiceConnection(ClientStream, PipeHandle);
+                return connection;
             }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize AppServiceConnection!");
-                return null;
-            }
+            connection.Dispose();
+            return null;
         }
     }
 
@@ -96,19 +64,15 @@ namespace Files.Helpers
     {
         private NamedPipeClientStream clientStream;
         private SafePipeHandle pipeHandle;
+        private string pipeName;
 
         public event EventHandler<Dictionary<string, object>> RequestReceived;
 
         private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
 
-        public NamedPipeAsAppServiceConnection(NamedPipeClientStream clientStream, SafePipeHandle pipeHandle)
+        public NamedPipeAsAppServiceConnection()
         {
-            this.clientStream = clientStream;
-            this.pipeHandle = pipeHandle;
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
-
-            var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
-            BeginRead(info);
         }
 
         private void BeginRead((byte[] Buffer, StringBuilder Message) info)
@@ -154,6 +118,55 @@ namespace Files.Helpers
             }
         }
 
+        public async Task<bool> Connect(string pipeName, TimeSpan timeout = default, bool isReconnecting = false)
+        {
+            try
+            {
+                SafePipeHandle PipeHandle = null;
+                bool firstLoop = true && !isReconnecting;
+                this.pipeName = pipeName;
+
+                using var cts = new CancellationTokenSource();
+                cts.CancelAfter(timeout);
+                while (true)
+                {
+                    IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(pipeName, NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
+
+                    PipeHandle = new SafePipeHandle(Handle, true);
+
+                    if (!PipeHandle.IsInvalid)
+                    {
+                        break;
+                    }
+                    else if (cts.Token.IsCancellationRequested)
+                    {
+                        return false;
+                    }
+                    else if (firstLoop)
+                    {
+                        firstLoop = false;
+                        // Launch fulltrust process
+                        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                    }
+                    await Task.Delay(200);
+                }
+
+                pipeHandle = PipeHandle;
+                clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
+                clientStream.ReadMode = PipeTransmissionMode.Message;
+
+                var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+                BeginRead(info);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize AppServiceConnection!");
+                return false;
+            }
+        }
+
         public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
         {
             if (clientStream == null)
@@ -163,17 +176,22 @@ namespace Files.Helpers
 
             try
             {
-                if (clientStream.IsConnected)
-                {
-                    var guid = Guid.NewGuid().ToString();
-                    valueSet.Add("RequestID", guid);
-                    var tcs = new TaskCompletionSource<Dictionary<string, object>>();
-                    messageList.TryAdd(guid, tcs);
-                    var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                    await clientStream.WriteAsync(serialized, 0, serialized.Length);
-                    var response = await tcs.Task;
+                var guid = Guid.NewGuid().ToString();
+                valueSet.Add("RequestID", guid);
+                var tcs = new TaskCompletionSource<Dictionary<string, object>>();
+                messageList.TryAdd(guid, tcs);
+                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                var response = await tcs.Task;
 
-                    return (AppServiceResponseStatus.Success, response);
+                return (AppServiceResponseStatus.Success, response);
+            }
+            catch (System.IO.IOException)
+            {
+                this.Cleanup();
+                if (await Connect(pipeName, TimeSpan.FromSeconds(15), true))
+                {
+                    return await SendMessageForResponseAsync(valueSet);
                 }
             }
             catch (Exception ex)
@@ -193,13 +211,18 @@ namespace Files.Helpers
 
             try
             {
-                if (clientStream.IsConnected)
+                var guid = Guid.NewGuid().ToString();
+                valueSet.Add("RequestID", guid);
+                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                return AppServiceResponseStatus.Success;
+            }
+            catch (System.IO.IOException)
+            {
+                this.Cleanup();
+                if (await Connect(pipeName, TimeSpan.FromSeconds(15), true))
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    valueSet.Add("RequestID", guid);
-                    var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                    await clientStream.WriteAsync(serialized, 0, serialized.Length);
-                    return AppServiceResponseStatus.Success;
+                    return await SendMessageAsync(valueSet);
                 }
             }
             catch (Exception ex)
@@ -210,7 +233,7 @@ namespace Files.Helpers
             return AppServiceResponseStatus.Failure;
         }
 
-        public void Dispose()
+        public void Cleanup()
         {
             foreach (var m in messageList)
             {
@@ -221,6 +244,11 @@ namespace Files.Helpers
             clientStream = null;
             pipeHandle?.Dispose();
             pipeHandle = null;
+        }
+
+        public void Dispose()
+        {
+            this.Cleanup();
         }
     }
 }

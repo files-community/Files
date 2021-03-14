@@ -176,6 +176,11 @@ namespace FilesFullTrust
             PipeAccessRule OwnerRule = new PipeAccessRule(WindowsIdentity.GetCurrent().Owner, PipeAccessRights.FullControl, AccessControlType.Allow);
             Security.AddAccessRule(ClientRule);
             Security.AddAccessRule(OwnerRule);
+            if (IsAdministrator())
+            {
+                PipeAccessRule EveryoneRule = new PipeAccessRule(new SecurityIdentifier("S-1-1-0"), PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance, AccessControlType.Allow);
+                Security.AddAccessRule(EveryoneRule); // TODO: find the minimum permission to allow connection when admin
+            }
             connection.SetAccessControl(Security);
 
             await connection.WaitForConnectionAsync();
