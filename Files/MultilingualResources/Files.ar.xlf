@@ -2440,10 +2440,6 @@
           <source>This action requires adminstrator rights, would you like to continue as administrator?</source>
           <target state="new">This action requires adminstrator rights, would you like to continue as administrator?</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialogDontAskAgainCheckBox.Content" translate="yes" xml:space="preserve">
-          <source>Don't ask again</source>
-          <target state="new">Don't ask again</target>
-        </trans-unit>
       </group>
     </body>
   </file>

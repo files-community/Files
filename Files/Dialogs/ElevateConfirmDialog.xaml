@@ -7,18 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="ElevateConfirmDialog"
     Title="This action requires adminstrator rights, would you like to continue as administrator?"
+    CloseButtonStyle="{ThemeResource DefaultButtonStyle}"
     CloseButtonText="No"
     CornerRadius="4"
     DefaultButton="Primary"
+    PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
     PrimaryButtonText="Yes"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
-    mc:Ignorable="d">
-
-    <Grid>
-        <CheckBox
-            x:Name="DontAskAgain"
-            x:Uid="ElevateConfirmDialogDontAskAgainCheckBox"
-            Content="Don't ask again"
-            IsChecked="{x:Bind AppSettings.HideConfirmElevateDialog, Mode=TwoWay}" />
-    </Grid>
-</ContentDialog>
+    mc:Ignorable="d" />

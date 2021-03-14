@@ -10,8 +10,6 @@ namespace Files.Dialogs
 {
     public sealed partial class ElevateConfirmDialog : ContentDialog
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public ElevateConfirmDialog()
         {
             this.InitializeComponent();

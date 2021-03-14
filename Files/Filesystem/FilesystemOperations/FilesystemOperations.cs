@@ -577,25 +577,22 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
-                if (!App.AppSettings.HideConfirmElevateDialog)
+                var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                if (elevateConfirmResult == ContentDialogResult.Primary)
                 {
-                    var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                    var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                    if (elevateConfirmResult == ContentDialogResult.Primary)
+                    //await associatedInstance.ServiceConnection?.Elevate();
+                    if (associatedInstance.ServiceConnection != null)
                     {
-                        //await associatedInstance.ServiceConnection?.Elevate();
-                        if (associatedInstance.ServiceConnection != null)
-                        {
-                            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },
                             { "filepath", source.Path },
                             { "permanently", permanently }
                         });
-                            fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                && response.Get("Success", false));
-                        }
+                        fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                            && response.Get("Success", false));
                     }
                 }
             }

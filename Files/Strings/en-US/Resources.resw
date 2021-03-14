@@ -1935,7 +1935,4 @@
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>This action requires adminstrator rights, would you like to continue as administrator?</value>
   </data>
-  <data name="ElevateConfirmDialogDontAskAgainCheckBox.Content" xml:space="preserve">
-    <value>Don't ask again</value>
-  </data>
 </root>
