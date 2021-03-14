@@ -133,7 +133,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarDrives".GetLocalized(),
-
+                            Section = SectionType.Drives,
                             Glyph = "\uE7F8",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()

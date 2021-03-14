@@ -56,8 +56,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
-          <target state="needs-review-translation">Geri Bildirim Gönder</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Geri Bildirim Gönder</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
@@ -65,8 +64,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="needs-review-translation">Üçüncü Şahıs Lisansları</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Üçüncü şahıs lisansları</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -174,8 +172,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="needs-review-translation">Yeni Sekme</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Yeni Sekme</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -275,13 +272,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
-          <target state="needs-review-translation">QuickLook</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="needs-review-translation">HızlıBakış</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New window</source>
-          <target state="needs-review-translation">Yeni Pencere</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Yeni Pencere</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
@@ -993,8 +988,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release notes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sürüm Notları</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated" state-qualifier="tm-suggestion">Sürüm Notları</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
@@ -1194,8 +1188,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal applications</source>
-          <target state="needs-review-translation">Terminal Uygulamaları</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Terminal Uygulamaları</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -1239,8 +1232,7 @@
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show item owner in properties</source>
-          <target state="needs-review-translation">Nitelikler içerisinde Sahibi göster</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Nitelikler içerisinde dosya sahibini göster</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
@@ -1580,19 +1572,19 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
-          <target state="new">Thumbnail Large Path</target>
+          <target state="needs-review-translation">Küçük resmin tam yolu</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Uri</source>
-          <target state="new">Thumbnail Large Uri</target>
+          <target state="needs-review-translation">Küçük resmin tam URI</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Path</source>
-          <target state="new">Thumbnail Small Path</target>
+          <target state="needs-review-translation">Küçük resmin kısa yolu</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Uri</source>
-          <target state="new">Thumbnail Small Uri</target>
+          <target state="needs-review-translation">Küçük resmin kısa URI</target>
         </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
@@ -1936,8 +1928,7 @@
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual pane</source>
-          <target state="needs-review-translation">Çift bölme</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Çift bölme</target>
         </trans-unit>
         <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show copy location menu item</source>
@@ -2037,13 +2028,11 @@
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab customization</source>
-          <target state="needs-review-translation">Sekme Özelleştirmesi</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Sekme Özelleştirmesi</target>
         </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
           <source>When launching Files</source>
-          <target state="needs-review-translation">Files Başlatılırken</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Files başlatılırken</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2179,8 +2168,7 @@
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show bundles on the home page</source>
-          <target state="needs-review-translation">Anasayfada Paketleri göster</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Ana Sayfada Paketleri göster</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
@@ -2356,47 +2344,95 @@
         </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview available</source>
-          <target state="new">No preview available</target>
+          <target state="translated">Ön izleme mevcut değil</target>
         </trans-unit>
         <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
           <source>No details available</source>
-          <target state="new">No details available</target>
+          <target state="translated">Detay mevcut değil</target>
         </trans-unit>
         <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
           <source>No item selected</source>
-          <target state="new">No item selected</target>
+          <target state="translated">Hiçbir öğe seçilmedi</target>
         </trans-unit>
         <trans-unit id="PropertyItemTarget" translate="yes" xml:space="preserve">
           <source>Target</source>
-          <target state="new">Target</target>
+          <target state="translated">Hedef</target>
         </trans-unit>
         <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
-          <target state="new">Arguments</target>
+          <target state="needs-review-translation">Argümanlar</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
-          <target state="new">Show library section on the sidebar</target>
+          <target state="needs-review-translation">Kütüphaneyi kenar çubuğunda göster</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="new">Libraries</target>
+          <target state="translated">Kütüphaneler</target>
         </trans-unit>
         <trans-unit id="BundlesOpenInNewPane" translate="yes" xml:space="preserve">
           <source>Open in new Pane</source>
-          <target state="new">Open in new Pane</target>
+          <target state="translated">Yeni bölmede aç</target>
         </trans-unit>
         <trans-unit id="DefaultScheme" translate="yes" xml:space="preserve">
           <source>Default</source>
-          <target state="new">Default</target>
+          <target state="translated">Varsayılan</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceColorScheme.Header" translate="yes" xml:space="preserve">
           <source>Color scheme</source>
-          <target state="new">Color scheme</target>
+          <target state="translated">Renk şeması</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
-          <target state="new">Item count</target>
+          <target state="translated">Öğe sayısı</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
+          <source>Deletion Failed</source>
+          <target state="new">Deletion Failed</target>
+        </trans-unit>
+        <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
+          <source>An unknown error has occurred.</source>
+          <target state="new">An unknown error has occurred.</target>
+        </trans-unit>
+        <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
+          <source>Deletion Complete</source>
+          <target state="new">Deletion Complete</target>
+        </trans-unit>
+        <trans-unit id="StatusOperationCompleted" translate="yes" xml:space="preserve">
+          <source>The operation has completed.</source>
+          <target state="new">The operation has completed.</target>
+        </trans-unit>
+        <trans-unit id="StatusRecycleComplete" translate="yes" xml:space="preserve">
+          <source>Recycle Complete</source>
+          <target state="new">Recycle Complete</target>
+        </trans-unit>
+        <trans-unit id="StatusMoveComplete" translate="yes" xml:space="preserve">
+          <source>Move Complete</source>
+          <target state="new">Move Complete</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
+          <source>Copy Complete</source>
+          <target state="new">Copy Complete</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="new">No</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="new">Yes</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
+          <source>This action requires adminstrator rights</source>
+          <target state="new">This action requires adminstrator rights</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
+          <source>Would you like to continue as administrator?</source>
+          <target state="new">Would you like to continue as administrator?</target>
         </trans-unit>
       </group>
     </body>

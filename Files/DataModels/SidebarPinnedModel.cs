@@ -44,6 +44,7 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
+                Section = SectionType.Home,
                 Font = InteractionViewModel.FontName,
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
@@ -53,6 +54,7 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
+                Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
                 Font = InteractionViewModel.FontName,
                 Glyph = "\uE734",
@@ -263,6 +265,7 @@ namespace Files.DataModels
                 {
                     Font = InteractionViewModel.FontName,
                     Path = path,
+                    Section = SectionType.Favorites,
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))

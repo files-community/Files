@@ -26,7 +26,7 @@ namespace Files.Filesystem.StorageEnumerators
             string returnformat,
             IntPtr hFile,
             WIN32_FIND_DATA findData,
-            AppServiceConnection connection,
+            NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken,
             List<string> skipItems,
             int countLimit,
@@ -171,7 +171,7 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             string pathRoot,
             string dateReturnFormat,
-            AppServiceConnection connection,
+            NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken
         )
         {
@@ -245,7 +245,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageSafeAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
@@ -257,13 +257,13 @@ namespace Files.Filesystem.StorageEnumerators
                         return null;
                     }
                     if (status == AppServiceResponseStatus.Success
-                        && response.Message.ContainsKey("TargetPath"))
+                        && response.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
-                        string target = (string)response.Message["TargetPath"];
+                        string target = (string)response["TargetPath"];
                         bool containsFilesOrFolders = false;
 
-                        if ((bool)response.Message["IsFolder"])
+                        if ((bool)response["IsFolder"])
                         {
                             containsFilesOrFolders = FolderHelpers.CheckForFilesFolders(target);
                         }
@@ -278,15 +278,15 @@ namespace Files.Filesystem.StorageEnumerators
 
                         return new ShortcutItem(null, dateReturnFormat)
                         {
-                            PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
+                            PrimaryItemAttribute = (bool)response["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
                             IsHiddenItem = isHidden,
                             Opacity = opacity,
                             FileImage = null,
-                            LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
-                            LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
-                            LoadWebShortcutGlyph = !(bool)response.Message["IsFolder"] && isUrl && itemEmptyImgVis,
-                            LoadFolderGlyph = (bool)response.Message["IsFolder"],
+                            LoadFileIcon = !(bool)response["IsFolder"] && itemThumbnailImgVis,
+                            LoadUnknownTypeGlyph = !(bool)response["IsFolder"] && !isUrl && itemEmptyImgVis,
+                            LoadWebShortcutGlyph = !(bool)response["IsFolder"] && isUrl && itemEmptyImgVis,
+                            LoadFolderGlyph = (bool)response["IsFolder"],
                             ItemName = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
@@ -296,9 +296,9 @@ namespace Files.Filesystem.StorageEnumerators
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,
                             TargetPath = target,
-                            Arguments = (string)response.Message["Arguments"],
-                            WorkingDirectory = (string)response.Message["WorkingDirectory"],
-                            RunAsAdmin = (bool)response.Message["RunAsAdmin"],
+                            Arguments = (string)response["Arguments"],
+                            WorkingDirectory = (string)response["WorkingDirectory"],
+                            RunAsAdmin = (bool)response["RunAsAdmin"],
                             IsUrl = isUrl,
                             ContainsFilesOrFolders = containsFilesOrFolders
                         };

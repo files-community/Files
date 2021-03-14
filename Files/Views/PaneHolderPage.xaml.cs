@@ -453,8 +453,8 @@ namespace Files.Views
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-                var (status, response) = await connection.SendMessageSafeAsync(value);
-                if (status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
                 {
                     recycleBinHasItems = (long)numItems > 0;
                 }
