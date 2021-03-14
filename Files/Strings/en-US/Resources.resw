@@ -1925,5 +1925,17 @@
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Copy Complete</value>
-  </data>  
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>This action requires Files adminstrator rights, would you like to continue as administrator?</value>
+  </data>
+  <data name="ElevateConfirmDialogDontAskAgainCheckBox.Content" xml:space="preserve">
+    <value>Don't ask again</value>
+  </data>
 </root>
