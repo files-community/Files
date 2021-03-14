@@ -1741,10 +1741,10 @@
     <value>Verbindung trennen</value>
   </data>
   <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Eine kleinerer Wert ist für Festplatten empfohlen</value>
+    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Ein kleinerer Wert ist für Festplatten empfohlen)</value>
   </data>
   <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Vorzeitiges Zwischenspeichern benutzen (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
+    <value>Vorzeitiges Zwischenspeichern aktivieren (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr Gruppenoptionen</value>
@@ -1790,5 +1790,8 @@
   </data>
   <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Farbschema</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Anzahl an Objekten</value>
   </data>
 </root>

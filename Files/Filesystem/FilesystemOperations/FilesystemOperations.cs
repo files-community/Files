@@ -577,18 +577,23 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
-                //await associatedInstance.ServiceConnection?.Elevate();
-                if (associatedInstance.ServiceConnection != null)
+                var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                if (elevateConfirmResult == ContentDialogResult.Primary)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    //await associatedInstance.ServiceConnection?.Elevate();
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },
                             { "filepath", source.Path },
                             { "permanently", permanently }
                         });
-                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                        && response.Get("Success", false));
+                        fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                            && response.Get("Success", false));
+                    }
                 }
             }
             else if (fsResult == FileSystemStatusCode.InUse)
