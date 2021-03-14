@@ -20,11 +20,11 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using static Files.UserControls.INavigationToolbar;
+using static Files.UserControls.IRibbonToolbar;
 
 namespace Files.UserControls
 {
-    public sealed partial class ExpandRibbonToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
+    public sealed partial class ExpandRibbonToolbar : UserControl, IRibbonToolbar, INotifyPropertyChanged
     {
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -50,11 +50,7 @@ namespace Files.UserControls
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
-
         public event EventHandler EditModeEnabled;
-
-        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
         public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
 
@@ -67,7 +63,9 @@ namespace Files.UserControls
         public event EventHandler UpRequested;
 
         public event EventHandler RefreshRequested;
-
+        public event EventHandler CopyRequested;
+        public event EventHandler PasteRequested;
+        public event EventHandler CutRequested;
 
         public static readonly DependencyProperty CanCreateFileInPageProperty = DependencyProperty.Register(
           "CanCreateFileInPage",
@@ -120,185 +118,16 @@ namespace Files.UserControls
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
         }
 
-        private bool manualEntryBoxLoaded = false;
-
-        public bool ManualEntryBoxLoaded
-        {
-            get
-            {
-                return manualEntryBoxLoaded;
-            }
-            set
-            {
-                if (value != manualEntryBoxLoaded)
-                {
-                    manualEntryBoxLoaded = value;
-                    NotifyPropertyChanged(nameof(ManualEntryBoxLoaded));
-                }
-            }
-        }
-
-        private bool clickablePathLoaded = true;
-
-        public bool ClickablePathLoaded
-        {
-            get
-            {
-                return clickablePathLoaded;
-            }
-            set
-            {
-                if (value != clickablePathLoaded)
-                {
-                    clickablePathLoaded = value;
-                    NotifyPropertyChanged(nameof(ClickablePathLoaded));
-                }
-            }
-        }
-
-        private bool showMultiPaneControls;
-
-        public bool ShowMultiPaneControls
-        {
-            get
-            {
-                return showMultiPaneControls;
-            }
-            set
-            {
-                if (value != showMultiPaneControls)
-                {
-                    showMultiPaneControls = value;
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
-                }
-            }
-        }
-
-        private bool isMultiPaneActive;
-
-        public bool IsMultiPaneActive
-        {
-            get
-            {
-                return isMultiPaneActive;
-            }
-            set
-            {
-                if (value != isMultiPaneActive)
-                {
-                    isMultiPaneActive = value;
-                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
-                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
-                }
-            }
-        }
-
-        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
-
-        private bool isPageMainPane;
-
-        public bool IsPageMainPane
-        {
-            get
-            {
-                return isPageMainPane;
-            }
-            set
-            {
-                if (value != isPageMainPane)
-                {
-                    isPageMainPane = value;
-                    NotifyPropertyChanged(nameof(IsPageMainPane));
-                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
-                }
-            }
-        }
-
-        private bool areKeyboardAcceleratorsEnabled;
-
-        public bool AreKeyboardAcceleratorsEnabled
-        {
-            get
-            {
-                return areKeyboardAcceleratorsEnabled;
-            }
-            set
-            {
-                if (value != areKeyboardAcceleratorsEnabled)
-                {
-                    areKeyboardAcceleratorsEnabled = value;
-                    NotifyPropertyChanged(nameof(AreKeyboardAcceleratorsEnabled));
-                }
-            }
-        }
-
         public string PathText { get; set; }
-
-        private bool isSearchRegionVisible;
-
-        public bool IsSearchRegionVisible
-        {
-            get
-            {
-                return isSearchRegionVisible;
-            }
-            set
-            {
-                if (value != isSearchRegionVisible)
-                {
-                    isSearchRegionVisible = value;
-                    NotifyPropertyChanged(nameof(IsSearchRegionVisible));
-                }
-            }
-        }
-
-        bool INavigationToolbar.IsEditModeEnabled
-        {
-            get
-            {
-                return ManualEntryBoxLoaded;
-            }
-            set
-            {
-                if (value)
-                {
-                    EditModeEnabled?.Invoke(this, new EventArgs());
-                    //VisiblePath.Focus(FocusState.Programmatic);
-                    //Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
-                }
-                else
-                {
-                    ManualEntryBoxLoaded = false;
-                    ClickablePathLoaded = true;
-                }
-            }
-        }
-
-        public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
-
-        string INavigationToolbar.PathControlDisplayText
-        {
-            get
-            {
-                return PathText;
-            }
-            set
-            {
-                PathText = value;
-                NotifyPropertyChanged(nameof(PathText));
-            }
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public ObservableCollection<PathBoxItem> PathComponents { get; } = new ObservableCollection<PathBoxItem>();
         public bool CanRefresh { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CanNavigateToParent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CanGoBack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool CanGoForward { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool CanCopy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool CanPaste { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool CanCut { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private string dragOverPath = null;
         private DispatcherTimer dragOverTimer = new DispatcherTimer();
@@ -326,26 +155,26 @@ namespace Files.UserControls
                 return;
             }
 
-            if (dragOverPath != pathBoxItem.Path)
-            {
-                dragOverPath = pathBoxItem.Path;
-                dragOverTimer.Stop();
-                if (dragOverPath != (this as INavigationToolbar).PathComponents.LastOrDefault()?.Path)
-                {
-                    dragOverTimer.Debounce(() =>
-                    {
-                        if (dragOverPath != null)
-                        {
-                            dragOverTimer.Stop();
-                            ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
-                            {
-                                ItemPath = dragOverPath
-                            });
-                            dragOverPath = null;
-                        }
-                    }, TimeSpan.FromMilliseconds(1000), false);
-                }
-            }
+            //if (dragOverPath != pathBoxItem.Path)
+            //{
+            //    dragOverPath = pathBoxItem.Path;
+            //    dragOverTimer.Stop();
+            //    if (dragOverPath != (this as IRibbonToolbar).PathComponents.LastOrDefault()?.Path)
+            //    {
+            //        dragOverTimer.Debounce(() =>
+            //        {
+            //            if (dragOverPath != null)
+            //            {
+            //                dragOverTimer.Stop();
+            //                ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
+            //                {
+            //                    ItemPath = dragOverPath
+            //                });
+            //                dragOverPath = null;
+            //            }
+            //        }, TimeSpan.FromMilliseconds(1000), false);
+            //    }
+            //}
 
             if (!e.DataView.Contains(StandardDataFormats.StorageItems))
             {

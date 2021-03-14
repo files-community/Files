@@ -738,19 +738,10 @@
                             <ListView x:Name="MoveToFoldersView"
                                       SelectionChanged="MoveToFoldersView_SelectionChanged"
                                       SingleSelectionFollowsFocus="False">
-                                <StackPanel Tag="bullet" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C8;"/>
-                                    <TextBlock Text="Bullet" Margin="8,0"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;"/>
+                                    <TextBlock Text="Choose location..." Margin="8,0"/>
                                 </StackPanel>
-                                <StackPanel Tag="alpha" Orientation="Horizontal">
-                                    <TextBlock Text="A" FontSize="24" Margin="2,0"/>
-                                    <TextBlock Text="Alpha" Margin="8"/>
-                                </StackPanel>
-                                <StackPanel Tag="numeric" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF146;"/>
-                                    <TextBlock Text="Numeric" Margin="8,0"/>
-                                </StackPanel>
-                                <TextBlock Tag="none" Text="None" Margin="28,0"/>
                             </ListView>
                         </Flyout>
                     </ToggleSplitButton.Flyout>
@@ -765,19 +756,10 @@
                             <ListView x:Name="CopyToFoldersView"
                                       SelectionChanged="CopyToFoldersView_SelectionChanged"
                                       SingleSelectionFollowsFocus="False">
-                                <StackPanel Tag="bullet" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C8;"/>
-                                    <TextBlock Text="Bullet" Margin="8,0"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;"/>
+                                    <TextBlock Text="Choose location..." Margin="8,0"/>
                                 </StackPanel>
-                                <StackPanel Tag="alpha" Orientation="Horizontal">
-                                    <TextBlock Text="A" FontSize="24" Margin="2,0"/>
-                                    <TextBlock Text="Alpha" Margin="8"/>
-                                </StackPanel>
-                                <StackPanel Tag="numeric" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF146;"/>
-                                    <TextBlock Text="Numeric" Margin="8,0"/>
-                                </StackPanel>
-                                <TextBlock Tag="none" Text="None" Margin="28,0"/>
                             </ListView>
                         </Flyout>
                     </ToggleSplitButton.Flyout>
@@ -786,25 +768,24 @@
                 <ToggleSplitButton x:Name="Delete"                                   
                                    Click="Delete_Click"
                                    IsCheckedChanged="Delete_IsCheckedChanged">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xE8C8;"/>
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xEB90;"/>
                     <ToggleSplitButton.Flyout>
                         <Flyout>
                             <ListView x:Name="DeleteView"
                                       SelectionChanged="DeleteView_SelectionChanged"
                                       SingleSelectionFollowsFocus="False">
-                                <StackPanel Tag="bullet" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74D;"/>
+                                    <TextBlock Text="Recycle" Margin="8,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB90;"/>
+                                    <TextBlock Text="Permanently delete" Margin="8,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C8;"/>
-                                    <TextBlock Text="Bullet" Margin="8,0"/>
+                                    <TextBlock Text="Show recycle confirmation" Margin="8,0"/>
                                 </StackPanel>
-                                <StackPanel Tag="alpha" Orientation="Horizontal">
-                                    <TextBlock Text="A" FontSize="24" Margin="2,0"/>
-                                    <TextBlock Text="Alpha" Margin="8"/>
-                                </StackPanel>
-                                <StackPanel Tag="numeric" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF146;"/>
-                                    <TextBlock Text="Numeric" Margin="8,0"/>
-                                </StackPanel>
-                                <TextBlock Tag="none" Text="None" Margin="28,0"/>
                             </ListView>
                         </Flyout>
                     </ToggleSplitButton.Flyout>
@@ -847,19 +828,18 @@
                             <ListView x:Name="SelectView"
                                       SelectionChanged="SelectView_SelectionChanged"
                                       SingleSelectionFollowsFocus="False">
-                                <StackPanel Tag="bullet" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C8;"/>
-                                    <TextBlock Text="Bullet" Margin="8,0"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE138;"/>
+                                    <TextBlock Text="Select all" Margin="8,0"/>
                                 </StackPanel>
-                                <StackPanel Tag="alpha" Orientation="Horizontal">
-                                    <TextBlock Text="A" FontSize="24" Margin="2,0"/>
-                                    <TextBlock Text="Alpha" Margin="8"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE138;"/>
+                                    <TextBlock Text="Select none" Margin="8,0"/>
                                 </StackPanel>
                                 <StackPanel Tag="numeric" Orientation="Horizontal">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF146;"/>
-                                    <TextBlock Text="Numeric" Margin="8,0"/>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE138;"/>
+                                    <TextBlock Text="Invert selection" Margin="8,0"/>
                                 </StackPanel>
-                                <TextBlock Tag="none" Text="None" Margin="28,0"/>
                             </ListView>
                         </Flyout>
                     </ToggleSplitButton.Flyout>

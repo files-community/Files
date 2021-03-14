@@ -219,6 +219,7 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="IRibbonToolbar.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
