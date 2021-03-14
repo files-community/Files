@@ -2,7 +2,6 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using System;
@@ -13,7 +12,7 @@ namespace Files.Interacts
     {
         #region Singleton
 
-        private AppServiceConnection ServiceConnection => associatedInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection ServiceConnection => associatedInstance?.ServiceConnection;
 
         private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
@@ -70,7 +69,7 @@ namespace Files.Interacts
                                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
-                    await ServiceConnection.SendMessageSafeAsync(value);
+                    await ServiceConnection.SendMessageAsync(value);
                 }
             }
         }
@@ -89,7 +88,7 @@ namespace Files.Interacts
         {
             if (ServiceConnection != null)
             {
-                await ServiceConnection.SendMessageSafeAsync(new ValueSet()
+                await ServiceConnection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", SlimContentPage.SelectedItem.ItemPath },
@@ -102,7 +101,7 @@ namespace Files.Interacts
         {
             if (ServiceConnection != null)
             {
-                await ServiceConnection.SendMessageSafeAsync(new ValueSet()
+                await ServiceConnection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", SlimContentPage.SelectedItem.ItemPath },
