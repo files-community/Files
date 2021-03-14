@@ -36,7 +36,7 @@ namespace Files.Helpers
             ds.TextAntialiasing = Microsoft.Graphics.Canvas.Text.CanvasTextAntialiasing.ClearType;
             var canvasSvgDocument = await CanvasSvgDocument.LoadAsync(device, await image.OpenReadAsync());
             ds.Transform *= Matrix3x2.CreateScale(scale, scale);
-            ds.DrawSvg(canvasSvgDocument, new Size(width, height), (width - 256 * scale) / scale / 2, (height - 256 * scale) / scale / 2);
+            ds.DrawSvg(canvasSvgDocument, new Size(width, height), (width - (256 * scale)) / scale / 2, (height - (256 * scale)) / scale / 2);
             ds.Transform = Matrix3x2.CreateTranslation(0, 0);
 
             // skip this step if the glyph is empty
