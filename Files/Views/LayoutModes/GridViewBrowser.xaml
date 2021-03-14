@@ -899,19 +899,19 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="{x:Bind MinusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
+                Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Subtract"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
+                Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>

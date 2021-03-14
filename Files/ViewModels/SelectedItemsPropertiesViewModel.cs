@@ -507,11 +507,11 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private BaseLayout contentPage = null;
+        private IBaseLayout contentPage;
 
-        public SelectedItemsPropertiesViewModel(BaseLayout contentPageParam)
+        public SelectedItemsPropertiesViewModel(IBaseLayout contentPage)
         {
-            contentPage = contentPageParam;
+            this.contentPage = contentPage;
         }
 
         private bool isSelectedItemImage = false;

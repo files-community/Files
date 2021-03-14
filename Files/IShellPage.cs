@@ -12,26 +12,36 @@ namespace Files
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
         IStatusCenterActions StatusCenterActions { get; }
-        public Interaction InteractionOperations { get; }
-        public ItemViewModel FilesystemViewModel { get; }
-        public CurrentInstanceViewModel InstanceViewModel { get; }
-        public AppServiceConnection ServiceConnection { get; }
-        public BaseLayout ContentPage { get; }
-        public Type CurrentPageType { get; }
-        public IFilesystemHelpers FilesystemHelpers { get; }
-        public INavigationToolbar NavigationToolbar { get; }
-        public bool CanNavigateBackward { get; }
-        public bool CanNavigateForward { get; }
 
-        public abstract void Refresh_Click();
+        Interaction InteractionOperations { get; }
 
-        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
+        ItemViewModel FilesystemViewModel { get; }
 
-        public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+        CurrentInstanceViewModel InstanceViewModel { get; }
 
-        public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
+        AppServiceConnection ServiceConnection { get; }
 
-        public void RemoveLastPageFromBackStack();
+        IBaseLayout SlimContentPage { get; }
+
+        Type CurrentPageType { get; }
+
+        IFilesystemHelpers FilesystemHelpers { get; }
+
+        INavigationToolbar NavigationToolbar { get; }
+
+        bool CanNavigateBackward { get; }
+
+        bool CanNavigateForward { get; }
+
+        abstract void Refresh_Click();
+
+        void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
+
+        void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+
+        void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
+
+        void RemoveLastPageFromBackStack();
     }
 
     public interface IPaneHolder : IDisposable

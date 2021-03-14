@@ -83,9 +83,9 @@ namespace Files.Interacts
                     // use FilesAndFolders because only displayed entries should be jumped to
                     var candidateItems = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                    if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
+                    if (AssociatedInstance.SlimContentPage != null && AssociatedInstance.SlimContentPage.IsItemSelected)
                     {
-                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
+                        previouslySelectedItem = AssociatedInstance.SlimContentPage.SelectedItem;
                     }
 
                     // If the user is trying to cycle through items
@@ -102,8 +102,8 @@ namespace Files.Interacts
 
                     if (jumpedToItem != null)
                     {
-                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
-                        AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
+                        AssociatedInstance.SlimContentPage.SetSelectedItemOnUi(jumpedToItem);
+                        AssociatedInstance.SlimContentPage.ScrollIntoView(jumpedToItem);
                     }
 
                     // Restart the timer
@@ -160,7 +160,7 @@ namespace Files.Interacts
 
         public async void OpenInNewWindowItem_Click()
         {
-            var items = AssociatedInstance.ContentPage.SelectedItems;
+            var items = AssociatedInstance.SlimContentPage.SelectedItems;
             foreach (ListedItem listedItem in items)
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
@@ -171,7 +171,7 @@ namespace Files.Interacts
 
         public void OpenDirectoryInNewPane_Click()
         {
-            var listedItem = AssociatedInstance.ContentPage.SelectedItems.FirstOrDefault();
+            var listedItem = AssociatedInstance.SlimContentPage.SelectedItems.FirstOrDefault();
             if (listedItem != null)
             {
                 AssociatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
@@ -187,7 +187,7 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInNewTab_Click()
         {
-            foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
@@ -592,11 +592,11 @@ namespace Files.Interacts
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-            if (AssociatedInstance.ContentPage == null)
+            if (AssociatedInstance.SlimContentPage == null)
             {
                 return;
             }
-            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in AssociatedInstance.SlimContentPage.SelectedItems)
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
@@ -621,15 +621,15 @@ namespace Files.Interacts
 
         private async void ShowProperties()
         {
-            if (AssociatedInstance.ContentPage.IsItemSelected)
+            if (AssociatedInstance.SlimContentPage.IsItemSelected)
             {
-                if (AssociatedInstance.ContentPage.SelectedItems.Count > 1)
+                if (AssociatedInstance.SlimContentPage.SelectedItems.Count > 1)
                 {
-                    await OpenPropertiesWindowAsync(AssociatedInstance.ContentPage.SelectedItems);
+                    await OpenPropertiesWindowAsync(AssociatedInstance.SlimContentPage.SelectedItems);
                 }
                 else
                 {
-                    await OpenPropertiesWindowAsync(AssociatedInstance.ContentPage.SelectedItem);
+                    await OpenPropertiesWindowAsync(AssociatedInstance.SlimContentPage.SelectedItem);
                 }
             }
             else
@@ -721,7 +721,7 @@ namespace Files.Interacts
             /*dataRequest.Data.Properties.Title = "Data Shared From Files";
             dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
 
-            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in AssociatedInstance.SlimContentPage.SelectedItems)
             {
                 if (item.IsShortcutItem)
                 {
@@ -775,7 +775,7 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             await FilesystemHelpers.DeleteItemsAsync(
-                AssociatedInstance.ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
+                AssociatedInstance.SlimContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                 true, false, true);
@@ -822,14 +822,14 @@ namespace Files.Interacts
         public void SetHiddenAttributeItem(ListedItem item, bool isHidden)
         {
             item.IsHiddenItem = isHidden;
-            AssociatedInstance.ContentPage.ResetItemOpacity();
+            AssociatedInstance.SlimContentPage.ResetItemOpacity();
         }
 
         public async void RestoreItem_Click(object sender, RoutedEventArgs e)
         {
-            if (AssociatedInstance.ContentPage.IsItemSelected)
+            if (AssociatedInstance.SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
                 {
                     if (listedItem is RecycleBinItem binItem)
                     {
@@ -850,15 +850,15 @@ namespace Files.Interacts
             };
             List<IStorageItem> items = new List<IStorageItem>();
             var cut = (FilesystemResult)false;
-            if (AssociatedInstance.ContentPage.IsItemSelected)
+            if (AssociatedInstance.SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
-                AssociatedInstance.ContentPage.ResetItemOpacity();
+                AssociatedInstance.SlimContentPage.ResetItemOpacity();
 
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
                 {
                     // Dim opacities accordingly
-                    AssociatedInstance.ContentPage.SetItemOpacity(listedItem);
+                    AssociatedInstance.SlimContentPage.SetItemOpacity(listedItem);
 
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -881,7 +881,7 @@ namespace Files.Interacts
                 }
                 if (cut.ErrorCode == FileSystemStatusCode.NotFound)
                 {
-                    AssociatedInstance.ContentPage.ResetItemOpacity();
+                    AssociatedInstance.SlimContentPage.ResetItemOpacity();
                     return;
                 }
                 else if (cut.ErrorCode == FileSystemStatusCode.Unauthorized)
@@ -889,7 +889,7 @@ namespace Files.Interacts
                     // Try again with fulltrust process
                     if (Connection != null)
                     {
-                        var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
+                        var filePaths = string.Join('|', AssociatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
                         var (status, result) = await Connection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
@@ -902,7 +902,7 @@ namespace Files.Interacts
                             return;
                         }
                     }
-                    AssociatedInstance.ContentPage.ResetItemOpacity();
+                    AssociatedInstance.SlimContentPage.ResetItemOpacity();
                     return;
                 }
             }
@@ -935,9 +935,9 @@ namespace Files.Interacts
             CopySourcePath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             var copied = (FilesystemResult)false;
 
-            if (AssociatedInstance.ContentPage.IsItemSelected)
+            if (AssociatedInstance.SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
                 {
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -963,7 +963,7 @@ namespace Files.Interacts
                     // Try again with fulltrust process
                     if (Connection != null)
                     {
-                        var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
+                        var filePaths = string.Join('|', AssociatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
                         await Connection.SendMessageSafeAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
@@ -997,10 +997,10 @@ namespace Files.Interacts
         {
             try
             {
-                if (AssociatedInstance.ContentPage != null)
+                if (AssociatedInstance.SlimContentPage != null)
                 {
                     DataPackage data = new DataPackage();
-                    data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+                    data.SetText(AssociatedInstance.SlimContentPage.SelectedItem.ItemPath);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
                 }
@@ -1016,7 +1016,7 @@ namespace Files.Interacts
         {
             try
             {
-                if (AssociatedInstance.ContentPage != null)
+                if (AssociatedInstance.SlimContentPage != null)
                 {
                     DataPackage data = new DataPackage();
                     data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
@@ -1037,14 +1037,14 @@ namespace Files.Interacts
             if (packageView != null)
             {
                 await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-                AssociatedInstance.ContentPage.ResetItemOpacity();
+                AssociatedInstance.SlimContentPage.ResetItemOpacity();
             }
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
         {
             string currentPath = null;
-            if (AssociatedInstance.ContentPage != null)
+            if (AssociatedInstance.SlimContentPage != null)
             {
                 currentPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             }
@@ -1106,17 +1106,17 @@ namespace Files.Interacts
             CreateFileFromDialogResultType(AddItemType.File, itemType);
         }
 
-        public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems(AssociatedInstance.ContentPage));
+        public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems(AssociatedInstance.SlimContentPage));
 
-        public void SelectAllItems(BaseLayout contentPage) => contentPage.SelectAllItems();
+        public void SelectAllItems(IBaseLayout contentPage) => contentPage.SelectAllItems();
 
-        public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems(AssociatedInstance.ContentPage));
+        public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems(AssociatedInstance.SlimContentPage));
 
-        public void InvertAllItems(BaseLayout contentPage) => contentPage.InvertSelection();
+        public void InvertAllItems(IBaseLayout contentPage) => contentPage.InvertSelection();
 
-        public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems(AssociatedInstance.ContentPage));
+        public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems(AssociatedInstance.SlimContentPage));
 
-        public void ClearAllItems(BaseLayout contentPage) => contentPage.ClearSelection();
+        public void ClearAllItems(IBaseLayout contentPage) => contentPage.ClearSelection();
 
         public void PushJumpChar(char letter)
         {

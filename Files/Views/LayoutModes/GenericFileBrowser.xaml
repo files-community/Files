@@ -640,11 +640,11 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>

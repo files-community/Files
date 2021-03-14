@@ -294,8 +294,8 @@ namespace Files.Filesystem
 
                     if (copiedListedItems.Count > 0)
                     {
-                        associatedInstance.ContentPage.AddSelectedItemsOnUi(copiedListedItems);
-                        associatedInstance.ContentPage.FocusSelectedItems();
+                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(copiedListedItems);
+                        associatedInstance.SlimContentPage.FocusSelectedItems();
                     }
                 }, Windows.UI.Core.CoreDispatcherPriority.Low);
             }
@@ -515,8 +515,8 @@ namespace Files.Filesystem
 
                     if (movedListedItems.Count > 0)
                     {
-                        associatedInstance.ContentPage.AddSelectedItemsOnUi(movedListedItems);
-                        associatedInstance.ContentPage.FocusSelectedItems();
+                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(movedListedItems);
+                        associatedInstance.SlimContentPage.FocusSelectedItems();
                     }
                 }, Windows.UI.Core.CoreDispatcherPriority.Low);
             }

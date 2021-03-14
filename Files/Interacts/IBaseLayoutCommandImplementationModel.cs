@@ -1,13 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace Files.Interacts
 {
-    public interface IBaseLayoutCommandImplementationModel
+    public interface IBaseLayoutCommandImplementationModel : IDisposable
     {
-        void Example(EventArgs e);
+        void RenameItem(RoutedEventArgs e);
+
+        void CreateShortcut(RoutedEventArgs e);
+
+        void SetAsLockscreenBackgroundItem(RoutedEventArgs e);
+
+        void SetAsDesktopBackgroundItem(RoutedEventArgs e);
+
+        void RunAsAdmin(RoutedEventArgs e);
+
+        void RunAsAnotherUser(RoutedEventArgs e);
+
+        void SidebarPinItem(RoutedEventArgs e);
+
+        void SidebarUnpinItem(RoutedEventArgs e);
+
+        void UnpinDirectoryFromSidebar(RoutedEventArgs e);
+
+        void OpenItem(RoutedEventArgs e);
+
+        void EmptyRecycleBin(RoutedEventArgs e);
+
+        void QuickLook(RoutedEventArgs e);
     }
 }

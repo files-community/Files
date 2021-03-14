@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -92,6 +93,7 @@ namespace Files.Views.LayoutModes
         }
 
         public GenericFileBrowser()
+            : base()
         {
             InitializeComponent();
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
@@ -103,6 +105,11 @@ namespace Files.Views.LayoutModes
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
+        }
+
+        protected override void InitializeCommandsViewModel()
+        {
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -228,8 +235,11 @@ namespace Files.Views.LayoutModes
         {
             try
             {
-                AllView.CurrentColumn = AllView.Columns[1];
-                AllView.BeginEdit();
+                if (IsItemSelected)
+                {
+                    AllView.CurrentColumn = AllView.Columns[1];
+                    AllView.BeginEdit();
+                }
             }
             catch (InvalidOperationException)
             {
@@ -630,101 +640,72 @@ namespace Files.Views.LayoutModes
 
         private void QuickLook_Click(object sender, RoutedEventArgs e)
         {
-            QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+            CommandsViewModel.QuickLookCommand.Execute(e);
         }
 
         private void EmptyRecycleBin_Click(object sender, RoutedEventArgs e)
         {
-            RecycleBinHelpers.EmptyRecycleBin(ParentShellPageInstance);
+            CommandsViewModel.EmptyRecycleBinCommand.Execute(e);
         }
 
         private void UnpinDirectoryFromSidebar_Click(object sender, RoutedEventArgs e)
         {
-            App.SidebarPinnedController.Model.RemoveItem(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+            CommandsViewModel.UnpinDirectoryFromSidebarCommand.Execute(e);
         }
 
         private void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+            CommandsViewModel.OpenItemCommand.Execute(e);
         }
 
         private void SidebarUnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            SidebarHelpers.UnpinItems(SelectedItems);
+            CommandsViewModel.SidebarUnpinItemCommand.Execute(e);
         }
 
         private void SidebarPinItem_Click(object sender, RoutedEventArgs e)
         {
-            SidebarHelpers.PinItems(SelectedItems);
+            CommandsViewModel.SidebarPinItemCommand.Execute(e);
         }
 
-        private async void RunAsAnotherUser_Click(object sender, RoutedEventArgs e)
+        private void RunAsAnotherUser_Click(object sender, RoutedEventArgs e)
         {
-            if (Connection != null)
-            {
-                await Connection.SendMessageSafeAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", SelectedItem.ItemPath },
-                    { "Verb", "runasuser" }
-                });
-            }
+            CommandsViewModel.RunAsAnotherUserCommand.Execute(e);
         }
 
-        private async void RunAsAdmin_Click(object sender, RoutedEventArgs e)
+        private void RunAsAdmin_Click(object sender, RoutedEventArgs e)
         {
-            if (Connection != null)
-            {
-                await Connection.SendMessageSafeAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", SelectedItem.ItemPath },
-                    { "Verb", "runas" }
-                });
-            }
+            CommandsViewModel.RunAsAdminCommand.Execute(e);
         }
 
         private void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            ParentShellPageInstance.InteractionOperations.SetAsBackground(WallpaperType.Desktop, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
+            CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(e);
         }
 
         private void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            ParentShellPageInstance.InteractionOperations.SetAsBackground(WallpaperType.LockScreen, ((sender as MenuFlyoutItem).DataContext as ListedItem).ItemPath);
+            CommandsViewModel.SetAsLockscreenBackgroundItemCommand.Execute(e);
         }
 
-        private async void CreateShortcut_Click(object sender, RoutedEventArgs e)
+        private void CreateShortcut_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ListedItem selectedItem in SelectedItems)
-            {
-                if (Connection != null)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "CreateLink" },
-                        { "targetpath", selectedItem.ItemPath },
-                        { "arguments", "" },
-                        { "workingdir", "" },
-                        { "runasadmin", false },
-                        {
-                            "filepath",
-                            Path.Combine(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
-                        }
-                    };
-                    await Connection.SendMessageSafeAsync(value);
-                }
-            }
+            CommandsViewModel.CreateShortcutCommand.Execute(e);
         }
 
         private void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-            if (IsItemSelected)
-            {
-                StartRenameItem();
-            }
+            CommandsViewModel.RenameItemCommand.Execute(e);
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            Debugger.Break(); // Not Implemented
+            CommandsViewModel?.Dispose();
+        }
+
+        #endregion
     }
 }

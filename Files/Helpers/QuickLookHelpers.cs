@@ -15,14 +15,14 @@ namespace Files.Helpers
         {
             try
             {
-                if (associatedInstance.ContentPage.IsItemSelected && !associatedInstance.ContentPage.IsRenamingItem)
+                if (associatedInstance.SlimContentPage.IsItemSelected && !associatedInstance.SlimContentPage.IsRenamingItem)
                 {
                     Debug.WriteLine("Toggle QuickLook");
                     if (associatedInstance.ServiceConnection != null)
                     {
                         await associatedInstance.ServiceConnection.SendMessageSafeAsync(new ValueSet()
                         {
-                            { "path", associatedInstance.ContentPage.SelectedItem.ItemPath },
+                            { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
                             { "Arguments", "ToggleQuickLook" }
                         });
                     }

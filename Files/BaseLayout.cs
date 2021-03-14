@@ -38,7 +38,7 @@ namespace Files
     /// <summary>
     /// The base class which every layout page must derive from
     /// </summary>
-    public abstract class BaseLayout : Page, INotifyPropertyChanged
+    public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
         protected AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
@@ -60,7 +60,7 @@ namespace Files
 
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
-        public BaseLayoutCommandsViewModel CommandsViewModel { get; private set; }
+        public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
@@ -163,8 +163,9 @@ namespace Files
             {
                 IsQuickLookEnabled = true;
             }
-            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
+
+        protected abstract void InitializeCommandsViewModel();
 
         public abstract void FocusFileList();
 
@@ -291,7 +292,7 @@ namespace Files
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-            if (ParentShellPageInstance.ContentPage != null)
+            if (ParentShellPageInstance.SlimContentPage != null)
             {
                 var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
@@ -384,6 +385,8 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
 
             FolderSettings.IsLayoutModeChanging = false;
+
+            InitializeCommandsViewModel();
 
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
@@ -787,7 +790,7 @@ namespace Files
             }
 
             //check the file extension of the selected item
-            ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
+            SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
@@ -873,7 +876,7 @@ namespace Files
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
 
-            foreach (ListedItem item in ParentShellPageInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in ParentShellPageInstance.SlimContentPage.SelectedItems)
             {
                 if (item is ShortcutItem)
                 {
@@ -997,7 +1000,7 @@ namespace Files
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {
-                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
             }
             deferral.Complete();
         }
@@ -1071,5 +1074,7 @@ namespace Files
                 e.Handled = true;
             }
         }
+
+        public abstract void Dispose();
     }
 }
