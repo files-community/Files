@@ -575,9 +575,9 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
+                await associatedInstance.ServiceConnection?.Elevate();
                 if (associatedInstance.ServiceConnection != null)
                 {
-                    await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() { { "Arguments", "Elevate" } });
                     var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },

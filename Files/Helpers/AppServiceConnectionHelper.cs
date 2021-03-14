@@ -17,7 +17,7 @@ namespace Files.Helpers
 {
     public static class AppServiceConnectionHelper
     {
-        public static Task<NamedPipeAsAppServiceConnection> Instance = BuildConnection();
+        public static Task<NamedPipeAsAppServiceConnection> Instance = BuildConnection(true);
 
         public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
 
@@ -32,7 +32,7 @@ namespace Files.Helpers
             if (await Instance == null)
             {
                 // Need to reinitialize AppService when app is resuming
-                Instance = BuildConnection();
+                Instance = BuildConnection(true);
                 ConnectionChanged?.Invoke(null, Instance);
             }
         }
@@ -48,8 +48,45 @@ namespace Files.Helpers
             deferral.Complete();
         }
 
-        private static async Task<NamedPipeAsAppServiceConnection> BuildConnection()
+        public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
         {
+            if (connection == null)
+            {
+                return false;
+            }
+
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() { { "Arguments", "Elevate" } });
+            if (status == AppServiceResponseStatus.Success)
+            {
+                var res = response.Get("Success", 1L);
+                switch (res)
+                {
+                    case 0:
+                        var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
+                        ConnectionChanged?.Invoke(null, nullConn);
+                        (await Instance)?.Dispose();
+                        Instance = BuildConnection(false); // Fulltrust process is already running
+                        _ = await Instance;
+                        ConnectionChanged?.Invoke(null, Instance);
+                        break;
+                    case -1:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            return false;
+        }
+
+        private static async Task<NamedPipeAsAppServiceConnection> BuildConnection(bool launchFullTrust)
+        {
+            // Launch fulltrust process
+            if (launchFullTrust)
+            {
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            }
+
             var connection = new NamedPipeAsAppServiceConnection();
             if (await connection.Connect(@$"\\.\pipe\{"FilesInteropService_ServerPipe"}", TimeSpan.FromSeconds(15)))
             {
@@ -64,12 +101,13 @@ namespace Files.Helpers
     {
         private NamedPipeClientStream clientStream;
         private SafePipeHandle pipeHandle;
-        private string pipeName;
 
         public event EventHandler<Dictionary<string, object>> RequestReceived;
 
-        private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
+        public event EventHandler ServiceClosed;
 
+        private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
+        
         public NamedPipeAsAppServiceConnection()
         {
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
@@ -118,13 +156,11 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<bool> Connect(string pipeName, TimeSpan timeout = default, bool isReconnecting = false)
+        public async Task<bool> Connect(string pipeName, TimeSpan timeout = default)
         {
             try
             {
                 SafePipeHandle PipeHandle = null;
-                bool firstLoop = true && !isReconnecting;
-                this.pipeName = pipeName;
 
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(timeout);
@@ -138,19 +174,13 @@ namespace Files.Helpers
                     {
                         break;
                     }
-                    else if (cts.Token.IsCancellationRequested)
+                    else if (cts.Token.IsCancellationRequested || isDisposed)
                     {
                         return false;
                     }
-                    else if (firstLoop)
-                    {
-                        firstLoop = false;
-                        // Launch fulltrust process
-                        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-                    }
                     await Task.Delay(200);
                 }
-
+                
                 pipeHandle = PipeHandle;
                 clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
                 clientStream.ReadMode = PipeTransmissionMode.Message;
@@ -162,7 +192,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize AppServiceConnection!");
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize FTP connection!");
                 return false;
             }
         }
@@ -188,11 +218,9 @@ namespace Files.Helpers
             }
             catch (System.IO.IOException)
             {
+                // Pipe is disconnected
+                ServiceClosed?.Invoke(this, null);
                 this.Cleanup();
-                if (await Connect(pipeName, TimeSpan.FromSeconds(15), true))
-                {
-                    return await SendMessageForResponseAsync(valueSet);
-                }
             }
             catch (Exception ex)
             {
@@ -219,11 +247,9 @@ namespace Files.Helpers
             }
             catch (System.IO.IOException)
             {
+                // Pipe is disconnected
+                ServiceClosed?.Invoke(this, null);
                 this.Cleanup();
-                if (await Connect(pipeName, TimeSpan.FromSeconds(15), true))
-                {
-                    return await SendMessageAsync(valueSet);
-                }
             }
             catch (Exception ex)
             {
@@ -245,9 +271,12 @@ namespace Files.Helpers
             pipeHandle?.Dispose();
             pipeHandle = null;
         }
+        
+        private bool isDisposed = false;
 
         public void Dispose()
         {
+            this.isDisposed = true;
             this.Cleanup();
         }
     }

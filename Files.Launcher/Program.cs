@@ -43,23 +43,6 @@ namespace FilesFullTrust
                 return;
             }
 
-            // Only one instance of the fulltrust process allowed
-            // This happens if multiple instances of the UWP app are launched
-            //using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
-            //if (!isNew)
-            //{
-            //    if (args.ElementAtOrDefault(0) != "elevate")
-            //    {
-            //        return;
-            //    }
-            //    if (!mutex.WaitOne(TimeSpan.FromSeconds(10)))
-            //    {
-            //        return;
-            //    }
-            //}
-
-            //Thread.Sleep(10 * 1000);
-
             try
             {
                 // Create handle table to store e.g. context menu references
@@ -123,7 +106,6 @@ namespace FilesFullTrust
                 cancellation?.Cancel();
                 cancellation?.Dispose();
                 appServiceExit?.Dispose();
-                //mutex?.ReleaseMutex();
             }
         }
 
@@ -286,12 +268,18 @@ namespace FilesFullTrust
                                 elevatedProcess.StartInfo.Arguments = "elevate";
                                 elevatedProcess.Start();
                             }
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 0 } }, message.Get("RequestID", (string)null));
                             appServiceExit.Set();
                         }
                         catch (Win32Exception)
                         {
                             // If user cancels UAC
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 1 } }, message.Get("RequestID", (string)null));
                         }
+                    }
+                    else
+                    {
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", -1 } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
