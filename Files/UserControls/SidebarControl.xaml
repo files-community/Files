@@ -300,11 +300,10 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                             AutomationProperties.AccessibilityView="Raw">
-                                            <TextBlock
+                                            <FontIcon
                                                 x:Name="Icon"
-                                                Text="&#xEAD6;"
+                                                Glyph="&#xE700;"
                                                 FontSize="{TemplateBinding FontSize}"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 AutomationProperties.AccessibilityView="Raw"/>
                                         </Viewbox>
                                     </Border>
