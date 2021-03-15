@@ -54,6 +54,7 @@
             x:Name="FullTrustStatusTeachingTip"
             x:Uid="FullTrustStatusTeachingTip"
             Title="Administrator"
+            Background="Transparent"
             Subtitle="Files is running as administrator"
             Target="{x:Bind FullTrustStatus}"
             Visibility="Collapsed" />
