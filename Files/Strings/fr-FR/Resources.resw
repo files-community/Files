@@ -1653,6 +1653,9 @@
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Lecteur réseau</value>
   </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Lecteur démonté</value>
+  </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Stockage amovible</value>
   </data>
@@ -1670,5 +1673,62 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Déconnecter</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Plus d'options de Bundles</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Plus d'options de lecteurs</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Emplacements récents</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Pas d'aperçu disponible</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Pas de détails disponibles</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Aucune élément sélectionné</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Afficher la section des librairies dans la barre latérale</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Défaut</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Nombre d'éléments</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Fermer les onglets à droite</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Erreur de suppression</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Une erreur inconnue s'est produite.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Suppression terminée</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Déplacement terminé</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Copie terminée</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Cette action requière les privilèges d'administrateur</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Voulez-vous continuer en tant qu'administrateur ??</value>
   </data>
 </root>
