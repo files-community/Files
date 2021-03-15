@@ -40,6 +40,11 @@ namespace Files.UserControls
             }
         }
 
+        public bool AnyOperationsOngoing
+        {
+            get => OngoingOperationsCount > 0;
+        }
+
         #endregion
 
         #region Events
