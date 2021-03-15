@@ -1,4 +1,4 @@
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -109,13 +109,10 @@ namespace Files.Views
                         wasRightPaneVisible = isRightPaneVisible;
                         IsRightPaneVisible = false;
                     }
-                    else
+                    else if (wasRightPaneVisible)
                     {
-                        if (wasRightPaneVisible)
-                        {
-                            IsRightPaneVisible = true;
-                            wasRightPaneVisible = false;
-                        }
+                        IsRightPaneVisible = true;
+                        wasRightPaneVisible = false;
                     }
                     NotifyPropertyChanged(nameof(IsWindowCompactSize));
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
@@ -151,7 +148,6 @@ namespace Files.Views
                 {
                     return;
                 }
-                // TODO: why restoring the window width sets this to true???
                 if (AppSettings.IsSidebarOpen != value)
                 {
                     AppSettings.IsSidebarOpen = value;
