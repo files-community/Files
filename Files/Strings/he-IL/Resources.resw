@@ -537,6 +537,9 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>לאחרונה</value>
   </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>שפת אפליקציה</value>
+  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>מצב</value>
   </data>
@@ -803,6 +806,9 @@
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>רזולוציה אנכית</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>דחיסה</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>גודל אופקי</value>
@@ -1193,5 +1199,176 @@
   </data>
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>אפשר הנפשות בפתיחה וסגירה של התפריט תלוי-ההקשר</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>תצוגת פרטים</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+    <value>מצב פריסה</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>אפשרויות &amp;תצוגה</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>אפשרויות &amp;תצוגה</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>אפשרויות תצוגה</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>הצג סיומות קבצים</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>תצוגת פרטים</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>‏‏תאריך מחיקה</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>‏‏תאריך מחיקה</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>נתיב פריט</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>אשר</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>אשר</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>הזן שם חדש</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>שנה את השם "{0}"</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>אשר</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>הוסף חבילה</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>פתח בכרטיסיה חדשה</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>חבילות</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>אשר</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>אפשרויות נוספות</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>שם פריט</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>רשת</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>מאפיינים</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>פרטי קובץ</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>תיעוד</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>זמין במצב מקוון</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>‏‏זמין במצב לא מקוון</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>‏‏מתבצע ‏סינכרון</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>לא חושב</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>‏‏כונן תקליטונים</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>כונן רשת</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>תאריך יצירה</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>תאריך יצירה</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>אפשרויות נוספות</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>מפה כונן רשת</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>התנתק</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>מועדפים</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>צפייה</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>‏‏מיקומים אחרונים</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>אין תצוגה מקדימה זמינה</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>אין פרטים זמינים.</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>לא נבחר אף פריט</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>יעד</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>ארגומנטים</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>‏‏ספריות</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>ברירת מחדל</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>ערכת צבעים:</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>ספירת פריטים</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>‏‏אירעה שגיאה לא ידועה.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>לא</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>כן</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>סגור כרטיסיות משמאל</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>מנהל מערכת</value>
   </data>
 </root>

@@ -1608,4 +1608,112 @@
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>الاسم المطلوب</value>
   </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>مسار العنصر</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>اسم الصنف</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>الشبكة</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>خصائص</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>التوفر عند الاتصال</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>‏‏متوفر دون اتصال</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>‏‏مزامنة</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>غير محسوب</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>تفاصيل الملف</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>الوثائق</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>محرك الأقراص المرنة</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>محرك أقراص الشبكة</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>خيارات إضافية</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>تعيين محرك أقراص الشبكة</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>قطع الاتصال</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>المفضلة</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>تصفح</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>المواقع التي تمت زيارتها حديثاً</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>المعاينة غير متوفرة</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>لا تتوفر تفاصيل.</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>لم يتم تحديد أي صنف</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>الهدف</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>‏‏الوسيطات</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>المكتبات</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>افتراضي</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>نظام الألوان</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>عدد العناصر</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>An unknown error has occurred.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>إغلاق علامات التبويب على اليسار</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>المسؤول</value>
+  </data>
 </root>

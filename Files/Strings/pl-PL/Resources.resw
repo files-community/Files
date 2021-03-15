@@ -1632,6 +1632,9 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Odepnij katalog od paska bocznego</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>Sieciowa</value>
+  </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Właściwości</value>
   </data>
@@ -1781,5 +1784,32 @@
   </data>
   <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Schemat koloru</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Liczba elementów</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Usuwanie nie powiodło się</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Wystąpił nieznany błąd</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>Operacja została ukończona.</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Kopiowanie ukończone</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Tak</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Zamknij karty po prawej stronie</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Administrator</value>
   </data>
 </root>

@@ -1758,6 +1758,48 @@
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Accesso rapido</value>
   </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Esplora</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Posizioni recenti</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Anteprima non disponibile</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Dettagli non disponibili</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Nessun elemento selezionato</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Obiettivo</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argomenti:</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Librerie</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Predefinito</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Combinazione di colori</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Numero elementi:</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Eliminazione non riuscita</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Si è verificato un errore sconosciuto.</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Copia completata</value>
+  </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>No</value>
   </data>
@@ -1769,5 +1811,11 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Vuoi continuare come amministratore?</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Chiudi schede a destra</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>amministratore</value>
   </data>
 </root>
