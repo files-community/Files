@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Files.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -332,8 +332,9 @@
                 <TextBlock
                     x:Uid="SidebarHeader"
                     Margin="10,6"
-                    FontSize="20"
+                    FontSize="16"
                     FontWeight="Medium"
+                    VerticalAlignment="Center"
                     Text="Files" />
             </muxc:NavigationView.PaneHeader>
         </muxc:NavigationView>
