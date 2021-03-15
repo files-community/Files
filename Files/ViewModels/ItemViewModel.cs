@@ -1158,7 +1158,6 @@ namespace Files.ViewModels
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
-                    IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(path),
                 };
                 if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
                 {
@@ -1225,7 +1224,6 @@ namespace Files.ViewModels
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
-                    IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(path),
                 };
                 if (!cacheOnly)
                 {
