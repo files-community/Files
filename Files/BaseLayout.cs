@@ -1,5 +1,7 @@
 ﻿using Files.Common;
 using Files.DataModels;
+using Files.Enums;
+using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -37,7 +39,7 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
@@ -225,7 +227,7 @@ namespace Files
             var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var (status, response) = Task.Run(() => Connection.SendMessageSafeAsync(new ValueSet()
+                var (status, response) = Task.Run(() => Connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -235,12 +237,12 @@ namespace Files
                     { "ShowOpenMenu", showOpenMenu }
                 })).Result;
                 if (status == AppServiceResponseStatus.Success
-                    && response.Message.ContainsKey("Handle"))
+                    && response.ContainsKey("Handle"))
                 {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
+                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
+                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response["Handle"], true, maxItems);
                     }
                 }
             }
@@ -283,7 +285,7 @@ namespace Files
 
         protected abstract ListedItem GetItemFromElement(object element);
 
-        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (ParentShellPageInstance.ContentPage != null)
             {
@@ -292,7 +294,7 @@ namespace Files
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
                     FolderSettings.IsLayoutModeChanging = true;
-                    ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                    ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
                         IsSearchResultPage = navigationArguments.IsSearchResultPage,
@@ -300,10 +302,10 @@ namespace Files
                         SearchResults = navigationArguments.SearchResults,
                         IsLayoutSwitch = true,
                         AssociatedTabInstance = ParentShellPageInstance
-                    }, null);
+                    });
 
                     // Remove old layout from back stack
-                    ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                    ParentShellPageInstance.RemoveLastPageFromBackStack();
                 }
             }
         }
@@ -382,6 +384,23 @@ namespace Files
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
             FocusFileList(); // Set focus on layout specific file list control
+
+            try
+            {
+                if (navigationArguments.SelectItems != null && navigationArguments.SelectItems.Count() > 0)
+                {
+                    List<ListedItem> liItemsToSelect = new List<ListedItem>();
+                    foreach (string item in navigationArguments.SelectItems)
+                    {
+                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
+                    }
+
+                    SetSelectedItemsOnUi(liItemsToSelect);
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -432,8 +451,7 @@ namespace Files
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
-                        FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                        Glyph = "\xEAD0"
+                        Glyph = "\xE712"
                     }
                 };
                 LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
@@ -518,7 +536,7 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (Connection != null)
                 {
-                    await Connection.SendMessageSafeAsync(new ValueSet()
+                    await Connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
@@ -535,7 +553,7 @@ namespace Files
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
             if (shellContextMenuTag.menuItem != null && Connection != null)
             {
-                await Connection.SendMessageSafeAsync(new ValueSet()
+                await Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle }
@@ -579,8 +597,7 @@ namespace Files
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\xea00"
+                                Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"
                         };
@@ -590,7 +607,7 @@ namespace Files
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
-            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+            var isPinned = App.SidebarPinnedController.Model.FavoriteItems.Contains(
                 ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
             if (isPinned)
             {
@@ -796,7 +813,7 @@ namespace Files
                 {
                     if (Connection != null)
                     {
-                        await Connection.SendMessageSafeAsync(new ValueSet() {
+                        await Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
                             { "droptext", "DragDropWindowText".GetLocalized() },

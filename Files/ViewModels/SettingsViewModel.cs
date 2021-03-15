@@ -4,7 +4,6 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -16,14 +15,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -75,13 +72,15 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripEnabled)} {IsHorizontalTabStripEnabled}");
+            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
+            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
+            Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
@@ -120,6 +119,15 @@ namespace Files.ViewModels
             set => Set(value.Value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should be open or closed.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook
@@ -128,13 +136,13 @@ namespace Files.ViewModels
                 var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "DetectQuickLook" }
-                    }, TimeSpan.FromSeconds(10));
+                    });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                        localSettings.Values["quicklook_enabled"] = response.Get("IsAvailable", false);
                     }
                 }
             }
@@ -336,6 +344,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
+        /// </summary>
+        public bool AdaptiveLayoutEnabled
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -352,7 +369,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
         /// </summary>
-        public bool IsVerticalTabFlyoutEnabled
+        public bool IsVerticalTabFlyoutOn
         {
             get => Get(false);
             set => Set(value);
@@ -361,7 +378,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
         /// </summary>
-        public bool IsHorizontalTabStripEnabled
+        public bool IsHorizontalTabStripOn
         {
             get => Get(false);
             set => Set(value);
@@ -439,6 +456,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// </summary>
+        public bool ShowLibrarySection
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
@@ -489,7 +515,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool IsAcrylicDisabled
         {
-            get => Get(true);
+            get => Get(false);
             set => Set(value);
         }
 
@@ -529,6 +555,14 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// </summary>
+        public string PathToThemeFile
+        {
+            get => Get("DefaultScheme".GetLocalized());
+            set => Set(value);
+        }
         #endregion Appearance
 
         #region Experimental
@@ -654,6 +688,15 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
         /// </summary>
         public bool ResumeAfterRestart
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the confirm elevation dialog.
+        /// </summary>
+        public bool HideConfirmElevateDialog
         {
             get => Get(false);
             set => Set(value);

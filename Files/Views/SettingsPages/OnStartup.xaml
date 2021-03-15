@@ -37,7 +37,7 @@
                 <TextBlock
                     x:Uid="SettingsWhenLaunchingFiles"
                     FontSize="18"
-                    Text="When Launching Files" />
+                    Text="When launching Files" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"

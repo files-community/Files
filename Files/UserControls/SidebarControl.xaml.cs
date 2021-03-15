@@ -1,12 +1,15 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -14,7 +17,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
@@ -226,6 +228,7 @@ namespace Files.UserControls
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
                 !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
+                !item.Text.Equals("SidebarLibraries".GetLocalized()) &&
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
@@ -236,7 +239,10 @@ namespace Files.UserControls
 
                 if (item.IsDefaultLocation)
                 {
-                    ShowProperties = false;
+                    if (item.Section != SectionType.Library)
+                    {
+                        ShowProperties = false;
+                    }
 
                     if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
@@ -260,7 +266,7 @@ namespace Files.UserControls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
-         
+
             ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
@@ -275,7 +281,6 @@ namespace Files.UserControls
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as WSLDistroItem;
 
@@ -562,7 +567,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+            await DeviceHelpers.EjectDeviceAsync(App.RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
@@ -572,8 +577,7 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                Glyph = "\xEB5D"
+                Glyph = "\xE713"
             };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;

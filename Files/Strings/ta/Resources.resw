@@ -850,9 +850,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>ஒரு கோப்புறை மேல் செல்</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>பயன்பாட்டு மொழி</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
   </data>

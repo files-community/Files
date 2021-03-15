@@ -1,21 +1,9 @@
 ﻿using Files.Filesystem;
-using Files.UserControls.FilePreviews;
 using Files.ViewModels;
-using Files.ViewModels.Previews;
-using Files.ViewModels.Properties;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Markup;
-using static Files.App;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

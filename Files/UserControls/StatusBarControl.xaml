@@ -3,29 +3,31 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Files.Converters"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fsvm="using:Files.ViewModels"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
-    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
+            <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <converters:LayoutModeToBoolConverter x:Key="LayoutModeBoolConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid
-        Height="40"
+        Height="38"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorSecondary}">
+        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -49,12 +51,32 @@
             Target="{x:Bind StatusCenter}"
             Visibility="Collapsed" />
 
+        <muxc:TeachingTip
+            x:Name="FullTrustStatusTeachingTip"
+            x:Uid="FullTrustStatusTeachingTip"
+            Title="Administrator"
+            Subtitle="Files is running as administrator"
+            Target="{x:Bind FullTrustStatus}"
+            Visibility="Collapsed" />
+
         <StackPanel
             Grid.Column="1"
-            Padding="0,2,8,4"
+            Padding="0,2,8,2"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
+
+            <Button
+                x:Name="FullTrustStatus"
+                Width="36"
+                Height="32"
+                Background="Transparent"
+                x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                Click="FullTrustStatus_Click"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}">
+                <FontIcon FontSize="16" Glyph="&#xEA18;" />
+            </Button>
 
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
@@ -62,11 +84,10 @@
                 Height="32"
                 AutomationProperties.Name="Selection options"
                 Background="Transparent"
-                Content="&#xEAD3;"
-                FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Selection options">
+                <FontIcon FontSize="16" Glyph="&#xE762;" />
                 <Button.Flyout>
                     <MenuFlyout>
                         <ToggleMenuFlyoutItem
@@ -76,7 +97,7 @@
                             Text="Multiselect"
                             Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
+                                <FontIcon Glyph="&#xE762;" />
                             </MenuFlyoutItem.Icon>
                         </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
@@ -85,7 +106,7 @@
                             Command="{x:Bind SelectAllInvokedCommand}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
+                                <FontIcon Glyph="&#xE8B3;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
@@ -100,7 +121,7 @@
                             Command="{x:Bind InvertSelectionInvokedCommand}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf102;" />
+                                <FontIcon Glyph="&#xE746;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -109,7 +130,7 @@
                             Command="{x:Bind ClearSelectionInvokedCommand}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB55;" />
+                                <FontIcon Glyph="&#xE8E6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -122,11 +143,9 @@
                 Height="32"
                 AutomationProperties.Name="Display Options"
                 Background="Transparent"
-                Content="&#xE152;"
-                FontFamily="Segoe MDL2 Assets"
-                FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Display Options">
+                <FontIcon FontSize="16" Glyph="&#xE152;" />
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel Spacing="12">
@@ -149,34 +168,37 @@
                                 x:Uid="StatusBarControlLayoutMode"
                                 FontWeight="Medium"
                                 Text="Layout Mode" />
+
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <RadioButton
                                     x:Uid="StatusBarControlDetailsView"
                                     Height="32"
                                     MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Details View">
                                     <FontIcon
-                                        FontFamily="{StaticResource CustomGlyph}"
+                                        Margin="0,2,0,0"
                                         FontSize="16"
-                                        Glyph="&#xF101;" />
+                                        Glyph="&#xE179;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlTilesView"
                                     Height="32"
                                     MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Tiles View">
                                     <FontIcon
-                                        FontFamily="{StaticResource CustomGlyph}"
+                                        Margin="0,2,0,0"
                                         FontSize="16"
-                                        Glyph="&#xF100;" />
+                                        Glyph="&#xE15C;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewSmall"
@@ -185,15 +207,15 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
-                                        Margin="0,1,0,0"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        Margin="0,2,0,0"
                                         FontSize="16"
-                                        Glyph="&#xEBA1;" />
+                                        Glyph="&#xE80A;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewMedium"
@@ -201,30 +223,30 @@
                                     MinWidth="0"
                                     Margin="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
-                                        Margin="0,1,0,0"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        Margin="0,2,0,0"
                                         FontSize="16"
-                                        Glyph="&#xEA72;" />
+                                        Glyph="&#xF0E2;" />
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewLarge"
                                     Height="32"
                                     MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
-                                        Margin="0,1,0,0"
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        Margin="0,2,0,0"
                                         FontSize="16"
-                                        Glyph="&#xE9A0;" />
+                                        Glyph="&#xE739;" />
                                 </RadioButton>
                             </StackPanel>
                         </StackPanel>
@@ -233,25 +255,33 @@
             </Button>
 
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
-                <muxc:AnimatedVisualPlayer
-                    x:Name="StatusCenterPulseVisualPlayer"
-                    AutoPlay="False"
-                    Visibility="Collapsed">
-                    <lottie:LottieVisualSource x:Name="StatusCenterPulseVisualSource" UriSource="ms-appx:///Assets/AnimatedVisuals/LottiePulseStatusCenter.json" />
-                </muxc:AnimatedVisualPlayer>
                 <Button
                     x:Name="StatusCenter"
                     x:Uid="StatusCenter"
                     Width="36"
                     Height="32"
+                    Padding="0"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
-                    Content="&#xF16A;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
+                    <Button.Content>
+                        <Grid>
+                            <FontIcon
+                                x:Name="StatusCenterFontIcon"
+                                x:Load="{x:Bind AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                FontSize="16"
+                                Glyph="&#xF16A;" />
+
+                            <muxc:ProgressRing
+                                x:Name="AnyOperationsOngoingProgressRing"
+                                Width="22"
+                                Height="22"
+                                x:Load="{x:Bind AnyOperationsOngoing, Mode=OneWay}"
+                                IsActive="True" />
+                        </Grid>
+                    </Button.Content>
                     <Button.Flyout>
                         <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter

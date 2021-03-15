@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
@@ -511,7 +512,7 @@ namespace Files.UserControls
                 {
                     EditModeEnabled?.Invoke(this, new EventArgs());
                     VisiblePath.Focus(FocusState.Programmatic);
-                    Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
+                    DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
                 }
                 else
                 {
@@ -527,7 +528,7 @@ namespace Files.UserControls
         {
             // AutoSuggestBox won't receive focus unless it's fully loaded
             VisiblePath.Focus(FocusState.Programmatic);
-            Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
+            DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
         public bool CanRefresh
@@ -623,8 +624,11 @@ namespace Files.UserControls
 
             var element = FocusManager.GetFocusedElement();
             var elementAsControl = element as Control;
-
-            if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
+            if (elementAsControl == null)
+            {
+                return;
+            }
+            else if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
                 (this as INavigationToolbar).IsEditModeEnabled = false;
             }
@@ -872,8 +876,8 @@ namespace Files.UserControls
         {
             var pathSeparatorIcon = sender as FontIcon;
             pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
-            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
-            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };
         }
 
         private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -1006,8 +1010,7 @@ namespace Files.UserControls
                             Text = newEntry.Name,
                             Icon = new FontIcon()
                             {
-                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\xea00"
+                                Glyph = "\xE7C3"
                             },
                             Tag = "CreateNewFile"
                         };

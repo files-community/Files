@@ -71,15 +71,14 @@
             Background="Transparent">
             <controls:GridSplitter.Element>
                 <Grid>
-                    <TextBlock
-                        x:Name="GripperGlyphTextBlock"
+                    <FontIcon
+                        x:Name="GripperGlyph"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
-                        FontSize="36"
                         Foreground="{StaticResource SystemChromeHighColor}"
-                        IsHitTestVisible="False"
-                        Text="&#xEB3D;" />
+                        Glyph="&#xE76F;"
+                        Margin="-1, 0, 0, -1"
+                        IsHitTestVisible="False">
+                    </FontIcon>
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
@@ -175,7 +174,7 @@
                         <Setter Target="HorizontalGridSplitter.Width" Value="2" />
 
                         <Setter Target="PropertiesRow.Height" Value="0" />
-                        <Setter Target="GripperGlyphTextBlock.Text" Value="&#xE9FC;" />
+                        <Setter Target="GripperGlyph.Glyph" Value="&#xE784;" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -217,7 +216,6 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

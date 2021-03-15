@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -16,11 +18,16 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
+        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
+
+        public static LibraryManager LibraryManager { get; private set; }
 
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.AppSettings.TerminalController.Model.Terminals;
+
+            LibraryManager ??= new LibraryManager();
         }
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
@@ -97,6 +104,35 @@ namespace Files.ViewModels.SettingsViewModels
                     App.AppSettings.ShowConfirmDeleteDialog = value;
                 }
             }
+        }
+
+        public bool ShowLibrarySection
+        {
+            get
+            {
+                return showLibrarySection;
+            }
+            set
+            {
+                if (SetProperty(ref showLibrarySection, value))
+                {
+                    App.AppSettings.ShowLibrarySection = value;
+
+                    LibraryVisibility(App.AppSettings.ShowLibrarySection);
+                }
+            }
+        }
+
+        public async void LibraryVisibility(bool visible)
+        {
+            if (visible)
+            {
+                await LibraryManager.EnumerateDrivesAsync();
+            }                
+            else
+            {
+                await LibraryManager.RemoveEnumerateDrivesAsync();
+            }                
         }
 
         private async void LaunchTerminalsConfigFile()
