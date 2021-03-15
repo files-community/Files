@@ -99,11 +99,7 @@ namespace Files.Filesystem
             }
         }
 
-        bool isItemPinnedToStart;
-        public bool IsItemPinnedToStart {
-            get => isItemPinnedToStart;
-            set => SetProperty(ref isItemPinnedToStart, value);
-        }
+        public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
 
         private BitmapImage iconOverlay;
 

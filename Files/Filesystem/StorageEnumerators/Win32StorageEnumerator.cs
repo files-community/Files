@@ -162,8 +162,7 @@ namespace Files.Filesystem.StorageEnumerators
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath),
-                IsItemPinnedToStart = App.SecondaryTileHelper.CheckFolderPinned(itemPath)
+                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
             };
         }
 
