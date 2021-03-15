@@ -8,6 +8,10 @@ namespace Files.Interacts
     {
         event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
+        int OngoingOperationsCount { get; }
+
+        bool AnyOperationsOngoing { get; }
+
         /// <summary>
         /// Posts a new banner to the Status Center control for an operation.
         /// It may be used to return the progress, success, or failure of the respective operation.
