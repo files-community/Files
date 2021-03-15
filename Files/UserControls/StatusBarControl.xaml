@@ -51,12 +51,32 @@
             Target="{x:Bind StatusCenter}"
             Visibility="Collapsed" />
 
+        <muxc:TeachingTip
+            x:Name="FullTrustStatusTeachingTip"
+            x:Uid="FullTrustStatusTeachingTip"
+            Title="Administrator"
+            Subtitle="Files is running as administrator"
+            Target="{x:Bind FullTrustStatus}"
+            Visibility="Collapsed" />
+
         <StackPanel
             Grid.Column="1"
             Padding="0,2,8,2"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
+
+            <Button
+                x:Name="FullTrustStatus"
+                Width="36"
+                Height="32"
+                Background="Transparent"
+                x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                Click="FullTrustStatus_Click"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}">
+                <FontIcon FontSize="16" Glyph="&#xEA18;" />
+            </Button>
 
             <Button
                 x:Uid="StatusBarControlSelectionOptions"

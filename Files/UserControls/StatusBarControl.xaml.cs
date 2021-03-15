@@ -115,6 +115,11 @@ namespace Files.UserControls
             NotifyPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
+        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            FullTrustStatusTeachingTip.IsOpen = true;
+        }
+        
         #endregion
 
         #region INotifyPropertyChanged
