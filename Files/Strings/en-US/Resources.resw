@@ -1938,7 +1938,7 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Would you like to continue as administrator?</value>
   </data>
-  <data name="FullTrustStatusTeachingTip.SubTitle" xml:space="preserve">
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
     <value>Files is running as administrator</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">

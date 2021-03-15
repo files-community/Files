@@ -2449,13 +2449,13 @@
           <source>Close tabs to the right</source>
           <target state="new">Close tabs to the right</target>
         </trans-unit>
-        <trans-unit id="FullTrustStatusTeachingTip.SubTitle" translate="yes" xml:space="preserve">
-          <source>Files is running as administrator</source>
-          <target state="new">Files is running as administrator</target>
-        </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="new">Administrator</target>
+        </trans-unit>
+        <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Files is running as administrator</source>
+          <target state="new">Files is running as administrator</target>
         </trans-unit>
       </group>
     </body>
