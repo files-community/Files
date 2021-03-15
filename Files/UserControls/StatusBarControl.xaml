@@ -54,7 +54,6 @@
             x:Name="FullTrustStatusTeachingTip"
             x:Uid="FullTrustStatusTeachingTip"
             Title="Administrator"
-            Background="Transparent"
             Subtitle="Files is running as administrator"
             Target="{x:Bind FullTrustStatus}"
             Visibility="Collapsed" />
@@ -68,10 +67,14 @@
 
             <Button
                 x:Name="FullTrustStatus"
+                Width="36"
+                Height="32"
+                Background="Transparent"
                 x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
                 Click="FullTrustStatus_Click"
+                FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}">
-                <FontIcon Glyph="&#xEA18;" />
+                <FontIcon FontSize="16" Foreground="Orange" Glyph="&#xEA18;" />
             </Button>
 
 
