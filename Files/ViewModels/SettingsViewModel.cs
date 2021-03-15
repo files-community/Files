@@ -95,10 +95,22 @@ namespace Files.ViewModels
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the width of the the sidebar pane when open.
+        /// </summary>
         public GridLength SidebarWidth
         {
             get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the sidebar pane should be open or closed.
+        /// </summary>
+        public bool IsSidebarOpen
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         /// <summary>
