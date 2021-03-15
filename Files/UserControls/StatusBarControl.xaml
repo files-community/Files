@@ -8,13 +8,14 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
+    xmlns:xh="using:Files.Helpers.XamlHelpers" xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
+            <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
@@ -249,17 +250,14 @@
                             <FontIcon
                                 x:Name="StatusCenterFontIcon"
                                 FontSize="16"
-                                Glyph="&#xF16A;" />
+                                Glyph="&#xF16A;"
+                                x:Load="{x:Bind AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
-                            <Grid
-                                x:Name="AnyOperationsOngoingProgressRingGrid"
-                                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-                                Visibility="{x:Bind AnyOperationsOngoing, Mode=OneWay}">
-                                <muxc:ProgressRing
-                                    Width="22"
-                                    Height="22"
-                                    IsActive="True" />
-                            </Grid>
+                            <muxc:ProgressRing
+                                Width="22"
+                                Height="22"
+                                IsActive="True"
+                                Visibility="{x:Bind AnyOperationsOngoing, Mode=OneWay}" />
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
