@@ -22,7 +22,6 @@ namespace Files.UserControls
 
         public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
-
         public int OngoingOperationsCount
         {
             get
