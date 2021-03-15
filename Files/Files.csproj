@@ -614,7 +614,6 @@
     <Content Include="Assets\StoreLogo.scale-200_contrast-white.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-black.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-white.png" />
-    <Content Include="Assets\TileBaseLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-black.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-white.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125_contrast-black.png" />
