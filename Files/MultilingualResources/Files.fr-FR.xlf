@@ -2401,7 +2401,7 @@
           <source>Item count</source>
           <target state="translated">Nombre d'éléments</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight" translate="yes" xml:space="preserve">
+        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
           <target state="translated">Fermer les onglets à droite</target>
         </trans-unit>
@@ -2448,6 +2448,14 @@
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
           <target state="translated">Voulez-vous continuer en tant qu'administrateur ??</target>
+        </trans-unit>
+        <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
+          <source>Administrator</source>
+          <target state="new">Administrator</target>
+        </trans-unit>
+        <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Files is running as administrator</source>
+          <target state="new">Files is running as administrator</target>
         </trans-unit>
       </group>
     </body>

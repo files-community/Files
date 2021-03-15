@@ -73,6 +73,14 @@ namespace Files.ViewModels
             }
         }
 
+        private bool isFullTrustElevated = false;
+
+        public bool IsFullTrustElevated
+        {
+            get => isFullTrustElevated;
+            set => SetProperty(ref isFullTrustElevated, value);
+        }
+
         private bool isPasteEnabled = false;
 
         public bool IsPasteEnabled
