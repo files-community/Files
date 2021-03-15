@@ -1088,5 +1088,19 @@ namespace Files
                 e.Handled = true;
             }
         }
+        public async void PinItemToStart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SelectedItems)
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+            }
+        }
+        public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SelectedItems)
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+            }
+        }
     }
 }
