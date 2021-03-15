@@ -1794,4 +1794,25 @@
   <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Színösszeállítás</value>
   </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Elemek száma</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Sikertelen törlés</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Ismeretlen hiba történt.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Igen</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Jobbra lévő lapok bezárása</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Rendszergazda</value>
+  </data>
 </root>

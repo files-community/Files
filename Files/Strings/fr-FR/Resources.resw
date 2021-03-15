@@ -1596,6 +1596,12 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Détacher le dossier de la barre latérale</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>RESEAU</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Détails du fichier</value>
+  </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
     <value>Aperçu du fichier</value>
   </data>
@@ -1665,6 +1671,12 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Disque virtuel</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Plus d'options...</value>
   </data>
@@ -1680,6 +1692,12 @@
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Plus d'options de lecteurs</value>
   </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoris</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>W!!ßrøwsè 表!!W</value>
+  </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Emplacements récents</value>
   </data>
@@ -1692,11 +1710,23 @@
   <data name="NoItemSelected" xml:space="preserve">
     <value>Aucune élément sélectionné</value>
   </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Cible</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Arguments :</value>
+  </data>
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
     <value>Afficher la section des librairies dans la barre latérale</value>
   </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliothèques</value>
+  </data>
   <data name="DefaultScheme" xml:space="preserve">
     <value>Défaut</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Modèle de couleurs</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Nombre d'éléments</value>
@@ -1712,6 +1742,9 @@
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Suppression terminée</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>L’opération s’est terminée.</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>Déplacement terminé</value>
@@ -1730,5 +1763,8 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Voulez-vous continuer en tant qu'administrateur ??</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Administrateur</value>
   </data>
 </root>

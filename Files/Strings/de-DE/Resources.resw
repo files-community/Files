@@ -1830,4 +1830,7 @@
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Rechte Tabs schließen</value>
   </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
 </root>

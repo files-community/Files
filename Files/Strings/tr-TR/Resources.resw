@@ -1797,4 +1797,25 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Öğe sayısı</value>
   </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Silme Başarısız</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Bilinmeyen bir hata oluştu.</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Kopyalama Tamamlandı</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Hayır</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Sağdaki sekmeleri kapat</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Yönetici</value>
+  </data>
 </root>

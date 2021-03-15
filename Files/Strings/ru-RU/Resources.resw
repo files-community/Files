@@ -1134,11 +1134,17 @@
   <data name="PropertyDuration" xml:space="preserve">
     <value>Длительность</value>
   </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Количество кадров</value>
+  </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Тип защиты</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Дата выпуска</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Имя ряда</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Номер сезона</value>
@@ -1205,6 +1211,9 @@
   </data>
   <data name="PropertyDateSaved" xml:space="preserve">
     <value>Дата сохранения</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Общее время правки</value>
@@ -1712,5 +1721,50 @@
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Недавние расположения</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Фрагмент недоступен</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Подробные сведения отсутствуют</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Элементы не выбраны</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>цель</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Аргументы:</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Библиотеки</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Цветовая схема</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Число элементов</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Не удалось удалить</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Неизвестная ошибка.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Закрыть вкладки справа</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Администратор</value>
   </data>
 </root>

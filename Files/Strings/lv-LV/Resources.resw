@@ -1797,4 +1797,19 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Vienumu skaits</value>
   </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Radās nezināma kļūda.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Nē</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Jā</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Aizvērt cilnes labajā pusē</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Administrators</value>
+  </data>
 </root>
