@@ -16,7 +16,7 @@
                 <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        Windows10version1903:TintLuminosityOpacity="0.85"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
@@ -26,7 +26,7 @@
                 <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        Windows10version1903:TintLuminosityOpacity="0.85"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
@@ -87,7 +87,7 @@
                     BorderThickness="0.8"
                     Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon  Glyph="&#xE7E8;" />
+                        <FontIcon Glyph="&#xE7E8;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -103,7 +103,7 @@
                     BorderThickness="0.8"
                     Content="Widgets">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon  Glyph="&#xF246;" />
+                        <FontIcon Glyph="&#xF246;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -111,7 +111,10 @@
                     BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" FontSize="16" Glyph="&#xeba9;" />
+                        <FontIcon
+                            FontFamily="{StaticResource OldFluentUIGlyphs}"
+                            FontSize="16"
+                            Glyph="&#xeba9;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -119,7 +122,7 @@
                     BorderThickness="0.8"
                     Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon  Glyph="&#xE8B7;" />
+                        <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -127,7 +130,7 @@
                     BorderThickness="0.8"
                     Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon  Glyph="&#xF1AD;" />
+                        <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -135,7 +138,10 @@
                     BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" FontSize="16" Glyph="&#xe95f;" />
+                        <FontIcon
+                            FontFamily="{StaticResource OldFluentUIGlyphs}"
+                            FontSize="16"
+                            Glyph="&#xe95f;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>

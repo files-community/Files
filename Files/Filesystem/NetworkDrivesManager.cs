@@ -51,20 +51,20 @@ namespace Files.Filesystem
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
-                var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "GetNetworkLocations" }
-                }, TimeSpan.FromSeconds(10));
-                if (status == AppServiceResponseStatus.Success && response.Message.ContainsKey("Count"))
+                });
+                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Count"))
                 {
-                    foreach (var key in response.Message.Keys
-                        .Where(k => k != "Count"))
+                    foreach (var key in response.Keys
+                        .Where(k => k != "Count" && k != "RequestID"))
                     {
                         var networkItem = new DriveItem()
                         {
                             Text = key,
-                            Path = (string)response.Message[key],
+                            Path = (string)response[key],
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
                         };
@@ -117,7 +117,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
-
+                            Section = SectionType.Network,
                             Glyph = "\uE8CE",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()

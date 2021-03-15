@@ -458,8 +458,8 @@ namespace Files.Filesystem
             if (sw.Elapsed.TotalSeconds >= 10)
             {
                 associatedInstance.StatusCenterActions.PostBanner(
-                    "Copy Complete",
-                    "The operation has completed.",
+                    "StatusCopyComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Copy);
@@ -498,8 +498,8 @@ namespace Files.Filesystem
             if (sw.Elapsed.TotalSeconds >= 10)
             {
                 associatedInstance.StatusCenterActions.PostBanner(
-                    "Copy Complete",
-                    "The operation has completed.",
+                    "StatusCopyComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Copy);
@@ -630,8 +630,8 @@ namespace Files.Filesystem
             if (sw.Elapsed.TotalSeconds >= 10)
             {
                 associatedInstance.StatusCenterActions.PostBanner(
-                    "Move Complete",
-                    "The operation has completed.",
+                    "StatusMoveComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Move);
@@ -670,8 +670,8 @@ namespace Files.Filesystem
             if (sw.Elapsed.TotalSeconds >= 10)
             {
                 associatedInstance.StatusCenterActions.PostBanner(
-                    "Move Complete",
-                    "The operation has completed.",
+                    "StatusMoveComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Move);

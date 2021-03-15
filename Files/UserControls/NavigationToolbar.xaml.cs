@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
@@ -511,7 +512,7 @@ namespace Files.UserControls
                 {
                     EditModeEnabled?.Invoke(this, new EventArgs());
                     VisiblePath.Focus(FocusState.Programmatic);
-                    Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
+                    DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
                 }
                 else
                 {
@@ -527,7 +528,7 @@ namespace Files.UserControls
         {
             // AutoSuggestBox won't receive focus unless it's fully loaded
             VisiblePath.Focus(FocusState.Programmatic);
-            Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
+            DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
         public bool CanRefresh

@@ -22,10 +22,20 @@ namespace Files.ViewModels.Previews
         public FolderPreviewViewModel(ListedItem item)
         {
             Item = item;
-            LoadPreviewAndDetailsAsync();
         }
 
-        private async void LoadPreviewAndDetailsAsync()
+        public async Task LoadAsync()
+        {
+            try
+            {
+                await LoadPreviewAndDetailsAsync();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private async Task LoadPreviewAndDetailsAsync()
         {
             Folder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
             var items = await Folder.GetItemsAsync();

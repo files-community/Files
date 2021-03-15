@@ -55,7 +55,7 @@
     <value>Geliştiricilere bilgi sağlamak için bir sorun raporu gönderin</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Üçüncü Şahıs Lisansları</value>
+    <value>Üçüncü şahıs lisansları</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Hakkında</value>
@@ -211,7 +211,7 @@
     <value>Özellikler</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
+    <value>HızlıBakış</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Yeni Pencere</value>
@@ -931,7 +931,7 @@
     <value>Uygulama teması</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Nitelikler içerisinde Sahibi göster</value>
+    <value>Nitelikler içerisinde dosya sahibini göster</value>
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Diğer seçenekler</value>
@@ -1184,6 +1184,18 @@
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Yayımcı</value>
+  </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Küçük resmin tam yolu</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Küçük resmin tam URI</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Küçük resmin kısa yolu</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Küçük resmin kısa URI</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Kullanıcı Web Adresi</value>
@@ -1519,7 +1531,7 @@
     <value>Sekme Özelleştirmesi</value>
   </data>
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Files Başlatılırken</value>
+    <value>Files başlatılırken</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Onayla</value>
@@ -1621,7 +1633,7 @@
     <value>Bulut Sürücüleri</value>
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Anasayfada Paketleri göster</value>
+    <value>Ana Sayfada Paketleri göster</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Klasörü Kenar Çubuğundan sabitlemeyi kaldır</value>
@@ -1751,5 +1763,38 @@
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Son konumlar</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Ön izleme mevcut değil</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Detay mevcut değil</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Hiçbir öğe seçilmedi</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Hedef</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argümanlar</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Kütüphaneyi kenar çubuğunda göster</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Kütüphaneler</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Yeni bölmede aç</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Varsayılan</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Renk şeması</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Öğe sayısı</value>
   </data>
 </root>

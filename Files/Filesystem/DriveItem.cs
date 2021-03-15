@@ -92,6 +92,8 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceText, value);
         }
 
+        public SectionType Section { get; set; }
+
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;

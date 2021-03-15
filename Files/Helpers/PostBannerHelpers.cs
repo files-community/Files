@@ -34,8 +34,8 @@ namespace Files.Helpers
                 else if (status == ReturnResult.Failed || status == ReturnResult.UnknownException)
                 {
                     associatedInstance.StatusCenterActions.PostBanner(
-                        "Deletion Failed",
-                        "An unknown error has occurred.",
+                        "StatusDeletionFailed".GetLocalized(),
+                        "StatusUnknownError".GetLocalized(),
                         0,
                         status,
                         operation);
@@ -45,8 +45,8 @@ namespace Files.Helpers
                     if (operation == FileOperationType.Delete)
                     {
                         associatedInstance.StatusCenterActions.PostBanner(
-                        "Deletion Complete",
-                        "The operation has completed.",
+                        "StatusDeletionComplete".GetLocalized(),
+                        "StatusOperationCompleted".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         operation);
@@ -54,8 +54,8 @@ namespace Files.Helpers
                     else if (operation == FileOperationType.Recycle)
                     {
                         associatedInstance.StatusCenterActions.PostBanner(
-                        "Recycle Complete",
-                        "The operation has completed.",
+                        "StatusRecycleComplete".GetLocalized(),
+                        "StatusOperationCompleted".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         operation);

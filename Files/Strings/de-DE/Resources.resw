@@ -1635,6 +1635,12 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Ordner von Seitenleiste entfernen</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Netzwerklaufwerke</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Netzwerk</value>
+  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Dateidetails</value>
   </data>
@@ -1735,10 +1741,10 @@
     <value>Verbindung trennen</value>
   </data>
   <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Eine kleinerer Wert ist für Festplatten empfohlen</value>
+    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Ein kleinerer Wert ist für Festplatten empfohlen)</value>
   </data>
   <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Vorzeitiges Zwischenspeichern benutzen (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
+    <value>Vorzeitiges Zwischenspeichern aktivieren (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr Gruppenoptionen</value>
@@ -1754,5 +1760,38 @@
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Kürzlich verwendete Orte</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Keine Vorschau verfügbar</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Keine Details verfügbar</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Keine Objekt ausgewählt</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Ziel</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumente</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Unter Bibliotheken in der Seitenleise anzeigen</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliotheken</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>In neuem Panel öffnen</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Farbschema</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Anzahl an Objekten</value>
   </data>
 </root>

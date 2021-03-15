@@ -87,7 +87,7 @@ namespace Files.ViewModels.Properties
                     }
                     catch (Exception ex)
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                        NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                     }
                 }
             }
