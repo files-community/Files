@@ -75,9 +75,8 @@
                 Click="FullTrustStatus_Click"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}">
-                <FontIcon FontSize="16" Foreground="Orange" Glyph="&#xEA18;" />
+                <FontIcon FontSize="16" Glyph="&#xEA18;" />
             </Button>
-
 
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
