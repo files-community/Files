@@ -153,11 +153,14 @@ namespace Files.UserControls
                 Banner.IsProgressing = true;
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
+                return;
             }
             else
             {
                 Debugger.Break(); // Argument out of range :(
             }
+
+            Banner.IsProgressing = false;
         }
 
         private void ReportProgressToBanner(ReturnResult value)
@@ -293,6 +296,7 @@ namespace Files.UserControls
                     break;
 
                 case ReturnResult.Success:
+                    IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -309,6 +313,7 @@ namespace Files.UserControls
                     break;
 
                 case ReturnResult.Failed:
+                    IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
