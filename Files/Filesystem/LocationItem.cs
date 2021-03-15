@@ -39,5 +39,7 @@ namespace Files.Filesystem
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
+
+        public SectionType Section { get; set; }
     }
 }

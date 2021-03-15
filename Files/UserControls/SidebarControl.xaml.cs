@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
@@ -238,10 +239,7 @@ namespace Files.UserControls
 
                 if (item.IsDefaultLocation)
                 {
-                    var isLibrary = (MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem)?
-                        .ChildItems?
-                        .Contains(item) ?? false;
-                    if (!isLibrary)
+                    if (item.Section != SectionType.Library)
                     {
                         ShowProperties = false;
                     }
@@ -569,7 +567,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+            await DeviceHelpers.EjectDeviceAsync(App.RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)

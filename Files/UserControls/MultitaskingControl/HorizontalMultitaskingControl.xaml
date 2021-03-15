@@ -366,7 +366,7 @@
                                 <ControlTemplate TargetType="muxc:TabViewItem">
                                     <Grid
                                         x:Name="LayoutRoot"
-                                        Height="34"
+                                        Height="{TemplateBinding Height}"
                                         Padding="{TemplateBinding Padding}">
                                         <!--  This item will cover the separator on its left side.  -->
 
@@ -387,7 +387,7 @@
                                             Margin="{ThemeResource TabViewItemSeparatorMargin}"
                                             HorizontalAlignment="Right"
                                             BorderBrush="{StaticResource SystemBaseLowColor}"
-                                            BorderThickness="1" />
+                                            BorderThickness="0" />
 
 
                                         <Grid
@@ -395,8 +395,6 @@
                                             Grid.Column="1"
                                             Padding="{ThemeResource TabViewItemHeaderPadding}"
                                             Background="Transparent"
-                                            BorderBrush="{ThemeResource SystemBaseLowColor}"
-                                            BorderThickness="0"
                                             Canvas.ZIndex="2"
                                             Control.IsTemplateFocusTarget="True"
                                             CornerRadius="{TemplateBinding CornerRadius}"
@@ -451,28 +449,12 @@
                                                 Style="{StaticResource TabViewCloseButtonStyle}" />
                                         </Grid>
 
-                                        <controls:DropShadowPanel
-                                            x:Name="SelectedTabViewItemShadow"
-                                            Grid.Column="1"
-                                            Margin="0,1,0,0"
-                                            HorizontalContentAlignment="Stretch"
-                                            BlurRadius="5"
-                                            ShadowOpacity="0.5"
-                                            Visibility="Collapsed"
-                                            Color="{ThemeResource SystemRevealBaseHighColor}">
-                                            <Rectangle
-                                                Fill="{ThemeResource SolidBackgroundFillColorQuarternary}"
-                                                RadiusX="4"
-                                                RadiusY="4" />
-                                        </controls:DropShadowPanel>
-
                                         <VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup x:Name="CommonStates">
                                                 <VisualState x:Name="Normal">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Collapsed" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
@@ -483,7 +465,7 @@
 
                                                 <VisualState x:Name="PointerOver">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Collapsed" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource SystemBaseLowColor}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
@@ -496,8 +478,8 @@
 
                                                 <VisualState x:Name="Pressed">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
@@ -508,9 +490,9 @@
 
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}"/>
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
@@ -521,9 +503,8 @@
 
                                                 <VisualState x:Name="PointerOverSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="SelectedTabViewItemShadow.ShadowOpacity" Value=".8" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
@@ -536,9 +517,8 @@
 
                                                 <VisualState x:Name="PressedSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="SelectedTabViewItemShadow.Visibility" Value="Visible" />
-                                                        <Setter Target="SelectedTabViewItemShadow.ShadowOpacity" Value=".8" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
@@ -833,10 +813,11 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Margin="4,4,4,4"
+                        Margin="4,4"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         CornerRadius="4"
+                        Height="36"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"

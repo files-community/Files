@@ -96,12 +96,6 @@ namespace Files.ViewModels
                 return;
             }
 
-            if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                PreviewPaneContent = new FolderPreview(new FolderPreviewViewModel(SelectedItem));
-                return;
-            }
-
             foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
             {
                 if (extension.FileExtensions.Contains(SelectedItem.FileExtension))
@@ -131,6 +125,14 @@ namespace Files.ViewModels
                 await model.LoadAsync();
                 return new BasicPreview(model);
             }
+
+            if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                var model = new FolderPreviewViewModel(SelectedItem);
+                await model.LoadAsync();
+                return new FolderPreview(model);
+            }
+
             if (item.FileExtension == null)
             {
                 return null;

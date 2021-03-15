@@ -1758,4 +1758,16 @@
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Accesso rapido</value>
   </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Questa operazione richiede privilegi elevati</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Vuoi continuare come amministratore?</value>
+  </data>
 </root>

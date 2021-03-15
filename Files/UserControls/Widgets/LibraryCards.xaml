@@ -12,15 +12,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
-            <LinearGradientBrush.RelativeTransform>
-                <ScaleTransform CenterY="0.5" ScaleY="-1" />
-            </LinearGradientBrush.RelativeTransform>
-            <LinearGradientBrush.GradientStops>
-                <GradientStop Offset="0" Color="{ThemeResource ControlStrokeColorSecondary}" />
-                <GradientStop Offset="1.0" Color="{ThemeResource ControlStrokeColorDefault}" />
-            </LinearGradientBrush.GradientStops>
-        </LinearGradientBrush>
         <StaticResource x:Key="ButtonBackground" ResourceKey="ControlFillColorDefaultBrush" />
         <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
         <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />

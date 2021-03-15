@@ -64,6 +64,11 @@ namespace Files.UserControls
             }
         }
 
+        public bool AnyOperationsOngoing
+        {
+            get => statusCenterActions.AnyOperationsOngoing;
+        }
+
         private bool showStatusCenter;
 
         public bool ShowStatusCenter
@@ -107,19 +112,7 @@ namespace Files.UserControls
                 StatusCenterTeachingTip.IsOpen = false;
             }
 
-            PlayBannerAddedVisualAnimation();
-        }
-
-        #endregion
-
-        #region Public Helpers
-
-        public async void PlayBannerAddedVisualAnimation()
-        {
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
         #endregion

@@ -19,17 +19,19 @@ namespace Files.Helpers
                     { "filePath", filePath },
                     { "thumbnailSize", (int)thumbnailSize }
                 };
-                var response = await connection.SendMessageAsync(value);
-                var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
-                    && response.Message.Get("HasCustomIcon", false);
-                var icon = response.Message.Get("Icon", (string)null);
-                var overlay = response.Message.Get("Overlay", (string)null);
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var hasCustomIcon = response.Get("HasCustomIcon", false);
+                    var icon = response.Get("Icon", (string)null);
+                    var overlay = response.Get("Overlay", (string)null);
 
-                // BitmapImage can only be created on UI thread, so return raw data and create
-                // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                return (icon == null ? null : Convert.FromBase64String(icon),
-                    overlay == null ? null : Convert.FromBase64String(overlay),
-                    hasCustomIcon);
+                    // BitmapImage can only be created on UI thread, so return raw data and create
+                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                    return (icon == null ? null : Convert.FromBase64String(icon),
+                        overlay == null ? null : Convert.FromBase64String(overlay),
+                        hasCustomIcon);
+                }
             }
             return (null, null, false);
         }

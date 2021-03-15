@@ -1,5 +1,5 @@
 ﻿using Files.Enums;
-using Files.Interacts;
+using Files.Helpers.XamlHelpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -424,7 +424,7 @@ namespace Files.ViewModels.Dialogs
 
                 if (control == null)
                 {
-                    control = Interaction.FindChild<Control>(vm.DisplayControl as DependencyObject);
+                    control = DependencyObjectHelpers.FindChild<Control>(vm.DisplayControl as DependencyObject);
                 }
 
                 control?.Focus(FocusState.Programmatic);
