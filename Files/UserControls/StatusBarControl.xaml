@@ -257,7 +257,7 @@
                                 Width="22"
                                 Height="22"
                                 IsActive="True"
-                                Visibility="{x:Bind AnyOperationsOngoing, Mode=OneWay}" />
+                                x:Load="{x:Bind AnyOperationsOngoing, Mode=OneWay}" />
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
