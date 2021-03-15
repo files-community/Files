@@ -111,6 +111,8 @@ namespace Files.UserControls
                 StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 StatusCenterTeachingTip.IsOpen = false;
             }
+
+            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
         #endregion

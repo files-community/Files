@@ -238,15 +238,30 @@
                     x:Uid="StatusCenter"
                     Width="36"
                     Height="32"
+                    Padding="0"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
-                    <FontIcon
-                        x:Name="StatusCenterFontIcon"
-                        FontSize="16"
-                        Glyph="&#xF16A;" />
+                    <Button.Content>
+                        <Grid>
+                            <FontIcon
+                                x:Name="StatusCenterFontIcon"
+                                FontSize="16"
+                                Glyph="&#xF16A;" />
+
+                            <Grid
+                                x:Name="AnyOperationsOngoingProgressRingGrid"
+                                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                Visibility="{x:Bind AnyOperationsOngoing, Mode=OneWay}">
+                                <muxc:ProgressRing
+                                    Width="22"
+                                    Height="22"
+                                    IsActive="True" />
+                            </Grid>
+                        </Grid>
+                    </Button.Content>
                     <Button.Flyout>
                         <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter
@@ -259,15 +274,6 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Grid
-                    x:Name="AnyOperationsOngoingProgressRingGrid"
-                    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-                    Visibility="{x:Bind AnyOperationsOngoing, Mode=OneWay}">
-                    <muxc:ProgressRing
-                        Width="22"
-                        Height="22"
-                        IsActive="True" />
-                </Grid>
             </Grid>
         </StackPanel>
     </Grid>
