@@ -27,7 +27,7 @@ namespace Files.Filesystem
         {
             try
             {
-                await SyncSideBarItemsUI();
+                await SyncLibrarySideBarItemsUI();
             }
             catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
             {
@@ -37,17 +37,54 @@ namespace Files.Filesystem
             }
         }
 
+        public async Task RemoveEnumerateDrivesAsync()
+        {
+            try
+            {
+                await RemoveLibrarySideBarItemsUI();
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += RemoveEnumerateDrivesAsync;
+            }
+        }
+
         private async void EnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await SyncSideBarItemsUI();
+            await SyncLibrarySideBarItemsUI();
             CoreApplication.MainView.Activated -= EnumerateDrivesAsync;
+        }
+
+        private async void RemoveEnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await RemoveLibrarySideBarItemsUI();
+            CoreApplication.MainView.Activated -= RemoveEnumerateDrivesAsync;
         }
 
         private LocationItem librarySection;
         private List<string> libraryItems { get; set; } = new List<string>();
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        private async Task SyncSideBarItemsUI()
+        public async Task RemoveLibrarySideBarItemsUI()
+        {
+            MainPage.SideBarItems.BeginBulkOperation();
+
+            try
+            {
+                var item = (from n in MainPage.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowLibrarySection && item != null)
+                {
+                    MainPage.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+
+            MainPage.SideBarItems.EndBulkOperation();
+        }
+        private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
@@ -69,8 +106,10 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-                            MainPage.SideBarItems.Add(librarySection);
+                            
+                            MainPage.SideBarItems.Insert(1, librarySection);
 
+                            libraryItems.Clear();
                             libraryItems.Add(AppSettings.DesktopPath);
                             libraryItems.Add(AppSettings.DownloadsPath);
                             libraryItems.Add(AppSettings.DocumentsPath);
