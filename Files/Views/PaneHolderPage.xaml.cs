@@ -39,10 +39,9 @@ namespace Files.Views
         public PaneHolderPage()
         {
             this.InitializeComponent();
-
+            this.Loaded += PaneHolderPage_Loaded;
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
-            Current_SizeChanged(null, null);
 
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
@@ -55,6 +54,11 @@ namespace Files.Views
                 }
             }
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
+        }
+
+        private void PaneHolderPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Current_SizeChanged(null, null);
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -82,7 +86,10 @@ namespace Files.Views
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
+            if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
+            {
+                IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
+            }
         }
 
         private bool wasRightPaneVisible;
@@ -274,6 +281,7 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+
             if (eventArgs.Parameter is string navPath)
             {
                 NavParamsLeft = navPath;
@@ -289,6 +297,7 @@ namespace Files.Views
 
         public void Dispose()
         {
+            this.Loaded -= PaneHolderPage_Loaded;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
             Window.Current.SizeChanged -= Current_SizeChanged;
