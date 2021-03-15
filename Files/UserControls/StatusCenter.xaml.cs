@@ -22,6 +22,25 @@ namespace Files.UserControls
 
         public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
+
+        public int OngoingOperationsCount
+        {
+            get
+            {
+                int count = 0;
+
+                foreach (var item in StatusBannersSource)
+                {
+                    if (item.IsProgressing)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+
         #endregion
 
         #region Events
