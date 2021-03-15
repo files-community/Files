@@ -71,7 +71,6 @@ namespace Files.Filesystem
                             };
                             MainPage.SideBarItems.Add(librarySection);
 
-                            libraryItems.Add(AppSettings.DesktopPath);
                             libraryItems.Add(AppSettings.DownloadsPath);
                             libraryItems.Add(AppSettings.DocumentsPath);
                             libraryItems.Add(AppSettings.PicturesPath);
