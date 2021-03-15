@@ -3,11 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Files.Converters"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fsvm="using:Files.ViewModels"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
-    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
@@ -16,10 +15,12 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
+            <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -234,23 +235,33 @@
             </Button>
 
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
-                <muxc:AnimatedVisualPlayer
-                    x:Name="StatusCenterPulseVisualPlayer"
-                    AutoPlay="False"
-                    Visibility="Collapsed">
-                    <lottie:LottieVisualSource x:Name="StatusCenterPulseVisualSource" UriSource="ms-appx:///Assets/AnimatedVisuals/LottiePulseStatusCenter.json" />
-                </muxc:AnimatedVisualPlayer>
                 <Button
                     x:Name="StatusCenter"
                     x:Uid="StatusCenter"
                     Width="36"
                     Height="32"
+                    Padding="0"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
-                    <FontIcon FontSize="16" Glyph="&#xF16A;" />
+                    <Button.Content>
+                        <Grid>
+                            <FontIcon
+                                x:Name="StatusCenterFontIcon"
+                                x:Load="{x:Bind AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                FontSize="16"
+                                Glyph="&#xF16A;" />
+
+                            <muxc:ProgressRing
+                                x:Name="AnyOperationsOngoingProgressRing"
+                                Width="22"
+                                Height="22"
+                                x:Load="{x:Bind AnyOperationsOngoing, Mode=OneWay}"
+                                IsActive="True" />
+                        </Grid>
+                    </Button.Content>
                     <Button.Flyout>
                         <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter
