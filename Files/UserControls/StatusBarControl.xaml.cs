@@ -64,11 +64,6 @@ namespace Files.UserControls
             }
         }
 
-        public bool AnyOperationsOngoing
-        {
-            get => statusCenterActions.AnyOperationsOngoing;
-        }
-
         private bool showStatusCenter;
 
         public bool ShowStatusCenter
@@ -111,8 +106,6 @@ namespace Files.UserControls
                 StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 StatusCenterTeachingTip.IsOpen = false;
             }
-
-            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
         private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
