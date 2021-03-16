@@ -617,6 +617,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-400_contrast-white.png" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
+    <PRIResource Include="Strings\pt-PT\Resources.resw" />
+    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
