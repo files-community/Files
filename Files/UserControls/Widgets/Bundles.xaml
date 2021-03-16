@@ -45,7 +45,7 @@
                 VerticalContentAlignment="Center"
                 AutomationProperties.Name="More bundles options"
                 Background="Transparent"
-                Style="{StaticResource ButtonRevealStyle}"
+                BorderBrush="Transparent"
                 ToolTipService.ToolTip="More options...">
 
                 <FontIcon
@@ -388,7 +388,6 @@
                 Height="50"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Background="#25ffffff"
                 CornerRadius="25">
                 <FontIcon
                     HorizontalAlignment="Center"
