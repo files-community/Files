@@ -186,7 +186,8 @@
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Background="Transparent">
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
                                     <FontIcon FontSize="12" Glyph="&#xe712;" />
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
