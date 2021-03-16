@@ -5,7 +5,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -16,7 +18,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
-    public sealed partial class StatusCenter : UserControl, IStatusCenterActions
+    public sealed partial class StatusCenter : UserControl, INotifyPropertyChanged, IStatusCenterActions
     {
         #region Public Properties
 
@@ -68,7 +70,6 @@ namespace Files.UserControls
         {
             StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
-
             StatusBannersSource.Add(banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
             return postedBanner;
@@ -78,7 +79,6 @@ namespace Files.UserControls
         {
             StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
-
             StatusBannersSource.Add(banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
             return postedBanner;
@@ -111,6 +111,23 @@ namespace Files.UserControls
             await Task.Run(itemToDismiss.PrimaryButtonClick);
             CloseBanner(itemToDismiss);
         }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateBanner(StatusBanner banner)
+        {
+            NotifyPropertyChanged(nameof(OngoingOperationsCount));
+            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
+        }
+
+        #endregion
     }
 
     public class PostedStatusBanner
@@ -153,6 +170,7 @@ namespace Files.UserControls
                 Banner.IsProgressing = true;
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
+                statusCenterActions.UpdateBanner(Banner);
                 return;
             }
             else
@@ -161,6 +179,7 @@ namespace Files.UserControls
             }
 
             Banner.IsProgressing = false;
+            statusCenterActions.UpdateBanner(Banner);
         }
 
         private void ReportProgressToBanner(ReturnResult value)
@@ -202,7 +221,16 @@ namespace Files.UserControls
             }
         }
 
-        public bool IsProgressing { get; set; } = false;
+        private bool isProgressing = false;
+
+        public bool IsProgressing
+        {
+            get => isProgressing;
+            set
+            {
+                SetProperty(ref isProgressing, value);
+            }
+        }
 
         public string Title { get; private set; }
 
