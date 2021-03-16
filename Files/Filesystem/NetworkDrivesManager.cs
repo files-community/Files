@@ -112,7 +112,7 @@ namespace Files.Filesystem
                     MainPage.SideBarItems.BeginBulkOperation();
 
                     var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (section == null && this.drivesList.Count > 0)
                     {
                         section = new LocationItem()
                         {
