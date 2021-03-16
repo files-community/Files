@@ -1427,10 +1427,7 @@ namespace Files.Interacts
             }
             inputStream.Dispose();
             stream.Dispose();
-            if (token.IsCancellationRequested)
-            {
-                return "";
-            }
+
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
 
