@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Helpers.XamlHelpers;
+using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,7 +171,7 @@ namespace Files.UserControls.Selection
         {
             if (scrollViewer == null)
             {
-                scrollViewer = Interaction.FindChild<ScrollViewer>(uiElement);
+                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement);
             }
 
             if (scrollViewer != null)
@@ -193,7 +194,7 @@ namespace Files.UserControls.Selection
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
 
-                scrollViewer = Interaction.FindChild<ScrollViewer>(uiElement);
+                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement);
                 if (scrollViewer == null)
                 {
                     uiElement.LayoutUpdated += RectangleSelection_LayoutUpdated;

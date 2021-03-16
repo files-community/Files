@@ -9,15 +9,6 @@
     x:Name="PropertiesDialogMarkup"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">
-    <ContentDialog.Background>
-        <AcrylicBrush
-            Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-            BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
-    </ContentDialog.Background>
     <ContentDialog.Resources>
         <Thickness x:Key="ContentDialogPadding">0</Thickness>
     </ContentDialog.Resources>

@@ -12,22 +12,8 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary>
-            <!--  Converters  -->
-            <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
-
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Name="Light">
-                    <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Name="Dark">
-                    <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Name="HighContrast">
-                    <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
+        <!--  Converters  -->
+        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
     </UserControl.Resources>
 
     <StackPanel Spacing="12">
@@ -65,7 +51,6 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="Segoe MDL2 Assets"
                     FontSize="14"
                     Glyph="&#xe712;" />
 
@@ -76,7 +61,7 @@
                             Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
                             Text="Create Bundle">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
+                                <FontIcon Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
@@ -85,7 +70,7 @@
                             Command="{Binding ImportBundlesCommand, Mode=OneWay}"
                             Text="Import Bundles">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB64;" />
+                                <FontIcon Glyph="&#xE8B6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -93,7 +78,7 @@
                             Command="{Binding ExportBundlesCommand, Mode=OneWay}"
                             Text="Export Bundles">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB62;" />
+                                <FontIcon Glyph="&#xEDE1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -104,7 +89,10 @@
         <!--  Collection of bundles  -->
         <GridView
             HorizontalAlignment="Stretch"
+            AllowDrop="True"
+            CanReorderItems="True"
             ItemsSource="{Binding Items, Mode=OneWay}"
+            ReorderMode="Enabled"
             SelectionMode="None">
 
             <!--  Remove Reveal Highlight Effect  -->
@@ -133,34 +121,19 @@
                         Width="270"
                         Height="256"
                         AllowDrop="True"
-                        Background="{ThemeResource YourHomeCardBackgroundColor}"
+                        Background="{ThemeResource ControlFillColorDefaultBrush}"
                         ColumnSpacing="8"
-                        CornerRadius="4">
+                        CornerRadius="8">
                         <i:Interaction.Behaviors>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <icore:EventTriggerBehavior EventName="DragOver">
                                 <icore:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}" />
                             </icore:EventTriggerBehavior>
+                            <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <icore:EventTriggerBehavior EventName="Drop">
                                 <icore:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}" />
                             </icore:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
-
-                        <Grid.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.ThemeDictionaries>
-                                    <ResourceDictionary x:Name="Light">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="Dark">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Name="HighContrast">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                                    </ResourceDictionary>
-                                </ResourceDictionary.ThemeDictionaries>
-                            </ResourceDictionary>
-                        </Grid.Resources>
 
                         <!--  Contents of a Bundle  -->
                         <Grid
@@ -213,26 +186,24 @@
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    Content="&#xe712;"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="12">
+                                    Background="Transparent">
+                                    <FontIcon FontSize="12" Glyph="&#xe712;" />
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                            <MenuFlyoutItem
-                                                x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
-                                                Command="{Binding RemoveBundleCommand, Mode=OneWay}"
-                                                Text="Remove Bundle">
-                                                <MenuFlyoutItem.Icon>
-                                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
-                                                </MenuFlyoutItem.Icon>
-                                            </MenuFlyoutItem>
                                             <MenuFlyoutItem
                                                 x:Uid="BundleOptionsFlyoutRenameBundleMenuItem"
                                                 Command="{Binding RenameBundleCommand, Mode=OneWay}"
                                                 Text="Rename Bundle">
                                                 <MenuFlyoutItem.Icon>
-                                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
+                                                    <FontIcon Glyph="&#xE8AC;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
+                                                Command="{Binding RemoveBundleCommand, Mode=OneWay}"
+                                                Text="Remove Bundle">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE738;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
@@ -245,8 +216,24 @@
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
+                                AllowDrop="True"
+                                CanDragItems="True"
+                                CanReorderItems="True"
+                                IsItemClickEnabled="True"
                                 ItemsSource="{Binding Contents, Mode=OneWay}"
+                                ReorderMode="Enabled"
                                 SelectionMode="None">
+
+                                <i:Interaction.Behaviors>
+                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                    <icore:EventTriggerBehavior EventName="DragItemsStarting">
+                                        <icore:InvokeCommandAction Command="{Binding DragItemsStartingCommand, Mode=OneWay}" />
+                                    </icore:EventTriggerBehavior>
+                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                    <icore:EventTriggerBehavior EventName="ItemClick">
+                                        <icore:InvokeCommandAction Command="{Binding OpenItemCommand, Mode=OneWay}" />
+                                    </icore:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
 
                                 <!--  Remove Reveal Highlight Effect  -->
                                 <GridView.ItemContainerStyle>
@@ -269,17 +256,14 @@
                                     <!--  Bundle Item design  -->
                                     <DataTemplate>
                                         <Grid>
-                                            <Button
+                                            <Border
                                                 Width="119"
                                                 Height="36"
                                                 Margin="2,0,2,0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
-                                                HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Center"
                                                 Background="Transparent"
-                                                BorderThickness="1"
-                                                Command="{Binding OpenItemCommand, Mode=OneWay}">
+                                                BorderThickness="1">
 
                                                 <Grid ColumnSpacing="4">
                                                     <Grid.ColumnDefinitions>
@@ -307,7 +291,7 @@
                                                         TextTrimming="CharacterEllipsis" />
                                                 </Grid>
 
-                                                <Button.ContextFlyout>
+                                                <Border.ContextFlyout>
                                                     <MenuFlyout>
                                                         <MenuFlyoutItem
                                                             x:Uid="BundleItemFlyouOpenInNewTabMenuItem"
@@ -319,11 +303,20 @@
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
+                                                            x:Uid="BundlesOpenInNewPane"
+                                                            Command="{Binding OpenInNewPaneCommand, Mode=OneWay}"
+                                                            Text="Open in new Pane"
+                                                            Visibility="{Binding OpenInNewPaneVisibility, Mode=OneWay}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutItem
                                                             x:Uid="BundleItemFlyouOpenItemLocationMenuItem"
                                                             Command="{Binding OpenItemLocationCommand, Mode=OneWay}"
                                                             Text="Open item location">
                                                             <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                                                                <FontIcon Glyph="&#xED25;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutSeparator />
@@ -332,16 +325,16 @@
                                                             Command="{Binding RemoveItemCommand, Mode=OneWay}"
                                                             Text="Remove from bundle">
                                                             <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
+                                                                <FontIcon Glyph="&#xE738;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                     </MenuFlyout>
-                                                </Button.ContextFlyout>
+                                                </Border.ContextFlyout>
 
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip Content="{Binding Path, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
-                                            </Button>
+                                            </Border>
                                         </Grid>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
@@ -359,10 +352,7 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <FontIcon
-                                    FontFamily="{StaticResource FluentUIGlyphs}"
-                                    FontSize="20"
-                                    Glyph="&#xe919;" />
+                                <FontIcon FontSize="20" Glyph="&#xE74B;" />
                                 <TextBlock
                                     x:Uid="BundleNoContentsTextBlock"
                                     Grid.Row="1"
@@ -389,10 +379,8 @@
             Height="256"
             HorizontalAlignment="Left"
             x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Mode=OneWay}"
-            Background="Transparent"
-            BorderBrush="Gray"
-            BorderThickness="1"
-            CornerRadius="4">
+            Background="{ThemeResource ControlFillColorDefaultBrush}"
+            CornerRadius="8">
 
             <!--  heh xD  -->
             <Button
@@ -405,9 +393,8 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="18"
-                    Glyph="&#xe903;" />
+                    Glyph="&#xE710;" />
 
                 <!--  Same as the top one  -->
                 <Button.Flyout>

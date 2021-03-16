@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -204,8 +205,12 @@ namespace Files.Helpers
                 fixed (byte* pBuff = buff)
                 {
                     ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
-                    str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
+                    //str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
                 }
+            }
+            using (var reader = new StreamReader(new MemoryStream(buff, 0, dwBytesRead), true))
+            {
+                str = reader.ReadToEnd();
             }
             CloseHandle(hStream);
             return str;

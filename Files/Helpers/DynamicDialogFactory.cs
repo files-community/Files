@@ -90,7 +90,6 @@ namespace Files.Helpers
                     {
                         new StackPanel()
                         {
-                            Orientation = Orientation.Vertical,
                             Spacing = 4d,
                             Children =
                             {

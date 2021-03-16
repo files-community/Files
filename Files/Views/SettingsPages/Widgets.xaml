@@ -30,27 +30,24 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowLibraryCards"
-                    AutomationProperties.Name="Show library cards on the home page"
                     Header="Show library cards on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibraryCardsWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowDrives"
-                    AutomationProperties.Name="Show drives on the home page"
                     Header="Show drives on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowDrivesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowBundles"
-                    Header="Show Bundles on the home page"
+                    Header="Show bundles on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowBundlesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowRecentFiles"
-                    AutomationProperties.Name="Show recent files on the home page"
                     Header="Show recent files on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowRecentFilesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
