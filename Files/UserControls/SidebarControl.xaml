@@ -297,7 +297,7 @@
                                             x:Name="IconHost"
                                             Width="18"
                                             Height="18"
-                                            HorizontalAlignment="Center"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                             AutomationProperties.AccessibilityView="Raw">
                                             <FontIcon
