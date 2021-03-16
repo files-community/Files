@@ -314,12 +314,6 @@
                                         Content="{TemplateBinding Content}"
                                         FontSize="{TemplateBinding FontSize}"
                                         Grid.Column="1"/>
-
-                                    <Border
-                                        x:Name="RevealBorder"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        Grid.ColumnSpan="2"/>
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>
