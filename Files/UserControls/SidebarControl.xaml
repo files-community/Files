@@ -297,7 +297,7 @@
                                             x:Name="IconHost"
                                             Width="18"
                                             Height="18"
-                                            HorizontalAlignment="Center"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                             AutomationProperties.AccessibilityView="Raw">
                                             <FontIcon
@@ -314,12 +314,6 @@
                                         Content="{TemplateBinding Content}"
                                         FontSize="{TemplateBinding FontSize}"
                                         Grid.Column="1"/>
-
-                                    <Border
-                                        x:Name="RevealBorder"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        Grid.ColumnSpan="2"/>
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>
