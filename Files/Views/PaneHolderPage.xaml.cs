@@ -30,36 +30,35 @@ namespace Files.Views
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public GridLength SidebarWidth
-        {
-            get
-            {
-                return AppSettings.SidebarWidth;
-            }
-            set
-            {
-                if (AppSettings.SidebarWidth != value)
-                {
-                    AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                }
-            }
-        }
-
         public Interaction InteractionOperations => ActivePane?.InteractionOperations;
         public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
+        private readonly GridLength CompactSidebarWidth;
+
         public PaneHolderPage()
         {
             this.InitializeComponent();
-
+            this.Loaded += PaneHolderPage_Loaded;
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
-            Current_SizeChanged(null, null);
 
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
+
+            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
+            {
+                if (paneLength is double paneLengthDouble)
+                {
+                    this.CompactSidebarWidth = new GridLength(paneLengthDouble);
+                }
+            }
+            // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
+        }
+
+        private void PaneHolderPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Current_SizeChanged(null, null);
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -73,6 +72,10 @@ namespace Files.Views
                 case nameof(AppSettings.SidebarWidth):
                     NotifyPropertyChanged(nameof(SidebarWidth));
                     break;
+
+                case nameof(AppSettings.IsSidebarOpen):
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
+                    break;
             }
         }
 
@@ -83,7 +86,10 @@ namespace Files.Views
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            IsWindowCompactSize = Window.Current.Bounds.Width <= 800;
+            if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
+            {
+                IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
+            }
         }
 
         private bool wasRightPaneVisible;
@@ -110,6 +116,43 @@ namespace Files.Views
                     }
                     NotifyPropertyChanged(nameof(IsWindowCompactSize));
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
+                }
+            }
+        }
+
+        public GridLength SidebarWidth
+        {
+            get => IsWindowCompactSize || !IsSidebarOpen ? CompactSidebarWidth : AppSettings.SidebarWidth;
+            set
+            {
+                if (IsWindowCompactSize || !IsSidebarOpen)
+                {
+                    return;
+                }
+                if (AppSettings.SidebarWidth != value)
+                {
+                    AppSettings.SidebarWidth = value;
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                }
+            }
+        }
+
+        public bool IsSidebarOpen
+        {
+            get => !IsWindowCompactSize && AppSettings.IsSidebarOpen;
+            set
+            {
+                if (IsWindowCompactSize)
+                {
+                    return;
+                }
+                if (AppSettings.IsSidebarOpen != value)
+                {
+                    AppSettings.IsSidebarOpen = value;
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    NotifyPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
         }
@@ -234,6 +277,7 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+
             if (eventArgs.Parameter is string navPath)
             {
                 NavParamsLeft = navPath;
@@ -249,6 +293,7 @@ namespace Files.Views
 
         public void Dispose()
         {
+            this.Loaded -= PaneHolderPage_Loaded;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
             Window.Current.SizeChanged -= Current_SizeChanged;

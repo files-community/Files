@@ -837,6 +837,12 @@
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>App-thema</value>
   </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Beoordeling</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Itemtype</value>
+  </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Titel</value>
   </data>
@@ -866,6 +872,9 @@
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Verticale resolutie</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Compressie</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Horizontale grootte</value>
@@ -908,6 +917,9 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Sample-rate</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>Artiest</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Albumartiest</value>
@@ -1172,5 +1184,191 @@
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annuleren</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Mappen</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Detailweergave</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+    <value>Lay-outmodus</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>Opties weergeven</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Opties weergeven</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Weergaveopties</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Bestandsextensies weergeven</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>Detailweergave</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>Verwijderd op</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>Verwijderd op</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>Bevestigen</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Annuleren</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Bevestigen</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Nieuwe naam invoeren</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>Naam van "{0}" wijzigen</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Annuleren</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Bevestigen</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Bundel toevoegen</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>Openen in nieuw tabblad</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Bundels</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>Bevestigen</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Meer opties</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>Itemnaam</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>het netwerk</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Eigenschappen</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Bestandsgegevens</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>Bestandsvoorbeeld:</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Documentatie</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>Online beschikbaar</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>Offline beschikbaar</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>Synchroniseren...</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>Niet berekend</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Multiselect</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>Cd-rom-station</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>Diskettestation</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>Netwerkstation</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Gemaakt op</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Gemaakt op</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Meer opties</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>Netwerkstation toewijzen</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>Verbinding verbreken</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favorieten</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browsen</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Recente locaties</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Geen voorbeeld beschikbaar</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Geen details beschikbaar</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Er is geen artikel geselecteerd</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumenten:</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliotheken</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Standaard</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Kleurschema</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Aantal items</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Kan niet verwijderen</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Er is een onbekende fout opgetreden.</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Kopiëren is voltooid</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>NEE</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>JA</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Tabbladen rechts sluiten</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Beheerder</value>
   </data>
 </root>

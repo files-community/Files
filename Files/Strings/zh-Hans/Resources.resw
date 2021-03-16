@@ -1638,4 +1638,121 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>从侧边栏取消固定路径</value>
   </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>文件详细信息</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>文件预览:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>联机时可用</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>脱机可用</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>正在同步…</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>未计算</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>多选</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-ROM 驱动器</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>软盘驱动器</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>网络驱动器</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多选项</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>映射网络驱动器</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>收藏夹</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>最近浏览的位置</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>无预览可用</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>没有可用的详细信息。</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>未选择任何物料</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>目标型</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>参数:</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>库</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>配色方案</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>项目计数</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>删除失败</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>出现未知错误。</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>复制完成</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>关闭右侧的标签页</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>管理员</value>
+  </data>
 </root>

@@ -1143,6 +1143,9 @@
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Дата випуску</value>
   </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Ім’я ряду</value>
+  </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Номер сезону</value>
   </data>
@@ -1715,5 +1718,47 @@
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Нещодавні розташування</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Попередній перегляд недоступний</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Немає відомостей.</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Елементи не вибрані</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Ціль</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Аргументи</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Бібліотеки</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>За замовчуванням</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Колірна схема:</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Кількість елементів</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Сталася невідома помилка.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Закрити вкладки праворуч</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Адміністратор</value>
   </data>
 </root>
