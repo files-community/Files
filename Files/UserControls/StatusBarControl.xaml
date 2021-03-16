@@ -300,6 +300,15 @@
                 <VisualState x:Name="NoOperations" />
                 <VisualState x:Name="InProgress">
                     <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="StatusCenterFontIcon"
+                                                       Storyboard.TargetProperty="Foreground"
+                                                       Duration="0">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
                         <DoubleAnimation Storyboard.TargetName="StatusCenterFontIcon"
                                          Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
                                          To="360"
@@ -314,16 +323,10 @@
             <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
                                       Value="False">
                 <Core:GoToStateAction StateName="NoOperations" />
-                <Core:ChangePropertyAction TargetObject="{Binding ElementName=StatusCenterFontIcon}"
-                                           PropertyName="Foreground"
-                                           Value="#E4000000" />
             </Core:DataTriggerBehavior>
             <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
                                       Value="True">
                 <Core:GoToStateAction StateName="InProgress" />
-                <Core:ChangePropertyAction TargetObject="{Binding ElementName=StatusCenterFontIcon}"
-                                           PropertyName="Foreground"
-                                           Value="{ThemeResource SystemControlForegroundAccentBrush}" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
     </Grid>
