@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
@@ -268,18 +270,14 @@
                     Visibility="Visible">
                     <Button.Content>
                         <Grid>
-                            <FontIcon
-                                x:Name="StatusCenterFontIcon"
-                                x:Load="{x:Bind AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                                FontSize="16"
-                                Glyph="&#xF16A;" />
-
-                            <muxc:ProgressRing
-                                x:Name="AnyOperationsOngoingProgressRing"
-                                Width="22"
-                                Height="22"
-                                x:Load="{x:Bind AnyOperationsOngoing, Mode=OneWay}"
-                                IsActive="True" />
+                            <FontIcon x:Name="StatusCenterFontIcon"
+                                      FontSize="16"
+                                      Glyph="&#xF16A;"
+                                      RenderTransformOrigin="0.5, 0.5">
+                                <FontIcon.RenderTransform>
+                                    <RotateTransform />
+                                </FontIcon.RenderTransform>
+                            </FontIcon>
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
@@ -296,5 +294,35 @@
                 </Button>
             </Grid>
         </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Default">
+                <VisualState x:Name="NoOperations" />
+                <VisualState x:Name="InProgress">
+                    <Storyboard>
+                        <ColorAnimation Storyboard.TargetName="StatusCenterFontIcon"
+                                        Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
+                                        To="{ThemeResource SystemAccentColor}"
+                                        Duration="0" />
+                        <DoubleAnimation Storyboard.TargetName="StatusCenterFontIcon"
+                                         Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
+                                         To="360"
+                                         Duration="0:0:1"
+                                         RepeatBehavior="Forever" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Interactivity:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
+                                      Value="False">
+                <Core:GoToStateAction StateName="NoOperations" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
+                                      Value="True">
+                <Core:GoToStateAction StateName="InProgress" />
+            </Core:DataTriggerBehavior>
+        </Interactivity:Interaction.Behaviors>
     </Grid>
 </UserControl>

@@ -110,8 +110,6 @@ namespace Files.Filesystem
                             MainPage.SideBarItems.Insert(1, librarySection);
 
                             libraryItems.Clear();
-                            libraryItems.Add(AppSettings.DesktopPath);
-                            libraryItems.Add(AppSettings.DownloadsPath);
                             libraryItems.Add(AppSettings.DocumentsPath);
                             libraryItems.Add(AppSettings.PicturesPath);
                             libraryItems.Add(AppSettings.MusicPath);
