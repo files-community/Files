@@ -28,7 +28,10 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        [JsonProperty("favoriteitems")]
+        [JsonIgnore]
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
+        [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
@@ -41,7 +44,8 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                Section = SectionType.Home,
+                Font = InteractionViewModel.FontName,
                 Glyph = "\uE80F",
                 IsDefaultLocation = true,
                 Path = "Home",
@@ -50,7 +54,9 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                Section = SectionType.Favorites,
+                SelectsOnInvoked = false,
+                Font = InteractionViewModel.FontName,
                 Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -257,8 +263,9 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                    Font = InteractionViewModel.FontName,
                     Path = path,
+                    Section = SectionType.Favorites,
                     Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))

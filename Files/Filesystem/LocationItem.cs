@@ -1,6 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 
@@ -40,5 +39,7 @@ namespace Files.Filesystem
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
+
+        public SectionType Section { get; set; }
     }
 }

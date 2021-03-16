@@ -101,7 +101,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 // Could not access folder, can't show any other property
                 return;
             }
@@ -123,10 +123,10 @@ namespace Files.ViewModels.Properties
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Query");
                     // Send request to fulltrust process to get recyclebin properties
-                    var (status, response) = await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
+                    var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
                     if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
-                        if (response.Message.TryGetValue("BinSize", out var binSize))
+                        if (response.TryGetValue("BinSize", out var binSize))
                         {
                             ViewModel.ItemSizeBytes = (long)binSize;
                             ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
@@ -136,7 +136,7 @@ namespace Files.ViewModels.Properties
                         {
                             ViewModel.ItemSizeVisibility = Visibility.Collapsed;
                         }
-                        if (response.Message.TryGetValue("NumItems", out var numItems))
+                        if (response.TryGetValue("NumItems", out var numItems))
                         {
                             ViewModel.FilesCount = (int)(long)numItems;
                             SetItemsCountString();
@@ -181,7 +181,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 
@@ -226,7 +226,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageAsync(value);
                     }
                     break;
             }

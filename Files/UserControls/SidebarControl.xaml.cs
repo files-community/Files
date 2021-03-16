@@ -1,12 +1,15 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -14,7 +17,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
@@ -45,23 +47,28 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(
-          "EmptyRecycleBinCommand",
-          typeof(ICommand),
-          typeof(SidebarControl),
-          new PropertyMetadata(null)
-        );
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
+
+        public bool IsOpen
+        {
+            get => (bool)GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
+        }
+
+        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
+
+        public bool IsCompact
+        {
+            get => (bool)GetValue(IsCompactProperty);
+            set => SetValue(IsCompactProperty, value);
+        }
+
+        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
         public ICommand EmptyRecycleBinCommand
         {
-            get
-            {
-                return (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-            }
-            set
-            {
-                SetValue(EmptyRecycleBinCommandProperty, value);
-            }
+            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
         public SidebarControl()
@@ -74,10 +81,7 @@ namespace Files.UserControls
 
         public INavigationControlItem SelectedSidebarItem
         {
-            get
-            {
-                return selectedSidebarItem;
-            }
+            get => selectedSidebarItem;
             set
             {
                 if (value != selectedSidebarItem)
@@ -92,10 +96,7 @@ namespace Files.UserControls
 
         public bool CanOpenInNewPane
         {
-            get
-            {
-                return canOpenInNewPane;
-            }
+            get => canOpenInNewPane;
             set
             {
                 if (value != canOpenInNewPane)
@@ -116,10 +117,7 @@ namespace Files.UserControls
         /// </summary>
         public bool ShowUnpinItem
         {
-            get
-            {
-                return showUnpinItem;
-            }
+            get => showUnpinItem;
             set
             {
                 if (value != showUnpinItem)
@@ -134,10 +132,7 @@ namespace Files.UserControls
 
         public bool ShowProperties
         {
-            get
-            {
-                return showProperties;
-            }
+            get => showProperties;
             set
             {
                 if (value != showProperties)
@@ -152,10 +147,7 @@ namespace Files.UserControls
 
         public bool ShowEmptyRecycleBin
         {
-            get
-            {
-                return showEmptyRecycleBin;
-            }
+            get => showEmptyRecycleBin;
             set
             {
                 if (value != showEmptyRecycleBin)
@@ -170,10 +162,7 @@ namespace Files.UserControls
 
         public bool ShowEjectDevice
         {
-            get
-            {
-                return showEjectDevice;
-            }
+            get => showEjectDevice;
             set
             {
                 if (value != showEjectDevice)
@@ -188,10 +177,7 @@ namespace Files.UserControls
 
         public bool RecycleBinHasItems
         {
-            get
-            {
-                return recycleBinHasItems;
-            }
+            get => recycleBinHasItems;
             set
             {
                 if (value != recycleBinHasItems)
@@ -237,7 +223,10 @@ namespace Files.UserControls
 
                 if (item.IsDefaultLocation)
                 {
-                    ShowProperties = false;
+                    if (item.Section != SectionType.Library)
+                    {
+                        ShowProperties = false;
+                    }
 
                     if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
@@ -261,7 +250,7 @@ namespace Files.UserControls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
-         
+
             ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
@@ -276,7 +265,6 @@ namespace Files.UserControls
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as WSLDistroItem;
 
@@ -563,7 +551,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+            await DeviceHelpers.EjectDeviceAsync(App.RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
@@ -573,7 +561,6 @@ namespace Files.UserControls
             settings.Icon = new FontIcon()
             {
                 FontSize = 18,
-                FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily,
                 Glyph = "\xE713"
             };
 

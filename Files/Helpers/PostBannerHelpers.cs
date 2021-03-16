@@ -15,7 +15,7 @@ namespace Files.Helpers
             {
                 if (status == ReturnResult.AccessUnauthorized)
                 {
-                    associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+                    associatedInstance.StatusCenterActions.PostBanner(
                         "AccessDeniedDeleteDialog/Title".GetLocalized(),
                         "AccessDeniedDeleteDialog/Text".GetLocalized(),
                         0,
@@ -24,7 +24,7 @@ namespace Files.Helpers
                 }
                 else if (status == ReturnResult.IntegrityCheckFailed)
                 {
-                    associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+                    associatedInstance.StatusCenterActions.PostBanner(
                         "FileNotFoundDialog/Title".GetLocalized(),
                         "FileNotFoundDialog/Text".GetLocalized(),
                         0,
@@ -33,9 +33,9 @@ namespace Files.Helpers
                 }
                 else if (status == ReturnResult.Failed || status == ReturnResult.UnknownException)
                 {
-                    associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                        "Deletion Failed",
-                        "An unknown error has occurred.",
+                    associatedInstance.StatusCenterActions.PostBanner(
+                        "StatusDeletionFailed".GetLocalized(),
+                        "StatusUnknownError".GetLocalized(),
                         0,
                         status,
                         operation);
@@ -44,18 +44,18 @@ namespace Files.Helpers
                 {
                     if (operation == FileOperationType.Delete)
                     {
-                        associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                        "Deletion Complete",
-                        "The operation has completed.",
+                        associatedInstance.StatusCenterActions.PostBanner(
+                        "StatusDeletionComplete".GetLocalized(),
+                        "StatusOperationCompleted".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         operation);
                     }
                     else if (operation == FileOperationType.Recycle)
                     {
-                        associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                        "Recycle Complete",
-                        "The operation has completed.",
+                        associatedInstance.StatusCenterActions.PostBanner(
+                        "StatusRecycleComplete".GetLocalized(),
+                        "StatusOperationCompleted".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         operation);

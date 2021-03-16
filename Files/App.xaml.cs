@@ -18,6 +18,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,6 +56,7 @@ namespace Files
         public static DrivesManager DrivesManager { get; private set; }
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
+        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -89,6 +91,9 @@ namespace Files
                 AppSettings = await SettingsViewModel.CreateInstance();
             }
 
+            ExternalResourcesHelper ??= new ExternalResourcesHelper();
+            await ExternalResourcesHelper.LoadSelectedTheme();
+
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
@@ -100,7 +105,11 @@ namespace Files
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
-                await LibraryManager.EnumerateDrivesAsync();
+                if (App.AppSettings.ShowLibrarySection)
+                {
+                    await LibraryManager.EnumerateDrivesAsync();
+                }
+
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
@@ -138,7 +147,7 @@ namespace Files
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
-            else
+            else if (RightClickedItem.Section == SectionType.Favorites)
             {
                 SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
@@ -339,7 +348,21 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.Unknown:
-                                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                    if (command.Payload.Equals("."))
+                                    {
+                                        rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
+                                    } else
+                                    {
+                                        var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
+                                        if(!string.IsNullOrEmpty(command.Payload))
+                                        {
+                                            rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
+                                        } else
+                                        {
+                                            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                        }
+                                    }
+                                    
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
@@ -507,5 +530,7 @@ namespace Files
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
         public Uri Logo { get; set; }
+
+        public SectionType Section { get; private set; }
     }
 }
