@@ -2406,8 +2406,8 @@
           <target state="translated">Sikertelen törlés</target>
         </trans-unit>
         <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
-          <source>Egy ismeretlen hiba történt.</source>
-          <target state="new">.</target>
+          <source>An unknown error has occurred.</source>
+          <target state="translated">Ismeretlen hiba történt.</target>
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion Complete</source>
