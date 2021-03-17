@@ -991,28 +991,28 @@
                         <Flyout>
                             <StackPanel Spacing="12">
                                 <TextBlock
-                                    x:Uid="StatusBarControlDisplayOptions"
+                                    x:Uid="NavToolbarDisplayOptions"
                                     FontWeight="Medium"
                                     Text="Display Options" />
                                 <StackPanel Spacing="4">
                                     <ToggleSwitch
-                                        x:Uid="StatusBarControlShowHiddenItems"
+                                        x:Uid="NavToolbarShowHiddenItems"
                                         Header="Show hidden items"
                                         IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
                                     <ToggleSwitch
-                                        x:Uid="StatusBarControlShowFileExtensions"
+                                        x:Uid="NavToolbarShowFileExtensions"
                                         Header="Show file extensions"
                                         IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
                                 </StackPanel>
 
                                 <TextBlock
-                                    x:Uid="StatusBarControlLayoutMode"
+                                    x:Uid="NavToolbarLayoutMode"
                                     FontWeight="Medium"
                                     Text="Layout Mode" />
 
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <RadioButton
-                                        x:Uid="StatusBarControlDetailsView"
+                                        x:Uid="NavToolbarDetailsView"
                                         Height="32"
                                         MinWidth="0"
                                         Command="{x:Bind ToggleLayoutModeDetailsView}"
@@ -1027,7 +1027,7 @@
                                             Glyph="&#xE179;" />
                                     </RadioButton>
                                     <RadioButton
-                                        x:Uid="StatusBarControlTilesView"
+                                        x:Uid="NavToolbarTilesView"
                                         Height="32"
                                         MinWidth="0"
                                         Command="{x:Bind ToggleLayoutModeTiles}"
@@ -1042,7 +1042,7 @@
                                             Glyph="&#xE15C;" />
                                     </RadioButton>
                                     <RadioButton
-                                        x:Uid="StatusBarControlGridViewSmall"
+                                        x:Uid="NavToolbarGridViewSmall"
                                         Height="32"
                                         MinWidth="0"
                                         HorizontalAlignment="Center"
@@ -1059,7 +1059,7 @@
                                             Glyph="&#xE80A;" />
                                     </RadioButton>
                                     <RadioButton
-                                        x:Uid="StatusBarControlGridViewMedium"
+                                        x:Uid="NavToolbarGridViewMedium"
                                         Height="32"
                                         MinWidth="0"
                                         Margin="0"
@@ -1075,7 +1075,7 @@
                                             Glyph="&#xF0E2;" />
                                     </RadioButton>
                                     <RadioButton
-                                        x:Uid="StatusBarControlGridViewLarge"
+                                        x:Uid="NavToolbarGridViewLarge"
                                         Height="32"
                                         MinWidth="0"
                                         Command="{x:Bind ToggleLayoutModeGridViewLarge}"
