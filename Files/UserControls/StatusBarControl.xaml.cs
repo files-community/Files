@@ -106,22 +106,13 @@ namespace Files.UserControls
                 StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 StatusCenterTeachingTip.IsOpen = false;
             }
-
-            PlayBannerAddedVisualAnimation();
         }
 
-        #endregion
-
-        #region Public Helpers
-
-        public async void PlayBannerAddedVisualAnimation()
+        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            FullTrustStatusTeachingTip.IsOpen = true;
         }
-
+        
         #endregion
 
         #region INotifyPropertyChanged

@@ -846,6 +846,12 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>छुपे हुए</value>
   </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>रेटिंग</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>आइटम प्रकार</value>
+  </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>शीर्षक</value>
   </data>
@@ -873,6 +879,9 @@
   <data name="PropertyVerticalSize" xml:space="preserve">
     <value>अनुलंब आकार</value>
   </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>संकुचन</value>
+  </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>अक्षांश</value>
   </data>
@@ -893,6 +902,9 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>नमूना दर</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>कलाकार:</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>एल्बम कलाकार:</value>
@@ -1082,5 +1094,170 @@
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>रद्द करें</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>फ़ोल्डर्स</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>विवरण दृश्‍य</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>विकल्प प्रदर्शित करें</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>विकल्प प्रदर्शित करें</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>प्रदर्शन विकल्प</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>फ़ाइल एक्स्टेंशन्स दिखाएँ</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>मद पथ</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>विवरण दृश्‍य</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>हटाए जाने की तिथि</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>हटाए जाने की तिथि</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>पुष्टि करें</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>रद्द करें</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>पुष्टि करें</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>"{0}" का नाम बदलें</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>रद्द करें</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>पुष्टि करें</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>बंडल जोड़ें</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>नए टैब में खोलें</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>बंडल्स</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>पुष्टि करें</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>अधिक विकल्प</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>आइटम नाम</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>नेटवर्क</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>गुण</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>फ़ाइल विवरण</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>दस्तावेज़ीकरण</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>ऑनलाइन होने पर उपलब्ध</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>ऑफ़लाइन उपलब्‍ध</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>सिंक्रनाइज़ हो रहा है</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>अज्ञात</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>फ़्लॉपी डिस्क ड्राइव</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>नेटवर्क ड्राइव</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>अज्ञात</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>निर्माण दिनांक</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>निर्माण दिनांक</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>अधिक विकल्प</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>नेटवर्क ड्राइव मैप करें</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>डिस्कनेक्ट करें</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>पसंदीदा</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>ब्राउज़</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>हाल ही के स्थान</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>कोई पूर्वावलोकन उपलब्ध नहीं</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>कोई विवरण उपलब्ध नहीं.</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>कोई आइटम चयनित नहीं</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>लक्ष्य</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>तर्क</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>लायब्रेरीज़</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>डिफ़ॉल्ट</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>रंग योजना:</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>आइटम संख्या</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>कोई अज्ञात त्रुटि उत्पन्न हुई.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>नहीं</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>हाँ</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>दाईं ओर टैब को बंद करें</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>व्यवस्थापक</value>
   </data>
 </root>
