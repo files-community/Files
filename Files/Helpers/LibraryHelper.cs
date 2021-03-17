@@ -113,7 +113,8 @@ namespace Files.Helpers
             {
                 { "Arguments", "ShellLibrary" },
                 { "action", "Manage" },
-                { "library", lib.LibraryPath }
+                { "library", lib.LibraryPath },
+                { "dialogOwnerHandle", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
         }
 

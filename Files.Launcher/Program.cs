@@ -512,8 +512,8 @@ namespace FilesFullTrust
                                     var libraryItems = new List<ShellLibraryItem>();
                                     // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
                                     // TODO: use UserDataPaths.GetDefault().RoamingAppData instead of Environment?
-                                    var libsFiles = Directory.EnumerateFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries"), "*.library-ms");
-                                    foreach (var libFile in libsFiles)
+                                    var libFiles = Directory.EnumerateFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries"), "*.library-ms");
+                                    foreach (var libFile in libFiles)
                                     {
                                         using var shellItem = ShellItem.Open(libFile);
                                         if (shellItem is ShellLibrary lib)
@@ -569,9 +569,10 @@ namespace FilesFullTrust
                                 try
                                 {
                                     using var lib = ShellItem.Open((string)message["library"]) as ShellLibrary;
-                                    // TODO: set parentWindow to keep on top
-                                    lib.ShowLibraryManagementDialog();
-                                    success = true;
+                                    //lib.ShowLibraryManagementDialog();
+                                    // The method and parameters below is copied from here https://github.com/dahall/Vanara/blob/d1eac0578302b52253d41e92d111d20bfc0d499b/Windows.Shell/ShellObjects/ShellLibrary.cs#L189
+                                    // to access it without the need of providing IWin32Window instead of just the handle
+                                    success = Shell32.SHShowManageLibraryUI(lib.IShellItem, new IntPtr((long)message["dialogOwnerHandle"]), null, null, Shell32.LIBRARYMANAGEDIALOGOPTIONS.LMD_DEFAULT).Succeeded;
                                 }
                                 catch (Exception e)
                                 {
