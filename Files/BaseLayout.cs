@@ -910,7 +910,6 @@ namespace Files
 
         private ListedItem dragOverItem = null;
 
-
         private void Item_DragLeave(object sender, DragEventArgs e)
         {
             ListedItem item = GetItemFromElement(sender);
