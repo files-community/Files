@@ -51,6 +51,10 @@ namespace Files.Views
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
+        public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
+
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         private Interaction interactionOperations = null;
 
         public Interaction InteractionOperations
@@ -153,6 +157,7 @@ namespace Files.Views
         {
             InitializeComponent();
 
+            InteractionOperations = new Interaction(this);
             InstanceViewModel = new CurrentInstanceViewModel();
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
@@ -812,7 +817,6 @@ namespace Files.Views
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-            InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
