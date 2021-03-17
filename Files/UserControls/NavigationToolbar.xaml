@@ -789,7 +789,7 @@
                 MinHeight="32"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                extensions:Mouse.Cursor="Hand"
+                extensions:FrameworkElementExtensions.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
