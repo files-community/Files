@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  IgnorableNamespaces="uap mp uap3">
+
+  <Identity
+    Name="6889f09e-8508-4cce-8819-546f904e48b0"
+    Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
+    Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="6889f09e-8508-4cce-8819-546f904e48b0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>Sample Widget</DisplayName>
+    <PublisherDisplayName>Yair A</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+  
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <uap3:MainPackageDependency Name="FilesDev" />
+  </Dependencies>
+
+</Package>

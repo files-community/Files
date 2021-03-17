@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using SampleWidget;
 using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -159,6 +160,11 @@ namespace Files.Views
                 Path = tag,
             };
             AppInstance.NavigationToolbar.PathComponents.Add(item);
+
+            if(App.OptionalPackageHelper.IsPackageInstalled(OptionalPackageHelper.Packages.SampleWidgetName))
+            {
+                WidgetStack.Children.Add(new Sample());
+            }
         }
 
         #region IDisposable

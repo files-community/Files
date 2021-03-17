@@ -1,0 +1,2 @@
+﻿[OptionalProjects]
+"..\WidgetSample\Sample Widget.csproj"

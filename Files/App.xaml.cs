@@ -57,6 +57,7 @@ namespace Files
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static OptionalPackageHelper OptionalPackageHelper { get; private set; } = new OptionalPackageHelper();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -172,6 +173,8 @@ namespace Files
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
+
+
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
