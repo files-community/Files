@@ -1,7 +1,7 @@
 using Files.Filesystem.Cloud;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using NLog;
 using System;
 using System.Collections.Generic;
