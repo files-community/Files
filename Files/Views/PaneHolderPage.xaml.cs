@@ -38,6 +38,8 @@ namespace Files.Views
 
         private readonly GridLength CompactSidebarWidth;
 
+        public ICommand EmptyRecycleBinCommand { get; private set; }
+
         public PaneHolderPage()
         {
             this.InitializeComponent();
