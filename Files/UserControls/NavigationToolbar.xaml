@@ -982,10 +982,10 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    AutomationProperties.Name="Display Options"
+                    AutomationProperties.Name="Display options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Display Options">
+                    ToolTipService.ToolTip="Display options">
                     <FontIcon FontSize="14" Glyph="&#xE152;" />
                     <AppBarButton.Flyout>
                         <Flyout>

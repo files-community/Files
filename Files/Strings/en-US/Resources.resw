@@ -1606,7 +1606,7 @@
     <value>Display Options</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Display Options</value>
+    <value>Display options</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Display options</value>

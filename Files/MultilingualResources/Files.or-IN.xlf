@@ -2000,8 +2000,9 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</target>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Display Options</source>
+          <source>Display options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
