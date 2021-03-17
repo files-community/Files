@@ -228,11 +228,7 @@
             Grid.Row="5"
             Grid.ColumnSpan="3"
             x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-            ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
             DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-            FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
-            InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
-            SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
             SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
             ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
 
