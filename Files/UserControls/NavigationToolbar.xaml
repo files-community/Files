@@ -928,7 +928,7 @@
                     ToolTipService.ToolTip="Selection options">
                     <FontIcon FontSize="14" Glyph="&#xE762;" />
                     <AppBarButton.Flyout>
-                        <MenuFlyout>
+                        <MenuFlyout Placement="Bottom">
                             <ToggleMenuFlyoutItem
                                 x:Name="MultiselectMFI"
                                 x:Uid="NavToolbarMultiselect"
@@ -988,7 +988,7 @@
                     ToolTipService.ToolTip="Display Options">
                     <FontIcon FontSize="14" Glyph="&#xE152;" />
                     <AppBarButton.Flyout>
-                        <Flyout>
+                        <Flyout Placement="Bottom">
                             <StackPanel Spacing="12">
                                 <TextBlock
                                     x:Uid="NavToolbarDisplayOptions"
