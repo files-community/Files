@@ -860,7 +860,7 @@
           <target state="translated">பக்கங்கள்:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching an item from the jumplist</source>
+          <source>When opening a folder in Files</source>
           <target state="needs-review-translation">பொருத்தப்பட்ட கோப்புறையை இயக்கும்பொது</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>

@@ -856,8 +856,8 @@
           <target state="translated" state-qualifier="tm-suggestion">עמודים</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching an item from the jumplist</source>
-          <target state="new">When launching an item from the jumplist</target>
+          <source>When opening a folder in Files</source>
+          <target state="new">When opening a folder in Files</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>

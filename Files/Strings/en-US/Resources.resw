@@ -802,7 +802,7 @@
     <value>Open folder in a new tab</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>When launching an item from the jumplist</value>
+    <value>When opening a folder in Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>

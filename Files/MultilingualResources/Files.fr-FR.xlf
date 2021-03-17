@@ -858,8 +858,9 @@
           <target state="translated">Pages :</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching an item from the jumplist</source>
-          <target state="translated">Lors de l'ouverture d'un élément</target>
+          <source>When opening a folder in Files</source>
+          <target state="needs-review-translation">Lors de l'ouverture d'un élément</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>

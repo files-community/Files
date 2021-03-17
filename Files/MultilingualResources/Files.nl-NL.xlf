@@ -866,8 +866,9 @@
           <target state="translated">Pagina's:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching an item from the jumplist</source>
-          <target state="translated">Bij het starten van een item uit de jumplist</target>
+          <source>When opening a folder in Files</source>
+          <target state="needs-review-translation">Bij het starten van een item uit de jumplist</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>

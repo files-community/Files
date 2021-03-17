@@ -866,7 +866,7 @@
           <target state="translated">ପୃଷ୍ଠାଗୁଡିକ:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching an item from the jumplist</source>
+          <source>When opening a folder in Files</source>
           <target state="needs-review-translation">ଏକ ପିନ୍ ହୋଇଥିବା ଫୋଲ୍ଡର୍ ଲଞ୍ଚ କରିବାବେଳେ</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
