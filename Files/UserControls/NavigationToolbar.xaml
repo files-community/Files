@@ -917,6 +917,7 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
+                    x:Name="SelectionOptions"
                     x:Uid="StatusBarControlSelectionOptions"
                     Width="36"
                     Height="32"
@@ -924,7 +925,8 @@
                     Background="Transparent"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Selection options">
+                    ToolTipService.ToolTip="Selection options"
+                    x:Load="{x:Bind IsPageTypeNotHome}">
                     <FontIcon FontSize="16" Glyph="&#xE762;" />
                     <AppBarButton.Flyout>
                         <MenuFlyout>
@@ -976,13 +978,15 @@
                 </AppBarButton>
 
                 <AppBarButton
+                    x:Name="DisplayOptionsButton"
                     x:Uid="StatusBarControlDisplayOptionsButton"
                     Width="36"
                     Height="32"
                     AutomationProperties.Name="Display Options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Display Options">
+                    ToolTipService.ToolTip="Display Options"
+                    x:Load="{x:Bind IsPageTypeNotHome}">
                     <FontIcon FontSize="16" Glyph="&#xE152;" />
                     <AppBarButton.Flyout>
                         <Flyout>
