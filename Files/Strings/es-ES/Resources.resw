@@ -234,7 +234,7 @@
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Seleccionar Todo</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Quitar Selección</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -354,7 +354,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ajustes</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Invertir Selección</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -1482,10 +1482,10 @@
   <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
     <value>Mostrar u ocultar</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Opciones de vista</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de vista</value>
   </data>
   <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">

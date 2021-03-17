@@ -312,7 +312,7 @@
           <source>Select All</source>
           <target state="translated">全部選擇</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">取消選擇</target>
         </trans-unit>
@@ -475,7 +475,7 @@
           <source>Settings</source>
           <target state="translated">設定</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">反選</target>
         </trans-unit>
@@ -1997,11 +1997,11 @@
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">顯示選項</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">顯示選項</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">顯示選項</target>
         </trans-unit>

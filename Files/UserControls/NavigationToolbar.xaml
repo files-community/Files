@@ -956,7 +956,7 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="InvertSelectionMFI"
-                                x:Uid="StatusBarControlInvertSelection"
+                                x:Uid="NavToolbarInvertSelection"
                                 Command="{x:Bind InvertSelectionInvokedCommand}"
                                 Text="Invert Selection">
                                 <MenuFlyoutItem.Icon>
@@ -965,7 +965,7 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="ClearSelectionMFI"
-                                x:Uid="StatusBarControlClearSelection"
+                                x:Uid="NavToolbarClearSelection"
                                 Command="{x:Bind ClearSelectionInvokedCommand}"
                                 Text="Clear Selection">
                                 <MenuFlyoutItem.Icon>
@@ -978,7 +978,7 @@
 
                 <AppBarButton
                     x:Name="DisplayOptionsButton"
-                    x:Uid="StatusBarControlDisplayOptionsButton"
+                    x:Uid="NavToolbarDisplayOptionsButton"
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"

@@ -102,10 +102,10 @@
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>सभी चयन करें</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>उलटा चयन</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>चयन खाली करें</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -1104,10 +1104,10 @@
   <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
     <value>विकल्प प्रदर्शित करें</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>विकल्प प्रदर्शित करें</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>प्रदर्शन विकल्प</value>
   </data>
   <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">

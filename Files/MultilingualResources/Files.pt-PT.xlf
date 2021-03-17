@@ -126,11 +126,11 @@
           <source>Select All</source>
           <target state="translated">Selecionar Tudo</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Inverter seleção</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">Limpar Seleção</target>
         </trans-unit>
@@ -2005,11 +2005,11 @@
           <source>Display Options</source>
           <target state="translated">Opções de Exibição</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated">Opções de Exibição</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="translated">Opções de exibição</target>
         </trans-unit>

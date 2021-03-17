@@ -129,11 +129,11 @@
           <source>Select All</source>
           <target state="translated">सभी चयन करें</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">उलटा चयन</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">चयन खाली करें</target>
         </trans-unit>
@@ -1999,11 +1999,11 @@
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">विकल्प प्रदर्शित करें</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">विकल्प प्रदर्शित करें</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">प्रदर्शन विकल्प</target>
         </trans-unit>

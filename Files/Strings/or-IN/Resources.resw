@@ -102,10 +102,10 @@
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>ସବୁ ବାଛ</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>ଓଲଟା ଚୟନ</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>ଚୟନ ସଫା କରନ୍ତୁ</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -1056,10 +1056,10 @@
   <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
     <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
