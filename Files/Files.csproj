@@ -1024,6 +1024,9 @@
     <PackageReference Include="NLog.Schema">
       <Version>4.7.8</Version>
     </PackageReference>
+    <PackageReference Include="SampleWidget.YairA">
+      <Version>1.0.0</Version>
+    </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>
     </PackageReference>
@@ -1076,9 +1079,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="WidgetsSample">
-      <HintPath>..\WidgetSample\bin\x64\Release\SampleWidget.winmd</HintPath>
-    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
