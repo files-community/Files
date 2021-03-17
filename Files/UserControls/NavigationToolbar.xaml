@@ -925,7 +925,6 @@
                     AutomationProperties.Name="Selection options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    x:Load="{x:Bind IsPageTypeNotHome}"
                     ToolTipService.ToolTip="Selection options">
                     <FontIcon FontSize="14" Glyph="&#xE762;" />
                     <AppBarButton.Flyout>
@@ -986,7 +985,6 @@
                     AutomationProperties.Name="Display Options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    x:Load="{x:Bind IsPageTypeNotHome}"
                     ToolTipService.ToolTip="Display Options">
                     <FontIcon FontSize="14" Glyph="&#xE152;" />
                     <AppBarButton.Flyout>
