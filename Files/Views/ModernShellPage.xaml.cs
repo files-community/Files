@@ -51,6 +51,10 @@ namespace Files.Views
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
+        public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
+
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
         private Interaction interactionOperations = null;
 
         public Interaction InteractionOperations

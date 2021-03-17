@@ -11,6 +11,7 @@
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:filesystem="using:Files.Filesystem"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -914,6 +915,181 @@
             Spacing="4">
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
+
+                <AppBarButton
+                    x:Uid="StatusBarControlSelectionOptions"
+                    Width="36"
+                    Height="32"
+                    AutomationProperties.Name="Selection options"
+                    Background="Transparent"
+                    FontSize="16"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Selection options">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <ToggleMenuFlyoutItem
+                            x:Name="MultiselectMFI"
+                            x:Uid="StatusBarControlMultiselect"
+                            IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
+                            Text="Multiselect"
+                            Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE762;" />
+                                </MenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <MenuFlyoutItem
+                            x:Name="SelectAllMFI"
+                            x:Uid="StatusBarControlSelectAll"
+                            Command="{x:Bind SelectAllInvokedCommand}"
+                            Text="Select All">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8B3;" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                    Key="A"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                            x:Name="InvertSelectionMFI"
+                            x:Uid="StatusBarControlInvertSelection"
+                            Command="{x:Bind InvertSelectionInvokedCommand}"
+                            Text="Invert Selection">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE746;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                            x:Name="ClearSelectionMFI"
+                            x:Uid="StatusBarControlClearSelection"
+                            Command="{x:Bind ClearSelectionInvokedCommand}"
+                            Text="Clear Selection">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8E6;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+
+                <AppBarButton
+                    x:Uid="StatusBarControlDisplayOptionsButton"
+                    Width="36"
+                    Height="32"
+                    AutomationProperties.Name="Display Options"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Display Options">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel Spacing="12">
+                                <TextBlock
+                                x:Uid="StatusBarControlDisplayOptions"
+                                FontWeight="Medium"
+                                Text="Display Options" />
+                                <StackPanel Spacing="4">
+                                    <ToggleSwitch
+                                    x:Uid="StatusBarControlShowHiddenItems"
+                                    Header="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                    x:Uid="StatusBarControlShowFileExtensions"
+                                    Header="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+                                </StackPanel>
+
+                                <TextBlock
+                                x:Uid="StatusBarControlLayoutMode"
+                                FontWeight="Medium"
+                                Text="Layout Mode" />
+
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <RadioButton
+                                    x:Uid="StatusBarControlDetailsView"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Command="{x:Bind ToggleLayoutModeDetailsView}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="4"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Details View">
+                                        <FontIcon
+                                        Margin="0,2,0,0"
+                                        FontSize="16"
+                                        Glyph="&#xE179;" />
+                                    </RadioButton>
+                                    <RadioButton
+                                    x:Uid="StatusBarControlTilesView"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Command="{x:Bind ToggleLayoutModeTiles}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="4"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Tiles View">
+                                        <FontIcon
+                                        Margin="0,2,0,0"
+                                        FontSize="16"
+                                        Glyph="&#xE15C;" />
+                                    </RadioButton>
+                                    <RadioButton
+                                    x:Uid="StatusBarControlGridViewSmall"
+                                    Height="32"
+                                    MinWidth="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeGridViewSmall}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="4"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Grid View (Small)">
+                                        <FontIcon
+                                        Margin="0,2,0,0"
+                                        FontSize="16"
+                                        Glyph="&#xE80A;" />
+                                    </RadioButton>
+                                    <RadioButton
+                                    x:Uid="StatusBarControlGridViewMedium"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Margin="0"
+                                    Command="{x:Bind ToggleLayoutModeGridViewMedium}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="4"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Grid View (Medium)">
+                                        <FontIcon
+                                        Margin="0,2,0,0"
+                                        FontSize="16"
+                                        Glyph="&#xF0E2;" />
+                                    </RadioButton>
+                                    <RadioButton
+                                    x:Uid="StatusBarControlGridViewLarge"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Command="{x:Bind ToggleLayoutModeGridViewLarge}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="4"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Grid View (Large)">
+                                        <FontIcon
+                                        Margin="0,2,0,0"
+                                        FontSize="16"
+                                        Glyph="&#xE739;" />
+                                    </RadioButton>
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                
                 <AppBarButton
                     x:Name="PreviewPane"
                     x:Uid="PreviewPaneToggle"
