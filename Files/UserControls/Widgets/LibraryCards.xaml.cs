@@ -1,15 +1,22 @@
-﻿using Files.ViewModels;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using Files.Interacts;
+using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class LibraryCards : UserControl
+    public sealed partial class LibraryCards : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -17,52 +24,79 @@ namespace Files.UserControls.Widgets
 
         public event LibraryCardInvokedEventHandler LibraryCardInvoked;
 
-        public static List<FavoriteLocationItem> itemsAdded = new List<FavoriteLocationItem>();
+        public delegate void LibraryCardNewPaneInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
+
+        public event LibraryCardNewPaneInvokedEventHandler LibraryCardNewPaneInvoked;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static ObservableCollection<LibraryCardItem> ItemsAdded = new ObservableCollection<LibraryCardItem>();
+
+        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
+        {
+            if (string.IsNullOrEmpty(item.Path))
+            {
+                if (item.IsLibrary)
+                {
+                    LibraryHelper.Instance.OpenLibraryManagerDialog(item.Library);
+                }
+                return;
+            }
+            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
+            {
+                Path = item.Path,
+            });
+        });
 
         public LibraryCards()
         {
             InitializeComponent();
-            itemsAdded.Clear();
-            itemsAdded.Add(new FavoriteLocationItem()
+            ItemsAdded.Clear();
+            ItemsAdded.Add(new LibraryCardItem()
             {
                 Icon = "\xE8FC",
                 Text = "SidebarDesktop".GetLocalized(),
-                Tag = "Desktop"
+                Path = AppSettings.DesktopPath,
+                SelectCommand = LibraryCardClicked,
             });
-            itemsAdded.Add(new FavoriteLocationItem()
+            ItemsAdded.Add(new LibraryCardItem()
             {
                 Icon = "\xE896",
                 Text = "SidebarDownloads".GetLocalized(),
-                Tag = "Downloads"
+                Path = AppSettings.DownloadsPath,
+                SelectCommand = LibraryCardClicked,
             });
-            itemsAdded.Add(new FavoriteLocationItem()
-            {
-                Icon = "\xE8A5",
-                Text = "SidebarDocuments".GetLocalized(),
-                Tag = "Documents"
-            });
-            itemsAdded.Add(new FavoriteLocationItem()
-            {
-                Icon = "\xEB9F",
-                Text = "SidebarPictures".GetLocalized(),
-                Tag = "Pictures"
-            });
-            itemsAdded.Add(new FavoriteLocationItem()
-            {
-                Icon = "\xEC4F",
-                Text = "SidebarMusic".GetLocalized(),
-                Tag = "Music"
-            });
-            itemsAdded.Add(new FavoriteLocationItem()
-            {
-                Icon = "\xE8B2",
-                Text = "SidebarVideos".GetLocalized(),
-                Tag = "Videos"
-            });
-            foreach (var item in itemsAdded)
+
+            Loaded += LibraryCards_Loaded;
+
+            foreach (var item in ItemsAdded)
             {
                 item.AutomationProperties = item.Text;
             }
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async void LibraryCards_Loaded(object sender, RoutedEventArgs e)
+        {
+            var libs = await LibraryHelper.Instance.ListUserLibraries(true);
+            foreach (var lib in libs)
+            {
+                ItemsAdded.Add(new LibraryCardItem()
+                {
+                    Icon = GlyphHelper.GetItemIcon(lib.Path),
+                    Text = lib.Text,
+                    Path = lib.Path,
+                    SelectCommand = LibraryCardClicked,
+                    AutomationProperties = lib.Text,
+                    Library = lib,
+                });
+            }
+
+            Loaded -= LibraryCards_Loaded;
         }
 
         private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -81,41 +115,61 @@ namespace Files.UserControls.Widgets
             visual.Scale = new Vector3(1);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private bool showMultiPaneControls;
+
+        public bool ShowMultiPaneControls
         {
-            string NavigationPath = ""; // path to navigate
-            string ClickedCard = (sender as Button).Tag.ToString();
-
-            switch (ClickedCard)
+            get => showMultiPaneControls;
+            set
             {
-                case "Desktop":
-                    NavigationPath = AppSettings.DesktopPath;
-                    break;
-
-                case "Downloads":
-                    NavigationPath = AppSettings.DownloadsPath;
-                    break;
-
-                case "Documents":
-                    NavigationPath = AppSettings.DocumentsPath;
-                    break;
-
-                case "Pictures":
-                    NavigationPath = AppSettings.PicturesPath;
-                    break;
-
-                case "Music":
-                    NavigationPath = AppSettings.MusicPath;
-                    break;
-
-                case "Videos":
-                    NavigationPath = AppSettings.VideosPath;
-                    break;
+                if (value != showMultiPaneControls)
+                {
+                    showMultiPaneControls = value;
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
+                }
             }
-            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
+        }
+
+        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
+            Interaction.OpenPathInNewTab(item.Path);
+        }
+
+        private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
+            await Interaction.OpenPathInNewWindowAsync(item.Path);
+        }
+
+        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
+            LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
             {
-                Path = NavigationPath
+                Path = item.Path
             });
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+            var newPaneMenuItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "OpenInNewPane");
+            // eg. an empty library doesn't have OpenInNewPane context menu item
+            if (newPaneMenuItem != null)
+            {
+                newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private void ManageLibrary_Click(object sender, RoutedEventArgs e) => ShowLibraryManagementDialog(((MenuFlyoutItem)sender).DataContext as LibraryCardItem);
+
+        private void ShowLibraryManagementDialog(LibraryCardItem item)
+        {
+            if (item == null || !item.IsLibrary)
+            {
+                return;
+            }
+            LibraryHelper.Instance.OpenLibraryManagerDialog(item.Library);
         }
     }
 
@@ -124,11 +178,17 @@ namespace Files.UserControls.Widgets
         public string Path { get; set; }
     }
 
-    public class FavoriteLocationItem
+    public class LibraryCardItem
     {
         public string Icon { get; set; }
         public string Text { get; set; }
-        public string Tag { get; set; }
+        public string Path { get; set; }
+        public LibraryItem Library { get; set; }
         public string AutomationProperties { get; set; }
+        public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
+
+        public bool IsLibrary => Library != null;
+
+        public bool HasPath => !string.IsNullOrEmpty(Path);
     }
 }

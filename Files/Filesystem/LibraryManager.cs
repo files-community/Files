@@ -6,7 +6,6 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -64,7 +63,8 @@ namespace Files.Filesystem
         }
 
         private LocationItem librarySection;
-        private List<string> libraryItems { get; set; } = new List<string>();
+        private List<LibraryItem> libraryItems { get; set; } = new List<LibraryItem>();
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public async Task RemoveLibrarySideBarItemsUI()
@@ -84,6 +84,7 @@ namespace Files.Filesystem
 
             MainPage.SideBarItems.EndBulkOperation();
         }
+
         private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -110,31 +111,21 @@ namespace Files.Filesystem
                             MainPage.SideBarItems.Insert(1, librarySection);
 
                             libraryItems.Clear();
-                            libraryItems.Add(AppSettings.DocumentsPath);
-                            libraryItems.Add(AppSettings.PicturesPath);
-                            libraryItems.Add(AppSettings.MusicPath);
-                            libraryItems.Add(AppSettings.VideosPath);
+                            var libs = await LibraryHelper.Instance.ListUserLibraries(false);
+                            libraryItems.AddRange(libs.Where(l => l.IsDefaultLocation));
 
-                            for (int i = 0; i < libraryItems.Count(); i++)
+                            for (int i = 0; i < libraryItems.Count; i++)
                             {
-                                string path = libraryItems[i];
+                                var lib = libraryItems[i];
 
-                                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-                                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+                                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(lib.Path));
+                                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(lib.Path, item));
 
-                                if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+                                if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(lib.Path))
                                 {
-                                    var locationItem = new LocationItem
-                                    {
-                                        Path = path,
-                                        Section = SectionType.Library,
-                                        Glyph = GlyphHelper.GetItemIcon(path),
-                                        Font = InteractionViewModel.FontName,
-                                        IsDefaultLocation = true,
-                                        Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                                    };
-
-                                    librarySection.ChildItems.Insert(i, locationItem);
+                                    lib.Font = InteractionViewModel.FontName;
+                                    lib.Glyph = GlyphHelper.GetItemIcon(lib.Path);
+                                    librarySection.ChildItems.Insert(i, lib);
                                 }
                             }
                         }

@@ -16,7 +16,10 @@
                     <EntranceThemeTransition />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-            <widgets:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
+            <widgets:LibraryCards
+                x:Name="LibraryWidget"
+                x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}"
+                ShowMultiPaneControls="{x:Bind converters:MultiBooleanConverter.AndConvert(AppInstance.IsMultiPaneEnabled, AppInstance.IsPageMainPane), Mode=OneWay}" />
 
             <widgets:DrivesWidget
                 x:Name="DrivesWidget"

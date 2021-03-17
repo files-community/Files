@@ -498,6 +498,96 @@ namespace FilesFullTrust
                     await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
                     break;
 
+                case "ShellLibrary":
+                    var libraryAction = (string)message["action"];
+                    switch (libraryAction)
+                    {
+                        case "Enumerate":
+                            // Read library information and send response to UWP
+                            var libraryInfo = await Win32API.StartSTATask(() =>
+                            {
+                                var info = new ValueSet();
+                                try
+                                {
+                                    var libraryItems = new List<ShellLibraryItem>();
+                                    // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+                                    // TODO: use UserDataPaths.GetDefault().RoamingAppData instead of Environment?
+                                    var libsFiles = Directory.EnumerateFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries"), "*.library-ms");
+                                    foreach (var libFile in libsFiles)
+                                    {
+                                        using var shellItem = ShellItem.Open(libFile);
+                                        if (shellItem is ShellLibrary lib)
+                                        {
+                                            var libraryItem = new ShellLibraryItem(libFile, lib.GetDisplayName(ShellItemDisplayString.NormalDisplay), lib.PinnedToNavigationPane);
+                                            var folders = lib.Folders;
+                                            if (folders.Count > 0)
+                                            {
+                                                libraryItem.DefaultSaveFolder = lib.DefaultSaveFolder.FileSystemPath;
+                                                libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+                                            }
+                                            libraryItems.Add(libraryItem);
+                                        }
+                                    }
+                                    info.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Error(e);
+                                }
+                                return info;
+                            });
+                            await Win32API.SendMessageAsync(connection, libraryInfo, message.Get("RequestID", (string)null));
+                            break;
+
+                        case "Create":
+                            // Try create new library with the specified name and send response to UWP if succeed
+                            bool libraryCreated = await Win32API.StartSTATask(() =>
+                            {
+                                bool success = false;
+                                try
+                                {
+                                    using var lib = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Error(e);
+                                }
+                                return success;
+                            });
+                            if (libraryCreated)
+                            {
+                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction } }, message.Get("RequestID", (string)null));
+                            }
+                            // TODO: return error?
+                            break;
+
+                        case "Manage":
+                            // Show library management dialog and send response to UWP if succeed
+                            bool dialogShown = await Win32API.StartSTATask(() =>
+                            {
+                                bool success = false;
+                                try
+                                {
+                                    using var lib = ShellItem.Open((string)message["library"]) as ShellLibrary;
+                                    // TODO: set parentWindow to keep on top
+                                    lib.ShowLibraryManagementDialog();
+                                    success = true;
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Error(e);
+                                }
+                                return success;
+                            });
+                            if (dialogShown)
+                            {
+                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction } }, message.Get("RequestID", (string)null));
+                            }
+                            // TODO: return error?
+                            break;
+                    }
+                    break;
+
                 default:
                     if (message.ContainsKey("Application"))
                     {

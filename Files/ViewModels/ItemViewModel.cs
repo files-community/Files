@@ -17,7 +17,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -825,45 +824,62 @@ namespace Files.ViewModels
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, useCache);
         }
 
-        private async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
+        private async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache)
+        {
+            await RapidAddItemsToCollection(path, previousDir, useCache);
+        }
+
+        private async Task RapidAddItemsToCollection(string path, string previousDir, bool useCache, bool isLibraryExtraPath = false)
         {
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
-            CancelLoadAndClearFiles();
+            if (!isLibraryExtraPath)
+            {
+                CancelLoadAndClearFiles();
+            }
 
             if (string.IsNullOrEmpty(path))
             {
                 return;
             }
 
+            if (!isLibraryExtraPath)
+            {
+                try
+                {
+                    // Only one instance at a time should access this function
+                    // Wait here until the previous one has ended
+                    // If we're waiting and a new update request comes through
+                    // simply drop this instance
+                    await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
             try
             {
-                // Only one instance at a time should access this function
-                // Wait here until the previous one has ended
-                // If we're waiting and a new update request comes through
-                // simply drop this instance
-                await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                return;
-            }
+                if (!isLibraryExtraPath)
+                {
+                    // Drop all the other waiting instances
+                    semaphoreCTS.Cancel();
+                    semaphoreCTS = new CancellationTokenSource();
 
-            try
-            {
-                // Drop all the other waiting instances
-                semaphoreCTS.Cancel();
-                semaphoreCTS = new CancellationTokenSource();
+                    IsLoadingItems = true;
 
-                IsLoadingItems = true;
-
-                filesAndFolders.Clear();
-                FilesAndFolders.Clear();
+                    filesAndFolders.Clear();
+                    FilesAndFolders.Clear();
+                }
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
+                if (!isLibraryExtraPath)
+                {
+                    ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
+                }
 
                 List<string> cacheResult = null;
 
@@ -914,7 +930,16 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
+                    var storageFolder = currentStorageFolder;
+                    if (isLibraryExtraPath && Path.IsPathRooted(path))
+                    {
+                        var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+                        if (res)
+                        {
+                            storageFolder = res.Result;
+                        }
+                    }
+                    if (await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
                     {
                         WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item));
                     }
@@ -924,7 +949,7 @@ namespace Files.ViewModels
                     {
                         // run background tasks to iterate through folders and cache all of them preemptively
                         var folders = filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
-                        var currentStorageFolderSnapshot = currentStorageFolder;
+                        var currentStorageFolderSnapshot = storageFolder;
                         Task.Run(async () =>
                         {
                             try
@@ -967,14 +992,31 @@ namespace Files.ViewModels
 
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
-                IsLoadingItems = false;
 
-                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+                if (!isLibraryExtraPath)
+                {
+                    var extraPaths = await LibraryHelper.Instance.GetExtraLibraryPaths(path);
+                    if (extraPaths != null && extraPaths.Length > 0)
+                    {
+                        foreach (var extraPath in extraPaths)
+                        {
+                            await RapidAddItemsToCollection(extraPath, null, useCache, true);
+                        }
+                    }
+
+                    ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
+
+                    AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+
+                    IsLoadingItems = false;
+                }
             }
             finally
             {
-                enumFolderSemaphore.Release();
+                if (!isLibraryExtraPath)
+                {
+                    enumFolderSemaphore.Release();
+                }
             }
         }
 

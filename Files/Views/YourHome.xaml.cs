@@ -9,7 +9,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -40,7 +39,9 @@ namespace Files.Views
             if (LibraryWidget != null)
             {
                 LibraryWidget.LibraryCardInvoked -= LibraryLocationCardsWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardNewPaneInvoked -= LibraryLocationCardsWidget_LibraryCardNewPaneInvoked;
                 LibraryWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardNewPaneInvoked += LibraryLocationCardsWidget_LibraryCardNewPaneInvoked;
             }
             if (RecentFilesWidget != null)
             {
@@ -106,6 +107,11 @@ namespace Files.Views
             {
                 NavPathParam = e.ItemPath
             });
+        }
+
+        private void LibraryLocationCardsWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
+        {
+            AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
         }
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)

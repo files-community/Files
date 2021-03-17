@@ -15,41 +15,38 @@ namespace Files.Helpers
         /// <returns>The icon code</returns>
         public static string GetItemIcon(string path)
         {
-            string iconCode;
-
-            if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            string iconCode = "\uE8B7";
+            if (path != null)
             {
-                iconCode = "\uE8FC";
+                if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8FC";
+                }
+                else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE896";
+                }
+                else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8A5";
+                }
+                else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uEB9F";
+                }
+                else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uEC4F";
+                }
+                else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8B2";
+                }
+                else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uEDA2";
+                }
             }
-            else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE896";
-            }
-            else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8A5";
-            }
-            else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEB9F";
-            }
-            else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEC4F";
-            }
-            else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8B2";
-            }
-            else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEDA2";
-            }
-            else
-            {
-                iconCode = "\uE8B7";
-            }
-
             return iconCode;
         }
     }
