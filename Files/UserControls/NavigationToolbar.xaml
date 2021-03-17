@@ -918,21 +918,21 @@
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
                     x:Name="SelectionOptions"
-                    x:Uid="StatusBarControlSelectionOptions"
+                    x:Uid="NavToolbarSelectionOptions"
                     Width="36"
                     Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     AutomationProperties.Name="Selection options"
                     Background="Transparent"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Selection options"
-                    x:Load="{x:Bind IsPageTypeNotHome}">
-                    <FontIcon FontSize="16" Glyph="&#xE762;" />
+                    x:Load="{x:Bind IsPageTypeNotHome}"
+                    ToolTipService.ToolTip="Selection options">
+                    <FontIcon FontSize="14" Glyph="&#xE762;" />
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <ToggleMenuFlyoutItem
                                 x:Name="MultiselectMFI"
-                                x:Uid="StatusBarControlMultiselect"
+                                x:Uid="NavToolbarMultiselect"
                                 IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
                                 Text="Multiselect"
                                 Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
@@ -942,7 +942,7 @@
                             </ToggleMenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="SelectAllMFI"
-                                x:Uid="StatusBarControlSelectAll"
+                                x:Uid="NavToolbarSelectAll"
                                 Command="{x:Bind SelectAllInvokedCommand}"
                                 Text="Select All">
                                 <MenuFlyoutItem.Icon>
@@ -957,7 +957,7 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="InvertSelectionMFI"
-                                x:Uid="StatusBarControlInvertSelection"
+                                x:Uid="NavToolbarInvertSelection"
                                 Command="{x:Bind InvertSelectionInvokedCommand}"
                                 Text="Invert Selection">
                                 <MenuFlyoutItem.Icon>
@@ -966,7 +966,7 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="ClearSelectionMFI"
-                                x:Uid="StatusBarControlClearSelection"
+                                x:Uid="NavToolbarClearSelection"
                                 Command="{x:Bind ClearSelectionInvokedCommand}"
                                 Text="Clear Selection">
                                 <MenuFlyoutItem.Icon>
@@ -979,15 +979,16 @@
 
                 <AppBarButton
                     x:Name="DisplayOptionsButton"
-                    x:Uid="StatusBarControlDisplayOptionsButton"
+                    x:Uid="NavToolbarDisplayOptionsButton"
                     Width="36"
                     Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     AutomationProperties.Name="Display Options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Display Options"
-                    x:Load="{x:Bind IsPageTypeNotHome}">
-                    <FontIcon FontSize="16" Glyph="&#xE152;" />
+                    x:Load="{x:Bind IsPageTypeNotHome}"
+                    ToolTipService.ToolTip="Display Options">
+                    <FontIcon FontSize="14" Glyph="&#xE152;" />
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel Spacing="12">
