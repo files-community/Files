@@ -7,6 +7,7 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -554,10 +555,20 @@ namespace Files.UserControls
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer dragOverTimer;
+
         public NavigationToolbar()
         {
             this.InitializeComponent();
             this.Loading += NavigationToolbar_Loading;
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            dragOverTimer = timerQueue.CreateTimer();
         }
 
         private async void NavigationToolbar_Loading(FrameworkElement sender, object args)
@@ -934,7 +945,6 @@ namespace Files.UserControls
         }
 
         private string dragOverPath = null;
-        private DispatcherTimer dragOverTimer = new DispatcherTimer();
 
         private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {

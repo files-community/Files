@@ -9,6 +9,7 @@ using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -146,6 +147,12 @@ namespace Files
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer dragOverTimer;
+
         public BaseLayout()
         {
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
@@ -159,6 +166,10 @@ namespace Files
             {
                 IsQuickLookEnabled = true;
             }
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            dragOverTimer = timerQueue.CreateTimer();
         }
 
         public abstract void FocusFileList();
@@ -898,7 +909,7 @@ namespace Files
         }
 
         private ListedItem dragOverItem = null;
-        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
 
         private void Item_DragLeave(object sender, DragEventArgs e)
         {
