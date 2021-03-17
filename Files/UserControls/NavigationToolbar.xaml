@@ -917,15 +917,16 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
+                    x:Name="SelectionOptions"
                     x:Uid="StatusBarControlSelectionOptions"
                     Width="36"
                     Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     AutomationProperties.Name="Selection options"
                     Background="Transparent"
-                    FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Selection options">
-                    <FontIcon FontSize="16" Glyph="&#xE762;" />
+                    <FontIcon FontSize="14" Glyph="&#xE762;" />
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <ToggleMenuFlyoutItem
@@ -976,14 +977,16 @@
                 </AppBarButton>
 
                 <AppBarButton
+                    x:Name="DisplayOptionsButton"
                     x:Uid="StatusBarControlDisplayOptionsButton"
                     Width="36"
                     Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     AutomationProperties.Name="Display Options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Display Options">
-                    <FontIcon FontSize="16" Glyph="&#xE152;" />
+                    <FontIcon FontSize="14" Glyph="&#xE152;" />
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel Spacing="12">
