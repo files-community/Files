@@ -51,28 +51,26 @@ namespace Files.UserControls.Widgets
         public LibraryCards()
         {
             InitializeComponent();
+
             ItemsAdded.Clear();
-            ItemsAdded.Add(new LibraryCardItem()
+            ItemsAdded.Add(new LibraryCardItem
             {
-                Icon = "\xE8FC",
                 Text = "SidebarDesktop".GetLocalized(),
                 Path = AppSettings.DesktopPath,
-                SelectCommand = LibraryCardClicked,
             });
-            ItemsAdded.Add(new LibraryCardItem()
+            ItemsAdded.Add(new LibraryCardItem
             {
-                Icon = "\xE896",
                 Text = "SidebarDownloads".GetLocalized(),
                 Path = AppSettings.DownloadsPath,
-                SelectCommand = LibraryCardClicked,
             });
-
-            Loaded += LibraryCards_Loaded;
-
             foreach (var item in ItemsAdded)
             {
+                item.Icon = GlyphHelper.GetItemIcon(item.Path);
+                item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
+
+            Loaded += LibraryCards_Loaded;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -85,7 +83,7 @@ namespace Files.UserControls.Widgets
             var libs = await LibraryHelper.Instance.ListUserLibraries(true);
             foreach (var lib in libs)
             {
-                ItemsAdded.Add(new LibraryCardItem()
+                ItemsAdded.Add(new LibraryCardItem
                 {
                     Icon = GlyphHelper.GetItemIcon(lib.Path),
                     Text = lib.Text,
