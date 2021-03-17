@@ -964,7 +964,7 @@
             x:Name="FileList"
             Padding="12,4,4,0"
             VerticalContentAlignment="Stretch"
-            animations:ReorderGridAnimation.Duration="350"
+            animations:ItemsReorderAnimation.Duration="0:0:0.350"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
