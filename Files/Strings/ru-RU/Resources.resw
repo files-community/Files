@@ -249,7 +249,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Размер</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Выделить все</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
@@ -441,7 +441,7 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Вы удалили эту папку?</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Выделение</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
@@ -933,7 +933,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Еще</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Выделение</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1647,7 +1647,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Неизвестно</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Множественный выбор</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">

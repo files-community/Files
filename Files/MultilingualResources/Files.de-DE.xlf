@@ -302,7 +302,7 @@
           <source>Search</source>
           <target state="translated">Suchen</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Alles auswählen</target>
         </trans-unit>
@@ -586,7 +586,7 @@
           <source>Did you delete this folder?</source>
           <target state="translated">Haben Sie diesen Ordner gelöscht?</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Auswahloptionen</target>
         </trans-unit>
@@ -1246,7 +1246,7 @@
           <source>More options</source>
           <target state="translated">Weitere Optionen</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Auswahloptionen</target>
         </trans-unit>
@@ -2254,7 +2254,7 @@
           <source>Unknown</source>
           <target state="translated">Unbekannt</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Mehrfachauswahl</target>
         </trans-unit>

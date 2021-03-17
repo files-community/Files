@@ -99,7 +99,7 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>نوع العنصر</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>تحديد الكل</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
@@ -486,7 +486,7 @@
   <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
     <value>وضع التخطيط</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>خيارات التحديد</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>خيارات إضافية</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>خيارات التحديد</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">

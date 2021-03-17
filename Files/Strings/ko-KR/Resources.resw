@@ -231,7 +231,7 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>검색</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>모두 선택</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
@@ -429,7 +429,7 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>폴더를 삭제하셨나요?</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>선택 옵션</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
@@ -1275,7 +1275,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>추가 옵션</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>선택 옵션</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1686,7 +1686,7 @@
   <data name="Network" xml:space="preserve">
     <value>네트워크</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>다중 선택</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">

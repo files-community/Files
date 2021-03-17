@@ -231,7 +231,7 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>搜索</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>全部选择</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
@@ -444,7 +444,7 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>确实要删除此文件夹吗？</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>选项</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
@@ -936,7 +936,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>更多选项</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>选择选项</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1668,7 +1668,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>unknown</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>多选</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">

@@ -124,7 +124,7 @@
           <source>Item type:</source>
           <target state="translated">Typ položky:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Vybrat vše</target>
         </trans-unit>
@@ -649,7 +649,7 @@
           <target state="needs-review-translation">OK</target>
           <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Možnosti výběru</target>
         </trans-unit>
@@ -1705,7 +1705,7 @@
           <source>More options</source>
           <target state="translated">Více možností</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Možnosti výběru</target>
         </trans-unit>
@@ -2270,7 +2270,7 @@
           <source>Unknown</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Neznámý</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Vícenásobný výběr</target>
         </trans-unit>

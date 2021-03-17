@@ -204,7 +204,7 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipo de ficheiro:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Selecionar Tudo</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
@@ -567,7 +567,7 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
@@ -1047,7 +1047,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mais opções</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Opções de seleção</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1809,7 +1809,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Seleção múltipla</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">

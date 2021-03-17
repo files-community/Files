@@ -124,7 +124,7 @@
           <source>Item type:</source>
           <target state="translated">Emnetype:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Vælg alle</target>
         </trans-unit>
@@ -647,7 +647,7 @@
           <source>Layout Mode</source>
           <target state="translated">Layouttilstand</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Valgmuligheder</target>
         </trans-unit>
@@ -1689,7 +1689,7 @@
           <source>More options</source>
           <target state="translated">Flere muligheder</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Valgmuligheder</target>
         </trans-unit>
@@ -2250,7 +2250,7 @@
           <source>Unknown</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Ukendt</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="new">Multiselect</target>
         </trans-unit>

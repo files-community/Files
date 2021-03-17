@@ -105,7 +105,7 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Vienuma tips:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Atlasīt visu</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
@@ -498,7 +498,7 @@
   <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
     <value>Izkārtojuma veids</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Atlases opcijas</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1281,7 +1281,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Papildu opcijas</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Atlases opcijas</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1704,7 +1704,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nezināms</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vairākatlase</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">

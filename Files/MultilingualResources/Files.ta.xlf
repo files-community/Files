@@ -124,7 +124,7 @@
           <source>Item type:</source>
           <target state="translated">உருப்படி வகை:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">அனைத்தையும் தேர்ந்தெடு</target>
         </trans-unit>
@@ -589,7 +589,7 @@
           <source>Did you delete this folder?</source>
           <target state="translated">நீங்கள் இந்தக் கோப்புறையை நீக்கீவிட்டீர்களா?</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">தேர்வு விருப்பங்கள்</target>
         </trans-unit>
@@ -1252,7 +1252,7 @@
           <source>More options</source>
           <target state="translated">மேலும் விருப்பங்கள்</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">தேர்வு விருப்பங்கள்</target>
         </trans-unit>
@@ -2256,7 +2256,7 @@
           <source>Unknown</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அறியாதது</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="new">Multiselect</target>
         </trans-unit>

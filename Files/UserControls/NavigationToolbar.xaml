@@ -918,7 +918,7 @@
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
                     x:Name="SelectionOptions"
-                    x:Uid="StatusBarControlSelectionOptions"
+                    x:Uid="NavToolbarSelectionOptions"
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
@@ -931,7 +931,7 @@
                         <MenuFlyout>
                             <ToggleMenuFlyoutItem
                                 x:Name="MultiselectMFI"
-                                x:Uid="StatusBarControlMultiselect"
+                                x:Uid="NavToolbarMultiselect"
                                 IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
                                 Text="Multiselect"
                                 Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
@@ -941,7 +941,7 @@
                             </ToggleMenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="SelectAllMFI"
-                                x:Uid="StatusBarControlSelectAll"
+                                x:Uid="NavToolbarSelectAll"
                                 Command="{x:Bind SelectAllInvokedCommand}"
                                 Text="Select All">
                                 <MenuFlyoutItem.Icon>

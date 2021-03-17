@@ -303,7 +303,7 @@
           <source>Search</source>
           <target state="translated" state-qualifier="tm-suggestion">Rechercher</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated" state-qualifier="tm-suggestion">Sélectionner tout</target>
         </trans-unit>
@@ -587,7 +587,7 @@
           <source>Did you delete this folder?</source>
           <target state="translated">Avez-vous supprimé ce dossier ?</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Options de sélection</target>
         </trans-unit>
@@ -1248,7 +1248,7 @@
           <source>More options</source>
           <target state="translated">Plus d'options</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Options de sélection</target>
         </trans-unit>
@@ -2256,7 +2256,7 @@
           <source>Unknown</source>
           <target state="translated">Inconnu</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Sélection Multiple</target>
         </trans-unit>

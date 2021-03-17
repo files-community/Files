@@ -124,7 +124,7 @@
           <source>Item type:</source>
           <target state="translated">種類:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">すべての選択</target>
         </trans-unit>
@@ -602,7 +602,7 @@
           <source>OK</source>
           <target state="translated">OK</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">選択オプション</target>
         </trans-unit>
@@ -1245,7 +1245,7 @@
           <source>More options</source>
           <target state="translated">その他のオプション</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">オプションの選択</target>
         </trans-unit>
@@ -2253,7 +2253,7 @@
           <source>Unknown</source>
           <target state="translated">不明</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">複数選択</target>
         </trans-unit>

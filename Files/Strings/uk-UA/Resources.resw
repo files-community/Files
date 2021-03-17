@@ -75,7 +75,7 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Тип:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Виділити все</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
@@ -444,7 +444,7 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Ви видалили цю папку?</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Виділення</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
@@ -936,7 +936,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Більше</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Виділення</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1644,7 +1644,7 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Відвідайте веб-сайт документації щодо файлів</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Множинний вибір</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">

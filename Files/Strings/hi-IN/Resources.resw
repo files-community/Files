@@ -99,7 +99,7 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>वस्तु प्रकार:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>सभी चयन करें</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
@@ -462,7 +462,7 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ठीक है</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
@@ -801,7 +801,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>अधिक विकल्प</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>चयन विकल्प</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">

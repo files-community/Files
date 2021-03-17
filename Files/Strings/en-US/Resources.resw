@@ -210,7 +210,7 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Item type:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Select All</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
@@ -603,7 +603,7 @@
   <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
     <value>Layout Mode</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1386,7 +1386,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>More options</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1809,7 +1809,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Multiselect</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
