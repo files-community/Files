@@ -144,8 +144,8 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
-                    .GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                TokenSource.Cancel();
+                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {

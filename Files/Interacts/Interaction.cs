@@ -1409,7 +1409,7 @@ namespace Files.Interacts
 
             Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
             var hash = algorithmProvider.CreateHash();
-            while (!token.IsCancellationRequested)
+            while (token.IsCancellationRequested)
             {
                 await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
                 if (buffer.Length > 0)
