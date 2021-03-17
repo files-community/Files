@@ -124,15 +124,15 @@
           <source>Item type:</source>
           <target state="translated" state-qualifier="tm-suggestion">نوع العنصر</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated" state-qualifier="tm-suggestion">تحديد الكل</target>
         </trans-unit>
-        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated" state-qualifier="tm-suggestion">عكس التحديد</target>
         </trans-unit>
-        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated" state-qualifier="tm-suggestion">مسح التحديد</target>
         </trans-unit>
@@ -647,7 +647,7 @@
           <source>Layout Mode</source>
           <target state="translated" state-qualifier="tm-suggestion">وضع التخطيط</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات التحديد</target>
         </trans-unit>
@@ -1689,7 +1689,7 @@
           <source>More options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات إضافية</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات التحديد</target>
         </trans-unit>
@@ -1978,11 +1978,11 @@
           <source>Display Options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات العرض</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات العرض</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="translated" state-qualifier="tm-suggestion">‏‏خيارات العرض</target>
         </trans-unit>
@@ -2252,7 +2252,7 @@
           <source>Visit the Files documentation website</source>
           <target state="new">Visit the Files documentation website</target>
         </trans-unit>
-        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="new">Multiselect</target>
         </trans-unit>

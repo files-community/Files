@@ -99,13 +99,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipo de arquivo:</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>Selecionar Tudo</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>Inverter Seleção</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Limpar Seleção</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -462,7 +462,7 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
@@ -936,7 +936,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mais opções</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Opções de seleção</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1494,10 +1494,10 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Opções de Exibição</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Opções de Exibição</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de exibição</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
@@ -1689,7 +1689,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Seleção múltipla</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">

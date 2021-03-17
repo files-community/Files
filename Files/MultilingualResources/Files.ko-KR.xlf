@@ -302,11 +302,11 @@
           <source>Search</source>
           <target state="translated">검색</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">모두 선택</target>
         </trans-unit>
-        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">선택 취소</target>
         </trans-unit>
@@ -462,7 +462,7 @@
           <source>Settings</source>
           <target state="translated">설정</target>
         </trans-unit>
-        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">선택 반전</target>
         </trans-unit>
@@ -566,7 +566,7 @@
           <source>Did you delete this folder?</source>
           <target state="translated">폴더를 삭제하셨나요?</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">선택 옵션</target>
         </trans-unit>
@@ -1697,7 +1697,7 @@
           <source>More options</source>
           <target state="translated">추가 옵션</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">선택 옵션</target>
         </trans-unit>
@@ -1986,11 +1986,11 @@
           <source>Display Options</source>
           <target state="translated">보기 옵션</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated">보기 옵션</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="translated">보기 옵션</target>
         </trans-unit>
@@ -2253,7 +2253,7 @@
           <source>Network</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">네트워크</target>
         </trans-unit>
-        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">다중 선택</target>
         </trans-unit>

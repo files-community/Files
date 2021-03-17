@@ -308,11 +308,11 @@
           <source>Search</source>
           <target state="translated">搜尋</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">全部選擇</target>
         </trans-unit>
-        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">取消選擇</target>
         </trans-unit>
@@ -475,7 +475,7 @@
           <source>Settings</source>
           <target state="translated">設定</target>
         </trans-unit>
-        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">反選</target>
         </trans-unit>
@@ -595,7 +595,7 @@
           <source>Did you delete this folder?</source>
           <target state="translated">確定要删除此資料夾嗎？</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">選項</target>
         </trans-unit>
@@ -1261,7 +1261,7 @@
           <source>More options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">更多選項</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">選取選項</target>
         </trans-unit>
@@ -1997,11 +1997,11 @@
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">顯示選項</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">顯示選項</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">顯示選項</target>
         </trans-unit>
@@ -2257,7 +2257,7 @@
           <source>Visit the Files documentation website</source>
           <target state="new">Visit the Files documentation website</target>
         </trans-unit>
-        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">多重選取</target>
         </trans-unit>

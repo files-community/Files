@@ -99,13 +99,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>वस्तु प्रकार:</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>सभी चयन करें</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>उलटा चयन</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>चयन खाली करें</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -462,7 +462,7 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ठीक है</value>
   </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
@@ -801,7 +801,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>अधिक विकल्प</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>चयन विकल्प</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1104,10 +1104,10 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>विकल्प प्रदर्शित करें</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>विकल्प प्रदर्शित करें</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>प्रदर्शन विकल्प</value>
   </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">

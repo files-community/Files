@@ -124,15 +124,15 @@
           <source>Item type:</source>
           <target state="translated">Objekttyp:</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Markera alla</target>
         </trans-unit>
-        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Invertera markering</target>
         </trans-unit>
-        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">Rensa markering</target>
         </trans-unit>
@@ -651,7 +651,7 @@
           <source>Layout Mode</source>
           <target state="translated">Layoutläge</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Markeringsalternativ</target>
         </trans-unit>
@@ -1697,7 +1697,7 @@
           <source>More options</source>
           <target state="translated">Fler alternativ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Markeringsalternativ</target>
         </trans-unit>
@@ -1986,11 +1986,11 @@
           <source>Display Options</source>
           <target state="translated">Visningsalternativ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated">Visningsalternativ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="translated">Visningsalternativ</target>
         </trans-unit>
@@ -2245,7 +2245,7 @@
           <source>Unknown</source>
           <target state="translated">Okänd</target>
         </trans-unit>
-        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Markera flera</target>
         </trans-unit>

@@ -231,10 +231,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>搜尋</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>全部選擇</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>取消選擇</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -354,7 +354,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>設定</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>反選</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -444,7 +444,7 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>確定要删除此資料夾嗎？</value>
   </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選項</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
@@ -765,7 +765,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>更多選項</value>
   </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>選取選項</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1113,10 +1113,10 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>顯示選項</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>顯示選項</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>顯示選項</value>
   </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
@@ -1206,7 +1206,7 @@
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>文件</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>多重選取</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
