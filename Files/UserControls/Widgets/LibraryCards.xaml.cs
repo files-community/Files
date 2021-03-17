@@ -159,7 +159,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private void ManageLibrary_Click(object sender, RoutedEventArgs e) => ShowLibraryManagementDialog(((MenuFlyoutItem)sender).DataContext as LibraryCardItem);
+        private void ManageLibraryLocations_Click(object sender, RoutedEventArgs e) => ShowLibraryManagementDialog(((MenuFlyoutItem)sender).DataContext as LibraryCardItem);
 
         private void ShowLibraryManagementDialog(LibraryCardItem item)
         {

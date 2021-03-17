@@ -70,18 +70,47 @@ namespace Files.Helpers
         }
 
         /// <summary>
+        /// Find library with the specified path.
+        /// </summary>
+        /// <param name="path">The path contained by a library</param>
+        /// <param name="defaultSavePathOnly">True to check default save path only, false to check all</param>
+        /// <returns>The <see cref="LibraryItem"/> with the specified default save path or null if not found.</returns>
+        public async Task<LibraryItem> FindByPath(string path, bool defaultSavePathOnly = true)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+            var libs = await ListUserLibraries(false);
+            return libs.FirstOrDefault(l =>
+            {
+                if (defaultSavePathOnly)
+                {
+                    return string.Equals(l.Path, path, StringComparison.InvariantCultureIgnoreCase);
+                }
+                else
+                {
+                    return l.Paths.Any(p => string.Equals(p, path, StringComparison.InvariantCultureIgnoreCase));
+                }
+            });
+        }
+
+        /// <summary>
+        /// Check whether path belongs to a library.
+        /// </summary>
+        /// <param name="path">The path to check</param>
+        /// <param name="defaultSavePathOnly">True to check default save path only, false to check all</param>
+        /// <returns>True if the specified path belongs to a library.</returns>
+        public async Task<bool> IsLibraryPath(string path, bool defaultSavePathOnly = true) => await FindByPath(path, defaultSavePathOnly) != null;
+
+        /// <summary>
         /// Get additional library folder paths from the library default save path.
         /// </summary>
         /// <param name="defaultSavePath">The default save path of the library</param>
         /// <returns>The additional library folder paths. Empty array returned in case of a single directory library or null if the path is not a default save path of any library.</returns>
         public async Task<string[]> GetExtraLibraryPaths(string defaultSavePath)
         {
-            if (defaultSavePath == null)
-            {
-                return null;
-            }
-            var libs = await ListUserLibraries(false);
-            var lib = libs.FirstOrDefault(l => string.Equals(l.Path, defaultSavePath, StringComparison.InvariantCultureIgnoreCase));
+            var lib = await FindByPath(defaultSavePath);
             if (lib == null)
             {
                 return null;

@@ -92,11 +92,11 @@
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
-                                            x:Name="ManageLibrary"
-                                            x:Uid="SidebarManageLibrary"
+                                            x:Name="ManageLibraryLocations"
+                                            x:Uid="SidebarManageLibraryLocations"
                                             x:Load="{x:Bind IsLibrary, Mode=OneWay}"
-                                            Text="Manage library"
-                                            Click="ManageLibrary_Click"
+                                            Text="Manage library locations"
+                                            Click="ManageLibraryLocations_Click"
                                             DataContext="{x:Bind}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE1D3;" />
