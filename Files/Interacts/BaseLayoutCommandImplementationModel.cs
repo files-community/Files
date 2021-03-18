@@ -1,7 +1,7 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using System;

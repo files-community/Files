@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
