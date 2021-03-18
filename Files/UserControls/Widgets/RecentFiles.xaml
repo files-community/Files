@@ -7,16 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <Style
-            x:Key="ListViewItemContainerStyle1"
-            BasedOn="{StaticResource ListViewItemRevealStyle}"
-            TargetType="ListViewItem">
-            <Setter Property="Padding" Value="12,0" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
-    </UserControl.Resources>
 
     <Grid>
         <Grid
@@ -49,7 +39,6 @@
                     IsItemClickEnabled="True"
                     IsRightTapEnabled="True"
                     ItemClick="RecentsView_ItemClick"
-                    ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}"
                     ItemContainerTransitions="{x:Null}"
                     ItemsSource="{x:Bind recentItemsCollection}"
                     SelectionMode="None">
@@ -100,7 +89,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid
                                     Grid.Column="0"
-                                    Margin="0,0,0,0"
+                                    Margin="0"
                                     VerticalAlignment="Stretch">
                                     <FontIcon
                                         x:Name="FolderImg"
@@ -132,10 +121,8 @@
                                     TextWrapping="NoWrap" />
                                 <TextBlock
                                     Grid.Column="2"
-                                    Margin="0,0,0,0"
                                     VerticalAlignment="Center"
-                                    FontSize="10"
-                                    Foreground="DimGray"
+                                    FontSize="12"
                                     Text="{x:Bind RecentPath}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
