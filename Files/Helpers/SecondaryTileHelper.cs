@@ -42,24 +42,17 @@ namespace Files.Helpers
             var result = false;
             try
             {
-                var glyph = "";
-                //var glyph = GlyphHelper.GetItemIcon(path);
-                // ignore the default
-                //if (glyph == "\uE8B7")
-                //{
-                //    glyph = "";
-                //}
-
-                (Uri Path150x150, Uri Path71x71) logos = await FolderGlyphAssetHelper.GenerateAssetsAsync(glyph);
+                Uri Path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
+                Uri Path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
 
                 SecondaryTile tile = new SecondaryTile(
                     GetTileID(path),
                     name,
                     path,
-                    logos.Path150x150,
+                    Path150x150,
                     TileSize.Square150x150);
 
-                tile.VisualElements.Square71x71Logo = logos.Path71x71;
+                tile.VisualElements.Square71x71Logo = Path71x71;
                 tile.VisualElements.ShowNameOnSquare150x150Logo = true;
                 result = await tile.RequestCreateAsync();
             }
