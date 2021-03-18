@@ -935,6 +935,12 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>மறைந்த</value>
   </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>தரமதிப்பு</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>உருப்படி வகை</value>
+  </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>தலைப்பு</value>
   </data>
@@ -976,6 +982,9 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>மாதிரி விகிதம்</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>கலைஞர்:</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>ஆல்பம் கலைஞர்:</value>
@@ -1147,5 +1156,152 @@
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>ரத்து</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>கோப்புறைகள்</value>
+  </data>
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
+    <value>காட்சி விருப்பங்கள்</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>காட்சி விருப்பங்கள்</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>காண்பி விருப்பங்கள்</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
+    <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>தேதி நீக்கப்பட்டது</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>தேதி நீக்கப்பட்டது</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>உறுதிசெய்</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>உறுதிசெய்</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>{0}"-ஐ மறுபெயரிடு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={0} is the publication name which is to be renamed}	Pre-Approved	Yes	Yes\r\nFrom	தொடக்கம்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for team name, for the team from where this publication will be published}	Pre-Approved	Yes	Yes\r\nSave	சேமி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={save the rename of the publication }	Pre-Approved	Yes	Yes\r\nSaving	சேமிக்கிறது	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={saving the renaming of the publication}	Pre-Approved	Yes	Yes\r\nTitle	தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for publication title}	Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam status report	குழு நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam name	குழுப் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nLoading team name…	குழுப் பெயரை ஏற்றுகிறது…	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nClosed	மூடப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask status report	பணி நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nStore name	ஸ்டோர் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask title	பணித் தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nRefresh the list	பட்டியலைப் புதுப்பி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for the button in the command bar that refreshes the task list from the server.}	Pre-Approved	Yes	Yes\r\nRefreshing the list from the server.	சேவையகத்திலிருந்து பட்டியலைப் புதுப்பிக்கிறது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Message read to screenreaders after the sync button is clicked.}	Pre-Approved	Yes	Yes\r\nMore actions, press space to open menu options	மேலும் செயல்கள், மெனு விருப்பங்களைத் திறக்க space-ஐ அழுத்தவும்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the more actions button for a task in the task grid}	Pre-Approved	Yes	Yes\r\nActions	செயல்கள்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the column header for the column in the task grid containing the more actions button}	Pre-Approved	Yes	Yes\r\nError uploading	பதிவேற்றுவதில் பிழை	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error shown in attachment chicklet when an attachment couldn't be uploaded. Prefer short strings.}	Pre-Approved	Yes	Yes\r\nChannel is required.	சேனல் தேவை.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user hasn't selected a Teams channel to associate the task with when saving}	Pre-Approved	Yes	Yes\r\nDiscard	நிராகரி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Discard button label for the unsaved changes confirmation dialog}	Pre-Approved	Yes	Yes\r\nAny changes you've made will be lost.	நீங்கள் செய்துள்ள மாற்றங்களை இழப்பீர்கள்.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Text of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nDiscard changes?	மாற்றங்களை நிராகரிக்கவா?	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Title of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nSelected due date is too far in the past.	தேர்ந்தெடுக்கப்பட்ட கெடு தேதி, கடந்த காலத்தில் மிகவும் பழையதாக உள்ளது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user attempts to save a task with a due date too far in the </value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>உறுதிசெய்</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>புதிய தாவலில் திற</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>உறுதிசெய்</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>கூடுதல் விருப்பங்கள்...</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>உருப்படிப் பாதை</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>உருப்படிப் பெயர்</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>பிணையம்</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>குணங்கள்</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>ஆவணமாக்கம்</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>ஆன்லைன் வரும்போது கிடைக்கும்</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>ஆஃப்லைனில் இருத்தல்</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>ஒத்திசைக்கிறது…</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>அறியாதது</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>நெகிழ் வட்டு இயக்ககம்</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>பிணைய இயக்ககம்</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>அறியாதது</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>உருவாக்கிய தேதி</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>உருவாக்கிய தேதி</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>கூடுதல் விருப்பங்கள்...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>பிணைய இயக்ககத்தை இணை</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>துண்டி</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>பிடித்தவை</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>உலாவு</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>சமீபத்திய இருப்பிடங்கள்</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>முன்னோட்டம் கிடைக்கவில்லை</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>நோ ஐட்டம் செலக்டெட்</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>இலக்கு</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>இணைப்பு மாறிகள்</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>நூலகங்கள்</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>இயல்புநிலை</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>வண்ணத் திட்டம்:</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>உருப்படி எண்ணிக்கை</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>அறியப்படாத பிழை ஒன்று நேர்ந்தது.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>இல்லை</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ஆம்</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>நிர்வாகி</value>
   </data>
 </root>

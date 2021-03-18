@@ -3,7 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -582,6 +582,8 @@ namespace Files.Filesystem
                 if (elevateConfirmResult == ContentDialogResult.Primary)
                 {
                     //await associatedInstance.ServiceConnection?.Elevate();
+                    App.InteractionViewModel.IsFullTrustElevated = true;
+
                     if (associatedInstance.ServiceConnection != null)
                     {
                         var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()

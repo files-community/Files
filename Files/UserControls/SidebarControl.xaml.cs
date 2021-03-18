@@ -4,8 +4,8 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -47,39 +48,51 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(
-          "EmptyRecycleBinCommand",
-          typeof(ICommand),
-          typeof(SidebarControl),
-          new PropertyMetadata(null)
-        );
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
+
+        public bool IsOpen
+        {
+            get => (bool)GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
+        }
+
+        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
+
+        public bool IsCompact
+        {
+            get => (bool)GetValue(IsCompactProperty);
+            set => SetValue(IsCompactProperty, value);
+        }
+
+        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
         public ICommand EmptyRecycleBinCommand
         {
-            get
-            {
-                return (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-            }
-            set
-            {
-                SetValue(EmptyRecycleBinCommandProperty, value);
-            }
+            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
+
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer dragOverTimer;
 
         public SidebarControl()
         {
             this.InitializeComponent();
             SidebarNavView.Loaded += SidebarNavView_Loaded;
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            dragOverTimer = timerQueue.CreateTimer();
         }
 
         private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SelectedSidebarItem
         {
-            get
-            {
-                return selectedSidebarItem;
-            }
+            get => selectedSidebarItem;
             set
             {
                 if (value != selectedSidebarItem)
@@ -94,10 +107,7 @@ namespace Files.UserControls
 
         public bool CanOpenInNewPane
         {
-            get
-            {
-                return canOpenInNewPane;
-            }
+            get => canOpenInNewPane;
             set
             {
                 if (value != canOpenInNewPane)
@@ -118,10 +128,7 @@ namespace Files.UserControls
         /// </summary>
         public bool ShowUnpinItem
         {
-            get
-            {
-                return showUnpinItem;
-            }
+            get => showUnpinItem;
             set
             {
                 if (value != showUnpinItem)
@@ -136,10 +143,7 @@ namespace Files.UserControls
 
         public bool ShowProperties
         {
-            get
-            {
-                return showProperties;
-            }
+            get => showProperties;
             set
             {
                 if (value != showProperties)
@@ -154,10 +158,7 @@ namespace Files.UserControls
 
         public bool ShowEmptyRecycleBin
         {
-            get
-            {
-                return showEmptyRecycleBin;
-            }
+            get => showEmptyRecycleBin;
             set
             {
                 if (value != showEmptyRecycleBin)
@@ -172,10 +173,7 @@ namespace Files.UserControls
 
         public bool ShowEjectDevice
         {
-            get
-            {
-                return showEjectDevice;
-            }
+            get => showEjectDevice;
             set
             {
                 if (value != showEjectDevice)
@@ -190,10 +188,7 @@ namespace Files.UserControls
 
         public bool RecycleBinHasItems
         {
-            get
-            {
-                return recycleBinHasItems;
-            }
+            get => recycleBinHasItems;
             set
             {
                 if (value != recycleBinHasItems)
@@ -319,8 +314,6 @@ namespace Files.UserControls
         }
 
         private object dragOverItem = null;
-
-        private DispatcherTimer dragOverTimer = new DispatcherTimer();
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {

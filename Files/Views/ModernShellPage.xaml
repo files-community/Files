@@ -228,11 +228,7 @@
             Grid.Row="5"
             Grid.ColumnSpan="3"
             x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-            ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
             DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-            FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
-            InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
-            SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
             SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
             ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
 
@@ -250,6 +246,19 @@
                 x:Name="NavToolbar"
                 HorizontalAlignment="Stretch"
                 x:FieldModifier="public"
+                
+                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled}"
+                SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
+                InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
+                ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
+                
+                LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation}"
+                ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
+                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
+                ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
+                ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
+                ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
+                
                 AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                 CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                 CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"

@@ -774,7 +774,7 @@
   <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>레이아웃</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1482,13 +1482,13 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>컨텍스트 메뉴를 여닫을 때 애니메이션 활성화</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1497,34 +1497,34 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (중)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (중)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>파일 확장명 표시</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>숨긴 항목 표시</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1682,5 +1682,95 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>알 수 없음</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>네트워크</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>다중 선택</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD-ROM 드라이브</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>플로피 디스크 드라이브</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>네트워크 드라이브</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>알 수 없음</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>만든 날짜</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>만든 날짜</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>옵션 더 보기...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>네트워크\n드라이브 연결</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>연결 해제</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>즐겨찾기</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>탐색</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>최근 위치</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>미리 볼 수 없습니다.</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>세부 정보 없음</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>선택한 항목 없음</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>대상</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>ARGUMENTS</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>라이브러리</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>기본값</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>색 구성표:</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>항목 수:</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>삭제 실패</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>알 수 없는 오류가 발생했습니다.</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>복사 완료</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>아니요</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>예</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>오른쪽의 탭 닫기</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>관리자</value>
   </data>
 </root>

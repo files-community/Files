@@ -1473,25 +1473,25 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>Animációk a menü megnyitásakor és bezárásakor</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Részletek</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nagy ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>Közepes ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kis ikonok</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Rendezés</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Megjelenítési lehetőségek</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1500,25 +1500,25 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Megjelenítési lehetőségek</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Nagy ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>Közepes ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>Kis ikonok</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Fájlkiterjesztések megjelenítése</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Rejtett fájlok megjelenítése</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Részletek</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1793,5 +1793,26 @@
   </data>
   <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
     <value>Színösszeállítás</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Elemek száma</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Sikertelen törlés</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Ismeretlen hiba történt.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Igen</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Jobbra lévő lapok bezárása</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Rendszergazda</value>
   </data>
 </root>
