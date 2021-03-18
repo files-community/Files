@@ -16,7 +16,7 @@ namespace Files.Filesystem
         {
             await Task.Run(async () =>
             {
-                if (!(source is FtpStorageItem item) || !await item.EnsureConnected())
+                if (!(source is StorageFile item))
                 {
                     return;
                 }
@@ -36,13 +36,13 @@ namespace Files.Filesystem
                     if (item.IsOfType(StorageItemTypes.File))
                     {
                         using var fileStream = new FileStream(destination, FileMode.Create);
-                        await item.FtpClient.DownloadAsync(fileStream, item.Path, 0, ftpProgress, cancellationToken);
+                        await item.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destination));
                         errorCode.Report(FileSystemStatusCode.Success);
                         return;
                     }
                     else
                     {
-                        await item.FtpClient.DownloadDirectoryAsync(destination, item.Path, FtpFolderSyncMode.Update, FtpLocalExists.Append, FtpVerify.None, null, ftpProgress, cancellationToken);
+                        throw new NotImplementedException();
                     }
                 }
                 catch (UnauthorizedAccessException)

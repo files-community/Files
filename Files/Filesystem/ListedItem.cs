@@ -292,12 +292,12 @@ namespace Files.Filesystem
 
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
-        private StorageFile itemFile;
+        private IStorageItem storageItem;
 
-        public StorageFile ItemFile
+        public IStorageItem StorageItem
         {
-            get => itemFile;
-            set => SetProperty(ref itemFile, value);
+            get => storageItem;
+            set => SetProperty(ref storageItem, value);
         }
     }
 

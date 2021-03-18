@@ -1,8 +1,12 @@
-﻿using Windows.Storage;
+﻿using System;
+using System.Runtime.Serialization;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Files.Filesystem
 {
-    public class StorageFileWithPath : IStorageItemWithPath
+    public class StorageFileWithPath : IStorageItem
     {
         public StorageFile File
         {
@@ -31,5 +35,18 @@ namespace Files.Filesystem
             File = file;
             Path = path;
         }
+
+        public IAsyncAction RenameAsync(string desiredName) => File.RenameAsync(desiredName);
+        public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => File.RenameAsync(desiredName, option);
+        public IAsyncAction DeleteAsync() => File.DeleteAsync();
+        public IAsyncAction DeleteAsync(StorageDeleteOption option) => File.DeleteAsync(option);
+        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync() => File.GetBasicPropertiesAsync();
+        public bool IsOfType(StorageItemTypes type) => File.IsOfType(type);
+
+        public FileAttributes Attributes => File.Attributes;
+
+        public DateTimeOffset DateCreated => File.DateCreated;
+
+        public string Name => File.Name;
     }
 }

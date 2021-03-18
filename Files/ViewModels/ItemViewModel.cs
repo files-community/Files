@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -909,8 +908,7 @@ namespace Files.ViewModels
                 }
 
                 if (path.StartsWith(AppSettings.RecycleBinPath) ||
-                    path.StartsWith(AppSettings.NetworkFolderPath) ||
-                    path.StartsWith("ftp:"))
+                    path.StartsWith(AppSettings.NetworkFolderPath))
                 {
                     // Recycle bin and network are enumerated by the fulltrust process
                     PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
@@ -1005,12 +1003,29 @@ namespace Files.ViewModels
 
         public async Task EnumerateItemsFromFtpAsync(string path)
         {
+            string returnformat = Enum.Parse<TimeStyle>(ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+            CurrentFolder = new ListedItem(null, returnformat)
+            {
+                PrimaryItemAttribute = StorageItemTypes.Folder,
+                ItemPropertiesInitialized = true,
+                ItemName = Path.GetFileName(path),
+                ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
+                ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
+                ItemType = "FileFolderListItem".GetLocalized(),
+                LoadFolderGlyph = true,
+                FileImage = null,
+                LoadFileIcon = false,
+                ItemPath = path,
+                LoadUnknownTypeGlyph = false,
+                FileSize = null,
+                FileSizeBytes = 0
+            };
+
             await Task.Run(async () =>
             {
                 try
                 {
-                    string returnformat = Enum.Parse<TimeStyle>(ApplicationData.Current.LocalSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
                     var index = path.IndexOf("://") + 3;
                     var count = path.IndexOf("/", index);
 
@@ -1018,12 +1033,11 @@ namespace Files.ViewModels
                     var host = count == -1 ? path.Substring(index) : path.Substring(index, count - index);
                     var ftpPath = count == -1 ? "/" : path.Substring(count);
 
-                    if (ftpClient is null || ftpClient.Host != host)
+                    if (ftpClient == null || ftpClient.Host != host)
                     {
                         if (ftpClient != null)
                         {
                             await ftpClient.DisconnectAsync();
-                            ftpClient.Dispose();
                         }
 
                         ftpClient = new FtpClient(address);

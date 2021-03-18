@@ -33,20 +33,23 @@ namespace Files.ViewModels.Previews
         {
             try
             {
-                FileRandomAccessStream stream = (FileRandomAccessStream)await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+                if (Item.StorageItem is StorageFile file)
+                {
+                    FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
 
-                // svg files require a different type of source
-                if (!Item.ItemPath.EndsWith(".svg"))
-                {
-                    var bitmap = new BitmapImage();
-                    ImageSource = bitmap;
-                    await bitmap.SetSourceAsync(stream);
-                }
-                else
-                {
-                    var bitmap = new SvgImageSource();
-                    ImageSource = bitmap;
-                    await bitmap.SetSourceAsync(stream);
+                    // svg files require a different type of source
+                    if (!Item.ItemPath.EndsWith(".svg"))
+                    {
+                        var bitmap = new BitmapImage();
+                        ImageSource = bitmap;
+                        await bitmap.SetSourceAsync(stream);
+                    }
+                    else
+                    {
+                        var bitmap = new SvgImageSource();
+                        ImageSource = bitmap;
+                        await bitmap.SetSourceAsync(stream);
+                    }
                 }
             }
             catch (Exception e)

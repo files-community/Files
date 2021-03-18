@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Files.ViewModels.Previews
@@ -24,7 +25,10 @@ namespace Files.ViewModels.Previews
         {
             try
             {
-                Stream = await Item.ItemFile.OpenReadAsync();
+                if (Item.StorageItem is StorageFile file)
+                {
+                    Stream = await file.OpenReadAsync();
+                }
             }
             catch (Exception e)
             {

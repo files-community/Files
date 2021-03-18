@@ -48,7 +48,7 @@ namespace Files.Filesystem
 
         #region IFilesystemOperations
 
-        public async Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> CreateAsync(IStorageItem source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Files.Filesystem
                                                     cancellationToken);
         }
 
-        public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
+        public async Task<IStorageHistory> CopyAsync(IStorageItem source,
                                                      string destination,
                                                      IProgress<float> progress,
                                                      IProgress<FileSystemStatusCode> errorCode,
@@ -224,57 +224,66 @@ namespace Files.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
-
-                if (!fsResult)
+                FilesystemResult fsResult;
+                if (IsFtp(source.Path))
                 {
-                    Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                    var ftpOperation = new FtpFilesystemOperaions();
+                    return await ftpOperation.CopyAsync(source, destination, progress, errorCode, cancellationToken);
+                }
+                else
+                {
+                    fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
 
-                    FilesystemResult<StorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
-                    var sourceResult = await source.ToStorageItemResult(associatedInstance);
-                    fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
-
-                    if (fsResult)
+                    if (!fsResult)
                     {
-                        var file = (StorageFile)sourceResult;
-                        var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
-                        if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
-                        {
-                            var ItemAlreadyExistsDialog = new ContentDialog()
-                            {
-                                Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
-                                Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                                PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                                SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
-                                CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
-                            };
+                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-                            if (Interacts.Interaction.IsAnyContentDialogOpen())
-                            {
-                                // Only a single ContentDialog can be open at any time.
-                                return null;
-                            }
-                            ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+                        FilesystemResult<StorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                        var sourceResult = await source.ToStorageItemResult(associatedInstance);
+                        fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
-                            if (result == ContentDialogResult.Primary)
-                            {
-                                fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask());
-                            }
-                            else if (result == ContentDialogResult.Secondary)
-                            {
-                                fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.ReplaceExisting).AsTask());
-                                return null; // Cannot undo overwrite operation
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                        if (fsResultCopy)
+                        if (fsResult)
                         {
-                            copiedItem = fsResultCopy.Result;
+                            var file = (StorageFile)sourceResult;
+                            var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                            if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
+                            {
+                                var ItemAlreadyExistsDialog = new ContentDialog()
+                                {
+                                    Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                                    Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                                    PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                                    SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                                    CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
+                                };
+
+                                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                                {
+                                    // Only a single ContentDialog can be open at any time.
+                                    return null;
+                                }
+                                ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+
+                                if (result == ContentDialogResult.Primary)
+                                {
+                                    fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask());
+                                }
+                                else if (result == ContentDialogResult.Secondary)
+                                {
+                                    fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.ReplaceExisting).AsTask());
+                                    return null; // Cannot undo overwrite operation
+                                }
+                                else
+                                {
+                                    return null;
+                                }
+                            }
+                            if (fsResultCopy)
+                            {
+                                copiedItem = fsResultCopy.Result;
+                            }
+                            fsResult = fsResultCopy;
                         }
-                        fsResult = fsResultCopy;
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -320,7 +329,7 @@ namespace Files.Filesystem
                                                     cancellationToken);
         }
 
-        public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
+        public async Task<IStorageHistory> MoveAsync(IStorageItem source,
                                                      string destination,
                                                      IProgress<float> progress,
                                                      IProgress<FileSystemStatusCode> errorCode,
@@ -541,7 +550,7 @@ namespace Files.Filesystem
                                                       cancellationToken);
         }
 
-        public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source,
+        public async Task<IStorageHistory> DeleteAsync(IStorageItem source,
                                                        IProgress<float> progress,
                                                        IProgress<FileSystemStatusCode> errorCode,
                                                        bool permanently,
@@ -661,7 +670,7 @@ namespace Files.Filesystem
             return await RenameAsync(StorageItemHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
         }
 
-        public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
+        public async Task<IStorageHistory> RenameAsync(IStorageItem source,
                                                        string newName,
                                                        NameCollisionOption collision,
                                                        IProgress<FileSystemStatusCode> errorCode,
@@ -760,7 +769,7 @@ namespace Files.Filesystem
             return null;
         }
 
-        public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
+        public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source,
                                                                  string destination,
                                                                  IProgress<float> progress,
                                                                  IProgress<FileSystemStatusCode> errorCode,
@@ -846,6 +855,10 @@ namespace Files.Filesystem
         #endregion IFilesystemOperations
 
         #region Helpers
+        private static bool IsFtp(string path)
+        {
+            return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+        }
 
         private async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
         {

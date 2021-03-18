@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Data.Pdf;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -34,18 +35,23 @@ namespace Files.ViewModels.Previews
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var pdf = await PdfDocument.LoadFromFileAsync(Item.ItemFile);
-            var details = new List<FileProperty>();
-
-            LoadPagesAsync(pdf);
-            // Add the number of pages to the details
-            details.Add(new FileProperty()
+            if (Item.StorageItem is StorageFile file)
             {
-                NameResource = "PropertyPageCount",
-                Value = pdf.PageCount,
-            });
+                var pdf = await PdfDocument.LoadFromFileAsync(file);
+                var details = new List<FileProperty>();
 
-            return details;
+                LoadPagesAsync(pdf);
+                // Add the number of pages to the details
+                details.Add(new FileProperty()
+                {
+                    NameResource = "PropertyPageCount",
+                    Value = pdf.PageCount,
+                });
+
+                return details;
+            }
+
+            return new List<FileProperty>();
         }
 
         private async void LoadPagesAsync(PdfDocument pdf)

@@ -44,8 +44,9 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                item.ItemFile = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-                var text = await FileIO.ReadTextAsync(item.ItemFile);
+                var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                item.StorageItem = file;
+                var text = await FileIO.ReadTextAsync(file);
 
                 // Check if file is binary
                 if (text.Contains("\0\0\0\0"))
@@ -74,22 +75,25 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
-
-                details.Add(new FileProperty()
+                if (Item.StorageItem is StorageFile file)
                 {
-                    NameResource = "PropertyLineCount",
-                    Value = text.Split("\n").Length,
-                });
+                    var text = TextValue ?? await FileIO.ReadTextAsync(file);
 
-                details.Add(new FileProperty()
-                {
-                    NameResource = "PropertyWordCount",
-                    Value = text.Split(new[] { " ", "\n" }, StringSplitOptions.RemoveEmptyEntries).Length,
-                });
+                    details.Add(new FileProperty()
+                    {
+                        NameResource = "PropertyLineCount",
+                        Value = text.Split("\n").Length,
+                    });
 
-                var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-                TextValue = displayText;
+                    details.Add(new FileProperty()
+                    {
+                        NameResource = "PropertyWordCount",
+                        Value = text.Split(new[] { " ", "\n" }, StringSplitOptions.RemoveEmptyEntries).Length,
+                    });
+
+                    var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+                    TextValue = displayText;
+                }
             }
             catch (Exception e)
             {

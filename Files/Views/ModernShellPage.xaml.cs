@@ -561,7 +561,7 @@ namespace Files.Views
                 }
                 else if (currentInput.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) || currentInput.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
                 {
-                    ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(currentInput),
+                    ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(currentInput),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = currentInput,

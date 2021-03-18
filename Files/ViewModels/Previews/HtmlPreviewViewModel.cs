@@ -32,7 +32,10 @@ namespace Files.ViewModels.Previews
         {
             try
             {
-                TextValue = await FileIO.ReadTextAsync(Item.ItemFile);
+                if (Item.StorageItem is StorageFile file)
+                {
+                    TextValue = await FileIO.ReadTextAsync(file);
+                }
             }
             catch (Exception e)
             {

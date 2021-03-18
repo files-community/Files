@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.StorageFileHelpers;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
@@ -79,7 +80,9 @@ namespace Files.Filesystem.StorageEnumerators
                     FileSizeBytes = i.Size,
                     FileSize = ByteSize.FromBytes(i.Size).ToBinaryString().ConvertSizeAbbreviation(),
                     ItemPath = address + i.FullName,
-                    ItemPropertiesInitialized = true
+                    StorageItem = new FtpStorageItem(ftpClient, i.Name, address + i.FullName,
+                        i.Type == FtpFileSystemObjectType.Directory ? Windows.Storage.FileAttributes.Directory : Windows.Storage.FileAttributes.Normal,
+                        i.Created.ToDateTimeOffset())
                 };
 
                 tempList.Add(item);

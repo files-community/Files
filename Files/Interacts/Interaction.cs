@@ -3,6 +3,7 @@ using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageFileHelpers;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
@@ -476,11 +477,12 @@ namespace Files.Interacts
                 if (isFtp)
                 {
                     AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
-                    AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
-                        AssociatedTabInstance = AssociatedInstance
-                    }, new SuppressNavigationTransitionInfo());
+                        AssociatedTabInstance = AssociatedInstance,
+                        SelectItems = selectItems
+                    });
                 }
                 else if (isShortcutItem)
                 {
@@ -1076,22 +1078,38 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    var isFtp = listedItem.ItemPath.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) || listedItem.ItemPath.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+
+                    if (isFtp)
                     {
-                        copied = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!copied)
+                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            break;
+                            items.Add(listedItem.StorageItem);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
                         }
                     }
                     else
                     {
-                        copied = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!copied)
+                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            break;
+                            copied = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                                .OnSuccess(t => items.Add(t));
+                            if (!copied)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            copied = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                                .OnSuccess(t => items.Add(t));
+                            if (!copied)
+                            {
+                                break;
+                            }
                         }
                     }
                 }

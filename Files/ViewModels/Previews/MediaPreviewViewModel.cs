@@ -3,6 +3,7 @@ using Files.ViewModels.Properties;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Media.Core;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Previews
@@ -30,7 +31,10 @@ namespace Files.ViewModels.Previews
 
         public override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            Source = MediaSource.CreateFromStorageFile(Item.ItemFile);
+            if (Item.StorageItem is StorageFile file)
+            {
+                Source = MediaSource.CreateFromStorageFile(file);
+            }
             return Task.FromResult(new List<FileProperty>());
         }
 
