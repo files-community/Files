@@ -567,11 +567,6 @@ namespace Files.UserControls
         {
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
             settings.SelectsOnInvoked = false;
-            settings.Icon = new FontIcon()
-            {
-                FontSize = 18,
-                Glyph = "\xE713"
-            };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;
         }
