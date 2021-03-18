@@ -339,8 +339,6 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        #region Private Helpers
-
         private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
@@ -395,7 +393,5 @@ namespace Files.ViewModels.Properties
             }
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
-
-        #endregion
     }
 }
