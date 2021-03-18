@@ -19,9 +19,9 @@ namespace Files.Views
 
         public async Task SaveChangesAsync(ListedItem item)
         {
-            if (BaseProperties is DriveProperties)
+            if (BaseProperties is DriveProperties driveProps)
             {
-                var drive = (BaseProperties as DriveProperties).Drive;
+                var drive = driveProps.Drive;
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     if (AppInstance.FilesystemViewModel != null)
@@ -40,21 +40,22 @@ namespace Files.Views
                     }
                 }
             }
+            else if (BaseProperties is LibraryProperties libProps)
+            {
+                // TODO: update library name
+            }
             else
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.RenameFileItemAsync(item,
-                          ViewModel.OriginalItemName,
-                          ViewModel.ItemName));
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.RenameFileItemAsync(item, ViewModel.OriginalItemName, ViewModel.ItemName));
                 }
 
                 // Handle the hidden attribute
-                if (BaseProperties is CombinedProperties)
+                if (BaseProperties is CombinedProperties combinedProps)
                 {
                     // Handle each file independently
-                    var items = (BaseProperties as CombinedProperties).List;
-                    foreach (var fileOrFolder in items)
+                    foreach (var fileOrFolder in combinedProps.List)
                     {
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden));
                     }

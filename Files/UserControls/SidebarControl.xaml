@@ -212,16 +212,6 @@
                                     <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="ManageLibraryLocations"
-                                x:Uid="BaseLayoutContextFlyoutManageLibraryLocations"
-                                x:Load="{x:Bind ShowLibraryItems, Mode=OneWay}"
-                                Click="ManageLibraryLocations_Click"
-                                Text="Manage library locations">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE1D3;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ResourceDictionary>

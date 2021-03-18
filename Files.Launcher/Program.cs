@@ -586,6 +586,60 @@ namespace FilesFullTrust
                             }
                             // TODO: return error?
                             break;
+
+                        case "Rename":
+                            // Rename the specified library and send response to UWP if succeed
+                            var newName = (string)message["name"];
+                            bool libraryRenamed = await Win32API.StartSTATask(() =>
+                            {
+                                bool success = false;
+                                try
+                                {
+                                    using var lib = ShellItem.Open((string)message["library"]) as ShellLibrary;
+                                    // TODO: do rename
+
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Error(e);
+                                }
+                                return success;
+                            });
+                            if (libraryRenamed)
+                            {
+                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction }, { "name", newName } }, message.Get("RequestID", (string)null));
+                            }
+                            // TODO: return error?
+                            break;
+
+                        case "Delete":
+                            // Delete the specified library and send response to UWP if succeed
+                            bool libraryDeleted = await Win32API.StartSTATask(() =>
+                            {
+                                bool success = false;
+                                try
+                                {
+                                    var libPath = (string)message["library"];
+                                    var libPathDirectory = Path.GetDirectoryName(libPath);
+                                    var libsDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
+                                    if (string.Equals(libPathDirectory, libsDirectoryPath, StringComparison.InvariantCultureIgnoreCase) && libPath.EndsWith(".library-ms") && File.Exists(libPath))
+                                    {
+                                        File.Delete(libPath);
+                                        success = !File.Exists(libPath);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Error(e);
+                                }
+                                return success;
+                            });
+                            if (libraryDeleted)
+                            {
+                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction } }, message.Get("RequestID", (string)null));
+                            }
+                            // TODO: return error?
+                            break;
                     }
                     break;
 

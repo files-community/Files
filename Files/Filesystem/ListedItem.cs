@@ -67,6 +67,26 @@ namespace Files.Filesystem
             set => SetProperty(ref loadWebShortcutGlyph, value);
         }
 
+        private bool loadCustomGlyph;
+
+        public bool LoadCustomGlyph
+        {
+            get => loadCustomGlyph;
+            set => SetProperty(ref loadCustomGlyph, value);
+        }
+
+        private string customGlyph;
+
+        public string CustomGlyph
+        {
+            get => customGlyph;
+            set
+            {
+                LoadCustomGlyph = true;
+                SetProperty(ref customGlyph, value);
+            }
+        }
+
         private double opacity;
 
         public double Opacity
@@ -288,6 +308,7 @@ namespace Files.Filesystem
 
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
+        public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
@@ -341,5 +362,28 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+    }
+
+    public class LibraryItem : ListedItem
+    {
+        public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
+        {
+            ItemPath = lib.LibraryPath;
+            ItemName = lib.Text;
+            PrimaryItemAttribute = StorageItemTypes.Folder;
+            ItemType = "ItemTypeLibrary";//.GetLocalized(); // TODO
+            LoadCustomGlyph = true;
+            CustomGlyph = lib.Glyph;
+            DefaultSavePath = lib.Path;
+            Paths = lib.Paths;
+        }
+
+        public LibraryItem(string returnFormat = null) : base(null, returnFormat)
+        {
+        }
+
+        public string DefaultSavePath { get; set; }
+
+        public ReadOnlyCollection<string> Paths { get; set; }
     }
 }

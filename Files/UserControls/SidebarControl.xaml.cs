@@ -158,21 +158,6 @@ namespace Files.UserControls
             }
         }
 
-        private bool showLibraryItems;
-
-        public bool ShowLibraryItems
-        {
-            get => showLibraryItems;
-            set
-            {
-                if (value != showLibraryItems)
-                {
-                    showLibraryItems = value;
-                    NotifyPropertyChanged(nameof(ShowLibraryItems));
-                }
-            }
-        }
-
         private bool showEjectDevice;
 
         public bool ShowEjectDevice
@@ -234,7 +219,6 @@ namespace Files.UserControls
                 ShowUnpinItem = item.Section != SectionType.Library && !item.IsDefaultLocation;
                 ShowProperties = item.Section == SectionType.Library;
                 ShowEjectDevice = false;
-                ShowLibraryItems = item is LibraryItem;
 
                 if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
@@ -262,7 +246,6 @@ namespace Files.UserControls
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
-            ShowLibraryItems = false;
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
@@ -280,7 +263,6 @@ namespace Files.UserControls
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
-            ShowLibraryItems = false;
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
@@ -553,7 +535,7 @@ namespace Files.UserControls
         private void ManageLibraryLocations_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as MenuFlyoutItem).DataContext;
-            if (item is LibraryItem lib)
+            if (item is LibraryLocationItem lib)
             {
                 LibraryHelper.Instance.OpenLibraryManagerDialog(lib);
             }

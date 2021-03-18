@@ -63,7 +63,7 @@ namespace Files.Filesystem
         }
 
         private LocationItem librarySection;
-        private List<LibraryItem> libraryItems { get; set; } = new List<LibraryItem>();
+        private List<LibraryLocationItem> libraryItems { get; set; } = new List<LibraryLocationItem>();
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -124,7 +124,6 @@ namespace Files.Filesystem
                                 if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(lib.Path))
                                 {
                                     lib.Font = InteractionViewModel.FontName;
-                                    lib.Glyph = GlyphHelper.GetItemIcon(lib.Path);
                                     librarySection.ChildItems.Insert(i, lib);
                                 }
                             }

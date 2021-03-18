@@ -186,7 +186,7 @@
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
-    <Compile Include="Filesystem\LibraryItem.cs" />
+    <Compile Include="Filesystem\LibraryLocationItem.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
     <Compile Include="Filesystem\WSLDistroManager.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
@@ -423,6 +423,7 @@
     <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
     <Compile Include="ViewModels\Properties\DriveProperties.cs" />
     <Compile Include="ViewModels\Properties\FileProperties.cs" />
+    <Compile Include="ViewModels\Properties\LibraryProperties.cs" />
     <Compile Include="ViewModels\Properties\FolderProperties.cs" />
     <Compile Include="ViewModels\Properties\PropertiesTab.cs" />
     <Compile Include="ViewModels\SettingsViewModels\AboutViewModel.cs" />
@@ -433,6 +434,9 @@
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
+    <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
+      <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
     </Compile>
@@ -867,6 +871,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Widgets\RecentFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\PropertiesLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

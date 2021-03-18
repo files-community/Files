@@ -38,10 +38,12 @@ namespace Files.Views
             }
             if (LibraryWidget != null)
             {
-                LibraryWidget.LibraryCardInvoked -= LibraryLocationCardsWidget_LibraryCardInvoked;
-                LibraryWidget.LibraryCardNewPaneInvoked -= LibraryLocationCardsWidget_LibraryCardNewPaneInvoked;
-                LibraryWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
-                LibraryWidget.LibraryCardNewPaneInvoked += LibraryLocationCardsWidget_LibraryCardNewPaneInvoked;
+                LibraryWidget.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
+                LibraryWidget.LibraryCardInvoked += LibraryWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
+                LibraryWidget.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
+                LibraryWidget.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
             }
             if (RecentFilesWidget != null)
             {
@@ -109,18 +111,23 @@ namespace Files.Views
             });
         }
 
-        private void LibraryLocationCardsWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
-        {
-            AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
-        }
-
-        private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
+        private void LibraryWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path
             });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
+        }
+
+        private void LibraryWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
+        {
+            AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
+        }
+
+        private async void LibraryWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardPropertiesInvokedEventArgs e)
+        {
+            await AppInstance.InteractionOperations.OpenPropertiesWindowAsync(new LibraryItem(e.Library));
         }
 
         private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)

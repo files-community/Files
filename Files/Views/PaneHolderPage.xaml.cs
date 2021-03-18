@@ -518,17 +518,20 @@ namespace Files.Views
             {
                 await InteractionOperations.OpenPropertiesWindowAsync(e.InvokedItemDataContext);
             }
-            else if (e.InvokedItemDataContext is LocationItem)
+            else if (e.InvokedItemDataContext is LibraryLocationItem library)
             {
-                ListedItem listedItem = new ListedItem(null)
+                await InteractionOperations.OpenPropertiesWindowAsync(new LibraryItem(library));
+            }
+            else if (e.InvokedItemDataContext is LocationItem location)
+            {
+                await InteractionOperations.OpenPropertiesWindowAsync(new ListedItem(null)
                 {
-                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
-                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
+                    ItemPath = location.Path,
+                    ItemName = location.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true
-                };
-                await InteractionOperations.OpenPropertiesWindowAsync(listedItem);
+                    LoadFolderGlyph = true,
+                });
             }
         }
 

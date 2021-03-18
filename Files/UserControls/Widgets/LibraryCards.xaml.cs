@@ -28,6 +28,10 @@ namespace Files.UserControls.Widgets
 
         public event LibraryCardNewPaneInvokedEventHandler LibraryCardNewPaneInvoked;
 
+        public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, LibraryCardPropertiesInvokedEventArgs e);
+
+        public event LibraryCardPropertiesInvokedEventHandler LibraryCardPropertiesInvoked;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static ObservableCollection<LibraryCardItem> ItemsAdded = new ObservableCollection<LibraryCardItem>();
@@ -36,16 +40,9 @@ namespace Files.UserControls.Widgets
         {
             if (string.IsNullOrEmpty(item.Path))
             {
-                if (item.IsLibrary)
-                {
-                    LibraryHelper.Instance.OpenLibraryManagerDialog(item.Library);
-                }
                 return;
             }
-            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
-            {
-                Path = item.Path,
-            });
+            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         });
 
         public LibraryCards()
@@ -143,10 +140,7 @@ namespace Files.UserControls.Widgets
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
-            {
-                Path = item.Path
-            });
+            LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         }
 
         private void MenuFlyout_Opening(object sender, object e)
@@ -159,15 +153,13 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private void ManageLibraryLocations_Click(object sender, RoutedEventArgs e) => ShowLibraryManagementDialog(((MenuFlyoutItem)sender).DataContext as LibraryCardItem);
-
-        private void ShowLibraryManagementDialog(LibraryCardItem item)
+        private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
         {
-            if (item == null || !item.IsLibrary)
+            var item = (sender as MenuFlyoutItem).DataContext as LibraryCardItem;
+            if (item.IsLibrary)
             {
-                return;
+                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardPropertiesInvokedEventArgs { Library = item.Library });
             }
-            LibraryHelper.Instance.OpenLibraryManagerDialog(item.Library);
         }
     }
 
@@ -176,12 +168,17 @@ namespace Files.UserControls.Widgets
         public string Path { get; set; }
     }
 
+    public class LibraryCardPropertiesInvokedEventArgs : EventArgs
+    {
+        public LibraryLocationItem Library { get; set; }
+    }
+
     public class LibraryCardItem
     {
         public string Icon { get; set; }
         public string Text { get; set; }
         public string Path { get; set; }
-        public LibraryItem Library { get; set; }
+        public LibraryLocationItem Library { get; set; }
         public string AutomationProperties { get; set; }
         public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
 

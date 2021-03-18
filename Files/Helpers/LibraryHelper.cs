@@ -27,9 +27,9 @@ namespace Files.Helpers
         public static LibraryHelper Instance => new LibraryHelper();
 
         /// <summary>
-        /// LibraryItem cache. Access with <see cref="ListUserLibraries"/>.
+        /// LibraryLocationItem cache. Access with <see cref="ListUserLibraries"/>.
         /// </summary>
-        private readonly List<LibraryItem> libraryItems = new List<LibraryItem>();
+        private readonly List<LibraryLocationItem> libraryItems = new List<LibraryLocationItem>();
 
         /// <summary>
         /// Get libraries of the current user with the help of the FullTrust process in case there are no cached items or the 2nd parameter is true.
@@ -37,7 +37,7 @@ namespace Files.Helpers
         /// <param name="allowEmpty">Keep empty libraries in result (where Path == null)</param>
         /// <param name="refresh">Re-enumerate libraries in case <see cref="libraryItems"/> is empty</param>
         /// <returns>List of library items</returns>
-        public async Task<List<LibraryItem>> ListUserLibraries(bool allowEmpty, bool refresh = false)
+        public async Task<List<LibraryLocationItem>> ListUserLibraries(bool allowEmpty, bool refresh = false)
         {
             if (libraryItems.Count == 0 || refresh)
             {
@@ -56,7 +56,7 @@ namespace Files.Helpers
                         libraryItems.Clear();
                         foreach (var lib in JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]))
                         {
-                            libraryItems.Add(new LibraryItem(lib.Path, lib.Name, lib.DefaultSaveFolder, lib.Folders, lib.IsPinned));
+                            libraryItems.Add(new LibraryLocationItem(lib.Path, lib.Name, lib.DefaultSaveFolder, lib.Folders, lib.IsPinned));
                         }
                         libraryItems.Sort((a, b) => a.Text.CompareTo(b.Text));
                     }
@@ -74,8 +74,8 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="path">The path contained by a library</param>
         /// <param name="defaultSavePathOnly">True to check default save path only, false to check all</param>
-        /// <returns>The <see cref="LibraryItem"/> with the specified default save path or null if not found.</returns>
-        public async Task<LibraryItem> FindByPath(string path, bool defaultSavePathOnly = true)
+        /// <returns>The <see cref="LibraryLocationItem"/> with the specified default save path or null if not found.</returns>
+        public async Task<LibraryLocationItem> FindByPath(string path, bool defaultSavePathOnly = true)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -122,7 +122,7 @@ namespace Files.Helpers
         /// Opens the Shell library management dialog for the specified library.
         /// </summary>
         /// <param name="lib">The library to manage</param>
-        public async void OpenLibraryManagerDialog(LibraryItem lib)
+        public async void OpenLibraryManagerDialog(LibraryLocationItem lib)
         {
             if (lib == null)
             {
@@ -179,6 +179,39 @@ namespace Files.Helpers
                 return response["ShellLibrary"] as string == "Create";
             }
             return false;
+        }
+
+        public async Task<string> RenameLibrary(LibraryLocationItem lib, string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
+            {
+                return null;
+            }
+            var libs = await ListUserLibraries(true);
+            if (!libs.Any(l => l.LibraryPath == lib.LibraryPath))
+            {
+                return null;
+            }
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+            {
+                { "Arguments", "ShellLibrary" },
+                { "action", "Rename" },
+                { "library", lib.LibraryPath },
+                { "name", name }
+            });
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShellLibrary") && response.ContainsKey("name"))
+            {
+                if (response["name"] as string == name)
+                {
+                    return name;
+                }
+            }
+            return null;
         }
     }
 }
