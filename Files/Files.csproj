@@ -276,6 +276,7 @@
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />

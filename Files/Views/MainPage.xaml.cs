@@ -32,23 +32,14 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        public MainPageViewModel ViewModel
+        {
+            get => (MainPageViewModel)DataContext;
+            set => DataContext = value;
+        }
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public static IMultitaskingControl MultitaskingControl { get; set; }
-
-        private TabItem selectedTabItem;
-
-        public TabItem SelectedTabItem
-        {
-            get
-            {
-                return selectedTabItem;
-            }
-            set
-            {
-                selectedTabItem = value;
-                NotifyPropertyChanged(nameof(SelectedTabItem));
-            }
-        }
 
 
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
@@ -58,6 +49,8 @@ namespace Files.Views
         public MainPage()
         {
             this.InitializeComponent();
+
+            this.ViewModel = new MainPageViewModel();
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -72,96 +65,14 @@ namespace Files.Views
             AllowDrop = true;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+        #region Override
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (eventArgs.NavigationMode != NavigationMode.Back)
-            {
-                //Initialize the static theme helper to capture a reference to this window
-                //to handle theme changes without restarting the app
-                ThemeHelper.Initialize();
-
-                if (eventArgs.Parameter == null || (eventArgs.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
-                {
-                    try
-                    {
-                        if (App.AppSettings.ResumeAfterRestart)
-                        {
-                            App.AppSettings.ResumeAfterRestart = false;
-
-                            foreach (string tabArgsString in App.AppSettings.LastSessionPages)
-                            {
-                                var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
-                            }
-
-                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
-                            {
-                                App.AppSettings.LastSessionPages = null;
-                            }
-                        }
-                        else if (App.AppSettings.OpenASpecificPageOnStartup)
-                        {
-                            if (App.AppSettings.PagesOnStartupList != null)
-                            {
-                                foreach (string path in App.AppSettings.PagesOnStartupList)
-                                {
-                                    await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-                                }
-                            }
-                            else
-                            {
-                                await AddNewTabAsync();
-                            }
-                        }
-                        else if (App.AppSettings.ContinueLastSessionOnStartUp)
-                        {
-                            if (App.AppSettings.LastSessionPages != null)
-                            {
-                                foreach (string tabArgsString in App.AppSettings.LastSessionPages)
-                                {
-                                    var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                    await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
-                                }
-                                var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
-                                App.AppSettings.LastSessionPages = new string[] { defaultArg.Serialize() };
-                            }
-                            else
-                            {
-                                await AddNewTabAsync();
-                            }
-                        }
-                        else
-                        {
-                            await AddNewTabAsync();
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        await AddNewTabAsync();
-                    }
-                }
-                else
-                {
-                    if (eventArgs.Parameter is string navArgs)
-                    {
-                        await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
-                    }
-                    else if (eventArgs.Parameter is TabItemArguments tabArgs)
-                    {
-                        await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
-                    }
-                }
-
-                // Check for required updates
-                AppUpdater updater = new AppUpdater();
-                updater.CheckForUpdatesAsync();
-
-                // Initial setting of SelectedTabItem
-                Frame rootFrame = Window.Current.Content as Frame;
-                var mainView = rootFrame.Content as MainPage;
-                mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
-            }
+            ViewModel.OnNavigatedTo(e);
         }
+
+        #endregion
 
         public static async Task AddNewTabAsync()
         {
@@ -436,103 +347,6 @@ namespace Files.Views
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            int indexToSelect = 0;
-
-            switch (sender.Key)
-            {
-                case VirtualKey.Number1:
-                    indexToSelect = 0;
-                    break;
-
-                case VirtualKey.Number2:
-                    indexToSelect = 1;
-                    break;
-
-                case VirtualKey.Number3:
-                    indexToSelect = 2;
-                    break;
-
-                case VirtualKey.Number4:
-                    indexToSelect = 3;
-                    break;
-
-                case VirtualKey.Number5:
-                    indexToSelect = 4;
-                    break;
-
-                case VirtualKey.Number6:
-                    indexToSelect = 5;
-                    break;
-
-                case VirtualKey.Number7:
-                    indexToSelect = 6;
-                    break;
-
-                case VirtualKey.Number8:
-                    indexToSelect = 7;
-                    break;
-
-                case VirtualKey.Number9:
-                    // Select the last tab
-                    indexToSelect = AppInstances.Count - 1;
-                    break;
-            }
-
-            // Only select the tab if it is in the list
-            if (indexToSelect < AppInstances.Count)
-            {
-                App.InteractionViewModel.TabStripSelectedIndex = indexToSelect;
-            }
-            args.Handled = true;
-        }
-
-        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
-            {
-                var tabItem = AppInstances[AppInstances.Count - 1];
-                MultitaskingControl?.RemoveTab(tabItem);
-            }
-            else
-            {
-                var tabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
-                MultitaskingControl?.RemoveTab(tabItem);
-            }
-            args.Handled = true;
-        }
-
-        private bool isRestoringClosedTab = false; // Avoid reopening two tabs
-
-        private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            if (!shift)
-            {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-            }
-            else // ctrl + shift + t, restore recently closed tab
-            {
-                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
-                {
-                    isRestoringClosedTab = true;
-                    var lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                    isRestoringClosedTab = false;
-                }
-            }
-            args.Handled = true;
-        }
-
-        private async void OpenNewWindowAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            args.Handled = true;
-            var filesUWPUri = new Uri("files-uwp:");
-            await Launcher.LaunchUriAsync(filesUWPUri);
         }
 
         private static string GetDriveTypeIcon(DriveInfo drive)

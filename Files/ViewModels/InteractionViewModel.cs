@@ -67,7 +67,7 @@ namespace Files.ViewModels
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var mainView = rootFrame.Content as MainPage;
-                        mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
+                        mainView.ViewModel.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
                     }
                 }
             }
