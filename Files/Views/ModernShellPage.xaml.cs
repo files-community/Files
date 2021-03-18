@@ -11,7 +11,7 @@ using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,6 +50,10 @@ namespace Files.Views
         public IStatusCenterActions StatusCenterActions => StatusBarControl.OngoingTasksControl;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
+
+        public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
+
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
         private Interaction interactionOperations = null;
 
@@ -153,6 +157,7 @@ namespace Files.Views
         {
             InitializeComponent();
 
+            InteractionOperations = new Interaction(this);
             InstanceViewModel = new CurrentInstanceViewModel();
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
@@ -812,7 +817,6 @@ namespace Files.Views
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-            InteractionOperations = new Interaction(this);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;

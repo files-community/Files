@@ -26,14 +26,6 @@ namespace Files.UserControls
 
         #region Public Properties
 
-        public FolderSettingsViewModel FolderSettings { get; set; }
-
-        public ICommand SelectAllInvokedCommand { get; set; }
-
-        public ICommand InvertSelectionInvokedCommand { get; set; }
-
-        public ICommand ClearSelectionInvokedCommand { get; set; }
-
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel

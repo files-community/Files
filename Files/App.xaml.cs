@@ -10,7 +10,7 @@ using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json.Linq;
@@ -165,7 +165,7 @@ namespace Files
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             //start tracking app usage
-            SystemInformation.TrackAppUse(e);
+            SystemInformation.Instance.TrackAppUse(e);
 
             Logger.Info("App launched");
 
@@ -207,7 +207,10 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPage.AppInstances.Count > 0))
+                    {
+                        await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    }
                 }
 
                 // Ensure the current window is active
