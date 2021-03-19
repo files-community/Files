@@ -320,12 +320,16 @@ namespace Files.Views.LayoutModes
                     // We have an edit due to the first tap in the double-click mode
                     // Let's wait to see if there is another tap (double click).
 
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    tapDebounceTimer.Debounce(async () =>
                     {
-                        tapDebounceTimer.Stop();
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        {
+                            tapDebounceTimer.Stop();
 
-                        AllView.BeginEdit();
-                    });
+                            AllView.BeginEdit();
+                        });
+                    }, TimeSpan.FromMilliseconds(700), false);
+                    
                 }
             }
             else
