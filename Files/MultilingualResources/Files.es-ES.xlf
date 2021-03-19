@@ -2456,6 +2456,10 @@
           <source>Files is running as administrator</source>
           <target state="new">Files is running as administrator</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarPathBoxSearchGuide.Text" translate="yes" xml:space="preserve">
+          <source>Search your files</source>
+          <target state="new">Search your files</target>
+        </trans-unit>
       </group>
     </body>
   </file>

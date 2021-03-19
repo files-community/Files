@@ -8,7 +8,21 @@ namespace Files.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (Visibility)value == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            if (value is bool bVis)
+            {
+                if (bVis)
+                {
+                    return Visibility.Collapsed;
+                }
+                else
+                {
+                    return Visibility.Visible;
+                }
+            }
+            else
+            {
+                return (Visibility)value == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

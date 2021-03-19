@@ -22,6 +22,7 @@
         <ResourceDictionary>
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:VisiblityInvertConverter x:Key="VisInvertConverter"/>
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
@@ -794,10 +795,14 @@
                 Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
-                CornerRadius="4"
-                PointerPressed="ManualPathEntryItem_Click">
-
-                <ListView
+                Visibility="{x:Bind IsSearchRegionVisible, Converter={StaticResource VisInvertConverter}, Mode=OneWay}"
+                CornerRadius="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Background="Transparent" PointerPressed="ManualPathEntryItem_Click">
+                    <ListView
                     x:Name="PathViewInteract"
                     Padding="0,0,12,0"
                     VerticalAlignment="Stretch"
@@ -815,18 +820,37 @@
                     ScrollViewer.VerticalScrollMode="Disabled"
                     SelectionMode="None"
                     Style="{StaticResource ListViewStyleNoAnimation}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel
                                 Background="Transparent"
                                 ItemsUpdatingScrollMode="KeepLastItemInView"
                                 Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplateSelector>
-                        <helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
-                    </ListView.ItemTemplateSelector>
-                </ListView>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplateSelector>
+                            <helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
+                        </ListView.ItemTemplateSelector>
+                    </ListView>
+                </Grid>
+                
+                <Button
+                        x:Name="SearchButton"
+                        x:Uid="NavSearchButton"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        AutomationProperties.Name="Search"
+                        Background="Transparent"
+                        Click="SearchButton_Click"
+                        Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                        ToolTipService.ToolTip="Search">
+                    <Button.Content>
+                        <StackPanel Spacing="8" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <TextBlock Foreground="{ThemeResource SystemColorGrayTextColor}" FontSize="10" FontStyle="Italic" HorizontalTextAlignment="Right" x:Name="SearchGuideText" x:Uid="NavigationToolbarPathBoxSearchGuide" Text="Search your files"/>
+                            <FontIcon FontSize="14" Glyph="&#xE721;" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </Grid>
 
             <AutoSuggestBox
@@ -892,20 +916,7 @@
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
 
-            <Button
-                x:Name="SearchButton"
-                x:Uid="NavSearchButton"
-                Grid.Column="2"
-                Width="36"
-                Height="32"
-                AutomationProperties.Name="Search"
-                Background="Transparent"
-                Click="SearchButton_Click"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search">
-                <FontIcon FontSize="14" Glyph="&#xE721;" />
-            </Button>
+            
         </Grid>
 
         <StackPanel
