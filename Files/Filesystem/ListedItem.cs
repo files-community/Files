@@ -299,6 +299,10 @@ namespace Files.Filesystem
             {
                 suffix = "ShortcutItemAutomation".GetLocalized();
             }
+            else if (IsLibraryItem)
+            {
+                suffix = "LibraryItemAutomation".GetLocalized();
+            }
             else
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();

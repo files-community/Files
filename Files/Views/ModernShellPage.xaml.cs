@@ -849,10 +849,16 @@ namespace Files.Views
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
         {
-            string value = e.Path;
-            if (!string.IsNullOrWhiteSpace(value))
+            if (!string.IsNullOrWhiteSpace(e.Path))
             {
-                UpdatePathUIToWorkingDirectory(value);
+                if (e.IsLibrary)
+                {
+                    UpdatePathUIToWorkingDirectory(null, e.Name);
+                }
+                else
+                {
+                    UpdatePathUIToWorkingDirectory(e.Path);
+                }
             }
         }
 

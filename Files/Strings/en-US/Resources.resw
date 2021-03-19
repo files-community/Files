@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1948,6 +1948,9 @@
     <value>Administrator</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Library</value>
   </data>
   <data name="LibraryNoLocations" xml:space="preserve">

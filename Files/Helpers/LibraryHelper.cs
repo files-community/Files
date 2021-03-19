@@ -87,7 +87,7 @@ namespace Files.Helpers
 
         public async Task<LibraryLocationItem> Get(string libraryFilePath)
         {
-            if (string.IsNullOrEmpty(libraryFilePath))
+            if (string.IsNullOrEmpty(libraryFilePath) || !libraryFilePath.EndsWith(ShellLibraryItem.EXTENSION))
             {
                 return null;
             }

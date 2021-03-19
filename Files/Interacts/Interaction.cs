@@ -470,7 +470,38 @@ namespace Files.Interacts
 
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
-            if (itemType == FilesystemItemType.Directory) // OpenDirectory
+            if (itemType == FilesystemItemType.Library) // OpenLibrary
+            {
+                if (isHiddenItem)
+                {
+                    AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                    AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    {
+                        NavPathParam = path,
+                        AssociatedTabInstance = AssociatedInstance
+                    });
+                    return true;
+                }
+                else
+                {
+                    var library = await LibraryHelper.Instance.Get(path);
+                    if (library != null)
+                    {
+                        opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
+                        if (opened)
+                        {
+                            AssociatedInstance.NavigationToolbar.PathControlDisplayText = library.Text;
+                            AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                            {
+                                NavPathParam = path,
+                                AssociatedTabInstance = AssociatedInstance,
+                                SelectItems = selectItems,
+                            });
+                        }
+                    }
+                }
+            }
+            else if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
                 if (isShortcutItem)
                 {
@@ -687,8 +718,7 @@ namespace Files.Interacts
             }
             foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
-                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
-                    FilesystemItemType.Directory : FilesystemItemType.File;
+                var type = item.IsLibraryItem ? FilesystemItemType.Library : (item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File);
                 await OpenPath(item.ItemPath, type, false, openViaApplicationPicker);
             }
         }
@@ -723,15 +753,13 @@ namespace Files.Interacts
             }
             else
             {
-                if (!Path.GetPathRoot(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)
-                    .Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
+                if (AssociatedInstance.FilesystemViewModel.CurrentFolder.IsLibraryItem || !Path.GetPathRoot(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath).Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
                 {
                     await OpenPropertiesWindowAsync(AssociatedInstance.FilesystemViewModel.CurrentFolder);
                 }
                 else
                 {
-                    await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .SingleOrDefault(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
+                    await OpenPropertiesWindowAsync(App.DrivesManager.Drives.SingleOrDefault(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }

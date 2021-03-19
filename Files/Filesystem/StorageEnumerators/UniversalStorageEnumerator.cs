@@ -1,4 +1,5 @@
-﻿using ByteSizeLib;
+using ByteSizeLib;
+using Files.Common;
 using Files.Extensions;
 using Files.Helpers;
 using Files.Views.LayoutModes;
@@ -271,6 +272,16 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 // This shouldn't happen, StorageFile api does not support shortcuts
                 Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
+            }
+            // TODO: is this needed to be handled here?
+            else if (file.Name.EndsWith(ShellLibraryItem.EXTENSION))
+            {
+                var library = await LibraryHelper.Instance.Get(file.Path);
+                return new LibraryItem(library)
+                {
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                };
             }
             else
             {

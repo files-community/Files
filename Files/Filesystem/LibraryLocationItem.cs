@@ -38,6 +38,10 @@ namespace Files.Filesystem
 
         public async Task<bool> CheckDefaultSaveFolderAccess()
         {
+            if (IsEmpty)
+            {
+                return false;
+            }
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
             return res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
