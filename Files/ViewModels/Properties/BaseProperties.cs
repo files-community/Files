@@ -64,8 +64,7 @@ namespace Files.ViewModels.Properties
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
+            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 
             var count = 0;
             if (hFile.ToInt64() != -1)
@@ -116,8 +115,14 @@ namespace Files.ViewModels.Properties
 
         public void SetItemsCountString()
         {
-            ViewModel.FilesAndFoldersCountString = string.Format(
-                "PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+            if (ViewModel.LocationsCount > 0)
+            {
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
+            }
+            else
+            {
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+            }
         }
     }
 }

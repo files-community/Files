@@ -368,22 +368,22 @@ namespace Files.Filesystem
     {
         public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
         {
-            ItemPath = lib.LibraryPath;
+            ItemPath = lib.Path;
             ItemName = lib.Text;
             PrimaryItemAttribute = StorageItemTypes.Folder;
-            ItemType = "ItemTypeLibrary";//.GetLocalized(); // TODO
+            ItemType = "ItemTypeLibrary".GetLocalized();
             LoadCustomGlyph = true;
             CustomGlyph = lib.Glyph;
-            DefaultSavePath = lib.Path;
-            Paths = lib.Paths;
+
+            IsEmpty = lib.IsEmpty;
+            DefaultSaveFolder = lib.DefaultSaveFolder;
+            Folders = lib.Folders;
         }
 
-        public LibraryItem(string returnFormat = null) : base(null, returnFormat)
-        {
-        }
+        public bool IsEmpty { get; }
 
-        public string DefaultSavePath { get; set; }
+        public string DefaultSaveFolder { get; }
 
-        public ReadOnlyCollection<string> Paths { get; set; }
+        public ReadOnlyCollection<string> Folders { get; }
     }
 }

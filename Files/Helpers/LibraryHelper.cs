@@ -17,17 +17,12 @@ namespace Files.Helpers
     {
         // https://docs.microsoft.com/en-us/windows/win32/shell/library-ovw
 
-        /// TODO:
-        /// - Create UI part of CreateLibrary method and test it
-        /// - Watch library updates: https://docs.microsoft.com/windows/win32/shell/library-be-library-aware#keeping-in-sync-with-a-library 
-        /// - Implement library rename
-        /// - Implement library deletion
-        /// - 
+        // TODO: Watch library updates: https://docs.microsoft.com/windows/win32/shell/library-be-library-aware#keeping-in-sync-with-a-library 
 
         public static LibraryHelper Instance => new LibraryHelper();
 
         /// <summary>
-        /// LibraryLocationItem cache. Access with <see cref="ListUserLibraries"/>.
+        /// LibraryLocationItem cache. Access with <see cref="ListUserLibraries"/> or <see cref="Get"/>.
         /// </summary>
         private readonly List<LibraryLocationItem> libraryItems = new List<LibraryLocationItem>();
 
@@ -54,87 +49,65 @@ namespace Files.Helpers
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
                     {
                         libraryItems.Clear();
-                        foreach (var lib in JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]))
-                        {
-                            libraryItems.Add(new LibraryLocationItem(lib.Path, lib.Name, lib.DefaultSaveFolder, lib.Folders, lib.IsPinned));
-                        }
+                        libraryItems.AddRange(JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)));
                         libraryItems.Sort((a, b) => a.Text.CompareTo(b.Text));
                     }
                 }
             }
             if (!allowEmpty)
             {
-                return libraryItems.Where(l => l.Path != null).ToList();
+                return libraryItems.Where(l => l.DefaultSaveFolder != null && l.Folders != null).ToList();
             }
             return libraryItems;
-        }
-
-        /// <summary>
-        /// Find library with the specified path.
-        /// </summary>
-        /// <param name="path">The path contained by a library</param>
-        /// <param name="defaultSavePathOnly">True to check default save path only, false to check all</param>
-        /// <returns>The <see cref="LibraryLocationItem"/> with the specified default save path or null if not found.</returns>
-        public async Task<LibraryLocationItem> FindByPath(string path, bool defaultSavePathOnly = true)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return null;
-            }
-            var libs = await ListUserLibraries(false);
-            return libs.FirstOrDefault(l =>
-            {
-                if (defaultSavePathOnly)
-                {
-                    return string.Equals(l.Path, path, StringComparison.InvariantCultureIgnoreCase);
-                }
-                else
-                {
-                    return l.Paths.Any(p => string.Equals(p, path, StringComparison.InvariantCultureIgnoreCase));
-                }
-            });
         }
 
         /// <summary>
         /// Check whether path belongs to a library.
         /// </summary>
         /// <param name="path">The path to check</param>
-        /// <param name="defaultSavePathOnly">True to check default save path only, false to check all</param>
+        /// <param name="defaultSaveFolderOnly">True to check default save folder only, false to check all</param>
         /// <returns>True if the specified path belongs to a library.</returns>
-        public async Task<bool> IsLibraryPath(string path, bool defaultSavePathOnly = true) => await FindByPath(path, defaultSavePathOnly) != null;
-
-        /// <summary>
-        /// Get additional library folder paths from the library default save path.
-        /// </summary>
-        /// <param name="defaultSavePath">The default save path of the library</param>
-        /// <returns>The additional library folder paths. Empty array returned in case of a single directory library or null if the path is not a default save path of any library.</returns>
-        public async Task<string[]> GetExtraLibraryPaths(string defaultSavePath)
+        public async Task<bool> IsLibraryPath(string path, bool defaultSaveFolderOnly = true)
         {
-            var lib = await FindByPath(defaultSavePath);
-            if (lib == null)
+            var lib = await Get(path);
+            if (lib == null || lib.IsEmpty)
+            {
+                return false;
+            }
+            if (string.Equals(path, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            if (!defaultSaveFolderOnly && lib.Folders.Any(f => string.Equals(path, f, StringComparison.OrdinalIgnoreCase)))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<LibraryLocationItem> Get(string libraryFilePath)
+        {
+            if (string.IsNullOrEmpty(libraryFilePath))
             {
                 return null;
             }
-            return lib.Paths?.Where(p => p != defaultSavePath)?.ToArray();
+            var libs = await ListUserLibraries(true);
+            return libs.FirstOrDefault(l => l.Path == libraryFilePath);
         }
 
         /// <summary>
         /// Opens the Shell library management dialog for the specified library.
         /// </summary>
-        /// <param name="lib">The library to manage</param>
-        public async void OpenLibraryManagerDialog(LibraryLocationItem lib)
+        /// <param name="libraryFilePath">The library to manage</param>
+        public async void OpenLibraryManagerDialog(string libraryFilePath)
         {
-            if (lib == null)
-            {
-                return;
-            }
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection == null)
             {
                 return;
             }
-            var libs = await ListUserLibraries(true);
-            if (!libs.Any(l => l.LibraryPath == lib.LibraryPath))
+            var lib = await Get(libraryFilePath);
+            if (lib == null)
             {
                 return;
             }
@@ -142,7 +115,7 @@ namespace Files.Helpers
             {
                 { "Arguments", "ShellLibrary" },
                 { "action", "Manage" },
-                { "library", lib.LibraryPath },
+                { "library", lib.Path },
                 { "dialogOwnerHandle", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
         }
@@ -164,7 +137,7 @@ namespace Files.Helpers
                 return false;
             }
             var libs = await ListUserLibraries(true);
-            if (libs.Any(l => string.Equals(l.Text, name, StringComparison.InvariantCultureIgnoreCase)))
+            if (libs.Any(l => string.Equals(l.Text, name, StringComparison.OrdinalIgnoreCase)))
             {
                 return false;
             }
@@ -181,19 +154,15 @@ namespace Files.Helpers
             return false;
         }
 
-        public async Task<string> RenameLibrary(LibraryLocationItem lib, string name)
+        public async Task<string> RenameLibrary(string libraryFilePath, string name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return null;
-            }
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection == null)
             {
                 return null;
             }
-            var libs = await ListUserLibraries(true);
-            if (!libs.Any(l => l.LibraryPath == lib.LibraryPath))
+            var lib = await Get(libraryFilePath);
+            if (lib == null)
             {
                 return null;
             }
@@ -201,7 +170,7 @@ namespace Files.Helpers
             {
                 { "Arguments", "ShellLibrary" },
                 { "action", "Rename" },
-                { "library", lib.LibraryPath },
+                { "library", lib.Path },
                 { "name", name }
             });
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShellLibrary") && response.ContainsKey("name"))
@@ -212,6 +181,34 @@ namespace Files.Helpers
                 }
             }
             return null;
+        }
+
+        public async Task<bool> DeleteLibrary(string libraryFilePath)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
+            {
+                return false;
+            }
+            var lib = await Get(libraryFilePath);
+            if (lib == null)
+            {
+                return false;
+            }
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+            {
+                { "Arguments", "ShellLibrary" },
+                { "action", "Delete" },
+                { "library", lib.Path }
+            });
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShellLibrary") && response.ContainsKey("action"))
+            {
+                if (response["action"] as string == "Delete")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

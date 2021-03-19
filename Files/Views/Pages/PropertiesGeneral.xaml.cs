@@ -42,7 +42,22 @@ namespace Files.Views
             }
             else if (BaseProperties is LibraryProperties libProps)
             {
-                // TODO: update library name
+                var library = libProps.Library;
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                {
+                    if (AppInstance.FilesystemViewModel != null)
+                    {
+                        var newName = await LibraryHelper.Instance.RenameLibrary(library.ItemPath, ViewModel.ItemName);
+                        if (newName != null)
+                        {
+                            _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                            {
+                                library.ItemName = newName;
+                                await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(library.ItemPath);
+                            });
+                        }
+                    }
+                }
             }
             else
             {

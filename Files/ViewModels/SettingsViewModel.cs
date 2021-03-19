@@ -247,11 +247,7 @@ namespace Files.ViewModels
         public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
         public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
-        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
-        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
-        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
-        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 

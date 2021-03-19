@@ -117,11 +117,7 @@ namespace Files.Filesystem
                             for (int i = 0; i < libraryItems.Count; i++)
                             {
                                 var lib = libraryItems[i];
-
-                                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(lib.Path));
-                                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(lib.Path, item));
-
-                                if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(lib.Path))
+                                if (await lib.CheckDefaultSaveFolderAccess())
                                 {
                                     lib.Font = InteractionViewModel.FontName;
                                     librarySection.ChildItems.Insert(i, lib);

@@ -532,15 +532,6 @@ namespace Files.UserControls
             SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(item));
         }
 
-        private void ManageLibraryLocations_Click(object sender, RoutedEventArgs e)
-        {
-            var item = (sender as MenuFlyoutItem).DataContext;
-            if (item is LibraryLocationItem lib)
-            {
-                LibraryHelper.Instance.OpenLibraryManagerDialog(lib);
-            }
-        }
-
         private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;

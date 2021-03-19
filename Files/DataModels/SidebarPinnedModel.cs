@@ -69,7 +69,7 @@ namespace Files.DataModels
         {
             FavoriteItems.Add(AppSettings.DesktopPath);
             FavoriteItems.Add(AppSettings.DownloadsPath);
-            FavoriteItems.Add(AppSettings.DocumentsPath);
+            // FavoriteItems.Add(AppSettings.DocumentsPath); // TODO: add library path?
         }
 
         /// <summary>

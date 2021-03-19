@@ -51,7 +51,7 @@ namespace Files.Helpers
             catch { }
         }
 
-        private Task AddFolder(string path)
+        private async Task AddFolder(string path)
         {
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
@@ -64,26 +64,33 @@ namespace Files.Helpers
                 {
                     displayName = "ms-resource:///Resources/SidebarDownloads";
                 }
-                else if (path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    displayName = "ms-resource:///Resources/SidebarDocuments";
-                }
-                else if (path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    displayName = "ms-resource:///Resources/SidebarPictures";
-                }
-                else if (path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    displayName = "ms-resource:///Resources/SidebarMusic";
-                }
-                else if (path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    displayName = "ms-resource:///Resources/SidebarVideos";
-                }
                 else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     var localSettings = ApplicationData.Current.LocalSettings;
                     displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                }
+                else if (path.EndsWith(ShellLibraryItem.EXTENSION))
+                {
+                    var library = await LibraryHelper.Instance.Get(path);
+                    if (library != null)
+                    {
+                        displayName = library.Text;
+
+                        var libName = Path.GetFileNameWithoutExtension(library.Path);
+                        switch (libName)
+                        {
+                            case "Documents":
+                            case "Pictures":
+                            case "Music":
+                            case "Videos":
+                                displayName = $"ms-resource:///Resources/Sidebar{libName}";
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        displayName = Path.GetFileName(path);
+                    }
                 }
                 else
                 {
@@ -97,8 +104,6 @@ namespace Files.Helpers
                 instance.Items.Add(jumplistItem);
                 JumpListItemPaths.Add(path);
             }
-
-            return Task.CompletedTask;
         }
 
         public async void RemoveFolder(string path)

@@ -234,6 +234,15 @@ namespace Files.ViewModels
             set => SetProperty(ref itemMD5HashProgressVisibiity, value);
         }
 
+        // For libraries
+        public int locationsCount;
+
+        public int LocationsCount
+        {
+            get => locationsCount;
+            set => SetProperty(ref locationsCount, value);
+        }
+
         public int foldersCount;
 
         public int FoldersCount

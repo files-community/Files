@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -15,14 +16,14 @@ namespace Files.ViewModels.Properties
 {
     internal class LibraryProperties : BaseProperties
     {
-        public LibraryItem Item { get; }
+        public LibraryItem Library { get; }
 
         public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             Dispatcher = coreDispatcher;
-            Item = item;
+            Library = item;
             AppInstance = instance;
 
             GetBaseProperties();
@@ -31,39 +32,41 @@ namespace Files.ViewModels.Properties
 
         public override void GetBaseProperties()
         {
-            if (Item != null)
+            if (Library != null)
             {
-                ViewModel.ItemName = Item.ItemName;
-                ViewModel.OriginalItemName = Item.ItemName;
-                ViewModel.ItemType = Item.ItemType;
-                ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
-                ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
-                //ViewModel.FileIconSource = Item.FileImage;
-                ViewModel.LoadCustomGlyph = Item.LoadCustomGlyph;
-                ViewModel.CustomGlyph = Item.CustomGlyph;
-                ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
-                ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
-                ViewModel.LoadFileIcon = Item.LoadFileIcon;
+                ViewModel.ItemName = Library.ItemName;
+                ViewModel.OriginalItemName = Library.ItemName;
+                ViewModel.ItemType = Library.ItemType;
+                //ViewModel.FileIconSource = Library.FileImage;
+                ViewModel.LoadCustomGlyph = Library.LoadCustomGlyph;
+                ViewModel.CustomGlyph = Library.CustomGlyph;
+                ViewModel.LoadFolderGlyph = Library.LoadFolderGlyph;
+                ViewModel.LoadUnknownTypeGlyph = Library.LoadUnknownTypeGlyph;
+                ViewModel.LoadFileIcon = Library.LoadFileIcon;
                 ViewModel.ContainsFilesOrFolders = false;
             }
         }
 
         public async override void GetSpecialProperties()
         {
-            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
+            StorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
+            if (libraryFile != null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(libraryFile.DateCreated, returnformat);
+                GetOtherProperties(libraryFile.Properties);
             }
 
             var storageFolders = new List<StorageFolder>();
-            if (Item.Paths != null)
+            if (Library.Folders != null)
             {
                 try
                 {
-                    foreach (var path in Item.Paths)
+                    foreach (var path in Library.Folders)
                     {
                         StorageFolder folder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
                         if (!string.IsNullOrEmpty(folder.Path))
@@ -81,12 +84,12 @@ namespace Files.ViewModels.Properties
             if (storageFolders.Count > 0)
             {
                 ViewModel.ContainsFilesOrFolders = true;
-                // TODO: get props from library file 
-                // ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                //string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                //ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
-                // GetOtherProperties(storageFolder.Properties);
+                ViewModel.LocationsCount = storageFolders.Count;
                 GetLibrarySize(storageFolders, TokenSource.Token);
+            }
+            else
+            {
+                ViewModel.FilesAndFoldersCountString = "LibraryNoLocations".GetLocalized();
             }
         }
 
@@ -119,14 +122,25 @@ namespace Files.ViewModels.Properties
         {
             switch (e.PropertyName)
             {
-                case "IsHidden":
-                    if (ViewModel.IsHidden)
+                case "IsReadOnly":
+                    if (ViewModel.IsReadOnly)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    break;
+
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;
             }

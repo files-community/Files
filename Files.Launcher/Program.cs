@@ -512,13 +512,20 @@ namespace FilesFullTrust
                                     var libraryItems = new List<ShellLibraryItem>();
                                     // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
                                     // TODO: use UserDataPaths.GetDefault().RoamingAppData instead of Environment?
-                                    var libFiles = Directory.EnumerateFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries"), "*.library-ms");
+                                    var libFiles = Directory.EnumerateFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries"), "*" + ShellLibraryItem.EXTENSION);
                                     foreach (var libFile in libFiles)
                                     {
                                         using var shellItem = ShellItem.Open(libFile);
                                         if (shellItem is ShellLibrary lib)
                                         {
-                                            var libraryItem = new ShellLibraryItem(libFile, lib.GetDisplayName(ShellItemDisplayString.NormalDisplay), lib.PinnedToNavigationPane);
+                                            var libraryItem = new ShellLibraryItem
+                                            {
+                                                FullPath = libFile,
+                                                AbsolutePath = lib.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing),
+                                                RelativePath = lib.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing),
+                                                DisplayName = lib.GetDisplayName(ShellItemDisplayString.NormalDisplay),
+                                                IsPinned = lib.PinnedToNavigationPane,
+                                            };
                                             var folders = lib.Folders;
                                             if (folders.Count > 0)
                                             {
@@ -622,7 +629,7 @@ namespace FilesFullTrust
                                     var libPath = (string)message["library"];
                                     var libPathDirectory = Path.GetDirectoryName(libPath);
                                     var libsDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
-                                    if (string.Equals(libPathDirectory, libsDirectoryPath, StringComparison.InvariantCultureIgnoreCase) && libPath.EndsWith(".library-ms") && File.Exists(libPath))
+                                    if (string.Equals(libPathDirectory, libsDirectoryPath, StringComparison.OrdinalIgnoreCase) && libPath.EndsWith(ShellLibraryItem.EXTENSION) && File.Exists(libPath))
                                     {
                                         File.Delete(libPath);
                                         success = !File.Exists(libPath);

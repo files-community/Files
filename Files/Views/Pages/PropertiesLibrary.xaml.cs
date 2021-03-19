@@ -16,7 +16,7 @@ namespace Files.Views
 {
     public sealed partial class PropertiesLibrary : PropertiesTab, INotifyPropertyChanged
     {
-        public ObservableCollection<LibraryLocation> Folders { get; set; } = new ObservableCollection<LibraryLocation>();
+        public ObservableCollection<LibraryFolder> Folders { get; set; } = new ObservableCollection<LibraryFolder>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,7 +51,7 @@ namespace Files.Views
             var folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
-                Folders.Add(new LibraryLocation { Path = folder.Path });
+                Folders.Add(new LibraryFolder { Path = folder.Path });
             }
         });
 
@@ -96,17 +96,17 @@ namespace Files.Views
 
             if (BaseProperties is LibraryProperties props)
             {
-                if (props.Item is LibraryItem lib)
+                if (props.Library is LibraryItem lib)
                 {
                     Folders.Clear();
-                    if (lib.Paths != null)
+                    if (!lib.IsEmpty)
                     {
-                        foreach (var path in lib.Paths)
+                        foreach (var path in lib.Folders)
                         {
-                            Folders.Add(new LibraryLocation
+                            Folders.Add(new LibraryFolder
                             {
                                 Path = path,
-                                IsDefault = string.Equals(path, lib.DefaultSavePath, StringComparison.InvariantCultureIgnoreCase),
+                                IsDefault = string.Equals(path, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase),
                             });
                         }
                     }
@@ -152,7 +152,7 @@ namespace Files.Views
             }
         }
 
-        public class LibraryLocation
+        public class LibraryFolder
         {
             public string Path { get; set; }
 

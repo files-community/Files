@@ -751,7 +751,10 @@
     <value>Contains:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Files, {1:#,##0} Folders</value>
+    <value>{0:#,##0} files, {1:#,##0} folders</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Run as another user</value>
@@ -1943,5 +1946,11 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="LibraryNoLocations" xml:space="preserve">
+    <value>No locations</value>
   </data>
 </root>

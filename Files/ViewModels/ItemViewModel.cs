@@ -995,14 +995,19 @@ namespace Files.ViewModels
 
                 if (!isLibraryExtraPath)
                 {
-                    var extraPaths = await LibraryHelper.Instance.GetExtraLibraryPaths(path);
-                    if (extraPaths != null && extraPaths.Length > 0)
+                    // TODO: load all library paths
+                    /*var lib = await LibraryHelper.Instance.Get(path);
+                    if (lib != null && lib.Folders != null && lib.Folders.Count > 0)
                     {
-                        foreach (var extraPath in extraPaths)
+                        foreach (var extraPath in lib.Folders)
                         {
+                            if (extraPath == lib.DefaultSaveFolder)
+                            {
+                                continue;
+                            }
                             await RapidAddItemsToCollection(extraPath, null, useCache, true);
                         }
-                    }
+                    }*/
 
                     ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 

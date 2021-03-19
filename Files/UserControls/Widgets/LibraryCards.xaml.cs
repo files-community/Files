@@ -82,7 +82,7 @@ namespace Files.UserControls.Widgets
             {
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = GlyphHelper.GetItemIcon(lib.Path),
+                    Icon = GlyphHelper.GetItemIcon(lib.DefaultSaveFolder),
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,
