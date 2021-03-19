@@ -3,7 +3,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

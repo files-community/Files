@@ -3,7 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading;

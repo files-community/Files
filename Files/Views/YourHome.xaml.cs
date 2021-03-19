@@ -4,7 +4,7 @@ using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Bundles;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
 using System.Linq;

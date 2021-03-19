@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;

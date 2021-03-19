@@ -6,7 +6,7 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
@@ -29,7 +29,6 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
-        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -88,18 +87,26 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer tapDebounceTimer;
+
         public GenericFileBrowser()
         {
             InitializeComponent();
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
-
-            tapDebounceTimer = new DispatcherTimer();
-
+            
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            tapDebounceTimer = timerQueue.CreateTimer();
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -299,7 +306,7 @@ namespace Files.Views.LayoutModes
                 // A tap should never trigger an immediate edit
                 e.Cancel = true;
 
-                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsRunning)
                 {
                     // If we handle a tap in one-click mode or handling a second tap within a timer duration,
                     // just stop the timer (to avoid extra edits).

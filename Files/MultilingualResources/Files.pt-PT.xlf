@@ -31,12 +31,14 @@
           <target state="translated">Abrir em nova janela</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New Tab</source>
-          <target state="translated">Nova guia</target>
+          <source>New tab</source>
+          <target state="needs-review-translation">Nova guia</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
-          <source>New Window</source>
-          <target state="translated">Nova Janela</target>
+          <source>New window</source>
+          <target state="needs-review-translation">Nova Janela</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
@@ -183,16 +185,18 @@
           <target state="translated">Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
-          <source>Submit Feedback</source>
-          <target state="translated">Enviar Comentários</target>
+          <source>Submit feedback</source>
+          <target state="needs-review-translation">Enviar Comentários</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
           <target state="translated">Envie aos desenvolvedores um relatório de problema com informações detalhadas</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses</source>
-          <target state="translated">Licenças de Terceiros</target>
+          <source>Third party licenses</source>
+          <target state="needs-review-translation">Licenças de Terceiros</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -834,12 +838,14 @@
           <target state="translated">Sistema de ficheiros</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
-          <source>App Language</source>
-          <target state="translated">Idioma</target>
+          <source>App language</source>
+          <target state="needs-review-translation">Idioma</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
-          <source>Estado</source>
-          <target state="translated">Estado</target>
+          <source>Status</source>
+          <target state="needs-review-translation">Estado</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
@@ -970,8 +976,9 @@
           <target state="translated">Veja quem contribuiu para o Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
-          <source>Release Notes</source>
-          <target state="translated">Notas de Atualização</target>
+          <source>Release notes</source>
+          <target state="needs-review-translation">Notas de Atualização</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
@@ -1173,14 +1180,6 @@
           <source>Vertical tab strip</source>
           <target state="translated">Faixa de tabulação vertical</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>App Language</source>
-          <target state="translated">Idioma da aplicação</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">Aplicações de Terminal</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">Editar aplicações de terminal</target>
@@ -1194,12 +1193,14 @@
           <target state="translated">Ver perfis de amostra</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
-          <source>App Language</source>
-          <target state="translated">Idioma do Aplicativo</target>
+          <source>App language</source>
+          <target state="needs-review-translation">Idioma do Aplicativo</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">Aplicações de Terminal</target>
+          <source>Terminal applications</source>
+          <target state="needs-review-translation">Aplicações de Terminal</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -1242,8 +1243,9 @@
           <target state="translated">Tema da aplicação</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
-          <source>Show Owner in properties</source>
-          <target state="translated">Mostrar proprietário nas propriedades</target>
+          <source>Show item owner in properties</source>
+          <target state="needs-review-translation">Mostrar proprietário nas propriedades</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
@@ -1285,10 +1287,6 @@
           <source>Drives</source>
           <target state="translated">Unidades</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show library cards on the home page</source>
-          <target state="translated">Mostrar cartões da biblioteca na página inicial</target>
-        </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
           <target state="translated">Mostrar cartões da biblioteca na página inicial</target>
@@ -1301,17 +1299,9 @@
           <source>Widgets</source>
           <target state="translated">Widgets</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show drives on the home page</source>
-          <target state="translated">Mostrar as unidades na página inicial</target>
-        </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
           <target state="translated">Mostrar as unidades na página inicial</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show recent files on the home page</source>
-          <target state="translated">Mostrar ficheiros recentes na página inicial</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
@@ -1950,8 +1940,9 @@
           <target state="needs-review-translation">Abrir no painel secundário</target>
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
-          <source>Dual Pane</source>
-          <target state="translated">Painel Duplo</target>
+          <source>Dual pane</source>
+          <target state="needs-review-translation">Painel Duplo</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show copy location menu item</source>
@@ -1977,67 +1968,68 @@
           <source>Enable animations when opening and closing the context menu</source>
           <target state="translated">Ativar animações ao abrir e fechar o menu de contexto</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">Visualizador de detalhes</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">Visualização em grade (Grande)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">Visualização em grade (Médio)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">Visualização em grade (Pequeno)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="needs-review-translation">Vizualização em Blocos</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlLayoutMode.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout Mode</source>
           <target state="translated">Modo de Layout</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated">Opções de Exibição</target>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Display Options</source>
-          <target state="translated">Opções de Exibição</target>
+          <source>Display options</source>
+          <target state="needs-review-translation">Opções de Exibição</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="translated">Opções de exibição</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">Visualização em grade (Grande)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">Visualização em grade (Médio)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">Visualização em grade (Pequeno)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="needs-review-translation">Visualização em Blocos</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlShowFileExtensions.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
           <target state="translated">Mostrar extensões de ficheiros</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
           <target state="translated">Mostrar ficheiros e pastas escondidos</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">Visualizador de Detalhes</target>
         </trans-unit>
@@ -2050,12 +2042,14 @@
           <target state="translated">Informações excluída</target>
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
-          <source>Tab Customization</source>
-          <target state="translated">Personalização das Guias</target>
+          <source>Tab customization</source>
+          <target state="needs-review-translation">Personalização das Guias</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
-          <source>When Launching Files</source>
-          <target state="translated">Ao Abrir Ficheiros</target>
+          <source>When launching Files</source>
+          <target state="needs-review-translation">Ao Abrir Ficheiros</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2190,8 +2184,9 @@
           <target state="translated">Unidades em Cloud</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
-          <source>Show Bundles on the home page</source>
-          <target state="translated">Mostrar Pacotes na página inicial</target>
+          <source>Show bundles on the home page</source>
+          <target state="needs-review-translation">Mostrar Pacotes na página inicial</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
@@ -2386,12 +2381,84 @@
           <target state="new">Arguments</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
-          <source>Show Library section on the sidebar</source>
-          <target state="new">Show Library section on the sidebar</target>
+          <source>Show library section on the sidebar</source>
+          <target state="new">Show library section on the sidebar</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
           <target state="new">Libraries</target>
+        </trans-unit>
+        <trans-unit id="BundlesOpenInNewPane" translate="yes" xml:space="preserve">
+          <source>Open in new Pane</source>
+          <target state="new">Open in new Pane</target>
+        </trans-unit>
+        <trans-unit id="DefaultScheme" translate="yes" xml:space="preserve">
+          <source>Default</source>
+          <target state="new">Default</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceColorScheme.Header" translate="yes" xml:space="preserve">
+          <source>Color scheme</source>
+          <target state="new">Color scheme</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
+          <source>Item count</source>
+          <target state="new">Item count</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
+          <source>Deletion Failed</source>
+          <target state="new">Deletion Failed</target>
+        </trans-unit>
+        <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
+          <source>An unknown error has occurred.</source>
+          <target state="new">An unknown error has occurred.</target>
+        </trans-unit>
+        <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
+          <source>Deletion Complete</source>
+          <target state="new">Deletion Complete</target>
+        </trans-unit>
+        <trans-unit id="StatusOperationCompleted" translate="yes" xml:space="preserve">
+          <source>The operation has completed.</source>
+          <target state="new">The operation has completed.</target>
+        </trans-unit>
+        <trans-unit id="StatusRecycleComplete" translate="yes" xml:space="preserve">
+          <source>Recycle Complete</source>
+          <target state="new">Recycle Complete</target>
+        </trans-unit>
+        <trans-unit id="StatusMoveComplete" translate="yes" xml:space="preserve">
+          <source>Move Complete</source>
+          <target state="new">Move Complete</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
+          <source>Copy Complete</source>
+          <target state="new">Copy Complete</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="new">No</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="new">Yes</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
+          <source>This action requires adminstrator rights</source>
+          <target state="new">This action requires adminstrator rights</target>
+        </trans-unit>
+        <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
+          <source>Would you like to continue as administrator?</source>
+          <target state="new">Would you like to continue as administrator?</target>
+        </trans-unit>
+        <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Files is running as administrator</source>
+          <target state="new">Files is running as administrator</target>
+        </trans-unit>
+        <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
+          <source>Administrator</source>
+          <target state="new">Administrator</target>
         </trans-unit>
       </group>
     </body>

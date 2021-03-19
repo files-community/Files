@@ -2,10 +2,10 @@
     x:Class="Files.UserControls.StatusBarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:Files.Converters"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:converters="using:Files.Converters"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
@@ -17,7 +17,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <ResourceDictionary.MergedDictionaries>
@@ -72,188 +71,12 @@
                 x:Name="FullTrustStatus"
                 Width="36"
                 Height="32"
-                Background="Transparent"
                 x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                Background="Transparent"
                 Click="FullTrustStatus_Click"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}">
                 <FontIcon FontSize="16" Glyph="&#xEA18;" />
-            </Button>
-
-            <Button
-                x:Uid="StatusBarControlSelectionOptions"
-                Width="36"
-                Height="32"
-                AutomationProperties.Name="Selection options"
-                Background="Transparent"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Selection options">
-                <FontIcon FontSize="16" Glyph="&#xE762;" />
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <ToggleMenuFlyoutItem
-                            x:Name="MultiselectMFI"
-                            x:Uid="StatusBarControlMultiselect"
-                            IsChecked="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
-                            Text="Multiselect"
-                            Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE762;" />
-                            </MenuFlyoutItem.Icon>
-                        </ToggleMenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Name="SelectAllMFI"
-                            x:Uid="StatusBarControlSelectAll"
-                            Command="{x:Bind SelectAllInvokedCommand}"
-                            Text="Select All">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8B3;" />
-                            </MenuFlyoutItem.Icon>
-                            <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator
-                                    Key="A"
-                                    IsEnabled="False"
-                                    Modifiers="Control" />
-                            </MenuFlyoutItem.KeyboardAccelerators>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Name="InvertSelectionMFI"
-                            x:Uid="StatusBarControlInvertSelection"
-                            Command="{x:Bind InvertSelectionInvokedCommand}"
-                            Text="Invert Selection">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE746;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Name="ClearSelectionMFI"
-                            x:Uid="StatusBarControlClearSelection"
-                            Command="{x:Bind ClearSelectionInvokedCommand}"
-                            Text="Clear Selection">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8E6;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-
-            <Button
-                x:Uid="StatusBarControlDisplayOptionsButton"
-                Width="36"
-                Height="32"
-                AutomationProperties.Name="Display Options"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Display Options">
-                <FontIcon FontSize="16" Glyph="&#xE152;" />
-                <Button.Flyout>
-                    <Flyout>
-                        <StackPanel Spacing="12">
-                            <TextBlock
-                                x:Uid="StatusBarControlDisplayOptions"
-                                FontWeight="Medium"
-                                Text="Display Options" />
-                            <StackPanel Spacing="4">
-                                <ToggleSwitch
-                                    x:Uid="StatusBarControlShowHiddenItems"
-                                    Header="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
-                                <ToggleSwitch
-                                    x:Uid="StatusBarControlShowFileExtensions"
-                                    Header="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                            </StackPanel>
-
-                            <TextBlock
-                                x:Uid="StatusBarControlLayoutMode"
-                                FontWeight="Medium"
-                                Text="Layout Mode" />
-
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <RadioButton
-                                    x:Uid="StatusBarControlDetailsView"
-                                    Height="32"
-                                    MinWidth="0"
-                                    Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
-                                    Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Details View">
-                                    <FontIcon
-                                        Margin="0,2,0,0"
-                                        FontSize="16"
-                                        Glyph="&#xE179;" />
-                                </RadioButton>
-                                <RadioButton
-                                    x:Uid="StatusBarControlTilesView"
-                                    Height="32"
-                                    MinWidth="0"
-                                    Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
-                                    Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Tiles View">
-                                    <FontIcon
-                                        Margin="0,2,0,0"
-                                        FontSize="16"
-                                        Glyph="&#xE15C;" />
-                                </RadioButton>
-                                <RadioButton
-                                    x:Uid="StatusBarControlGridViewSmall"
-                                    Height="32"
-                                    MinWidth="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
-                                    Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Grid View (Small)">
-                                    <FontIcon
-                                        Margin="0,2,0,0"
-                                        FontSize="16"
-                                        Glyph="&#xE80A;" />
-                                </RadioButton>
-                                <RadioButton
-                                    x:Uid="StatusBarControlGridViewMedium"
-                                    Height="32"
-                                    MinWidth="0"
-                                    Margin="0"
-                                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
-                                    Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Grid View (Medium)">
-                                    <FontIcon
-                                        Margin="0,2,0,0"
-                                        FontSize="16"
-                                        Glyph="&#xF0E2;" />
-                                </RadioButton>
-                                <RadioButton
-                                    x:Uid="StatusBarControlGridViewLarge"
-                                    Height="32"
-                                    MinWidth="0"
-                                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    CornerRadius="4"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
-                                    Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Grid View (Large)">
-                                    <FontIcon
-                                        Margin="0,2,0,0"
-                                        FontSize="16"
-                                        Glyph="&#xE739;" />
-                                </RadioButton>
-                            </StackPanel>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
             </Button>
 
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
@@ -270,10 +93,11 @@
                     Visibility="Visible">
                     <Button.Content>
                         <Grid>
-                            <FontIcon x:Name="StatusCenterFontIcon"
-                                      FontSize="16"
-                                      Glyph="&#xF16A;"
-                                      RenderTransformOrigin="0.5, 0.5">
+                            <FontIcon
+                                x:Name="StatusCenterFontIcon"
+                                FontSize="16"
+                                Glyph="&#xF16A;"
+                                RenderTransformOrigin="0.5, 0.5">
                                 <FontIcon.RenderTransform>
                                     <RotateTransform />
                                 </FontIcon.RenderTransform>
@@ -295,34 +119,34 @@
             </Grid>
         </StackPanel>
 
+        <Interactivity:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}" Value="False">
+                <Core:GoToStateAction StateName="NoOperations" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}" Value="True">
+                <Core:GoToStateAction StateName="InProgress" />
+            </Core:DataTriggerBehavior>
+        </Interactivity:Interaction.Behaviors>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="Default">
                 <VisualState x:Name="NoOperations" />
                 <VisualState x:Name="InProgress">
                     <Storyboard>
-                        <ColorAnimation Storyboard.TargetName="StatusCenterFontIcon"
-                                        Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
-                                        To="{ThemeResource SystemAccentColor}"
-                                        Duration="0" />
-                        <DoubleAnimation Storyboard.TargetName="StatusCenterFontIcon"
-                                         Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
-                                         To="360"
-                                         Duration="0:0:1"
-                                         RepeatBehavior="Forever" />
+                        <ColorAnimation
+                            Storyboard.TargetName="StatusCenterFontIcon"
+                            Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
+                            To="{ThemeResource SystemAccentColor}"
+                            Duration="0" />
+                        <DoubleAnimation
+                            RepeatBehavior="Forever"
+                            Storyboard.TargetName="StatusCenterFontIcon"
+                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
+                            To="360"
+                            Duration="0:0:1" />
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
-                                      Value="False">
-                <Core:GoToStateAction StateName="NoOperations" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
-                                      Value="True">
-                <Core:GoToStateAction StateName="InProgress" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
     </Grid>
 </UserControl>
