@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Files.Views.LayoutModes
 {
@@ -292,7 +294,7 @@ namespace Files.Views.LayoutModes
 
         private TextBox renamingTextBox;
 
-        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        private async void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
@@ -317,13 +319,17 @@ namespace Files.Views.LayoutModes
                 {
                     // We have an edit due to the first tap in the double-click mode
                     // Let's wait to see if there is another tap (double click).
-                    tapDebounceTimer.Debounce(() =>
-                    {
-                        tapDebounceTimer.Stop();
 
-                        // EditingEventArgs will be null allowing us to know this edit is not originated by tap
-                        AllView.BeginEdit();
+                    tapDebounceTimer.Debounce(async () =>
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        {
+                            tapDebounceTimer.Stop();
+
+                            AllView.BeginEdit();
+                        });
                     }, TimeSpan.FromMilliseconds(700), false);
+                    
                 }
             }
             else
