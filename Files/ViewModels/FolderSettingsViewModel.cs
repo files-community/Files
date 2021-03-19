@@ -117,6 +117,9 @@ namespace Files.ViewModels
                 case FolderLayoutModes.GridView:
                     type = typeof(GridViewBrowser);
                     break;
+                case FolderLayoutModes.ColumnView:
+                    type = typeof(ColumnViewBrowser);
+                    break;
 
                 default:
                     type = typeof(GenericFileBrowser);
@@ -170,6 +173,35 @@ namespace Files.ViewModels
             LastLayoutModeSelected = FolderLayout.GridViewLarge;
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+        });
+
+        public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
+        {
+            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            {
+                if (LastLayoutModeSelected == FolderLayout.GridViewLarge && LayoutPreference.IsAdaptiveLayoutOverridden)
+                {
+                    SwitchAdaptiveLayout(true);
+                    return;
+                }
+                else if (LastLayoutModeSelected == FolderLayout.GridViewSmall || LastLayoutModeSelected == FolderLayout.GridViewMedium || LastLayoutModeSelected == FolderLayout.GridViewLarge)
+                {
+                    // Override preferred gridview size
+                }
+                else if (manuallySet)
+                {
+                    // Override preferred layout mode
+                    SwitchAdaptiveLayout(false);
+                }
+            }
+
+            LayoutMode = FolderLayoutModes.ColumnView; // Grid View
+
+            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
+
+            LastLayoutModeSelected = FolderLayout.ColumnView;
+
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, 0));
         });
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
