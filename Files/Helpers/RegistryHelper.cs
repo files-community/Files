@@ -35,10 +35,7 @@ namespace Files.Helpers
 
         public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
         {
-            if (string.IsNullOrEmpty(extension))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(extension)) return null;
             using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
             return key != null ? await GetShellNewRegistryEntries(key, key) : null;
         }

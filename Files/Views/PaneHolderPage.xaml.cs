@@ -530,7 +530,7 @@ namespace Files.Views
                     ItemName = location.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true,
+                    LoadFolderGlyph = true
                 });
             }
         }

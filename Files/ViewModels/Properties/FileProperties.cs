@@ -49,7 +49,8 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemName = Item.ItemName;
                 ViewModel.OriginalItemName = Item.ItemName;
                 ViewModel.ItemType = Item.ItemType;
-                ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ?? (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
+                ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
+                    (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 //ViewModel.FileIconSource = Item.FileImage;
@@ -98,8 +99,10 @@ namespace Files.ViewModels.Properties
 
         public override async void GetSpecialProperties()
         {
-            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
@@ -143,7 +146,8 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
+                    .GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {
@@ -224,9 +228,12 @@ namespace Files.ViewModels.Properties
                 {
                     if (!prop.IsReadOnly && prop.Modified)
                     {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, prop.Value);
+
                         try
                         {
-                            await file.Properties.SavePropertiesAsync(new Dictionary<string, object> { { prop.Property, prop.Value } });
+                            await file.Properties.SavePropertiesAsync(newDict);
                         }
                         catch
                         {
@@ -261,9 +268,12 @@ namespace Files.ViewModels.Properties
                 {
                     if (!prop.IsReadOnly)
                     {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, null);
+
                         try
                         {
-                            await file.Properties.SavePropertiesAsync(new Dictionary<string, object> { { prop.Property, null } });
+                            await file.Properties.SavePropertiesAsync(newDict);
                         }
                         catch
                         {
@@ -283,22 +293,26 @@ namespace Files.ViewModels.Properties
                 case "IsReadOnly":
                     if (ViewModel.IsReadOnly)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     break;
 
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;
 
@@ -307,12 +321,10 @@ namespace Files.ViewModels.Properties
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
-                    {
                         return;
-                    }
                     if (AppInstance.ServiceConnection != null)
                     {
-                        await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet
+                        var value = new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "UpdateLink" },
@@ -321,7 +333,8 @@ namespace Files.ViewModels.Properties
                             { "arguments", ViewModel.ShortcutItemArguments },
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
-                        });
+                        };
+                        await AppInstance.ServiceConnection.SendMessageAsync(value);
                     }
                     break;
             }

@@ -63,7 +63,9 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.RenameFileItemAsync(item, ViewModel.OriginalItemName, ViewModel.ItemName));
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations?.RenameFileItemAsync(item,
+                          ViewModel.OriginalItemName,
+                          ViewModel.ItemName));
                 }
 
                 // Handle the hidden attribute
