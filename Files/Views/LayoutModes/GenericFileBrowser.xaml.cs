@@ -1,11 +1,12 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
@@ -28,7 +29,6 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
-        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -87,18 +87,26 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer tapDebounceTimer;
+
         public GenericFileBrowser()
         {
             InitializeComponent();
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
-
-            tapDebounceTimer = new DispatcherTimer();
-
+            
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            tapDebounceTimer = timerQueue.CreateTimer();
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -140,7 +148,7 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             var rows = new List<DataGridRow>();
-            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
@@ -196,7 +204,7 @@ namespace Files.Views.LayoutModes
             if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
             {
                 var rows = new List<DataGridRow>();
-                Interaction.FindChildren<DataGridRow>(rows, AllView);
+                DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
 
                 foreach (DataGridRow row in rows)
                 {
@@ -207,7 +215,14 @@ namespace Files.Views.LayoutModes
 
         public override void ScrollIntoView(ListedItem item)
         {
-            AllView.ScrollIntoView(item, null);
+            try
+            {
+                AllView.ScrollIntoView(item, null);
+            }
+            catch (Exception)
+            {
+                // Catch error where row index could not be found
+            }
         }
 
         public override void FocusFileList()
@@ -291,7 +306,7 @@ namespace Files.Views.LayoutModes
                 // A tap should never trigger an immediate edit
                 e.Cancel = true;
 
-                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsRunning)
                 {
                     // If we handle a tap in one-click mode or handling a second tap within a timer duration,
                     // just stop the timer (to avoid extra edits).
@@ -505,7 +520,7 @@ namespace Files.Views.LayoutModes
 
         private void HandleRightClick(object sender, RoutedEventArgs e)
         {
-            var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var rowPressed = DependencyObjectHelpers.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
                 var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
@@ -537,7 +552,7 @@ namespace Files.Views.LayoutModes
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
                     if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
-                        Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                        DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }

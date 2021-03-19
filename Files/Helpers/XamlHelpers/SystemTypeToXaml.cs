@@ -8,7 +8,7 @@ namespace Files.Helpers.XamlHelpers
 
         private object parameter;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Properties
 
@@ -20,7 +20,7 @@ namespace Files.Helpers.XamlHelpers
 
         public bool Bool { set => parameter = value; }
 
-        #endregion
+        #endregion Public Properties
 
         protected override object ProvideValue()
         {

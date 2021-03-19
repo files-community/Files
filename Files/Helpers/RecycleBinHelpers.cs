@@ -19,7 +19,7 @@ namespace Files.Helpers
 
         private IShellPage associatedInstance;
 
-        private AppServiceConnection Connection => associatedInstance?.ServiceConnection;
+        private NamedPipeAsAppServiceConnection Connection => associatedInstance?.ServiceConnection;
 
         #endregion Private Members
 
@@ -34,15 +34,16 @@ namespace Files.Helpers
             {
                 ValueSet value = new ValueSet
                 {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Enumerate" }
+                    { "Arguments", "ShellFolder" },
+                    { "action", "Enumerate" },
+                    { "folder", App.AppSettings.RecycleBinPath }
                 };
-                var (status, response) = await Connection.SendMessageSafeAsync(value);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
 
                 if (status == AppServiceResponseStatus.Success
-                    && response.Message.ContainsKey("Enumerate"))
+                    && response.ContainsKey("Enumerate"))
                 {
-                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
                     return items;
                 }
             }

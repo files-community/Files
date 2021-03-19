@@ -53,12 +53,13 @@
             /// <summary>
             /// The maximum number of pages loaded into the PDF preview.
             /// </summary>
-            public const int PDFPageLimit = 50;
+            public const int PDFPageLimit = 10;
 
             /// <summary>
             /// The maximum file size, in bytes, that will attempted to be loaded as text if the extension is unknown.
             /// </summary>
             public const long TryLoadAsTextSizeLimit = 1000000;
+
             /// <summary>
             /// The number of thumbnails that will be shown for FolderPreviews
             /// </summary>

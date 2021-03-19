@@ -3,7 +3,7 @@ using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
@@ -149,7 +149,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
         }
@@ -332,7 +332,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageAsync(value);
                     }
                     break;
             }

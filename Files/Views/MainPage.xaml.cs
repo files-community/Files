@@ -1,10 +1,9 @@
 ﻿using Files.Common;
-using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +20,6 @@ using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -51,6 +49,7 @@ namespace Files.Views
                 NotifyPropertyChanged(nameof(SelectedTabItem));
             }
         }
+
 
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
@@ -190,6 +189,23 @@ namespace Files.Views
             }
         }
 
+        public static async void CloseTabsToTheRight(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            int index = AppInstances.IndexOf(tabItem);
+            List<TabItem> tabsToClose = new List<TabItem>();
+
+            for (int i = index + 1; i < AppInstances.Count; i++)
+            {
+                tabsToClose.Add(AppInstances[i]);
+            }
+
+            foreach (var item in tabsToClose)
+            {
+                MultitaskingControl?.RemoveTab(item);
+            }
+        }
+
         public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
@@ -211,7 +227,7 @@ namespace Files.Views
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             TabItem tabItem = new TabItem()
             {
@@ -232,7 +248,7 @@ namespace Files.Views
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             if (string.IsNullOrEmpty(path))
             {
@@ -259,7 +275,7 @@ namespace Files.Views
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.Current.Resources["FluentGlyphs"] as FontFamily;
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {

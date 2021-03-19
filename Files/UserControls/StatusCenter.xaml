@@ -195,6 +195,7 @@
                                 VerticalAlignment="Top"
                                 AutomationProperties.Name="Dismiss"
                                 Background="Transparent"
+                                BorderBrush="Transparent"
                                 Click="DismissBanner"
                                 DataContext="{x:Bind}"
                                 ToolTipService.ToolTip="Dismiss">

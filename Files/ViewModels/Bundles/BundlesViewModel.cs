@@ -1,11 +1,17 @@
-﻿using System;
-using System.Linq;
+﻿using Files.Dialogs;
+using Files.Enums;
+using Files.Helpers;
+using Files.SettingsInterfaces;
+using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -14,12 +20,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Newtonsoft.Json;
-using Files.Dialogs;
-using Files.Enums;
-using Files.Helpers;
-using Files.SettingsInterfaces;
-using Files.ViewModels.Dialogs;
 
 namespace Files.ViewModels.Bundles
 {
@@ -210,6 +210,7 @@ namespace Files.ViewModels.Bundles
             {
                 BundleName = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
+                NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle
             });
             NoBundlesAddItemLoad = false;
             itemAddedInternally = false;
@@ -270,6 +271,17 @@ namespace Files.ViewModels.Bundles
             {
                 NoBundlesAddItemLoad = true;
             }
+        }
+
+        /// <summary>
+        /// This function gets called when an item is removed to update the collection
+        /// </summary>
+        /// <param name="bundleContainer"></param>
+        /// <param name="bundleItemPath"></param>
+        private void NotifyBundleItemRemovedHandle(string bundleContainer, string bundleItemPath)
+        {
+            BundleItemViewModel itemToRemove = this.Items.Where((item) => item.BundleName == bundleContainer).First().Contents.Where((item) => item.Path == bundleItemPath).First();
+            itemToRemove.RemoveItem();
         }
 
         /// <summary>
@@ -367,6 +379,7 @@ namespace Files.ViewModels.Bundles
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
+                        NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle
                     }.SetBundleItems(bundleItems));
                     itemAddedInternally = false;
                 }

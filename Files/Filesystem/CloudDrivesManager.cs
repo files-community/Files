@@ -1,8 +1,7 @@
 using Files.Filesystem.Cloud;
-using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -68,7 +67,7 @@ namespace Files.Filesystem
             }
             catch (Exception ex) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
-                Logger.Error(ex, "UI thread not ready yet");
+                Logger.Warn(ex, "UI thread not ready yet");
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
@@ -96,7 +95,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
-                            Font = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                            Section = SectionType.CloudDrives,
                             Glyph = "\uE753",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()

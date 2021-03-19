@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.Interacts;
+using Files.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,12 +10,21 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
+        #region Singleton
+
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-        public FolderSettingsViewModel FolderSettings { get; set; } = null;
-        public ICommand SelectAllInvokedCommand { get; set; }
-        public ICommand InvertSelectionInvokedCommand { get; set; }
-        public ICommand ClearSelectionInvokedCommand { get; set; }
+
+        #endregion
+
+        #region Private Members
+
+        private IStatusCenterActions statusCenterActions => OngoingTasksControl;
+
+        #endregion
+
+        #region Public Properties
 
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
 
@@ -46,44 +56,6 @@ namespace Files.UserControls
             }
         }
 
-        public StatusBarControl()
-        {
-            this.InitializeComponent();
-            OngoingTasksControl.ProgressBannerPosted += OngoingTasksControl_ProgressBannerPosted;
-        }
-
-        private void OngoingTasksControl_ProgressBannerPosted(object sender, EventArgs e)
-        {
-            if (AppSettings.ShowStatusCenterTeachingTip)
-            {
-                StatusCenterTeachingTip.IsOpen = true;
-                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                AppSettings.ShowStatusCenterTeachingTip = false;
-            }
-            else
-            {
-                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                StatusCenterTeachingTip.IsOpen = false;
-            }
-
-            PlayBannerAddedVisualAnimation();
-        }
-
-        public async void PlayBannerAddedVisualAnimation()
-        {
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private bool showStatusCenter;
 
         public bool ShowStatusCenter
@@ -98,5 +70,52 @@ namespace Files.UserControls
                 }
             }
         }
+
+        #endregion
+
+        #region Constructor
+
+        public StatusBarControl()
+        {
+            this.InitializeComponent();
+            statusCenterActions.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
+        {
+            if (AppSettings.ShowStatusCenterTeachingTip)
+            {
+                StatusCenterTeachingTip.IsOpen = true;
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                AppSettings.ShowStatusCenterTeachingTip = false;
+            }
+            else
+            {
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatusCenterTeachingTip.IsOpen = false;
+            }
+        }
+
+        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            FullTrustStatusTeachingTip.IsOpen = true;
+        }
+        
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

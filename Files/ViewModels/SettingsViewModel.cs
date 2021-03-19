@@ -4,11 +4,10 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -16,14 +15,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -98,10 +95,22 @@ namespace Files.ViewModels
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the width of the the sidebar pane when open.
+        /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the sidebar pane should be open or closed.
+        /// </summary>
+        public bool IsSidebarOpen
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         /// <summary>
@@ -122,6 +131,15 @@ namespace Files.ViewModels
             set => Set(value.Value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should be open or closed.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook
@@ -130,13 +148,13 @@ namespace Files.ViewModels
                 var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "DetectQuickLook" }
-                    }, TimeSpan.FromSeconds(10));
+                    });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                        localSettings.Values["quicklook_enabled"] = response.Get("IsAvailable", false);
                     }
                 }
             }
@@ -509,7 +527,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool IsAcrylicDisabled
         {
-            get => Get(true);
+            get => Get(false);
             set => Set(value);
         }
 
@@ -549,6 +567,14 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// </summary>
+        public string PathToThemeFile
+        {
+            get => Get("DefaultScheme".GetLocalized());
+            set => Set(value);
+        }
         #endregion Appearance
 
         #region Experimental
@@ -674,6 +700,15 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
         /// </summary>
         public bool ResumeAfterRestart
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the confirm elevation dialog.
+        /// </summary>
+        public bool HideConfirmElevateDialog
         {
             get => Get(false);
             set => Set(value);

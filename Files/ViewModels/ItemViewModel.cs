@@ -6,7 +6,7 @@ using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -32,7 +33,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using static Files.ViewModels.FolderSettingsViewModel;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.ViewModels
@@ -53,21 +53,21 @@ namespace Files.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-        public FolderSettingsViewModel FolderSettings = null;
+        private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public event EventHandler DirectoryInfoUpdated;
 
         private string customPath;
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-        private AppServiceConnection Connection;
+        private NamedPipeAsAppServiceConnection Connection;
 
         public string WorkingDirectory
         {
@@ -81,12 +81,15 @@ namespace Files.ViewModels
         private StorageFolderWithPath workingRoot;
 
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
+
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
 
         public delegate void PageTypeUpdatedEventHandler(object sender, PageTypeUpdatedEventArgs e);
+
         public event PageTypeUpdatedEventHandler PageTypeUpdated;
 
         public delegate void ItemLoadStatusChangedEventHandler(object sender, ItemLoadStatusChangedEventArgs e);
+
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
         public async Task<FilesystemResult> SetWorkingDirectoryAsync(string value)
@@ -197,12 +200,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByName
         {
-            get => FolderSettings.DirectorySortOption == SortOption.Name;
+            get => folderSettings.DirectorySortOption == SortOption.Name;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.Name;
+                    folderSettings.DirectorySortOption = SortOption.Name;
                     NotifyPropertyChanged(nameof(IsSortedByName));
                 }
             }
@@ -210,12 +213,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByOriginalPath
         {
-            get => FolderSettings.DirectorySortOption == SortOption.OriginalPath;
+            get => folderSettings.DirectorySortOption == SortOption.OriginalPath;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                    folderSettings.DirectorySortOption = SortOption.OriginalPath;
                     NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
@@ -223,12 +226,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByDateDeleted
         {
-            get => FolderSettings.DirectorySortOption == SortOption.DateDeleted;
+            get => folderSettings.DirectorySortOption == SortOption.DateDeleted;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
+                    folderSettings.DirectorySortOption = SortOption.DateDeleted;
                     NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
                 }
             }
@@ -236,12 +239,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByDate
         {
-            get => FolderSettings.DirectorySortOption == SortOption.DateModified;
+            get => folderSettings.DirectorySortOption == SortOption.DateModified;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.DateModified;
+                    folderSettings.DirectorySortOption = SortOption.DateModified;
                     NotifyPropertyChanged(nameof(IsSortedByDate));
                 }
             }
@@ -249,12 +252,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByDateCreated
         {
-            get => FolderSettings.DirectorySortOption == SortOption.DateCreated;
+            get => folderSettings.DirectorySortOption == SortOption.DateCreated;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.DateCreated;
+                    folderSettings.DirectorySortOption = SortOption.DateCreated;
                     NotifyPropertyChanged(nameof(IsSortedByDateCreated));
                 }
             }
@@ -262,12 +265,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByType
         {
-            get => FolderSettings.DirectorySortOption == SortOption.FileType;
+            get => folderSettings.DirectorySortOption == SortOption.FileType;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.FileType;
+                    folderSettings.DirectorySortOption = SortOption.FileType;
                     NotifyPropertyChanged(nameof(IsSortedByType));
                 }
             }
@@ -275,12 +278,12 @@ namespace Files.ViewModels
 
         public bool IsSortedBySize
         {
-            get => FolderSettings.DirectorySortOption == SortOption.Size;
+            get => folderSettings.DirectorySortOption == SortOption.Size;
             set
             {
                 if (value)
                 {
-                    FolderSettings.DirectorySortOption = SortOption.Size;
+                    folderSettings.DirectorySortOption = SortOption.Size;
                     NotifyPropertyChanged(nameof(IsSortedBySize));
                 }
             }
@@ -288,10 +291,10 @@ namespace Files.ViewModels
 
         public bool IsSortedAscending
         {
-            get => FolderSettings.DirectorySortDirection == SortDirection.Ascending;
+            get => folderSettings.DirectorySortDirection == SortDirection.Ascending;
             set
             {
-                FolderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                folderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
                 NotifyPropertyChanged(nameof(IsSortedAscending));
                 NotifyPropertyChanged(nameof(IsSortedDescending));
             }
@@ -302,7 +305,7 @@ namespace Files.ViewModels
             get => !IsSortedAscending;
             set
             {
-                FolderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+                folderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
                 NotifyPropertyChanged(nameof(IsSortedAscending));
                 NotifyPropertyChanged(nameof(IsSortedDescending));
             }
@@ -310,7 +313,7 @@ namespace Files.ViewModels
 
         public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
         {
-            FolderSettings = folderSettingsViewModel;
+            folderSettings = folderSettingsViewModel;
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
             addFilesCTS = new CancellationTokenSource();
@@ -319,7 +322,7 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
         }
 
-        public void OnAppServiceConnectionChanged(AppServiceConnection connection)
+        public void OnAppServiceConnectionChanged(NamedPipeAsAppServiceConnection connection)
         {
             if (Connection != null)
             {
@@ -332,19 +335,15 @@ namespace Files.ViewModels
             }
         }
 
-        private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
         {
-            // Get a deferral because we use an awaitable API below to respond to the message
-            // and we don't want this call to get cancelled while we are waiting.
-            var messageDeferral = args.GetDeferral();
-
             // The fulltrust process signaled that something in the recycle bin folder has changed
-            if (args.Request.Message.ContainsKey("FileSystem"))
+            if (message.ContainsKey("FileSystem"))
             {
-                var folderPath = (string)args.Request.Message["FileSystem"];
-                var itemPath = (string)args.Request.Message["Path"];
-                var changeType = (string)args.Request.Message["Type"];
-                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
+                var folderPath = (string)message["FileSystem"];
+                var itemPath = (string)message["Path"];
+                var changeType = (string)message["Type"];
+                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
                 // If we are currently displaying the reycle bin lets refresh the items
                 if (CurrentFolder?.ItemPath == folderPath)
@@ -379,15 +378,12 @@ namespace Files.ViewModels
                 }
             }
             // The fulltrust process signaled that a drive has been connected/disconnected
-            else if (args.Request.Message.ContainsKey("DeviceID"))
+            else if (message.ContainsKey("DeviceID"))
             {
-                var deviceId = (string)args.Request.Message["DeviceID"];
-                var eventType = (DeviceEvent)(int)args.Request.Message["EventType"];
+                var deviceId = (string)message["DeviceID"];
+                var eventType = (DeviceEvent)(long)message["EventType"];
                 await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
-            // Complete the deferral so that the platform knows that we're done responding to the app service call.
-            // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-            messageDeferral.Complete();
         }
 
         public void CancelLoadAndClearFiles()
@@ -511,7 +507,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
         }
 
@@ -527,7 +523,7 @@ namespace Files.ViewModels
                 static object orderByNameFunc(ListedItem item) => item.ItemName;
                 Func<ListedItem, object> orderFunc = orderByNameFunc;
                 var naturalStringComparer = NaturalStringComparer.GetForProcessor();
-                switch (FolderSettings.DirectorySortOption)
+                switch (folderSettings.DirectorySortOption)
                 {
                     case SortOption.Name:
                         orderFunc = orderByNameFunc;
@@ -563,9 +559,9 @@ namespace Files.ViewModels
                 static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File);
                 IOrderedEnumerable<ListedItem> ordered;
 
-                if (FolderSettings.DirectorySortDirection == SortDirection.Ascending)
+                if (folderSettings.DirectorySortDirection == SortDirection.Ascending)
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (folderSettings.DirectorySortOption == SortOption.Name)
                     {
                         if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                         {
@@ -590,7 +586,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (folderSettings.DirectorySortOption == SortOption.Name)
                     {
                         if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                         {
@@ -615,9 +611,9 @@ namespace Files.ViewModels
                 }
 
                 // Further order by name if applicable
-                if (FolderSettings.DirectorySortOption != SortOption.Name)
+                if (folderSettings.DirectorySortOption != SortOption.Name)
                 {
-                    if (FolderSettings.DirectorySortDirection == SortDirection.Ascending)
+                    if (folderSettings.DirectorySortDirection == SortDirection.Ascending)
                     {
                         ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
                     }
@@ -763,7 +759,7 @@ namespace Files.ViewModels
                                         item.ItemName = matchingStorageItem.DisplayName;
                                     });
                                     await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageItem.DisplayName);
-                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
+                                    if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
                                     {
                                         await OrderFilesAndFoldersAsync();
                                         await ApplySingleFileChangeAsync(item);
@@ -807,17 +803,19 @@ namespace Files.ViewModels
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageSafeAsync(value);
-                var hasCustomIcon = (status == AppServiceResponseStatus.Success)
-                    && response.Message.Get("HasCustomIcon", false);
-                var icon = response.Message.Get("Icon", (string)null);
-                var overlay = response.Message.Get("Overlay", (string)null);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var hasCustomIcon = response.Get("HasCustomIcon", false);
+                    var icon = response.Get("Icon", (string)null);
+                    var overlay = response.Get("Overlay", (string)null);
 
-                // BitmapImage can only be created on UI thread, so return raw data and create
-                // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                return (icon == null ? null : Convert.FromBase64String(icon),
-                    overlay == null ? null : Convert.FromBase64String(overlay),
-                    hasCustomIcon);
+                    // BitmapImage can only be created on UI thread, so return raw data and create
+                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                    return (icon == null ? null : Convert.FromBase64String(icon),
+                        overlay == null ? null : Convert.FromBase64String(overlay),
+                        hasCustomIcon);
+                }
             }
             return (null, null, false);
         }
@@ -916,7 +914,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, FolderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
+                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
                     {
                         WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item));
                     }
@@ -945,13 +943,13 @@ namespace Files.ViewModels
                                             storageFolder = res.Result;
                                         }
                                     }
-                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, FolderSettings.GetLayoutType(path), addFilesCTS.Token, null, cacheOnly: true);
+                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, null, cacheOnly: true);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception ex)
                             {
                                 // ignore exception. This is fine, it's only a caching that can fail
-                                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                             }
                         }).Forget();
                     }
@@ -972,7 +970,7 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                AdaptiveLayoutHelpers.PredictLayoutMode(FolderSettings, this);
+                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
             }
             finally
             {
@@ -1029,16 +1027,16 @@ namespace Files.ViewModels
                     value.Add("action", "Enumerate");
                     value.Add("folder", path);
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
+                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
                         return;
                     }
                     if (status == AppServiceResponseStatus.Success
-                        && response.Message.ContainsKey("Enumerate"))
+                        && response.ContainsKey("Enumerate"))
                     {
-                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
                         for (int count = 0; count < folderContentsList.Count; count++)
                         {
                             var item = folderContentsList[count];
@@ -1124,7 +1122,7 @@ namespace Files.ViewModels
                         value.Add("action", "Unlock");
                         value.Add("drive", Path.GetPathRoot(path));
                         value.Add("password", userInput);
-                        await Connection.SendMessageSafeAsync(value);
+                        await Connection.SendMessageAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {
@@ -1544,7 +1542,7 @@ namespace Files.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                            NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                         }
 
                         if (sampler.CheckNow())
@@ -1843,11 +1841,12 @@ namespace Files.ViewModels
         public ItemLoadStatus Status { get; set; }
 
         /// <summary>
-        /// This property may not be provided consistently if Status is not Complete 
+        /// This property may not be provided consistently if Status is not Complete
         /// </summary>
         public string PreviousDirectory { get; set; }
+
         /// <summary>
-        /// This property may not be provided consistently if Status is not Complete 
+        /// This property may not be provided consistently if Status is not Complete
         /// </summary>
         public string Path { get; set; }
     }

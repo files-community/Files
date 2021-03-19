@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -56,7 +56,7 @@ namespace Files.ViewModels.Properties
             catch (Exception e)
             {
                 ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
-                NLog.LogManager.GetCurrentClassLogger().Error(e, e.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
             }
         }
     }
