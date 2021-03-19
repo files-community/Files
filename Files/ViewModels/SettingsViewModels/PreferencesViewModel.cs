@@ -14,7 +14,7 @@ namespace Files.ViewModels.SettingsViewModels
     public class PreferencesViewModel : ObservableObject
     {
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
-        private bool showRestartDialog;
+        private bool showRestartControl;
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
@@ -43,20 +43,20 @@ namespace Files.ViewModels.SettingsViewModels
 
                     if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[value].ID)
                     {
-                        ShowRestartDialog = true;
+                        ShowRestartControl = true;
                     }
                     else
                     {
-                        ShowRestartDialog = false;
+                        ShowRestartControl = false;
                     }
                 }
             }
         }
 
-        public bool ShowRestartDialog
+        public bool ShowRestartControl
         {
-            get => showRestartDialog;
-            set => SetProperty(ref showRestartDialog, value);
+            get => showRestartControl;
+            set => SetProperty(ref showRestartControl, value);
         }
 
         public List<Terminal> Terminals { get; set; }

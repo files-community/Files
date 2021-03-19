@@ -2408,7 +2408,7 @@
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion Complete</source>
-          <target state="translated">削除完了/target>
+          <target state="translated">削除完了</target>
         </trans-unit>
         <trans-unit id="StatusOperationCompleted" translate="yes" xml:space="preserve">
           <source>The operation has completed.</source>

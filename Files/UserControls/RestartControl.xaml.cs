@@ -4,11 +4,11 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Dialogs
+namespace Files.UserControls
 {
-    public sealed partial class RestartDialog : UserControl
+    public sealed partial class RestartControl : UserControl
     {
-        public RestartDialog()
+        public RestartControl()
         {
             InitializeComponent();
         }
@@ -16,7 +16,7 @@ namespace Files.Dialogs
         public static readonly DependencyProperty ShowDialogProperty = DependencyProperty.Register(
           "ShowDialog",
           typeof(bool),
-          typeof(RestartDialog),
+          typeof(RestartControl),
           new PropertyMetadata(false, new PropertyChangedCallback(OnShowDialogPropertyChanged))
         );
 
@@ -34,7 +34,7 @@ namespace Files.Dialogs
 
         private static void OnShowDialogPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var dialog = (RestartDialog)sender;
+            var dialog = (RestartControl)sender;
             if ((bool)e.NewValue)
             {
                 dialog.RestartNotification.Show(10000);

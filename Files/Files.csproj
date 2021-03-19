@@ -210,8 +210,8 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RestartDialog.xaml.cs">
-      <DependentUpon>RestartDialog.xaml</DependentUpon>
+    <Compile Include="UserControls\RestartControl.xaml.cs">
+      <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DeviceHelpers.cs" />
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
@@ -744,7 +744,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\RestartDialog.xaml">
+    <Page Include="UserControls\RestartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

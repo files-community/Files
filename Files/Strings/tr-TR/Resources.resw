@@ -646,7 +646,7 @@
     <value>Sayfa:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Sıçrama listesindeki bir öge başlatılırken</value>
+    <value>Jumplist'ten bir öğe başlatılırken</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Her zaman yeni bir kopya açılsın</value>
