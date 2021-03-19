@@ -29,14 +29,14 @@
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <FontIcon
                             x:Name="ExpandIcon"
-                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontFamily="{StaticResource FluentGlyphs}"
                             FontSize="14"
-                            Glyph="&#xE9A5;" />
+                            Glyph="&#xE70D;" />
                         <FontIcon
                             x:Name="CollapseIcon"
-                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontFamily="{StaticResource FluentGlyphs}"
                             FontSize="14"
-                            Glyph="&#xE9A9;"
+                            Glyph="&#xE70E;"
                             Visibility="Collapsed" />
                         <TextBlock FontWeight="Bold" Text="More information" />
                     </StackPanel>

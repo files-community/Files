@@ -269,13 +269,13 @@ namespace Files.Interacts
             }
         }
 
-        public void PinItem_Click(object sender, RoutedEventArgs e)
+        public async void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage != null)
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
+                    await App.SidebarPinnedController.Model.AddItemToSidebarAsync(listedItem.ItemPath);
                 }
             }
         }
@@ -286,7 +286,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);                    
                 }
             }
         }
@@ -480,7 +480,8 @@ namespace Files.Interacts
         /// <param name="itemType"></param>
         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
-        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false)
+        /// <param name="selectItems">List of filenames that are selected upon navigation</param>
+        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null)
         // TODO: This function reliability has not been extensively tested
         {
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -548,7 +549,8 @@ namespace Files.Interacts
                         AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutTargetPath,
-                            AssociatedTabInstance = AssociatedInstance
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems
                         }, new SuppressNavigationTransitionInfo());
 
                         return true;
@@ -587,7 +589,8 @@ namespace Files.Interacts
                         AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
-                            AssociatedTabInstance = AssociatedInstance
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems
                         }, new SuppressNavigationTransitionInfo());
                     }
                 }

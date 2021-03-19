@@ -1,16 +1,11 @@
-﻿using Files.Dialogs;
-using Files.Enums;
-using Files.Helpers;
-using Files.SettingsInterfaces;
-using Files.ViewModels.Dialogs;
+﻿using System;
+using System.Linq;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -19,6 +14,12 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Newtonsoft.Json;
+using Files.Dialogs;
+using Files.Enums;
+using Files.Helpers;
+using Files.SettingsInterfaces;
+using Files.ViewModels.Dialogs;
 
 namespace Files.ViewModels.Bundles
 {
@@ -37,6 +38,10 @@ namespace Files.ViewModels.Bundles
 
         private IShellPage associatedInstance;
 
+        private bool itemAddedInternally;
+
+        private int internalCollectionCount;
+
         #endregion Private Members
 
         #region Public Properties
@@ -44,7 +49,7 @@ namespace Files.ViewModels.Bundles
         /// <summary>
         /// Collection of all bundles
         /// </summary>
-        public ObservableCollection<BundleContainerViewModel> Items { get; set; } = new ObservableCollection<BundleContainerViewModel>();
+        public ObservableCollection<BundleContainerViewModel> Items { get; private set; } = new ObservableCollection<BundleContainerViewModel>();
 
         private string bundleNameTextInput = string.Empty;
 
@@ -96,6 +101,8 @@ namespace Files.ViewModels.Bundles
             AddBundleCommand = new RelayCommand(() => AddBundle(BundleNameTextInput));
             ImportBundlesCommand = new RelayCommand(ImportBundles);
             ExportBundlesCommand = new RelayCommand(ExportBundles);
+
+            Items.CollectionChanged += Items_CollectionChanged;
         }
 
         #endregion Constructor
@@ -118,18 +125,47 @@ namespace Files.ViewModels.Bundles
                 PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
             };
 
-            inputText.Loaded += inputText_Loaded;
+            TextBlock tipText = new TextBlock()
+            {
+                Text = string.Empty,
+                Visibility = Visibility.Collapsed
+            };
 
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = inputText,
+                DisplayControl = new Grid()
+                {
+                    Children =
+                    {
+                        new StackPanel()
+                        {
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
+                },
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
                 CloseButtonText = "BundlesWidgetCreateBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
-                    AddBundle((vm.DisplayControl as TextBox).Text);
+                    var (result, reason) = CanAddBundle(inputText.Text);
+
+                    tipText.Text = reason;
+                    tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+
+                    if (!result)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    AddBundle(inputText.Text);
                 },
                 CloseButtonAction = (vm, e) =>
                 {
@@ -139,7 +175,7 @@ namespace Files.ViewModels.Bundles
                 {
                     if (e.Key == VirtualKey.Enter)
                     {
-                        AddBundle((vm.DisplayControl as TextBox).Text);
+                        AddBundle(inputText.Text);
                     }
                     else if (e.Key == VirtualKey.Escape)
                     {
@@ -149,18 +185,11 @@ namespace Files.ViewModels.Bundles
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
             await dialog.ShowAsync();
-
-            inputText.Loaded -= inputText_Loaded;
-
-            void inputText_Loaded(object s, RoutedEventArgs e)
-            {
-                inputText.Focus(FocusState.Programmatic);
-            }
         }
 
         private void AddBundle(string name)
         {
-            if (!CanAddBundle(name))
+            if (!CanAddBundle(name).result)
             {
                 return;
             }
@@ -176,12 +205,14 @@ namespace Files.ViewModels.Bundles
                 };
             }
 
+            itemAddedInternally = true;
             Items.Add(new BundleContainerViewModel(associatedInstance)
             {
                 BundleName = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
             });
             NoBundlesAddItemLoad = false;
+            itemAddedInternally = false;
 
             // Save bundles
             Save();
@@ -262,6 +293,16 @@ namespace Files.ViewModels.Bundles
             }
         }
 
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (internalCollectionCount < Items.Count && !itemAddedInternally)
+            {
+                Save();
+            }
+
+            internalCollectionCount = Items.Count;
+        }
+
         #endregion Handlers
 
         #region Public Helpers
@@ -321,11 +362,13 @@ namespace Files.ViewModels.Bundles
                     }
 
                     // Fill current bundle with collected bundle items
+                    itemAddedInternally = true;
                     Items.Add(new BundleContainerViewModel(associatedInstance)
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
                     }.SetBundleItems(bundleItems));
+                    itemAddedInternally = false;
                 }
 
                 if (Items.Count == 0)
@@ -348,23 +391,23 @@ namespace Files.ViewModels.Bundles
             this.associatedInstance = associatedInstance;
         }
 
-        public bool CanAddBundle(string name)
+        public (bool result, string reason) CanAddBundle(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized();
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
             }
 
             if (!Items.Any((item) => item.BundleName == name))
             {
                 AddBundleErrorText = string.Empty;
-                return true;
+                return (true, string.Empty);
             }
             else
             {
                 AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized();
-                return false;
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
             }
         }
 
@@ -376,10 +419,10 @@ namespace Files.ViewModels.Bundles
         {
             foreach (var item in Items)
             {
-                item.NotifyItemRemoved -= NotifyItemRemovedHandle;
                 item?.Dispose();
             }
 
+            Items.CollectionChanged -= Items_CollectionChanged;
             associatedInstance = null;
             Items = null;
         }

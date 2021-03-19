@@ -75,11 +75,11 @@
                         x:Name="GripperGlyphTextBlock"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontFamily="{StaticResource FluentGlyphs}"
                         FontSize="36"
                         Foreground="{StaticResource SystemChromeHighColor}"
                         IsHitTestVisible="False"
-                        Text="&#xEB3D;" />
+                        Text="&#xE738;" />
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
