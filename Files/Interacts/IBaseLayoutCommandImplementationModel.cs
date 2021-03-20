@@ -28,5 +28,27 @@ namespace Files.Interacts
         void EmptyRecycleBin(RoutedEventArgs e);
 
         void QuickLook(RoutedEventArgs e);
+
+        void CopyItem(RoutedEventArgs e);
+
+        void CutItem(RoutedEventArgs e);
+
+        void RestoreItem(RoutedEventArgs e);
+
+        void DeleteItem(RoutedEventArgs e);
+
+        void ShowFolderProperties(RoutedEventArgs e);
+
+        void ShowProperties(RoutedEventArgs e);
+
+        void OpenFileLocation(RoutedEventArgs e);
+
+        void OpenItemWithApplicationPicker(RoutedEventArgs e);
+
+        void OpenDirectoryInNewTab(RoutedEventArgs e);
+
+        void OpenDirectoryInNewPane(RoutedEventArgs e);
+
+        void OpenInNewWindowItem(RoutedEventArgs e);
     }
 }

@@ -329,7 +329,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.ShowProperties();
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Space)

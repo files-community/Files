@@ -937,7 +937,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.CopyItem_ClickAsync(null, null);
+                        InteractionOperations.ShowProperties();
                     }
 
                     break;
@@ -953,7 +953,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.CutItem_Click(null, null);
+                        InteractionOperations.ShowProperties();
                     }
 
                     break;

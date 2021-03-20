@@ -48,7 +48,6 @@ namespace Files.Interacts
     public class Interaction
     {
         private NamedPipeAsAppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private string jumpString = "";
         private readonly DispatcherTimer jumpTimer = new DispatcherTimer();
         private readonly IShellPage AssociatedInstance;
@@ -158,42 +157,11 @@ namespace Files.Interacts
             await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
-        public async void OpenInNewWindowItem_Click()
-        {
-            var items = AssociatedInstance.SlimContentPage.SelectedItems;
-            foreach (ListedItem listedItem in items)
-            {
-                var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-                var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
-                await Launcher.LaunchUriAsync(folderUri);
-            }
-        }
-
-        public void OpenDirectoryInNewPane_Click()
-        {
-            var listedItem = AssociatedInstance.SlimContentPage.SelectedItems.FirstOrDefault();
-            if (listedItem != null)
-            {
-                AssociatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-            }
-        }
-
         public RelayCommand OpenNewPane => new RelayCommand(() => OpenNewPaneCommand());
 
         public void OpenNewPaneCommand()
         {
             AssociatedInstance.PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized());
-        }
-
-        public async void OpenDirectoryInNewTab_Click()
-        {
-            foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
-            {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
-                {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-                });
-            }
         }
 
         public void ItemPointerPressed(object sender, PointerRoutedEventArgs e)
@@ -301,40 +269,6 @@ namespace Files.Interacts
         {
             var openedPopups = VisualTreeHelper.GetOpenPopups(Window.Current);
             return openedPopups.Any(popup => popup.Child is ContentDialog);
-        }
-
-        public void OpenItemWithApplicationPicker_Click(object sender, RoutedEventArgs e)
-        {
-            OpenSelectedItems(true);
-        }
-
-        public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
-        {
-            var item = ((sender as MenuFlyoutItem).DataContext as ShortcutItem);
-            if (string.IsNullOrEmpty(item?.TargetPath))
-            {
-                return;
-            }
-            var folderPath = Path.GetDirectoryName(item.TargetPath);
-            // Check if destination path exists
-            var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-            if (destFolder)
-            {
-                AssociatedInstance.NavigateWithArguments(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
-                {
-                    NavPathParam = folderPath,
-                    AssociatedTabInstance = AssociatedInstance
-                });
-            }
-            else if (destFolder == FileSystemStatusCode.NotFound)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
-            }
-            else
-            {
-                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
-            }
         }
 
         /// <summary>
@@ -636,7 +570,7 @@ namespace Files.Interacts
             DataTransferManager.ShowShareUI();
         }
 
-        private async void ShowProperties()
+        public async void ShowProperties()
         {
             if (AssociatedInstance.SlimContentPage.IsItemSelected)
             {
@@ -714,16 +648,6 @@ namespace Files.Interacts
             }
         }
 
-        public void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowProperties();
-        }
-
-        public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowProperties();
-        }
-
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
@@ -789,15 +713,6 @@ namespace Files.Interacts
             dataRequestDeferral.Complete();
         }
 
-        public async void DeleteItem_Click(object sender, RoutedEventArgs e)
-        {
-            await FilesystemHelpers.DeleteItemsAsync(
-                AssociatedInstance.SlimContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
-                    item.ItemPath,
-                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
-                true, false, true);
-        }
-
         public async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName)
         {
             if (oldName == newName)
@@ -840,172 +755,6 @@ namespace Files.Interacts
         {
             item.IsHiddenItem = isHidden;
             AssociatedInstance.SlimContentPage.ResetItemOpacity();
-        }
-
-        public async void RestoreItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (AssociatedInstance.SlimContentPage.IsItemSelected)
-            {
-                foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
-                {
-                    if (listedItem is RecycleBinItem binItem)
-                    {
-                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
-                            (listedItem as RecycleBinItem).ItemPath,
-                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
-                    }
-                }
-            }
-        }
-
-        public async void CutItem_Click(object sender, RoutedEventArgs e)
-        {
-            DataPackage dataPackage = new DataPackage
-            {
-                RequestedOperation = DataPackageOperation.Move
-            };
-            List<IStorageItem> items = new List<IStorageItem>();
-            var cut = (FilesystemResult)false;
-            if (AssociatedInstance.SlimContentPage.IsItemSelected)
-            {
-                // First, reset DataGrid Rows that may be in "cut" command mode
-                AssociatedInstance.SlimContentPage.ResetItemOpacity();
-
-                foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
-                {
-                    // Dim opacities accordingly
-                    AssociatedInstance.SlimContentPage.SetItemOpacity(listedItem);
-
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
-                    {
-                        cut = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!cut)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        cut = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!cut)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if (cut.ErrorCode == FileSystemStatusCode.NotFound)
-                {
-                    AssociatedInstance.SlimContentPage.ResetItemOpacity();
-                    return;
-                }
-                else if (cut.ErrorCode == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with fulltrust process
-                    if (Connection != null)
-                    {
-                        var filePaths = string.Join('|', AssociatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var status = await Connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "Clipboard" },
-                            { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Move }
-                        });
-                        if (status == AppServiceResponseStatus.Success)
-                        {
-                            return;
-                        }
-                    }
-                    AssociatedInstance.SlimContentPage.ResetItemOpacity();
-                    return;
-                }
-            }
-            if (!items.Any())
-            {
-                return;
-            }
-            dataPackage.SetStorageItems(items);
-            try
-            {
-                Clipboard.SetContent(dataPackage);
-                Clipboard.Flush();
-            }
-            catch
-            {
-                dataPackage = null;
-            }
-        }
-
-        public string CopySourcePath;
-
-        public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            DataPackage dataPackage = new DataPackage
-            {
-                RequestedOperation = DataPackageOperation.Copy
-            };
-            List<IStorageItem> items = new List<IStorageItem>();
-
-            CopySourcePath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-            var copied = (FilesystemResult)false;
-
-            if (AssociatedInstance.SlimContentPage.IsItemSelected)
-            {
-                foreach (ListedItem listedItem in AssociatedInstance.SlimContentPage.SelectedItems)
-                {
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
-                    {
-                        copied = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!copied)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        copied = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!copied)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if (copied.ErrorCode == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with fulltrust process
-                    if (Connection != null)
-                    {
-                        var filePaths = string.Join('|', AssociatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        await Connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "Clipboard" },
-                            { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Copy }
-                        });
-                    }
-                    return;
-                }
-            }
-
-            if (items?.Count > 0)
-            {
-                dataPackage.SetStorageItems(items);
-                try
-                {
-                    Clipboard.SetContent(dataPackage);
-                    Clipboard.Flush();
-                }
-                catch
-                {
-                    dataPackage = null;
-                }
-            }
         }
 
         public RelayCommand CopyPathOfSelectedItem => new RelayCommand(() => CopyLocation());

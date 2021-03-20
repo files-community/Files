@@ -233,8 +233,12 @@
             <MenuFlyoutItem
                     x:Name="PropertiesFolder"
                     x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                     Text="Properties">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShowFolderPropertiesCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
@@ -349,9 +353,13 @@
                     x:Name="OpenItemWithAppPicker"
                     x:Uid="BaseLayoutItemContextFlyoutOpenItemWith"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItemWithApplicationPicker_Click}"
                     Tag="OpenWith"
                     Text="Open With">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenItemWithApplicationPickerCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE17D;" />
                 </MenuFlyoutItem.Icon>
@@ -359,9 +367,13 @@
             <MenuFlyoutItem
                     x:Name="OpenFileLocation"
                     x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenFileLocation_Click}"
                     Text="Open file location"
                     Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenFileLocationCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE8DA;" />
                 </MenuFlyoutItem.Icon>
@@ -369,9 +381,13 @@
             <MenuFlyoutItem
                     x:Name="OpenInNewPane"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewPane"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewPane_Click}"
                     Tag="OpenPane_FlyoutItem"
                     Text="Open in new pane">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenDirectoryInNewPaneCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xF57C;" />
                 </MenuFlyoutItem.Icon>
@@ -380,9 +396,13 @@
                     x:Name="OpenInNewTab"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                     Tag="OpenTab_FlyoutItem"
                     Text="Open in new tab">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenDirectoryInNewTabCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                 </MenuFlyoutItem.Icon>
@@ -391,9 +411,13 @@
                     x:Name="OpenInNewWindowItem"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewWindow"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenInNewWindowItem_Click}"
                     Tag="OpenWindow_FlyoutItem"
                     Text="Open in new window">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenInNewWindowItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE737;" />
                 </MenuFlyoutItem.Icon>
@@ -471,8 +495,12 @@
             <MenuFlyoutItem
                     x:Name="CutItem"
                     x:Uid="BaseLayoutItemContextFlyoutCut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
                     Text="Cut">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CutItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE8C6;" />
                 </MenuFlyoutItem.Icon>
@@ -486,8 +514,12 @@
             <MenuFlyoutItem
                     x:Name="CopyItem"
                     x:Uid="BaseLayoutItemContextFlyoutCopy"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CopyItem_ClickAsync}"
                     Text="Copy">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CopyItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE8C8;" />
                 </MenuFlyoutItem.Icon>
@@ -524,8 +556,12 @@
             <MenuFlyoutItem
                     x:Name="DeleteItem"
                     x:Uid="BaseLayoutItemContextFlyoutDelete"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                     Text="Delete">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DeleteItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
@@ -583,8 +619,12 @@
             <MenuFlyoutItem
                     x:Name="PropertiesItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                     Text="Properties">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShowPropertiesCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
@@ -609,8 +649,12 @@
             <MenuFlyoutItem
                     x:Name="RestoreRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutRestore"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RestoreItem_Click}"
                     Text="Restore">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RestoreItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE7A7;" />
                 </MenuFlyoutItem.Icon>
@@ -619,8 +663,12 @@
             <MenuFlyoutItem
                     x:Name="DeleteRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutDelete"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                     Text="Delete">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DeleteItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xe9ee;" />
                 </MenuFlyoutItem.Icon>
@@ -632,8 +680,12 @@
             <MenuFlyoutItem
                     x:Name="PropertiesRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                     Text="Properties">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShowPropertiesCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon  Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
