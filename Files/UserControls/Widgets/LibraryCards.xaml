@@ -24,7 +24,7 @@
             x:Name="CardsList"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            ItemsSource="{x:Bind local:LibraryCards.ItemsAdded}">
+            ItemsSource="{x:Bind ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="Fill"

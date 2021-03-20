@@ -482,22 +482,18 @@ namespace Files.Interacts
                     });
                     return true;
                 }
-                else
+                else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
                 {
-                    var library = await LibraryHelper.Instance.Get(path);
-                    if (library != null)
+                    opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
+                    if (opened)
                     {
-                        opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
-                        if (opened)
+                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = library.Text;
+                        AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
-                            AssociatedInstance.NavigationToolbar.PathControlDisplayText = library.Text;
-                            AssociatedInstance.NavigateWithArguments(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
-                            {
-                                NavPathParam = path,
-                                AssociatedTabInstance = AssociatedInstance,
-                                SelectItems = selectItems,
-                            });
-                        }
+                            NavPathParam = path,
+                            AssociatedTabInstance = AssociatedInstance,
+                            SelectItems = selectItems,
+                        });
                     }
                 }
             }

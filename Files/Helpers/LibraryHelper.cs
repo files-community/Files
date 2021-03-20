@@ -1,7 +1,6 @@
 ﻿using Files.Common;
 using Files.Filesystem;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,127 +18,46 @@ namespace Files.Helpers
 
         // TODO: Watch library updates: https://docs.microsoft.com/windows/win32/shell/library-be-library-aware#keeping-in-sync-with-a-library 
 
-        public static LibraryHelper Instance => new LibraryHelper();
-
         /// <summary>
-        /// LibraryLocationItem cache. Access with <see cref="ListUserLibraries"/> or <see cref="Get"/>.
+        /// Get libraries of the current user with the help of the FullTrust process.
         /// </summary>
-        private readonly List<LibraryLocationItem> libraryItems = new List<LibraryLocationItem>();
-
-        /// <summary>
-        /// Get libraries of the current user with the help of the FullTrust process in case there are no cached items or the 2nd parameter is true.
-        /// </summary>
-        /// <param name="allowEmpty">Keep empty libraries in result (where Path == null)</param>
-        /// <param name="refresh">Re-enumerate libraries in case <see cref="libraryItems"/> is empty</param>
         /// <returns>List of library items</returns>
-        public async Task<List<LibraryLocationItem>> ListUserLibraries(bool allowEmpty, bool refresh = false)
+        public static async Task<List<LibraryLocationItem>> ListUserLibraries()
         {
-            if (libraryItems.Count == 0 || refresh)
-            {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var request = new ValueSet
-                    {
-                        { "Arguments", "ShellLibrary" },
-                        { "action", "Enumerate" }
-                    };
-                    var (status, response) = await connection.SendMessageForResponseAsync(request);
-
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
-                    {
-                        libraryItems.Clear();
-                        libraryItems.AddRange(JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)));
-                        libraryItems.Sort((a, b) => a.Text.CompareTo(b.Text));
-                    }
-                }
-            }
-            if (!allowEmpty)
-            {
-                return libraryItems.Where(l => l.DefaultSaveFolder != null && l.Folders != null).ToList();
-            }
-            return libraryItems;
-        }
-
-        /// <summary>
-        /// Check whether path belongs to a library.
-        /// </summary>
-        /// <param name="path">The path to check</param>
-        /// <param name="defaultSaveFolderOnly">True to check default save folder only, false to check all</param>
-        /// <returns>True if the specified path belongs to a library.</returns>
-        public async Task<bool> IsLibraryPath(string path, bool defaultSaveFolderOnly = true)
-        {
-            var lib = await Get(path);
-            if (lib == null || lib.IsEmpty)
-            {
-                return false;
-            }
-            if (string.Equals(path, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-            if (!defaultSaveFolderOnly && lib.Folders.Any(f => string.Equals(path, f, StringComparison.OrdinalIgnoreCase)))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<LibraryLocationItem> Get(string libraryFilePath)
-        {
-            if (string.IsNullOrEmpty(libraryFilePath) || !libraryFilePath.EndsWith(ShellLibraryItem.EXTENSION))
-            {
-                return null;
-            }
-            var libs = await ListUserLibraries(true);
-            return libs.FirstOrDefault(l => l.Path == libraryFilePath);
-        }
-
-        /// <summary>
-        /// Opens the Shell library management dialog for the specified library.
-        /// </summary>
-        /// <param name="libraryFilePath">The library to manage</param>
-        public async void OpenLibraryManagerDialog(string libraryFilePath)
-        {
+            List<LibraryLocationItem> libraries = null;
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection == null)
             {
-                return;
+                return null;
             }
-            var lib = await Get(libraryFilePath);
-            if (lib == null)
-            {
-                return;
-            }
-            await connection.SendMessageForResponseAsync(new ValueSet
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
             {
                 { "Arguments", "ShellLibrary" },
-                { "action", "Manage" },
-                { "library", lib.Path },
-                { "dialogOwnerHandle", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "action", "Enumerate" }
             });
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
+            {
+                libraries = JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
+                libraries.Sort((a, b) => a.Text.CompareTo(b.Text));
+            }
+            return libraries;
         }
 
         /// <summary>
         /// Create new library with the specified name.
         /// </summary>
         /// <param name="name">The name of the new library (must be unique)</param>
-        /// <returns>True if the new library successfully created</returns>
-        public async Task<bool> CreateLibrary(string name)
+        /// <returns>The new library if successfully created</returns>
+        public static async Task<LibraryLocationItem> CreateLibrary(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                return false;
+                return null;
             }
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection == null)
             {
-                return false;
-            }
-            var libs = await ListUserLibraries(true);
-            if (libs.Any(l => string.Equals(l.Text, name, StringComparison.OrdinalIgnoreCase)))
-            {
-                return false;
+                return null;
             }
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
             {
@@ -147,22 +65,28 @@ namespace Files.Helpers
                 { "action", "Create" },
                 { "library", name }
             });
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShellLibrary"))
+            LibraryLocationItem library = null;
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
             {
-                return response["ShellLibrary"] as string == "Create";
+                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Create"]));
             }
-            return false;
+            return library;
         }
 
-        public async Task<string> RenameLibrary(string libraryFilePath, string name)
+        /// <summary>
+        /// Change name of a library.
+        /// </summary>
+        /// <param name="libraryFilePath">Library file path</param>
+        /// <param name="name">The new name of the library (must be unique)</param>
+        /// <returns>The new library if successfully renamed</returns>
+        public static async Task<LibraryLocationItem> RenameLibrary(string libraryFilePath, string name)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+            if (string.IsNullOrWhiteSpace(libraryFilePath) || string.IsNullOrWhiteSpace(name))
             {
                 return null;
             }
-            var lib = await Get(libraryFilePath);
-            if (lib == null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
             {
                 return null;
             }
@@ -170,28 +94,77 @@ namespace Files.Helpers
             {
                 { "Arguments", "ShellLibrary" },
                 { "action", "Rename" },
-                { "library", lib.Path },
+                { "library", libraryFilePath },
                 { "name", name }
             });
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShellLibrary") && response.ContainsKey("name"))
+            LibraryLocationItem library = null;
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Rename"))
             {
-                if (response["name"] as string == name)
-                {
-                    return name;
-                }
+                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Rename"]));
             }
-            return null;
+            return library;
         }
 
-        public async Task<bool> DeleteLibrary(string libraryFilePath)
+        /// <summary>
+        /// Update library details.
+        /// </summary>
+        /// <param name="libraryFilePath">Library file path</param>
+        /// <param name="defaultSaveFolder">Update the default save folder or null to keep current</param>
+        /// <param name="folders">Update the library folders or null to keep current</param>
+        /// <param name="isPinned">Update the library pinned status or null to keep current</param>
+        /// <returns>The new library if successfully updated</returns>
+        public static async Task<LibraryLocationItem> UpdateLibrary(string libraryFilePath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
+            if (string.IsNullOrWhiteSpace(libraryFilePath) || defaultSaveFolder == null && folders == null && isPinned == null)
+            {
+                // Nothing to update
+                return null;
+            }
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection == null)
             {
+                return null;
+            }
+            var request = new ValueSet
+            {
+                { "Arguments", "ShellLibrary" },
+                { "action", "Update" },
+                { "library", libraryFilePath }
+            };
+            if (!string.IsNullOrEmpty(defaultSaveFolder))
+            {
+                request.Add("defaultSaveFolder", defaultSaveFolder);
+            }
+            if (folders != null)
+            {
+                request.Add("folders", folders);
+            }
+            if (isPinned != null)
+            {
+                request.Add("isPinned", isPinned);
+            }
+            var (status, response) = await connection.SendMessageForResponseAsync(request);
+            LibraryLocationItem library = null;
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Update"))
+            {
+                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Update"]));
+            }
+            return library;
+        }
+
+        /// <summary>
+        /// Delete a library.
+        /// </summary>
+        /// <param name="libraryFilePath">Library file path</param>
+        /// <returns>True if the library successfully deleted</returns>
+        public static async Task<bool> DeleteLibrary(string libraryFilePath)
+        {
+            if (string.IsNullOrWhiteSpace(libraryFilePath))
+            {
                 return false;
             }
-            var lib = await Get(libraryFilePath);
-            if (lib == null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
             {
                 return false;
             }
@@ -199,11 +172,11 @@ namespace Files.Helpers
             {
                 { "Arguments", "ShellLibrary" },
                 { "action", "Delete" },
-                { "library", lib.Path }
+                { "library", libraryFilePath }
             });
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShellLibrary") && response.ContainsKey("action"))
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Delete"))
             {
-                if (response["action"] as string == "Delete")
+                if (string.IsNullOrEmpty(response["Delete"] as string))
                 {
                     return true;
                 }

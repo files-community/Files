@@ -1,10 +1,10 @@
-﻿using Files.Helpers;
+﻿using Files.Common;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace Files.Filesystem
         {
         }
 
-        public async Task EnumerateDrivesAsync()
+        public async Task EnumerateLibrariesAsync()
         {
             try
             {
@@ -33,42 +33,43 @@ namespace Files.Filesystem
             {
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += EnumerateDrivesAsync;
+                CoreApplication.MainView.Activated += EnumerateLibrariesAsync;
             }
         }
 
-        public async Task RemoveEnumerateDrivesAsync()
+        public void RemoveLibrariesSideBarSection()
         {
             try
             {
-                await RemoveLibrarySideBarItemsUI();
+                RemoveLibrarySideBarItemsUI();
             }
             catch (Exception)
             {
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += RemoveEnumerateDrivesAsync;
+                CoreApplication.MainView.Activated += RemoveLibraryItems;
             }
         }
 
-        private async void EnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        private async void EnumerateLibrariesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
             await SyncLibrarySideBarItemsUI();
-            CoreApplication.MainView.Activated -= EnumerateDrivesAsync;
+            CoreApplication.MainView.Activated -= EnumerateLibrariesAsync;
         }
 
-        private async void RemoveEnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        private void RemoveLibraryItems(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await RemoveLibrarySideBarItemsUI();
-            CoreApplication.MainView.Activated -= RemoveEnumerateDrivesAsync;
+            RemoveLibrarySideBarItemsUI();
+            CoreApplication.MainView.Activated -= RemoveLibraryItems;
         }
 
         private LocationItem librarySection;
-        private List<LibraryLocationItem> libraryItems { get; set; } = new List<LibraryLocationItem>();
+
+        public BulkConcurrentObservableCollection<LibraryLocationItem> Libraries { get; } = new BulkConcurrentObservableCollection<LibraryLocationItem>();
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public async Task RemoveLibrarySideBarItemsUI()
+        public void RemoveLibrarySideBarItemsUI()
         {
             MainPage.SideBarItems.BeginBulkOperation();
 
@@ -85,6 +86,7 @@ namespace Files.Filesystem
 
             MainPage.SideBarItems.EndBulkOperation();
         }
+
         private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -96,27 +98,42 @@ namespace Files.Filesystem
 
                     try
                     {
-                        if (App.AppSettings.ShowLibrarySection && !MainPage.SideBarItems.Contains(librarySection))
+                        if (App.AppSettings.ShowLibrarySection)
                         {
-                            librarySection = new LocationItem()
+                            if (librarySection == null || !MainPage.SideBarItems.Contains(librarySection))
                             {
-                                Text = "SidebarLibraries".GetLocalized(),
-                                Section = SectionType.Library,
-                                Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
-                                Glyph = "\uEC13",
-                                SelectsOnInvoked = false,
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
-                            };
-                            
-                            MainPage.SideBarItems.Insert(1, librarySection);
-
-                            libraryItems.Clear();
-                            var libs = await LibraryHelper.Instance.ListUserLibraries(false);
-                            libraryItems.AddRange(libs.Where(l => l.IsDefaultLocation));
-
-                            for (int i = 0; i < libraryItems.Count; i++)
+                                librarySection = new LocationItem()
+                                {
+                                    Text = "SidebarLibraries".GetLocalized(),
+                                    Section = SectionType.Library,
+                                    Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
+                                    Glyph = "\uEC13",
+                                    SelectsOnInvoked = false,
+                                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                                };
+                                MainPage.SideBarItems.Insert(1, librarySection);
+                            }
+                            else
                             {
-                                var lib = libraryItems[i];
+                                librarySection.ChildItems.Clear();
+                            }
+
+                            Libraries.BeginBulkOperation();
+                            Libraries.Clear();
+                            var libs = await LibraryHelper.ListUserLibraries();
+                            if (libs != null)
+                            {
+                                foreach (var lib in libs)
+                                {
+                                    Libraries.Add(lib);
+                                }
+                            }
+                            Libraries.EndBulkOperation();
+
+                            var librariesOnSidebar = Libraries.Where(l => !l.IsEmpty && l.IsDefaultLocation).ToList();
+                            for (int i = 0; i < librariesOnSidebar.Count; i++)
+                            {
+                                var lib = librariesOnSidebar[i];
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
                                     lib.Font = InteractionViewModel.FontName;
@@ -137,5 +154,18 @@ namespace Files.Filesystem
                 }
             });
         }
+
+        public bool TryGetLibrary(string path, out LibraryLocationItem library)
+        {
+            if (string.IsNullOrWhiteSpace(path) || Path.GetExtension(path) != ShellLibraryItem.EXTENSION)
+            {
+                library = null;
+                return false;
+            }
+            library = Libraries.FirstOrDefault(l => string.Equals(path, l.Path, StringComparison.OrdinalIgnoreCase));
+            return library != null;
+        }
+
+        public bool IsLibraryPath(string path) => TryGetLibrary(path, out _);
     }
 }

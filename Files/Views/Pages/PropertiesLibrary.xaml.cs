@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
@@ -16,7 +17,7 @@ namespace Files.Views
 {
     public sealed partial class PropertiesLibrary : PropertiesTab, INotifyPropertyChanged
     {
-        public ObservableCollection<LibraryFolder> Folders { get; set; } = new ObservableCollection<LibraryFolder>();
+        public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -96,19 +97,16 @@ namespace Files.Views
 
             if (BaseProperties is LibraryProperties props)
             {
-                if (props.Library is LibraryItem lib)
+                Folders.Clear();
+                if (!props.Library.IsEmpty)
                 {
-                    Folders.Clear();
-                    if (!lib.IsEmpty)
+                    foreach (var path in props.Library.Folders)
                     {
-                        foreach (var path in lib.Folders)
+                        Folders.Add(new LibraryFolder
                         {
-                            Folders.Add(new LibraryFolder
-                            {
-                                Path = path,
-                                IsDefault = string.Equals(path, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase),
-                            });
-                        }
+                            Path = path,
+                            IsDefault = string.Equals(path, props.Library.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase),
+                        });
                     }
                 }
             }
@@ -120,36 +118,70 @@ namespace Files.Views
         /// <returns>Returns true if properties have been saved successfully.</returns>
         public async Task<bool> SaveChangesAsync()
         {
-            while (true)
+            if (BaseProperties is LibraryProperties props)
             {
-                using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
-                try
+                var originalLib = props.Library;
+
+                bool isChanged = false;
+                string newDefaultSaveFolder = null;
+                string[] newFolders = null;
+                bool? newIsPinned = null;
+
+                var defaultSaveFolder = Folders.FirstOrDefault(f => f.IsDefault);
+                if (!string.Equals(defaultSaveFolder.Path, originalLib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
                 {
-                    // TODO: send library updates to Shell via FullTrust
-                    //await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
+                    newDefaultSaveFolder = defaultSaveFolder.Path;
+                    isChanged = true;
+                }
+
+                if ((originalLib.Folders?.Count ?? 0) != Folders.Count || !originalLib.Folders.SequenceEqual(Folders.Select(f => f.Path), StringComparer.OrdinalIgnoreCase))
+                {
+                    newFolders = Folders.Select(f => f.Path).ToArray();
+                    isChanged = true;
+                }
+
+                // TODO: implement isPinned UI and update change here
+
+                if (!isChanged)
+                {
                     return true;
                 }
-                catch
+                while (true)
                 {
-                    // Attempting to open more than one ContentDialog at a time will throw an error
-                    if (Interacts.Interaction.IsAnyContentDialogOpen())
+                    using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
+                    try
                     {
+                        var newLib = await LibraryHelper.UpdateLibrary(originalLib.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned);
+                        if (newLib != null)
+                        {
+                            props.UpdateLibrary(new LibraryItem(newLib));
+                            return true;
+                        }
                         return false;
                     }
-                    await dialog.ShowAsync();
-                    switch (dialog.DynamicResult)
+                    catch
                     {
-                        case DynamicDialogResult.Primary:
-                            break;
-
-                        case DynamicDialogResult.Secondary:
-                            return true;
-
-                        case DynamicDialogResult.Cancel:
+                        // Attempting to open more than one ContentDialog at a time will throw an error
+                        if (Interacts.Interaction.IsAnyContentDialogOpen())
+                        {
                             return false;
+                        }
+                        await dialog.ShowAsync();
+                        switch (dialog.DynamicResult)
+                        {
+                            case DynamicDialogResult.Primary:
+                                break;
+
+                            case DynamicDialogResult.Secondary:
+                                return true;
+
+                            case DynamicDialogResult.Cancel:
+                                return false;
+                        }
                     }
                 }
             }
+            return false;
         }
 
         public class LibraryFolder

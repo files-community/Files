@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,27 +70,22 @@ namespace Files.Helpers
                     var localSettings = ApplicationData.Current.LocalSettings;
                     displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                 }
-                else if (path.EndsWith(ShellLibraryItem.EXTENSION))
+                else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
                 {
-                    var library = await LibraryHelper.Instance.Get(path);
-                    if (library != null)
+                    var libName = Path.GetFileNameWithoutExtension(library.Path);
+                    switch (libName)
                     {
-                        displayName = library.Text;
-
-                        var libName = Path.GetFileNameWithoutExtension(library.Path);
-                        switch (libName)
-                        {
-                            case "Documents":
-                            case "Pictures":
-                            case "Music":
-                            case "Videos":
-                                displayName = $"ms-resource:///Resources/Sidebar{libName}";
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        displayName = Path.GetFileName(path);
+                        case "Documents":
+                        case "Pictures":
+                        case "Music":
+                        case "Videos":
+                            // Use localized name
+                            displayName = $"ms-resource:///Resources/Sidebar{libName}";
+                            break;
+                        default:
+                            // Use original name
+                            displayName = library.Text;
+                            break;
                     }
                 }
                 else

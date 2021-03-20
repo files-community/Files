@@ -107,7 +107,7 @@ namespace Files
             {
                 if (App.AppSettings.ShowLibrarySection)
                 {
-                    await LibraryManager.EnumerateDrivesAsync();
+                    await LibraryManager.EnumerateLibrariesAsync();
                 }
 
                 await DrivesManager.EnumerateDrivesAsync();

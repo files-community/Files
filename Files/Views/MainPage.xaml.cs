@@ -309,87 +309,87 @@ namespace Files.Views
             {
                 tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
             }
+            else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
+            {
+                fontIconSource.Glyph = library.Glyph;
+
+                var libName = Path.GetFileNameWithoutExtension(library.Path);
+                switch (libName)
+                {
+                    case "Documents":
+                    case "Pictures":
+                    case "Music":
+                    case "Videos":
+                        // Show localized name
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized();
+                        break;
+                    default:
+                        // Show original name
+                        tabLocationHeader = library.Text;
+                        break;
+                }
+            }
             else
             {
-                var matchingLibrary = await LibraryHelper.Instance.Get(currentPath);
-                if (matchingLibrary != null)
+                var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Equals(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                if (matchingCloudDrive != null)
                 {
-                    tabLocationHeader = matchingLibrary.Text;
-                    fontIconSource.Glyph = matchingLibrary.Glyph;
-
-                    var libName = Path.GetFileNameWithoutExtension(matchingLibrary.Path);
-                    switch (libName)
+                    fontIconSource.Glyph = "\xE753";
+                    tabLocationHeader = matchingCloudDrive.Text;
+                }
+                else if (NormalizePath(GetPathRoot(currentPath)) == NormalizePath(currentPath)) // If path is a drive's root
+                {
+                    var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                    if (matchingNetDrive != null)
                     {
-                        case "Documents":
-                        case "Pictures":
-                        case "Music":
-                        case "Videos":
-                            tabLocationHeader = $"Sidebar{libName}".GetLocalized();
-                            break;
+                        fontIconSource.Glyph = "\uE8CE";
+                        tabLocationHeader = matchingNetDrive.Text;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            List<DriveInfo> drives = DriveInfo.GetDrives().ToList();
+                            DriveInfo matchingDrive = drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Name)));
+
+                            if (matchingDrive != null)
+                            {
+                                // Go through types and set the icon according to type
+                                string type = GetDriveTypeIcon(matchingDrive);
+                                if (!string.IsNullOrWhiteSpace(type))
+                                {
+                                    fontIconSource.Glyph = type;
+                                }
+                                else
+                                {
+                                    fontIconSource.Glyph = "\xEDA2"; //Drive icon
+                                }
+                            }
+                            else
+                            {
+                                fontIconSource.Glyph = "\xE74E"; //Floppy icon
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            fontIconSource.Glyph = "\xEDA2"; //Fallback
+                        }
+
+                        tabLocationHeader = NormalizePath(currentPath);
                     }
                 }
                 else
                 {
-                    var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Equals(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-                    if (matchingCloudDrive != null)
-                    {
-                        fontIconSource.Glyph = "\xE753";
-                        tabLocationHeader = matchingCloudDrive.Text;
-                    }
-                    else if (NormalizePath(GetPathRoot(currentPath)) == NormalizePath(currentPath)) // If path is a drive's root
-                    {
-                        var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-                        if (matchingNetDrive != null)
-                        {
-                            fontIconSource.Glyph = "\uE8CE";
-                            tabLocationHeader = matchingNetDrive.Text;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                List<DriveInfo> drives = DriveInfo.GetDrives().ToList();
-                                DriveInfo matchingDrive = drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Name)));
+                    fontIconSource.Glyph = "\xE8B7"; //Folder icon
+                    tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
-                                if (matchingDrive != null)
-                                {
-                                    // Go through types and set the icon according to type
-                                    string type = GetDriveTypeIcon(matchingDrive);
-                                    if (!string.IsNullOrWhiteSpace(type))
-                                    {
-                                        fontIconSource.Glyph = type;
-                                    }
-                                    else
-                                    {
-                                        fontIconSource.Glyph = "\xEDA2"; //Drive icon
-                                    }
-                                }
-                                else
-                                {
-                                    fontIconSource.Glyph = "\xE74E"; //Floppy icon
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                fontIconSource.Glyph = "\xEDA2"; //Fallback
-                            }
-
-                            tabLocationHeader = NormalizePath(currentPath);
-                        }
-                    }
-                    else
+                    FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
+                    if (rootItem)
                     {
-                        fontIconSource.Glyph = "\xE8B7"; //Folder icon
-                        tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
-
-                        FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
-                        if (rootItem)
+                        StorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
+                        if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
                         {
-                            StorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
-                            if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
-                            {
-                                tabLocationHeader = currentFolder.DisplayName;
-                            }
+                            tabLocationHeader = currentFolder.DisplayName;
                         }
                     }
                 }

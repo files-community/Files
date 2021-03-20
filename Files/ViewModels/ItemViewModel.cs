@@ -102,14 +102,10 @@ namespace Files.ViewModels
 
             bool isLibrary = false;
             string name = null;
-            if (value.EndsWith(ShellLibraryItem.EXTENSION))
+            if (App.LibraryManager.TryGetLibrary(value, out LibraryLocationItem library))
             {
-                var library = await LibraryHelper.Instance.Get(value);
-                if (library != null)
-                {
-                    isLibrary = true;
-                    name = library.Text;
-                }
+                isLibrary = true;
+                name = library.Text;
             }
 
             WorkingDirectoryModified?.Invoke(this, new WorkingDirectoryModifiedEventArgs { Path = value, IsLibrary = isLibrary, Name = name });
@@ -862,8 +858,7 @@ namespace Files.ViewModels
 
                 if (path.EndsWith(ShellLibraryItem.EXTENSION))
                 {
-                    var library = await LibraryHelper.Instance.Get(path);
-                    if (library != null && !library.IsEmpty)
+                    if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
                     {
                         var libItem = new LibraryItem(library);
                         foreach (var folder in library.Folders)
@@ -1012,10 +1007,9 @@ namespace Files.ViewModels
                     CacheSubfolders(filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder && !e.IsLibraryItem).Select(e => e.ItemPath), storageFolder, library);
 
                     // run background tasks to iterate through library folders and cache all of them preemptively
-                    foreach (var libTask in filesAndFolders.Where(e => e.IsLibraryItem).Select(e => LibraryHelper.Instance.Get(e.ItemPath)))
+                    foreach (var libFile in filesAndFolders.Where(e => e.IsLibraryItem))
                     {
-                        var lib = await libTask;
-                        if (lib != null && !lib.IsEmpty)
+                        if (App.LibraryManager.TryGetLibrary(libFile.ItemPath, out LibraryLocationItem lib) && !lib.IsEmpty)
                         {
                             CacheSubfolders(lib.Folders, null, new LibraryItem(lib));
                         }

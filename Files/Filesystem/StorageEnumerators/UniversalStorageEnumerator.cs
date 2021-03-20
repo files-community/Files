@@ -1,5 +1,4 @@
 using ByteSizeLib;
-using Files.Common;
 using Files.Extensions;
 using Files.Helpers;
 using Files.Views.LayoutModes;
@@ -274,9 +273,8 @@ namespace Files.Filesystem.StorageEnumerators
                 Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
             }
             // TODO: is this needed to be handled here?
-            else if (file.Name.EndsWith(ShellLibraryItem.EXTENSION))
+            else if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
             {
-                var library = await LibraryHelper.Instance.Get(file.Path);
                 return new LibraryItem(library)
                 {
                     ItemDateModifiedReal = itemModifiedDate,

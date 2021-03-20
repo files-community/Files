@@ -5,7 +5,7 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
@@ -34,7 +34,7 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<LibraryCardItem> ItemsAdded = new ObservableCollection<LibraryCardItem>();
+        public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
         {
@@ -49,7 +49,7 @@ namespace Files.UserControls.Widgets
         {
             InitializeComponent();
 
-            ItemsAdded.Clear();
+            ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
             {
                 Text = "SidebarDesktop".GetLocalized(),
@@ -66,8 +66,10 @@ namespace Files.UserControls.Widgets
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
+            ItemsAdded.EndBulkOperation();
 
             Loaded += LibraryCards_Loaded;
+            Unloaded += LibraryCards_Unloaded;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -75,10 +77,35 @@ namespace Files.UserControls.Widgets
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void LibraryCards_Loaded(object sender, RoutedEventArgs e)
+        private void LibraryCards_Loaded(object sender, RoutedEventArgs e)
         {
-            var libs = await LibraryHelper.Instance.ListUserLibraries(true);
-            foreach (var lib in libs)
+            if (App.LibraryManager.Libraries.Count > 0)
+            {
+                ReloadLibraryItems();
+            }
+            App.LibraryManager.Libraries.CollectionChanged += Libraries_CollectionChanged;
+            Loaded -= LibraryCards_Loaded;
+        }
+
+        private void LibraryCards_Unloaded(object sender, RoutedEventArgs e)
+        {
+            App.LibraryManager.Libraries.CollectionChanged -= Libraries_CollectionChanged;
+            Unloaded -= LibraryCards_Unloaded;
+        }
+
+        private void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => ReloadLibraryItems();
+
+        private void ReloadLibraryItems()
+        {
+            ItemsAdded.BeginBulkOperation();
+
+            var toRemove = ItemsAdded.Where(i => i.IsLibrary).ToList();
+            foreach (var item in toRemove)
+            {
+                ItemsAdded.Remove(item);
+            }
+
+            foreach (var lib in App.LibraryManager.Libraries)
             {
                 ItemsAdded.Add(new LibraryCardItem
                 {
@@ -91,7 +118,7 @@ namespace Files.UserControls.Widgets
                 });
             }
 
-            Loaded -= LibraryCards_Loaded;
+            ItemsAdded.EndBulkOperation();
         }
 
         private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

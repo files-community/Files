@@ -504,9 +504,9 @@ namespace FilesFullTrust
                     {
                         case "Enumerate":
                             // Read library information and send response to UWP
-                            var libraryInfo = await Win32API.StartSTATask(() =>
+                            var enumerateResponse = await Win32API.StartSTATask(() =>
                             {
-                                var info = new ValueSet();
+                                var response = new ValueSet();
                                 try
                                 {
                                     var libraryItems = new List<ShellLibraryItem>();
@@ -516,114 +516,128 @@ namespace FilesFullTrust
                                     foreach (var libFile in libFiles)
                                     {
                                         using var shellItem = ShellItem.Open(libFile);
-                                        if (shellItem is ShellLibrary lib)
+                                        if (shellItem is ShellLibrary library)
                                         {
-                                            var libraryItem = new ShellLibraryItem
-                                            {
-                                                FullPath = libFile,
-                                                AbsolutePath = lib.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing),
-                                                RelativePath = lib.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing),
-                                                DisplayName = lib.GetDisplayName(ShellItemDisplayString.NormalDisplay),
-                                                IsPinned = lib.PinnedToNavigationPane,
-                                            };
-                                            var folders = lib.Folders;
-                                            if (folders.Count > 0)
-                                            {
-                                                libraryItem.DefaultSaveFolder = lib.DefaultSaveFolder.FileSystemPath;
-                                                libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
-                                            }
-                                            libraryItems.Add(libraryItem);
+                                            libraryItems.Add(GetShellLibraryItem(library, libFile));
                                         }
                                     }
-                                    info.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
+                                    response.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
                                 }
                                 catch (Exception e)
                                 {
                                     Logger.Error(e);
                                 }
-                                return info;
+                                return response;
                             });
-                            await Win32API.SendMessageAsync(connection, libraryInfo, message.Get("RequestID", (string)null));
+                            await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", (string)null));
                             break;
 
                         case "Create":
-                            // Try create new library with the specified name and send response to UWP if succeed
-                            bool libraryCreated = await Win32API.StartSTATask(() =>
+                            // Try create new library with the specified name and send response to UWP
+                            var createResponse = await Win32API.StartSTATask(() =>
                             {
-                                bool success = false;
+                                var response = new ValueSet { { arguments, libraryAction } };
                                 try
                                 {
-                                    using var lib = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                                    using var library = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                                    response.Add("Create", JsonConvert.SerializeObject(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
                                 }
                                 catch (Exception e)
                                 {
                                     Logger.Error(e);
                                 }
-                                return success;
+                                return response;
                             });
-                            if (libraryCreated)
-                            {
-                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction } }, message.Get("RequestID", (string)null));
-                            }
-                            // TODO: return error?
-                            break;
-
-                        case "Manage":
-                            // Show library management dialog and send response to UWP if succeed
-                            bool dialogShown = await Win32API.StartSTATask(() =>
-                            {
-                                bool success = false;
-                                try
-                                {
-                                    using var lib = ShellItem.Open((string)message["library"]) as ShellLibrary;
-                                    //lib.ShowLibraryManagementDialog();
-                                    // The method and parameters below is copied from here https://github.com/dahall/Vanara/blob/d1eac0578302b52253d41e92d111d20bfc0d499b/Windows.Shell/ShellObjects/ShellLibrary.cs#L189
-                                    // to access it without the need of providing IWin32Window instead of just the handle
-                                    success = Shell32.SHShowManageLibraryUI(lib.IShellItem, new IntPtr((long)message["dialogOwnerHandle"]), null, null, Shell32.LIBRARYMANAGEDIALOGOPTIONS.LMD_DEFAULT).Succeeded;
-                                }
-                                catch (Exception e)
-                                {
-                                    Logger.Error(e);
-                                }
-                                return success;
-                            });
-                            if (dialogShown)
-                            {
-                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction } }, message.Get("RequestID", (string)null));
-                            }
-                            // TODO: return error?
+                            await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
                             break;
 
                         case "Rename":
-                            // Rename the specified library and send response to UWP if succeed
+                            // Rename the specified library and send response to UWP
                             var newName = (string)message["name"];
-                            bool libraryRenamed = await Win32API.StartSTATask(() =>
+                            var renameResponse = await Win32API.StartSTATask(() =>
                             {
-                                bool success = false;
+                                var response = new ValueSet { { arguments, libraryAction } };
                                 try
                                 {
-                                    using var lib = ShellItem.Open((string)message["library"]) as ShellLibrary;
+                                    using var library = ShellItem.Open((string)message["library"]) as ShellLibrary;
                                     // TODO: do rename
-
+                                    //response.Add("Rename", JsonConvert.SerializeObject(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
                                 }
                                 catch (Exception e)
                                 {
                                     Logger.Error(e);
                                 }
-                                return success;
+                                return response;
                             });
-                            if (libraryRenamed)
+                            await Win32API.SendMessageAsync(connection, renameResponse, message.Get("RequestID", (string)null));
+                            break;
+
+                        case "Update":
+                            // Update details of the specified library and send response to UWP
+                            var updateResponse = await Win32API.StartSTATask(() =>
                             {
-                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction }, { "name", newName } }, message.Get("RequestID", (string)null));
-                            }
-                            // TODO: return error?
+                                var response = new ValueSet { { arguments, libraryAction } };
+                                try
+                                {
+                                    var folders = message.Get("folders", (string[])null);
+                                    var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
+                                    var isPinned = message.Get("isPinned", (bool?)null);
+
+                                    bool updated = false;
+                                    var libPath = (string)message["library"];
+                                    using var library = ShellItem.Open(libPath) as ShellLibrary;
+                                    if (folders != null)
+                                    {
+                                        if (folders.Length > 0)
+                                        {
+                                            var foldersToRemove = library.Folders.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)));
+                                            foreach (var toRemove in foldersToRemove)
+                                            {
+                                                library.Folders.Remove(toRemove);
+                                                updated = true;
+                                            }
+                                            var foldersToAdd = folders.Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase))).Select(ShellItem.Open);
+                                            foreach (var toAdd in foldersToAdd)
+                                            {
+                                                library.Folders.Add(toAdd);
+                                                updated = true;
+                                            }
+                                            foreach (var toAdd in foldersToAdd)
+                                            {
+                                                toAdd.Dispose();
+                                            }
+                                        }
+                                    }
+                                    if (defaultSaveFolder != null)
+                                    {
+                                        library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
+                                        updated = true;
+                                    }
+                                    if (isPinned != null)
+                                    {
+                                        library.PinnedToNavigationPane = isPinned == true;
+                                        updated = true;
+                                    }
+                                    if (updated)
+                                    {
+                                        library.Commit();
+                                        response.Add("Update", JsonConvert.SerializeObject(GetShellLibraryItem(library, libPath)));
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Error(e);
+                                }
+                                return response;
+                            });
+                            await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
                             break;
 
                         case "Delete":
-                            // Delete the specified library and send response to UWP if succeed
-                            bool libraryDeleted = await Win32API.StartSTATask(() =>
+                            // Delete the specified library and send response to UWP
+                            var deleteResponse = await Win32API.StartSTATask(() =>
                             {
-                                bool success = false;
+                                var response = new ValueSet { { arguments, libraryAction } };
                                 try
                                 {
                                     var libPath = (string)message["library"];
@@ -632,20 +646,20 @@ namespace FilesFullTrust
                                     if (string.Equals(libPathDirectory, libsDirectoryPath, StringComparison.OrdinalIgnoreCase) && libPath.EndsWith(ShellLibraryItem.EXTENSION) && File.Exists(libPath))
                                     {
                                         File.Delete(libPath);
-                                        success = !File.Exists(libPath);
+                                        if (File.Exists(libPath))
+                                        {
+                                            response.Add("Delete", "File not deleted");
+                                        }
                                     }
                                 }
                                 catch (Exception e)
                                 {
                                     Logger.Error(e);
+                                    response.Add("Delete", e.Message);
                                 }
-                                return success;
+                                return response;
                             });
-                            if (libraryDeleted)
-                            {
-                                await Win32API.SendMessageAsync(connection, new ValueSet { { arguments, libraryAction } }, message.Get("RequestID", (string)null));
-                            }
-                            // TODO: return error?
+                            await Win32API.SendMessageAsync(connection, deleteResponse, message.Get("RequestID", (string)null));
                             break;
                     }
                     break;
@@ -934,6 +948,25 @@ namespace FilesFullTrust
                 default:
                     break;
             }
+        }
+
+        private static ShellLibraryItem GetShellLibraryItem(ShellLibrary library, string filePath)
+        {
+            var libraryItem = new ShellLibraryItem
+            {
+                FullPath = filePath,
+                AbsolutePath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing),
+                RelativePath = library.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing),
+                DisplayName = library.GetDisplayName(ShellItemDisplayString.NormalDisplay),
+                IsPinned = library.PinnedToNavigationPane,
+            };
+            var folders = library.Folders;
+            if (folders.Count > 0)
+            {
+                libraryItem.DefaultSaveFolder = library.DefaultSaveFolder.FileSystemPath;
+                libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+            }
+            return libraryItem;
         }
 
         private static ShellFileItem GetShellFileItem(ShellItem folderItem)

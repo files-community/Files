@@ -47,12 +47,12 @@ namespace Files.Views
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        var newName = await LibraryHelper.Instance.RenameLibrary(library.ItemPath, ViewModel.ItemName);
-                        if (newName != null)
+                        var newLibrary = await LibraryHelper.RenameLibrary(library.ItemPath, ViewModel.ItemName);
+                        if (newLibrary != null)
                         {
                             _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                             {
-                                library.ItemName = newName;
+                                libProps.UpdateLibrary(new LibraryItem(newLibrary));
                                 await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(library.ItemPath);
                             });
                         }

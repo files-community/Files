@@ -1,5 +1,4 @@
 ﻿using ByteSizeLib;
-using Files.Common;
 using Files.Extensions;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
@@ -306,10 +305,8 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                 }
             }
-            else if (itemFileExtension == ShellLibraryItem.EXTENSION)
+            else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
             {
-                // TODO: re-read library information via FullTrust process?
-                var library = await LibraryHelper.Instance.Get(itemPath);
                 return new LibraryItem(library)
                 {
                     ItemDateModifiedReal = itemModifiedDate,

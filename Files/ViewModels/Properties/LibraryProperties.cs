@@ -16,7 +16,7 @@ namespace Files.ViewModels.Properties
 {
     internal class LibraryProperties : BaseProperties
     {
-        public LibraryItem Library { get; }
+        public LibraryItem Library { get; private set; }
 
         public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
         {
@@ -28,6 +28,13 @@ namespace Files.ViewModels.Properties
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        public void UpdateLibrary(LibraryItem library)
+        {
+            Library = library;
+            GetBaseProperties();
+            GetSpecialProperties();
         }
 
         public override void GetBaseProperties()

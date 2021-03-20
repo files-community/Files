@@ -143,6 +143,13 @@ namespace Files.Views
             {
                 await propertiesGeneral.SaveChangesAsync(listedItem);
             }
+            else if (contentFrame.Content is PropertiesLibrary propertiesLibrary)
+            {
+                if (!await propertiesLibrary.SaveChangesAsync())
+                {
+                    return;
+                }
+            }
             else if (contentFrame.Content is PropertiesDetails propertiesDetails)
             {
                 if (!await propertiesDetails.SaveChangesAsync())
