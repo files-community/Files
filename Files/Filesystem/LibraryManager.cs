@@ -2,7 +2,7 @@
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -110,8 +110,6 @@ namespace Files.Filesystem
                             MainPage.SideBarItems.Insert(1, librarySection);
 
                             libraryItems.Clear();
-                            libraryItems.Add(AppSettings.DesktopPath);
-                            libraryItems.Add(AppSettings.DownloadsPath);
                             libraryItems.Add(AppSettings.DocumentsPath);
                             libraryItems.Add(AppSettings.PicturesPath);
                             libraryItems.Add(AppSettings.MusicPath);

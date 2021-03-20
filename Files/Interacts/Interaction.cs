@@ -7,7 +7,7 @@ using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NLog;

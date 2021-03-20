@@ -774,7 +774,7 @@
   <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>레이아웃</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1482,13 +1482,13 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>컨텍스트 메뉴를 여닫을 때 애니메이션 활성화</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1497,34 +1497,34 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (중)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (중)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>파일 확장명 표시</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>숨긴 항목 표시</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">

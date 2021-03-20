@@ -4,7 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

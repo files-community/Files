@@ -6,7 +6,7 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Files.Views.LayoutModes
 {
@@ -29,7 +31,6 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
-        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -88,18 +89,26 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer tapDebounceTimer;
+
         public GenericFileBrowser()
         {
             InitializeComponent();
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
-
-            tapDebounceTimer = new DispatcherTimer();
-
+            
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            tapDebounceTimer = timerQueue.CreateTimer();
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -285,7 +294,7 @@ namespace Files.Views.LayoutModes
 
         private TextBox renamingTextBox;
 
-        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        private async void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
@@ -299,7 +308,7 @@ namespace Files.Views.LayoutModes
                 // A tap should never trigger an immediate edit
                 e.Cancel = true;
 
-                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsRunning)
                 {
                     // If we handle a tap in one-click mode or handling a second tap within a timer duration,
                     // just stop the timer (to avoid extra edits).
@@ -310,13 +319,17 @@ namespace Files.Views.LayoutModes
                 {
                     // We have an edit due to the first tap in the double-click mode
                     // Let's wait to see if there is another tap (double click).
-                    tapDebounceTimer.Debounce(() =>
-                    {
-                        tapDebounceTimer.Stop();
 
-                        // EditingEventArgs will be null allowing us to know this edit is not originated by tap
-                        AllView.BeginEdit();
+                    tapDebounceTimer.Debounce(async () =>
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        {
+                            tapDebounceTimer.Stop();
+
+                            AllView.BeginEdit();
+                        });
                     }, TimeSpan.FromMilliseconds(700), false);
+                    
                 }
             }
             else

@@ -4,7 +4,7 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

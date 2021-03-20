@@ -1,6 +1,6 @@
 ﻿using Files.Interacts;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.ApplicationModel.DataTransfer;

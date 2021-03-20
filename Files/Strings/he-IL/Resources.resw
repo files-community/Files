@@ -1200,13 +1200,13 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>אפשר הנפשות בפתיחה וסגירה של התפריט תלוי-ההקשר</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>תצוגת פרטים</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>מצב פריסה</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>אפשרויות &amp;תצוגה</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1215,10 +1215,10 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות תצוגה</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>הצג סיומות קבצים</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>תצוגת פרטים</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">

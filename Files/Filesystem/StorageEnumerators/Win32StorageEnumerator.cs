@@ -2,7 +2,7 @@
 using Files.Extensions;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -26,14 +26,6 @@ namespace Files.UserControls
 
         #region Public Properties
 
-        public FolderSettingsViewModel FolderSettings { get; set; }
-
-        public ICommand SelectAllInvokedCommand { get; set; }
-
-        public ICommand InvertSelectionInvokedCommand { get; set; }
-
-        public ICommand ClearSelectionInvokedCommand { get; set; }
-
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
@@ -62,11 +54,6 @@ namespace Files.UserControls
                     NotifyPropertyChanged(nameof(SelectedItemsPropertiesViewModel));
                 }
             }
-        }
-
-        public bool AnyOperationsOngoing
-        {
-            get => statusCenterActions.AnyOperationsOngoing;
         }
 
         private bool showStatusCenter;
@@ -111,8 +98,6 @@ namespace Files.UserControls
                 StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 StatusCenterTeachingTip.IsOpen = false;
             }
-
-            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
         private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

@@ -1053,7 +1053,7 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">

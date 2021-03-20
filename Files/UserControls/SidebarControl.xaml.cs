@@ -4,8 +4,8 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -72,10 +73,20 @@ namespace Files.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
+        private DispatcherQueueController timerQueueController;
+
+        private DispatcherQueue timerQueue;
+
+        private DispatcherQueueTimer dragOverTimer;
+
         public SidebarControl()
         {
             this.InitializeComponent();
             SidebarNavView.Loaded += SidebarNavView_Loaded;
+
+            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
+            timerQueue = timerQueueController.DispatcherQueue;
+            dragOverTimer = timerQueue.CreateTimer();
         }
 
         private INavigationControlItem selectedSidebarItem;
@@ -304,8 +315,6 @@ namespace Files.UserControls
         }
 
         private object dragOverItem = null;
-
-        private DispatcherTimer dragOverTimer = new DispatcherTimer();
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
@@ -559,11 +568,6 @@ namespace Files.UserControls
         {
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
             settings.SelectsOnInvoked = false;
-            settings.Icon = new FontIcon()
-            {
-                FontSize = 18,
-                Glyph = "\xE713"
-            };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;
         }

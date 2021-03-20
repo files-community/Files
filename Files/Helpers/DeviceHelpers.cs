@@ -1,5 +1,5 @@
 ﻿using Files.Interacts;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Diagnostics;
 using System.Threading.Tasks;
