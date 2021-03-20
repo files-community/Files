@@ -17,14 +17,14 @@ namespace Files.Views
 {
     public sealed partial class PropertiesLibrary : PropertiesTab, INotifyPropertyChanged
     {
-        public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
 
         private int selectedFolderIndex = -1;
 
@@ -44,47 +44,26 @@ namespace Files.Views
 
         public bool IsNotDefaultFolderSelected => selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
 
-        public RelayCommand AddLocationCommand => new RelayCommand(async () =>
-        {
-            var folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add("*");
+        private bool isPinned;
 
-            var folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                Folders.Add(new LibraryFolder { Path = folder.Path });
-            }
-        });
-
-        public RelayCommand SetDefaultLocationCommand => new RelayCommand(async () =>
+        public bool IsPinned
         {
-            int index = SelectedFolderIndex;
-            if (index >= 0)
+            get => isPinned;
+            set
             {
-                foreach (var f in Folders)
+                if (isPinned != value)
                 {
-                    f.IsDefault = false;
-                }
-                Folders[index].IsDefault = true;
-            }
-        });
-
-        public RelayCommand RemoveLocationCommand => new RelayCommand(async () =>
-        {
-            int index = SelectedFolderIndex;
-            if (index >= 0)
-            {
-                Folders.RemoveAt(index);
-                if (index > 0)
-                {
-                    SelectedFolderIndex = index - 1;
-                }
-                else if (Folders.Count > 0)
-                {
-                    SelectedFolderIndex = 0;
+                    isPinned = value;
+                    NotifyPropertyChanged(nameof(IsPinned));
                 }
             }
-        });
+        }
+
+        public RelayCommand AddLocationCommand => new RelayCommand(AddLocation);
+
+        public RelayCommand SetDefaultLocationCommand => new RelayCommand(SetDefaultLocation);
+
+        public RelayCommand RemoveLocationCommand => new RelayCommand(RemoveLocation);
 
         public PropertiesLibrary()
         {
@@ -112,6 +91,78 @@ namespace Files.Views
             }
         }
 
+        private async void AddLocation()
+        {
+            var folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                Folders.Add(new LibraryFolder { Path = folder.Path });
+            }
+        }
+
+        private void SetDefaultLocation()
+        {
+            int index = SelectedFolderIndex;
+            if (index >= 0)
+            {
+                foreach (var f in Folders)
+                {
+                    f.IsDefault = false;
+                }
+                Folders[index].IsDefault = true;
+            }
+        }
+
+        private void RemoveLocation()
+        {
+            int index = SelectedFolderIndex;
+            if (index >= 0)
+            {
+                Folders.RemoveAt(index);
+                if (index > 0)
+                {
+                    SelectedFolderIndex = index - 1;
+                }
+                else if (Folders.Count > 0)
+                {
+                    SelectedFolderIndex = 0;
+                }
+            }
+        }
+
+        private bool IsChanged(LibraryItem lib, out string newDefaultSaveFolder, out string[] newFolders, out bool? newIsPinned)
+        {
+            bool isChanged = false;
+
+            newDefaultSaveFolder = null;
+            newFolders = null;
+            newIsPinned = null;
+
+            var currentDefaultSaveFolder = Folders.FirstOrDefault(f => f.IsDefault);
+            if (!string.Equals(currentDefaultSaveFolder.Path, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
+            {
+                newDefaultSaveFolder = currentDefaultSaveFolder.Path;
+                isChanged = true;
+            }
+
+            if ((lib.Folders?.Count ?? 0) != Folders.Count || !lib.Folders.SequenceEqual(Folders.Select(f => f.Path), StringComparer.OrdinalIgnoreCase))
+            {
+                newFolders = Folders.Select(f => f.Path).ToArray();
+                isChanged = true;
+            }
+
+            if (isPinned != lib.IsPinned)
+            {
+                newIsPinned = isPinned;
+                isChanged = true;
+            }
+
+            return isChanged;
+        }
+
         /// <summary>
         /// Tries to save changed properties to file.
         /// </summary>
@@ -120,29 +171,7 @@ namespace Files.Views
         {
             if (BaseProperties is LibraryProperties props)
             {
-                var originalLib = props.Library;
-
-                bool isChanged = false;
-                string newDefaultSaveFolder = null;
-                string[] newFolders = null;
-                bool? newIsPinned = null;
-
-                var defaultSaveFolder = Folders.FirstOrDefault(f => f.IsDefault);
-                if (!string.Equals(defaultSaveFolder.Path, originalLib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
-                {
-                    newDefaultSaveFolder = defaultSaveFolder.Path;
-                    isChanged = true;
-                }
-
-                if ((originalLib.Folders?.Count ?? 0) != Folders.Count || !originalLib.Folders.SequenceEqual(Folders.Select(f => f.Path), StringComparer.OrdinalIgnoreCase))
-                {
-                    newFolders = Folders.Select(f => f.Path).ToArray();
-                    isChanged = true;
-                }
-
-                // TODO: implement isPinned UI and update change here
-
-                if (!isChanged)
+                if (!IsChanged(props.Library, out string newDefaultSaveFolder, out string[] newFolders, out bool? newIsPinned))
                 {
                     return true;
                 }
@@ -151,7 +180,7 @@ namespace Files.Views
                     using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
                     try
                     {
-                        var newLib = await LibraryHelper.UpdateLibrary(originalLib.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned);
+                        var newLib = await LibraryHelper.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned);
                         if (newLib != null)
                         {
                             props.UpdateLibrary(new LibraryItem(newLib));

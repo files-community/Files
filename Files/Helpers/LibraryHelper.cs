@@ -115,7 +115,7 @@ namespace Files.Helpers
         /// <returns>The new library if successfully updated</returns>
         public static async Task<LibraryLocationItem> UpdateLibrary(string libraryFilePath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
-            if (string.IsNullOrWhiteSpace(libraryFilePath) || defaultSaveFolder == null && folders == null && isPinned == null)
+            if (string.IsNullOrWhiteSpace(libraryFilePath) || (defaultSaveFolder == null && folders == null && isPinned == null))
             {
                 // Nothing to update
                 return null;
