@@ -30,7 +30,7 @@ namespace Files.ViewModels.Properties
             var np = e.Parameter as Views.Properties.PropertyNavParam;
 
             AppInstance = np.AppInstanceArgument;
-            ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.ContentPage);
+            ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.SlimContentPage);
 
             if (np.navParameter is ListedItem)
             {

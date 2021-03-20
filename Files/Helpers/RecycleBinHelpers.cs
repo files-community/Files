@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.Helpers
 {
@@ -78,6 +80,36 @@ namespace Files.Helpers
         public bool IsPathUnderRecycleBin(string path)
         {
             return recycleBinPathRegex.IsMatch(path);
+        }
+
+        public static void EmptyRecycleBin(IShellPage associatedInstance)
+        {
+            new RecycleBinHelpers(associatedInstance).EmptyRecycleBin();
+        }
+
+        public async void EmptyRecycleBin()
+        {
+            var ConfirmEmptyBinDialog = new ContentDialog()
+            {
+                Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
+                Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
+                PrimaryButtonText = "ConfirmEmptyBinDialog/PrimaryButtonText".GetLocalized(),
+                SecondaryButtonText = "ConfirmEmptyBinDialog/SecondaryButtonText".GetLocalized()
+            };
+
+            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                if (Connection != null)
+                {
+                    var value = new ValueSet();
+                    value.Add("Arguments", "RecycleBin");
+                    value.Add("action", "Empty");
+                    // Send request to fulltrust process to empty recyclebin
+                    await Connection.SendMessageAsync(value);
+                }
+            }
         }
 
         #region IDisposable

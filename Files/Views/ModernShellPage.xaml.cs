@@ -43,7 +43,7 @@ namespace Files.Views
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
         private readonly StorageHistoryHelpers storageHistoryHelpers;
-
+        public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -983,7 +983,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
-                            InteractionOperations.ToggleQuickLook();
+                            QuickLookHelpers.ToggleQuickLook(this);
                         }
                     }
                     break;
@@ -1016,7 +1016,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsItemSelected)
                         {
-                            InteractionOperations.RenameItem_Click(null, null);
+                            ContentPage.StartRenameItem();
                         }
                     }
                     break;
