@@ -17,8 +17,8 @@ I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 4. Add a clarified title
 -->
 
-**Is your feature request related to a problem?d**
-A clear description of what the problem is.d
+**Is your feature request related to a problem?**
+A clear description of what the problem is.
 
 **Describe the solution**
 A clear description of what you want.
