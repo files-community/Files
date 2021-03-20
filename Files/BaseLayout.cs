@@ -796,7 +796,7 @@ namespace Files
                 }
 
                 //Shift key is not held, remove extras here
-                if(Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift) != CoreVirtualKeyStates.Down)
+                if(!Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
                 {
                     UnloadMenuFlyoutItemByName("PinItemToStart");
                     UnloadMenuFlyoutItemByName("UnpinItemFromStart");
