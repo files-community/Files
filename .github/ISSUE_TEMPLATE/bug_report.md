@@ -13,7 +13,7 @@ I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 1. Issue may be deleted if it is not following the template
 2. Only post one issue per one bug report
 3. Try not to make duplicates. Do a quick search before posting
-4. Add a clarified title
+4. Add a title that describes the issue clearly
 --->
 
 **Explain the bug**
