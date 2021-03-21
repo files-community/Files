@@ -241,7 +241,7 @@ namespace Files
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
                         string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                        ParentShellPageInstance.FilesystemViewModel.WorkingDirectory },
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
                 })).Result;
