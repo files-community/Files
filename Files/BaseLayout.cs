@@ -666,6 +666,8 @@ namespace Files
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                UnloadMenuFlyoutItemByName("PinItemToStart");
+                UnloadMenuFlyoutItemByName("UnpinItemFromStart");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                 UnloadMenuFlyoutItemByName("OpenInNewPane");
@@ -742,6 +744,7 @@ namespace Files
                 if (SelectedItems.Any(x => x.IsShortcutItem))
                 {
                     UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    UnloadMenuFlyoutItemByName("PinItemToStart");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
                 else if (SelectedItems.Count == 1)
@@ -772,6 +775,17 @@ namespace Files
                         LoadMenuFlyoutItemByName("SidebarPinItem");
                         UnloadMenuFlyoutItemByName("SidebarUnpinItem");
                     }
+
+                    if (selectedItems.All(x => x.IsItemPinnedToStart))
+                    {
+                        UnloadMenuFlyoutItemByName("PinItemToStart");
+                        LoadMenuFlyoutItemByName("UnpinItemFromStart");
+                    }
+                    else
+                    {
+                        LoadMenuFlyoutItemByName("PinItemToStart");
+                        UnloadMenuFlyoutItemByName("UnpinItemFromStart");
+                    }
                 }
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
@@ -795,6 +809,13 @@ namespace Files
                 else
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewPane");
+                }
+
+                //Shift key is not held, remove extras here
+                if(!Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+                {
+                    UnloadMenuFlyoutItemByName("PinItemToStart");
+                    UnloadMenuFlyoutItemByName("UnpinItemFromStart");
                 }
             }
 
@@ -1080,6 +1101,21 @@ namespace Files
                 }
 
                 e.Handled = true;
+            }
+        }
+
+        public async void PinItemToStart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SelectedItems)
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+            }
+        }
+        public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SelectedItems)
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
             }
         }
 
