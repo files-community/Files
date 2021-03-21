@@ -152,6 +152,21 @@ namespace Files.ViewModels.Properties
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
+
+            // Get file SHA1 hash
+            hashAlgTypeName = HashAlgorithmNames.Sha1;
+            ViewModel.ItemSHA1HashProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSHA1HashVisibility = Visibility.Visible;
+            try
+            {
+                TokenSource.Cancel();
+                ViewModel.ItemSHA1Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                ViewModel.ItemSHA1HashCalcError = true;
+            }
         }
 
         public async void GetSystemFileProperties()

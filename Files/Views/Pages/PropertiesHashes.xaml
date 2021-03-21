@@ -70,26 +70,51 @@
             <TextBlock
                 x:Name="PropertiesMD5Hash"
                 x:Uid="PropertiesItemMD5Hash"
-                Grid.Row="6"
+                Grid.Row="2"
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="MD5Hash:"
                 Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemMD5HashValue"
-                Grid.Row="6"
+                Grid.Row="2"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
             <muxc:ProgressBar
                 x:Name="ItemMD5HashProgress"
-                Grid.Row="6"
+                Grid.Row="2"
                 Grid.Column="1"
                 Margin="{StaticResource PropertyValueMargin}"
                 VerticalAlignment="Center"
                 ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+
+            <TextBlock
+                x:Name="PropertiesSHA1Hash"
+                x:Uid="PropertiesItemSHA1Hash"
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Text="SHA1Hash:"
+                Visibility="{x:Bind ViewModel.ItemSHA1HashVisibility, Mode=OneWay}" />
+            <TextBlock
+                x:Name="itemSHA1HashValue"
+                Grid.Row="3"
+                Grid.Column="1"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.ItemSHA1Hash, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemSHA1HashVisibility, Mode=OneWay}" />
+            <muxc:ProgressBar
+                x:Name="ItemSHA1HashProgress"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="{StaticResource PropertyValueMargin}"
+                VerticalAlignment="Center"
+                ShowError="{x:Bind ViewModel.ItemSHA1HashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemSHA1HashProgressVisibility, Mode=OneWay}" />
+            
         </Grid>
     </StackPanel>
 </local:PropertiesTab>

@@ -234,6 +234,45 @@ namespace Files.ViewModels
             set => SetProperty(ref itemMD5HashProgressVisibiity, value);
         }
 
+        public string itemSHA1Hash;
+
+        public string ItemSHA1Hash
+        {
+            get => itemSHA1Hash;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && value != itemSHA1Hash)
+                {
+                    SetProperty(ref itemSHA1Hash, value);
+                    ItemSHA1HashProgressVisibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private bool itemSHA1HashCalcError;
+
+        public bool ItemSHA1HashCalcError
+        {
+            get => itemSHA1HashCalcError;
+            set => SetProperty(ref itemSHA1HashCalcError, value);
+        }
+
+        public Visibility itemSHA1HashVisibility = Visibility.Collapsed;
+
+        public Visibility ItemSHA1HashVisibility
+        {
+            get => itemSHA1HashVisibility;
+            set => SetProperty(ref itemSHA1HashVisibility, value);
+        }
+
+        public Visibility itemSHA1HashProgressVisibiity = Visibility.Collapsed;
+
+        public Visibility ItemSHA1HashProgressVisibility
+        {
+            get => itemSHA1HashProgressVisibiity;
+            set => SetProperty(ref itemSHA1HashProgressVisibiity, value);
+        }
+
         public int foldersCount;
 
         public int FoldersCount
