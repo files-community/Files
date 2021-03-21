@@ -2,8 +2,6 @@
     x:Class="Files.UserControls.StatusBarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -95,13 +93,16 @@
                         <Grid>
                             <FontIcon
                                 x:Name="StatusCenterFontIcon"
+                                x:Load="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 FontSize="16"
-                                Glyph="&#xF16A;"
-                                RenderTransformOrigin="0.5, 0.5">
-                                <FontIcon.RenderTransform>
-                                    <RotateTransform />
-                                </FontIcon.RenderTransform>
-                            </FontIcon>
+                                Glyph="&#xF16A;" />
+
+                            <muxc:ProgressRing
+                                x:Name="AnyOperationsOngoingProgressRing"
+                                Width="16"
+                                Height="16"
+                                x:Load="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}"
+                                IsActive="True" />
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
@@ -118,35 +119,5 @@
                 </Button>
             </Grid>
         </StackPanel>
-
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}" Value="False">
-                <Core:GoToStateAction StateName="NoOperations" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind OngoingTasksControl.AnyOperationsOngoing, Mode=OneWay}" Value="True">
-                <Core:GoToStateAction StateName="InProgress" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="Default">
-                <VisualState x:Name="NoOperations" />
-                <VisualState x:Name="InProgress">
-                    <Storyboard>
-                        <ColorAnimation
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
-                            To="{ThemeResource SystemAccentColor}"
-                            Duration="0" />
-                        <DoubleAnimation
-                            RepeatBehavior="Forever"
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
-                            To="360"
-                            Duration="0:0:1" />
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>
