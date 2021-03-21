@@ -4,7 +4,6 @@ using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using System;
 
 namespace Files.Interacts
 {
@@ -20,13 +19,13 @@ namespace Files.Interacts
 
         private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private readonly IShellPage associatedInstance;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -35,7 +34,7 @@ namespace Files.Interacts
             this.associatedInstance = associatedInstance;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IDisposable
 
@@ -44,7 +43,7 @@ namespace Files.Interacts
             //associatedInstance = null;
         }
 
-        #endregion
+        #endregion IDisposable
 
         #region Command Implementation
 
@@ -144,6 +143,6 @@ namespace Files.Interacts
             QuickLookHelpers.ToggleQuickLook(associatedInstance);
         }
 
-        #endregion
+        #endregion Command Implementation
     }
 }

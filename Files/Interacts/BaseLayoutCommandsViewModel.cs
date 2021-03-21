@@ -11,7 +11,7 @@ namespace Files.Interacts
 
         private readonly IBaseLayoutCommandImplementationModel commandsModel;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -22,7 +22,7 @@ namespace Files.Interacts
             InitializeCommands();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Command Initialization
 
@@ -42,7 +42,7 @@ namespace Files.Interacts
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(commandsModel.QuickLook);
         }
 
-        #endregion
+        #endregion Command Initialization
 
         #region Commands
 
@@ -72,7 +72,7 @@ namespace Files.Interacts
 
         public ICommand QuickLookCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         #region IDisposable
 
@@ -81,6 +81,6 @@ namespace Files.Interacts
             commandsModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }
