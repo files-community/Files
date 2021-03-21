@@ -414,7 +414,7 @@ namespace Files.Views.LayoutModes
             var selectedItem = e.Row.DataContext as ListedItem;
             string newItemName = renamingTextBox.Text;
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(selectedItem, oldItemName, newItemName);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(selectedItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
                 selectedItem.ItemName = oldItemName;
@@ -504,7 +504,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowProperties();
+                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
                 e.Handled = true;
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))

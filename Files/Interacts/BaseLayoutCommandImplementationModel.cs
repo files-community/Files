@@ -335,12 +335,12 @@ namespace Files.Interacts
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.ShowProperties();
+            FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.ShowProperties();
+            FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
         public virtual async void OpenFileLocation(RoutedEventArgs e)
@@ -413,17 +413,17 @@ namespace Files.Interacts
 
         public virtual void CreateNewFolder(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.CreateFileFromDialogResultType(AddItemType.Folder, null);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, associatedInstance);
         }
 
         public virtual void CreateNewFile(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, associatedInstance);
         }
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
         {
-            await associatedInstance.InteractionOperations.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
         }
 
         public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)

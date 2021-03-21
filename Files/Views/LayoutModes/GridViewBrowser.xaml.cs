@@ -273,7 +273,7 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(renamingItem, oldItemName, newItemName);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
                 renamingItem.ItemName = oldItemName;
@@ -321,7 +321,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowProperties();
+                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Space)

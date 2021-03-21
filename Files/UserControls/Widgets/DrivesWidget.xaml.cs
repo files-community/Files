@@ -77,7 +77,7 @@ namespace Files.UserControls.Widgets
         private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await AppInstance.InteractionOperations.OpenPropertiesWindowAsync(item);
+            await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

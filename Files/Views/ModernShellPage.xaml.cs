@@ -239,15 +239,15 @@ namespace Files.Views
                 ClearContentPageSelectionCommand = new RelayCommand(this.SlimContentPage.ClearSelection);
                 InvertContentPageSelctionCommand = new RelayCommand(this.SlimContentPage.InvertSelection);
             }
-            PasteItemsFromClipboardCommand = new RelayCommand(async () => await this.InteractionOperations.PasteItemAsync(FilesystemViewModel.WorkingDirectory));
+            PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
             CopyPathOfWorkingDirectoryCommand = new RelayCommand(CopyWorkingLocation);
-            OpenNewWindowCommand = new RelayCommand(this.InteractionOperations.LaunchNewWindow);
+            OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
             OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
             AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
 
-            CreateNewFileCommand = new RelayCommand(() => InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null));
-            CreateNewFolderCommand = new RelayCommand(() => InteractionOperations.CreateFileFromDialogResultType(AddItemType.Folder, null));
+            CreateNewFileCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
+            CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
         }
 
         private void CopyWorkingLocation()
@@ -976,9 +976,10 @@ namespace Files.Views
                         await addItemDialog.ShowAsync();
                         if (addItemDialog.ResultType.ItemType != AddItemType.Cancel)
                         {
-                            InteractionOperations.CreateFileFromDialogResultType(
+                            UIFilesystemHelpers.CreateFileFromDialogResultType(
                                 addItemDialog.ResultType.ItemType,
-                                addItemDialog.ResultType.ItemInfo);
+                                addItemDialog.ResultType.ItemInfo,
+                                this);
                         }
                     }
                     break;
@@ -998,7 +999,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.ShowProperties();
+                        FilePropertiesHelpers.ShowProperties(this);
                     }
 
                     break;
@@ -1006,7 +1007,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        await InteractionOperations.PasteItemAsync(FilesystemViewModel.WorkingDirectory);
+                        await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
                     }
 
                     break;
@@ -1014,7 +1015,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.ShowProperties();
+                        FilePropertiesHelpers.ShowProperties(this);
                     }
 
                     break;

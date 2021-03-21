@@ -620,7 +620,7 @@ namespace Files
                             Tag = "CreateNewFile"
                         };
                     }
-                    menuLayoutItem.Command = new RelayCommand(() => ParentShellPageInstance.InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null));
+                    menuLayoutItem.Command = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, ParentShellPageInstance));
                     menuLayoutItem.CommandParameter = newEntry;
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }

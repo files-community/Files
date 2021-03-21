@@ -519,7 +519,7 @@ namespace Files.Views
         {
             if (e.InvokedItemDataContext is DriveItem)
             {
-                await InteractionOperations.OpenPropertiesWindowAsync(e.InvokedItemDataContext);
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, ActivePane);
             }
             else if (e.InvokedItemDataContext is LocationItem)
             {
@@ -531,7 +531,7 @@ namespace Files.Views
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
-                await InteractionOperations.OpenPropertiesWindowAsync(listedItem);
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, ActivePane);
             }
         }
 

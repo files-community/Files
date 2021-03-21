@@ -37,6 +37,12 @@ namespace Files.Helpers
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
+        public static async void LaunchNewWindow()
+        {
+            var filesUWPUri = new Uri("files-uwp:");
+            await Launcher.LaunchUriAsync(filesUWPUri);
+        }
+
         public static async void OpenDirectoryInTerminal(string workingDir, IShellPage associatedInstance)
         {
             var terminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
