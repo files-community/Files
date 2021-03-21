@@ -398,7 +398,7 @@ namespace Files.Views.LayoutModes
             var selectedItem = e.Row.DataContext as ListedItem;
             string newItemName = renamingTextBox.Text;
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(selectedItem, oldItemName, newItemName);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(selectedItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
                 selectedItem.ItemName = oldItemName;
@@ -439,7 +439,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 
@@ -482,13 +482,13 @@ namespace Files.Views.LayoutModes
                 }
                 else
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
                 e.Handled = true;
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -640,7 +640,7 @@ namespace Files.Views.LayoutModes
         private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+            NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
         }
 
         #region IDisposable

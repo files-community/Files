@@ -183,7 +183,7 @@ namespace Files.Filesystem
                                 CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
-                            if (Interacts.Interaction.IsAnyContentDialogOpen())
+                            if (UIHelpers.IsAnyContentDialogOpen())
                             {
                                 // Only a single ContentDialog can be open at any time.
                                 return null;
@@ -249,7 +249,7 @@ namespace Files.Filesystem
                                 CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
-                            if (Interacts.Interaction.IsAnyContentDialogOpen())
+                            if (UIHelpers.IsAnyContentDialogOpen())
                             {
                                 // Only a single ContentDialog can be open at any time.
                                 return null;
@@ -411,7 +411,7 @@ namespace Files.Filesystem
                                     CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                                 };
 
-                                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                                if (UIHelpers.IsAnyContentDialogOpen())
                                 {
                                     // Only a single ContentDialog can be open at any time.
                                     return null;
@@ -474,7 +474,7 @@ namespace Files.Filesystem
                                 CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
-                            if (Interacts.Interaction.IsAnyContentDialogOpen())
+                            if (UIHelpers.IsAnyContentDialogOpen())
                             {
                                 // Only a single ContentDialog can be open at any time.
                                 return null;
@@ -754,7 +754,7 @@ namespace Files.Filesystem
                         CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                     };
 
-                    if (Interacts.Interaction.IsAnyContentDialogOpen())
+                    if (UIHelpers.IsAnyContentDialogOpen())
                     {
                         // Only a single ContentDialog can be open at any time.
                         return null;

@@ -211,6 +211,12 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FilePropertiesHelpers.cs" />
+    <Compile Include="Helpers\UIFilesystemHelpers.cs" />
+    <Compile Include="Helpers\NavigationHelpers.cs" />
+    <Compile Include="Helpers\UIHelpers.cs" />
+    <Compile Include="Helpers\WallpaperHelpers.cs" />
+    <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
@@ -448,7 +454,6 @@
     <Compile Include="ViewModels\InteractionViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPropertiesViewModel.cs" />
     <Compile Include="ViewModels\SelectedItemsPropertiesViewModel.cs" />
-    <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>

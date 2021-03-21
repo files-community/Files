@@ -1,5 +1,7 @@
 ﻿using Files.Common;
 using Files.DataModels;
+using Files.Dialogs;
+using Files.Enums;
 using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
@@ -8,6 +10,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
@@ -39,6 +42,8 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
+        private readonly DispatcherTimer jumpTimer;
+
         protected NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
@@ -82,6 +87,57 @@ namespace Files
                     isItemSelected = value;
                     NotifyPropertyChanged(nameof(IsItemSelected));
                 }
+            }
+        }
+
+        private string jumpString = string.Empty;
+
+        public string JumpString
+        {
+            get => jumpString;
+            set
+            {
+                // If current string is "a", and the next character typed is "a",
+                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+                if (jumpString.Length == 1 && value == jumpString + jumpString)
+                {
+                    value = jumpString;
+                }
+                if (value != string.Empty)
+                {
+                    ListedItem jumpedToItem = null;
+                    ListedItem previouslySelectedItem = null;
+
+                    // Use FilesAndFolders because only displayed entries should be jumped to
+                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
+
+                    if (IsItemSelected)
+                    {
+                        previouslySelectedItem = SelectedItem;
+                    }
+
+                    // If the user is trying to cycle through items
+                    // starting with the same letter
+                    if (value.Length == 1 && previouslySelectedItem != null)
+                    {
+                        // Try to select item lexicographically bigger than the previous item
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                    }
+                    if (jumpedToItem == null)
+                    {
+                        jumpedToItem = candidateItems.FirstOrDefault();
+                    }
+
+                    if (jumpedToItem != null)
+                    {
+                        SetSelectedItemOnUi(jumpedToItem);
+                        ScrollIntoView(jumpedToItem);
+                    }
+
+                    // Restart the timer
+                    jumpTimer.Start();
+                }
+                jumpString = value;
             }
         }
 
@@ -153,6 +209,10 @@ namespace Files
 
         public BaseLayout()
         {
+            jumpTimer = new DispatcherTimer();
+            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+            jumpTimer.Tick += JumpTimer_Tick; ;
+
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
@@ -166,6 +226,12 @@ namespace Files
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+        }
+
+        private void JumpTimer_Tick(object sender, object e)
+        {
+            jumpString = string.Empty;
+            jumpTimer.Stop();
         }
 
         protected abstract void InitializeCommandsViewModel();
@@ -611,7 +677,7 @@ namespace Files
                             Tag = "CreateNewFile"
                         };
                     }
-                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
+                    menuLayoutItem.Command = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, ParentShellPageInstance));
                     menuLayoutItem.CommandParameter = newEntry;
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
@@ -820,8 +886,8 @@ namespace Files
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
-                char letterPressed = Convert.ToChar(args.KeyCode);
-                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                char letter = Convert.ToChar(args.KeyCode);
+                JumpString += letter.ToString().ToLowerInvariant();
             }
         }
 
@@ -888,7 +954,7 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
+                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
                 e.Handled = true;
             }
 
@@ -963,7 +1029,7 @@ namespace Files
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
-                        ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
             }
