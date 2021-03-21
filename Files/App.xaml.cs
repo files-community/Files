@@ -342,18 +342,20 @@ namespace Files
                                     if (command.Payload.Equals("."))
                                     {
                                         rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
-                                    } else
+                                    }
+                                    else
                                     {
                                         var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
-                                        if(!string.IsNullOrEmpty(command.Payload))
+                                        if (!string.IsNullOrEmpty(command.Payload))
                                         {
                                             rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
-                                        } else
+                                        }
+                                        else
                                         {
                                             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                         }
                                     }
-                                    
+
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;

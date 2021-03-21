@@ -1,6 +1,5 @@
 ﻿using Files.Common;
 using Files.DataModels;
-using Files.Enums;
 using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
@@ -241,7 +240,7 @@ namespace Files
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
                         string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                        ParentShellPageInstance.FilesystemViewModel.WorkingDirectory },
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
                 })).Result;
@@ -806,7 +805,7 @@ namespace Files
                 }
 
                 //Shift key is not held, remove extras here
-                if(!Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+                if (!Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
                 {
                     UnloadMenuFlyoutItemByName("PinItemToStart");
                     UnloadMenuFlyoutItemByName("UnpinItemFromStart");
@@ -1105,6 +1104,7 @@ namespace Files
                 await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
             }
         }
+
         public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
         {
             foreach (ListedItem listedItem in SelectedItems)

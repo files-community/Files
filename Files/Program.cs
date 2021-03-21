@@ -54,12 +54,13 @@ namespace Files
 
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments)) 
+                    if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments))
                     {
                         instance.RedirectActivationTo();
                         return;
                     }
-                } else if(activatedArgs is CommandLineActivatedEventArgs)
+                }
+                else if (activatedArgs is CommandLineActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
