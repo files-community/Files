@@ -134,6 +134,7 @@ namespace Files
 
                     // Reset
                     jumpString = "";
+                    return;
                 }
                 jumpString = value;
             }
