@@ -101,6 +101,14 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <StackPanel Margin="14,5,14,5" Spacing="5">
+                        <TextBlock
+                            Visibility="{x:Bind IsLibraryEmpty}"
+                            Text="No folders added."
+                            TextWrapping="WrapWholeWords" />
+                    </StackPanel>
+                </ListView.Footer>
             </ListView>
 
             <MenuFlyoutSeparator

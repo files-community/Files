@@ -10,15 +10,62 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+
     <StackPanel Spacing="12">
-        <TextBlock
-            x:Uid="LibraryWidgetDescription"
-            HorizontalAlignment="Left"
-            FontFamily="Segoe UI"
-            FontSize="14"
-            FontWeight="Medium"
-            Opacity=".8"
-            Text="Folders" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                x:Uid="LibraryWidgetDescription"
+                HorizontalAlignment="Left"
+                FontFamily="Segoe UI"
+                FontSize="14"
+                FontWeight="Medium"
+                Opacity=".8"
+                Text="Folders"
+                TextTrimming="CharacterEllipsis" />
+
+            <!-- Options button -->
+            <Button
+                x:Uid="LibraryCardsOptionsButton"
+                Grid.Column="1"
+                Width="36"
+                Height="32"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutomationProperties.Name="More library options"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="More options...">
+
+                <FontIcon
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Glyph="&#xE712;" />
+
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="LibraryCardsOptionsFlyoutCreateBundleMenuItem"
+                            Command="{x:Bind OpenCreateNewLibraryDialogCommand, Mode=OneWay}"
+                            Text="Create Library">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE710;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--<MenuFlyoutSeparator />
+                        <MenuFlyoutItem ... -->
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
 
         <muxc:ItemsRepeater
             x:Name="CardsList"
@@ -100,6 +147,21 @@
                                             Text="Properties">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE946;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutSeparator
+                                            x:Name="DeleteLibrarySeparator"
+                                            x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"/>
+                                        <MenuFlyoutItem
+                                            x:Name="DeleteLibrary"
+                                            x:Uid="DeleteLibrary"
+                                            x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"
+                                            Click="DeleteLibrary_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Delete Library"
+                                            Foreground="OrangeRed">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE107;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                     </MenuFlyout.Items>

@@ -11,7 +11,7 @@ namespace Files.Filesystem
 
         public ReadOnlyCollection<string> Folders { get; }
 
-        public bool IsEmpty => DefaultSaveFolder == null || Folders == null;
+        public bool IsEmpty => DefaultSaveFolder == null || Folders == null || Folders.Count == 0;
 
         public LibraryLocationItem(ShellLibraryItem shellLibrary)
         {

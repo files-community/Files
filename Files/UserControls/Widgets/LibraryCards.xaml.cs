@@ -1,7 +1,10 @@
-﻿using Files.Filesystem;
+﻿using Files.Dialogs;
+using Files.Enums;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -10,6 +13,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -42,8 +46,15 @@ namespace Files.UserControls.Widgets
             {
                 return;
             }
+            if (item.IsLibrary && item.Library.IsEmpty)
+            {
+                // TODO: show message?
+                return;
+            }
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         });
+
+        public RelayCommand OpenCreateNewLibraryDialogCommand => new RelayCommand(OpenCreateNewLibraryDialog);
 
         public LibraryCards()
         {
@@ -98,13 +109,11 @@ namespace Files.UserControls.Widgets
         private void ReloadLibraryItems()
         {
             ItemsAdded.BeginBulkOperation();
-
             var toRemove = ItemsAdded.Where(i => i.IsLibrary).ToList();
             foreach (var item in toRemove)
             {
                 ItemsAdded.Remove(item);
             }
-
             foreach (var lib in App.LibraryManager.Libraries)
             {
                 ItemsAdded.Add(new LibraryCardItem
@@ -117,7 +126,6 @@ namespace Files.UserControls.Widgets
                     Library = lib,
                 });
             }
-
             ItemsAdded.EndBulkOperation();
         }
 
@@ -188,6 +196,101 @@ namespace Files.UserControls.Widgets
                 LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardPropertiesInvokedEventArgs { Library = item.Library });
             }
         }
+
+        private async void OpenCreateNewLibraryDialog()
+        {
+            var inputText = new TextBox
+            {
+                PlaceholderText = "LibraryCardsCreateNewLibraryInputPlaceholderText".GetLocalized()
+            };
+            var tipText = new TextBlock
+            {
+                Text = string.Empty,
+                Visibility = Visibility.Collapsed
+            };
+
+            var dialog = new DynamicDialog(new DynamicDialogViewModel
+            {
+                DisplayControl = new Grid
+                {
+                    Children =
+                    {
+                        new StackPanel
+                        {
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
+                },
+                TitleText = "LibraryCardsCreateNewLibraryDialogTitleText".GetLocalized(),
+                SubtitleText = "LibraryCardsCreateNewLibraryDialogSubtitleText".GetLocalized(),
+                PrimaryButtonText = "DialogCreateButtonText".GetLocalized(),
+                CloseButtonText = "DialogCancelButtonText".GetLocalized(),
+                PrimaryButtonAction = async (vm, e) =>
+                {
+                    var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);
+                    tipText.Text = reason;
+                    tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+                    if (!result)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                    await App.LibraryManager.CreateNewLibrary(inputText.Text);
+                },
+                CloseButtonAction = (vm, e) =>
+                {
+                    vm.HideDialog();
+                },
+                KeyDownAction = async (vm, e) =>
+                {
+                    if (e.Key == VirtualKey.Enter)
+                    {
+                        await App.LibraryManager.CreateNewLibrary(inputText.Text);
+                    }
+                    else if (e.Key == VirtualKey.Escape)
+                    {
+                        vm.HideDialog();
+                    }
+                },
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+            });
+            await dialog.ShowAsync();
+        }
+
+        private async void DeleteLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuFlyoutItem).DataContext as LibraryCardItem;
+            if (item.IsUserCreatedLibrary)
+            {
+                var dialog = new DynamicDialog(new DynamicDialogViewModel
+                {
+                    TitleText = "LibraryCardsDeleteLibraryDialogTitleText".GetLocalized(),
+                    SubtitleText = "LibraryCardsDeleteLibraryDialogSubtitleText".GetLocalized(),
+                    PrimaryButtonText = "DialogDeleteButtonText".GetLocalized(),
+                    CloseButtonText = "DialogCancelButtonText".GetLocalized(),
+                    PrimaryButtonAction = async (vm, e) => await App.LibraryManager.DeleteLibrary(item.Path),
+                    CloseButtonAction = (vm, e) => vm.HideDialog(),
+                    KeyDownAction = (vm, e) =>
+                    {
+                        if (e.Key == VirtualKey.Enter)
+                        {
+                            vm.PrimaryButtonAction(vm, null);
+                        }
+                        else if (e.Key == VirtualKey.Escape)
+                        {
+                            vm.HideDialog();
+                        }
+                    },
+                    DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+                });
+                await dialog.ShowAsync();
+            }
+        }
     }
 
     public class LibraryCardInvokedEventArgs : EventArgs
@@ -210,6 +313,8 @@ namespace Files.UserControls.Widgets
         public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
 
         public bool IsLibrary => Library != null;
+
+        public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
 
         public bool HasPath => !string.IsNullOrEmpty(Path);
     }

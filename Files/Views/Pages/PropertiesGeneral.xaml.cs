@@ -1,8 +1,6 @@
 using Files.Filesystem;
-using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
-using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
@@ -47,7 +45,7 @@ namespace Files.Views
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        var newLibrary = await LibraryHelper.RenameLibrary(library.ItemPath, ViewModel.ItemName);
+                        var newLibrary = await App.LibraryManager.RenameLibrary(library.ItemPath, ViewModel.ItemName);
                         if (newLibrary != null)
                         {
                             _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>

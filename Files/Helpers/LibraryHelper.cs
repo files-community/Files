@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -12,11 +13,29 @@ namespace Files.Helpers
     /// <summary>
     /// Helper class for listing and managing Shell libraries.
     /// </summary>
-    public class LibraryHelper
+    internal class LibraryHelper
     {
         // https://docs.microsoft.com/en-us/windows/win32/shell/library-ovw
 
-        // TODO: Watch library updates: https://docs.microsoft.com/windows/win32/shell/library-be-library-aware#keeping-in-sync-with-a-library 
+        // TODO: move everything to LibraryManager from here?
+        // TODO: do Rename and Delete like in case of normal files
+
+        public static bool IsDefaultLibrary(string libraryFilePath)
+        {
+            // TODO: try to find a better way for this
+            switch (Path.GetFileNameWithoutExtension(libraryFilePath))
+            {
+                case "CameraRoll":
+                case "Documents":
+                case "Music":
+                case "Pictures":
+                case "SavedPictures":
+                case "Videos":
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
         /// <summary>
         /// Get libraries of the current user with the help of the FullTrust process.
@@ -38,7 +57,6 @@ namespace Files.Helpers
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
             {
                 libraries = JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
-                libraries.Sort((a, b) => a.Text.CompareTo(b.Text));
             }
             return libraries;
         }
@@ -81,7 +99,7 @@ namespace Files.Helpers
         /// <returns>The new library if successfully renamed</returns>
         public static async Task<LibraryLocationItem> RenameLibrary(string libraryFilePath, string name)
         {
-            if (string.IsNullOrWhiteSpace(libraryFilePath) || string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(libraryFilePath) || string.IsNullOrWhiteSpace(name) || IsDefaultLibrary(libraryFilePath))
             {
                 return null;
             }
@@ -137,7 +155,7 @@ namespace Files.Helpers
             }
             if (folders != null)
             {
-                request.Add("folders", folders);
+                request.Add("folders", JsonConvert.SerializeObject(folders));
             }
             if (isPinned != null)
             {
@@ -159,7 +177,7 @@ namespace Files.Helpers
         /// <returns>True if the library successfully deleted</returns>
         public static async Task<bool> DeleteLibrary(string libraryFilePath)
         {
-            if (string.IsNullOrWhiteSpace(libraryFilePath))
+            if (string.IsNullOrWhiteSpace(libraryFilePath) || IsDefaultLibrary(libraryFilePath))
             {
                 return false;
             }

@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Extensions;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.Views;
@@ -6,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,12 +17,66 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
-    public class LibraryManager : ObservableObject
+    public class LibraryManager : ObservableObject, IDisposable
     {
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
+        private LocationItem librarySection;
+
+        public BulkConcurrentObservableCollection<LibraryLocationItem> Libraries { get; } = new BulkConcurrentObservableCollection<LibraryLocationItem>();
+
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public LibraryManager()
         {
+            Libraries.CollectionChanged += Libraries_CollectionChanged;
+        }
+
+        private async void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (App.AppSettings.ShowLibrarySection)
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Replace:
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var lib in e.OldItems.Cast<LibraryLocationItem>())
+                        {
+                            librarySection.ChildItems.Remove(lib);
+                        }
+                        if (e.Action == NotifyCollectionChangedAction.Replace)
+                        {
+                            goto case NotifyCollectionChangedAction.Add;
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Reset:
+                        librarySection.ChildItems.Clear();
+                        foreach (var lib in Libraries.Where(l => !l.IsEmpty && l.IsDefaultLocation))
+                        {
+                            if (await lib.CheckDefaultSaveFolderAccess())
+                            {
+                                lib.Font = InteractionViewModel.FontName;
+                                librarySection.ChildItems.AddSorted(lib);
+                            }
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(l => !l.IsEmpty && l.IsDefaultLocation))
+                        {
+                            if (await lib.CheckDefaultSaveFolderAccess())
+                            {
+                                lib.Font = InteractionViewModel.FontName;
+                                librarySection.ChildItems.AddSorted(lib);
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            Libraries.CollectionChanged -= Libraries_CollectionChanged;
         }
 
         public async Task EnumerateLibrariesAsync()
@@ -63,12 +119,6 @@ namespace Files.Filesystem
             CoreApplication.MainView.Activated -= RemoveLibraryItems;
         }
 
-        private LocationItem librarySection;
-
-        public BulkConcurrentObservableCollection<LibraryLocationItem> Libraries { get; } = new BulkConcurrentObservableCollection<LibraryLocationItem>();
-
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public void RemoveLibrarySideBarItemsUI()
         {
             MainPage.SideBarItems.BeginBulkOperation();
@@ -85,6 +135,23 @@ namespace Files.Filesystem
             { }
 
             MainPage.SideBarItems.EndBulkOperation();
+        }
+
+        public async Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, oldPath ?? library?.FullPath, StringComparison.OrdinalIgnoreCase));
+                if (changedLibrary != null)
+                {
+                    Libraries.Remove(changedLibrary);
+                }
+                // library = null in case it was deleted
+                if (library != null)
+                {
+                    Libraries.AddSorted(new LibraryLocationItem(library));
+                }
+            });
         }
 
         private async Task SyncLibrarySideBarItemsUI()
@@ -109,13 +176,9 @@ namespace Files.Filesystem
                                     Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                     Glyph = "\uEC13",
                                     SelectsOnInvoked = false,
-                                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                                    ChildItems = new ObservableCollection<INavigationControlItem>(),
                                 };
                                 MainPage.SideBarItems.Insert(1, librarySection);
-                            }
-                            else
-                            {
-                                librarySection.ChildItems.Clear();
                             }
 
                             Libraries.BeginBulkOperation();
@@ -123,23 +186,10 @@ namespace Files.Filesystem
                             var libs = await LibraryHelper.ListUserLibraries();
                             if (libs != null)
                             {
-                                foreach (var lib in libs)
-                                {
-                                    Libraries.Add(lib);
-                                }
+                                libs.Sort();
+                                Libraries.AddRange(libs);
                             }
                             Libraries.EndBulkOperation();
-
-                            var librariesOnSidebar = Libraries.Where(l => !l.IsEmpty && l.IsDefaultLocation).ToList();
-                            for (int i = 0; i < librariesOnSidebar.Count; i++)
-                            {
-                                var lib = librariesOnSidebar[i];
-                                if (await lib.CheckDefaultSaveFolderAccess())
-                                {
-                                    lib.Font = InteractionViewModel.FontName;
-                                    librarySection.ChildItems.Insert(i, lib);
-                                }
-                            }
                         }
                     }
                     catch (Exception)
@@ -167,5 +217,86 @@ namespace Files.Filesystem
         }
 
         public bool IsLibraryPath(string path) => TryGetLibrary(path, out _);
+
+        public async Task<bool> CreateNewLibrary(string name)
+        {
+            if (!CanCreateLibrary(name).result)
+            {
+                return false;
+            }
+            var newLib = await LibraryHelper.CreateLibrary(name);
+            if (newLib != null)
+            {
+                Libraries.AddSorted(newLib);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<LibraryLocationItem> RenameLibrary(string libraryPath, string newName)
+        {
+            if (!CanCreateLibrary(newName).result)
+            {
+                return null;
+            }
+            var newLib = await LibraryHelper.RenameLibrary(libraryPath, newName);
+            if (newLib != null)
+            {
+                Libraries.Remove(Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase)));
+                Libraries.AddSorted(newLib);
+                return newLib;
+            }
+            return null;
+        }
+
+        public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
+        {
+            var newLib = await LibraryHelper.UpdateLibrary(libraryPath, defaultSaveFolder, folders, isPinned);
+            if (newLib != null)
+            {
+                var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
+                if (libItem != null)
+                {
+                    Libraries[Libraries.IndexOf(libItem)] = libItem;
+                }
+                return newLib;
+            }
+            return null;
+        }
+
+        public async Task<bool> DeleteLibrary(string libraryPath)
+        {
+            var success = await LibraryHelper.DeleteLibrary(libraryPath);
+            if (success)
+            {
+                Libraries.Remove(Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase)));
+                return true;
+            }
+            return false;
+        }
+
+        public (bool result, string reason) CanCreateLibrary(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return (false, "CreateLibraryErrorInputEmpty".GetLocalized());
+            }
+            if (FilesystemHelpers.ContainsRestrictedCharacters(name))
+            {
+                return (false, "ErrorNameInputRestrictedCharacters".GetLocalized());
+            }
+            if (FilesystemHelpers.ContainsRestrictedFileName(name))
+            {
+                return (false, "ErrorNameInputRestricted".GetLocalized());
+            }
+            if (Libraries.Any((item) => string.Equals(name, item.Text, StringComparison.OrdinalIgnoreCase) || string.Equals(name, Path.GetFileNameWithoutExtension(item.Path), StringComparison.OrdinalIgnoreCase)))
+            {
+                return (false, "CreateLibraryErrorAlreadyExists".GetLocalized());
+            }
+            else
+            {
+                return (true, string.Empty);
+            }
+        }
     }
 }

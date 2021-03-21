@@ -392,6 +392,10 @@ namespace Files.ViewModels
                 var eventType = (DeviceEvent)(long)message["EventType"];
                 await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
+            else if (message.ContainsKey("Library"))
+            {
+                await App.LibraryManager.HandleWin32LibraryEvent(JsonConvert.DeserializeObject<ShellLibraryItem>(message.Get("Item", "")), message.Get("OldPath", ""));
+            }
         }
 
         public void CancelLoadAndClearFiles()

@@ -69,11 +69,25 @@ namespace FilesFullTrust
                         Filter = "*.*",
                         NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
                     };
-                    watcher.Created += Watcher_Changed;
-                    watcher.Deleted += Watcher_Changed;
+                    watcher.Created += RecycleBinWatcher_Changed;
+                    watcher.Deleted += RecycleBinWatcher_Changed;
                     watcher.EnableRaisingEvents = true;
                     binWatchers.Add(watcher);
                 }
+
+                librariesWatcher = new FileSystemWatcher
+                {
+                    Path = librariesPath,
+                    Filter = "*" + ShellLibraryItem.EXTENSION,
+                    NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
+                    IncludeSubdirectories = false,
+                };
+
+                librariesWatcher.Created += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
+                librariesWatcher.Changed += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
+                librariesWatcher.Deleted += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, null);
+                librariesWatcher.Renamed += (object _, RenamedEventArgs e) => OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
+                librariesWatcher.EnableRaisingEvents = true;
 
                 // Preload context menu for better performance
                 // We query the context menu for the app's local folder
@@ -103,6 +117,7 @@ namespace FilesFullTrust
                 }
                 handleTable?.Dispose();
                 deviceWatcher?.Dispose();
+                librariesWatcher?.Dispose();
                 cancellation?.Cancel();
                 cancellation?.Dispose();
                 appServiceExit?.Dispose();
@@ -115,7 +130,7 @@ namespace FilesFullTrust
             Logger.Error(exception, exception.Message);
         }
 
-        private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
+        private static async void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
             if (e.Name.StartsWith("$I"))
@@ -148,6 +163,8 @@ namespace FilesFullTrust
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
+        private static FileSystemWatcher librariesWatcher;
+        private static readonly string librariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         private static async void InitializeAppServiceConnection()
         {
@@ -517,6 +534,48 @@ namespace FilesFullTrust
             }
         }
 
+        private static async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
+        {
+            if (newPath != null && (Path.GetExtension(newPath) != ShellLibraryItem.EXTENSION || !File.Exists(newPath)))
+            {
+                Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
+                return;
+            }
+
+            Debug.WriteLine($"Library event: {changeType}, {oldPath} -> {newPath}");
+            
+            if (connection?.IsConnected ?? false)
+            {
+                var response = new ValueSet()
+                {
+                    { "Library", newPath ?? oldPath },
+                    //{ "ChangeType", changeType.ToString() },
+                };
+                switch (changeType)
+                {
+                    case WatcherChangeTypes.Deleted:
+                    case WatcherChangeTypes.Renamed:
+                        response["OldPath"] = oldPath;
+                        break;
+                    default:
+                        break;
+                }
+                if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
+                {
+                    var library = ShellItem.Open(newPath) as ShellLibrary;
+                    if (library == null)
+                    {
+                        Debug.WriteLine($"Failed to open library: {newPath}");
+                        return;
+                    }
+                    response["Item"] = JsonConvert.SerializeObject(GetShellLibraryItem(library, newPath));
+                    library.Dispose();
+                }
+                // Send message to UWP app to refresh items
+                await Win32API.SendMessageAsync(connection, response);
+            }
+        }
+
         private static async Task HandleShellLibraryMessage(Dictionary<string, object> message)
         {
             switch ((string)message["action"])
@@ -530,8 +589,7 @@ namespace FilesFullTrust
                         {
                             var libraryItems = new List<ShellLibraryItem>();
                             // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
-                            // TODO: use UserDataPaths.GetDefault().RoamingAppData instead of Environment?
-                            var libFiles = Directory.EnumerateFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries"), "*" + ShellLibraryItem.EXTENSION);
+                            var libFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
                             foreach (var libFile in libFiles)
                             {
                                 using var shellItem = ShellItem.Open(libFile);
@@ -598,7 +656,7 @@ namespace FilesFullTrust
                         var response = new ValueSet();
                         try
                         {
-                            var folders = message.Get("folders", (string[])null);
+                            var folders = message.ContainsKey("folders") ? JsonConvert.DeserializeObject<string[]>((string)message["folders"]) : null;
                             var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
                             var isPinned = message.Get("isPinned", (bool?)null);
 

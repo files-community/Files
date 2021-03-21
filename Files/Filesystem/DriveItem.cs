@@ -196,6 +196,16 @@ namespace Files.Filesystem
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
+
+        public int CompareTo(INavigationControlItem other)
+        {
+            var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
+            if (result == 0)
+            {
+                return Text.CompareTo(other.Text);
+            }
+            return result;
+        }
     }
 
     public enum DriveType

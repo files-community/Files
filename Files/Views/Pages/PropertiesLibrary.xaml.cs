@@ -1,5 +1,4 @@
-﻿using Files.Dialogs;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
@@ -25,6 +24,8 @@ namespace Files.Views
         }
 
         public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
+
+        public bool IsLibraryEmpty => Folders.Count == 0;
 
         private int selectedFolderIndex = -1;
 
@@ -99,7 +100,12 @@ namespace Files.Views
             var folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
-                Folders.Add(new LibraryFolder { Path = folder.Path });
+                bool isDefault = Folders.Count == 0;
+                Folders.Add(new LibraryFolder { Path = folder.Path, IsDefault = isDefault });
+                if (isDefault)
+                {
+                    NotifyPropertyChanged(nameof(IsLibraryEmpty));
+                }
             }
         }
 
@@ -141,14 +147,14 @@ namespace Files.Views
             newFolders = null;
             newIsPinned = null;
 
-            var currentDefaultSaveFolder = Folders.FirstOrDefault(f => f.IsDefault);
-            if (!string.Equals(currentDefaultSaveFolder.Path, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
+            var defaultSaveFolderPath = Folders.FirstOrDefault(f => f.IsDefault)?.Path;
+            if (!string.Equals(defaultSaveFolderPath, lib.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase))
             {
-                newDefaultSaveFolder = currentDefaultSaveFolder.Path;
+                newDefaultSaveFolder = defaultSaveFolderPath;
                 isChanged = true;
             }
 
-            if ((lib.Folders?.Count ?? 0) != Folders.Count || !lib.Folders.SequenceEqual(Folders.Select(f => f.Path), StringComparer.OrdinalIgnoreCase))
+            if ((lib.Folders?.Count ?? 0) != Folders.Count || lib.Folders?.SequenceEqual(Folders.Select(f => f.Path), StringComparer.OrdinalIgnoreCase) != true)
             {
                 newFolders = Folders.Select(f => f.Path).ToArray();
                 isChanged = true;
@@ -171,21 +177,28 @@ namespace Files.Views
         {
             if (BaseProperties is LibraryProperties props)
             {
+                if (IsLibraryEmpty)
+                {
+                    // Skip checks / updates and close dialog when the library is empty
+                    return true;
+                }
                 if (!IsChanged(props.Library, out string newDefaultSaveFolder, out string[] newFolders, out bool? newIsPinned))
                 {
+                    // Skip updates and close dialog when nothing changed
                     return true;
                 }
                 while (true)
                 {
-                    using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
+                    using var dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
                     try
                     {
-                        var newLib = await LibraryHelper.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned);
+                        var newLib = await App.LibraryManager.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned);
                         if (newLib != null)
                         {
                             props.UpdateLibrary(new LibraryItem(newLib));
                             return true;
                         }
+                        // TODO: show / throw error about the failure?
                         return false;
                     }
                     catch
