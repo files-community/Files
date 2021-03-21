@@ -555,10 +555,6 @@ namespace Files.UserControls
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
-        private DispatcherQueueController timerQueueController;
-
-        private DispatcherQueue timerQueue;
-
         private DispatcherQueueTimer dragOverTimer;
 
         public NavigationToolbar()
@@ -566,9 +562,7 @@ namespace Files.UserControls
             this.InitializeComponent();
             this.Loading += NavigationToolbar_Loading;
 
-            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
-            timerQueue = timerQueueController.DispatcherQueue;
-            dragOverTimer = timerQueue.CreateTimer();
+            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         private async void NavigationToolbar_Loading(FrameworkElement sender, object args)

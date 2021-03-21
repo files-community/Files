@@ -186,7 +186,7 @@
                                 x:Name="UnpinItem"
                                 x:Uid="SideBarUnpinFromSideBar"
                                 x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
-                                Click="{x:Bind local1:App.UnpinItem_Click}"
+                                Click="{x:Bind UnpinItem_Click}"
                                 Text="Unpin from Sidebar">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE77A;" />
