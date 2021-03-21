@@ -7,11 +7,163 @@ using Microsoft.Toolkit.Uwp;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using System.Collections.Generic;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 
 namespace Files.Helpers
 {
     public static class UIFilesystemHelpers
     {
+        public static async void CutItem(IShellPage associatedInstance)
+        {
+            DataPackage dataPackage = new DataPackage
+            {
+                RequestedOperation = DataPackageOperation.Move
+            };
+            List<IStorageItem> items = new List<IStorageItem>();
+            FilesystemResult result = (FilesystemResult)false;
+
+            if (associatedInstance.SlimContentPage.IsItemSelected)
+            {
+                // First, reset DataGrid Rows that may be in "cut" command mode
+                associatedInstance.SlimContentPage.ResetItemOpacity();
+
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    // Dim opacities accordingly
+                    associatedInstance.SlimContentPage.SetItemOpacity(listedItem);
+
+                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                            .OnSuccess(t => items.Add(t));
+                        if (!result)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                            .OnSuccess(t => items.Add(t));
+                        if (!result)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (result.ErrorCode == FileSystemStatusCode.NotFound)
+                {
+                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    return;
+                }
+                else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+                {
+                    // Try again with fulltrust process
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        string filePaths = string.Join('|', SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                        AppServiceResponseStatus status = await ServiceConnection.SendMessageAsync(new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "Clipboard" },
+                            { "filepath", filePaths },
+                            { "operation", (int)DataPackageOperation.Move }
+                        });
+                        if (status == AppServiceResponseStatus.Success)
+                        {
+                            return;
+                        }
+                    }
+                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    return;
+                }
+            }
+
+            if (!items.Any())
+            {
+                return;
+            }
+            dataPackage.SetStorageItems(items);
+            try
+            {
+                Clipboard.SetContent(dataPackage);
+                Clipboard.Flush();
+            }
+            catch
+            {
+                dataPackage = null;
+            }
+        }
+
+        public static async void CopyItem(IShellPage associatedInstance)
+        {
+            DataPackage dataPackage = new DataPackage()
+            {
+                RequestedOperation = DataPackageOperation.Copy
+            };
+            List<IStorageItem> items = new List<IStorageItem>();
+
+            string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+            FilesystemResult result = (FilesystemResult)false;
+
+            if (associatedInstance.SlimContentPage.IsItemSelected)
+            {
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                            .OnSuccess(t => items.Add(t));
+                        if (!result)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                            .OnSuccess(t => items.Add(t));
+                        if (!result)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+                {
+                    // Try again with fulltrust process
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "Clipboard" },
+                            { "filepath", filePaths },
+                            { "operation", (int)DataPackageOperation.Copy }
+                        });
+                    }
+                    return;
+                }
+            }
+
+            if (items?.Count > 0)
+            {
+                dataPackage.SetStorageItems(items);
+                try
+                {
+                    Clipboard.SetContent(dataPackage);
+                    Clipboard.Flush();
+                }
+                catch
+                {
+                    dataPackage = null;
+                }
+            }
+        }
+
         public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
         {
             DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
