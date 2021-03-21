@@ -293,12 +293,12 @@ namespace Files.UserControls
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.OpenPathInNewTab(App.RightClickedItem.Path);
+            NavigationHelpers.OpenPathInNewTab(App.RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.OpenPathInNewWindowAsync(App.RightClickedItem.Path);
+            await NavigationHelpers.OpenPathInNewWindowAsync(App.RightClickedItem.Path);
         }
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)

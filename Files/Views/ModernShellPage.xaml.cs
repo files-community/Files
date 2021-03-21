@@ -240,14 +240,31 @@ namespace Files.Views
                 InvertContentPageSelctionCommand = new RelayCommand(this.SlimContentPage.InvertSelection);
             }
             PasteItemsFromClipboardCommand = new RelayCommand(async () => await this.InteractionOperations.PasteItemAsync(FilesystemViewModel.WorkingDirectory));
-            CopyPathOfWorkingDirectoryCommand = new RelayCommand(this.InteractionOperations.CopyWorkingLocation);
+            CopyPathOfWorkingDirectoryCommand = new RelayCommand(CopyWorkingLocation);
             OpenNewWindowCommand = new RelayCommand(this.InteractionOperations.LaunchNewWindow);
             OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
-            OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => this.InteractionOperations.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
+            OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
             AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
 
             CreateNewFileCommand = new RelayCommand(() => InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null));
             CreateNewFolderCommand = new RelayCommand(() => InteractionOperations.CreateFileFromDialogResultType(AddItemType.Folder, null));
+        }
+
+        private void CopyWorkingLocation()
+        {
+            try
+            {
+                if (this.SlimContentPage != null)
+                {
+                    DataPackage data = new DataPackage();
+                    data.SetText(this.FilesystemViewModel.WorkingDirectory);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -305,7 +322,7 @@ namespace Files.Views
             else
             {
                 // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
-                await InteractionOperations.InvokeWin32ComponentAsync(invokedItem.ItemPath);
+                await Win32Helpers.InvokeWin32ComponentAsync(invokedItem.ItemPath, this);
             }
         }
 
@@ -634,7 +651,7 @@ namespace Files.Views
                         if (resFile)
                         {
                             var pathToInvoke = resFile.Result.Path;
-                            await InteractionOperations.InvokeWin32ComponentAsync(pathToInvoke);
+                            await Win32Helpers.InvokeWin32ComponentAsync(pathToInvoke, this);
                         }
                         else // Not a file or not accessible
                         {

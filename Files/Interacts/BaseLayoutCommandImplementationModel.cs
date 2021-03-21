@@ -64,7 +64,7 @@ namespace Files.Interacts
 
         public virtual void RenameItem(RoutedEventArgs e)
         {
-            associatedInstance.SlimContentPage.StartRenameItem();
+            SlimContentPage.StartRenameItem();
         }
 
         public virtual async void CreateShortcut(RoutedEventArgs e)
@@ -94,12 +94,12 @@ namespace Files.Interacts
 
         public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
+            WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
         }
 
         public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
+            WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
         }
 
         public virtual async void RunAsAdmin(RoutedEventArgs e)
@@ -140,7 +140,7 @@ namespace Files.Interacts
 
         public virtual void OpenItem(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.OpenSelectedItems(false);
+            NavigationHelpers.OpenSelectedItems(associatedInstance, false);
         }
 
         public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
@@ -169,9 +169,9 @@ namespace Files.Interacts
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
             FilesystemResult result = (FilesystemResult)false;
 
-            if (associatedInstance.SlimContentPage.IsItemSelected)
+            if (SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
                 {
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -197,7 +197,7 @@ namespace Files.Interacts
                     // Try again with fulltrust process
                     if (ServiceConnection != null)
                     {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                        string filePaths = string.Join('|', SlimContentPage.SelectedItems.Select(x => x.ItemPath));
                         await ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
@@ -234,15 +234,15 @@ namespace Files.Interacts
             List<IStorageItem> items = new List<IStorageItem>();
             FilesystemResult result = (FilesystemResult)false;
 
-            if (associatedInstance.SlimContentPage.IsItemSelected)
+            if (SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
-                associatedInstance.SlimContentPage.ResetItemOpacity();
+                SlimContentPage.ResetItemOpacity();
 
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
                 {
                     // Dim opacities accordingly
-                    associatedInstance.SlimContentPage.SetItemOpacity(listedItem);
+                    SlimContentPage.SetItemOpacity(listedItem);
 
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -265,7 +265,7 @@ namespace Files.Interacts
                 }
                 if (result.ErrorCode == FileSystemStatusCode.NotFound)
                 {
-                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    SlimContentPage.ResetItemOpacity();
                     return;
                 }
                 else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
@@ -273,7 +273,7 @@ namespace Files.Interacts
                     // Try again with fulltrust process
                     if (ServiceConnection != null)
                     {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                        string filePaths = string.Join('|', SlimContentPage.SelectedItems.Select(x => x.ItemPath));
                         AppServiceResponseStatus status = await ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
@@ -286,7 +286,7 @@ namespace Files.Interacts
                             return;
                         }
                     }
-                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    SlimContentPage.ResetItemOpacity();
                     return;
                 }
             }
@@ -309,9 +309,9 @@ namespace Files.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            if (associatedInstance.SlimContentPage.IsItemSelected)
+            if (SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
                 {
                     if (listedItem is RecycleBinItem binItem)
                     {
@@ -327,7 +327,7 @@ namespace Files.Interacts
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
             await FilesystemHelpers.DeleteItemsAsync(
-                associatedInstance.SlimContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
+                SlimContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                 true, false, true);
@@ -345,7 +345,7 @@ namespace Files.Interacts
 
         public virtual async void OpenFileLocation(RoutedEventArgs e)
         {
-            ShortcutItem item = associatedInstance.SlimContentPage.SelectedItem as ShortcutItem;
+            ShortcutItem item = SlimContentPage.SelectedItem as ShortcutItem;
 
             if (string.IsNullOrWhiteSpace(item?.TargetPath))
             {
@@ -377,12 +377,12 @@ namespace Files.Interacts
 
         public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.OpenSelectedItems(true);
+            NavigationHelpers.OpenSelectedItems(associatedInstance, true);
         }
 
         public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
@@ -393,7 +393,7 @@ namespace Files.Interacts
 
         public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
         {
-            ListedItem listedItem = associatedInstance.SlimContentPage.SelectedItems.FirstOrDefault();
+            ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
             if (listedItem != null)
             {
                 associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
@@ -402,7 +402,7 @@ namespace Files.Interacts
 
         public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
         {
-            List<ListedItem> items = associatedInstance.SlimContentPage.SelectedItems;
+            List<ListedItem> items = SlimContentPage.SelectedItems;
             foreach (ListedItem listedItem in items)
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
@@ -430,10 +430,10 @@ namespace Files.Interacts
         {
             try
             {
-                if (associatedInstance.SlimContentPage != null)
+                if (SlimContentPage != null)
                 {
                     DataPackage data = new DataPackage();
-                    data.SetText(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
                 }
@@ -446,7 +446,7 @@ namespace Files.Interacts
 
         public virtual void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
         {
-            associatedInstance.InteractionOperations.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
         }
 
         public virtual void ShareItem(RoutedEventArgs e)
@@ -464,7 +464,7 @@ namespace Files.Interacts
                 /*dataRequest.Data.Properties.Title = "Data Shared From Files";
                 dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
 
-                foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem item in SlimContentPage.SelectedItems)
                 {
                     if (item.IsShortcutItem)
                     {
@@ -531,11 +531,11 @@ namespace Files.Interacts
                 {
                     if (Item.IsShortcutItem)
                     {
-                        Interaction.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                     }
                     else
                     {
-                        Interaction.OpenPathInNewTab(Item.ItemPath);
+                        NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
                     }
                 }
             }

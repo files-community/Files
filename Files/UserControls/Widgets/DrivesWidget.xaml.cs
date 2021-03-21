@@ -65,13 +65,13 @@ namespace Files.UserControls.Widgets
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            Interaction.OpenPathInNewTab(item.Path);
+            NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await Interaction.OpenPathInNewWindowAsync(item.Path);
+            await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
         private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)

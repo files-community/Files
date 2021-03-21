@@ -951,7 +951,7 @@ namespace Files
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
-                        ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
             }

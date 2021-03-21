@@ -136,7 +136,7 @@ namespace Files.ViewModels.Bundles
 
         private async void OpenItemLocation()
         {
-            await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
+            await NavigationHelpers.OpenPath(System.IO.Path.GetDirectoryName(Path), associatedInstance, FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
         }
 
         #endregion Command Implementation
@@ -197,7 +197,7 @@ namespace Files.ViewModels.Bundles
 
         public async void OpenItem()
         {
-            await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
+            await NavigationHelpers.OpenPath(Path, associatedInstance, TargetType);
         }
 
         public void RemoveItem()

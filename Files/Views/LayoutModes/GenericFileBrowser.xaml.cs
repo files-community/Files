@@ -455,7 +455,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 
@@ -498,7 +498,7 @@ namespace Files.Views.LayoutModes
                 }
                 else
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
                 e.Handled = true;
             }
@@ -655,7 +655,7 @@ namespace Files.Views.LayoutModes
         private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+            NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
         }
 
         #region IDisposable

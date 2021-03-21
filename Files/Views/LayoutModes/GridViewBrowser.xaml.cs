@@ -315,7 +315,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     e.Handled = true;
                 }
             }
@@ -443,7 +443,7 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 
@@ -472,7 +472,7 @@ namespace Files.Views.LayoutModes
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 

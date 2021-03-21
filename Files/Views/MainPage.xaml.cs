@@ -216,11 +216,11 @@ namespace Files.Views
 
             if (tabItemArguments != null)
             {
-                await Interacts.Interaction.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
+                await NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
             }
             else
             {
-                await Interacts.Interaction.OpenPathInNewWindowAsync("NewTab".GetLocalized());
+                await NavigationHelpers.OpenPathInNewWindowAsync("NewTab".GetLocalized());
             }
         }
 
