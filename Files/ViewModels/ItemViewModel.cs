@@ -1048,11 +1048,15 @@ namespace Files.ViewModels
                 }
             }
 
+            // Is folder synced to cloud storage?
+            var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+            PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+
             if (enumFromStorageFolder)
             {
                 var basicProps = await rootFolder.GetBasicPropertiesAsync();
                 var extraProps = await basicProps.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-                var currentFolder = new ListedItem(rootFolder.FolderRelativeId, returnformat)
+                var CurrentFolder = new ListedItem(rootFolder.FolderRelativeId, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
@@ -1069,9 +1073,9 @@ namespace Files.ViewModels
                 };
                 if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
                 {
-                    currentFolder.ItemDateCreatedReal = dateCreated;
+                    CurrentFolder.ItemDateCreatedReal = dateCreated;
                 }
-                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken);
+                await EnumFromStorageFolderAsync(path, CurrentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken);
                 return true;
             }
             else
@@ -1111,7 +1115,7 @@ namespace Files.ViewModels
                     opacity = 0.4;
                 }
 
-                var currentFolder = new ListedItem(null, returnformat)
+                CurrentFolder = new ListedItem(null, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
@@ -1132,11 +1136,12 @@ namespace Files.ViewModels
 
                 if (hFile == IntPtr.Zero)
                 {
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
                     return false;
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken);
+                    await EnumFromStorageFolderAsync(path, CurrentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken);
                     return false;
                 }
                 else
