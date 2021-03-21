@@ -33,6 +33,19 @@ namespace Files.Views
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        private double dragReigonWidth;
+        public double DragRegionWidth
+        {
+            get => dragReigonWidth;
+            set
+            {
+                if (value != dragReigonWidth)
+                {
+                    dragReigonWidth = value;
+                    NotifyPropertyChanged("DragRegionWidth");
+                }
+            }
+        }
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
         private TabItem selectedTabItem;
@@ -62,7 +75,7 @@ namespace Files.Views
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
-
+            CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
@@ -70,6 +83,24 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
             AllowDrop = true;
+        }
+
+        private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            DragRegionWidth = sender.SystemOverlayRightInset;
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
+        }
+
+        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!(MultitaskingControl is HorizontalMultitaskingControl))
+            {
+                MultitaskingControl = horizontalMultitaskingControl;
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)

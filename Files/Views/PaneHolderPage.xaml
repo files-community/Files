@@ -34,8 +34,6 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
-            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
-
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -135,19 +133,7 @@
                     <RowDefinition Height="Auto" MinHeight="50" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid
-                    x:Name="DragArea"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Stretch"
-                    Background="Transparent"
-                    Loaded="DragArea_Loaded" />
-
-                <multitaskingcontrol:HorizontalMultitaskingControl
-                    x:Name="horizontalMultitaskingControl"
-                    Margin="{x:Bind DragRegionWidth, Converter={StaticResource WidthToRightMarginConverter}}"
-                    x:FieldModifier="public"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
-                    Loaded="HorizontalMultitaskingControl_Loaded" />
+                
 
                 <Border x:Name="PaneLeftLoader" Grid.Row="1">
                     <local:ModernShellPage

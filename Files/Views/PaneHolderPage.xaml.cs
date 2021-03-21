@@ -30,7 +30,6 @@ namespace Files.Views
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
         private readonly GridLength CompactSidebarWidth;
@@ -78,11 +77,6 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(IsSidebarOpen));
                     break;
             }
-        }
-
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -591,14 +585,6 @@ namespace Files.Views
             }
 
             ActivePane?.NavigateToPath(navigationPath, sourcePageType);
-        }
-
-        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!(MainPage.MultitaskingControl is HorizontalMultitaskingControl))
-            {
-                MainPage.MultitaskingControl = horizontalMultitaskingControl;
-            }
         }
     }
 
