@@ -47,13 +47,13 @@ namespace Files.UserControls
             get => OngoingOperationsCount > 0;
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Events
 
         public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
-        #endregion
+        #endregion Events
 
         #region Constructor
 
@@ -62,7 +62,7 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IStatusCenterActions
 
@@ -95,7 +95,7 @@ namespace Files.UserControls
             return true;
         }
 
-        #endregion
+        #endregion IStatusCenterActions
 
         // Dismiss banner button event handler
         private void DismissBanner(object sender, RoutedEventArgs e)
@@ -127,7 +127,7 @@ namespace Files.UserControls
             NotifyPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
-        #endregion
+        #endregion INotifyPropertyChanged
     }
 
     public class PostedStatusBanner
@@ -135,10 +135,10 @@ namespace Files.UserControls
         #region Private Members
 
         private readonly IStatusCenterActions statusCenterActions;
-        
+
         private readonly StatusBanner Banner;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Members
 
@@ -146,7 +146,7 @@ namespace Files.UserControls
 
         public readonly Progress<FileSystemStatusCode> ErrorCode;
 
-        #endregion
+        #endregion Public Members
 
         #region Constructor
 
@@ -159,7 +159,7 @@ namespace Files.UserControls
             this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Private Helpers
 
@@ -186,7 +186,7 @@ namespace Files.UserControls
         {
         }
 
-        #endregion
+        #endregion Private Helpers
 
         #region Public Helpers
 
@@ -195,7 +195,7 @@ namespace Files.UserControls
             statusCenterActions.CloseBanner(Banner);
         }
 
-        #endregion
+        #endregion Public Helpers
     }
 
     public class StatusBanner : ObservableObject

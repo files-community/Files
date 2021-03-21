@@ -117,7 +117,7 @@ namespace Files.Filesystem
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                    associatedInstance.SlimContentPage.SelectedItems.Count);
 
                 if (Interacts.Interaction.IsAnyContentDialogOpen())
                 {
@@ -221,7 +221,7 @@ namespace Files.Filesystem
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     permanently,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                    associatedInstance.SlimContentPage.SelectedItems.Count);
 
                 if (Interacts.Interaction.IsAnyContentDialogOpen())
                 {
@@ -299,7 +299,7 @@ namespace Files.Filesystem
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     permanently,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                    associatedInstance.SlimContentPage.SelectedItems.Count);
 
                 if (Interacts.Interaction.IsAnyContentDialogOpen())
                 {
@@ -424,7 +424,7 @@ namespace Files.Filesystem
             IStorageHistory history;
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
@@ -483,7 +483,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
@@ -596,7 +596,7 @@ namespace Files.Filesystem
             IStorageHistory history;
             var rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
@@ -655,7 +655,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 

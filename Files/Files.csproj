@@ -184,6 +184,7 @@
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
@@ -211,8 +212,8 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RestartDialog.xaml.cs">
-      <DependentUpon>RestartDialog.xaml</DependentUpon>
+    <Compile Include="UserControls\RestartControl.xaml.cs">
+      <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DeviceHelpers.cs" />
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
@@ -230,10 +231,17 @@
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
+    <Compile Include="Helpers\QuickLookHelpers.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="IBaseLayout.cs" />
+    <Compile Include="Interacts\BaseLayoutCommandImplementationModel.cs" />
+    <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
+    <Compile Include="Interacts\IBaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\IStatusCenterActions.cs" />
+    <Compile Include="Helpers\SecondaryTileHelper.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
@@ -618,6 +626,8 @@
     <Content Include="Assets\StoreLogo.scale-200_contrast-white.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-black.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-white.png" />
+    <Content Include="Assets\tile-0-250x250.png" />
+    <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-black.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-white.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125_contrast-black.png" />
@@ -750,7 +760,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\RestartDialog.xaml">
+    <Page Include="UserControls\RestartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

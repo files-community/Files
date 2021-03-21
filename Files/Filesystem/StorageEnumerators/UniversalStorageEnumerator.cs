@@ -176,7 +176,6 @@ namespace Files.Filesystem.StorageEnumerators
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
-                    //FolderTooltipText = tooltipString,
                 };
             }
             return null;

@@ -15,6 +15,8 @@
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:usercontrols="using:Files.UserControls"
     NavigationCacheMode="Enabled"
@@ -237,8 +239,12 @@
                     x:Name="UnpinDirectoryFromSidebar"
                     x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
                     Text="Unpin directory from sidebar">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.UnpinDirectoryFromSidebarCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE77A;" />
                     </MenuFlyoutItem.Icon>
@@ -343,9 +349,13 @@
                 <MenuFlyoutItem
                     x:Name="EmptyRecycleBin"
                     x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
                     IsEnabled="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Text="Empty recycle bin">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.EmptyRecycleBinCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                     </MenuFlyoutItem.Icon>
@@ -361,9 +371,13 @@
                     x:Name="OpenItem"
                     x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItem_Click}"
                     Tag="Open_FlyoutItem"
                     Text="Open">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenItemCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE8E5;" />
                     </MenuFlyoutItem.Icon>
@@ -428,8 +442,12 @@
                     <MenuFlyoutItem
                         x:Name="SetAsDesktopBackgroundItem"
                         x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                        Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                         Text="Set as desktop background">
+                        <i:Interaction.Behaviors>
+                            <icore:EventTriggerBehavior EventName="Click">
+                                <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SetAsDesktopBackgroundItemCommand}"/>
+                            </icore:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
                         <MenuFlyoutItem.Icon>
                             <FontIcon  Glyph="&#xE91B;" />
                         </MenuFlyoutItem.Icon>
@@ -437,8 +455,12 @@
                     <MenuFlyoutItem
                         x:Name="SetAsLockscreenBackgroundItem"
                         x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                        Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
                         Text="Set as lockscreen background">
+                        <i:Interaction.Behaviors>
+                            <icore:EventTriggerBehavior EventName="Click">
+                                <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SetAsLockscreenBackgroundItemCommand}"/>
+                            </icore:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
                         <MenuFlyoutItem.Icon>
                             <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF114;" />
                         </MenuFlyoutItem.Icon>
@@ -449,8 +471,12 @@
                     x:Name="RunAsAdmin"
                     x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAdmin_Click}"
                     Text="Run as another user">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RunAsAdminCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE7EF;" />
                     </MenuFlyoutItem.Icon>
@@ -459,8 +485,12 @@
                     x:Name="RunAsAnotherUser"
                     x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAnotherUser_Click}"
                     Text="RunAsAnotherUser">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RunAsAnotherUserCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE7EE;" />
                     </MenuFlyoutItem.Icon>
@@ -518,8 +548,12 @@
                 <MenuFlyoutItem
                     x:Name="CreateShortcut"
                     x:Uid="BaseLayoutItemContextFlyoutShortcut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CreateShortcutFromItem_Click}"
                     Text="Create shortcut">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CreateShortcutCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
                     </MenuFlyoutItem.Icon>
@@ -539,10 +573,14 @@
                 <MenuFlyoutItem
                     x:Name="RenameItem"
                     x:Uid="BaseLayoutItemContextFlyoutRename"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RenameItem_Click}"
                     Text="Rename">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RenameItemCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE8AC;" />
+                        <FontIcon Glyph="&#xE8AC;" />
                     </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F2" IsEnabled="False" />
@@ -553,9 +591,13 @@
                     x:Name="SidebarPinItem"
                     x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinItem_Click}"
                     Tag="PinItem_FlyoutItem"
                     Text="Pin to sidebar">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SidebarPinItemCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE718;" />
                     </MenuFlyoutItem.Icon>
@@ -564,9 +606,33 @@
                     x:Name="SidebarUnpinItem"
                     x:Uid="SideBarUnpinFromSideBar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
                     Tag="PinItem_FlyoutItem"
                     Text="Unpin from sidebar">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SidebarUnpinItemCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon  Glyph="&#xE77A;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="PinItemToStart"
+                    x:Uid="PinItemToStart"
+                    x:Load="False"
+                    Click="PinItemToStart_Click"
+                    Text="Pin to the Start Menu">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon  Glyph="&#xE840;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="UnpinItemFromStart"
+                    x:Uid="UnpinItemFromStart"
+                    x:Load="False"
+                    Click="UnpinItemFromStart_Click"
+                    Text="Unpin from the Start Menu">
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE77A;" />
                     </MenuFlyoutItem.Icon>
@@ -583,9 +649,13 @@
                 <MenuFlyoutItem
                     x:Name="QuickLook"
                     x:Uid="BaseLayoutItemContextFlyoutQuickLook"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ToggleQuickLook}"
                     Text="QuickLook"
                     Visibility="{x:Bind IsQuickLookEnabled}">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.QuickLookCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                     </MenuFlyoutItem.Icon>
@@ -640,11 +710,11 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>

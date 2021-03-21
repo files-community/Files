@@ -119,6 +119,8 @@ namespace Files.Filesystem
             }
         }
 
+        public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
+
         private BitmapImage iconOverlay;
 
         [JsonIgnore]

@@ -1,13 +1,19 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Helpers.XamlHelpers;
+using Files.Interacts;
 using Files.UserControls.Selection;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -25,6 +31,7 @@ namespace Files.Views.LayoutModes
         public string oldItemName;
 
         public GridViewBrowser()
+            : base()
         {
             InitializeComponent();
             this.DataContext = this;
@@ -33,6 +40,11 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+        }
+
+        protected override void InitializeCommandsViewModel()
+        {
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -311,7 +323,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                    ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
                     e.Handled = true;
                 }
             }
@@ -326,7 +338,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (IsQuickLookEnabled)
                     {
-                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook();
+                        QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
                     e.Handled = true;
                 }
@@ -439,7 +451,7 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
             }
         }
 
@@ -471,5 +483,15 @@ namespace Files.Views.LayoutModes
                 ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
             }
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            Debugger.Break(); // Not Implemented
+            CommandsViewModel?.Dispose();
+        }
+
+        #endregion
     }
 }

@@ -162,8 +162,7 @@ namespace Files.Filesystem.StorageEnumerators
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath),
-                //FolderTooltipText = tooltipString,
+                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
             };
         }
 
