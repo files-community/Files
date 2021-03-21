@@ -51,8 +51,11 @@ namespace Files.Helpers
         {
             if (connection == null)
             {
+                App.InteractionViewModel.IsFullTrustElevated = false;
                 return false;
             }
+
+            bool wasElevated = false;
 
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() { { "Arguments", "Elevate" } });
             if (status == AppServiceResponseStatus.Success)
@@ -60,24 +63,27 @@ namespace Files.Helpers
                 var res = response.Get("Success", 1L);
                 switch (res)
                 {
-                    case 0:
+                    case 0: // FTP is restarting as admin
                         var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
                         ConnectionChanged?.Invoke(null, nullConn);
                         (await Instance)?.Dispose();
                         Instance = BuildConnection(false); // Fulltrust process is already running
                         _ = await Instance;
                         ConnectionChanged?.Invoke(null, Instance);
+                        wasElevated = true;
                         break;
-
-                    case -1:
-                        return true;
-
-                    default:
-                        return false;
+                    case -1: // FTP is already admin
+                        wasElevated = true;
+                        break;
+                    default: // Failed (e.g canceled UAC)
+                        wasElevated = false;
+                        break;
                 }
             }
 
-            return false;
+            App.InteractionViewModel.IsFullTrustElevated = wasElevated;
+
+            return wasElevated;
         }
 
         private static async Task<NamedPipeAsAppServiceConnection> BuildConnection(bool launchFullTrust)
