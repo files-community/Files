@@ -13,7 +13,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
@@ -80,6 +80,8 @@
             </Style>
 
             <SolidColorBrush x:Key="PaneSelectedBorderBrush" Color="{ThemeResource SystemAccentColorLight1}" />
+
+            <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -100,8 +102,10 @@
         <controls:SidebarControl
             x:Name="SidebarControl"
             Grid.RowSpan="2"
+            IsOpen="{x:Bind IsSidebarOpen, Mode=TwoWay}"
+            IsCompact="{x:Bind IsWindowCompactSize, Mode=OneWay}"
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-            EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
+            EmptyRecycleBinCommand="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
         <Custom:DropShadowPanel
@@ -296,11 +300,25 @@
             IsTabStop="False"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
-            Style="{StaticResource DefaultGridSplitterStyle}">
+            Style="{StaticResource DefaultGridSplitterStyle}"
+            Visibility="{x:Bind IsSidebarOpen, Mode=OneWay}">
             <Custom:GridSplitter.RenderTransform>
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SidebarColumn.MinWidth" Value="{ThemeResource NavigationViewCompactPaneLength}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator

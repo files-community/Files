@@ -2,7 +2,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.ViewModels.Dialogs;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.System;
 using Windows.UI.Xaml;

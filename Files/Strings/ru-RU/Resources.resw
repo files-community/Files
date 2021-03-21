@@ -1134,11 +1134,17 @@
   <data name="PropertyDuration" xml:space="preserve">
     <value>Длительность</value>
   </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Количество кадров</value>
+  </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Тип защиты</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Дата выпуска</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Имя ряда</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Номер сезона</value>
@@ -1205,6 +1211,9 @@
   </data>
   <data name="PropertyDateSaved" xml:space="preserve">
     <value>Дата сохранения</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Общее время правки</value>
@@ -1422,25 +1431,25 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>Использовать анимации при открытии и закрытии контекстного меню</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Таблица</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>Огромные значки</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>Крупные значки</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>Обычные значки</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Плитка</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Вид значков</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Параметры отображения</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1449,25 +1458,25 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Параметры отображения</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Огромные значки</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>Крупные значки</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>Обычные значки</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>Плитка</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Отображать расширения файлов</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Отображать скрытые файлы</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Таблица</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1712,5 +1721,50 @@
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Недавние расположения</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Фрагмент недоступен</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Подробные сведения отсутствуют</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Элементы не выбраны</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>цель</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Аргументы:</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Библиотеки</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Цветовая схема</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Число элементов</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Не удалось удалить</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Неизвестная ошибка.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Закрыть вкладки справа</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Администратор</value>
   </data>
 </root>

@@ -45,7 +45,7 @@
                 VerticalContentAlignment="Center"
                 AutomationProperties.Name="More bundles options"
                 Background="Transparent"
-                Style="{StaticResource ButtonRevealStyle}"
+                BorderBrush="Transparent"
                 ToolTipService.ToolTip="More options...">
 
                 <FontIcon
@@ -186,7 +186,8 @@
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Background="Transparent">
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
                                     <FontIcon FontSize="12" Glyph="&#xe712;" />
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
@@ -388,7 +389,6 @@
                 Height="50"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Background="#25ffffff"
                 CornerRadius="25">
                 <FontIcon
                     HorizontalAlignment="Center"

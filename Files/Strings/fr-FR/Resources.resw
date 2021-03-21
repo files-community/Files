@@ -1431,25 +1431,25 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>Activer les animations à l'ouverture et à la fermeture du menu contextuel</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue détaillée</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue grille (Grande)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue grille (Moyenne)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue grille (Petite)</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue tuiles</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Display Options</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1458,25 +1458,25 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Options d'affichage</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Vue grille (Grande)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>Vue grille (Moyenne)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>Vue grille (Petite)</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>Vue tuiles</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Afficher les extensions de fichier</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Afficher les éléments cachés</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Vue détaillée</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1596,6 +1596,12 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Détacher le dossier de la barre latérale</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>RESEAU</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Détails du fichier</value>
+  </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
     <value>Aperçu du fichier</value>
   </data>
@@ -1653,6 +1659,9 @@
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Lecteur réseau</value>
   </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Lecteur démonté</value>
+  </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Stockage amovible</value>
   </data>
@@ -1662,6 +1671,12 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Disque virtuel</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Plus d'options...</value>
   </data>
@@ -1670,5 +1685,86 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Déconnecter</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Plus d'options de Bundles</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Plus d'options de lecteurs</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favoris</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>W!!ßrøwsè 表!!W</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Emplacements récents</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Pas d'aperçu disponible</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Pas de détails disponibles</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Aucune élément sélectionné</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Cible</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Arguments :</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Afficher la section des librairies dans la barre latérale</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Bibliothèques</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Défaut</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Modèle de couleurs</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Nombre d'éléments</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Fermer les onglets à droite</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Erreur de suppression</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Une erreur inconnue s'est produite.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Suppression terminée</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>L’opération s’est terminée.</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Déplacement terminé</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Copie terminée</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Cette action requière les privilèges d'administrateur</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Voulez-vous continuer en tant qu'administrateur ??</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Administrateur</value>
   </data>
 </root>

@@ -10,7 +10,7 @@ using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json.Linq;
@@ -60,6 +60,8 @@ namespace Files
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+
         public static class AppData
         {
             // Get the extensions that are available for this host.
@@ -105,7 +107,11 @@ namespace Files
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
-                await LibraryManager.EnumerateDrivesAsync();
+                if (App.AppSettings.ShowLibrarySection)
+                {
+                    await LibraryManager.EnumerateDrivesAsync();
+                }
+
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
@@ -135,20 +141,6 @@ namespace Files
             DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static INavigationControlItem RightClickedItem;
-
-        public static void UnpinItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-            {
-                AppSettings.PinRecycleBinToSideBar = false;
-            }
-            else if (RightClickedItem.Section == SectionType.Favorites)
-            {
-                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
-            }
-        }
-
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
@@ -161,7 +153,7 @@ namespace Files
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             //start tracking app usage
-            SystemInformation.TrackAppUse(e);
+            SystemInformation.Instance.TrackAppUse(e);
 
             Logger.Info("App launched");
 
@@ -203,7 +195,10 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPage.AppInstances.Count > 0))
+                    {
+                        await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    }
                 }
 
                 // Ensure the current window is active

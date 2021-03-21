@@ -3,7 +3,7 @@ using Files.Enums;
 using Files.UserControls.Widgets;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NLog;
 using System;
@@ -151,6 +151,15 @@ namespace Files.Filesystem
                             {
                                 DrivesWidget.ItemsAdded.Add(drive);
                             }
+                        }
+                    }
+
+                    foreach (DriveItem drive in section.ChildItems.ToList())
+                    {
+                        if (!Drives.Contains(drive))
+                        {
+                            section.ChildItems.Remove(drive);
+                            DrivesWidget.ItemsAdded.Remove(drive);
                         }
                     }
 

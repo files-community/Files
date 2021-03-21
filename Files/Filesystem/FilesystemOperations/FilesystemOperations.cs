@@ -3,7 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -294,8 +294,8 @@ namespace Files.Filesystem
 
                     if (copiedListedItems.Count > 0)
                     {
-                        associatedInstance.ContentPage.AddSelectedItemsOnUi(copiedListedItems);
-                        associatedInstance.ContentPage.FocusSelectedItems();
+                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(copiedListedItems);
+                        associatedInstance.SlimContentPage.FocusSelectedItems();
                     }
                 }, Windows.UI.Core.CoreDispatcherPriority.Low);
             }
@@ -515,8 +515,8 @@ namespace Files.Filesystem
 
                     if (movedListedItems.Count > 0)
                     {
-                        associatedInstance.ContentPage.AddSelectedItemsOnUi(movedListedItems);
-                        associatedInstance.ContentPage.FocusSelectedItems();
+                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(movedListedItems);
+                        associatedInstance.SlimContentPage.FocusSelectedItems();
                     }
                 }, Windows.UI.Core.CoreDispatcherPriority.Low);
             }
@@ -579,7 +579,14 @@ namespace Files.Filesystem
                 // Try again with fulltrust process (non admin: for shortcuts and hidden files)
                 if (associatedInstance.ServiceConnection != null)
                 {
+<<<<<<< HEAD
                     var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+=======
+                    //await associatedInstance.ServiceConnection?.Elevate();
+                    App.InteractionViewModel.IsFullTrustElevated = true;
+
+                    if (associatedInstance.ServiceConnection != null)
+>>>>>>> origin/main
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },

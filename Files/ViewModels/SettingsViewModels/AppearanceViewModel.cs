@@ -1,7 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -18,7 +18,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool showOpenInNewTabMenuItem = App.AppSettings.ShowOpenInNewTabMenuItem;
         private bool areRightClickContentMenuAnimationsEnabled = App.AppSettings.AreRightClickContentMenuAnimationsEnabled;
         private string selectedThemeName = App.AppSettings.PathToThemeFile;
-        private bool showRestartDialog = false;
+        private bool showRestartControl = false;
 
         public AppearanceViewModel()
         {
@@ -153,15 +153,15 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeName, value))
                 {
                     App.AppSettings.PathToThemeFile = selectedThemeName;
-                    ShowRestartDialog = true;
+                    ShowRestartControl = true;
                 }
             }
         }
 
-        public bool ShowRestartDialog
+        public bool ShowRestartControl
         {
-            get => showRestartDialog;
-            set => SetProperty(ref showRestartDialog, value);
+            get => showRestartControl;
+            set => SetProperty(ref showRestartControl, value);
         }
     }
 }

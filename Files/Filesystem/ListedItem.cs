@@ -2,7 +2,7 @@
 using Files.Filesystem.Cloud;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -98,6 +98,8 @@ namespace Files.Filesystem
                 }
             }
         }
+
+        public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
 
         private BitmapImage iconOverlay;
 

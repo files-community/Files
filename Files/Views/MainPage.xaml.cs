@@ -3,7 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -189,7 +189,7 @@ namespace Files.Views
             }
         }
 
-        public static async void CloseTabsToTheRight(object sender, RoutedEventArgs e)
+        public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = ((FrameworkElement)sender).DataContext as TabItem;
             int index = AppInstances.IndexOf(tabItem);

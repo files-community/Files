@@ -1,7 +1,7 @@
 ﻿using Files.Helpers;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace Files.Filesystem
         {
             var networkItem = new DriveItem()
             {
+                DeviceID = "network-folder",
                 Text = "Network".GetLocalized(),
                 Path = App.AppSettings.NetworkFolderPath,
                 Type = DriveType.Network,
@@ -112,7 +113,7 @@ namespace Files.Filesystem
                     MainPage.SideBarItems.BeginBulkOperation();
 
                     var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (section == null && this.drivesList.Any(d => d.DeviceID != "network-folder"))
                     {
                         section = new LocationItem()
                         {
@@ -125,13 +126,16 @@ namespace Files.Filesystem
                         MainPage.SideBarItems.Add(section);
                     }
 
-                    foreach (var drive in Drives.ToList()
+                    if (section != null)
+                    {
+                        foreach (var drive in Drives.ToList()
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
-                    {
-                        if (!section.ChildItems.Contains(drive))
                         {
-                            section.ChildItems.Add(drive);
+                            if (!section.ChildItems.Contains(drive))
+                            {
+                                section.ChildItems.Add(drive);
+                            }
                         }
                     }
 
