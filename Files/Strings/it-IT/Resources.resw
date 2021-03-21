@@ -646,7 +646,7 @@
     <value>Pagine:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Quando si avvia una cartella fissata</value>
+    <value>Quando si avvia una cartella</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Apri sempre una nuova finestra</value>
@@ -1495,7 +1495,7 @@
     <value>Opzioni</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opzioni</value>
+    <value>Opzioni di visualizzazione</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opzioni</value>
@@ -1636,7 +1636,7 @@
     <value>Rimuovi la cartella dalla barra laterale</value>
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Mostra i Gruppi nella schermata iniziale</value>
+    <value>Mostra i gruppi nella schermata iniziale</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Dischi di rete</value>
@@ -1762,7 +1762,7 @@
     <value>Esplora</value>
   </data>
   <data name="RecentLocations" xml:space="preserve">
-    <value>Posizioni recenti</value>
+    <value>Percorsi recenti</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
@@ -1774,28 +1774,46 @@
     <value>Nessun elemento selezionato</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Obiettivo</value>
+    <value>Destinazione</value>
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argomenti:</value>
   </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Mostra le librerie nella barra laterale</value>
+  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Librerie</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Apri in un nuovo pannello</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">
     <value>Predefinito</value>
   </data>
   <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Combinazione di colori</value>
+    <value>Tema</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>Numero elementi:</value>
+    <value>Numero elementi</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Eliminazione non riuscita</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Si è verificato un errore sconosciuto.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Eliminazione completata</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>L'operazione è stata completata.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Eliminazione nel cestino completata</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Spostamento completato</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Copia completata</value>
@@ -1816,6 +1834,15 @@
     <value>Chiudi schede a destra</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>amministratore</value>
+    <value>Amministratore</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files è eseguito come amministratore</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Fissa al Menu Start</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Rimuovi dal Menu Start</value>
   </data>
 </root>
