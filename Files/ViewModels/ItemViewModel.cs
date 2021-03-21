@@ -874,7 +874,11 @@ namespace Files.ViewModels
                 {
                     if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token))
                     {
-                        WatchForDirectoryChanges(path, await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item));
+                        // Is folder synced to cloud storage?
+                        var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+
+                        WatchForDirectoryChanges(path, syncStatus);
                     }
                 }
 
@@ -1047,10 +1051,6 @@ namespace Files.ViewModels
                     }
                 }
             }
-
-            // Is folder synced to cloud storage?
-            var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-            PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
 
             if (enumFromStorageFolder)
             {
