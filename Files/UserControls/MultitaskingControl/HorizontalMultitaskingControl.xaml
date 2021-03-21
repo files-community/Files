@@ -49,10 +49,11 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
+                            x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
                             Click="{x:Bind views:MainPage.CloseTabsToTheRight}"
                             Text="Close tabs to the right"
-                            IsEnabled="{x:Bind CloseTabsToTheRightEnabled, Mode=OneWay}"/>
+                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged" />
                     </MenuFlyout>
                 </ResourceDictionary>
                 <ResourceDictionary>

@@ -21,20 +21,6 @@ namespace Files.UserControls.MultitaskingControl
 
         private SettingsViewModel AppSettings => App.AppSettings;
 
-        private bool closeTabsToTheRightEnabled = true;
-        public bool CloseTabsToTheRightEnabled
-        {
-            get => closeTabsToTheRightEnabled;
-            private set
-            {
-                if (value != closeTabsToTheRightEnabled)
-                {
-                    closeTabsToTheRightEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public HorizontalMultitaskingControl()
         {
             InitializeComponent();
@@ -187,17 +173,6 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContextMenu_Opening(object sender, object e)
         {
-            TabItem tabItem = (((MenuFlyout)sender).Items.First()).DataContext as TabItem;
-
-            if (MainPage.AppInstances.IndexOf(tabItem) == MainPage.AppInstances.Count - 1)
-            {
-                CloseTabsToTheRightEnabled = false;
-            }
-            else
-            {
-                CloseTabsToTheRightEnabled = true;
-            }
-
             if (MainPage.MultitaskingControl.Items.Count == 1)
             {
                 MenuItemMoveTabToNewWindow.IsEnabled = false;
@@ -205,6 +180,20 @@ namespace Files.UserControls.MultitaskingControl
             else
             {
                 MenuItemMoveTabToNewWindow.IsEnabled = true;
+            }
+        }
+
+        private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            TabItem tabItem = args.NewValue as TabItem;
+
+            if (MainPage.AppInstances.IndexOf(tabItem) == MainPage.AppInstances.Count - 1)
+            {
+                MenuItemCloseTabsToTheRight.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemCloseTabsToTheRight.IsEnabled = true;
             }
         }
     }
