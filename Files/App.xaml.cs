@@ -141,20 +141,6 @@ namespace Files
             DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static INavigationControlItem RightClickedItem;
-
-        public static void UnpinItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-            {
-                AppSettings.PinRecycleBinToSideBar = false;
-            }
-            else if (RightClickedItem.Section == SectionType.Favorites)
-            {
-                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
-            }
-        }
-
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
