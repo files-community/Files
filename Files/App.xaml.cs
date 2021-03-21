@@ -58,7 +58,7 @@ namespace Files
         public static LibraryManager LibraryManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 

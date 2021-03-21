@@ -31,27 +31,20 @@ namespace Files.ViewModels.Previews
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            try
-            {
-                FileRandomAccessStream stream = (FileRandomAccessStream)await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+            FileRandomAccessStream stream = (FileRandomAccessStream)await Item.ItemFile.OpenAsync(FileAccessMode.Read);
 
-                // svg files require a different type of source
-                if (!Item.ItemPath.EndsWith(".svg"))
-                {
-                    var bitmap = new BitmapImage();
-                    ImageSource = bitmap;
-                    await bitmap.SetSourceAsync(stream);
-                }
-                else
-                {
-                    var bitmap = new SvgImageSource();
-                    ImageSource = bitmap;
-                    await bitmap.SetSourceAsync(stream);
-                }
-            }
-            catch (Exception e)
+            // svg files require a different type of source
+            if (!Item.ItemPath.EndsWith(".svg"))
             {
-                Debug.WriteLine(e);
+                var bitmap = new BitmapImage();
+                ImageSource = bitmap;
+                await bitmap.SetSourceAsync(stream);
+            }
+            else
+            {
+                var bitmap = new SvgImageSource();
+                ImageSource = bitmap;
+                await bitmap.SetSourceAsync(stream);
             }
 
             return new List<FileProperty>();

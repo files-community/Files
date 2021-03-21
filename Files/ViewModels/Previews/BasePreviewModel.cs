@@ -82,7 +82,7 @@ namespace Files.ViewModels.Previews
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+               App.Logger.Error(e);
             }
         }
 
