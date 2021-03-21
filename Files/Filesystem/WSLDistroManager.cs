@@ -51,16 +51,18 @@ namespace Files.Filesystem
                         if ((await distroFolder.GetFoldersAsync()).Count != 0)
                         {
                             var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "WSL") as LocationItem;
-
-                            section = new LocationItem()
+                            if (section == null)
                             {
-                                Text = "WSL",
-                                Section = SectionType.WSL,
-                                Glyph = "\uEC7A",
-                                SelectsOnInvoked = false,
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
-                            };
-                            MainPage.SideBarItems.Add(section);
+                                section = new LocationItem()
+                                {
+                                    Text = "WSL",
+                                    Section = SectionType.WSL,
+                                    Glyph = "\uEC7A",
+                                    SelectsOnInvoked = false,
+                                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                                };
+                                MainPage.SideBarItems.Add(section);
+                            }
 
                             foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
                             {
@@ -90,12 +92,15 @@ namespace Files.Filesystem
                                     logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                                 }
 
-                                section.ChildItems.Add(new WSLDistroItem()
+                                if (!section.ChildItems.Any(x => x.Path == folder.Path))
                                 {
-                                    Text = folder.DisplayName,
-                                    Path = folder.Path,
-                                    Logo = logoURI
-                                });
+                                    section.ChildItems.Add(new WSLDistroItem()
+                                    {
+                                        Text = folder.DisplayName,
+                                        Path = folder.Path,
+                                        Logo = logoURI
+                                    });
+                                }
                             }
                         }
                     }
