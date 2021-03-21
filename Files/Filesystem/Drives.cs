@@ -154,6 +154,15 @@ namespace Files.Filesystem
                         }
                     }
 
+                    foreach (DriveItem drive in section.ChildItems.ToList())
+                    {
+                        if (!Drives.Contains(drive))
+                        {
+                            section.ChildItems.Remove(drive);
+                            DrivesWidget.ItemsAdded.Remove(drive);
+                        }
+                    }
+
                     MainPage.SideBarItems.EndBulkOperation();
                 }
                 finally

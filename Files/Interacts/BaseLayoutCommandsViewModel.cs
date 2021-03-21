@@ -12,7 +12,7 @@ namespace Files.Interacts
 
         private readonly IBaseLayoutCommandImplementationModel commandsModel;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -23,7 +23,7 @@ namespace Files.Interacts
             InitializeCommands();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Command Initialization
 
@@ -62,7 +62,7 @@ namespace Files.Interacts
             ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
         }
 
-        #endregion
+        #endregion Command Initialization
 
         #region Commands
 
@@ -128,7 +128,7 @@ namespace Files.Interacts
 
         public ICommand ItemPointerPressedCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         #region IDisposable
 
@@ -137,6 +137,6 @@ namespace Files.Interacts
             commandsModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

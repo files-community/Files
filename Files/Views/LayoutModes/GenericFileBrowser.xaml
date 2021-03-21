@@ -681,6 +681,26 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
+                    x:Name="PinItemToStart"
+                    x:Uid="PinItemToStart"
+                    x:Load="False"
+                    Click="PinItemToStart_Click"
+                    Text="Pin to the Start Menu">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon  Glyph="&#xE840;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="UnpinItemFromStart"
+                    x:Uid="UnpinItemFromStart"
+                    x:Load="False"
+                    Click="UnpinItemFromStart_Click"
+                    Text="Unpin from the Start Menu">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon  Glyph="&#xE77A;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
                     x:Name="PropertiesItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
                     Text="Properties">

@@ -416,7 +416,7 @@ namespace Files.ViewModels
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
+                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
@@ -430,7 +430,7 @@ namespace Files.ViewModels
                 // include an '\\' at the end (unlike paths to folders)
                 if (!WriteLayoutPreferencesToAds(folderPath.TrimEnd('\\'), prefs))
                 {
-                    WriteLayoutPreferencesToSettings(folderPath.Replace('\\', '_'), prefs);
+                    WriteLayoutPreferencesToSettings(folderPath.TrimEnd('\\').Replace('\\', '_'), prefs);
                 }
             }
             else

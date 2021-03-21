@@ -245,6 +245,7 @@
     <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
     <Compile Include="Interacts\IBaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\IStatusCenterActions.cs" />
+    <Compile Include="Helpers\SecondaryTileHelper.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
@@ -624,6 +625,8 @@
     <Content Include="Assets\StoreLogo.scale-200_contrast-white.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-black.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-white.png" />
+    <Content Include="Assets\tile-0-250x250.png" />
+    <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-black.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-white.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125_contrast-black.png" />

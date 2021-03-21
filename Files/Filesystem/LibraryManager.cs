@@ -84,6 +84,7 @@ namespace Files.Filesystem
 
             MainPage.SideBarItems.EndBulkOperation();
         }
+
         private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -106,7 +107,7 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-                            
+
                             MainPage.SideBarItems.Insert(1, librarySection);
 
                             libraryItems.Clear();

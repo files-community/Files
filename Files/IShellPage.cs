@@ -6,7 +6,6 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using System;
-using Windows.ApplicationModel.AppService;
 
 namespace Files
 {

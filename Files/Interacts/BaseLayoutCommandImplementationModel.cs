@@ -34,13 +34,13 @@ namespace Files.Interacts
 
         private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private readonly IShellPage associatedInstance;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -49,7 +49,7 @@ namespace Files.Interacts
             this.associatedInstance = associatedInstance;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IDisposable
 
@@ -58,7 +58,7 @@ namespace Files.Interacts
             //associatedInstance = null;
         }
 
-        #endregion
+        #endregion IDisposable
 
         #region Command Implementation
 
@@ -541,6 +541,6 @@ namespace Files.Interacts
             }
         }
 
-        #endregion
+        #endregion Command Implementation
     }
 }
