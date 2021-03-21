@@ -980,7 +980,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        FilePropertiesHelpers.ShowProperties(this);
+                        UIFilesystemHelpers.CopyItem(this);
                     }
 
                     break;
@@ -996,7 +996,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        FilePropertiesHelpers.ShowProperties(this);
+                        UIFilesystemHelpers.CutItem(this);
                     }
 
                     break;
