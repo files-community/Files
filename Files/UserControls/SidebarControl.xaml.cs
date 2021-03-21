@@ -73,10 +73,6 @@ namespace Files.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
-        private DispatcherQueueController timerQueueController;
-
-        private DispatcherQueue timerQueue;
-
         private DispatcherQueueTimer dragOverTimer;
 
         public SidebarControl()
@@ -84,9 +80,7 @@ namespace Files.UserControls
             this.InitializeComponent();
             SidebarNavView.Loaded += SidebarNavView_Loaded;
 
-            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
-            timerQueue = timerQueueController.DispatcherQueue;
-            dragOverTimer = timerQueue.CreateTimer();
+            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         private INavigationControlItem selectedSidebarItem;
