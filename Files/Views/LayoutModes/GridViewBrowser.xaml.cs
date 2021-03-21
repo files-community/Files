@@ -180,14 +180,6 @@ namespace Files.Views.LayoutModes
             SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
-            {
-                ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
-            }
-        }
-
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();

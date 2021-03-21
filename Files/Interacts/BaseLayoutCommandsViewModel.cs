@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -51,6 +52,14 @@ namespace Files.Interacts
             OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewTab);
             OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewPane);
             OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenInNewWindowItem);
+            CreateNewFolderCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFolder);
+            CreateNewFileCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFile);
+            PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PasteItemsFromClipboard);
+            CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyPathOfSelectedItem);
+            OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInDefaultTerminal);
+            ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
+            PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
+            ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
         }
 
         #endregion
@@ -102,6 +111,22 @@ namespace Files.Interacts
         public ICommand OpenDirectoryInNewPaneCommand { get; private set; }
 
         public ICommand OpenInNewWindowItemCommand { get; private set; }
+
+        public ICommand CreateNewFolderCommand { get; private set; }
+
+        public ICommand CreateNewFileCommand { get; private set; }
+
+        public ICommand PasteItemsFromClipboardCommand { get; private set; }
+
+        public ICommand CopyPathOfSelectedItemCommand { get; private set; }
+
+        public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
+
+        public ICommand ShareItemCommand { get; private set; }
+
+        public ICommand PinDirectoryToSidebarCommand { get; private set; }
+
+        public ICommand ItemPointerPressedCommand { get; private set; }
 
         #endregion
 

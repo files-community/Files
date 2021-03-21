@@ -13,6 +13,10 @@ using Files.Views;
 using System;
 using Windows.UI.Core;
 using Windows.System;
+using Files.Dialogs;
+using System.Diagnostics;
+using Windows.Foundation;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -404,6 +408,136 @@ namespace Files.Interacts
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
                 var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
                 await Launcher.LaunchUriAsync(folderUri);
+            }
+        }
+
+        public virtual void CreateNewFolder(RoutedEventArgs e)
+        {
+            associatedInstance.InteractionOperations.CreateFileFromDialogResultType(AddItemType.Folder, null);
+        }
+
+        public virtual void CreateNewFile(RoutedEventArgs e)
+        {
+            associatedInstance.InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null);
+        }
+
+        public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
+        {
+            await associatedInstance.InteractionOperations.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
+        {
+            try
+            {
+                if (associatedInstance.SlimContentPage != null)
+                {
+                    DataPackage data = new DataPackage();
+                    data.SetText(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debugger.Break();
+            }
+        }
+
+        public virtual void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
+        {
+            associatedInstance.InteractionOperations.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        public virtual void ShareItem(RoutedEventArgs e)
+        {
+            DataTransferManager manager = DataTransferManager.GetForCurrentView();
+            manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
+            DataTransferManager.ShowShareUI();
+
+            async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+            {
+                DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
+                List<IStorageItem> items = new List<IStorageItem>();
+                DataRequest dataRequest = args.Request;
+
+                /*dataRequest.Data.Properties.Title = "Data Shared From Files";
+                dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+
+                foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    if (item.IsShortcutItem)
+                    {
+                        if (item.IsLinkItem)
+                        {
+                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
+                            dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
+                            dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
+                            dataRequestDeferral.Complete();
+                            return;
+                        }
+                    }
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        if (await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, associatedInstance) is StorageFolder folder)
+                        {
+                            items.Add(folder);
+                        }
+                    }
+                    else
+                    {
+                        if (await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, associatedInstance) is StorageFile file)
+                        {
+                            items.Add(file);
+                        }
+                    }
+                }
+
+                if (items.Count == 1)
+                {
+                    dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
+                    dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
+                }
+                else if (items.Count == 0)
+                {
+                    dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalized());
+                    dataRequestDeferral.Complete();
+                    return;
+                }
+                else
+                {
+                    dataRequest.Data.Properties.Title = string.Format("ShareDialogTitleMultipleItems".GetLocalized(), items.Count,
+                        "ItemsCount.Text".GetLocalized());
+                    dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalized();
+                }
+
+                dataRequest.Data.SetStorageItems(items);
+                dataRequestDeferral.Complete();
+
+                // TODO: Unhook the event somewhere
+            }
+        }
+
+        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
+        {
+            App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        public virtual void ItemPointerPressed(PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    if (Item.IsShortcutItem)
+                    {
+                        Interaction.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                    }
+                    else
+                    {
+                        Interaction.OpenPathInNewTab(Item.ItemPath);
+                    }
+                }
             }
         }
 

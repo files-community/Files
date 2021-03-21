@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -50,5 +51,21 @@ namespace Files.Interacts
         void OpenDirectoryInNewPane(RoutedEventArgs e);
 
         void OpenInNewWindowItem(RoutedEventArgs e);
+
+        void CreateNewFolder(RoutedEventArgs e);
+
+        void CreateNewFile(RoutedEventArgs e);
+
+        void PasteItemsFromClipboard(RoutedEventArgs e);
+
+        void CopyPathOfSelectedItem(RoutedEventArgs e);
+
+        void OpenDirectoryInDefaultTerminal(RoutedEventArgs e);
+
+        void ShareItem(RoutedEventArgs e);
+
+        void PinDirectoryToSidebar(RoutedEventArgs e);
+
+        void ItemPointerPressed(PointerRoutedEventArgs e);
     }
 }

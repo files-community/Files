@@ -150,38 +150,6 @@ namespace Files.Interacts
             }
         }
 
-        public RelayCommand AddNewTabToMultitaskingControl => new RelayCommand(() => OpenNewTab());
-
-        private async void OpenNewTab()
-        {
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-        }
-
-        public RelayCommand OpenNewPane => new RelayCommand(() => OpenNewPaneCommand());
-
-        public void OpenNewPaneCommand()
-        {
-            AssociatedInstance.PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized());
-        }
-
-        public void ItemPointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
-            {
-                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    if (Item.IsShortcutItem)
-                    {
-                        OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                    }
-                    else
-                    {
-                        OpenPathInNewTab(Item.ItemPath);
-                    }
-                }
-            }
-        }
-
         public static async void OpenPathInNewTab(string path)
         {
             await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
@@ -199,9 +167,7 @@ namespace Files.Interacts
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
-        public RelayCommand OpenDirectoryInDefaultTerminal => new RelayCommand(() => OpenDirectoryInTerminal(AssociatedInstance.FilesystemViewModel.WorkingDirectory));
-
-        private async void OpenDirectoryInTerminal(string workingDir)
+        public async void OpenDirectoryInTerminal(string workingDir)
         {
             var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
@@ -555,19 +521,10 @@ namespace Files.Interacts
             }
         }
 
-        public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());
-
         public async void LaunchNewWindow()
         {
             var filesUWPUri = new Uri("files-uwp:");
             await Launcher.LaunchUriAsync(filesUWPUri);
-        }
-
-        public void ShareItem_Click(object sender, RoutedEventArgs e)
-        {
-            DataTransferManager manager = DataTransferManager.GetForCurrentView();
-            manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
-            DataTransferManager.ShowShareUI();
         }
 
         public async void ShowProperties()
@@ -648,71 +605,6 @@ namespace Files.Interacts
             }
         }
 
-        public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
-        {
-            App.SidebarPinnedController.Model.AddItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-        }
-
-        private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
-        {
-            DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
-            List<IStorageItem> items = new List<IStorageItem>();
-            DataRequest dataRequest = args.Request;
-
-            /*dataRequest.Data.Properties.Title = "Data Shared From Files";
-            dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
-
-            foreach (ListedItem item in AssociatedInstance.SlimContentPage.SelectedItems)
-            {
-                if (item.IsShortcutItem)
-                {
-                    if (item.IsLinkItem)
-                    {
-                        dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
-                        dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
-                        dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
-                        dataRequestDeferral.Complete();
-                        return;
-                    }
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    if (await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, AssociatedInstance) is StorageFolder folder)
-                    {
-                        items.Add(folder);
-                    }
-                }
-                else
-                {
-                    if (await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, AssociatedInstance) is StorageFile file)
-                    {
-                        items.Add(file);
-                    }
-                }
-            }
-
-            if (items.Count == 1)
-            {
-                dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
-                dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
-            }
-            else if (items.Count == 0)
-            {
-                dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalized());
-                dataRequestDeferral.Complete();
-                return;
-            }
-            else
-            {
-                dataRequest.Data.Properties.Title = string.Format("ShareDialogTitleMultipleItems".GetLocalized(), items.Count,
-                    "ItemsCount.Text".GetLocalized());
-                dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalized();
-            }
-
-            dataRequest.Data.SetStorageItems(items);
-            dataRequestDeferral.Complete();
-        }
-
         public async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName)
         {
             if (oldName == newName)
@@ -757,28 +649,7 @@ namespace Files.Interacts
             AssociatedInstance.SlimContentPage.ResetItemOpacity();
         }
 
-        public RelayCommand CopyPathOfSelectedItem => new RelayCommand(() => CopyLocation());
-
-        private void CopyLocation()
-        {
-            try
-            {
-                if (AssociatedInstance.SlimContentPage != null)
-                {
-                    DataPackage data = new DataPackage();
-                    data.SetText(AssociatedInstance.SlimContentPage.SelectedItem.ItemPath);
-                    Clipboard.SetContent(data);
-                    Clipboard.Flush();
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        public RelayCommand CopyPathOfWorkingDirectory => new RelayCommand(() => CopyWorkingLocation());
-
-        private void CopyWorkingLocation()
+        public void CopyWorkingLocation()
         {
             try
             {
@@ -794,8 +665,6 @@ namespace Files.Interacts
             {
             }
         }
-
-        public RelayCommand PasteItemsFromClipboard => new RelayCommand(async () => await PasteItemAsync(AssociatedInstance.FilesystemViewModel.WorkingDirectory));
 
         public async Task PasteItemAsync(string destinationPath)
         {
@@ -858,31 +727,6 @@ namespace Files.Interacts
                 await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
         }
-
-        public RelayCommand CreateNewFolder => new RelayCommand(() => NewFolder());
-        public RelayCommand<ShellNewEntry> CreateNewFile => new RelayCommand<ShellNewEntry>((itemType) => NewFile(itemType));
-
-        private void NewFolder()
-        {
-            CreateFileFromDialogResultType(AddItemType.Folder, null);
-        }
-
-        private void NewFile(ShellNewEntry itemType)
-        {
-            CreateFileFromDialogResultType(AddItemType.File, itemType);
-        }
-
-        public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems(AssociatedInstance.SlimContentPage));
-
-        public void SelectAllItems(IBaseLayout contentPage) => contentPage.SelectAllItems();
-
-        public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems(AssociatedInstance.SlimContentPage));
-
-        public void InvertAllItems(IBaseLayout contentPage) => contentPage.InvertSelection();
-
-        public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems(AssociatedInstance.SlimContentPage));
-
-        public void ClearAllItems(IBaseLayout contentPage) => contentPage.ClearSelection();
 
         public void PushJumpChar(char letter)
         {

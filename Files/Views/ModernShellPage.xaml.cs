@@ -11,6 +11,7 @@ using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -135,6 +137,28 @@ namespace Files.Views
             }
         }
 
+        public ICommand SelectAllContentPageItemsCommand { get; private set; }
+
+        public ICommand InvertContentPageSelctionCommand { get; private set; }
+
+        public ICommand ClearContentPageSelectionCommand { get; private set; }
+
+        public ICommand PasteItemsFromClipboardCommand { get; private set; }
+
+        public ICommand CopyPathOfWorkingDirectoryCommand { get; private set; }
+
+        public ICommand OpenNewWindowCommand { get; private set; }
+
+        public ICommand OpenNewPaneCommand { get; private set; }
+
+        public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
+
+        public ICommand AddNewTabToMultitaskingControlCommand { get; private set; }
+
+        public ICommand CreateNewFileCommand { get; private set; }
+
+        public ICommand CreateNewFolderCommand { get; private set; }
+
         public static readonly DependencyProperty IsPageMainPaneProperty =
             DependencyProperty.Register("IsPageMainPane", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
 
@@ -205,6 +229,25 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+        }
+
+        private void InitializeCommands()
+        {
+            if (this.SlimContentPage != null)
+            {
+                SelectAllContentPageItemsCommand = new RelayCommand(this.SlimContentPage.SelectAllItems);
+                ClearContentPageSelectionCommand = new RelayCommand(this.SlimContentPage.ClearSelection);
+                InvertContentPageSelctionCommand = new RelayCommand(this.SlimContentPage.InvertSelection);
+            }
+            PasteItemsFromClipboardCommand = new RelayCommand(async () => await this.InteractionOperations.PasteItemAsync(FilesystemViewModel.WorkingDirectory));
+            CopyPathOfWorkingDirectoryCommand = new RelayCommand(this.InteractionOperations.CopyWorkingLocation);
+            OpenNewWindowCommand = new RelayCommand(this.InteractionOperations.LaunchNewWindow);
+            OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
+            OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => this.InteractionOperations.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
+            AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
+
+            CreateNewFileCommand = new RelayCommand(() => InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null));
+            CreateNewFolderCommand = new RelayCommand(() => InteractionOperations.CreateFileFromDialogResultType(AddItemType.Folder, null));
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -859,6 +902,7 @@ namespace Files.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
+            InitializeCommands();
             NavigationToolbar.ClearSearchBoxQueryText(true);
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
@@ -961,7 +1005,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.SelectAllItems(this.ContentPage);
+                        this.SlimContentPage.SelectAllItems();
                     }
 
                     break;

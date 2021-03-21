@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.DataModels;
+using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
 using Files.Extensions;
@@ -9,6 +10,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
@@ -618,7 +620,7 @@ namespace Files
                             Tag = "CreateNewFile"
                         };
                     }
-                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
+                    menuLayoutItem.Command = new RelayCommand(() => ParentShellPageInstance.InteractionOperations.CreateFileFromDialogResultType(AddItemType.File, null));
                     menuLayoutItem.CommandParameter = newEntry;
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
