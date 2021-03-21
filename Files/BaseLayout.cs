@@ -216,23 +216,8 @@ namespace Files
             }
         }
 
-        private void ClearShellContextMenus(MenuFlyout menuFlyout)
-        {
-            var contextMenuItems = menuFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).menuHandle != null).ToList();
-            for (int i = 0; i < contextMenuItems.Count; i++)
-            {
-                menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(contextMenuItems[i]));
-            }
-
-            if (menuFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
-            {
-                menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(flyoutSeperator));
-            }
-        }
-
         public virtual void SetShellContextmenu(MenuFlyout menuFlyout, bool shiftPressed, bool showOpenMenu)
         {
-            ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
             var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
@@ -252,7 +237,6 @@ namespace Files
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response["Handle"], true, maxItems);
                     }
                 }
             }
@@ -440,134 +424,6 @@ namespace Files
             if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
             {
                 menuItem.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList,
-                                        IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-                                        string menuHandle,
-                                        bool showIcons = true,
-                                        int itemsBeforeOverflow = int.MaxValue)
-        {
-            var itemsCount = 0; // Separators do not count for reaching the overflow threshold
-            var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
-            var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
-
-            if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
-            {
-                var menuLayoutSubItem = new MenuFlyoutSubItem()
-                {
-                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
-                    Tag = ((Win32ContextMenuItem)null, menuHandle),
-                    Icon = new FontIcon()
-                    {
-                        Glyph = "\xE712"
-                    }
-                };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
-                MenuItemsList.Insert(0, menuLayoutSubItem);
-            }
-            foreach (var menuFlyoutItem in menuItems
-                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
-                .Reverse()
-                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
-            {
-                if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (MenuItemsList.FirstOrDefault() is MenuFlyoutSeparator))
-                {
-                    // Avoid duplicate separators
-                    continue;
-                }
-
-                BitmapImage image = null;
-                if (showIcons)
-                {
-                    image = new BitmapImage();
-                    if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
-                    {
-                        byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
-                        using (var ms = new MemoryStream(bitmapData))
-                        {
-#pragma warning disable CS4014
-                            image.SetSourceAsync(ms.AsRandomAccessStream());
-#pragma warning restore CS4014
-                        }
-                    }
-                }
-
-                if (menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR)
-                {
-                    var menuLayoutItem = new MenuFlyoutSeparator()
-                    {
-                        Tag = (menuFlyoutItem, menuHandle)
-                    };
-                    MenuItemsList.Insert(0, menuLayoutItem);
-                }
-                else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any()
-                    && !string.IsNullOrEmpty(menuFlyoutItem.Label))
-                {
-                    var menuLayoutSubItem = new MenuFlyoutSubItem()
-                    {
-                        Text = menuFlyoutItem.Label.Replace("&", ""),
-                        Tag = (menuFlyoutItem, menuHandle),
-                    };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
-                    MenuItemsList.Insert(0, menuLayoutSubItem);
-                }
-                else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
-                {
-                    var menuLayoutItem = new MenuFlyoutItemWithImage()
-                    {
-                        Text = menuFlyoutItem.Label.Replace("&", ""),
-                        Tag = (menuFlyoutItem, menuHandle),
-                        BitmapIcon = image
-                    };
-                    menuLayoutItem.Click += MenuLayoutItem_Click;
-                    MenuItemsList.Insert(0, menuLayoutItem);
-                }
-            }
-        }
-
-        private (Win32ContextMenuItem menuItem, string menuHandle) ParseContextMenuTag(object tag)
-        {
-            if (tag is ValueTuple<Win32ContextMenuItem, string>)
-            {
-                (Win32ContextMenuItem menuItem, string menuHandle) = (ValueTuple<Win32ContextMenuItem, string>)tag;
-                return (menuItem, menuHandle);
-            }
-
-            return (null, null);
-        }
-
-        private async void MenuLayoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            var currentMenuLayoutItem = (MenuFlyoutItem)sender;
-            if (currentMenuLayoutItem != null)
-            {
-                var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
-                if (Connection != null)
-                {
-                    await Connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "ExecAndCloseContextMenu" },
-                        { "Handle", menuHandle },
-                        { "ItemID", menuItem.ID },
-                        { "CommandString", menuItem.CommandString }
-                    });
-                }
-            }
-        }
-
-        public async void RightClickItemContextMenu_Closing(object sender, object e)
-        {
-            var shellContextMenuTag = (sender as MenuFlyout).Items.Where(x => x.Tag != null)
-                .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
-            if (shellContextMenuTag.menuItem != null && Connection != null)
-            {
-                await Connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "ExecAndCloseContextMenu" },
-                    { "Handle", shellContextMenuTag.menuHandle }
-                });
             }
         }
 

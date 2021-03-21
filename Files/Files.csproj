@@ -274,8 +274,10 @@
     <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
+    <Compile Include="ViewModels\ContextFlyoutViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />
     <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
