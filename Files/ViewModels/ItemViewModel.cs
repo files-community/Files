@@ -892,7 +892,7 @@ namespace Files.ViewModels
                                     break;
                                 }
 
-                                if (i == 32 || sampler.CheckNow())
+                                if (i == 32 || i == cacheEntry.FileList.Count - 1 || sampler.CheckNow())
                                 {
                                     await OrderFilesAndFoldersAsync();
                                     await ApplyFilesAndFoldersChangesAsync();
@@ -961,9 +961,6 @@ namespace Files.ViewModels
                     IsLoadingItems = false;
                     return;
                 }
-
-                await OrderFilesAndFoldersAsync();
-                await ApplyFilesAndFoldersChangesAsync();
 
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
@@ -1045,7 +1042,7 @@ namespace Files.ViewModels
                             {
                                 filesAndFolders.Add(listedItem);
                             }
-                            if (count == 32 || sampler.CheckNow())
+                            if (count == 32 || count == folderContentsList.Count - 1 || sampler.CheckNow())
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();
