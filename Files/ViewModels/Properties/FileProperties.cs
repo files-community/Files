@@ -178,6 +178,30 @@ namespace Files.ViewModels.Properties
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
+        public async void GetSystemFileHashes()
+        {
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
+            {
+                // Could not access file, can't show any other property
+                return;
+            }
+
+            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
+
+            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
+            var query = list
+                .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
+                .GroupBy(fileProp => fileProp.SectionResource)
+                .Select(group => new FilePropertySection(group) { Key = group.Key })
+                .OrderBy(group => group.Priority)
+                .Where(section => !section.All(fileProp => fileProp.Value == null));
+            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
+            ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
+        }
+
         public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
         {
             if (!Lat.HasValue || !Lon.HasValue)

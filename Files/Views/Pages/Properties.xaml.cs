@@ -253,6 +253,10 @@ namespace Files.Views
                 case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
+
+                case "Hashes":
+                    contentFrame.Navigate(typeof(PropertiesHashes), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
             }
         }
 
