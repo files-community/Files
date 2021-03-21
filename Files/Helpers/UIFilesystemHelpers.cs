@@ -10,6 +10,7 @@ using Windows.Storage;
 using System.Collections.Generic;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using System.Linq;
 
 namespace Files.Helpers
 {
@@ -63,8 +64,8 @@ namespace Files.Helpers
                     // Try again with fulltrust process
                     if (associatedInstance.ServiceConnection != null)
                     {
-                        string filePaths = string.Join('|', SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        AppServiceResponseStatus status = await ServiceConnection.SendMessageAsync(new ValueSet()
+                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                        AppServiceResponseStatus status = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
