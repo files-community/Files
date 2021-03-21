@@ -14,7 +14,7 @@ namespace Files
     {
         IStatusCenterActions StatusCenterActions { get; }
 
-        Interaction InteractionOperations { get; }
+        //Interaction InteractionOperations { get; }
 
         ItemViewModel FilesystemViewModel { get; }
 

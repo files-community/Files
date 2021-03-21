@@ -88,6 +88,57 @@ namespace Files
             }
         }
 
+        private string jumpString = string.Empty;
+
+        public string JumpString
+        {
+            get => jumpString;
+            set
+            {
+                // If current string is "a", and the next character typed is "a",
+                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+                if (jumpString.Length == 1 && value == jumpString + jumpString)
+                {
+                    value = jumpString;
+                }
+                if (value != string.Empty)
+                {
+                    ListedItem jumpedToItem = null;
+                    ListedItem previouslySelectedItem = null;
+
+                    // Use FilesAndFolders because only displayed entries should be jumped to
+                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
+
+                    if (IsItemSelected)
+                    {
+                        previouslySelectedItem = SelectedItem;
+                    }
+
+                    // If the user is trying to cycle through items
+                    // starting with the same letter
+                    if (value.Length == 1 && previouslySelectedItem != null)
+                    {
+                        // Try to select item lexicographically bigger than the previous item
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                    }
+                    if (jumpedToItem == null)
+                    {
+                        jumpedToItem = candidateItems.FirstOrDefault();
+                    }
+
+                    if (jumpedToItem != null)
+                    {
+                        SetSelectedItemOnUi(jumpedToItem);
+                        ScrollIntoView(jumpedToItem);
+                    }
+
+                    // Reset
+                    jumpString = "";
+                }
+                jumpString = value;
+            }
+        }
+
         private List<ListedItem> selectedItems = new List<ListedItem>();
 
         public List<ListedItem> SelectedItems
@@ -808,8 +859,8 @@ namespace Files
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
-                char letterPressed = Convert.ToChar(args.KeyCode);
-                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                char letter = Convert.ToChar(args.KeyCode);
+                JumpString += letter.ToString().ToLowerInvariant();
             }
         }
 
@@ -876,7 +927,7 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
+                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
                 e.Handled = true;
             }
 

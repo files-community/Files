@@ -57,24 +57,6 @@ namespace Files.Views
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        private Interaction interactionOperations = null;
-
-        public Interaction InteractionOperations
-        {
-            get
-            {
-                return interactionOperations;
-            }
-            private set
-            {
-                if (interactionOperations != value)
-                {
-                    interactionOperations = value;
-                    NotifyPropertyChanged(nameof(InteractionOperations));
-                }
-            }
-        }
-
         private bool isCurrentInstance { get; set; } = false;
 
         public bool IsCurrentInstance
@@ -181,7 +163,6 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            InteractionOperations = new Interaction(this);
             InstanceViewModel = new CurrentInstanceViewModel();
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
@@ -1286,7 +1267,7 @@ namespace Files.Views
             {
                 if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
                 {
-                    await InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
+                    await FilesystemHelpers.PerformOperationTypeAsync(
                         DataPackageOperation.Move,
                         e.DataView,
                         FilesystemViewModel.WorkingDirectory,
