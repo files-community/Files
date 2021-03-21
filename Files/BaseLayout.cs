@@ -42,6 +42,8 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
+        private readonly DispatcherTimer jumpTimer;
+
         protected NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
@@ -132,9 +134,8 @@ namespace Files
                         ScrollIntoView(jumpedToItem);
                     }
 
-                    // Reset
-                    jumpString = "";
-                    return;
+                    // Restart the timer
+                    jumpTimer.Start();
                 }
                 jumpString = value;
             }
@@ -208,6 +209,10 @@ namespace Files
 
         public BaseLayout()
         {
+            jumpTimer = new DispatcherTimer();
+            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+            jumpTimer.Tick += JumpTimer_Tick; ;
+
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
@@ -221,6 +226,12 @@ namespace Files
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+        }
+
+        private void JumpTimer_Tick(object sender, object e)
+        {
+            jumpString = string.Empty;
+            jumpTimer.Stop();
         }
 
         protected abstract void InitializeCommandsViewModel();
