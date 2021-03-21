@@ -686,7 +686,7 @@ namespace Files.ViewModels
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, item.IsHiddenItem || item.IsShortcutItem, thumbnailSize);
 
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
@@ -704,7 +704,7 @@ namespace Files.ViewModels
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
-                                if (!item.LoadFileIcon) // Loading icon from fulltrust process failed
+                                if (fileIconInfo.IconData == null) // Loading icon from fulltrust process failed
                                 {
                                     using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
                                     {
@@ -734,7 +734,7 @@ namespace Files.ViewModels
                     }
                     else
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, item.IsHiddenItem || item.IsShortcutItem, thumbnailSize);
 
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
@@ -752,6 +752,23 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                if (fileIconInfo.IconData == null && fileIconInfo.IsCustom) // Loading icon from fulltrust process failed
+                                {
+                                    using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
+                                    {
+                                        if (Thumbnail != null)
+                                        {
+                                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                                            {
+                                                item.FileImage = new BitmapImage();
+                                                await item.FileImage.SetSourceAsync(Thumbnail);
+                                                item.LoadUnknownTypeGlyph = false;
+                                                item.LoadFolderGlyph = false;
+                                                item.LoadFileIcon = true;
+                                            });
+                                        }
+                                    }
+                                }
                                 if (matchingStorageItem.DisplayName != item.ItemName && !matchingStorageItem.DisplayName.StartsWith("$R"))
                                 {
                                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
@@ -795,13 +812,14 @@ namespace Files.ViewModels
             });
         }
 
-        public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
+        public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, bool shouldLoadIcon, uint thumbnailSize)
         {
             if (Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
+                value.Add("loadIcon", shouldLoadIcon);
                 value.Add("thumbnailSize", (int)thumbnailSize);
                 var (status, response) = await Connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)

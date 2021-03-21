@@ -155,7 +155,7 @@ namespace Files.ViewModels.Bundles
                 {
                     if (Path.EndsWith(".lnk"))
                     {
-                        var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, 24u);
+                        var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, true, 24u);
 
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {

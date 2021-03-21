@@ -34,7 +34,7 @@ namespace Files.ViewModels.Previews
 
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, Item.IsHiddenItem || Item.IsShortcutItem, 400);
 
             if (IconData != null)
             {

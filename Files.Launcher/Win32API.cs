@@ -100,12 +100,12 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
+        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, bool shouldLoadIcon, int thumbnailSize)
         {
             string iconStr = null, overlayStr = null;
 
             using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
-            if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+            if (shouldLoadIcon && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
             {
                 var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
                 if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;

@@ -19,9 +19,11 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Properties
 {
@@ -107,7 +109,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, Item.IsHiddenItem || Item.IsShortcutItem, 80);
             if (fileIconInfo.IconData != null)
             {
                 ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
@@ -131,7 +133,18 @@ namespace Files.ViewModels.Properties
                 // Could not access file, can't show any other property
                 return;
             }
-
+            if (ViewModel.FileIconSource == null)
+            {
+                using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
+                {
+                    if (Thumbnail != null)
+                    {
+                        var fileImage = new BitmapImage();
+                        await fileImage.SetSourceAsync(Thumbnail);
+                        ViewModel.FileIconSource = fileImage;
+                    }
+                }
+            }
             if (Item.IsShortcutItem)
             {
                 // Can't show any other property

@@ -11,8 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Properties
 {
@@ -75,7 +77,7 @@ namespace Files.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, Item.IsHiddenItem || Item.IsShortcutItem, 80);
             if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
             {
                 ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
@@ -105,7 +107,18 @@ namespace Files.ViewModels.Properties
                 // Could not access folder, can't show any other property
                 return;
             }
-
+            if (storageFolder != null && ViewModel.FileIconSource == null && fileIconInfo.IsCustom)
+            {
+                using (var Thumbnail = await storageFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
+                {
+                    if (Thumbnail != null)
+                    {
+                        var fileImage = new BitmapImage();
+                        await fileImage.SetSourceAsync(Thumbnail);
+                        ViewModel.FileIconSource = fileImage;
+                    }
+                }
+            }
             if (storageFolder != null)
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
