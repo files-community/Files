@@ -1,19 +1,7 @@
-﻿using Files.Filesystem;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Svg;
-using Microsoft.Graphics.Canvas.Text;
-using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.UI;
-using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using TileSize = Windows.UI.StartScreen.TileSize;
 

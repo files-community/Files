@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO.Pipes;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,8 +68,10 @@ namespace Files.Helpers
                         _ = await Instance;
                         ConnectionChanged?.Invoke(null, Instance);
                         break;
+
                     case -1:
                         return true;
+
                     default:
                         return false;
                 }
@@ -107,7 +108,7 @@ namespace Files.Helpers
         public event EventHandler ServiceClosed;
 
         private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
-        
+
         public NamedPipeAsAppServiceConnection()
         {
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
@@ -180,7 +181,7 @@ namespace Files.Helpers
                     }
                     await Task.Delay(200);
                 }
-                
+
                 pipeHandle = PipeHandle;
                 clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
                 clientStream.ReadMode = PipeTransmissionMode.Message;
@@ -271,7 +272,7 @@ namespace Files.Helpers
             pipeHandle?.Dispose();
             pipeHandle = null;
         }
-        
+
         private bool isDisposed = false;
 
         public void Dispose()

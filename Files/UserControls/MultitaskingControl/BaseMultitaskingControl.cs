@@ -20,6 +20,7 @@ namespace Files.UserControls.MultitaskingControl
         public const string TabPathIdentifier = "FilesTabViewItemPath";
 
         public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);

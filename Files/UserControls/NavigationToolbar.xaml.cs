@@ -2,7 +2,6 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
@@ -152,7 +151,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Selection Options
 
         #region Layout Options
 
@@ -270,7 +269,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Layout Options
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",

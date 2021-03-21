@@ -4,21 +4,17 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -26,8 +22,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Windows.ApplicationModel.Core;
-using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Files.Views.LayoutModes
 {
@@ -101,7 +95,7 @@ namespace Files.Views.LayoutModes
             InitializeComponent();
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
-            
+
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -619,6 +613,7 @@ namespace Files.Views.LayoutModes
                 case "dateDeletedColumn":
                     args = new DataGridColumnEventArgs(dateDeletedColumn);
                     break;
+
                 case "dateCreatedColumn":
                     args = new DataGridColumnEventArgs(dateCreatedColumn);
                     break;
@@ -656,6 +651,6 @@ namespace Files.Views.LayoutModes
             CommandsViewModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }
