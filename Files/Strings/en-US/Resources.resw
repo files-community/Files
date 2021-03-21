@@ -1545,12 +1545,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Original path</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Cache files and folders for better performance</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -1862,9 +1856,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Disconnect</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Use preemptive cache (preload entries in child directories on navigation)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>More bundles options</value>

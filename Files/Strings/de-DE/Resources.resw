@@ -1422,9 +1422,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Entfernen</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Dateien und Ordner zwischenspeichern, um die Leistung zu verbessern</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
@@ -1739,12 +1736,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Verbindung trennen</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Anzahl an vorzeitigen Zwischenspeichervorgängen (Ein kleinerer Wert ist für Festplatten empfohlen)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Vorzeitiges Zwischenspeichern aktivieren (Einträge in Unterverzeichnissen werden beim Navigieren vorgeladen)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr Gruppenoptionen</value>

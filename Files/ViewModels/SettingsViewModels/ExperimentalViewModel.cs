@@ -21,57 +21,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private bool useFileListCache = App.AppSettings.UseFileListCache;
-
-        public bool UseFileListCache
-        {
-            get
-            {
-                return useFileListCache;
-            }
-            set
-            {
-                if (SetProperty(ref useFileListCache, value))
-                {
-                    App.AppSettings.UseFileListCache = value;
-                }
-            }
-        }
-
-        private bool usePreemptiveCache = App.AppSettings.UsePreemptiveCache;
-
-        public bool UsePreemptiveCache
-        {
-            get
-            {
-                return usePreemptiveCache;
-            }
-            set
-            {
-                if (SetProperty(ref usePreemptiveCache, value))
-                {
-                    App.AppSettings.UsePreemptiveCache = value;
-                }
-            }
-        }
-
-        private int preemptiveCacheParallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
-
-        public int PreemptiveCacheParallelLimit
-        {
-            get
-            {
-                return preemptiveCacheParallelLimit;
-            }
-            set
-            {
-                if (SetProperty(ref preemptiveCacheParallelLimit, value))
-                {
-                    App.AppSettings.PreemptiveCacheParallelLimit = value;
-                }
-            }
-        }
-
         private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
         public bool ShowMultiselectOption
         {

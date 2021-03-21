@@ -1434,9 +1434,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>원래 위치</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>파일, 폴더를 캐싱하여 성능 개선</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>추가</value>
   </data>
