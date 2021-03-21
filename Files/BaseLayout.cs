@@ -150,10 +150,6 @@ namespace Files
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
-        private DispatcherQueueController timerQueueController;
-
-        private DispatcherQueue timerQueue;
-
         private DispatcherQueueTimer dragOverTimer;
 
         public BaseLayout()
@@ -170,9 +166,7 @@ namespace Files
                 IsQuickLookEnabled = true;
             }
 
-            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
-            timerQueue = timerQueueController.DispatcherQueue;
-            dragOverTimer = timerQueue.CreateTimer();
+            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected abstract void InitializeCommandsViewModel();

@@ -93,10 +93,6 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private DispatcherQueueController timerQueueController;
-
-        private DispatcherQueue timerQueue;
-
         private DispatcherQueueTimer tapDebounceTimer;
 
         public GenericFileBrowser()
@@ -111,9 +107,7 @@ namespace Files.Views.LayoutModes
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
 
-            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
-            timerQueue = timerQueueController.DispatcherQueue;
-            tapDebounceTimer = timerQueue.CreateTimer();
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void InitializeCommandsViewModel()
@@ -307,7 +301,7 @@ namespace Files.Views.LayoutModes
 
         private TextBox renamingTextBox;
 
-        private async void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
@@ -333,16 +327,12 @@ namespace Files.Views.LayoutModes
                     // We have an edit due to the first tap in the double-click mode
                     // Let's wait to see if there is another tap (double click).
 
-                    tapDebounceTimer.Debounce(async () =>
+                    tapDebounceTimer.Debounce(() =>
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                        {
-                            tapDebounceTimer.Stop();
+                        tapDebounceTimer.Stop();
 
-                            AllView.BeginEdit();
-                        });
+                        AllView.BeginEdit();
                     }, TimeSpan.FromMilliseconds(700), false);
-                    
                 }
             }
             else
