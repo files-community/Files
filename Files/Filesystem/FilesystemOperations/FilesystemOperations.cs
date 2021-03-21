@@ -579,14 +579,7 @@ namespace Files.Filesystem
                 // Try again with fulltrust process (non admin: for shortcuts and hidden files)
                 if (associatedInstance.ServiceConnection != null)
                 {
-<<<<<<< HEAD
                     var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-=======
-                    //await associatedInstance.ServiceConnection?.Elevate();
-                    App.InteractionViewModel.IsFullTrustElevated = true;
-
-                    if (associatedInstance.ServiceConnection != null)
->>>>>>> origin/main
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
@@ -602,7 +595,7 @@ namespace Files.Filesystem
                     var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
                     if (elevateConfirmResult == ContentDialogResult.Primary)
                     {
-                        if (false && await associatedInstance.ServiceConnection?.Elevate()) // TODO: enable this
+                        if (await associatedInstance.ServiceConnection?.Elevate()) // TODO: enable this
                         {
                             // Try again with fulltrust process (admin)
                             if (associatedInstance.ServiceConnection != null)
