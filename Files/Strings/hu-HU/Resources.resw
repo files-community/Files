@@ -844,7 +844,7 @@
     <value>Lap hozzáadása</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Lapok megnyitása</value>
+    <value>Megnyitott lapok</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Automatikus (ajánlott)</value>
@@ -1803,16 +1803,46 @@
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Ismeretlen hiba történt.</value>
   </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Törlés befelyezve</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>Művelet befelyezve.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Újrahasznosítás befelyezve</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Áthelyezés befelyezve</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Másolás befelyezve</value>
+  </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nem</value>
   </data>
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
     <value>Igen</value>
   </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Ehhez a művelethez rendszergazdai jogosultságok szükségesek</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Szeretné rendszergazdaként folytatni?</value>
+  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Jobbra lévő lapok bezárása</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Rendszergazda</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>A Files rendszergazdaként fut</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Kitűzés a Start menübe</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Levétel a Start menüből</value>
   </data>
 </root>
