@@ -6,7 +6,6 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using System;
-using Windows.ApplicationModel.AppService;
 
 namespace Files
 {
@@ -14,7 +13,7 @@ namespace Files
     {
         IStatusCenterActions StatusCenterActions { get; }
 
-        Interaction InteractionOperations { get; }
+        //Interaction InteractionOperations { get; }
 
         ItemViewModel FilesystemViewModel { get; }
 

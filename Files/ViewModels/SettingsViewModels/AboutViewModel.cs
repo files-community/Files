@@ -36,7 +36,7 @@ namespace Files.ViewModels.SettingsViewModels
                 case "ReleaseNotes":
                     await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/releases"));
                     break;
-                
+
                 case "Documentation":
                     await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
                     break;

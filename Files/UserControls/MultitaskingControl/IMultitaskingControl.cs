@@ -16,7 +16,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public List<ITabItemContent> GetAllTabInstances();
 
-        public void RemoveTab(TabItem tabItem);
+        public void CloseTab(TabItem tabItem);
     }
 
     public class CurrentInstanceChangedEventArgs : EventArgs

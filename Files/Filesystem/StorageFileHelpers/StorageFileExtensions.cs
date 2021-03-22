@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Extensions;
+using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
 using System;
@@ -29,7 +30,7 @@ namespace Files.Filesystem
             }
             else if (component.Contains(":"))
             {
-                var allDrives = MainPage.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
+                var allDrives = SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
                 return new PathBoxItem()
                 {
                     Title = allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?

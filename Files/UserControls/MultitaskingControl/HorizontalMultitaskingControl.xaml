@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:views="using:Files.Views"
+    xmlns:vm="using:Files.ViewModels"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -25,7 +25,7 @@
                         Opening="TabItemContextMenu_Opening">
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
-                            Click="{x:Bind views:MainPage.AddNewTabAtIndex}"
+                            Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
                             Text="New tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
@@ -33,7 +33,7 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlDuplicateTab"
-                            Click="{x:Bind views:MainPage.DuplicateTabAtIndex}"
+                            Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE97D;" />
@@ -42,7 +42,7 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemMoveTabToNewWindow"
                             x:Uid="HorizontalMultitaskingControlMoveTabToNewWindow"
-                            Click="{x:Bind views:MainPage.MoveTabToNewWindow}"
+                            Click="{x:Bind vm:MainPageViewModel.MoveTabToNewWindow}"
                             Text="Move tab to new window">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A7;" />
@@ -51,7 +51,7 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
-                            Click="{x:Bind views:MainPage.CloseTabsToTheRight}"
+                            Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
                             Text="Close tabs to the right"
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged" />
                     </MenuFlyout>

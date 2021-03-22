@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -128,11 +127,11 @@ namespace Files.ViewModels.SettingsViewModels
             if (visible)
             {
                 await LibraryManager.EnumerateDrivesAsync();
-            }                
+            }
             else
             {
                 await LibraryManager.RemoveEnumerateDrivesAsync();
-            }                
+            }
         }
 
         private async void LaunchTerminalsConfigFile()

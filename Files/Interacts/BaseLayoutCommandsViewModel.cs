@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -11,7 +12,7 @@ namespace Files.Interacts
 
         private readonly IBaseLayoutCommandImplementationModel commandsModel;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -22,7 +23,7 @@ namespace Files.Interacts
             InitializeCommands();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Command Initialization
 
@@ -40,13 +41,30 @@ namespace Files.Interacts
             OpenItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenItem);
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(commandsModel.EmptyRecycleBin);
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(commandsModel.QuickLook);
+            CopyItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyItem);
+            CutItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CutItem);
+            RestoreItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RestoreItem);
+            DeleteItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.DeleteItem);
+            ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowFolderProperties);
+            ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowProperties);
+            OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenFileLocation);
+            OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenItemWithApplicationPicker);
+            OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewTab);
+            OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewPane);
+            OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenInNewWindowItem);
+            CreateNewFolderCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFolder);
+            CreateNewFileCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFile);
+            PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PasteItemsFromClipboard);
+            CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyPathOfSelectedItem);
+            OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInDefaultTerminal);
+            ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
+            PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
+            ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
         }
 
-        #endregion
+        #endregion Command Initialization
 
         #region Commands
-
-        // TODO: We'll have there all BaseLayout commands to bind to -> and these will call implementation in commandsModel
 
         public ICommand RenameItemCommand { get; private set; }
 
@@ -71,8 +89,46 @@ namespace Files.Interacts
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }
+        
+        public ICommand CopyItemCommand { get; private set; }
 
-        #endregion
+        public ICommand CutItemCommand { get; private set; }
+
+        public ICommand RestoreItemCommand { get; private set; }
+
+        public ICommand DeleteItemCommand { get; private set; }
+
+        public ICommand ShowFolderPropertiesCommand { get; private set; }
+
+        public ICommand ShowPropertiesCommand { get; private set; }
+
+        public ICommand OpenFileLocationCommand { get; private set; }
+
+        public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
+
+        public ICommand OpenDirectoryInNewTabCommand { get; private set; }
+
+        public ICommand OpenDirectoryInNewPaneCommand { get; private set; }
+
+        public ICommand OpenInNewWindowItemCommand { get; private set; }
+
+        public ICommand CreateNewFolderCommand { get; private set; }
+
+        public ICommand CreateNewFileCommand { get; private set; }
+
+        public ICommand PasteItemsFromClipboardCommand { get; private set; }
+
+        public ICommand CopyPathOfSelectedItemCommand { get; private set; }
+
+        public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
+
+        public ICommand ShareItemCommand { get; private set; }
+
+        public ICommand PinDirectoryToSidebarCommand { get; private set; }
+
+        public ICommand ItemPointerPressedCommand { get; private set; }
+
+        #endregion Commands
 
         #region IDisposable
 
@@ -81,6 +137,6 @@ namespace Files.Interacts
             commandsModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

@@ -81,6 +81,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
