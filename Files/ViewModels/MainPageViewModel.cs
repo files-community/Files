@@ -23,13 +23,7 @@ namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
-        #region Private Members
-
         private bool isRestoringClosedTab = false; // Avoid reopening two tabs
-
-        #endregion
-
-        #region Public Properties
 
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
@@ -43,8 +37,6 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedTabItem, value);
         }
 
-        #endregion
-
         #region Commands
 
         public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
@@ -57,8 +49,6 @@ namespace Files.ViewModels
 
         #endregion
 
-        #region Constructor
-
         public MainPageViewModel()
         {
             // Create commands
@@ -67,8 +57,6 @@ namespace Files.ViewModels
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
         }
-
-        #endregion
 
         #region Command Implementation
 

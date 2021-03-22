@@ -38,13 +38,9 @@ namespace Files.Views
             AllowDrop = true;
         }
 
-        #region Override
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.OnNavigatedTo(e);
         }
-
-        #endregion
     }
 }
