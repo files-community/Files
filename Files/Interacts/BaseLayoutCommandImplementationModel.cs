@@ -402,6 +402,59 @@ namespace Files.Interacts
             }
         }
 
+        public virtual async void UnpinItemFromStart(RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+            }
+        }
+
+        public async void PinItemToStart(RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+            }
+        }
+
+        public void PointerWheelChanged(PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+                {
+                    GridViewSizeDecrease(null);
+                }
+                else // Mouse wheel up
+                {
+                    GridViewSizeIncrease(null);
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        public void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+
+            if (e != null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        public void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+
+            if (e != null)
+            {
+                e.Handled = true;
+            }
+        }
+
         #endregion Command Implementation
     }
 }

@@ -20,8 +20,12 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:usercontrols="using:Files.UserControls"
     NavigationCacheMode="Enabled"
-    PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerWheelChanged">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}"/>
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <local:BaseLayout.Resources>
         <ResourceDictionary>
@@ -684,8 +688,12 @@
                     x:Name="PinItemToStart"
                     x:Uid="PinItemToStart"
                     x:Load="False"
-                    Click="PinItemToStart_Click"
                     Text="Pin to the Start Menu">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PinItemToStartCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE840;" />
                     </MenuFlyoutItem.Icon>
@@ -694,8 +702,12 @@
                     x:Name="UnpinItemFromStart"
                     x:Uid="UnpinItemFromStart"
                     x:Load="False"
-                    Click="UnpinItemFromStart_Click"
                     Text="Unpin from the Start Menu">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.UnpinItemFromStartCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon  Glyph="&#xE77A;" />
                     </MenuFlyoutItem.Icon>
@@ -789,12 +801,22 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind GridViewSizeIncrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind GridViewSizeIncrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>
             <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">

@@ -1128,57 +1128,6 @@ namespace Files
 
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
-        public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            FolderSettings.GridViewSize = FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-            if (args != null)
-            {
-                args.Handled = true;
-            }
-        }
-
-        public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            FolderSettings.GridViewSize = FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-            if (args != null)
-            {
-                args.Handled = true;
-            }
-        }
-
-        public void BaseLayout_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
-                {
-                    GridViewSizeDecrease(null, null);
-                }
-                else // Mouse wheel up
-                {
-                    GridViewSizeIncrease(null, null);
-                }
-
-                e.Handled = true;
-            }
-        }
-
-        public async void PinItemToStart_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in SelectedItems)
-            {
-                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
-            }
-        }
-
-        public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in SelectedItems)
-            {
-                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
-            }
-        }
-
         public abstract void Dispose();
     }
 }

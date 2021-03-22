@@ -67,5 +67,15 @@ namespace Files.Interacts
         void PinDirectoryToSidebar(RoutedEventArgs e);
 
         void ItemPointerPressed(PointerRoutedEventArgs e);
+
+        void UnpinItemFromStart(RoutedEventArgs e);
+
+        void PinItemToStart(RoutedEventArgs e);
+
+        void PointerWheelChanged(PointerRoutedEventArgs e);
+
+        void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e);
+
+        void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
     }
 }
