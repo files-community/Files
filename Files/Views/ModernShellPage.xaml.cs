@@ -119,45 +119,27 @@ namespace Files.Views
             }
         }
 
-        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() =>
-        {
-            if (this.SlimContentPage != null)
-            {
-                this.SlimContentPage.SelectAllItems();
-            }
-        });
+        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() => SlimContentPage?.SelectAllItems());
 
-        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() =>
-        {
-            if (this.SlimContentPage != null)
-            {
-                this.SlimContentPage.InvertSelection();
-            }
-        });
+        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() => SlimContentPage?.InvertSelection());
 
-        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() =>
-        {
-            if (this.SlimContentPage != null)
-            {
-                this.SlimContentPage.ClearSelection();
-            }
-        });
+        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() => SlimContentPage?.ClearSelection());
 
-        public ICommand PasteItemsFromClipboardCommand { get; private set; }
+        public ICommand PasteItemsFromClipboardCommand => new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 
-        public ICommand CopyPathOfWorkingDirectoryCommand { get; private set; }
+        public ICommand CopyPathOfWorkingDirectoryCommand => new RelayCommand(CopyWorkingLocation);
 
-        public ICommand OpenNewWindowCommand { get; private set; }
+        public ICommand OpenNewWindowCommand => new RelayCommand(NavigationHelpers.LaunchNewWindow);
 
-        public ICommand OpenNewPaneCommand { get; private set; }
+        public ICommand OpenNewPaneCommand => new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
 
-        public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
+        public ICommand OpenDirectoryInDefaultTerminalCommand => new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
 
-        public ICommand AddNewTabToMultitaskingControlCommand { get; private set; }
+        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
 
-        public ICommand CreateNewFileCommand { get; private set; }
+        public ICommand CreateNewFileCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
 
-        public ICommand CreateNewFolderCommand { get; private set; }
+        public ICommand CreateNewFolderCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
 
         public static readonly DependencyProperty IsPageMainPaneProperty =
             DependencyProperty.Register("IsPageMainPane", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
@@ -228,19 +210,6 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
-        }
-
-        private void InitializeCommands()
-        {
-            PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
-            CopyPathOfWorkingDirectoryCommand = new RelayCommand(CopyWorkingLocation);
-            OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
-            OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
-            OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
-            AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
-
-            CreateNewFileCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
-            CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
         }
 
         private void CopyWorkingLocation()
@@ -912,7 +881,6 @@ namespace Files.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            InitializeCommands();
             NavigationToolbar.ClearSearchBoxQueryText(true);
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
