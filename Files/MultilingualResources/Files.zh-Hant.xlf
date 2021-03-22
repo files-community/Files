@@ -272,8 +272,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
-          <target state="needs-review-translation">QuickLook 預覽</target>
-          <note from="MultilingualEditor" annotates="source" priority="4">Not sure what "QuickLook" mean..</note>
+          <target state="translated">QuickLook 預覽</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New window</source>
