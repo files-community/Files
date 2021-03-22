@@ -165,7 +165,7 @@ namespace Files.Interacts
 
         private async void OpenNewTab()
         {
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
         public async void OpenInNewWindowItem_Click()
@@ -201,7 +201,7 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
@@ -226,7 +226,7 @@ namespace Files.Interacts
 
         public static async void OpenPathInNewTab(string path)
         {
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)

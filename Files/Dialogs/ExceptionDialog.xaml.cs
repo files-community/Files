@@ -1,4 +1,5 @@
-﻿using Files.Views;
+﻿using Files.ViewModels;
+using Files.Views;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +27,7 @@ namespace Files.Dialogs
             }
             else if (MainPage.MultitaskingControl.Items.Count > 1)
             {
-                MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
+                MainPage.MultitaskingControl?.CloseTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
             }
         }
 

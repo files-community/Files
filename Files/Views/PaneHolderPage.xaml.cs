@@ -378,9 +378,9 @@ namespace Files.Views
             }
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = MainPage.SideBarItems
+            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
                 .Where(x => !string.IsNullOrWhiteSpace(x.Path))
-                .Concat(MainPage.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
                 .ToList();
 
             item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));

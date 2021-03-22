@@ -228,6 +228,7 @@
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
+    <Compile Include="Helpers\MultitaskingTabsHelpers.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />

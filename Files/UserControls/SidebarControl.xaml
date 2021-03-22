@@ -133,7 +133,7 @@
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-            MenuItemsSource="{x:Bind local3:MainPage.SideBarItems, Mode=OneWay}"
+            MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
             OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
             PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
