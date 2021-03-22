@@ -107,7 +107,6 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-                            
                             SidebarControl.SideBarItems.Insert(1, librarySection);
 
                             libraryItems.Clear();
