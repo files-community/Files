@@ -571,7 +571,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await DeviceHelpers.EjectDeviceAsync(RightClickedItem.Path);
+            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
