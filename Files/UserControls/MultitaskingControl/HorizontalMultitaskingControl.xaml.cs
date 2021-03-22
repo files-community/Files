@@ -186,7 +186,7 @@ namespace Files.UserControls.MultitaskingControl
         {
             TabItem tabItem = args.NewValue as TabItem;
 
-            if (MainPage.AppInstances.IndexOf(tabItem) == MainPage.AppInstances.Count - 1)
+            if (MainPageViewModel.AppInstances.IndexOf(tabItem) == MainPageViewModel.AppInstances.Count - 1)
             {
                 MenuItemCloseTabsToTheRight.IsEnabled = false;
             }

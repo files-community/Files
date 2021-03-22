@@ -312,17 +312,17 @@ namespace Files.ViewModels
                                 }
                                 else
                                 {
-                                    fontIconSource.Glyph = "\xEDA2"; //Drive icon
+                                    fontIconSource.Glyph = "\xEDA2"; // Drive icon
                                 }
                             }
                             else
                             {
-                                fontIconSource.Glyph = "\xE74E"; //Floppy icon
+                                fontIconSource.Glyph = "\xE74E"; // Floppy icon
                             }
                         }
                         catch (Exception)
                         {
-                            fontIconSource.Glyph = "\xEDA2"; //Fallback
+                            fontIconSource.Glyph = "\xEDA2"; // Fallback
                         }
 
                         tabLocationHeader = PathNormalization.NormalizePath(currentPath);
@@ -330,7 +330,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    fontIconSource.Glyph = "\xE8B7"; //Folder icon
+                    fontIconSource.Glyph = "\xE8B7"; // Folder icon
                     tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
                     FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));

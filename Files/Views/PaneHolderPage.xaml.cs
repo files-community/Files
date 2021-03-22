@@ -545,7 +545,7 @@ namespace Files.Views
             var invokedItemContainer = e.InvokedItemContainer;
 
             // All items must have DataContext except Settings item
-            if (invokedItemContainer.DataContext is null)
+            if (invokedItemContainer.DataContext is MainPageViewModel)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
                 rootFrame.Navigate(typeof(Settings));

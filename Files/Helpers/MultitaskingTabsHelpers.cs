@@ -31,18 +31,18 @@ namespace Files.Helpers
 
         public static async Task MoveTabToNewWindow(TabItem tab)
         {
-            var index = MainPageViewModel.AppInstances.IndexOf(tab);
-            var tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
+            int index = MainPageViewModel.AppInstances.IndexOf(tab);
+            TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
 
-            MainPageViewModel.MultitaskingControl?.Items.RemoveAt(index);
+            MainPageViewModel.MultitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 
             if (tabItemArguments != null)
             {
-                await Interacts.Interaction.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
+                await NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
             }
             else
             {
-                await Interacts.Interaction.OpenPathInNewWindowAsync("NewTab".GetLocalized());
+                await NavigationHelpers.OpenPathInNewWindowAsync("NewTab".GetLocalized());
             }
         }
 
