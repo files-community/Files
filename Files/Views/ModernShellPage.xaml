@@ -247,7 +247,7 @@
                 HorizontalAlignment="Stretch"
                 x:FieldModifier="public"
                 
-                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled}"
+                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand}"
                 InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand}"
                 ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand}"
