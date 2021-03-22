@@ -119,11 +119,29 @@ namespace Files.Views
             }
         }
 
-        public ICommand SelectAllContentPageItemsCommand { get; private set; }
+        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() =>
+        {
+            if (this.SlimContentPage != null)
+            {
+                this.SlimContentPage.SelectAllItems();
+            }
+        });
 
-        public ICommand InvertContentPageSelctionCommand { get; private set; }
+        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() =>
+        {
+            if (this.SlimContentPage != null)
+            {
+                this.SlimContentPage.InvertSelection();
+            }
+        });
 
-        public ICommand ClearContentPageSelectionCommand { get; private set; }
+        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() =>
+        {
+            if (this.SlimContentPage != null)
+            {
+                this.SlimContentPage.ClearSelection();
+            }
+        });
 
         public ICommand PasteItemsFromClipboardCommand { get; private set; }
 
@@ -214,12 +232,6 @@ namespace Files.Views
 
         private void InitializeCommands()
         {
-            if (this.SlimContentPage != null)
-            {
-                SelectAllContentPageItemsCommand = new RelayCommand(this.SlimContentPage.SelectAllItems);
-                ClearContentPageSelectionCommand = new RelayCommand(this.SlimContentPage.ClearSelection);
-                InvertContentPageSelctionCommand = new RelayCommand(this.SlimContentPage.InvertSelection);
-            }
             PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
             CopyPathOfWorkingDirectoryCommand = new RelayCommand(CopyWorkingLocation);
             OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);

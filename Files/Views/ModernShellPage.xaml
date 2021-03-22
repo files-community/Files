@@ -248,9 +248,9 @@
                 x:FieldModifier="public"
                 
                 MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
-                SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand}"
-                InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand}"
-                ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand}"
+                SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
+                InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
+                ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
                 
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
                 ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
@@ -269,13 +269,13 @@
                 IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
                 IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                NewFileInvokedCommand="{x:Bind CreateNewFileCommand}"
-                NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand}"
-                NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand}"
-                NewTabInvokedCommand="{x:Bind AddNewTabToMultitaskingControlCommand}"
-                NewWindowInvokedCommand="{x:Bind OpenNewWindowCommand}"
-                OpenInTerminalInvokedCommand="{x:Bind OpenDirectoryInDefaultTerminalCommand}"
-                PasteInvokedCommand="{x:Bind PasteItemsFromClipboardCommand}"
+                NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
+                NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand, Mode=OneWay}"
+                NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand, Mode=OneWay}"
+                NewTabInvokedCommand="{x:Bind AddNewTabToMultitaskingControlCommand, Mode=OneWay}"
+                NewWindowInvokedCommand="{x:Bind OpenNewWindowCommand, Mode=OneWay}"
+                OpenInTerminalInvokedCommand="{x:Bind OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
+                PasteInvokedCommand="{x:Bind PasteItemsFromClipboardCommand, Mode=OneWay}"
                 PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                 ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
         </Custom:DropShadowPanel>
