@@ -2460,6 +2460,14 @@
           <source>Files is running as administrator</source>
           <target state="new">Files is running as administrator</target>
         </trans-unit>
+        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
+          <source>Pin to the Start Menu</source>
+          <target state="new">Pin to the Start Menu</target>
+        </trans-unit>
+        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from the Start Menu</source>
+          <target state="new">Unpin from the Start Menu</target>
+        </trans-unit>
       </group>
     </body>
   </file>

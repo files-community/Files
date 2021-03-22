@@ -1,14 +1,13 @@
-﻿using Files.Interacts;
+﻿using Files.Helpers;
+using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -20,20 +19,6 @@ namespace Files.UserControls.MultitaskingControl
         private TabViewItem hoveredTabViewItem = null;
 
         private SettingsViewModel AppSettings => App.AppSettings;
-
-        private bool closeTabsToTheRightEnabled = true;
-        public bool CloseTabsToTheRightEnabled
-        {
-            get => closeTabsToTheRightEnabled;
-            private set
-            {
-                if (value != closeTabsToTheRightEnabled)
-                {
-                    closeTabsToTheRightEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         public HorizontalMultitaskingControl()
         {
@@ -178,7 +163,7 @@ namespace Files.UserControls.MultitaskingControl
             var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             CloseTab(args.Item as TabItem);
-            if (!await Interaction.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+            if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
             {
                 sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
                 sender.SelectedIndex = selectedTabViewItemIndex;
@@ -187,24 +172,27 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContextMenu_Opening(object sender, object e)
         {
-            TabItem tabItem = (((MenuFlyout)sender).Items.First()).DataContext as TabItem;
-
-            if (MainPageViewModel.AppInstances.IndexOf(tabItem) == MainPageViewModel.AppInstances.Count - 1)
-            {
-                CloseTabsToTheRightEnabled = false;
-            }
-            else
-            {
-                CloseTabsToTheRightEnabled = true;
-            }
-
-            if (MainPage.MultitaskingControl.Items.Count == 1)
+            if (MainPageViewModel.MultitaskingControl.Items.Count == 1)
             {
                 MenuItemMoveTabToNewWindow.IsEnabled = false;
             }
             else
             {
                 MenuItemMoveTabToNewWindow.IsEnabled = true;
+            }
+        }
+
+        private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            TabItem tabItem = args.NewValue as TabItem;
+
+            if (MainPage.AppInstances.IndexOf(tabItem) == MainPage.AppInstances.Count - 1)
+            {
+                MenuItemCloseTabsToTheRight.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemCloseTabsToTheRight.IsEnabled = true;
             }
         }
     }

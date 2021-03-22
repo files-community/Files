@@ -31,7 +31,7 @@
     <value>Gewijzigd op:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Wis all items</value>
+    <value>Wis alle items</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Bestanden en mappen die je eerder hebt gebruikt worden hier weergeven</value>
@@ -49,7 +49,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Verstuur Feedback</value>
+    <value>Verstuur feedback</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
     <value>Stuur de ontwikkelaars een probleemrapport met meer informatie</value>
@@ -754,7 +754,7 @@
     <value>Ongeldig item</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Versie</value>
+    <value>Versie:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>Er valt op dit moment niets te delen</value>
@@ -783,6 +783,9 @@
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
     <value>Weet u zeker dat u dit item wilt verwijderen?</value>
   </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Weet je zeker dat je deze {0} items wilt verwijderen?</value>
+  </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
     <value>Horizontaal</value>
   </data>
@@ -808,16 +811,22 @@
     <value>Tabs openen</value>
   </data>
   <data name="ButtonNo.Content" xml:space="preserve">
-    <value>NEE</value>
+    <value>Nee</value>
   </data>
   <data name="ButtonYes.Content" xml:space="preserve">
-    <value>JA</value>
+    <value>Ja</value>
+  </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>Maak een nieuw item</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Annuleren</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Map</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Maakt een lege map</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Lay-outmodus</value>
@@ -828,8 +837,20 @@
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
     <value>App-taal</value>
   </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Steun ons</value>
+  </data>
+  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
+    <value>Steun ons via PayPal</value>
+  </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Toegang geweigerd</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+    <value>Prullenbak vastmaken aan de zijbalk</value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
+    <value>Acrylic-effect voor de zijbalk</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>Datumnotatie</value>
@@ -931,7 +952,7 @@
     <value>Artiest</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>Composer</value>
+    <value>Componist</value>
   </data>
   <data name="PropertyConductor" xml:space="preserve">
     <value>Conducteur</value>
@@ -943,7 +964,7 @@
     <value>Nummer</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>Duur</value>
+    <value>Afspeelduur</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
     <value>Aantal frames</value>
@@ -967,7 +988,7 @@
     <value>Schrijver</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>JAAR</value>
+    <value>Jaar</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
     <value>Kern</value>
@@ -982,7 +1003,7 @@
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Medium</value>
+    <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
     <value>Geluid</value>
@@ -1059,17 +1080,23 @@
   <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selectieopties</value>
   </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Open items met een enkele klik</value>
+  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Bestand</value>
   </data>
   <data name="FolderItemAutomation" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Prullenbak item</value>
+  </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Hierheen verplaatsen</value>
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
-    <value>Ritten</value>
+    <value>Schijven</value>
   </data>
   <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
     <value>Widgets</value>
@@ -1088,6 +1115,9 @@
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
     <value>Tabblad dupliceren</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Open het tabblad in een nieuw venster</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Nieuw tabblad</value>
@@ -1140,14 +1170,17 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Zoekresultaten</value>
   </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Steun ons via PayPal</value>
+  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Informatie</value>
   </data>
   <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
-    <value>NEE</value>
+    <value>Nee</value>
   </data>
   <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>JA</value>
+    <value>Ja</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Er zijn updates beschikbaar</value>
@@ -1164,6 +1197,9 @@
   <data name="AddDialogListFileHeader" xml:space="preserve">
     <value>Bestand</value>
   </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Maakt een nieuw bestand</value>
+  </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nieuw bestand</value>
   </data>
@@ -1177,7 +1213,7 @@
     <value>Toevoegen</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
-    <value>Wijzig</value>
+    <value>Wijzigen</value>
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Wissen</value>
@@ -1198,7 +1234,7 @@
     <value>Opties weergeven</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opties weergeven</value>
+    <value>Weergave opties</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Weergaveopties</value>
@@ -1254,8 +1290,11 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Itemnaam</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Netwerkschijven</value>
+  </data>
   <data name="Network" xml:space="preserve">
-    <value>het netwerk</value>
+    <value>Netwerk</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Eigenschappen</value>
@@ -1333,7 +1372,7 @@
     <value>Er is geen artikel geselecteerd</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Target</value>
+    <value>Doel</value>
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenten:</value>
@@ -1360,10 +1399,10 @@
     <value>Kopiëren is voltooid</value>
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>NEE</value>
+    <value>Nee</value>
   </data>
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>JA</value>
+    <value>Ja</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Tabbladen rechts sluiten</value>

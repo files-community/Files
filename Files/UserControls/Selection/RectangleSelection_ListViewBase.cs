@@ -1,5 +1,4 @@
 ﻿using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

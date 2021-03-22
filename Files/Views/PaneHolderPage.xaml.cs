@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -29,12 +30,12 @@ namespace Files.Views
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-
-        public Interaction InteractionOperations => ActivePane?.InteractionOperations;
         public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
         private readonly GridLength CompactSidebarWidth;
+
+        public ICommand EmptyRecycleBinCommand { get; private set; }
 
         public PaneHolderPage()
         {
@@ -214,7 +215,6 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(ActivePane));
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
-                    NotifyPropertyChanged(nameof(InteractionOperations));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
                     UpdateSidebarSelectedItem();
                 }
@@ -516,7 +516,7 @@ namespace Files.Views
         {
             if (e.InvokedItemDataContext is DriveItem)
             {
-                await InteractionOperations.OpenPropertiesWindowAsync(e.InvokedItemDataContext);
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, ActivePane);
             }
             else if (e.InvokedItemDataContext is LocationItem)
             {
@@ -528,7 +528,7 @@ namespace Files.Views
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
-                await InteractionOperations.OpenPropertiesWindowAsync(listedItem);
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, ActivePane);
             }
         }
 

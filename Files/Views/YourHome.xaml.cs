@@ -61,7 +61,7 @@ namespace Files.Views
             try
             {
                 var directoryName = Path.GetDirectoryName(e.ItemPath);
-                await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(e.ItemPath, workingDir: directoryName);
+                await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
             }
             catch (UnauthorizedAccessException)
             {

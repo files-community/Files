@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Helpers;
+using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
@@ -158,7 +159,7 @@ namespace Files.UserControls.MultitaskingControl
             var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             CloseTab(args.Item as TabItem);
-            if (!await Interaction.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+            if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
             {
                 sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
                 sender.SelectedIndex = selectedTabViewItemIndex;

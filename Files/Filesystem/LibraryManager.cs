@@ -84,6 +84,7 @@ namespace Files.Filesystem
 
             SidebarControl.SideBarItems.EndBulkOperation();
         }
+
         private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>

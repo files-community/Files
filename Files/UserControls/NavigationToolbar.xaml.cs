@@ -2,7 +2,6 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
@@ -152,7 +151,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Selection Options
 
         #region Layout Options
 
@@ -270,7 +269,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Layout Options
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
@@ -555,10 +554,6 @@ namespace Files.UserControls
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
-        private DispatcherQueueController timerQueueController;
-
-        private DispatcherQueue timerQueue;
-
         private DispatcherQueueTimer dragOverTimer;
 
         public NavigationToolbar()
@@ -566,9 +561,7 @@ namespace Files.UserControls
             this.InitializeComponent();
             this.Loading += NavigationToolbar_Loading;
 
-            timerQueueController = DispatcherQueueController.CreateOnDedicatedThread();
-            timerQueue = timerQueueController.DispatcherQueue;
-            dragOverTimer = timerQueue.CreateTimer();
+            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         private async void NavigationToolbar_Loading(FrameworkElement sender, object args)

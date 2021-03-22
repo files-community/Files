@@ -1,9 +1,7 @@
 ﻿using Files.Filesystem;
-using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

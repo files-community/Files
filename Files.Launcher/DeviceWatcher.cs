@@ -1,11 +1,8 @@
 ﻿using Files.Common;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Management;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust
