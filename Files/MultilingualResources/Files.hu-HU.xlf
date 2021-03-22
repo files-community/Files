@@ -2453,15 +2453,15 @@
         </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Files is running as administrator</source>
-          <target state="new">A Files rendszergazdaként fut</target>
+          <target state="translated">A Files rendszergazdaként fut</target>
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
-          <target state="new">Kitűzés a Start menübe</target>
+          <target state="translated">Kitűzés a Start menübe</target>
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
-          <target state="new">Levétel a Start menüből</target>
+          <target state="translated">Levétel a Start menüből</target>
         </trans-unit>
       </group>
     </body>
