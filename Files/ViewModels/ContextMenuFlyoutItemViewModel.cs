@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
-    public struct ContextMenuFlyoutItemViewModel
+    public class ContextMenuFlyoutItemViewModel
     {
         public bool ShowItem { get; set; }
         public RelayCommand Command {get; set;}
@@ -18,7 +18,7 @@ namespace Files.ViewModels
         public object Tag { get; set; }
         public bool IsSeparator { get; set; }
         public bool IsSubItem { get; set; }
-        public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
+        public List<ContextMenuFlyoutItemViewModel> Items { get; set; } = new List<ContextMenuFlyoutItemViewModel>();
         public BitmapImage BitmapIcon { get; set; }
         public Action<object, RoutedEventArgs> Click { get; set; }
     }

@@ -98,7 +98,6 @@ namespace Files.Views.LayoutModes
         public GenericFileBrowser()
         {
             InitializeComponent();
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);

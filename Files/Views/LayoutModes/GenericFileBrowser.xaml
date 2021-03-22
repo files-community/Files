@@ -35,9 +35,7 @@
 
             <MenuFlyout
                 x:Key="BaseLayoutContextFlyout"
-                x:Name="BaseLayoutContextFlyout"
-                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
-                Opening="RightClickContextMenu_Opening">
+                x:Name="BaseLayoutContextFlyout">
                 <MenuFlyoutSubItem
                     x:Name="SortByEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -254,7 +252,7 @@
                 </MenuFlyoutItem>
             </MenuFlyout>
 
-            <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
+            <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout">
                 <MenuFlyoutSubItem
                     x:Name="RecycleBinSortByEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -354,9 +352,7 @@
 
             <MenuFlyout
                 x:Key="BaseLayoutItemContextFlyout"
-                x:Name="BaseLayoutItemContextFlyout"
-                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
-                Opening="RightClickItemContextMenu_Opening">
+                x:Name="BaseLayoutItemContextFlyout">
                 <MenuFlyoutItem
                     x:Name="OpenItem"
                     x:Uid="BaseLayoutItemContextFlyoutOpenItem"
@@ -592,7 +588,7 @@
                 </MenuFlyoutItem>
             </MenuFlyout>
 
-            <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
+            <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout">
                 <MenuFlyoutItem
                     x:Name="RestoreRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutRestore"

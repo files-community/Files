@@ -27,19 +27,19 @@ namespace Files.ViewModels
             get => baseMenuFlyoutItems;
             set => SetProperty(ref baseMenuFlyoutItems, value);
         }
-        
-        private List<MenuFlyoutItemBase> menuFlyoutItems;
-        public List<MenuFlyoutItemBase> MenuFlyoutItems
-        {
-            get => menuFlyoutItems;
-            set => SetProperty(ref menuFlyoutItems, value);
-        }
 
         private List<ListedItem> selectedItems;
         public List<ListedItem> SelectedItems
         {
             get => selectedItems;
             set => SetProperty(ref selectedItems, value);
+        }
+
+        private IList<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
+        public IList<ContextMenuFlyoutItemViewModel> MenuItemsList
+        {
+            get => menuItemsList;
+            set => SetProperty(ref menuItemsList, value);
         }
 
         public string CurrentDirectoryPath { get; set; }
@@ -50,6 +50,7 @@ namespace Files.ViewModels
 
         public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
+            MenuItemsList = baseItems;
             var currentBaseLayoutItemCount = baseItems.Count;
             var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
 
@@ -70,15 +71,15 @@ namespace Files.ViewModels
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        LoadMenuFlyoutItem(baseItems, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        LoadMenuFlyoutItem(MenuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
                     }
                 }
             }
             var totalFlyoutItems = baseItems.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].IsSeparator))
-            {
-                MenuFlyoutItems.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
-            }
+            //if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].IsSeparator))
+            //{
+            //    MenuFlyoutItems.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
+            //}
         }
 
         private void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> MenuItemsList,
@@ -190,13 +191,17 @@ namespace Files.ViewModels
 
             return (null, null);
         }
-    }
 
-    public static class BaseItems
-    {
-        public static List<ContextMenuFlyoutItemViewModel> ItemContextFlyoutItems { get; } = new List<ContextMenuFlyoutItemViewModel>()
+        public static class BaseItems
         {
-
+            public static List<ContextMenuFlyoutItemViewModel> ItemContextFlyoutItems { get; } = new List<ContextMenuFlyoutItemViewModel>()
+        {
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Open Item",
+                Glyph = "&#xE8E5;",
+            },
         };
-    } 
+        }
+    }
 }

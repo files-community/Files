@@ -55,11 +55,11 @@ namespace Files
 
         public bool IsQuickLookEnabled { get; set; } = false;
 
-        public MenuFlyout BaseLayoutContextFlyout { get; set; }
-
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
+
+        public ContextFlyoutViewModel ContextFlyoutViewModel { get; } = new ContextFlyoutViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
 
@@ -395,6 +395,8 @@ namespace Files
             catch (Exception e)
             {
             }
+
+            ContextFlyoutViewModel.Connection = Connection;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -427,65 +429,65 @@ namespace Files
             }
         }
 
-        public void RightClickContextMenu_Opening(object sender, object e)
-        {
-            ClearSelection();
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
-            var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
-            if (newItemMenu == null || cachedNewContextMenuEntries == null)
-            {
-                return;
-            }
-            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
-            {
-                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
-                {
-                    MenuFlyoutItem menuLayoutItem;
-                    if (newEntry.Icon != null)
-                    {
-                        var image = new BitmapImage();
-#pragma warning disable CS4014
-                        image.SetSourceAsync(newEntry.Icon);
-#pragma warning restore CS4014
-                        menuLayoutItem = new MenuFlyoutItemWithImage()
-                        {
-                            Text = newEntry.Name,
-                            BitmapIcon = image,
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    else
-                    {
-                        menuLayoutItem = new MenuFlyoutItem()
-                        {
-                            Text = newEntry.Name,
-                            Icon = new FontIcon()
-                            {
-                                Glyph = "\xE7C3"
-                            },
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
-                    menuLayoutItem.CommandParameter = newEntry;
-                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
-                }
-            }
-            var isPinned = App.SidebarPinnedController.Model.FavoriteItems.Contains(
-                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
-            if (isPinned)
-            {
-                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
-                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
-            }
-            else
-            {
-                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
-                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
-            }
-        }
+//        public void RightClickContextMenu_Opening(object sender, object e)
+//        {
+//            ClearSelection();
+//            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+//            SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
+//            var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
+//            if (newItemMenu == null || cachedNewContextMenuEntries == null)
+//            {
+//                return;
+//            }
+//            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+//            {
+//                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+//                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
+//                {
+//                    MenuFlyoutItem menuLayoutItem;
+//                    if (newEntry.Icon != null)
+//                    {
+//                        var image = new BitmapImage();
+//#pragma warning disable CS4014
+//                        image.SetSourceAsync(newEntry.Icon);
+//#pragma warning restore CS4014
+//                        menuLayoutItem = new MenuFlyoutItemWithImage()
+//                        {
+//                            Text = newEntry.Name,
+//                            BitmapIcon = image,
+//                            Tag = "CreateNewFile"
+//                        };
+//                    }
+//                    else
+//                    {
+//                        menuLayoutItem = new MenuFlyoutItem()
+//                        {
+//                            Text = newEntry.Name,
+//                            Icon = new FontIcon()
+//                            {
+//                                Glyph = "\xE7C3"
+//                            },
+//                            Tag = "CreateNewFile"
+//                        };
+//                    }
+//                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
+//                    menuLayoutItem.CommandParameter = newEntry;
+//                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
+//                }
+//            }
+//            var isPinned = App.SidebarPinnedController.Model.FavoriteItems.Contains(
+//                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+//            if (isPinned)
+//            {
+//                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+//                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
+//            }
+//            else
+//            {
+//                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
+//                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+//            }
+//        }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {

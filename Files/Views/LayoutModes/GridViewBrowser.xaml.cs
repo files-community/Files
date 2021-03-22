@@ -28,7 +28,6 @@ namespace Files.Views.LayoutModes
         {
             InitializeComponent();
             this.DataContext = this;
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
@@ -160,12 +159,23 @@ namespace Files.Views.LayoutModes
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            if (parentContainer.IsSelected)
+            if (!parentContainer.IsSelected)
             {
-                return;
+                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
             }
-            // The following code is only reachable when a user RightTapped an unselected row
-            SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
+
+            var flyout = new MenuFlyout();
+            ContextFlyoutViewModel.SelectedItems = SelectedItems;
+            ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.ItemContextFlyoutItems, false, true);
+            ContextFlyoutViewModel.MenuItemsList.ToList().ForEach(i =>
+            {
+                var flyoutItem = new MenuFlyoutItem()
+                {
+                    Text = i.Text,
+                };
+                flyout.Items.Add(flyoutItem);
+            });
+            flyout.ShowAt(sender as Grid);
         }
 
         private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
