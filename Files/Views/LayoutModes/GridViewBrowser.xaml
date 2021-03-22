@@ -8,17 +8,23 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:xh="using:Files.Helpers.XamlHelpers"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
-    PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerPressed">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}"/>
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
@@ -80,7 +86,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                         x:Phase="1">
-                        <FontIcon  Glyph="&#xE7C3;" />
+                        <FontIcon Glyph="&#xE7C3;" />
                     </Viewbox>
                     <Image
                         x:Name="IconOverlay"
@@ -102,10 +108,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                         x:Phase="1">
-                        <FontIcon
-                            
-                            FontSize="28"
-                            Glyph="&#xE71B;" />
+                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
                     </Viewbox>
                     <Border
                         x:Name="ShortcutGlyphElement"
@@ -140,7 +143,6 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                         x:Phase="2"
-                        
                         FontSize="18"
                         Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
@@ -194,7 +196,6 @@
                     Margin="10,0,0,0"
                     x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                     x:Phase="2"
-                    
                     Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                     Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                 <Grid
@@ -236,7 +237,6 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                         x:Phase="1"
-                        
                         FontSize="74"
                         Glyph="&#xE7C3;" />
                     <Image
@@ -257,10 +257,7 @@
                         VerticalAlignment="Center"
                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                         x:Phase="1">
-                        <FontIcon
-                            
-                            FontSize="28"
-                            Glyph="&#xE71B;" />
+                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
                     </Viewbox>
                     <Border
                         x:Name="ShortcutGlyphElement"
@@ -337,19 +334,19 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="{x:Bind MinusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
+                Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Subtract"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
+                Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <muxc:ProgressBar

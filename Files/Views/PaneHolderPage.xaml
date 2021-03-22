@@ -105,7 +105,7 @@
             IsOpen="{x:Bind IsSidebarOpen, Mode=TwoWay}"
             IsCompact="{x:Bind IsWindowCompactSize, Mode=OneWay}"
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-            EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
+            EmptyRecycleBinCommand="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
         <Custom:DropShadowPanel

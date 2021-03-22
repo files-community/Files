@@ -73,12 +73,11 @@
                 <Grid>
                     <FontIcon
                         x:Name="GripperGlyph"
+                        Margin="-1,0,0,-1"
                         HorizontalAlignment="Center"
                         Foreground="{StaticResource SystemChromeHighColor}"
                         Glyph="&#xE76F;"
-                        Margin="-1, 0, 0, -1"
-                        IsHitTestVisible="False">
-                    </FontIcon>
+                        IsHitTestVisible="False" />
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>

@@ -866,7 +866,6 @@ namespace FilesFullTrust
             {
                 using Process process = new Process();
                 process.StartInfo.UseShellExecute = true;
-                process.StartInfo.Verb = "runas";
                 process.StartInfo.FileName = application;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.Arguments = arguments;
