@@ -167,6 +167,20 @@ namespace Files.ViewModels.Properties
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemSHA1HashCalcError = true;
             }
+
+            // Get file CRC32 hash
+            ViewModel.ItemCRC32HashProgressVisibility = Visibility.Visible;
+            ViewModel.ItemCRC32HashVisibility = Visibility.Visible;
+            try
+            {
+                TokenSource.Cancel();
+                ViewModel.ItemCRC32Hash = await AppInstance.InteractionOperations.GetCRC32HashForFileAsync(Item, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                ViewModel.ItemCRC32HashCalcError = true;
+            }
         }
 
         public async void GetSystemFileProperties()

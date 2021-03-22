@@ -114,7 +114,30 @@
                 VerticalAlignment="Center"
                 ShowError="{x:Bind ViewModel.ItemSHA1HashCalcError, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemSHA1HashProgressVisibility, Mode=OneWay}" />
-            
+
+            <TextBlock
+                x:Name="PropertiesCRC32Hash"
+                x:Uid="PropertiesItemCRC32Hash"
+                Grid.Row="4"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Text="CRC32Hash:"
+                Visibility="{x:Bind ViewModel.ItemCRC32HashVisibility, Mode=OneWay}" />
+            <TextBlock
+                x:Name="itemCRC32HashValue"
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.ItemCRC32Hash, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemCRC32HashVisibility, Mode=OneWay}" />
+            <muxc:ProgressBar
+                x:Name="ItemCRC32HashProgress"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="{StaticResource PropertyValueMargin}"
+                VerticalAlignment="Center"
+                ShowError="{x:Bind ViewModel.ItemCRC32HashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemCRC32HashProgressVisibility, Mode=OneWay}" />
         </Grid>
     </StackPanel>
 </local:PropertiesTab>
