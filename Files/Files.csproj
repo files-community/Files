@@ -220,7 +220,7 @@
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\DeviceHelpers.cs" />
+    <Compile Include="Helpers\DriveHelpers.cs" />
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
     <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
@@ -236,6 +236,7 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\QuickLookHelpers.cs" />
+    <Compile Include="Helpers\MultitaskingTabsHelpers.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
@@ -290,6 +291,7 @@
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />

@@ -1101,9 +1101,9 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPage.MultitaskingControl is VerticalTabViewControl))
+            if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
             {
-                MainPage.MultitaskingControl = VerticalTabs;
+                MainPageViewModel.MultitaskingControl = VerticalTabs;
             }
         }
 

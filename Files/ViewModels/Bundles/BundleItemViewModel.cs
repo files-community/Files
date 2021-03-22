@@ -126,7 +126,7 @@ namespace Files.ViewModels.Bundles
 
         private async void OpenInNewTab()
         {
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
         }
 
         private void OpenInNewPane()

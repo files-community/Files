@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -21,6 +22,10 @@ namespace Files.UserControls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
+        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
+
+        public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -566,7 +571,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await DeviceHelpers.EjectDeviceAsync(RightClickedItem.Path);
+            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)

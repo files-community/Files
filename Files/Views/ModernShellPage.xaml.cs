@@ -225,7 +225,7 @@ namespace Files.Views
             OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
             OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
-            AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
+            AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
 
             CreateNewFileCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
             CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
