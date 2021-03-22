@@ -595,9 +595,9 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPage.MultitaskingControl is HorizontalMultitaskingControl))
+            if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
-                MainPage.MultitaskingControl = horizontalMultitaskingControl;
+                MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
             }
         }
     }
