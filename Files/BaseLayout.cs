@@ -502,7 +502,8 @@ namespace Files
                 return;
             }
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
-            ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.ItemContextFlyoutItems, false, true);
+            ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.GetItemContextFlyoutItems(commandsViewModel: CommandsViewModel), false, true);
+            ContextFlyoutViewModel.Filter();
             var flyout = ItemModelListToContextFlyoutHelper.GetMenuFlyoutFromModel(ContextFlyoutViewModel.MenuItemsList);
             flyout.ShowAt(target);
         }

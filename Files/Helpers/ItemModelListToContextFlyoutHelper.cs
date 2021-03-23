@@ -61,7 +61,6 @@ namespace Files.Helpers.ContextFlyouts
                 Command = i.Command,
                 CommandParameter = i.CommandParameter,
             };
-            flyoutItem.Click += i.Click;
             return flyoutItem;
         }
     }

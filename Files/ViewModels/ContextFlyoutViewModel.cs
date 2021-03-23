@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Interacts;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -34,6 +35,11 @@ namespace Files.ViewModels
         {
             get => menuItemsList;
             set => SetProperty(ref menuItemsList, value);
+        }
+
+        public void Filter()
+        {
+            MenuItemsList = MenuItemsList.Where(x => x.CheckShowItem?.Invoke(SelectedItems) ?? true).ToList();
         }
 
         public string CurrentDirectoryPath { get; set; }
@@ -185,14 +191,25 @@ namespace Files.ViewModels
 
         public static class BaseItems
         {
-            public static List<ContextMenuFlyoutItemViewModel> ItemContextFlyoutItems { get; } = new List<ContextMenuFlyoutItemViewModel>()
+            public static List<ContextMenuFlyoutItemViewModel> GetItemContextFlyoutItems(BaseLayoutCommandsViewModel commandsViewModel)
             {
-            new ContextMenuFlyoutItemViewModel()
-            {
-                Text = "Open Item",
-                Glyph = "&#xE8E5;",
-            },
-        };
+                return new List<ContextMenuFlyoutItemViewModel>()
+                {
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Open Item",
+                        Glyph = "&#xE8E5;",
+                        Command = commandsViewModel.OpenItemCommand,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Open with",
+                        Glyph = "&#xE17D;",
+                        Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File)),
+                    }
+                };
+            }
         }
     }
 }

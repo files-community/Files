@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using Files.Filesystem;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Files.ViewModels
 {
     public class ContextMenuFlyoutItemViewModel
     {
-        public bool ShowItem { get; set; }
+        public Func<List<ListedItem>, bool> CheckShowItem { get; set; }
         public ICommand Command {get; set; }
         public object CommandParameter { get; set; }
         public string Glyph { get; set; }
@@ -22,7 +23,6 @@ namespace Files.ViewModels
         public bool IsSubItem { get; set; }
         public List<ContextMenuFlyoutItemViewModel> Items { get; set; } = new List<ContextMenuFlyoutItemViewModel>();
         public BitmapImage BitmapIcon { get; set; }
-        public RoutedEventHandler Click { get; set; }
     }
 
     public enum ItemType
