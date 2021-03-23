@@ -4,10 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
+    <local:BaseLayout.Resources>
+        <Style TargetType="controls:BladeItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TitleBarVisibility" Value="Collapsed"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,1,0"></Setter>
+        </Style>
+    </local:BaseLayout.Resources>
     <Grid>
-        <TextBlock>ht</TextBlock>
+        <controls:BladeView x:Name="ColumnHost">
+            <controls:BladeItem x:Name="FirstBlade"/>
+        </controls:BladeView>
     </Grid>
 </local:BaseLayout>

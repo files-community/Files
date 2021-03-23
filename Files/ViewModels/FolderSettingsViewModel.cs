@@ -179,14 +179,9 @@ namespace Files.ViewModels
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
             {
-                if (LastLayoutModeSelected == FolderLayout.GridViewLarge && LayoutPreference.IsAdaptiveLayoutOverridden)
+                if (LastLayoutModeSelected == FolderLayout.ColumnView)
                 {
-                    SwitchAdaptiveLayout(true);
                     return;
-                }
-                else if (LastLayoutModeSelected == FolderLayout.GridViewSmall || LastLayoutModeSelected == FolderLayout.GridViewMedium || LastLayoutModeSelected == FolderLayout.GridViewLarge)
-                {
-                    // Override preferred gridview size
                 }
                 else if (manuallySet)
                 {
@@ -195,13 +190,11 @@ namespace Files.ViewModels
                 }
             }
 
-            LayoutMode = FolderLayoutModes.ColumnView; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
+            LayoutMode = FolderLayoutModes.ColumnView; // Column View// Size
 
             LastLayoutModeSelected = FolderLayout.ColumnView;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, 0));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>

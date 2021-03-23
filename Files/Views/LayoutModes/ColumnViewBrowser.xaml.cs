@@ -1,5 +1,8 @@
 ﻿using Files.EventArguments;
 using Files.Filesystem;
+using Files.Interacts;
+using Files.ViewModels;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,16 +28,20 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
+        private List<Frame> Frames;
+        private string NavParam;
+
         public ColumnViewBrowser()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
