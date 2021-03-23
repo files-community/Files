@@ -1953,7 +1953,10 @@
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Pin to the Start Menu</value>
   </data>
-    <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Unpin from the Start Menu</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Column View</value>
   </data>
 </root>
