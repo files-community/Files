@@ -48,7 +48,7 @@ namespace Files.ViewModels
 
         public bool IsItemSelected => selectedItems?.Count > 0;
 
-        public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
+        public async Task SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
             MenuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
             var currentBaseLayoutItemCount = baseItems.Count;
@@ -71,7 +71,7 @@ namespace Files.ViewModels
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        LoadMenuFlyoutItem(MenuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        await LoadMenuFlyoutItem(MenuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace Files.ViewModels
             }
         }
 
-        private void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+        private async Task LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
                                 IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
                                 string menuHandle,
                                 bool showIcons = true,
@@ -100,7 +100,7 @@ namespace Files.ViewModels
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Glyph = "\xE712",
                 };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
+                await LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
                 menuItemsListLocal.Insert(0, menuLayoutSubItem);
             }
             foreach (var menuFlyoutItem in menuItems
@@ -122,9 +122,7 @@ namespace Files.ViewModels
                     {
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
-#pragma warning disable CS4014
-                        image.SetSourceAsync(ms.AsRandomAccessStream());
-#pragma warning restore CS4014
+                        await image.SetSourceAsync(ms.AsRandomAccessStream());
                     }
                 }
 
@@ -145,7 +143,7 @@ namespace Files.ViewModels
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    await LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
@@ -198,16 +196,71 @@ namespace Files.ViewModels
                     new ContextMenuFlyoutItemViewModel()
                     {
                         Text = "Open Item",
-                        Glyph = "&#xE8E5;",
+                        Glyph = "\uE8E5",
                         Command = commandsViewModel.OpenItemCommand,
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
                         Text = "Open with",
-                        Glyph = "&#xE17D;",
+                        Glyph = "\uE17D",
                         Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem)),
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Open file location",
+                        Glyph = "\uE8DA",
+                        Command = commandsViewModel.OpenFileLocationCommand,
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.IsShortcutItem)),
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Open in new pane",
+                        Glyph = "\uF57C",
+                        Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => App.AppSettings.IsDualPaneEnabled && x.Count == 1 && x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Open in new tab",
+                        Glyph = "\uF113",
+                        Command = commandsViewModel.OpenDirectoryInNewTabCommand,
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Open in new window",
+                        Glyph = "\uE737",
+                        Command = commandsViewModel.OpenInNewWindowItemCommand,
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Set as",
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.FileExtension == ".png")),
+                        Items = new List<ContextMenuFlyoutItemViewModel>()
+                        {
+                            new ContextMenuFlyoutItemViewModel()
+                            {
+                                Text = "Set as desktop background",
+                                Glyph = "\uE91B",
+                                Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
+                            },
+                            new ContextMenuFlyoutItemViewModel()
+                            {
+                                Text = "Set as lock screen background",
+                                Glyph = "\uF114",
+                                Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
+                            },
+                        }
+                    },
+                  new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Share",
+                        Glyph = "\uE72D",
+                        Command = commandsViewModel.ShareItemCommand,
                         CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File)),
-                    }
+                    },
                 };
             }
         }

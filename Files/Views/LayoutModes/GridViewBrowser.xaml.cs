@@ -172,7 +172,7 @@ namespace Files.Views.LayoutModes
                 SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
             }
 
-            ShowContextFlyout(sender as Grid);
+            ShowContextFlyout(sender as Grid, e.GetPosition(sender as Grid));
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.UserControls;
+using Files.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,12 +55,24 @@ namespace Files.Helpers.ContextFlyouts
 
         private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
         {
+            if (i.BitmapIcon != null)
+            {
+                return new MenuFlyoutItemWithImage()
+                {
+                    Text = i.Text,
+                    Tag = i.Tag,
+                    Command = i.Command,
+                    CommandParameter = i.CommandParameter,
+                    BitmapIcon = i.BitmapIcon,
+                };
+            }
             var flyoutItem = new MenuFlyoutItem()
             {
                 Text = i.Text,
                 Tag = i.Tag,
                 Command = i.Command,
                 CommandParameter = i.CommandParameter,
+                Icon = new FontIcon { Glyph = !string.IsNullOrEmpty(i.Glyph) ? i.Glyph : "" },
             };
             return flyoutItem;
         }

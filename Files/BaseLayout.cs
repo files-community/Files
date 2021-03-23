@@ -25,6 +25,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -495,17 +496,17 @@ namespace Files
             }
         }
 
-        public void ShowContextFlyout(FrameworkElement target)
+        public async void ShowContextFlyout(FrameworkElement target, Point p = new Point())
         {
             if(target == null)
             {
                 return;
             }
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
-            ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.GetItemContextFlyoutItems(commandsViewModel: CommandsViewModel), false, true);
+            await ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.GetItemContextFlyoutItems(commandsViewModel: CommandsViewModel), false, true);
             ContextFlyoutViewModel.Filter();
             var flyout = ItemModelListToContextFlyoutHelper.GetMenuFlyoutFromModel(ContextFlyoutViewModel.MenuItemsList);
-            flyout.ShowAt(target);
+            flyout.ShowAt(target, p);
         }
 
 //        public void RightClickContextMenu_Opening(object sender, object e)
