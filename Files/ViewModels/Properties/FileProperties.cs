@@ -139,48 +139,85 @@ namespace Files.ViewModels.Properties
             GetOtherProperties(file.Properties);
 
             // Get file MD5 hash
-            var hashAlgTypeName = HashAlgorithmNames.Md5;
             ViewModel.ItemMD5HashProgressVisibility = Visibility.Visible;
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
+
+            // Get file SHA1 hash
+            ViewModel.ItemSHA1HashProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSHA1HashVisibility = Visibility.Visible;
+
+            // Get file CRC32 hash
+            ViewModel.ItemCRC32HashProgressVisibility = Visibility.Visible;
+            ViewModel.ItemCRC32HashVisibility = Visibility.Visible;
+
             try
             {
                 TokenSource.Cancel();
-                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Md5, TokenSource.Token, ProgressBar);
+                ViewModel.ItemSHA1Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Sha1, TokenSource.Token, ProgressBar);
+                ViewModel.ItemCRC32Hash = await AppInstance.InteractionOperations.GetCRC32HashForFileAsync(file, ProgressBar);
             }
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
-            }
-
-            // Get file SHA1 hash
-            hashAlgTypeName = HashAlgorithmNames.Sha1;
-            ViewModel.ItemSHA1HashProgressVisibility = Visibility.Visible;
-            ViewModel.ItemSHA1HashVisibility = Visibility.Visible;
-            try
-            {
-                TokenSource.Cancel();
-                ViewModel.ItemSHA1Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemSHA1HashCalcError = true;
-            }
-
-            // Get file CRC32 hash
-            ViewModel.ItemCRC32HashProgressVisibility = Visibility.Visible;
-            ViewModel.ItemCRC32HashVisibility = Visibility.Visible;
-            try
-            {
-                TokenSource.Cancel();
-                ViewModel.ItemCRC32Hash = await AppInstance.InteractionOperations.GetCRC32HashForFileAsync(Item, ProgressBar);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemCRC32HashCalcError = true;
             }
+        }
+
+        public async Task<string> GenerateMD5Compare(StorageFile file)
+        {
+            string hash;
+            // Get file MD5 hash
+            try
+            {
+                TokenSource.Cancel();
+                hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Md5, TokenSource.Token, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                hash = string.Empty;
+            }
+
+            return hash;
+        }
+
+        public async Task<string> GenerateSHA1Compare(StorageFile file)
+        {
+            string hash;
+            // Get file SHA1 hash
+            try
+            {
+                TokenSource.Cancel();
+                hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Sha1, TokenSource.Token, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                hash = string.Empty;
+            }
+
+            return hash;
+        }
+
+        public async Task<string> GenerateCRC32Compare(StorageFile file)
+        {
+            string hash;
+            // Get file CRC32 hash
+            try
+            {
+                TokenSource.Cancel();
+                hash = await AppInstance.InteractionOperations.GetCRC32HashForFileAsync(file, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);               
+                hash = string.Empty;
+            }
+
+            return hash;
         }
 
         public async void GetSystemFileProperties()
@@ -207,28 +244,26 @@ namespace Files.ViewModels.Properties
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
-        public async void GetSystemFileHashes()
+        public async Task<string> GetSystemFileHashes(string hashType, StorageFile file)
         {
-            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
             if (file == null)
             {
                 // Could not access file, can't show any other property
-                return;
+                return "";
             }
 
-            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
-
-            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-
-            var query = list
-                .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
-                .GroupBy(fileProp => fileProp.SectionResource)
-                .Select(group => new FilePropertySection(group) { Key = group.Key })
-                .OrderBy(group => group.Priority)
-                .Where(section => !section.All(fileProp => fileProp.Value == null));
-            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
-            ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
+            if (hashType.Equals(HashAlgorithmNames.Md5))
+            {
+                return await GenerateMD5Compare(file);
+            }
+            else if (hashType.Equals(HashAlgorithmNames.Sha1))
+            {
+                return await GenerateSHA1Compare(file);
+            }
+            else
+            {
+                return await GenerateCRC32Compare(file);
+            }
         }
 
         public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)

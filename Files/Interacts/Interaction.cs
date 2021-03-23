@@ -1379,10 +1379,9 @@ namespace Files.Interacts
             jumpTimer.Stop();
         }
 
-        public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
+        public async Task<string> GetHashForFileAsync(StorageFile itemFromPath, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (itemFromPath == null)
             {
                 return "";
@@ -1431,9 +1430,8 @@ namespace Files.Interacts
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
 
-        public async Task<string> GetCRC32HashForFileAsync(ListedItem fileItem, Microsoft.UI.Xaml.Controls.ProgressBar progress)
+        public async Task<string> GetCRC32HashForFileAsync(StorageFile itemFromPath, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
-            StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (itemFromPath == null)
             {
                 return "";
