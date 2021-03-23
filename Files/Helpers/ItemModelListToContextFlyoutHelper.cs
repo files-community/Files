@@ -39,6 +39,7 @@ namespace Files.Helpers.ContextFlyouts
                 var flyoutSubItem = new MenuFlyoutSubItem()
                 {
                     Text = item.Text,
+                    Tag = item.Tag,
                 };
                 item.Items.ForEach(i =>
                 {
@@ -56,7 +57,11 @@ namespace Files.Helpers.ContextFlyouts
             var flyoutItem = new MenuFlyoutItem()
             {
                 Text = i.Text,
+                Tag = i.Tag,
+                Command = i.Command,
+                CommandParameter = i.CommandParameter,
             };
+            flyoutItem.Click += i.Click;
             return flyoutItem;
         }
     }

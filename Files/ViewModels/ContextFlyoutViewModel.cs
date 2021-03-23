@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -43,7 +44,7 @@ namespace Files.ViewModels
 
         public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
-            MenuItemsList = baseItems;
+            MenuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
             var currentBaseLayoutItemCount = baseItems.Count;
             var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
 
@@ -75,7 +76,7 @@ namespace Files.ViewModels
             }
         }
 
-        private void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> MenuItemsList,
+        private void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
                                 IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
                                 string menuHandle,
                                 bool showIcons = true,
@@ -94,14 +95,14 @@ namespace Files.ViewModels
                     Glyph = "\xE712",
                 };
                 LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
-                MenuItemsList.Insert(0, menuLayoutSubItem);
+                menuItemsListLocal.Insert(0, menuLayoutSubItem);
             }
             foreach (var menuFlyoutItem in menuItems
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
             {
-                if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (MenuItemsList.FirstOrDefault() is MenuFlyoutSeparator))
+                if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ItemType.Separator))
                 {
                     // Avoid duplicate separators
                     continue;
@@ -128,7 +129,7 @@ namespace Files.ViewModels
                         ItemType = ItemType.Separator,
                         Tag = (menuFlyoutItem, menuHandle)
                     };
-                    MenuItemsList.Insert(0, menuLayoutItem);
+                    menuItemsListLocal.Insert(0, menuLayoutItem);
                 }
                 else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any()
                     && !string.IsNullOrEmpty(menuFlyoutItem.Label))
@@ -139,7 +140,7 @@ namespace Files.ViewModels
                         Tag = (menuFlyoutItem, menuHandle),
                     };
                     LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
-                    MenuItemsList.Insert(0, menuLayoutSubItem);
+                    menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
                 {
@@ -149,28 +150,25 @@ namespace Files.ViewModels
                         Tag = (menuFlyoutItem, menuHandle),
                         BitmapIcon = image
                     };
-                    menuLayoutItem.Click = MenuLayoutItem_Click;
-                    MenuItemsList.Insert(0, menuLayoutItem);
+                    menuLayoutItem.Command = new RelayCommand<object>(x => InvokeShellMenuItem(x));
+                    menuLayoutItem.CommandParameter = (menuFlyoutItem, menuHandle);
+                    menuItemsListLocal.Insert(0, menuLayoutItem);
                 }
             }
         }
 
-        private async void MenuLayoutItem_Click(object sender, RoutedEventArgs e)
+        private async void InvokeShellMenuItem(object tag)
         {
-            var currentMenuLayoutItem = (MenuFlyoutItem)sender;
-            if (currentMenuLayoutItem != null)
+            var (menuItem, menuHandle) = ParseContextMenuTag(tag);
+            if (Connection != null)
             {
-                var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
-                if (Connection != null)
+                await Connection.SendMessageAsync(new ValueSet()
                 {
-                    await Connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "ExecAndCloseContextMenu" },
-                        { "Handle", menuHandle },
-                        { "ItemID", menuItem.ID },
-                        { "CommandString", menuItem.CommandString }
-                    });
-                }
+                    { "Arguments", "ExecAndCloseContextMenu" },
+                    { "Handle", menuHandle },
+                    { "ItemID", menuItem.ID },
+                    { "CommandString", menuItem.CommandString }
+                });
             }
         }
 
