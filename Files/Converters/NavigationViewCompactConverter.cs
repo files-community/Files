@@ -13,7 +13,7 @@ namespace Files.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return (value as NavigationViewPaneDisplayMode?) == NavigationViewPaneDisplayMode.LeftCompact;
         }
     }
 }

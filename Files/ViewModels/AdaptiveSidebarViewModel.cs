@@ -100,7 +100,10 @@ namespace Files.ViewModels
         {
             if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
             {
-                IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
+                if (IsWindowCompactSize != Window.Current.Bounds.Width <= 750)
+                {
+                    IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
+                }
             }
         }
 
