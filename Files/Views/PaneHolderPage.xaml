@@ -91,7 +91,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
-                Width="{x:Bind SidebarWidth, Mode=TwoWay}"
+                Width="{x:Bind adaptiveSidebarViewModel.SidebarWidth, Mode=TwoWay}"
                 MinWidth="200"
                 MaxWidth="500" />
             <ColumnDefinition Width="*" />
@@ -100,8 +100,8 @@
         <controls:SidebarControl
             x:Name="SidebarControl"
             Grid.RowSpan="2"
-            IsOpen="{x:Bind IsSidebarOpen, Mode=TwoWay}"
-            IsCompact="{x:Bind IsWindowCompactSize, Mode=OneWay}"
+            IsOpen="{x:Bind adaptiveSidebarViewModel.IsSidebarOpen, Mode=TwoWay}"
+            IsCompact="{x:Bind adaptiveSidebarViewModel.IsWindowCompactSize, Mode=OneWay}"
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
             EmptyRecycleBinCommand="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
@@ -287,7 +287,7 @@
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}"
-            Visibility="{x:Bind IsSidebarOpen, Mode=OneWay}">
+            Visibility="{x:Bind adaptiveSidebarViewModel.IsSidebarOpen, Mode=OneWay}">
             <Custom:GridSplitter.RenderTransform>
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
@@ -297,7 +297,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                        <StateTrigger IsActive="{x:Bind adaptiveSidebarViewModel.IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SidebarColumn.MinWidth" Value="{ThemeResource NavigationViewCompactPaneLength}"/>

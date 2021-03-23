@@ -79,9 +79,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
-                Width="{x:Bind AppSettings.SidebarWidth, Mode=OneWay}"
-                MinWidth="200"
-                MaxWidth="500" />
+                Width="{x:Bind SidebarAdaptiveViewModel.SidebarWidth, Mode=OneWay}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid

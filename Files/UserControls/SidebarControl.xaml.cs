@@ -212,6 +212,18 @@ namespace Files.UserControls
             }
         }
 
+        public static GridLength GetSidebarCompactSize()
+        {
+            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
+            {
+                if (paneLength is double paneLengthDouble)
+                {
+                    return new GridLength(paneLengthDouble);
+                }
+            }
+            return new GridLength(200);
+        }
+
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (args.InvokedItem == null || args.InvokedItemContainer == null)
