@@ -190,7 +190,7 @@ namespace Files.ViewModels
                 }
             }
 
-            LayoutMode = FolderLayoutModes.ColumnView; // Column View// Size
+            LayoutMode = FolderLayoutModes.ColumnView; // Column View
 
             LastLayoutModeSelected = FolderLayout.ColumnView;
 

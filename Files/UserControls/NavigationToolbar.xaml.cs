@@ -288,7 +288,6 @@ namespace Files.UserControls
         }
 
         #endregion
-        #endregion Layout Options
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",

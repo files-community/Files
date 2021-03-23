@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -35,13 +36,17 @@ namespace Files.Views.LayoutModes
         {
             this.InitializeComponent();
         }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 
+        }
+
+        protected override void InitializeCommandsViewModel()
+        {
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -134,5 +139,15 @@ namespace Files.Views.LayoutModes
         {
             throw new NotImplementedException();
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            Debugger.Break(); // Not Implemented
+            CommandsViewModel?.Dispose();
+        }
+
+        #endregion IDisposable
     }
 }
