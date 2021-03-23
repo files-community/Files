@@ -23,8 +23,6 @@
         <icore:EventTriggerBehavior EventName="PointerWheelChanged">
             <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}"/>
         </icore:EventTriggerBehavior>
-    </i:Interaction.Behaviors>
-    <i:Interaction.Behaviors>
         <icore:EventTriggerBehavior EventName="PointerPressed">
             <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}"/>
         </icore:EventTriggerBehavior>

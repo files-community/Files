@@ -44,6 +44,11 @@
                 x:Name="BaseLayoutContextFlyout"
                 AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
                 Opening="RightClickContextMenu_Opening">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Opening">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutSubItem
                     x:Name="SortByEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutSortBy"
