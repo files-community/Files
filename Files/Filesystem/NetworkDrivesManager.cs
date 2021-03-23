@@ -1,5 +1,5 @@
 ﻿using Files.Helpers;
-using Files.Views;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using NLog;
@@ -35,6 +35,7 @@ namespace Files.Filesystem
         {
             var networkItem = new DriveItem()
             {
+                DeviceID = "network-folder",
                 Text = "Network".GetLocalized(),
                 Path = App.AppSettings.NetworkFolderPath,
                 Type = DriveType.Network,
@@ -106,13 +107,13 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
+                    if (section == null && this.drivesList.Any(d => d.DeviceID != "network-folder"))
                     {
                         section = new LocationItem()
                         {
@@ -122,24 +123,27 @@ namespace Files.Filesystem
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        MainPage.SideBarItems.Add(section);
+                        SidebarControl.SideBarItems.Add(section);
                     }
 
-                    foreach (var drive in Drives.ToList()
+                    if (section != null)
+                    {
+                        foreach (var drive in Drives.ToList()
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
-                    {
-                        if (!section.ChildItems.Contains(drive))
                         {
-                            section.ChildItems.Add(drive);
+                            if (!section.ChildItems.Contains(drive))
+                            {
+                                section.ChildItems.Add(drive);
+                            }
                         }
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

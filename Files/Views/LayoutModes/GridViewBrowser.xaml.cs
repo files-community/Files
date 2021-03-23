@@ -1,11 +1,14 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Helpers.XamlHelpers;
+using Files.Interacts;
 using Files.UserControls.Selection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
@@ -15,8 +18,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using static Files.ViewModels.FolderSettingsViewModel;
-using Interaction = Files.Interacts.Interaction;
 
 namespace Files.Views.LayoutModes
 {
@@ -25,6 +26,7 @@ namespace Files.Views.LayoutModes
         public string oldItemName;
 
         public GridViewBrowser()
+            : base()
         {
             InitializeComponent();
             this.DataContext = this;
@@ -33,6 +35,11 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+        }
+
+        protected override void InitializeCommandsViewModel()
+        {
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -168,14 +175,6 @@ namespace Files.Views.LayoutModes
             SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
-            {
-                ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
-            }
-        }
-
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
@@ -269,7 +268,7 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(renamingItem, oldItemName, newItemName);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
                 renamingItem.ItemName = oldItemName;
@@ -311,13 +310,13 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     e.Handled = true;
                 }
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Space)
@@ -326,7 +325,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (IsQuickLookEnabled)
                     {
-                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook();
+                        QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
                     e.Handled = true;
                 }
@@ -439,7 +438,7 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 
@@ -468,8 +467,18 @@ namespace Files.Views.LayoutModes
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                ParentShellPageInstance.InteractionOperations.OpenSelectedItems(false);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            Debugger.Break(); // Not Implemented
+            CommandsViewModel?.Dispose();
+        }
+
+        #endregion
     }
 }

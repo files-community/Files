@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO.Pipes;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,8 +51,11 @@ namespace Files.Helpers
         {
             if (connection == null)
             {
+                App.InteractionViewModel.IsFullTrustElevated = false;
                 return false;
             }
+
+            bool wasElevated = false;
 
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() { { "Arguments", "Elevate" } });
             if (status == AppServiceResponseStatus.Success)
@@ -61,22 +63,27 @@ namespace Files.Helpers
                 var res = response.Get("Success", 1L);
                 switch (res)
                 {
-                    case 0:
+                    case 0: // FTP is restarting as admin
                         var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
                         ConnectionChanged?.Invoke(null, nullConn);
                         (await Instance)?.Dispose();
                         Instance = BuildConnection(false); // Fulltrust process is already running
                         _ = await Instance;
                         ConnectionChanged?.Invoke(null, Instance);
+                        wasElevated = true;
                         break;
-                    case -1:
-                        return true;
-                    default:
-                        return false;
+                    case -1: // FTP is already admin
+                        wasElevated = true;
+                        break;
+                    default: // Failed (e.g canceled UAC)
+                        wasElevated = false;
+                        break;
                 }
             }
 
-            return false;
+            App.InteractionViewModel.IsFullTrustElevated = wasElevated;
+
+            return wasElevated;
         }
 
         private static async Task<NamedPipeAsAppServiceConnection> BuildConnection(bool launchFullTrust)
@@ -107,7 +114,7 @@ namespace Files.Helpers
         public event EventHandler ServiceClosed;
 
         private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
-        
+
         public NamedPipeAsAppServiceConnection()
         {
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
@@ -180,7 +187,7 @@ namespace Files.Helpers
                     }
                     await Task.Delay(200);
                 }
-                
+
                 pipeHandle = PipeHandle;
                 clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
                 clientStream.ReadMode = PipeTransmissionMode.Message;
@@ -271,7 +278,7 @@ namespace Files.Helpers
             pipeHandle?.Dispose();
             pipeHandle = null;
         }
-        
+
         private bool isDisposed = false;
 
         public void Dispose()

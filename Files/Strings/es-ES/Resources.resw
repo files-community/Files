@@ -49,7 +49,7 @@
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Enviar opiniones</value>
+    <value>Enviar comentarios</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
     <value>Envía un informe de fallos a los desarrolladores con información detallada</value>
@@ -136,7 +136,7 @@
     <value>Videos</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Nueva Pestaña</value>
+    <value>Nueva pestaña</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordenar por</value>
@@ -214,7 +214,7 @@
     <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Nueva Ventana</value>
+    <value>Nueva ventana</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
     <value>Copiar Ubicación</value>
@@ -646,7 +646,7 @@
     <value>Páginas</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Al abrir una carpeta anclada desde la JumpList</value>
+    <value>Al abrir una carpeta en Files</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Abrir en una nueva ventana</value>
@@ -733,7 +733,7 @@
     <value>Ver quiénes contribuyen a Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Notas de publicación</value>
+    <value>Notas de la versión</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Ver las novedades de esta versión</value>
@@ -1783,30 +1783,54 @@
     <value>Esquema de colores</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>Recuento de elementos</value>
+    <value>Elementos</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Error de eliminación</value>
+    <value>Error al eliminar</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Error desconocido.</value>
   </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>El elemento se eliminó correctamente</value>
+  </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>La operación se completó.</value>
   </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Papelera vaciada</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>El elemento se movió correctamente</value>
+  </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copia completa</value>
+    <value>El elemento de copió correctamente</value>
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>NO</value>
+    <value>No</value>
   </data>
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>SÍ</value>
+    <value>Sí</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Esta acción requiere permisos de administrador</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>¿Le gustaría continuar como administrador?</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Cerrar las pestaña de la derecha</value>
+    <value>Cerrar las pestañas de la derecha</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrador</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files se está ejecutando como administrador</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Anclar a Inicio</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Desanclar de Inicio</value>
   </data>
 </root>

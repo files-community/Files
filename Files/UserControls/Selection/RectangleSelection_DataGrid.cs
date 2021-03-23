@@ -1,5 +1,4 @@
 ﻿using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;

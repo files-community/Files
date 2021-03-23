@@ -8,15 +8,15 @@
     x:Name="ConfirmElevationDialog"
     x:Uid="ElevateConfirmDialog"
     Title="This action requires adminstrator rights"
-    Content="Would you like to continue as administrator?"
     CloseButtonStyle="{ThemeResource DefaultButtonStyle}"
     CloseButtonText="No"
+    Content="Would you like to continue as administrator?"
     CornerRadius="4"
     DefaultButton="None"
     PrimaryButtonText="Yes"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">
-    
+
     <ContentDialog.PrimaryButtonStyle>
         <Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
             <Setter Property="ContentTemplate">
@@ -31,5 +31,4 @@
             </Setter>
         </Style>
     </ContentDialog.PrimaryButtonStyle>
-
 </ContentDialog>

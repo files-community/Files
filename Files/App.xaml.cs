@@ -60,6 +60,8 @@ namespace Files
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+
         public static class AppData
         {
             // Get the extensions that are available for this host.
@@ -139,20 +141,6 @@ namespace Files
             DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static INavigationControlItem RightClickedItem;
-
-        public static void UnpinItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-            {
-                AppSettings.PinRecycleBinToSideBar = false;
-            }
-            else if (RightClickedItem.Section == SectionType.Favorites)
-            {
-                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
-            }
-        }
-
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
@@ -207,9 +195,9 @@ namespace Files
                 }
                 else
                 {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPage.AppInstances.Count > 0))
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
                     {
-                        await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
                 }
 
@@ -354,18 +342,20 @@ namespace Files
                                     if (command.Payload.Equals("."))
                                     {
                                         rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
-                                    } else
+                                    }
+                                    else
                                     {
                                         var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
-                                        if(!string.IsNullOrEmpty(command.Payload))
+                                        if (!string.IsNullOrEmpty(command.Payload))
                                         {
                                             rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
-                                        } else
+                                        }
+                                        else
                                         {
                                             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                         }
                                     }
-                                    
+
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
@@ -431,7 +421,7 @@ namespace Files
         {
             if (AppSettings != null)
             {
-                AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
