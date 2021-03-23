@@ -43,7 +43,6 @@ namespace Files.ViewModels
 
         public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
-            MenuItemsList.Clear();
             MenuItemsList = baseItems;
             var currentBaseLayoutItemCount = baseItems.Count;
             var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
