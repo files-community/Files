@@ -16,10 +16,16 @@ namespace Files.ViewModels
         public string Glyph { get; set; }
         public string Text { get; set; }
         public object Tag { get; set; }
-        public bool IsSeparator { get; set; }
+        public ItemType ItemType { get; set; }
         public bool IsSubItem { get; set; }
         public List<ContextMenuFlyoutItemViewModel> Items { get; set; } = new List<ContextMenuFlyoutItemViewModel>();
         public BitmapImage BitmapIcon { get; set; }
         public Action<object, RoutedEventArgs> Click { get; set; }
+    }
+
+    public enum ItemType
+    {
+        Item,
+        Separator,
     }
 }

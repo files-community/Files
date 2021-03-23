@@ -2,6 +2,7 @@
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.ContextFlyouts;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
@@ -171,18 +172,7 @@ namespace Files.Views.LayoutModes
                 SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
             }
 
-            var flyout = new MenuFlyout();
-            ContextFlyoutViewModel.SelectedItems = SelectedItems;
-            ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.ItemContextFlyoutItems, false, true);
-            ContextFlyoutViewModel.MenuItemsList.ToList().ForEach(i =>
-            {
-                var flyoutItem = new MenuFlyoutItem()
-                {
-                    Text = i.Text,
-                };
-                flyout.Items.Add(flyoutItem);
-            });
-            flyout.ShowAt(sender as Grid);
+            ShowContextFlyout(sender as Grid);
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)

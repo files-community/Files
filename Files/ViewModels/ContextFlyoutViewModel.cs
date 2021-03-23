@@ -21,13 +21,6 @@ namespace Files.ViewModels
 {
     public class ContextFlyoutViewModel : ObservableObject
     {
-        private List<MenuFlyoutItemBase> baseMenuFlyoutItems;
-        public List<MenuFlyoutItemBase> BaseMenuFlyoutItems
-        {
-            get => baseMenuFlyoutItems;
-            set => SetProperty(ref baseMenuFlyoutItems, value);
-        }
-
         private List<ListedItem> selectedItems;
         public List<ListedItem> SelectedItems
         {
@@ -35,8 +28,8 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedItems, value);
         }
 
-        private IList<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
-        public IList<ContextMenuFlyoutItemViewModel> MenuItemsList
+        private List<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
+        public List<ContextMenuFlyoutItemViewModel> MenuItemsList
         {
             get => menuItemsList;
             set => SetProperty(ref menuItemsList, value);
@@ -50,6 +43,7 @@ namespace Files.ViewModels
 
         public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
+            MenuItemsList.Clear();
             MenuItemsList = baseItems;
             var currentBaseLayoutItemCount = baseItems.Count;
             var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
@@ -76,10 +70,10 @@ namespace Files.ViewModels
                 }
             }
             var totalFlyoutItems = baseItems.Count - currentBaseLayoutItemCount;
-            //if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].IsSeparator))
-            //{
-            //    MenuFlyoutItems.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
-            //}
+            if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].ItemType == ItemType.Separator))
+            {
+                MenuItemsList.Insert(totalFlyoutItems, new ContextMenuFlyoutItemViewModel() { ItemType = ItemType.Separator });
+            }
         }
 
         private void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> MenuItemsList,
@@ -132,7 +126,7 @@ namespace Files.ViewModels
                 {
                     var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
                     {
-                        IsSeparator = true,
+                        ItemType = ItemType.Separator,
                         Tag = (menuFlyoutItem, menuHandle)
                     };
                     MenuItemsList.Insert(0, menuLayoutItem);
@@ -195,7 +189,7 @@ namespace Files.ViewModels
         public static class BaseItems
         {
             public static List<ContextMenuFlyoutItemViewModel> ItemContextFlyoutItems { get; } = new List<ContextMenuFlyoutItemViewModel>()
-        {
+            {
             new ContextMenuFlyoutItemViewModel()
             {
                 Text = "Open Item",

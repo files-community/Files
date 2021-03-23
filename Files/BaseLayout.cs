@@ -6,6 +6,7 @@ using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
@@ -492,6 +493,18 @@ namespace Files
             {
                 menuItem.Visibility = Visibility.Visible;
             }
+        }
+
+        public void ShowContextFlyout(FrameworkElement target)
+        {
+            if(target == null)
+            {
+                return;
+            }
+            ContextFlyoutViewModel.SelectedItems = SelectedItems;
+            ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.ItemContextFlyoutItems, false, true);
+            var flyout = ItemModelListToContextFlyoutHelper.GetMenuFlyoutFromModel(ContextFlyoutViewModel.MenuItemsList);
+            flyout.ShowAt(target);
         }
 
 //        public void RightClickContextMenu_Opening(object sender, object e)

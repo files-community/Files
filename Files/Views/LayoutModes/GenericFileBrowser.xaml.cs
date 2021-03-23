@@ -532,16 +532,15 @@ namespace Files.Views.LayoutModes
                 }
 
                 // Check if RightTapped row is currently selected
-                if (IsItemSelected)
+                if (!IsItemSelected)
                 {
-                    if (SelectedItems.Contains(objectPressed))
+                    if (!SelectedItems.Contains(objectPressed))
                     {
-                        return;
+                        SetSelectedItemOnUi(objectPressed);
                     }
                 }
 
-                // The following code is only reachable when a user RightTapped an unselected row
-                SetSelectedItemOnUi(objectPressed);
+                ShowContextFlyout(rowPressed);
             }
         }
 
