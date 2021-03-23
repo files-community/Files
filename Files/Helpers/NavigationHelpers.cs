@@ -2,8 +2,6 @@
 using Files.Views;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -15,6 +13,7 @@ using Files.Enums;
 using Microsoft.Toolkit.Uwp;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
+using Files.ViewModels;
 
 namespace Files.Helpers
 {
@@ -22,7 +21,7 @@ namespace Files.Helpers
     {
         public static async void OpenPathInNewTab(string path)
         {
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)

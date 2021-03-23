@@ -1,4 +1,4 @@
-﻿using Files.Views;
+﻿using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
@@ -40,17 +40,17 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
                     try
                     {
                         var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
                         if ((await distroFolder.GetFoldersAsync()).Count != 0)
                         {
-                            var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "WSL") as LocationItem;
+                            var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL") as LocationItem;
                             if (section == null)
                             {
                                 section = new LocationItem()
@@ -61,7 +61,7 @@ namespace Files.Filesystem
                                     SelectsOnInvoked = false,
                                     ChildItems = new ObservableCollection<INavigationControlItem>()
                                 };
-                                MainPage.SideBarItems.Add(section);
+                                SidebarControl.SideBarItems.Add(section);
                             }
 
                             foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
@@ -109,11 +109,11 @@ namespace Files.Filesystem
                         // WSL Not Supported/Enabled
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

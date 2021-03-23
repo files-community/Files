@@ -63,11 +63,11 @@ namespace Files.ViewModels
                     {
                         SetProperty(ref tabStripSelectedIndex, value);
                     }
-                    if (value < MainPage.MultitaskingControl.Items.Count)
+                    if (value < MainPageViewModel.MultitaskingControl.Items.Count)
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var mainView = rootFrame.Content as MainPage;
-                        mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
+                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.MultitaskingControl.Items[value];
                     }
                 }
             }

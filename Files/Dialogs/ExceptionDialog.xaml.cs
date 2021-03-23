@@ -1,4 +1,5 @@
-﻿using Files.Views;
+﻿using Files.ViewModels;
+using Files.Views;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,13 +21,13 @@ namespace Files.Dialogs
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if (MainPage.MultitaskingControl.Items.Count == 1)
+            if (MainPageViewModel.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (MainPage.MultitaskingControl.Items.Count > 1)
+            else if (MainPageViewModel.MultitaskingControl.Items.Count > 1)
             {
-                MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
+                MainPageViewModel.MultitaskingControl?.CloseTab(MainPageViewModel.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
             }
         }
 

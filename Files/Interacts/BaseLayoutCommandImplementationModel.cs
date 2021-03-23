@@ -17,6 +17,7 @@ using Files.Dialogs;
 using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml.Input;
+using Files.ViewModels;
 
 namespace Files.Interacts
 {
@@ -247,7 +248,7 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
