@@ -259,7 +259,7 @@ namespace Files.ViewModels
                         Text = "Share",
                         Glyph = "\uE72D",
                         Command = commandsViewModel.ShareItemCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File)),
+                        CheckShowItem = new Func<List<ListedItem>, bool>(x => !x.Any(i => i.IsHiddenItem || i.IsShortcutItem)),
                     },
                 };
             }
