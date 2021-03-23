@@ -14,7 +14,7 @@ Add details of changes here.
 
 How did you test these changes?
 - [ ] Built and ran the app
-- [ ] Tested the changes for accesability
+- [ ] Tested the changes for accessibility
 
 **Screenshots (optional)**
 

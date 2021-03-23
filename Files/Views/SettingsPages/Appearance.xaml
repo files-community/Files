@@ -2,9 +2,9 @@
     x:Class="Files.SettingsPages.Appearance"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UserControls="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
@@ -124,9 +124,9 @@
             </StackPanel>
         </ScrollViewer>
 
-        <dialogs:RestartDialog
-            x:Name="RestartDialog"
+        <UserControls:RestartControl
+            x:Name="RestartControl"
             VerticalAlignment="Bottom"
-            ShowDialog="{Binding ShowRestartDialog, Mode=TwoWay}" />
+            ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
     </Grid>
 </Page>

@@ -2,8 +2,8 @@
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Files.ViewModels;
-using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -96,7 +97,7 @@ namespace Files.DataModels
 
         public async Task ShowHideRecycleBinItemAsync(bool show)
         {
-            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
             try
             {
                 if (show)
@@ -129,7 +130,7 @@ namespace Files.DataModels
             }
             finally
             {
-                MainPage.SideBarItemsSemaphore.Release();
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
         }
 
@@ -303,10 +304,10 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
             try
             {
-                MainPage.SideBarItems.BeginBulkOperation();
+                SidebarControl.SideBarItems.BeginBulkOperation();
 
                 if (homeSection != null)
                 {
@@ -319,16 +320,16 @@ namespace Files.DataModels
                     await AddItemToSidebarAsync(path);
                 }
 
-                if (!MainPage.SideBarItems.Contains(favoriteSection))
+                if (!SidebarControl.SideBarItems.Contains(favoriteSection))
                 {
-                    MainPage.SideBarItems.Add(favoriteSection);
+                    SidebarControl.SideBarItems.Add(favoriteSection);
                 }
 
-                MainPage.SideBarItems.EndBulkOperation();
+                SidebarControl.SideBarItems.EndBulkOperation();
             }
             finally
             {
-                MainPage.SideBarItemsSemaphore.Release();
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
 
             await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);

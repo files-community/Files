@@ -46,7 +46,7 @@
     <value>テキスト文書</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>パスをコピーする</value>
+    <value>パスをコピ</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>貼り付け</value>
@@ -133,7 +133,7 @@
     <value>削除</value>
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
-    <value>最近のファイル</value>
+    <value>最近使用したファイル</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -574,7 +574,7 @@
     <value>ファイルを貼り付けています</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>ごみ箱に移動する</value>
+    <value>ごみ箱に移動</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>日付形式の詳細</value>
@@ -640,7 +640,7 @@
     <value>状態</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>新しいページを追加する</value>
+    <value>新しいページを追加</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>ページ:</value>
@@ -739,7 +739,7 @@
     <value>問題が発生しました</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>この問題を報告する</value>
+    <value>この問題を報告</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>共同作成者</value>
@@ -835,7 +835,7 @@
     <value>背景に設定</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>場所をコピーする</value>
+    <value>場所をコピー</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>タブの追加</value>
@@ -886,10 +886,10 @@
     <value>垂直タブストリップ</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>ターミナルアプリを編集する</value>
+    <value>ターミナルアプリを編集</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ターミナルアプリを編集する</value>
+    <value>ターミナルアプリを編集</value>
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>サンプルプロファイルを表示</value>
@@ -913,13 +913,13 @@
     <value>アクセスが拒否されました</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
-    <value>ごみ箱をサイド バーに固定する</value>
+    <value>ごみ箱をサイドバーに固定</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>ファイルやフォルダを削除するときに確認ダイアログを表示する</value>
+    <value>ファイルやフォルダを削除するときに確認ダイアログを表示</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>既知のファイルタイプの拡張子を表示する</value>
+    <value>既知のファイルタイプの拡張子を表示</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>透明なサイド バー</value>
@@ -931,7 +931,7 @@
     <value>テーマ</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>プロパティに所有者を表示する</value>
+    <value>プロパティにファイルの所有者を表示</value>
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>その他のオプション</value>
@@ -964,7 +964,7 @@
     <value>ドライブ</value>
   </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>ホームにライブラリ カードを表示する</value>
+    <value>ホームにライブラリ カードを表示</value>
   </data>
   <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
     <value>ウィジェット</value>
@@ -973,16 +973,16 @@
     <value>ウィジェット</value>
   </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>ホームにドライブを表示する</value>
+    <value>ホームにドライブを表示</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>ホームに最近の項目を表示する</value>
+    <value>ホームに最近使用したファイルを表示</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>隠されたファイルとフォルダを表示する</value>
+    <value>隠されたファイルとフォルダを表示</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隠されたファイルとフォルダを表示する</value>
+    <value>隠されたファイルとフォルダを表示</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>安全なハードウェアの取り外し</value>
@@ -1309,7 +1309,7 @@
     <value>クリア</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>すべてのプロパティを削除する</value>
+    <value>すべてのプロパティを削除</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
@@ -1354,7 +1354,7 @@
     <value>Files の新機能を確認</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>開発者にさらに多くの情報を含んだ問題の報告を送信する</value>
+    <value>開発者にさらに多くの情報を含んだ問題の報告を送信</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>PayPal で私たちを支援してください</value>
@@ -1396,10 +1396,10 @@
     <value>新しいファイル</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>検索時にインデックスされていない項目を表示する (検索に時間がかかる恐れがあります)</value>
+    <value>検索時にインデックスされていない項目を表示 (検索に時間がかかる恐れがあります)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>ディレクトリごとに設定を保存する</value>
+    <value>ディレクトリごとに設定を保存</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>元のパス:</value>
@@ -1417,7 +1417,7 @@
     <value>削除</value>
   </data>
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>よりよいパフォーマンスのためにファイルとフォルダをキャッシュする</value>
+    <value>よりよいパフォーマンスのためにファイルとフォルダをキャッシュ</value>
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>キャンセル</value>
@@ -1432,7 +1432,7 @@
     <value>新しいタブを常にデュアル ペイン表示で開く</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>デュアル ペイン表示を有効にする</value>
+    <value>デュアル ペイン表示を有効化</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>セカンダリ ペインで開く</value>
@@ -1447,13 +1447,13 @@
     <value>デュアル ペイン</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>「場所をコピーする」を表示</value>
+    <value>「場所をコピー」を表示</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>右クリックメニューの一部をサブメニューに移動する</value>
+    <value>右クリックメニューの一部をサブメニューに移動</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>右クリックメニューをカスタマイズする</value>
+    <value>右クリックメニューをカスタマイズ</value>
   </data>
   <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
     <value>「新しいタブで開く」を表示</value>
@@ -1462,7 +1462,7 @@
     <value>フォルダ</value>
   </data>
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>右クリックメニューを開いたり閉じたりするときのアニメーションを有効にする</value>
+    <value>右クリックメニューを開閉するときのアニメーションを有効化</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細ビュー</value>
@@ -1684,7 +1684,7 @@
     <value>複数選択</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>複数選択を有効にする(現在タイルビューとグリッドビューのみで利用可能)</value>
+    <value>複数選択を有効化(現在タイルビューとグリッドビューのみで利用可能)</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか？</value>
@@ -1732,13 +1732,13 @@
     <value>ネットワーク ドライブを割り当てる</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>切断する</value>
+    <value>切断</value>
   </data>
   <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
     <value>ファイルを予めキャッシュする量の上限(HDDには小さな値を推奨)</value>
   </data>
   <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>予めファイルをキャッシュする(子ディレクトリのファイルをプリロードする)</value>
+    <value>ファイルを予めキャッシュ(子ディレクトリのファイルをプリロード)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>その他のバンドル オプション</value>
@@ -1770,8 +1770,14 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>引数</value>
   </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>サイドバーにライブラリを表示</value>
+  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ライブラリ</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>新しいペインで開く</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">
     <value>既定</value>
@@ -1783,16 +1789,25 @@
     <value>項目数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>削除に失敗しました</value>
+    <value>削除に失敗</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>不明なエラーが発生しました。</value>
   </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>削除完了</value>
+  </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>操作を完了しました。</value>
   </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>リサイクル完了</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>移動完了</value>
+  </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>転送完了</value>
+    <value>コピー完了</value>
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>いいえ</value>
@@ -1800,10 +1815,19 @@
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>続行するには管理者権限が必要です</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>管理者として続行しますか？</value>
+  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>右側のタブを閉じる</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>管理者</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Filesが管理者権限で起動しています</value>
   </data>
 </root>
