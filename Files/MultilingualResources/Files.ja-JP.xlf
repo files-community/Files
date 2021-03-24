@@ -2320,7 +2320,7 @@
         </trans-unit>
         <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
           <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">ファイルを予めキャッシュ(子ディレクトリのファイルをプリロード)</target>
+          <target state="translated">ファイルを予めキャッシュ(サブフォルダのファイルをプリロード)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
