@@ -762,7 +762,6 @@ namespace Files.ViewModels
                                     {
                                         await OrderFilesAndFoldersAsync();
                                         await ApplySingleFileChangeAsync(item);
-                                        //await SaveCurrentListToCacheAsync(WorkingDirectory);
                                     }
                                 }
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
@@ -885,7 +884,10 @@ namespace Files.ViewModels
                         {
                             for (var i = 0; i < cacheEntry.FileList.Count; i++)
                             {
-                                filesAndFolders.Add(cacheEntry.FileList[i]);
+                                if (!cacheEntry.FileList[i].IsHiddenItem || AppSettings.AreHiddenItemsVisible)
+                                {
+                                    filesAndFolders.Add(cacheEntry.FileList[i]);
+                                }
                                 if (addFilesCTS.IsCancellationRequested)
                                 {
                                     break;
@@ -901,6 +903,10 @@ namespace Files.ViewModels
                         }
                         return null;
                     });
+                    if (cacheResult != null)
+                    {
+                        IsLoadingItems = false;
+                    }
                 }
 
                 if (path.StartsWith(AppSettings.RecycleBinPath) ||
@@ -1242,11 +1248,7 @@ namespace Files.ViewModels
                     if (cacheOnly)
                     {
                         fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, 32, null);
-                        await fileListCache.SaveFileListToCache(path, new CacheEntry
-                        {
-                            CurrentFolder = currentFolder,
-                            FileList = fileList
-                        });
+                        await SaveFileListToCacheAsync(path, fileList);
                     }
                     else
                     {
@@ -1276,12 +1278,7 @@ namespace Files.ViewModels
                     {
                         if (!addFilesCTS.IsCancellationRequested)
                         {
-                            await fileListCache.SaveFileListToCache(path, new CacheEntry
-                            {
-                                CurrentFolder = CurrentFolder,
-                                // since filesAndFolders could be mutated, memory cache needs a copy of current list
-                                FileList = filesAndFolders.ToList()
-                            });
+                            await SaveFileListToCacheAsync(path, filesAndFolders);
                         }
                         else
                         {
@@ -1313,11 +1310,7 @@ namespace Files.ViewModels
                     null,
                     32,
                     null);
-                await fileListCache.SaveFileListToCache(path, new CacheEntry
-                {
-                    CurrentFolder = currentFolder,
-                    FileList = finalList
-                });
+                await SaveFileListToCacheAsync(path, finalList);
             }
             else
             {
@@ -1354,7 +1347,7 @@ namespace Files.ViewModels
             {
                 if (!addFilesCTS.IsCancellationRequested)
                 {
-                    await SaveCurrentListToCacheAsync(path);
+                    await SaveFileListToCacheAsync(path, filesAndFolders);
                 }
                 else
                 {
@@ -1547,7 +1540,7 @@ namespace Files.ViewModels
 
                     await OrderFilesAndFoldersAsync();
                     await ApplyFilesAndFoldersChangesAsync();
-                    await SaveCurrentListToCacheAsync(WorkingDirectory);
+                    await SaveFileListToCacheAsync(WorkingDirectory, filesAndFolders);
                 }
             }
             catch
@@ -1747,13 +1740,13 @@ namespace Files.ViewModels
             }
         }
 
-        private Task SaveCurrentListToCacheAsync(string path)
+        private Task SaveFileListToCacheAsync(string path, IEnumerable<ListedItem> fileList)
         {
             return fileListCache.SaveFileListToCache(path, new CacheEntry
             {
                 CurrentFolder = CurrentFolder,
                 // since filesAndFolders could be mutated, memory cache needs a copy of current list
-                FileList = filesAndFolders.Take(32).ToList()
+                FileList = fileList.Take(32).ToList()
             });
         }
 
