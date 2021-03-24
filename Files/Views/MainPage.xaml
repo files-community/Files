@@ -5,12 +5,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core" 
+    xmlns:converters="using:Files.Converters" 
+    xmlns:usercontrols="using:Files.UserControls.MultitaskingControl" 
+    xmlns:local1="using:Files" xmlns:viewmodels="using:Files.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-
+    <Page.DataContext>
+        <viewmodels:MainPageViewModel/>
+    </Page.DataContext>
+    <Page.Resources>
+        <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
+    </Page.Resources>
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
             Key="Number1"
@@ -141,6 +149,31 @@
     </Page.KeyboardAccelerators>
 
     <Grid TabFocusNavigation="Cycle">
-        <ContentPresenter Content="{x:Bind ViewModel.SelectedTabItem.Control, Mode=OneWay}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition
+                x:Name="SidebarColumn"
+                Width="{x:Bind SidebarAdaptiveViewModel.SidebarWidth, Mode=OneWay}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid
+            x:Name="DragArea"
+            Margin="38,0,0,0"
+            Grid.ColumnSpan="2"
+            Canvas.ZIndex="3"
+            Height="40"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Stretch"
+            Background="Transparent"
+            Loaded="DragArea_Loaded" />
+        <Grid x:Name="RightMarginGrid" Padding="2,0,0,0"
+            Canvas.ZIndex="4" VerticalAlignment="Top" Grid.Column="1">
+            <usercontrols:HorizontalMultitaskingControl
+                    x:Name="horizontalMultitaskingControl"
+                    x:FieldModifier="public"
+                    Height="50"
+                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+                    Loaded="HorizontalMultitaskingControl_Loaded" />
+        </Grid>
+        <ContentPresenter Grid.ColumnSpan="2" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
     </Grid>
 </Page>

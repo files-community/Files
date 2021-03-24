@@ -285,6 +285,7 @@
     <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
       <DependentUpon>Bundles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
