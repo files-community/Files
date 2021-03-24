@@ -195,9 +195,9 @@ namespace Files
                 }
                 else
                 {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPage.AppInstances.Count > 0))
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
                     {
-                        await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
                 }
 
@@ -342,18 +342,20 @@ namespace Files
                                     if (command.Payload.Equals("."))
                                     {
                                         rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
-                                    } else
+                                    }
+                                    else
                                     {
                                         var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
-                                        if(!string.IsNullOrEmpty(command.Payload))
+                                        if (!string.IsNullOrEmpty(command.Payload))
                                         {
                                             rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
-                                        } else
+                                        }
+                                        else
                                         {
                                             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                         }
                                     }
-                                    
+
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
@@ -419,7 +421,7 @@ namespace Files
         {
             if (AppSettings != null)
             {
-                AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
