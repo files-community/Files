@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.UserControls.MultitaskingControl;
+using Files.ViewModels;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.ViewManagement;
@@ -14,35 +15,17 @@ namespace Files.Views
     public sealed partial class MainPage : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        private double dragReigonWidth;
-        public double DragRegionWidth
-        {
-            get => dragReigonWidth;
-            set
-            {
-                if (value != dragReigonWidth)
-                {
-                    dragReigonWidth = value;
-                    NotifyPropertyChanged("DragRegionWidth");
-                }
-            }
-        }
-        public static IMultitaskingControl MultitaskingControl { get; set; }
 
-        private TabItem selectedTabItem;
-
-        public TabItem SelectedTabItem
         public MainPageViewModel ViewModel
         {
             get => (MainPageViewModel)DataContext;
             set => DataContext = value;
         }
+
         public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
         public MainPage()
         {
             this.InitializeComponent();
-
-            this.ViewModel = new MainPageViewModel();
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -57,11 +40,9 @@ namespace Files.Views
             AllowDrop = true;
         }
 
-        }
-
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            DragRegionWidth = sender.SystemOverlayRightInset;
+            RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
@@ -71,11 +52,13 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MultitaskingControl is HorizontalMultitaskingControl))
+            if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
-                MultitaskingControl = horizontalMultitaskingControl;
+                MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
             }
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.OnNavigatedTo(e);
         }

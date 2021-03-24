@@ -5,11 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core" 
+    xmlns:converters="using:Files.Converters" 
+    xmlns:usercontrols="using:Files.UserControls.MultitaskingControl" 
+    xmlns:local1="using:Files" xmlns:viewmodels="using:Files.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <viewmodels:MainPageViewModel/>
+    </Page.DataContext>
     <Page.Resources>
         <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
     </Page.Resources>
@@ -159,7 +165,7 @@
             HorizontalAlignment="Stretch"
             Background="Transparent"
             Loaded="DragArea_Loaded" />
-        <Grid Padding="2,0,0,0" Margin="{x:Bind DragRegionWidth, Mode=OneWay, Converter={StaticResource WidthToRightMarginConverter}}"
+        <Grid x:Name="RightMarginGrid" Padding="2,0,0,0"
             Canvas.ZIndex="4" VerticalAlignment="Top" Grid.Column="1">
             <usercontrols:HorizontalMultitaskingControl
                     x:Name="horizontalMultitaskingControl"
@@ -168,6 +174,6 @@
                     x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
         </Grid>
-        <ContentPresenter Grid.ColumnSpan="2" Content="{x:Bind ViewModel.SelectedTabItem.Control, Mode=OneWay}" />
+        <ContentPresenter Grid.ColumnSpan="2" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
     </Grid>
 </Page>
