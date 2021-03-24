@@ -56,7 +56,13 @@ namespace Files.UserControls
         public bool IsOpen
         {
             get => (bool)GetValue(IsOpenProperty);
-            set => SetValue(IsOpenProperty, value);
+            set 
+            {
+                if (this.IsLoaded)
+                {
+                    SetValue(IsOpenProperty, value);
+                }
+            }
         }
 
         public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
@@ -64,7 +70,13 @@ namespace Files.UserControls
         public bool IsCompact
         {
             get => (bool)GetValue(IsCompactProperty);
-            set => SetValue(IsCompactProperty, value);
+            set 
+            { 
+                if(this.IsLoaded)
+                {
+                    SetValue(IsCompactProperty, value);
+                }
+            }
         }
 
         public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
@@ -215,6 +227,18 @@ namespace Files.UserControls
             {
                 App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
+        }
+
+        public static GridLength GetSidebarCompactSize()
+        {
+            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
+            {
+                if (paneLength is double paneLengthDouble)
+                {
+                    return new GridLength(paneLengthDouble);
+                }
+            }
+            return new GridLength(200);
         }
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
