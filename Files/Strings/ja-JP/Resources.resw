@@ -1738,7 +1738,7 @@
     <value>ファイルを予めキャッシュする量の上限(HDDには小さな値を推奨)</value>
   </data>
   <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>ファイルを予めキャッシュ(子ディレクトリのファイルをプリロード)</value>
+    <value>ファイルを予めキャッシュ(サブフォルダのファイルをプリロード)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>その他のバンドル オプション</value>
