@@ -914,7 +914,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false))
+                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, cacheResult, cacheOnly: false))
                     {
                         // Is folder synced to cloud storage?
                         var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
@@ -947,7 +947,7 @@ namespace Files.ViewModels
                                             storageFolder = res.Result;
                                         }
                                     }
-                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, null, cacheOnly: true);
+                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, null, cacheOnly: true);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception ex)
@@ -1145,7 +1145,7 @@ namespace Files.ViewModels
             {
                 var basicProps = await rootFolder.GetBasicPropertiesAsync();
                 var extraProps = await basicProps.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-                var CurrentFolder = new ListedItem(rootFolder.FolderRelativeId, returnformat)
+                var currentFolder = new ListedItem(rootFolder.FolderRelativeId, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
@@ -1208,7 +1208,7 @@ namespace Files.ViewModels
                     opacity = 0.4;
                 }
 
-                CurrentFolder = new ListedItem(null, returnformat)
+                var currentFolder = new ListedItem(null, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
