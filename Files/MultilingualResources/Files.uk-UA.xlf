@@ -1898,6 +1898,10 @@
           <source>Remove</source>
           <target state="translated">Вилучити</target>
         </trans-unit>
+        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
+          <source>Cache files and folders for better performance</source>
+          <target state="translated">Кешувати файли та папки для швидшої роботи</target>
+        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Скасувати</target>
@@ -2323,6 +2327,14 @@
           <source>Disconnect</source>
           <target state="translated">Відключити</target>
         </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="translated">Обмеження кеш-пам’яті (менші числа повинні працювати краще для жорстких дисків)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="translated">Використовувати кеш (попередньо завантажувати записи в дочірні каталоги на навігації)</target>
+        </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
           <target state="translated">Опції Колекцій</target>
@@ -2442,14 +2454,6 @@
         <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Files is running as administrator</source>
           <target state="new">Files is running as administrator</target>
-        </trans-unit>
-        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
-          <source>Pin to the Start Menu</source>
-          <target state="new">Pin to the Start Menu</target>
-        </trans-unit>
-        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from the Start Menu</source>
-          <target state="new">Unpin from the Start Menu</target>
         </trans-unit>
       </group>
     </body>

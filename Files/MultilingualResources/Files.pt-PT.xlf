@@ -1904,6 +1904,10 @@
           <source>Remove</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Remover</target>
         </trans-unit>
+        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
+          <source>Cache files and folders for better performance</source>
+          <target state="translated">Armazene ficheiros e pastas em cache para melhor desempenho</target>
+        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Cancelar</target>
@@ -2329,6 +2333,14 @@
           <source>Disconnect</source>
           <target state="translated">Desconectar</target>
         </trans-unit>
+        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
+          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
+          <target state="translated">Limite preventivo paralelo de cache (números menores devem funcionar melhor para discos rígidos)</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
+          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
+          <target state="translated">Usar cache preemptivo (entradas de pré-carregamento em diretórios filho na navegação)</target>
+        </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
           <target state="translated">Mais opções de pacotes</target>
@@ -2448,14 +2460,6 @@
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="new">Administrator</target>
-        </trans-unit>
-        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
-          <source>Pin to the Start Menu</source>
-          <target state="new">Pin to the Start Menu</target>
-        </trans-unit>
-        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from the Start Menu</source>
-          <target state="new">Unpin from the Start Menu</target>
         </trans-unit>
       </group>
     </body>

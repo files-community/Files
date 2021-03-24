@@ -28,6 +28,7 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken,
+            List<string> skipItems,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction
         )
@@ -48,7 +49,14 @@ namespace Files.Filesystem.StorageEnumerators
                             var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
                             if (file != null)
                             {
-                                tempList.Add(file);
+                                if (skipItems?.Contains(file.ItemPath) ?? false)
+                                {
+                                    skipItems.Remove(file.ItemPath);
+                                }
+                                else
+                                {
+                                    tempList.Add(file);
+                                }
                                 ++count;
                             }
                         }
@@ -59,7 +67,14 @@ namespace Files.Filesystem.StorageEnumerators
                                 var folder = await GetFolder(findData, path, returnformat, cancellationToken);
                                 if (folder != null)
                                 {
-                                    tempList.Add(folder);
+                                    if (skipItems?.Contains(folder.ItemPath) ?? false)
+                                    {
+                                        skipItems.Remove(folder.ItemPath);
+                                    }
+                                    else
+                                    {
+                                        tempList.Add(folder);
+                                    }
                                     ++count;
                                 }
                             }

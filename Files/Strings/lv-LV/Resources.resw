@@ -1440,6 +1440,12 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oriģinālais ceļš</value>
   </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Ātrdarbībai glabāt failus un mapes kešatmiņā</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Preventīās kešatmiņas paralēlais ierobežojums (mazākam skaitlim vajadzētu strādāt labāk uz cietajiem diskiem)</value>
+  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Pievienot</value>
   </data>
@@ -1751,6 +1757,9 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Atvienot</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Izmantot preventīvu saglabāšanu kešatmiņā (preventīvi ielādēt apakšvienumus)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Papildus saišķu opcijas</value>

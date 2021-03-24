@@ -1383,6 +1383,9 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Enlever</value>
   </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Mettre en cache les fichiers et dossiers pour de meilleures performantes</value>
+  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
