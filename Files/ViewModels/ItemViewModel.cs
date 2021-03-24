@@ -17,7 +17,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -1134,13 +1133,6 @@ namespace Files.ViewModels
                 }
             }
 
-            if (!cacheOnly)
-            {
-                // Is folder synced to cloud storage?
-                var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
-            }
-
             if (enumFromStorageFolder)
             {
                 var basicProps = await rootFolder.GetBasicPropertiesAsync();
@@ -1162,7 +1154,7 @@ namespace Files.ViewModels
                 };
                 if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
                 {
-                    CurrentFolder.ItemDateCreatedReal = dateCreated;
+                    currentFolder.ItemDateCreatedReal = dateCreated;
                 }
                 if (!cacheOnly)
                 {

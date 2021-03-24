@@ -101,9 +101,9 @@ namespace Files.ViewModels
             {
                 if (LayoutPreference.LayoutMode != prefsForPath.LayoutMode)
                 {
-                    LayoutPreference = prefsForPath;
                     IsLayoutModeChanging = true;
                 }
+                LayoutPreference = prefsForPath;
             }
 
             Type type = null;
