@@ -869,20 +869,11 @@ namespace Files.ViewModels
                 {
                     cacheResult = await Task.Run(async () =>
                     {
-                        var sampler = new IntervalSampler(500);
-                        CacheEntry cacheEntry;
-                        try
-                        {
-                            cacheEntry = await fileListCache.ReadFileListFromCache(path, addFilesCTS.Token);
-                        }
-                        catch
-                        {
-                            cacheEntry = null;
-                        }
+                        CacheEntry cacheEntry = await fileListCache.ReadFileListFromCache(path, addFilesCTS.Token);
 
                         if (cacheEntry != null)
                         {
-                            for (var i = 0; i < cacheEntry.FileList.Count; i++)
+                            for (var i = 0; i <= Math.Min(32, cacheEntry.FileList.Count - 1); i++)
                             {
                                 if (!cacheEntry.FileList[i].IsHiddenItem || AppSettings.AreHiddenItemsVisible)
                                 {
@@ -890,13 +881,7 @@ namespace Files.ViewModels
                                 }
                                 if (addFilesCTS.IsCancellationRequested)
                                 {
-                                    break;
-                                }
-
-                                if (i == 32 || i == cacheEntry.FileList.Count - 1 || sampler.CheckNow())
-                                {
-                                    await OrderFilesAndFoldersAsync();
-                                    await ApplyFilesAndFoldersChangesAsync();
+                                    return null;
                                 }
                             }
                             return filesAndFolders.Select(i => i.ItemPath).ToList();
@@ -905,6 +890,8 @@ namespace Files.ViewModels
                     });
                     if (cacheResult != null)
                     {
+                        await OrderFilesAndFoldersAsync();
+                        await ApplyFilesAndFoldersChangesAsync();
                         IsLoadingItems = false;
                     }
                 }
