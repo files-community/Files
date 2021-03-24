@@ -93,7 +93,7 @@ namespace Files.ViewModels
 
         public static async void ReportIssueOnGitHub()
         {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new?assignees=&labels=bug&template=bug_report.md&title="));
         }
 
         /// <summary>
