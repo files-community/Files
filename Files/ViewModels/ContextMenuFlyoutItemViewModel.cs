@@ -29,6 +29,10 @@ namespace Files.ViewModels
         /// Only show the item when the shift key is held
         /// </summary>
         public bool ShowOnShift { get; set; }
+        /// <summary>
+        /// Only show when one item is selected
+        /// </summary>
+        public bool SingleItemOnly { get; set; }
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
     }
 

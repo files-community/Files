@@ -57,7 +57,7 @@ namespace Files.ViewModels
 
         public void Filter(bool shiftPressed)
         {
-            MenuItemsList = MenuItemsList.Where(x => !(x.ShowOnShift && !shiftPressed) && (x.CheckShowItem?.Invoke() ?? true)).ToList();
+            MenuItemsList = MenuItemsList.Where(x => (!x.ShowOnShift || shiftPressed) && (!x.SingleItemOnly || SelectedItems.Count == 1) && (x.CheckShowItem?.Invoke() ?? true)).ToList();
         }
 
         public string CurrentDirectoryPath { get; set; }
@@ -332,7 +332,8 @@ namespace Files.ViewModels
                     Glyph = "\uF10A",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.CreateShortcutCommand,
-                    CheckShowItem = new Func<bool>(() => SelectedItems.Count == 1 && !SelectedItems.FirstOrDefault().IsShortcutItem)
+                    CheckShowItem = new Func<bool>(() => !SelectedItems.FirstOrDefault().IsShortcutItem),
+                    SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -347,6 +348,7 @@ namespace Files.ViewModels
                     Glyph = "\uE8AC",
                     Command = commandsViewModel.RenameItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
+                    SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -368,7 +370,8 @@ namespace Files.ViewModels
                     Glyph = "\uE840",
                     //Command = commandsViewModel.pin,
                     ShowOnShift = true,
-                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart))
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsItemPinnedToStart)),
+                    SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -376,7 +379,8 @@ namespace Files.ViewModels
                     Glyph = "\uE77A",
                     //Command = commandsViewModel.UnpinDirectoryFromSidebarCommand,
                     ShowOnShift = true,
-                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart))
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart)),
+                    SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
