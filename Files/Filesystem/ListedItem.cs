@@ -218,6 +218,7 @@ namespace Files.Filesystem
             }
         }
 
+        // Parameterless constructor for JsonConvert
         public ListedItem()
         { }
 
@@ -309,6 +310,10 @@ namespace Files.Filesystem
         {
         }
 
+        // Parameterless constructor for JsonConvert
+        public RecycleBinItem() : base()
+        { }
+
         public string ItemDateDeleted { get; private set; }
 
         public DateTimeOffset ItemDateDeletedReal
@@ -335,6 +340,10 @@ namespace Files.Filesystem
         public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
+
+        // Parameterless constructor for JsonConvert
+        public ShortcutItem() : base()
+        { }
 
         // For shortcut elements (.lnk and .url)
         public string TargetPath { get; set; }
