@@ -511,10 +511,11 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             await ContextFlyoutViewModel.LoadAsync(shiftPressed, true);
-            var flyout = ItemModelListToContextFlyoutHelper.GetMenuFlyoutFromModel(ContextFlyoutViewModel.MenuItemsList);
-            flyout.ShowAt(target, p);
+            ItemContextMenuFlyout.Items.Clear();
+            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
+            ItemContextMenuFlyout.ShowAt(target, p);
         }
-        public MenuFlyout ItemContextMenuFlyout = new MenuFlyout();
+        public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
 
 //        public void RightClickContextMenu_Opening(object sender, object e)
 //        {

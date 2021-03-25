@@ -13,12 +13,12 @@ namespace Files.Helpers.ContextFlyouts
 {
     public static class ItemModelListToContextFlyoutHelper
     {
-        public static MenuFlyout GetMenuFlyoutFromModel(List<ContextMenuFlyoutItemViewModel> items)
+        public static List<MenuFlyoutItemBase> GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
         {
-            var flyout = new MenuFlyout();
+            var flyout = new List<MenuFlyoutItemBase>();
             items.ForEach(i =>
             {
-                flyout.Items.Add(GetMenuItem(i));
+                flyout.Add(GetMenuItem(i));
             });
             return flyout;
         }
