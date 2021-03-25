@@ -951,9 +951,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal applikationer</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Vis menupunktet Kopiér placering</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Flyt overløbselementer til en undermenu</value>
   </data>
@@ -1466,9 +1463,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dobbeltrude</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Vis åben i nyt faneblad menupunkt</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mapper</value>
