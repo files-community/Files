@@ -122,7 +122,10 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            FileList.SelectedItems.Add(item);
+            if (FileList.Items.Contains(item))
+            {
+                FileList.SelectedItems.Add(item);
+            }
         }
 
         protected override IEnumerable GetAllItems()
@@ -161,7 +164,10 @@ namespace Files.Views.LayoutModes
 
         public override void FocusSelectedItems()
         {
-            FileList.ScrollIntoView(FileList.Items.Last());
+            if (SelectedItems.Any())
+            {
+                FileList.ScrollIntoView(SelectedItems.Last());
+            }
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)

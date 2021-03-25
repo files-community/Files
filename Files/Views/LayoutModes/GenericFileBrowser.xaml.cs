@@ -180,7 +180,10 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            AllView.SelectedItems.Add(item);
+            if (((IList<ListedItem>)AllView.ItemsSource).Contains(item))
+            {
+                AllView.SelectedItems.Add(item);
+            }
         }
 
         protected override IEnumerable GetAllItems()
@@ -231,7 +234,10 @@ namespace Files.Views.LayoutModes
 
         public override void FocusSelectedItems()
         {
-            AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
+            if (SelectedItems.Any())
+            {
+                AllView.ScrollIntoView(SelectedItems.Last(), null);
+            }
         }
 
         public override void StartRenameItem()

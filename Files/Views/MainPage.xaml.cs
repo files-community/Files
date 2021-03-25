@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.UserControls.MultitaskingControl;
+using Files.ViewModels;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.ViewManagement;
@@ -13,22 +14,23 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public MainPageViewModel ViewModel
         {
             get => (MainPageViewModel)DataContext;
             set => DataContext = value;
         }
 
+        public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
         public MainPage()
         {
             this.InitializeComponent();
 
-            this.ViewModel = new MainPageViewModel();
-
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
-
+            CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
@@ -36,6 +38,24 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
             AllowDrop = true;
+        }
+
+        private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
+        }
+
+        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
+            {
+                MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
