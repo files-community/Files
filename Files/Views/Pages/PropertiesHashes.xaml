@@ -139,44 +139,6 @@
                 ShowError="{x:Bind ViewModel.ItemCRC32HashCalcError, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemCRC32HashProgressVisibility, Mode=OneWay}" />
 
-
-            <TextBlock
-                x:Name="PropertiesCompareHash"
-                x:Uid="PropertiesItemCompareHash"
-                Grid.Row="5"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Hash Comparison:"/>
-
-            <TextBox 
-                x:Name="txtCompareHash"
-                x:Uid="txtCompareHash"
-                Grid.Row="5"
-                Grid.Column="1"
-                Margin="5,0,0,5"
-                HorizontalAlignment="Stretch"
-                Style="{StaticResource PropertyName}"
-                Text=""/>
-
-            <ComboBox x:Name="ddlCompareHash"
-                      x:Uid="ddlCompareHash"
-                      Grid.Row="6"
-                      Grid.Column="0"
-                      SelectionChanged="ddlCompareHash_SelectionChanged"
-                      HorizontalAlignment="Left">
-                <ComboBoxItem Name="MD5" Content="MD5"></ComboBoxItem>
-                <ComboBoxItem Name="SHA1" Content="SHA1" IsSelected="True"></ComboBoxItem>
-                <ComboBoxItem Name="CRC32" Content="CRC32"></ComboBoxItem>
-            </ComboBox>
-
-            <Button 
-                x:Name="btnCompareHash"
-                x:Uid="btnCompareHash"
-                Click="btnCompareHash_Click"
-                Grid.Row="6"
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                Content="Compare a file..."/>
         </Grid>
     </StackPanel>
 </local:PropertiesTab>
