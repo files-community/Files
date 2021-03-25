@@ -1,0 +1,182 @@
+﻿<local:PropertiesTab
+    x:Class="Files.Views.PropertiesHashes"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.ViewModels.Properties"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:usercontrols="using:Files.UserControls"
+    Loaded="Properties_Loaded"
+    mc:Ignorable="d">
+
+    <local:PropertiesTab.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#191919" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </local:PropertiesTab.Resources>
+
+    <StackPanel Style="{StaticResource PropertiesTab}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <MenuFlyoutSeparator
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="-12,0"
+                HorizontalAlignment="Stretch" />
+
+            <TextBlock
+                x:Name="PropertiesMD5Hash"
+                x:Uid="PropertiesItemMD5Hash"
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Text="MD5Hash:"
+                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+            <TextBlock
+                x:Name="itemMD5HashValue"
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+            <muxc:ProgressBar
+                x:Name="ItemMD5HashProgress"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="{StaticResource PropertyValueMargin}"
+                VerticalAlignment="Center"
+                ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+
+            <TextBlock
+                x:Name="PropertiesSHA1Hash"
+                x:Uid="PropertiesItemSHA1Hash"
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Text="SHA1Hash:"
+                Visibility="{x:Bind ViewModel.ItemSHA1HashVisibility, Mode=OneWay}" />
+            <TextBlock
+                x:Name="itemSHA1HashValue"
+                Grid.Row="3"
+                Grid.Column="1"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.ItemSHA1Hash, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemSHA1HashVisibility, Mode=OneWay}" />
+            <muxc:ProgressBar
+                x:Name="ItemSHA1HashProgress"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="{StaticResource PropertyValueMargin}"
+                VerticalAlignment="Center"
+                ShowError="{x:Bind ViewModel.ItemSHA1HashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemSHA1HashProgressVisibility, Mode=OneWay}" />
+
+            <TextBlock
+                x:Name="PropertiesCRC32Hash"
+                x:Uid="PropertiesItemCRC32Hash"
+                Grid.Row="4"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Text="CRC32Hash:"
+                Visibility="{x:Bind ViewModel.ItemCRC32HashVisibility, Mode=OneWay}" />
+            <TextBlock
+                x:Name="itemCRC32HashValue"
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.ItemCRC32Hash, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemCRC32HashVisibility, Mode=OneWay}" />
+            <muxc:ProgressBar
+                x:Name="ItemCRC32HashProgress"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="{StaticResource PropertyValueMargin}"
+                VerticalAlignment="Center"
+                ShowError="{x:Bind ViewModel.ItemCRC32HashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemCRC32HashProgressVisibility, Mode=OneWay}" />
+
+
+            <TextBlock
+                x:Name="PropertiesCompareHash"
+                x:Uid="PropertiesItemCompareHash"
+                Grid.Row="5"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Text="Hash Comparison:"/>
+
+            <TextBox 
+                x:Name="txtCompareHash"
+                x:Uid="txtCompareHash"
+                Grid.Row="5"
+                Grid.Column="1"
+                Margin="5,0,0,5"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource PropertyName}"
+                Text=""/>
+
+            <ComboBox x:Name="ddlCompareHash"
+                      x:Uid="ddlCompareHash"
+                      Grid.Row="6"
+                      Grid.Column="0"
+                      SelectionChanged="ddlCompareHash_SelectionChanged"
+                      HorizontalAlignment="Left">
+                <ComboBoxItem Name="MD5" Content="MD5"></ComboBoxItem>
+                <ComboBoxItem Name="SHA1" Content="SHA1" IsSelected="True"></ComboBoxItem>
+                <ComboBoxItem Name="CRC32" Content="CRC32"></ComboBoxItem>
+            </ComboBox>
+
+            <Button 
+                x:Name="btnCompareHash"
+                x:Uid="btnCompareHash"
+                Click="btnCompareHash_Click"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Content="Compare a file..."/>
+        </Grid>
+    </StackPanel>
+</local:PropertiesTab>

@@ -56,6 +56,15 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
+                    x:Name="TabHashes"
+                    x:Uid="PropertiesDialogTabHashes"
+                    Content="Hashes"
+                    Tag="Hashes">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabShorcut"
                     x:Uid="PropertiesDialogTabShortcut"
                     Content="Shortcut"
