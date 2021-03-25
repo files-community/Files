@@ -1455,17 +1455,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Doppio Pannello</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostra copia percorso nel menu contestuale</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Sposta elementi in eccesso in un sotto-menu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizza il menu contestuale</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostra apri nuova scheda nel menu contestuale</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Cartelle</value>

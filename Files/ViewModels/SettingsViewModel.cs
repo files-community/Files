@@ -551,24 +551,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationMenuItem
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowOpenInNewTabMenuItem
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
         /// </summary>
         public string PathToThemeFile

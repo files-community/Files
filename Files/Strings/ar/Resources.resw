@@ -948,9 +948,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>تطبيقات المحطة الطرفية</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>إظهار عنصر قائمة نسخ الموقع</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>نقل العناصر الفائضة إلى قائمة فرعية</value>
   </data>
@@ -1454,9 +1451,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>جزء مزدوج</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>إظهار عنصر القائمة فتح في علامة تبويب جديدة</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>المجلدات</value>
