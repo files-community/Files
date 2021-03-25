@@ -15,8 +15,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
@@ -30,6 +32,22 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedItems, value);
         }
 
+        private SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel;
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
+        {
+            get => selectedItemsPropertiesViewModel;
+            set => SetProperty(ref selectedItemsPropertiesViewModel, value);
+        }
+
+        private BaseLayoutCommandsViewModel commandsViewModel;
+        public BaseLayoutCommandsViewModel CommandsViewModel
+        {
+            get => commandsViewModel;
+            set => SetProperty(ref commandsViewModel, value);
+        }
+
+        public List<ContextMenuFlyoutItemViewModel> BaseMenuItems { get; set; }
+
         private List<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
         public List<ContextMenuFlyoutItemViewModel> MenuItemsList
         {
@@ -37,9 +55,9 @@ namespace Files.ViewModels
             set => SetProperty(ref menuItemsList, value);
         }
 
-        public void Filter()
+        public void Filter(bool shiftPressed)
         {
-            MenuItemsList = MenuItemsList.Where(x => x.CheckShowItem?.Invoke(SelectedItems) ?? true).ToList();
+            MenuItemsList = MenuItemsList.Where(x => !(x.ShowOnShift && !shiftPressed) && (x.CheckShowItem?.Invoke() ?? true)).ToList();
         }
 
         public string CurrentDirectoryPath { get; set; }
@@ -47,6 +65,12 @@ namespace Files.ViewModels
         public NamedPipeAsAppServiceConnection Connection { get; set; }
 
         public bool IsItemSelected => selectedItems?.Count > 0;
+
+        public async Task LoadAsync(bool shiftPressed, bool showOpenMenu)
+        {
+            await SetShellContextmenu(BaseMenuItems, shiftPressed, showOpenMenu);
+            Filter(shiftPressed);
+        }
 
         public async Task SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
@@ -187,82 +211,180 @@ namespace Files.ViewModels
             return (null, null);
         }
 
-        public static class BaseItems
+        public ContextFlyoutViewModel(BaseLayoutCommandsViewModel commandsViewModel)
         {
-            public static List<ContextMenuFlyoutItemViewModel> GetItemContextFlyoutItems(BaseLayoutCommandsViewModel commandsViewModel)
+            CommandsViewModel = commandsViewModel;
+            InitBaseMenuItems();
+        }
+
+        private void InitBaseMenuItems()
+        {
+            BaseMenuItems = new List<ContextMenuFlyoutItemViewModel>()
             {
-                return new List<ContextMenuFlyoutItemViewModel>()
+                new ContextMenuFlyoutItemViewModel()
                 {
-                    new ContextMenuFlyoutItemViewModel()
+                    Text = "Open Item",
+                    Glyph = "\uE8E5",
+                    Command = commandsViewModel.OpenItemCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.Count <= 10)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Open with",
+                    Glyph = "\uE17D",
+                    Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem)),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Open file location",
+                    Glyph = "\uE8DA",
+                    Command = commandsViewModel.OpenFileLocationCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.IsShortcutItem)),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Open in new pane",
+                    Glyph = "\uF57C",
+                    Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
+                    CheckShowItem = new Func<bool>(() => App.AppSettings.IsDualPaneEnabled && SelectedItems.Count == 1 && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Open in new tab",
+                    Glyph = "\uEC6C",
+                    Command = commandsViewModel.OpenDirectoryInNewTabCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Open in new window",
+                    Glyph = "\uE737",
+                    Command = commandsViewModel.OpenInNewWindowItemCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Set as",
+                    CheckShowItem = new Func<bool>(() => SelectedItemsPropertiesViewModel.IsSelectedItemImage),
+                    Items = new List<ContextMenuFlyoutItemViewModel>()
                     {
-                        Text = "Open Item",
-                        Glyph = "\uE8E5",
-                        Command = commandsViewModel.OpenItemCommand,
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Open with",
-                        Glyph = "\uE17D",
-                        Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem)),
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Open file location",
-                        Glyph = "\uE8DA",
-                        Command = commandsViewModel.OpenFileLocationCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.IsShortcutItem)),
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Open in new pane",
-                        Glyph = "\uF57C",
-                        Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => App.AppSettings.IsDualPaneEnabled && x.Count == 1 && x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Open in new tab",
-                        Glyph = "\uF113",
-                        Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Open in new window",
-                        Glyph = "\uE737",
-                        Command = commandsViewModel.OpenInNewWindowItemCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Set as",
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => x.All(i => i.FileExtension == ".png")),
-                        Items = new List<ContextMenuFlyoutItemViewModel>()
+                        new ContextMenuFlyoutItemViewModel()
                         {
-                            new ContextMenuFlyoutItemViewModel()
-                            {
-                                Text = "Set as desktop background",
-                                Glyph = "\uE91B",
-                                Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
-                            },
-                            new ContextMenuFlyoutItemViewModel()
-                            {
-                                Text = "Set as lock screen background",
-                                Glyph = "\uF114",
-                                Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
-                            },
-                        }
-                    },
-                  new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "Share",
-                        Glyph = "\uE72D",
-                        Command = commandsViewModel.ShareItemCommand,
-                        CheckShowItem = new Func<List<ListedItem>, bool>(x => !x.Any(i => i.IsHiddenItem || i.IsShortcutItem)),
-                    },
-                };
-            }
+                            Text = "Set as desktop background",
+                            Glyph = "\uE91B",
+                            Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "Set as lock screen background",
+                            Glyph = "\uF114",
+                            Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
+                        },
+                    }
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Run as admin",
+                    Glyph = "\uE7EF",
+                    Command = CommandsViewModel.RunAsAdminCommand,
+                    CheckShowItem = new Func<bool>(() => new string[]{".bat", ".exe", "cmd" }.Contains(SelectedItems.FirstOrDefault().FileExtension))
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Run as another user",
+                    Glyph = "\uE7EE",
+                    Command = CommandsViewModel.RunAsAnotherUserCommand,
+                    CheckShowItem = new Func<bool>(() => new string[]{".bat", ".exe", "cmd" }.Contains(SelectedItems.FirstOrDefault().FileExtension))
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Share",
+                    Glyph = "\uE72D",
+                    Command = commandsViewModel.ShareItemCommand,
+                    CheckShowItem = new Func<bool>(() => !SelectedItems.Any(i => i.IsHiddenItem || i.IsShortcutItem)),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    ItemType = ItemType.Separator,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Cut item",
+                    Glyph = "\uE8C6",
+                    Command = commandsViewModel.CutItemCommand
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Copy item",
+                    Glyph = "\uE8C8",
+                    Command = commandsViewModel.CopyItemCommand,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Copy item location",
+                    Glyph = "\uE167",
+                    Command = commandsViewModel.CopyPathOfSelectedItemCommand,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Create shortcut",
+                    Glyph = "\uF10A",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = commandsViewModel.CreateShortcutCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.Count == 1 && !SelectedItems.FirstOrDefault().IsShortcutItem)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Delete",
+                    Glyph = "\uE74D",
+                    Command = commandsViewModel.DeleteItemCommand,
+                    KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.Delete },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Rename",
+                    Glyph = "\uE8AC",
+                    Command = commandsViewModel.RenameItemCommand,
+                    KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Pin to sidebar",
+                    Glyph = "\uE840",
+                    Command = commandsViewModel.SidebarPinItemCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned))
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Unpin from sidebar",
+                    Glyph = "\uE77A",
+                    Command = commandsViewModel.SidebarUnpinItemCommand,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned))
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Pin to the Start Menu",
+                    Glyph = "\uE840",
+                    //Command = commandsViewModel.pin,
+                    ShowOnShift = true,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart))
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Unpin from the Start Menu",
+                    Glyph = "\uE77A",
+                    //Command = commandsViewModel.UnpinDirectoryFromSidebarCommand,
+                    ShowOnShift = true,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart))
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Properties",
+                    Glyph = "\uE946",
+                    Command = commandsViewModel.ShowPropertiesCommand,
+                },
+            };
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Helpers.ContextFlyouts
 {
@@ -72,8 +74,19 @@ namespace Files.Helpers.ContextFlyouts
                 Tag = i.Tag,
                 Command = i.Command,
                 CommandParameter = i.CommandParameter,
-                Icon = new FontIcon { Glyph = !string.IsNullOrEmpty(i.Glyph) ? i.Glyph : "" },
+                Icon = new FontIcon { Glyph = !string.IsNullOrEmpty(i.Glyph) ? i.Glyph : "" }
             };
+
+            if(!string.IsNullOrEmpty(i.GlyphFontFamilyName))
+            {
+                //(flyoutItem.Icon as FontIcon).FontFamily = App.Current.Resources[i.GlyphFontFamilyName] as FontFamily;
+            }
+
+            if(i.KeyboardAccelerator != null)
+            {
+                flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
+            }
+
             return flyoutItem;
         }
     }

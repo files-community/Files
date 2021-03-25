@@ -68,7 +68,7 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
-        public ContextFlyoutViewModel ContextFlyoutViewModel { get; } = new ContextFlyoutViewModel();
+        public ContextFlyoutViewModel ContextFlyoutViewModel { get; private set; }
 
         public bool IsRenamingItem { get; set; } = false;
 
@@ -463,7 +463,10 @@ namespace Files
             {
             }
 
-            ContextFlyoutViewModel.Connection = Connection;
+            ContextFlyoutViewModel = new ContextFlyoutViewModel(CommandsViewModel)
+            {
+                Connection = Connection
+            };
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -503,11 +506,15 @@ namespace Files
                 return;
             }
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
-            await ContextFlyoutViewModel.SetShellContextmenu(ViewModels.ContextFlyoutViewModel.BaseItems.GetItemContextFlyoutItems(commandsViewModel: CommandsViewModel), false, true);
-            ContextFlyoutViewModel.Filter();
+            ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
+
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+            await ContextFlyoutViewModel.LoadAsync(shiftPressed, true);
             var flyout = ItemModelListToContextFlyoutHelper.GetMenuFlyoutFromModel(ContextFlyoutViewModel.MenuItemsList);
             flyout.ShowAt(target, p);
         }
+        public MenuFlyout ItemContextMenuFlyout = new MenuFlyout();
 
 //        public void RightClickContextMenu_Opening(object sender, object e)
 //        {
