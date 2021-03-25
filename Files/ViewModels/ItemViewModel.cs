@@ -873,11 +873,19 @@ namespace Files.ViewModels
 
                         if (cacheEntry != null)
                         {
-                            for (var i = 0; i <= Math.Min(32, cacheEntry.FileList.Count - 1); i++)
+                            for (var i = 0; i < Math.Min(32, cacheEntry.FileList.Count); i++)
                             {
-                                if (!cacheEntry.FileList[i].IsHiddenItem || AppSettings.AreHiddenItemsVisible)
+                                var entry = cacheEntry.FileList[i];
+                                if (!entry.IsHiddenItem || AppSettings.AreHiddenItemsVisible)
                                 {
-                                    filesAndFolders.Add(cacheEntry.FileList[i]);
+                                    if (entry.FileImage == null)
+                                    {
+                                        entry.LoadFolderGlyph = entry.PrimaryItemAttribute == StorageItemTypes.Folder;
+                                        entry.LoadUnknownTypeGlyph = entry.PrimaryItemAttribute == StorageItemTypes.File && !entry.IsLinkItem;
+                                        entry.LoadWebShortcutGlyph = entry.PrimaryItemAttribute == StorageItemTypes.File && entry.IsLinkItem;
+                                        entry.LoadFileIcon = false;
+                                    }
+                                    filesAndFolders.Add(entry);
                                 }
                                 if (addFilesCTS.IsCancellationRequested)
                                 {
@@ -892,7 +900,7 @@ namespace Files.ViewModels
                     {
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
-                        IsLoadingItems = false;
+                        IsLoadingItems = false; // Hide progress indicator if loaded from cache
                     }
                 }
 
