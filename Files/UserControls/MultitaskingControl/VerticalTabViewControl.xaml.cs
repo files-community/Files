@@ -13,6 +13,8 @@ namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class VerticalTabViewControl : BaseMultitaskingControl
     {
+        public event EventHandler<CurrentInstanceChangedEventArgs> SelectedInstanceChanged;
+
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
 
@@ -34,6 +36,20 @@ namespace Files.UserControls.MultitaskingControl
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
                     App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
                     break;
+            }
+
+            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            {
+                CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
+
+                if (CurrentSelectedAppInstance != null)
+                {
+                    SelectedInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
+                    {
+                        CurrentInstance = CurrentSelectedAppInstance,
+                        PageInstances = GetAllTabInstances()
+                    });
+                }
             }
         }
 

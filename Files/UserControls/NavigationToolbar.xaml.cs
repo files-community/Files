@@ -1110,10 +1110,10 @@ namespace Files.UserControls
                 if (MainPageViewModel.MultitaskingControl != null)
                 {
                     MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
-                    mainPage.ViewModel.SelectedTabItem.Control.TabItemContent.ContentChanged -= mainPage.TabItemContent_ContentChanged;
+                    MainPageViewModel.MultitaskingControl.SelectedInstanceChanged -= mainPage.MultitaskingControl_SelectedInstanceChanged;
                 }
                 MainPageViewModel.MultitaskingControl = VerticalTabs;
-                mainPage.ViewModel.SelectedTabItem.Control.TabItemContent.ContentChanged += mainPage.TabItemContent_ContentChanged;
+                MainPageViewModel.MultitaskingControl.SelectedInstanceChanged += mainPage.MultitaskingControl_SelectedInstanceChanged;
                 MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }

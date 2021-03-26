@@ -25,6 +25,7 @@ namespace Files.Views
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
         public event EventHandler<TabItemArguments> ContentChanged;
+        public event EventHandler ActivePaneChanged;
         public event PropertyChangedEventHandler PropertyChanged;
         public SettingsViewModel AppSettings => App.AppSettings;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
@@ -129,6 +130,7 @@ namespace Files.Views
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
                     NotifyPropertyChanged(nameof(ActivePane));
+                    ActivePaneChanged?.Invoke(this, EventArgs.Empty);
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
