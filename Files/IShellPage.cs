@@ -46,6 +46,8 @@ namespace Files
 
     public interface IPaneHolder : IDisposable
     {
+        public void UpdateSidebarSelectedItemFromArgs(string arg);
+        public void UpdateSidebarSelectedItem();
         public void OpenPathInNewPane(string path);
     }
 

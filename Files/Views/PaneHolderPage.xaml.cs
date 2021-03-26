@@ -1,7 +1,4 @@
 ﻿using Files.Filesystem;
-using Files.Helpers;
-using Files.Interacts;
-using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
@@ -13,13 +10,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -30,9 +22,8 @@ namespace Files.Views
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
-        public ICommand EmptyRecycleBinCommand { get; private set; }
-        private AdaptiveSidebarViewModel adaptiveSidebarViewModel => ((Window.Current.Content as Frame).Content as MainPage).SidebarAdaptiveViewModel;
+
+        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
 
         public PaneHolderPage()
         {
@@ -41,7 +32,8 @@ namespace Files.Views
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
-            adaptiveSidebarViewModel.WindowCompactStateChanged += AdaptiveSidebarViewModel_WindowCompactStateChanged;
+            mainPage.SidebarAdaptiveViewModel.WindowCompactStateChanged += AdaptiveSidebarViewModel_WindowCompactStateChanged;
+            
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
@@ -64,7 +56,7 @@ namespace Files.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => AppSettings.IsDualPaneEnabled && !adaptiveSidebarViewModel.IsWindowCompactSize;
+            get => AppSettings.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
         }
 
         private string navParamsLeft;
@@ -116,11 +108,13 @@ namespace Files.Views
                     {
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
+                    mainPage.SidebarAdaptiveViewModel.ActiveHolderPane = value;
                     NotifyPropertyChanged(nameof(ActivePane));
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
                     UpdateSidebarSelectedItem();
+                    mainPage.SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged();
                 }
             }
         }
@@ -208,27 +202,10 @@ namespace Files.Views
         public void Dispose()
         {
             App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
-            adaptiveSidebarViewModel.WindowCompactStateChanged -= AdaptiveSidebarViewModel_WindowCompactStateChanged;
+            mainPage.SidebarAdaptiveViewModel.WindowCompactStateChanged -= AdaptiveSidebarViewModel_WindowCompactStateChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
-            if (SidebarControl != null)
-            {
-                SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
-                SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
-                SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
-                SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
-            }
-        }
-
-        private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
-            SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
-            SidebarControl.Loaded -= SidebarControl_Loaded;
+            
         }
 
         private void PaneLeft_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -277,6 +254,7 @@ namespace Files.Views
                     RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
                 }
             };
+
             UpdateSidebarSelectedItem();
         }
 
@@ -317,9 +295,50 @@ namespace Files.Views
                 }
             }
 
-            if (SidebarSelectedItem != item)
+            if (mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem != item)
             {
-                SidebarSelectedItem = item;
+                mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem = item;
+            }
+        }
+
+        public void UpdateSidebarSelectedItemFromArgs(string arg)
+        {
+            var value = arg;
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            INavigationControlItem item = null;
+            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
+                .Where(x => !string.IsNullOrWhiteSpace(x.Path))
+                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+                .ToList();
+
+            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                if (value == "NewTab".GetLocalized())
+                {
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                }
+            }
+
+            if (mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem != item)
+            {
+                mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem = item;
             }
         }
 
@@ -386,124 +405,6 @@ namespace Files.Views
                     }
                     break;
             }
-        }
-
-        public INavigationControlItem SidebarSelectedItem
-        {
-            get => SidebarControl?.SelectedSidebarItem;
-            set
-            {
-                if (SidebarControl != null)
-                {
-                    SidebarControl.SelectedSidebarItem = value;
-                }
-            }
-        }
-
-        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
-        {
-            var recycleBinHasItems = false;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
-                {
-                    recycleBinHasItems = (long)numItems > 0;
-                }
-            }
-            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
-        }
-
-        private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
-        {
-            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
-        }
-
-        private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
-        {
-            if (e.InvokedItemDataContext is DriveItem)
-            {
-                await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, ActivePane);
-            }
-            else if (e.InvokedItemDataContext is LocationItem)
-            {
-                ListedItem listedItem = new ListedItem(null)
-                {
-                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
-                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true
-                };
-                await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, ActivePane);
-            }
-        }
-
-        private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
-        {
-            if (e.InvokedItemDataContext is INavigationControlItem navItem)
-            {
-                OpenPathInNewPane(navItem.Path);
-            }
-        }
-
-        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
-        {
-            var invokedItemContainer = e.InvokedItemContainer;
-
-            // All items must have DataContext except Settings item
-            if (invokedItemContainer.DataContext is MainPageViewModel)
-            {
-                Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(Settings));
-
-                return;
-            }
-
-            string navigationPath; // path to navigate
-            Type sourcePageType = null; // type of page to navigate
-
-            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
-            {
-                case NavigationControlItemType.Location:
-                    {
-                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
-
-                        if (string.IsNullOrEmpty(ItemPath)) // Section item
-                        {
-                            navigationPath = invokedItemContainer.Tag?.ToString();
-                        }
-                        else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
-                        {
-                            if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
-                            {
-                                return; // return if already selected
-                            }
-
-                            navigationPath = "NewTab".GetLocalized();
-                            sourcePageType = typeof(YourHome);
-                        }
-                        else // Any other item
-                        {
-                            navigationPath = invokedItemContainer.Tag?.ToString();
-                        }
-
-                        break;
-                    }
-                default:
-                    {
-                        navigationPath = invokedItemContainer.Tag?.ToString();
-                        break;
-                    }
-            }
-
-            ActivePane?.NavigateToPath(navigationPath, sourcePageType);
         }
     }
 

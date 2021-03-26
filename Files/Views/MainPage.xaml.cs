@@ -1,7 +1,15 @@
-﻿using Files.UserControls.MultitaskingControl;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using Files.UserControls;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Microsoft.Toolkit.Uwp;
+using System;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -54,13 +62,152 @@ namespace Files.Views
         {
             if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
+                // Set multitasking control if changed and subscribe it to event for sidebar items updating
+                if (MainPageViewModel.MultitaskingControl != null)
+                {
+                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
+                }
                 MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+            }
+        }
+
+        public void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
+        {
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged();
+            if (SidebarAdaptiveViewModel.ActiveHolderPane.PaneHolder != null)
+            {
+                SidebarAdaptiveViewModel.ActiveHolderPane.PaneHolder.UpdateSidebarSelectedItemFromArgs((string)(e.CurrentInstance?.TabItemArguments?.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam);
             }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.OnNavigatedTo(e);
+            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+            SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+        }
+
+        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
+        {
+            var recycleBinHasItems = false;
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
+                {
+                    recycleBinHasItems = (long)numItems > 0;
+                }
+            }
+            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
+        }
+
+        private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
+        {
+            await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
+        }
+
+        private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
+        {
+            if (e.InvokedItemDataContext is DriveItem)
+            {
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.ActiveHolderPane);
+            }
+            else if (e.InvokedItemDataContext is LocationItem)
+            {
+                ListedItem listedItem = new ListedItem(null)
+                {
+                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
+                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemType = "FileFolderListItem".GetLocalized(),
+                    LoadFolderGlyph = true
+                };
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.ActiveHolderPane);
+            }
+        }
+
+        private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
+        {
+            if (e.InvokedItemDataContext is INavigationControlItem navItem)
+            {
+                SidebarAdaptiveViewModel.ActiveHolderPane.PaneHolder.OpenPathInNewPane(navItem.Path);
+            }
+        }
+
+        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+        {
+            var invokedItemContainer = e.InvokedItemContainer;
+
+            // All items must have DataContext except Settings item
+            if (invokedItemContainer.DataContext is MainPageViewModel)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(Settings));
+
+                return;
+            }
+
+            string navigationPath; // path to navigate
+            Type sourcePageType = null; // type of page to navigate
+
+            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
+            {
+                case NavigationControlItemType.Location:
+                    {
+                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+
+                        if (string.IsNullOrEmpty(ItemPath)) // Section item
+                        {
+                            navigationPath = invokedItemContainer.Tag?.ToString();
+                        }
+                        else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+                        {
+                            if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return; // return if already selected
+                            }
+
+                            navigationPath = "NewTab".GetLocalized();
+                            sourcePageType = typeof(YourHome);
+                        }
+                        else // Any other item
+                        {
+                            navigationPath = invokedItemContainer.Tag?.ToString();
+                        }
+
+                        break;
+                    }
+                default:
+                    {
+                        navigationPath = invokedItemContainer.Tag?.ToString();
+                        break;
+                    }
+            }
+
+            SidebarAdaptiveViewModel.ActiveHolderPane?.NavigateToPath(navigationPath, sourcePageType);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            if (SidebarControl != null)
+            {
+                SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
+                SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
+                SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
+                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+                SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
+            }
         }
     }
 }

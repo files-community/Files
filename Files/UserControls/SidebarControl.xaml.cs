@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -97,17 +98,16 @@ namespace Files.UserControls
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
-        private INavigationControlItem selectedSidebarItem;
+        public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
 
         public INavigationControlItem SelectedSidebarItem
         {
-            get => selectedSidebarItem;
+            get => (INavigationControlItem)GetValue(SelectedSidebarItemProperty);
             set
             {
-                if (value != selectedSidebarItem)
+                if (this.IsLoaded)
                 {
-                    selectedSidebarItem = value;
-                    NotifyPropertyChanged(nameof(SelectedSidebarItem));
+                    SetValue(SelectedSidebarItemProperty, value);
                 }
             }
         }

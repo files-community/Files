@@ -31,6 +31,9 @@ namespace Files.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
+
+
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
@@ -1103,7 +1106,13 @@ namespace Files.UserControls
         {
             if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
             {
+                // Set multitasking control if changed and subscribe it to event for sidebar items updating
+                if (MainPageViewModel.MultitaskingControl != null)
+                {
+                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                }
                 MainPageViewModel.MultitaskingControl = VerticalTabs;
+                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
 

@@ -1,13 +1,19 @@
-﻿using Files.UserControls;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +22,10 @@ namespace Files.ViewModels
 {
     public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
     {
+        public ICommand EmptyRecycleBinCommand { get; private set; }
+        public IShellPage ActiveHolderPane { get; set; }
+        public IFilesystemHelpers FilesystemHelpers => ActiveHolderPane?.FilesystemHelpers;
+
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
         public event EventHandler<WindowCompactStateChangedEventArgs> WindowCompactStateChanged;
         private bool isWindowCompactSize;
@@ -35,6 +45,22 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
+        }
+
+        public void NotifyInstanceRelatedPropertiesChanged()
+        {
+            OnPropertyChanged(nameof(ActiveHolderPane));
+            OnPropertyChanged(nameof(SidebarSelectedItem));
+
+            if (ActiveHolderPane.PaneHolder != null)
+            {
+                ActiveHolderPane.PaneHolder.UpdateSidebarSelectedItem();
+            }
+        }
+
+        public bool IsMultiPaneEnabled
+        {
+            get => App.AppSettings.IsDualPaneEnabled && !IsWindowCompactSize;
         }
 
         public GridLength SidebarWidth
@@ -72,11 +98,25 @@ namespace Files.ViewModels
             }
         }
 
+        private INavigationControlItem selectedSidebarItem;
+
+        public INavigationControlItem SidebarSelectedItem
+        {
+            get => selectedSidebarItem;
+            set => SetProperty(ref selectedSidebarItem, value);
+        }
+
         public AdaptiveSidebarViewModel()
         {
+            EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
             Window.Current.SizeChanged += Current_SizeChanged;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             Current_SizeChanged(null, null);
+        }
+
+        public void EmptyRecycleBin(RoutedEventArgs e)
+        {
+            RecycleBinHelpers.EmptyRecycleBin(ActiveHolderPane);
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -106,7 +146,6 @@ namespace Files.ViewModels
                 }
             }
         }
-
 
         public void Dispose()
         {
