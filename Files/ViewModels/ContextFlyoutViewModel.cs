@@ -32,7 +32,6 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedItems, value);
         }
 
-
         private SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
         {
@@ -47,6 +46,9 @@ namespace Files.ViewModels
             set => SetProperty(ref commandsViewModel, value);
         }
 
+        public CurrentInstanceViewModel CurrentInstanceViewModel { get; set; }
+        public ItemViewModel ItemViewModel { get; set; }
+
         private List<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
         public List<ContextMenuFlyoutItemViewModel> MenuItemsList
         {
@@ -59,15 +61,19 @@ namespace Files.ViewModels
             MenuItemsList = MenuItemsList.Where(x => (!x.ShowOnShift || shiftPressed) && (!x.SingleItemOnly || SelectedItems.Count == 1) && (x.CheckShowItem?.Invoke() ?? true)).ToList();
         }
 
-        public string CurrentDirectoryPath { get; set; }
-
         public NamedPipeAsAppServiceConnection Connection { get; set; }
 
         public bool IsItemSelected => selectedItems?.Count > 0;
 
-        public void LoadAsync(bool shiftPressed, bool showOpenMenu)
+        public void LoadItemContextCommands(bool shiftPressed, bool showOpenMenu)
         {
-            SetShellContextmenu(BaseMenuItems, shiftPressed, showOpenMenu);
+            SetShellContextmenu(BaseItemMenuItems, shiftPressed, showOpenMenu);
+            Filter(shiftPressed);
+        }
+
+        public void LoadBaseContextCommands(bool shiftPressed, bool showOpenMenu)
+        {
+            SetShellContextmenu(BaseLayoutMenuItems, shiftPressed, showOpenMenu);
             Filter(shiftPressed);
         }
 
@@ -84,7 +90,7 @@ namespace Files.ViewModels
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
                         string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        CurrentDirectoryPath},
+                        ItemViewModel.WorkingDirectory},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
                 })).Result;
@@ -145,9 +151,7 @@ namespace Files.ViewModels
                     {
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
-                        // TODO: Wait for this to finish as this can cause funny behaviour
-                        // Why does it clog up when waited? 
-                        image.SetSourceAsync(ms.AsRandomAccessStream());
+                        image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(50);
                     }
                 }
 
@@ -212,12 +216,7 @@ namespace Files.ViewModels
             return (null, null);
         }
 
-        public ContextFlyoutViewModel(BaseLayoutCommandsViewModel commandsViewModel)
-        {
-            CommandsViewModel = commandsViewModel;
-        }
-
-        public List<ContextMenuFlyoutItemViewModel> BaseMenuItems => new List<ContextMenuFlyoutItemViewModel>()
+        public List<ContextMenuFlyoutItemViewModel> BaseItemMenuItems => new List<ContextMenuFlyoutItemViewModel>()
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -245,21 +244,22 @@ namespace Files.ViewModels
                     Text = "Open in new pane",
                     Glyph = "\uF57C",
                     Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-                    CheckShowItem = new Func<bool>(() => App.AppSettings.IsDualPaneEnabled && SelectedItems.Count == 1 && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    CheckShowItem = new Func<bool>(() => App.AppSettings.IsDualPaneEnabled && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "Open in new tab",
                     Glyph = "\uEC6C",
                     Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-                    CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    CheckShowItem = new Func<bool>(() => SelectedItems.Count < 5 && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "Open in new window",
                     Glyph = "\uE737",
                     Command = commandsViewModel.OpenInNewWindowItemCommand,
-                    CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
+                    CheckShowItem = new Func<bool>(() => SelectedItems.Count < 5 && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -308,13 +308,13 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "Cut item",
+                    Text = "Cut",
                     Glyph = "\uE8C6",
                     Command = commandsViewModel.CutItemCommand
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "Copy item",
+                    Text = "Copy",
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
                 },
@@ -323,6 +323,7 @@ namespace Files.ViewModels
                     Text = "Copy item location",
                     Glyph = "\uE167",
                     Command = commandsViewModel.CopyPathOfSelectedItemCommand,
+                    SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -387,5 +388,36 @@ namespace Files.ViewModels
                     Command = commandsViewModel.ShowPropertiesCommand,
                 },
             };
+        public List<ContextMenuFlyoutItemViewModel> BaseLayoutMenuItems => new List<ContextMenuFlyoutItemViewModel>()
+        {
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Pin directory to sidebar",
+                Glyph = "\uE840",
+                Command = commandsViewModel.SidebarPinItemCommand,
+                CheckShowItem = new Func<bool>(() => !ItemViewModel.CurrentFolder.IsPinned)
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Unpin directory from sidebar",
+                Glyph = "\uE77A",
+                Command = commandsViewModel.SidebarUnpinItemCommand,
+                CheckShowItem = new Func<bool>(() => ItemViewModel.CurrentFolder.IsPinned)
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Folder properties",
+                Glyph = "\uE946",
+                Command = commandsViewModel.ShowFolderPropertiesCommand,
+                CheckShowItem = new Func<bool>(() => !CurrentInstanceViewModel.IsPageTypeRecycleBin)
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Empty recycle bin",
+                Glyph = "\uEF88",
+                Command = commandsViewModel.EmptyRecycleBinCommand,
+                CheckShowItem = new Func<bool>(() => CurrentInstanceViewModel.IsPageTypeRecycleBin)
+            },
+        };
     }
 }

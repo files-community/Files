@@ -463,12 +463,17 @@ namespace Files
             {
             }
 
-            ContextFlyoutViewModel = new ContextFlyoutViewModel(CommandsViewModel)
+            ContextFlyoutViewModel = new ContextFlyoutViewModel()
             {
-                Connection = Connection
+                Connection = Connection,
+                CommandsViewModel = CommandsViewModel,
+                CurrentInstanceViewModel = InstanceViewModel,
+                ItemViewModel = ParentShellPageInstance.FilesystemViewModel,
             };
             ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
             ItemContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
+            BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+            BaseContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -515,17 +520,27 @@ namespace Files
         {
             LoadMenuItemsAsync();
         }
+        public void BaseContextFlyout_Opening(object sender, object e)
+        {
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            ContextFlyoutViewModel.SelectedItems = SelectedItems;
+            ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
+            ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, true);
+            BaseContextMenuFlyout.Items.Clear();
+            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
+        }
 
         private void LoadMenuItemsAsync()
         {
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
             ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-            ContextFlyoutViewModel.LoadAsync(shiftPressed, true);
+            ContextFlyoutViewModel.LoadItemContextCommands(shiftPressed, true);
             ItemContextMenuFlyout.Items.Clear();
             ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
         }
         public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
+        public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
 
 //        public void RightClickContextMenu_Opening(object sender, object e)
 //        {

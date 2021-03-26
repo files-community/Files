@@ -42,7 +42,7 @@
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
-    <Grid x:Name="RootGrid" Background="Transparent">
+    <Grid x:Name="RootGrid" Background="Transparent" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"

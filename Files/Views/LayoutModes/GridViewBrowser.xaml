@@ -323,7 +323,8 @@
     <Grid
         x:Name="RootGrid"
         Padding="0,0,0,0"
-        VerticalAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
