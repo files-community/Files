@@ -211,6 +211,16 @@ namespace Files.Views
                 NavParamsRight = paneArgs.RightPaneNavPathParam;
                 IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam != null;
             }
+
+            TabItemArguments = new TabItemArguments()
+            {
+                InitialPageType = typeof(PaneHolderPage),
+                NavigationArg = new PaneNavigationArguments()
+                {
+                    LeftPaneNavPathParam = NavParamsLeft,
+                    RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight : null
+                }
+            };
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)

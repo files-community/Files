@@ -47,24 +47,27 @@ namespace Files.ViewModels
 
         public void NotifyInstanceRelatedPropertiesChanged(string arg)
         {
+            UpdateSidebarSelectedItemFromArgs(arg);
+
             OnPropertyChanged(nameof(SidebarSelectedItem));
 
-            UpdateSidebarSelectedItemFromArgs(arg);
         }
 
         public void UpdateSidebarSelectedItemFromArgs(string arg)
         {
             var value = arg;
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
                 .Where(x => !string.IsNullOrWhiteSpace(x.Path))
                 .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
                 .ToList();
+
+            if (string.IsNullOrEmpty(value))
+            {
+                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                return;
+            }
 
             item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (item == null)

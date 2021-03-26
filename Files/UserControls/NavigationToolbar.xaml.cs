@@ -31,8 +31,8 @@ namespace Files.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        // TODO: Remove this MainPage reference when we work on new Vertical Tabs control in MainPage
         private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
-
 
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -1110,8 +1110,10 @@ namespace Files.UserControls
                 if (MainPageViewModel.MultitaskingControl != null)
                 {
                     MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                    mainPage.ViewModel.SelectedTabItem.Control.TabItemContent.ContentChanged -= mainPage.TabItemContent_ContentChanged;
                 }
                 MainPageViewModel.MultitaskingControl = VerticalTabs;
+                mainPage.ViewModel.SelectedTabItem.Control.TabItemContent.ContentChanged += mainPage.TabItemContent_ContentChanged;
                 MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }

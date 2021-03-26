@@ -74,15 +74,18 @@ namespace Files.Views
             }
         }
 
-        private void TabItemContent_ContentChanged(object sender, TabItemArguments e)
+        public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
         {
-            SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
+            if (SidebarAdaptiveViewModel.PaneHolder != null)
+            {
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments?.NavigationArg as string);
+            }
         }
 
         public void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
-            SidebarAdaptiveViewModel.PaneHolder = ViewModel.SelectedTabItem.Control.Content as IPaneHolder;
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((string)(e.CurrentInstance?.TabItemArguments?.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam);            
+            SidebarAdaptiveViewModel.PaneHolder = (ViewModel.SelectedTabItem.Control.Content as Frame).Content as IPaneHolder;
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
