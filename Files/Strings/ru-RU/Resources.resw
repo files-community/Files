@@ -1413,17 +1413,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двойная панель</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Отображать пункт "Копировать местоположение"</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Переносить не помещающиеся пункты в подменю</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Настройки контекстного меню</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Отображать пункт "Открыть в новой вкладке"</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Папки</value>

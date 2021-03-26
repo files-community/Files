@@ -94,17 +94,20 @@ namespace Files.ViewModels
             set => SetProperty(ref isLayoutModeChanging, value);
         }
 
-        public Type GetLayoutType(string folderPath)
+        public Type GetLayoutType(string folderPath, bool isPageNavigationInProgress = true)
         {
-            var oldLayoutMode = LayoutPreference.LayoutMode;
-            LayoutPreference = GetLayoutPreferencesForPath(folderPath);
-            if (oldLayoutMode != LayoutPreference.LayoutMode)
+            var prefsForPath = GetLayoutPreferencesForPath(folderPath);
+            if (isPageNavigationInProgress)
             {
-                IsLayoutModeChanging = true;
+                if (LayoutPreference.LayoutMode != prefsForPath.LayoutMode)
+                {
+                    IsLayoutModeChanging = true;
+                }
+                LayoutPreference = prefsForPath;
             }
 
             Type type = null;
-            switch (LayoutMode)
+            switch (prefsForPath.LayoutMode)
             {
                 case FolderLayoutModes.DetailsView:
                     type = typeof(GenericFileBrowser);

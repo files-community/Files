@@ -584,7 +584,7 @@ namespace Files.Views
                                               NavPathParam = "NewTab".GetLocalized(),
                                               AssociatedTabInstance = this
                                           },
-                                          new SuppressNavigationTransitionInfo());
+                                          new DrillInNavigationTransitionInfo());
                 }
                 else
                 {
@@ -748,7 +748,7 @@ namespace Files.Views
                     {
                         NavPathParam = NavParams,
                         AssociatedTabInstance = this
-                    });
+                    }, new DrillInNavigationTransitionInfo());
             }
             else
             {
@@ -1070,7 +1070,15 @@ namespace Files.Views
                     InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
                 }
                 SelectSidebarItemFromPath(previousPageContent.SourcePageType);
-                ItemDisplayFrame.GoBack();
+
+                if (previousPageContent.SourcePageType == typeof(YourHome))
+                {
+                    ItemDisplayFrame.GoBack(new DrillInNavigationTransitionInfo());
+                }
+                else
+                {
+                    ItemDisplayFrame.GoBack();
+                }
             }
         }
 
@@ -1386,6 +1394,13 @@ namespace Files.Views
                     return;
                 }
 
+                NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
+
+                if (sourcePageType == typeof(YourHome))
+                {
+                    transition = new DrillInNavigationTransitionInfo();
+                }
+
                 ItemDisplayFrame.Navigate(
                 sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
                 new NavigationArguments()
@@ -1393,7 +1408,7 @@ namespace Files.Views
                     NavPathParam = navigationPath,
                     AssociatedTabInstance = this
                 },
-                new SuppressNavigationTransitionInfo());
+                transition);
             }
             
 

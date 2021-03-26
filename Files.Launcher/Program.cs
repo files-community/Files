@@ -176,24 +176,34 @@ namespace FilesFullTrust
 
         private static void BeginRead((byte[] Buffer, StringBuilder Message) info)
         {
-            connection.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
+            var isConnected = connection.IsConnected;
+            if (isConnected)
+            {
+                try
+                {
+                    connection.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
+                }
+                catch
+                {
+                    isConnected = false;
+                }
+            }
+            if (!isConnected)
+            {
+                appServiceExit.Set();
+            }
         }
 
         private static void EndReadCallBack(IAsyncResult result)
         {
+            var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
             var readBytes = connection.EndRead(result);
             if (readBytes > 0)
             {
-                var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
-
                 // Get the read bytes and append them
                 info.Message.Append(Encoding.UTF8.GetString(info.Buffer, 0, readBytes));
 
-                if (!connection.IsMessageComplete) // Message is not complete, continue reading
-                {
-                    BeginRead(info);
-                }
-                else // Message is completed
+                if (connection.IsMessageComplete) // Message is completed
                 {
                     var message = info.Message.ToString().TrimEnd('\0');
 
@@ -202,8 +212,11 @@ namespace FilesFullTrust
                     // Begin a new reading operation
                     var nextInfo = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
                     BeginRead(nextInfo);
+
+                    return;
                 }
             }
+            BeginRead(info);
         }
 
         private static async void Connection_RequestReceived(NamedPipeServerStream conn, Dictionary<string, object> message)

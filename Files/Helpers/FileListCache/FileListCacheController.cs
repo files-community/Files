@@ -94,10 +94,10 @@ namespace Files.Helpers.FileListCache
         {
             if (displayName == null)
             {
-                filesCache.Remove(path);
+                fileNamesCache.Remove(path);
                 return persistentAdapter.SaveFileDisplayNameToCache(path, displayName);
             }
-            filesCache.Set(path, displayName, new MemoryCacheEntryOptions
+            fileNamesCache.Set(path, displayName, new MemoryCacheEntryOptions
             {
                 Size = 1
             });

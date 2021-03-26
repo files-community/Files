@@ -30,137 +30,41 @@ namespace Files.Views
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public double DragRegionWidth => CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
-
-        private readonly GridLength CompactSidebarWidth;
-
         public ICommand EmptyRecycleBinCommand { get; private set; }
+        private AdaptiveSidebarViewModel adaptiveSidebarViewModel => ((Window.Current.Content as Frame).Content as MainPage).SidebarAdaptiveViewModel;
 
         public PaneHolderPage()
         {
             this.InitializeComponent();
-            this.Loaded += PaneHolderPage_Loaded;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
-            Window.Current.SizeChanged += Current_SizeChanged;
 
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
-
-            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
-            {
-                if (paneLength is double paneLengthDouble)
-                {
-                    this.CompactSidebarWidth = new GridLength(paneLengthDouble);
-                }
-            }
+            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            adaptiveSidebarViewModel.WindowCompactStateChanged += AdaptiveSidebarViewModel_WindowCompactStateChanged;
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
-        private void PaneHolderPage_Loaded(object sender, RoutedEventArgs e)
+        private void AdaptiveSidebarViewModel_WindowCompactStateChanged(object sender, WindowCompactStateChangedEventArgs e)
         {
-            Current_SizeChanged(null, null);
-        }
-
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
+            if (e.IsWindowCompact)
             {
-                case nameof(AppSettings.IsDualPaneEnabled):
-                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
-                    break;
-
-                case nameof(AppSettings.SidebarWidth):
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                    break;
-
-                case nameof(AppSettings.IsSidebarOpen):
-                    NotifyPropertyChanged(nameof(IsSidebarOpen));
-                    break;
+                wasRightPaneVisible = isRightPaneVisible;
+                IsRightPaneVisible = false;
             }
-        }
-
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
+            else if (wasRightPaneVisible)
             {
-                IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
+                IsRightPaneVisible = true;
+                wasRightPaneVisible = false;
             }
+            NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
         }
 
         private bool wasRightPaneVisible;
 
-        private bool isWindowCompactSize;
-
-        public bool IsWindowCompactSize
-        {
-            get => isWindowCompactSize;
-            set
-            {
-                if (isWindowCompactSize != value)
-                {
-                    isWindowCompactSize = value;
-                    if (isWindowCompactSize)
-                    {
-                        wasRightPaneVisible = isRightPaneVisible;
-                        IsRightPaneVisible = false;
-                    }
-                    else if (wasRightPaneVisible)
-                    {
-                        IsRightPaneVisible = true;
-                        wasRightPaneVisible = false;
-                    }
-                    NotifyPropertyChanged(nameof(IsWindowCompactSize));
-                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                    NotifyPropertyChanged(nameof(IsSidebarOpen));
-                }
-            }
-        }
-
-        public GridLength SidebarWidth
-        {
-            get => IsWindowCompactSize || !IsSidebarOpen ? CompactSidebarWidth : AppSettings.SidebarWidth;
-            set
-            {
-                if (IsWindowCompactSize || !IsSidebarOpen)
-                {
-                    return;
-                }
-                if (AppSettings.SidebarWidth != value)
-                {
-                    AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                }
-            }
-        }
-
-        public bool IsSidebarOpen
-        {
-            get => !IsWindowCompactSize && AppSettings.IsSidebarOpen;
-            set
-            {
-                if (IsWindowCompactSize)
-                {
-                    return;
-                }
-                if (AppSettings.IsSidebarOpen != value)
-                {
-                    AppSettings.IsSidebarOpen = value;
-                    NotifyPropertyChanged(nameof(SidebarWidth));
-                    NotifyPropertyChanged(nameof(IsSidebarOpen));
-                }
-            }
-        }
-
         public bool IsMultiPaneEnabled
         {
-            get => AppSettings.IsDualPaneEnabled && !IsWindowCompactSize;
+            get => AppSettings.IsDualPaneEnabled && !adaptiveSidebarViewModel.IsWindowCompactSize;
         }
 
         private string navParamsLeft;
@@ -291,13 +195,22 @@ namespace Files.Views
             }
         }
 
+        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(App.AppSettings.IsDualPaneEnabled):
+                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                    break;
+            }
+        }
+
         public void Dispose()
         {
-            this.Loaded -= PaneHolderPage_Loaded;
+            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            adaptiveSidebarViewModel.WindowCompactStateChanged -= AdaptiveSidebarViewModel_WindowCompactStateChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
-            Window.Current.SizeChanged -= Current_SizeChanged;
-            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             if (SidebarControl != null)
             {
                 SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
@@ -591,14 +504,6 @@ namespace Files.Views
             }
 
             ActivePane?.NavigateToPath(navigationPath, sourcePageType);
-        }
-
-        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
-            {
-                MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
-            }
         }
     }
 
