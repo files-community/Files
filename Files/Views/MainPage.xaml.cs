@@ -66,19 +66,23 @@ namespace Files.Views
                 if (MainPageViewModel.MultitaskingControl != null)
                 {
                     MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
+                    ViewModel.SelectedTabItem.Control.TabItemContent.ContentChanged -= TabItemContent_ContentChanged;
                 }
                 MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                ViewModel.SelectedTabItem.Control.TabItemContent.ContentChanged += TabItemContent_ContentChanged;
                 MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
+        private void TabItemContent_ContentChanged(object sender, TabItemArguments e)
+        {
+            SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
+        }
+
         public void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged();
-            if (SidebarAdaptiveViewModel.ActiveHolderPane.PaneHolder != null)
-            {
-                SidebarAdaptiveViewModel.ActiveHolderPane.PaneHolder.UpdateSidebarSelectedItemFromArgs((string)(e.CurrentInstance?.TabItemArguments?.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam);
-            }
+            SidebarAdaptiveViewModel.PaneHolder = ViewModel.SelectedTabItem.Control.Content as IPaneHolder;
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((string)(e.CurrentInstance?.TabItemArguments?.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam);            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -120,7 +124,7 @@ namespace Files.Views
         {
             if (e.InvokedItemDataContext is DriveItem)
             {
-                await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.ActiveHolderPane);
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
             else if (e.InvokedItemDataContext is LocationItem)
             {
@@ -132,7 +136,7 @@ namespace Files.Views
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
-                await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.ActiveHolderPane);
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
         }
 
@@ -140,7 +144,7 @@ namespace Files.Views
         {
             if (e.InvokedItemDataContext is INavigationControlItem navItem)
             {
-                SidebarAdaptiveViewModel.ActiveHolderPane.PaneHolder.OpenPathInNewPane(navItem.Path);
+                SidebarAdaptiveViewModel.PaneHolder.OpenPathInNewPane(navItem.Path);
             }
         }
 
@@ -194,7 +198,7 @@ namespace Files.Views
                     }
             }
 
-            SidebarAdaptiveViewModel.ActiveHolderPane?.NavigateToPath(navigationPath, sourcePageType);
+            SidebarAdaptiveViewModel.PaneHolder.ActivePane?.NavigateToPath(navigationPath, sourcePageType);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

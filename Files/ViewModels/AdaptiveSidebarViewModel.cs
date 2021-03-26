@@ -23,11 +23,10 @@ namespace Files.ViewModels
     public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
     {
         public ICommand EmptyRecycleBinCommand { get; private set; }
-        public IShellPage ActiveHolderPane { get; set; }
-        public IFilesystemHelpers FilesystemHelpers => ActiveHolderPane?.FilesystemHelpers;
+        public IPaneHolder PaneHolder { get; set; }
+        public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
 
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
-        public event EventHandler<WindowCompactStateChangedEventArgs> WindowCompactStateChanged;
         private bool isWindowCompactSize;
 
         public bool IsWindowCompactSize
@@ -38,7 +37,6 @@ namespace Files.ViewModels
                 if (isWindowCompactSize != value)
                 {
                     isWindowCompactSize = value;
-                    WindowCompactStateChanged?.Invoke(this, new WindowCompactStateChangedEventArgs(isWindowCompactSize));
                     
                     OnPropertyChanged(nameof(IsWindowCompactSize));
                     OnPropertyChanged(nameof(SidebarWidth));
@@ -47,14 +45,51 @@ namespace Files.ViewModels
             }
         }
 
-        public void NotifyInstanceRelatedPropertiesChanged()
+        public void NotifyInstanceRelatedPropertiesChanged(string arg)
         {
-            OnPropertyChanged(nameof(ActiveHolderPane));
             OnPropertyChanged(nameof(SidebarSelectedItem));
 
-            if (ActiveHolderPane.PaneHolder != null)
+            UpdateSidebarSelectedItemFromArgs(arg);
+        }
+
+        public void UpdateSidebarSelectedItemFromArgs(string arg)
+        {
+            var value = arg;
+            if (string.IsNullOrEmpty(value))
             {
-                ActiveHolderPane.PaneHolder.UpdateSidebarSelectedItem();
+                return;
+            }
+
+            INavigationControlItem item = null;
+            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
+                .Where(x => !string.IsNullOrWhiteSpace(x.Path))
+                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+                .ToList();
+
+            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                if (value == "NewTab".GetLocalized())
+                {
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                }
+            }
+
+            if (SidebarSelectedItem != item)
+            {
+                SidebarSelectedItem = item;
             }
         }
 
@@ -116,7 +151,7 @@ namespace Files.ViewModels
 
         public void EmptyRecycleBin(RoutedEventArgs e)
         {
-            RecycleBinHelpers.EmptyRecycleBin(ActiveHolderPane);
+            RecycleBinHelpers.EmptyRecycleBin(PaneHolder.ActivePane);
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -151,16 +186,6 @@ namespace Files.ViewModels
         {
             Window.Current.SizeChanged -= Current_SizeChanged;
             App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
-        }
-    }
-
-    public class WindowCompactStateChangedEventArgs
-    {
-        public bool IsWindowCompact { get; set; }
-
-        public WindowCompactStateChangedEventArgs(bool isCompact)
-        {
-            IsWindowCompact = isCompact;
         }
     }
 }

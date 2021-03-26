@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -22,34 +23,43 @@ namespace Files.Views
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-
-        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
+        public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
+        private bool _windowIsCompact = Window.Current.Bounds.Width <= 750;
+        private bool windowIsCompact
+        {
+            get
+            {
+                return _windowIsCompact;
+            }
+            set
+            {
+                if (value != _windowIsCompact)
+                {
+                    _windowIsCompact = value;
+                    if (value)
+                    {
+                        wasRightPaneVisible = isRightPaneVisible;
+                        IsRightPaneVisible = false;
+                    }
+                    else if (wasRightPaneVisible)
+                    {
+                        IsRightPaneVisible = true;
+                        wasRightPaneVisible = false;
+                    }
+                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                }
+            }
+        }
 
         public PaneHolderPage()
         {
             this.InitializeComponent();
-
+            Window.Current.SizeChanged += Current_SizeChanged;
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
-            mainPage.SidebarAdaptiveViewModel.WindowCompactStateChanged += AdaptiveSidebarViewModel_WindowCompactStateChanged;
             
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
-        }
-
-        private void AdaptiveSidebarViewModel_WindowCompactStateChanged(object sender, WindowCompactStateChangedEventArgs e)
-        {
-            if (e.IsWindowCompact)
-            {
-                wasRightPaneVisible = isRightPaneVisible;
-                IsRightPaneVisible = false;
-            }
-            else if (wasRightPaneVisible)
-            {
-                IsRightPaneVisible = true;
-                wasRightPaneVisible = false;
-            }
-            NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
         }
 
         private bool wasRightPaneVisible;
@@ -108,13 +118,10 @@ namespace Files.Views
                     {
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
-                    mainPage.SidebarAdaptiveViewModel.ActiveHolderPane = value;
                     NotifyPropertyChanged(nameof(ActivePane));
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
-                    UpdateSidebarSelectedItem();
-                    mainPage.SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged();
                 }
             }
         }
@@ -172,6 +179,14 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
+            {
+                windowIsCompact = Window.Current.Bounds.Width <= 750;
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
@@ -202,7 +217,7 @@ namespace Files.Views
         public void Dispose()
         {
             App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
-            mainPage.SidebarAdaptiveViewModel.WindowCompactStateChanged -= AdaptiveSidebarViewModel_WindowCompactStateChanged;
+            Window.Current.SizeChanged -= Current_SizeChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
             
@@ -254,92 +269,6 @@ namespace Files.Views
                     RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
                 }
             };
-
-            UpdateSidebarSelectedItem();
-        }
-
-        public void UpdateSidebarSelectedItem()
-        {
-            var value = IsLeftPaneActive ?
-                PaneLeft.TabItemArguments?.NavigationArg as string :
-                PaneRight.TabItemArguments?.NavigationArg as string;
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
-                .Where(x => !string.IsNullOrWhiteSpace(x.Path))
-                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
-                .ToList();
-
-            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                if (value == "NewTab".GetLocalized())
-                {
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
-                }
-            }
-
-            if (mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem != item)
-            {
-                mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem = item;
-            }
-        }
-
-        public void UpdateSidebarSelectedItemFromArgs(string arg)
-        {
-            var value = arg;
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
-                .Where(x => !string.IsNullOrWhiteSpace(x.Path))
-                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
-                .ToList();
-
-            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                if (value == "NewTab".GetLocalized())
-                {
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
-                }
-            }
-
-            if (mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem != item)
-            {
-                mainPage.SidebarAdaptiveViewModel.SidebarSelectedItem = item;
-            }
         }
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
