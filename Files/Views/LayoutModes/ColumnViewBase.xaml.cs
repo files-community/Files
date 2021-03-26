@@ -6,27 +6,19 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -36,60 +28,22 @@ namespace Files.Views.LayoutModes
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ColumnViewBrowser : BaseLayout
+    public sealed partial class ColumnViewBase : BaseLayout
     {
-        private List<Frame> Frames;
-        private string NavParam;
         private DispatcherQueueTimer tapDebounceTimer;
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
 
-        public ColumnViewBrowser() : base()
+        public ColumnViewBase() : base()
         {
             this.InitializeComponent();
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
             //this.DataContext = this;
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
-
-        private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
-        {
-            var column = sender as ColumnParam;
-            var blade = column.ListView.FindAscendant<BladeItem>();
-            try
-            {
-                while (ColumnHost.Items.Count > ColumnHost.Items.IndexOf(blade) + 1)
-                {
-                    ColumnHost.Items.RemoveAt(ColumnHost.Items.IndexOf(blade) + 1);
-                    ColumnHost.ActiveBlades.RemoveAt(ColumnHost.Items.IndexOf(blade) + 1);
-                }
-            }
-            catch
-            {
-
-            }
-
-            var frame = new Frame();
-            var newblade = new BladeItem();
-            newblade.Content = frame;
-            ColumnHost.Items.Add(newblade);
-            //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-            //{
-            //    NavPathParam = item.ItemPath,
-            //    AssociatedTabInstance = ParentShellPageInstance
-            //});
-
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-            {
-                Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-                Path = column.Path
-            });
-        }
-
         private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -108,11 +62,12 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+        public static event EventHandler ItemInvoked;
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            //var param = (eventArgs.Parameter as NavigationArguments);
+            var param = (eventArgs.Parameter as NavigationArguments);
             //NavParam = param.NavPathParam;
             //var viewmodel = new ItemViewModel(FolderSettings);
             //await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(NavParam);
@@ -139,7 +94,7 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            
+
         }
 
         private async void ReloadItemIcons()
@@ -263,6 +218,7 @@ namespace Files.Views.LayoutModes
             oldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
+
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
@@ -386,7 +342,7 @@ namespace Files.Views.LayoutModes
                     return;
                 }
             }
-                // Check if RightTapped row is currently selected
+            // Check if RightTapped row is currently selected
             if (IsItemSelected)
             {
                 if (SelectedItems.Contains(objectPressed))
@@ -501,40 +457,9 @@ namespace Files.Views.LayoutModes
                 await Task.Delay(200);
                 if (item.ItemType == "File folder")
                 {
-                    //var pane = new ModernShellPage();
-                    //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-                    //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
-                    //pane.IsPageMainPane = false;
-                    //pane.NavParams = item.ItemPath;
-                    try
-                    {
-                        while (ColumnHost.ActiveBlades.Count > 1)
-                        {
-                            ColumnHost.Items.RemoveAt(1);
-                            ColumnHost.ActiveBlades.RemoveAt(1);
-                        }
-                    }
-                    catch
-                    {
-
-                    }
                     if (item.ContainsFilesOrFolders)
                     {
-                        var frame = new Frame();
-                        var blade = new BladeItem();
-                        blade.Content = frame;
-                        ColumnHost.Items.Add(blade);
-                        //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-                        //{
-                        //    NavPathParam = item.ItemPath,
-                        //    AssociatedTabInstance = ParentShellPageInstance
-                        //});
-
-                        frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-                        {
-                            Column = 1,
-                            Path = item.ItemPath
-                        });
+                        ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -543,37 +468,6 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-        }
-
-        private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
-        {
-            var column = sender as ColumnParam;
-            try
-            {
-                while (ColumnHost.ActiveBlades.Count > column.Column)
-                {
-                    ColumnHost.ActiveBlades.RemoveAt(column.Column + 1);
-                }
-            }
-            catch
-            {
-
-            }
-            var frame = new Frame();
-            var blade = new BladeItem();
-            blade.Content = frame;
-            ColumnHost.Items.Add(blade);
-            //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-            //{
-            //    NavPathParam = item.ItemPath,
-            //    AssociatedTabInstance = ParentShellPageInstance
-            //});
-            
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-            {
-                Column = ColumnHost.ActiveBlades.IndexOf(blade),
-                Path = column.Path
-            });
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
