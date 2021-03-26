@@ -115,7 +115,7 @@ namespace Files.ViewModels
 
             var control = await GetBuiltInPreviewControlAsync(SelectedItem);
 
-            if(token.IsCancellationRequested)
+            if (token.IsCancellationRequested)
             {
                 return;
             }
@@ -131,6 +131,7 @@ namespace Files.ViewModels
             control = new BasicPreview(basicModel);
             PreviewPaneContent = control;
         }
+
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
         {
             if (item.IsShortcutItem)

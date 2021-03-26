@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Files.Dialogs.RestartDialog"
+    x:Class="Files.UserControls.RestartControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="RestartDialogTemplate">
+        <DataTemplate x:Key="RestartControlTemplate">
             <UserControl>
                 <Grid x:Name="RootGrid">
                     <Grid.RowDefinitions>
@@ -43,6 +43,7 @@
                             x:Uid="ButtonYes"
                             Width="70"
                             Height="30"
+                            Background="{StaticResource SystemAccentColor}"
                             Click="YesButton_Click" />
 
                         <Button
@@ -58,5 +59,10 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <controls:InAppNotification x:Name="RestartNotification" ContentTemplate="{StaticResource RestartDialogTemplate}" />
+    <controls:InAppNotification
+        x:Name="RestartNotification"
+        Background="{ThemeResource SolidBackgroundFillColorTertiary}"
+        BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+        BorderThickness="1"
+        ContentTemplate="{StaticResource RestartControlTemplate}" />
 </UserControl>

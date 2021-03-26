@@ -1452,17 +1452,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Geteilte Ansicht</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>'Speicherort kopieren' Menüeintrag anzeigen</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Einträge in ein Untermenü verschieben wenn das Menü überläuft</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>'In neuem Tab öffnen' Menüeintrag anzeigen</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Ordner</value>
@@ -1832,5 +1826,14 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files wird mit Administratorrechten ausgeführt</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>An "Start" anheften</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Von "Start" lösen</value>
   </data>
 </root>

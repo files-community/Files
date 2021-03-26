@@ -1,9 +1,7 @@
 ﻿using Files.Interacts;
 using Files.ViewModels;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
@@ -16,13 +14,13 @@ namespace Files.UserControls
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private IStatusCenterActions statusCenterActions => OngoingTasksControl;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Properties
 
@@ -71,7 +69,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Constructor
 
@@ -81,7 +79,7 @@ namespace Files.UserControls
             statusCenterActions.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Event Handlers
 
@@ -104,8 +102,8 @@ namespace Files.UserControls
         {
             FullTrustStatusTeachingTip.IsOpen = true;
         }
-        
-        #endregion
+
+        #endregion Event Handlers
 
         #region INotifyPropertyChanged
 
@@ -116,6 +114,6 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
+        #endregion INotifyPropertyChanged
     }
 }

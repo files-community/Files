@@ -419,14 +419,8 @@
           <target state="translated">Yenile (F5)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-<<<<<<< HEAD
           <source>Search (Ctrl + F)</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ara</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-=======
-          <source>Search</source>
-          <target state="translated">Arama</target>
->>>>>>> 7f0978aba94de469199637d61befcf5b819c098c
+          <target state="translated">Arama (Ctrl + F)</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
@@ -1937,10 +1931,6 @@
           <source>Dual pane</source>
           <target state="translated">Çift pano</target>
         </trans-unit>
-        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show copy location menu item</source>
-          <target state="translated">Konumu kopyala menü ögesi görüntülensin</target>
-        </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Taşan ögeler bir alt menüye taşınsın</target>
@@ -1948,10 +1938,6 @@
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
           <target state="translated">Sağ tık menüsünü özelleştir</target>
-        </trans-unit>
-        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show open in new tab menu item</source>
-          <target state="translated">Yeni sekmede aç menü ögesi görüntülensin</target>
         </trans-unit>
         <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Folders</source>
@@ -2370,13 +2356,10 @@
           <source>Arguments</source>
           <target state="translated">Argümanlar</target>
         </trans-unit>
-<<<<<<< HEAD
-=======
         <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="translated">Yan çubukta Hızlı Erişim görüntülensin</target>
         </trans-unit>
->>>>>>> 7f0978aba94de469199637d61befcf5b819c098c
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
           <target state="translated">Kitaplıklar</target>
@@ -2460,6 +2443,14 @@
         <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show Library section on the sidebar</source>
           <target state="new">Show Library section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
+          <source>Pin to the Start Menu</source>
+          <target state="new">Pin to the Start Menu</target>
+        </trans-unit>
+        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from the Start Menu</source>
+          <target state="new">Unpin from the Start Menu</target>
         </trans-unit>
       </group>
     </body>

@@ -646,7 +646,7 @@
     <value>Sayfa:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Sıçrama listesindeki bir öge başlatılırken</value>
+    <value>Jumplist'ten bir öğe başlatılırken</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Her zaman yeni bir kopya açılsın</value>
@@ -1455,17 +1455,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Çift pano</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Konumu kopyala menü ögesi görüntülensin</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Taşan ögeler bir alt menüye taşınsın</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Yeni sekmede aç menü ögesi görüntülensin</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Klasörler</value>

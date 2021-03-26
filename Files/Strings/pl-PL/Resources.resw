@@ -1449,17 +1449,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Podwójny panel</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Pokaż element kopiowania lokalizacji w menu</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Przenieś elementy, które się nie mieszczą do podmenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Dostosuj menu kontekstowe prawego przycisku myszy</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Pokaż element otwarcia w nowej karcie w menu</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Foldery</value>

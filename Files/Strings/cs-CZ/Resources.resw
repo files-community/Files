@@ -948,9 +948,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Aplikace Terminálu</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Zobrazit položku Zkopírovat cestu</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Přesunout přetékající položky do podnabídky</value>
   </data>
@@ -1463,9 +1460,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dvoupanelové rozhraní</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Zobrazit položku Otevřít v nové záložce</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Složky</value>

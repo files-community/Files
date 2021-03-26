@@ -81,6 +81,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
@@ -544,24 +545,6 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
         public bool MoveOverflowMenuItemsToSubMenu
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationMenuItem
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowOpenInNewTabMenuItem
         {
             get => Get(true);
             set => Set(value);

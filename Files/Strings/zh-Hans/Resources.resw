@@ -1455,17 +1455,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>双面板</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>显示复制位置菜单项</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>将溢出项目移至子菜单</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键上下文菜单</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>显示在新标签页打开菜单项</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>文件夹</value>

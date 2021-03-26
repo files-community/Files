@@ -1182,17 +1182,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>כפל חלוניות</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>הצג "העתק מיקום" כחלק מהתפריט</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>במקרה של ריבוי פריטים הצג את הפריטים העודפים בתת תפריט</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>הצג "פתח בכרטיסיה חדשה" כחלק מהתפריט</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>תיקיות</value>
