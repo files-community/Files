@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -12,16 +13,20 @@ namespace Files.ViewModels.SettingsViewModels
     public class PreferencesViewModel : ObservableObject
     {
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
-        private bool showRestartDialog;
+        private bool showRestartControl;
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
 
+        public static LibraryManager LibraryManager { get; private set; }
+
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.AppSettings.TerminalController.Model.Terminals;
+
+            LibraryManager ??= new LibraryManager();
         }
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
@@ -37,20 +42,20 @@ namespace Files.ViewModels.SettingsViewModels
 
                     if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[value].ID)
                     {
-                        ShowRestartDialog = true;
+                        ShowRestartControl = true;
                     }
                     else
                     {
-                        ShowRestartDialog = false;
+                        ShowRestartControl = false;
                     }
                 }
             }
         }
 
-        public bool ShowRestartDialog
+        public bool ShowRestartControl
         {
-            get => showRestartDialog;
-            set => SetProperty(ref showRestartDialog, value);
+            get => showRestartControl;
+            set => SetProperty(ref showRestartControl, value);
         }
 
         public List<Terminal> Terminals { get; set; }
@@ -111,7 +116,21 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showLibrarySection, value))
                 {
                     App.AppSettings.ShowLibrarySection = value;
+
+                    LibraryVisibility(App.AppSettings.ShowLibrarySection);
                 }
+            }
+        }
+
+        public async void LibraryVisibility(bool visible)
+        {
+            if (visible)
+            {
+                await LibraryManager.EnumerateDrivesAsync();
+            }
+            else
+            {
+                await LibraryManager.RemoveEnumerateDrivesAsync();
             }
         }
 

@@ -9,15 +9,12 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
-    Unloaded="Properties_Unloaded"
     Loading="Page_Loading"
+    Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-
-    <Page.Resources>
-        <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="Transparent" />
-    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -53,7 +50,7 @@
                     Content="General"
                     Tag="General">
                     <NavigationViewItem.Icon>
-                        <FontIcon  Glyph="&#xE7C3;" />
+                        <FontIcon Glyph="&#xE7C3;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
@@ -74,7 +71,7 @@
                     Tag="Details"
                     Visibility="Collapsed">
                     <NavigationViewItem.Icon>
-                        <FontIcon  Glyph="&#xE946;" />
+                        <FontIcon Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

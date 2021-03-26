@@ -3,7 +3,7 @@ using Files.Extensions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -507,11 +507,11 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private BaseLayout contentPage = null;
+        private IBaseLayout contentPage;
 
-        public SelectedItemsPropertiesViewModel(BaseLayout contentPageParam)
+        public SelectedItemsPropertiesViewModel(IBaseLayout contentPage)
         {
-            contentPage = contentPageParam;
+            this.contentPage = contentPage;
         }
 
         private bool isSelectedItemImage = false;

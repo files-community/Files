@@ -2,7 +2,7 @@
 using Files.Extensions;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -162,8 +162,7 @@ namespace Files.Filesystem.StorageEnumerators
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath),
-                //FolderTooltipText = tooltipString,
+                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
             };
         }
 

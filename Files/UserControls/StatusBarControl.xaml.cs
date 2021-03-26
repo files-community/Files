@@ -1,9 +1,7 @@
 ﻿using Files.Interacts;
 using Files.ViewModels;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
@@ -16,23 +14,15 @@ namespace Files.UserControls
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private IStatusCenterActions statusCenterActions => OngoingTasksControl;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Properties
-
-        public FolderSettingsViewModel FolderSettings { get; set; }
-
-        public ICommand SelectAllInvokedCommand { get; set; }
-
-        public ICommand InvertSelectionInvokedCommand { get; set; }
-
-        public ICommand ClearSelectionInvokedCommand { get; set; }
 
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
 
@@ -79,7 +69,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Constructor
 
@@ -89,7 +79,7 @@ namespace Files.UserControls
             statusCenterActions.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Event Handlers
 
@@ -106,23 +96,14 @@ namespace Files.UserControls
                 StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 StatusCenterTeachingTip.IsOpen = false;
             }
-
-            PlayBannerAddedVisualAnimation();
         }
 
-        #endregion
-
-        #region Public Helpers
-
-        public async void PlayBannerAddedVisualAnimation()
+        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
-            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            FullTrustStatusTeachingTip.IsOpen = true;
         }
 
-        #endregion
+        #endregion Event Handlers
 
         #region INotifyPropertyChanged
 
@@ -133,6 +114,6 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
+        #endregion INotifyPropertyChanged
     }
 }

@@ -6,12 +6,12 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -29,7 +29,6 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
-        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -88,18 +87,26 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private DispatcherQueueTimer tapDebounceTimer;
+
         public GenericFileBrowser()
+            : base()
         {
             InitializeComponent();
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
-            tapDebounceTimer = new DispatcherTimer();
-
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
+
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+        }
+
+        protected override void InitializeCommandsViewModel()
+        {
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -174,7 +181,10 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            AllView.SelectedItems.Add(item);
+            if (((IList<ListedItem>)AllView.ItemsSource).Contains(item))
+            {
+                AllView.SelectedItems.Add(item);
+            }
         }
 
         protected override IEnumerable GetAllItems()
@@ -225,15 +235,21 @@ namespace Files.Views.LayoutModes
 
         public override void FocusSelectedItems()
         {
-            AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
+            if (SelectedItems.Any())
+            {
+                AllView.ScrollIntoView(SelectedItems.Last(), null);
+            }
         }
 
         public override void StartRenameItem()
         {
             try
             {
-                AllView.CurrentColumn = AllView.Columns[1];
-                AllView.BeginEdit();
+                if (IsItemSelected)
+                {
+                    AllView.CurrentColumn = AllView.Columns[1];
+                    AllView.BeginEdit();
+                }
             }
             catch (InvalidOperationException)
             {
@@ -299,7 +315,7 @@ namespace Files.Views.LayoutModes
                 // A tap should never trigger an immediate edit
                 e.Cancel = true;
 
-                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsRunning)
                 {
                     // If we handle a tap in one-click mode or handling a second tap within a timer duration,
                     // just stop the timer (to avoid extra edits).
@@ -310,11 +326,11 @@ namespace Files.Views.LayoutModes
                 {
                     // We have an edit due to the first tap in the double-click mode
                     // Let's wait to see if there is another tap (double click).
+
                     tapDebounceTimer.Debounce(() =>
                     {
                         tapDebounceTimer.Stop();
 
-                        // EditingEventArgs will be null allowing us to know this edit is not originated by tap
                         AllView.BeginEdit();
                     }, TimeSpan.FromMilliseconds(700), false);
                 }
@@ -388,7 +404,7 @@ namespace Files.Views.LayoutModes
             var selectedItem = e.Row.DataContext as ListedItem;
             string newItemName = renamingTextBox.Text;
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(selectedItem, oldItemName, newItemName);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(selectedItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
                 selectedItem.ItemName = oldItemName;
@@ -429,7 +445,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 
@@ -472,13 +488,13 @@ namespace Files.Views.LayoutModes
                 }
                 else
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
                 e.Handled = true;
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -603,6 +619,7 @@ namespace Files.Views.LayoutModes
                 case "dateDeletedColumn":
                     args = new DataGridColumnEventArgs(dateDeletedColumn);
                     break;
+
                 case "dateCreatedColumn":
                     args = new DataGridColumnEventArgs(dateCreatedColumn);
                     break;
@@ -629,7 +646,17 @@ namespace Files.Views.LayoutModes
         private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+            NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            Debugger.Break(); // Not Implemented
+            CommandsViewModel?.Dispose();
+        }
+
+        #endregion IDisposable
     }
 }

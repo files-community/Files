@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Extensions;
+using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -29,7 +30,7 @@ namespace Files.Helpers
 
                 if (!string.IsNullOrEmpty(savedTheme))
                 {
-                    return Interacts.Interaction.GetEnum<ElementTheme>(savedTheme);
+                    return EnumExtensions.GetEnum<ElementTheme>(savedTheme);
                 }
                 else
                 {

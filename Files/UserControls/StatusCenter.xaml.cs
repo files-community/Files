@@ -2,10 +2,12 @@
 using Files.Helpers;
 using Files.Interacts;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -16,19 +18,42 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
-    public sealed partial class StatusCenter : UserControl, IStatusCenterActions
+    public sealed partial class StatusCenter : UserControl, INotifyPropertyChanged, IStatusCenterActions
     {
         #region Public Properties
 
         public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
-        #endregion
+        public int OngoingOperationsCount
+        {
+            get
+            {
+                int count = 0;
+
+                foreach (var item in StatusBannersSource)
+                {
+                    if (item.IsProgressing)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+
+        public bool AnyOperationsOngoing
+        {
+            get => OngoingOperationsCount > 0;
+        }
+
+        #endregion Public Properties
 
         #region Events
 
         public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
-        #endregion
+        #endregion Events
 
         #region Constructor
 
@@ -37,7 +62,7 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IStatusCenterActions
 
@@ -45,7 +70,6 @@ namespace Files.UserControls
         {
             StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
-
             StatusBannersSource.Add(banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
             return postedBanner;
@@ -55,7 +79,6 @@ namespace Files.UserControls
         {
             StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
-
             StatusBannersSource.Add(banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
             return postedBanner;
@@ -72,7 +95,7 @@ namespace Files.UserControls
             return true;
         }
 
-        #endregion
+        #endregion IStatusCenterActions
 
         // Dismiss banner button event handler
         private void DismissBanner(object sender, RoutedEventArgs e)
@@ -88,6 +111,23 @@ namespace Files.UserControls
             await Task.Run(itemToDismiss.PrimaryButtonClick);
             CloseBanner(itemToDismiss);
         }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateBanner(StatusBanner banner)
+        {
+            NotifyPropertyChanged(nameof(OngoingOperationsCount));
+            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
+        }
+
+        #endregion INotifyPropertyChanged
     }
 
     public class PostedStatusBanner
@@ -95,10 +135,10 @@ namespace Files.UserControls
         #region Private Members
 
         private readonly IStatusCenterActions statusCenterActions;
-        
+
         private readonly StatusBanner Banner;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Members
 
@@ -106,7 +146,7 @@ namespace Files.UserControls
 
         public readonly Progress<FileSystemStatusCode> ErrorCode;
 
-        #endregion
+        #endregion Public Members
 
         #region Constructor
 
@@ -119,7 +159,7 @@ namespace Files.UserControls
             this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Private Helpers
 
@@ -130,18 +170,23 @@ namespace Files.UserControls
                 Banner.IsProgressing = true;
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
+                statusCenterActions.UpdateBanner(Banner);
+                return;
             }
             else
             {
                 Debugger.Break(); // Argument out of range :(
             }
+
+            Banner.IsProgressing = false;
+            statusCenterActions.UpdateBanner(Banner);
         }
 
         private void ReportProgressToBanner(ReturnResult value)
         {
         }
 
-        #endregion
+        #endregion Private Helpers
 
         #region Public Helpers
 
@@ -150,7 +195,7 @@ namespace Files.UserControls
             statusCenterActions.CloseBanner(Banner);
         }
 
-        #endregion
+        #endregion Public Helpers
     }
 
     public class StatusBanner : ObservableObject
@@ -176,7 +221,16 @@ namespace Files.UserControls
             }
         }
 
-        public bool IsProgressing { get; set; } = false;
+        private bool isProgressing = false;
+
+        public bool IsProgressing
+        {
+            get => isProgressing;
+            set
+            {
+                SetProperty(ref isProgressing, value);
+            }
+        }
 
         public string Title { get; private set; }
 
@@ -270,6 +324,7 @@ namespace Files.UserControls
                     break;
 
                 case ReturnResult.Success:
+                    IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -286,6 +341,7 @@ namespace Files.UserControls
                     break;
 
                 case ReturnResult.Failed:
+                    IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();

@@ -5,7 +5,7 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:local="using:Files.UserControls.Widgets"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -51,13 +51,12 @@
                 VerticalContentAlignment="Center"
                 AutomationProperties.Name="More drives options"
                 Background="Transparent"
-                Style="{StaticResource ButtonRevealStyle}"
+                BorderBrush="Transparent"
                 ToolTipService.ToolTip="More options...">
 
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    
                     FontSize="14"
                     Glyph="&#xe712;" />
 
@@ -68,7 +67,7 @@
                             Click="MapNetworkDrive_Click"
                             Text="Map network drive">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon  Glyph="&#xE710;" />
+                                <FontIcon Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -151,7 +150,7 @@
                                             DataContext="{x:Bind}"
                                             Text="Properties">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon  Glyph="&#xE946;" />
+                                                <FontIcon Glyph="&#xE946;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -190,7 +189,6 @@
                                 <FontIcon
                                     Grid.Column="0"
                                     x:Phase="1"
-                                    
                                     FontSize="28"
                                     Glyph="{x:Bind Glyph}" />
                                 <StackPanel

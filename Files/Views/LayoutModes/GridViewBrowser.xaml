@@ -8,17 +8,23 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:xh="using:Files.Helpers.XamlHelpers"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
-    PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerPressed">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}"/>
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
@@ -29,57 +35,57 @@
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
         <MenuFlyout
-                x:Key="BaseLayoutContextFlyout"
-                x:Name="BaseLayoutContextFlyout"
-                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
-                Opening="RightClickContextMenu_Opening">
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
-                    x:Name="SortByEmptySpace"
-                    x:Uid="BaseLayoutContextFlyoutSortBy"
-                    Text="Sort by">
+                x:Name="SortByEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutSortBy"
+                Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon  Glyph="&#xE8CB;" />
+                    <FontIcon Glyph="&#xE8CB;" />
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByName"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByName, Mode=TwoWay}"
-                        Text="Name" />
+                    x:Uid="BaseLayoutContextFlyoutSortByName"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByName, Mode=TwoWay}"
+                    Text="Name" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDate"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
-                        Text="Date modified" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
-                        Text="Date created" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByType"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
-                        Text="Type" />
+                    x:Uid="BaseLayoutContextFlyoutSortByType"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
+                    Text="Type" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortBySize"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
-                        Text="Size" />
+                    x:Uid="BaseLayoutContextFlyoutSortBySize"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
+                    Text="Size" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByAscending"
-                        GroupName="SortOrderGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedAscending, Mode=TwoWay}"
-                        Text="Ascending" />
+                    x:Uid="BaseLayoutContextFlyoutSortByAscending"
+                    GroupName="SortOrderGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedAscending, Mode=TwoWay}"
+                    Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDescending"
-                        GroupName="SortOrderGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedDescending, Mode=TwoWay}"
-                        Text="Descending" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDescending"
+                    GroupName="SortOrderGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedDescending, Mode=TwoWay}"
+                    Text="Descending" />
             </MenuFlyoutSubItem>
             <MenuFlyoutSubItem x:Uid="BaseLayoutContextFlyoutLayoutMode" Text="Layout mode">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon  Glyph="&#xE152;" />
+                    <FontIcon Glyph="&#xE152;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutGridViewLarge"
@@ -87,7 +93,7 @@
                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                     Text="Grid View (Large)">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE739;" />
+                        <FontIcon Glyph="&#xE739;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -96,7 +102,7 @@
                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                     Text="Grid View (Medium)">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xF0E2;" />
+                        <FontIcon Glyph="&#xF0E2;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -105,7 +111,7 @@
                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                     Text="Grid View (Small)">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE80A;" />
+                        <FontIcon Glyph="&#xE80A;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -114,7 +120,7 @@
                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                     Text="Tiles View">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE15C;" />
+                        <FontIcon Glyph="&#xE15C;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -123,17 +129,17 @@
                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                     Text="Details View">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE179;" />
+                        <FontIcon Glyph="&#xE179;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
-                    x:Name="RefreshEmptySpace"
-                    x:Uid="BaseLayoutContextFlyoutRefresh"
-                    Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
-                    Text="Refresh">
+                x:Name="RefreshEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutRefresh"
+                Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
+                Text="Refresh">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE72C;" />
+                    <FontIcon Glyph="&#xE72C;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F5" IsEnabled="False" />
@@ -143,63 +149,78 @@
             <MenuFlyoutItem
                     x:Name="PasteEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutPaste"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.PasteItemsFromClipboard}"
                     IsEnabled="{x:Bind converters1:MultiBooleanConverter.AndConvert(InstanceViewModel.CanPasteInPage, local:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
                     Text="Paste">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PasteItemsFromClipboardCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE77F;" />
+                    <FontIcon Glyph="&#xE77F;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator
-                            Key="V"
-                            IsEnabled="False"
-                            Modifiers="Control" />
+                        Key="V"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                     x:Name="OpenTerminal"
                     x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInDefaultTerminal}"
                     IsEnabled="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     Text="Open in Terminal...">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenDirectoryInDefaultTerminalCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE756;" />
+                    <FontIcon Glyph="&#xE756;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutSubItem
-                    x:Name="NewEmptySpace"
-                    x:Uid="BaseLayoutContextFlyoutNew"
-                    Text="New">
+                x:Name="NewEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutNew"
+                Text="New">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon  Glyph="&#xE710;" />
+                    <FontIcon Glyph="&#xE710;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutSubItem.KeyboardAccelerators>
                     <KeyboardAccelerator
-                            Key="N"
-                            IsEnabled="False"
-                            Modifiers="Control,Shift" />
+                        Key="N"
+                        IsEnabled="False"
+                        Modifiers="Control,Shift" />
                 </MenuFlyoutSubItem.KeyboardAccelerators>
                 <MenuFlyoutItem
                         x:Name="NewFolder"
                         x:Uid="BaseLayoutContextFlyoutNewFolder"
-                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFolder}"
                         Text="Folder">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CreateNewFolderCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE8B7;" />
+                        <FontIcon Glyph="&#xE8B7;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
                 <MenuFlyoutItem
                         x:Name="NewFile"
                         x:Uid="BaseLayoutContextFlyoutNewFile"
-                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFile}"
-                        CommandParameter="{x:Null}"
                         IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                         Text="File">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CreateNewFileCommand}"/>
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE7C3;" />
+                        <FontIcon Glyph="&#xE7C3;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
@@ -208,95 +229,107 @@
                     x:Name="PinDirectoryToSidebar"
                     x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinDirectoryToSidebar}"
                     Text="Pin directory to sidebar">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PinDirectoryToSidebarCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE840;" />
+                    <FontIcon Glyph="&#xE840;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                    x:Name="UnpinDirectoryFromSidebar"
-                    x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
-                    x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
-                    Text="Unpin directory from sidebar">
+                x:Name="UnpinDirectoryFromSidebar"
+                x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
+                x:Load="False"
+                Text="Unpin directory from sidebar">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.UnpinDirectoryFromSidebarCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE77A;" />
+                    <FontIcon Glyph="&#xE77A;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="PropertiesFolder"
                     x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                     Text="Properties">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShowFolderPropertiesCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE946;" />
+                    <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
 
         <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
             <MenuFlyoutSubItem
-                    x:Name="RecycleBinSortByEmptySpace"
-                    x:Uid="BaseLayoutContextFlyoutSortBy"
-                    Text="Sort by">
+                x:Name="RecycleBinSortByEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutSortBy"
+                Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon  Glyph="&#xE8CB;" />
+                    <FontIcon Glyph="&#xE8CB;" />
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByName"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByName, Mode=TwoWay}"
-                        Text="Name" />
+                    x:Uid="BaseLayoutContextFlyoutSortByName"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByName, Mode=TwoWay}"
+                    Text="Name" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByOriginalPath"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByOriginalPath, Mode=TwoWay}"
-                        Text="Original path" />
+                    x:Uid="BaseLayoutContextFlyoutSortByOriginalPath"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByOriginalPath, Mode=TwoWay}"
+                    Text="Original path" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDateDeleted"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
-                        Text="Date deleted" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDateDeleted"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
+                    Text="Date deleted" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByType"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
-                        Text="Type" />
+                    x:Uid="BaseLayoutContextFlyoutSortByType"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
+                    Text="Type" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortBySize"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
-                        Text="Size" />
+                    x:Uid="BaseLayoutContextFlyoutSortBySize"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
+                    Text="Size" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDate"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
-                        Text="Date modified" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
-                        GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
-                        Text="Date created" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDateCreated"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                    Text="Date created" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByAscending"
-                        GroupName="SortOrderGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedAscending, Mode=TwoWay}"
-                        Text="Ascending" />
+                    x:Uid="BaseLayoutContextFlyoutSortByAscending"
+                    GroupName="SortOrderGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedAscending, Mode=TwoWay}"
+                    Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDescending"
-                        GroupName="SortOrderGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedDescending, Mode=TwoWay}"
-                        Text="Descending" />
+                    x:Uid="BaseLayoutContextFlyoutSortByDescending"
+                    GroupName="SortOrderGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedDescending, Mode=TwoWay}"
+                    Text="Descending" />
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
-                    x:Name="RecycleBinRefreshEmptySpace"
-                    x:Uid="BaseLayoutContextFlyoutRefresh"
-                    Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
-                    Text="Refresh">
+                x:Name="RecycleBinRefreshEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutRefresh"
+                Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
+                Text="Refresh">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE72C;" />
+                    <FontIcon Glyph="&#xE72C;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F5" IsEnabled="False" />
@@ -304,11 +337,15 @@
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                    x:Name="EmptyRecycleBin"
-                    x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                    IsEnabled="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                    Text="Empty recycle bin">
+                x:Name="EmptyRecycleBin"
+                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
+                IsEnabled="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                Text="Empty recycle bin">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.EmptyRecycleBinCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                 </MenuFlyoutItem.Icon>
@@ -316,59 +353,79 @@
         </MenuFlyout>
 
         <MenuFlyout
-                x:Key="BaseLayoutItemContextFlyout"
-                x:Name="BaseLayoutItemContextFlyout"
-                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
-                Opening="RightClickItemContextMenu_Opening">
+            x:Key="BaseLayoutItemContextFlyout"
+            x:Name="BaseLayoutItemContextFlyout"
+            AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
+            Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
-                    x:Name="OpenItem"
-                    x:Uid="BaseLayoutItemContextFlyoutOpenItem"
-                    x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItem_Click}"
-                    Tag="Open_FlyoutItem"
-                    Text="Open">
+                x:Name="OpenItem"
+                x:Uid="BaseLayoutItemContextFlyoutOpenItem"
+                x:Load="False"
+                Tag="Open_FlyoutItem"
+                Text="Open">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenItemCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE8E5;" />
+                    <FontIcon Glyph="&#xE8E5;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="OpenItemWithAppPicker"
                     x:Uid="BaseLayoutItemContextFlyoutOpenItemWith"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItemWithApplicationPicker_Click}"
                     Tag="OpenWith"
                     Text="Open With">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenItemWithApplicationPickerCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE17D;" />
+                    <FontIcon Glyph="&#xE17D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="OpenFileLocation"
                     x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenFileLocation_Click}"
                     Text="Open file location"
                     Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenFileLocationCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE8DA;" />
+                    <FontIcon Glyph="&#xE8DA;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="OpenInNewPane"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewPane"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewPane_Click}"
                     Tag="OpenPane_FlyoutItem"
                     Text="Open in new pane">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenDirectoryInNewPaneCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xF57C;" />
+                    <FontIcon Glyph="&#xF57C;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="OpenInNewTab"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                     Tag="OpenTab_FlyoutItem"
                     Text="Open in new tab">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenDirectoryInNewTabCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                 </MenuFlyoutItem.Icon>
@@ -377,31 +434,43 @@
                     x:Name="OpenInNewWindowItem"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewWindow"
                     x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenInNewWindowItem_Click}"
                     Tag="OpenWindow_FlyoutItem"
                     Text="Open in new window">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.OpenInNewWindowItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE737;" />
+                    <FontIcon Glyph="&#xE737;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSubItem
-                    x:Uid="BaseLayoutItemContextFlyoutSetAs"
-                    Text="Set as"
-                    Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
+                x:Uid="BaseLayoutItemContextFlyoutSetAs"
+                Text="Set as"
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem
-                        x:Name="SetAsDesktopBackgroundItem"
-                        x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                        Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
-                        Text="Set as desktop background">
+                    x:Name="SetAsDesktopBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
+                    Text="Set as desktop background">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SetAsDesktopBackgroundItemCommand}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
-                        <FontIcon  Glyph="&#xE91B;" />
+                        <FontIcon Glyph="&#xE91B;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                        x:Name="SetAsLockscreenBackgroundItem"
-                        x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                        Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
-                        Text="Set as lockscreen background">
+                    x:Name="SetAsLockscreenBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
+                    Text="Set as lockscreen background">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Click">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SetAsLockscreenBackgroundItemCommand}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF114;" />
                     </MenuFlyoutItem.Icon>
@@ -409,80 +478,108 @@
             </MenuFlyoutSubItem>
 
             <MenuFlyoutItem
-                    x:Name="RunAsAdmin"
-                    x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
-                    x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAdmin_Click}"
-                    Text="Run as another user">
+                x:Name="RunAsAdmin"
+                x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
+                x:Load="False"
+                Text="Run as another user">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RunAsAdminCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE7EF;" />
+                    <FontIcon Glyph="&#xE7EF;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                    x:Name="RunAsAnotherUser"
-                    x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
-                    x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAnotherUser_Click}"
-                    Text="RunAsAnotherUser">
+                x:Name="RunAsAnotherUser"
+                x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
+                x:Load="False"
+                Text="RunAsAnotherUser">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RunAsAnotherUserCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE7EE;" />
+                    <FontIcon Glyph="&#xE7EE;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="ShareItem"
                     x:Uid="BaseLayoutItemContextFlyoutShare"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShareItem_Click}"
                     Text="Share">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShareItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE72D;" />
+                    <FontIcon Glyph="&#xE72D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                     x:Name="CutItem"
                     x:Uid="BaseLayoutItemContextFlyoutCut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
                     Text="Cut">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CutItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE8C6;" />
+                    <FontIcon Glyph="&#xE8C6;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator
-                            Key="X"
-                            IsEnabled="False"
-                            Modifiers="Control" />
+                        Key="X"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="CopyItem"
                     x:Uid="BaseLayoutItemContextFlyoutCopy"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CopyItem_ClickAsync}"
                     Text="Copy">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CopyItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE8C8;" />
+                    <FontIcon Glyph="&#xE8C8;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator
-                            Key="C"
-                            IsEnabled="False"
-                            Modifiers="Control" />
+                        Key="C"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="CopyLocationItem"
                     x:Uid="BaseLayoutItemContextFlyoutCopyLocation"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CopyPathOfSelectedItem}"
                     Text="Copy location">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CopyPathOfSelectedItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE167;"  />
+                    <FontIcon Glyph="&#xE167;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                    x:Name="CreateShortcut"
-                    x:Uid="BaseLayoutItemContextFlyoutShortcut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CreateShortcutFromItem_Click}"
-                    Text="Create shortcut">
+                x:Name="CreateShortcut"
+                x:Uid="BaseLayoutItemContextFlyoutShortcut"
+                Text="Create shortcut">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.CreateShortcutCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
                 </MenuFlyoutItem.Icon>
@@ -490,22 +587,30 @@
             <MenuFlyoutItem
                     x:Name="DeleteItem"
                     x:Uid="BaseLayoutItemContextFlyoutDelete"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                     Text="Delete">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DeleteItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE74D;" />
+                    <FontIcon Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Delete" IsEnabled="False" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                    x:Name="RenameItem"
-                    x:Uid="BaseLayoutItemContextFlyoutRename"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RenameItem_Click}"
-                    Text="Rename">
+                x:Name="RenameItem"
+                x:Uid="BaseLayoutItemContextFlyoutRename"
+                Text="Rename">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RenameItemCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE8AC;" />
+                    <FontIcon Glyph="&#xE8AC;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F2" IsEnabled="False" />
@@ -513,42 +618,78 @@
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                    x:Name="SidebarPinItem"
-                    x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
-                    x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinItem_Click}"
-                    Tag="PinItem_FlyoutItem"
-                    Text="Pin to sidebar">
+                x:Name="SidebarPinItem"
+                x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
+                x:Load="False"
+                Tag="PinItem_FlyoutItem"
+                Text="Pin to sidebar">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SidebarPinItemCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE718;" />
+                    <FontIcon Glyph="&#xE718;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                    x:Name="SidebarUnpinItem"
-                    x:Uid="SideBarUnpinFromSideBar"
-                    x:Load="False"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
-                    Tag="PinItem_FlyoutItem"
-                    Text="Unpin from sidebar">
+                x:Name="SidebarUnpinItem"
+                x:Uid="SideBarUnpinFromSideBar"
+                x:Load="False"
+                Tag="PinItem_FlyoutItem"
+                Text="Unpin from sidebar">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.SidebarUnpinItemCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE77A;" />
+                    <FontIcon Glyph="&#xE77A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="PinItemToStart"
+                x:Uid="PinItemToStart"
+                x:Load="False"
+                Click="PinItemToStart_Click"
+                Text="Pin to the Start Menu">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE840;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="UnpinItemFromStart"
+                x:Uid="UnpinItemFromStart"
+                x:Load="False"
+                Click="UnpinItemFromStart_Click"
+                Text="Unpin from the Start Menu">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE77A;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                     x:Name="PropertiesItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                     Text="Properties">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShowPropertiesCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE946;" />
+                    <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                    x:Name="QuickLook"
-                    x:Uid="BaseLayoutItemContextFlyoutQuickLook"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ToggleQuickLook}"
-                    Text="QuickLook"
-                    Visibility="{x:Bind IsQuickLookEnabled}">
+                x:Name="QuickLook"
+                x:Uid="BaseLayoutItemContextFlyoutQuickLook"
+                Text="QuickLook"
+                Visibility="{x:Bind IsQuickLookEnabled}">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.QuickLookCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                 </MenuFlyoutItem.Icon>
@@ -559,18 +700,26 @@
             <MenuFlyoutItem
                     x:Name="RestoreRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutRestore"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.RestoreItem_Click}"
                     Text="Restore">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.RestoreItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE7A7;" />
+                    <FontIcon Glyph="&#xE7A7;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                     x:Name="DeleteRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutDelete"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                     Text="Delete">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DeleteItemCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xe9ee;" />
                 </MenuFlyoutItem.Icon>
@@ -582,10 +731,14 @@
             <MenuFlyoutItem
                     x:Name="PropertiesRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                     Text="Properties">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Click">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ShowPropertiesCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
                 <MenuFlyoutItem.Icon>
-                    <FontIcon  Glyph="&#xE946;" />
+                    <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
@@ -642,7 +795,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                         x:Phase="1">
-                        <FontIcon  Glyph="&#xE7C3;" />
+                        <FontIcon Glyph="&#xE7C3;" />
                     </Viewbox>
                     <Image
                         x:Name="IconOverlay"
@@ -664,10 +817,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                         x:Phase="1">
-                        <FontIcon
-                            
-                            FontSize="28"
-                            Glyph="&#xE71B;" />
+                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
                     </Viewbox>
                     <Border
                         x:Name="ShortcutGlyphElement"
@@ -702,7 +852,6 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                         x:Phase="2"
-                        
                         FontSize="18"
                         Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
@@ -756,7 +905,6 @@
                     Margin="10,0,0,0"
                     x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                     x:Phase="2"
-                    
                     Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                     Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                 <Grid
@@ -798,7 +946,6 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                         x:Phase="1"
-                        
                         FontSize="74"
                         Glyph="&#xE7C3;" />
                     <Image
@@ -819,10 +966,7 @@
                         VerticalAlignment="Center"
                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                         x:Phase="1">
-                        <FontIcon
-                            
-                            FontSize="28"
-                            Glyph="&#xE71B;" />
+                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
                     </Viewbox>
                     <Border
                         x:Name="ShortcutGlyphElement"
@@ -899,19 +1043,19 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="{x:Bind MinusKey}"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
+                Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Subtract"
-                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
+                Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>
@@ -964,7 +1108,7 @@
             x:Name="FileList"
             Padding="12,4,4,0"
             VerticalContentAlignment="Stretch"
-            animations:ReorderGridAnimation.Duration="350"
+            animations:ItemsReorderAnimation.Duration="0:0:0.350"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"

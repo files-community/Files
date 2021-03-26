@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO.Pipes;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,8 +51,11 @@ namespace Files.Helpers
         {
             if (connection == null)
             {
+                App.InteractionViewModel.IsFullTrustElevated = false;
                 return false;
             }
+
+            bool wasElevated = false;
 
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() { { "Arguments", "Elevate" } });
             if (status == AppServiceResponseStatus.Success)
@@ -61,38 +63,50 @@ namespace Files.Helpers
                 var res = response.Get("Success", 1L);
                 switch (res)
                 {
-                    case 0:
+                    case 0: // FTP is restarting as admin
                         var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
                         ConnectionChanged?.Invoke(null, nullConn);
                         (await Instance)?.Dispose();
                         Instance = BuildConnection(false); // Fulltrust process is already running
                         _ = await Instance;
                         ConnectionChanged?.Invoke(null, Instance);
+                        wasElevated = true;
                         break;
-                    case -1:
-                        return true;
-                    default:
-                        return false;
+                    case -1: // FTP is already admin
+                        wasElevated = true;
+                        break;
+                    default: // Failed (e.g canceled UAC)
+                        wasElevated = false;
+                        break;
                 }
             }
 
-            return false;
+            App.InteractionViewModel.IsFullTrustElevated = wasElevated;
+
+            return wasElevated;
         }
 
         private static async Task<NamedPipeAsAppServiceConnection> BuildConnection(bool launchFullTrust)
         {
-            // Launch fulltrust process
-            if (launchFullTrust)
+            try
             {
-                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-            }
+                if (launchFullTrust)
+                {
+                    // Launch fulltrust process
+                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                }
 
-            var connection = new NamedPipeAsAppServiceConnection();
-            if (await connection.Connect(@$"\\.\pipe\{"FilesInteropService_ServerPipe"}", TimeSpan.FromSeconds(15)))
-            {
-                return connection;
+                var connection = new NamedPipeAsAppServiceConnection();
+                if (await connection.Connect(@$"\\.\pipe\{"FilesInteropService_ServerPipe"}", TimeSpan.FromSeconds(15)))
+                {
+                    return connection;
+                }
+                connection.Dispose();
             }
-            connection.Dispose();
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize FTP connection!");
+            }
             return null;
         }
     }
@@ -107,7 +121,7 @@ namespace Files.Helpers
         public event EventHandler ServiceClosed;
 
         private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
-        
+
         public NamedPipeAsAppServiceConnection()
         {
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
@@ -158,43 +172,35 @@ namespace Files.Helpers
 
         public async Task<bool> Connect(string pipeName, TimeSpan timeout = default)
         {
-            try
-            {
-                SafePipeHandle PipeHandle = null;
+            SafePipeHandle safePipeHandle = null;
 
-                using var cts = new CancellationTokenSource();
-                cts.CancelAfter(timeout);
-                while (true)
+            using var cts = new CancellationTokenSource();
+            cts.CancelAfter(timeout);
+            while (true)
+            {
+                IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(pipeName, NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
+
+                safePipeHandle = new SafePipeHandle(Handle, true);
+
+                if (!safePipeHandle.IsInvalid)
                 {
-                    IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(pipeName, NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
-
-                    PipeHandle = new SafePipeHandle(Handle, true);
-
-                    if (!PipeHandle.IsInvalid)
-                    {
-                        break;
-                    }
-                    else if (cts.Token.IsCancellationRequested || isDisposed)
-                    {
-                        return false;
-                    }
-                    await Task.Delay(200);
+                    break;
                 }
-                
-                pipeHandle = PipeHandle;
-                clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, PipeHandle);
-                clientStream.ReadMode = PipeTransmissionMode.Message;
-
-                var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
-                BeginRead(info);
-
-                return true;
+                else if (cts.Token.IsCancellationRequested || isDisposed)
+                {
+                    return false;
+                }
+                await Task.Delay(200);
             }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize FTP connection!");
-                return false;
-            }
+
+            pipeHandle = safePipeHandle;
+            clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, safePipeHandle);
+            clientStream.ReadMode = PipeTransmissionMode.Message;
+
+            var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+            BeginRead(info);
+
+            return true;
         }
 
         public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
@@ -271,7 +277,7 @@ namespace Files.Helpers
             pipeHandle?.Dispose();
             pipeHandle = null;
         }
-        
+
         private bool isDisposed = false;
 
         public void Dispose()

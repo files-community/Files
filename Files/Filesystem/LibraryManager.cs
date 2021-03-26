@@ -1,8 +1,8 @@
 ﻿using Files.Helpers;
+using Files.UserControls;
 using Files.ViewModels;
-using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,7 +27,7 @@ namespace Files.Filesystem
         {
             try
             {
-                await SyncSideBarItemsUI();
+                await SyncLibrarySideBarItemsUI();
             }
             catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
             {
@@ -37,28 +37,66 @@ namespace Files.Filesystem
             }
         }
 
+        public async Task RemoveEnumerateDrivesAsync()
+        {
+            try
+            {
+                await RemoveLibrarySideBarItemsUI();
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += RemoveEnumerateDrivesAsync;
+            }
+        }
+
         private async void EnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await SyncSideBarItemsUI();
+            await SyncLibrarySideBarItemsUI();
             CoreApplication.MainView.Activated -= EnumerateDrivesAsync;
+        }
+
+        private async void RemoveEnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await RemoveLibrarySideBarItemsUI();
+            CoreApplication.MainView.Activated -= RemoveEnumerateDrivesAsync;
         }
 
         private LocationItem librarySection;
         private List<string> libraryItems { get; set; } = new List<string>();
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        private async Task SyncSideBarItemsUI()
+        public async Task RemoveLibrarySideBarItemsUI()
+        {
+            SidebarControl.SideBarItems.BeginBulkOperation();
+
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowLibrarySection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+
+            SidebarControl.SideBarItems.EndBulkOperation();
+        }
+
+        private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
                     try
                     {
-                        if (App.AppSettings.ShowLibrarySection && !MainPage.SideBarItems.Contains(librarySection))
+                        if (App.AppSettings.ShowLibrarySection && !SidebarControl.SideBarItems.Contains(librarySection))
                         {
                             librarySection = new LocationItem()
                             {
@@ -69,10 +107,9 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-                            MainPage.SideBarItems.Add(librarySection);
+                            SidebarControl.SideBarItems.Insert(1, librarySection);
 
-                            libraryItems.Add(AppSettings.DesktopPath);
-                            libraryItems.Add(AppSettings.DownloadsPath);
+                            libraryItems.Clear();
                             libraryItems.Add(AppSettings.DocumentsPath);
                             libraryItems.Add(AppSettings.PicturesPath);
                             libraryItems.Add(AppSettings.MusicPath);
@@ -106,11 +143,11 @@ namespace Files.Filesystem
                     {
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

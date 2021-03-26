@@ -4,7 +4,7 @@ using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Bundles;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
 using System.Linq;
@@ -61,7 +61,7 @@ namespace Files.Views
             try
             {
                 var directoryName = Path.GetDirectoryName(e.ItemPath);
-                await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(e.ItemPath, workingDir: directoryName);
+                await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
             }
             catch (UnauthorizedAccessException)
             {
