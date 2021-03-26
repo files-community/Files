@@ -545,8 +545,6 @@ namespace Files.Views.LayoutModes
                         SetSelectedItemOnUi(objectPressed);
                     }
                 }
-
-                ShowContextFlyout(rowPressed);
             }
         }
 
@@ -580,6 +578,7 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
             }
+            e.Row.ContextFlyout = ItemContextMenuFlyout;
         }
 
         protected override ListedItem GetItemFromElement(object element)

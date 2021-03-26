@@ -467,6 +467,8 @@ namespace Files
             {
                 Connection = Connection
             };
+            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
+            ItemContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -499,21 +501,29 @@ namespace Files
             }
         }
 
-        public async void ShowContextFlyout(FrameworkElement target, Point p = new Point())
+        public void ShowContextFlyout(FrameworkElement target, Point p = new Point())
         {
             if(target == null)
             {
                 return;
             }
+            LoadMenuItemsAsync();
+            ItemContextMenuFlyout.ShowAt(target, p);
+        }
+
+        public void ItemContextFlyout_Opening(object sender, object e)
+        {
+            LoadMenuItemsAsync();
+        }
+
+        private void LoadMenuItemsAsync()
+        {
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
             ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-
-            await ContextFlyoutViewModel.LoadAsync(shiftPressed, true);
+            ContextFlyoutViewModel.LoadAsync(shiftPressed, true);
             ItemContextMenuFlyout.Items.Clear();
             ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
-            ItemContextMenuFlyout.ShowAt(target, p);
         }
         public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
 

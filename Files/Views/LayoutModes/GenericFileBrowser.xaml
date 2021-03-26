@@ -33,7 +33,6 @@
                 x:Key="NegatedBoolToVisibilityConverter"
                 FalseValue="Visible"
                 TrueValue="Collapsed" />
-
             <Style x:Key="DataGridRowStandardContextFlyout" TargetType="controls:DataGridRow">
                 <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
             </Style>

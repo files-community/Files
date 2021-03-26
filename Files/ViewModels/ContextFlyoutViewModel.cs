@@ -32,6 +32,7 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedItems, value);
         }
 
+
         private SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
         {
@@ -45,8 +46,6 @@ namespace Files.ViewModels
             get => commandsViewModel;
             set => SetProperty(ref commandsViewModel, value);
         }
-
-        public List<ContextMenuFlyoutItemViewModel> BaseMenuItems { get; set; }
 
         private List<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
         public List<ContextMenuFlyoutItemViewModel> MenuItemsList
@@ -66,13 +65,13 @@ namespace Files.ViewModels
 
         public bool IsItemSelected => selectedItems?.Count > 0;
 
-        public async Task LoadAsync(bool shiftPressed, bool showOpenMenu)
+        public void LoadAsync(bool shiftPressed, bool showOpenMenu)
         {
-            await SetShellContextmenu(BaseMenuItems, shiftPressed, showOpenMenu);
+            SetShellContextmenu(BaseMenuItems, shiftPressed, showOpenMenu);
             Filter(shiftPressed);
         }
 
-        public async Task SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
+        public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
             MenuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
             var currentBaseLayoutItemCount = baseItems.Count;
@@ -95,7 +94,7 @@ namespace Files.ViewModels
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        await LoadMenuFlyoutItem(MenuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        LoadMenuFlyoutItem(MenuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
                     }
                 }
             }
@@ -106,7 +105,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+        private void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
                                 IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
                                 string menuHandle,
                                 bool showIcons = true,
@@ -124,7 +123,7 @@ namespace Files.ViewModels
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Glyph = "\xE712",
                 };
-                await LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
+                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
                 menuItemsListLocal.Insert(0, menuLayoutSubItem);
             }
             foreach (var menuFlyoutItem in menuItems
@@ -146,7 +145,9 @@ namespace Files.ViewModels
                     {
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
-                        await image.SetSourceAsync(ms.AsRandomAccessStream());
+                        // TODO: Wait for this to finish as this can cause funny behaviour
+                        // Why does it clog up when waited? 
+                        image.SetSourceAsync(ms.AsRandomAccessStream());
                     }
                 }
 
@@ -167,7 +168,7 @@ namespace Files.ViewModels
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
                     };
-                    await LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
@@ -214,12 +215,9 @@ namespace Files.ViewModels
         public ContextFlyoutViewModel(BaseLayoutCommandsViewModel commandsViewModel)
         {
             CommandsViewModel = commandsViewModel;
-            InitBaseMenuItems();
         }
 
-        private void InitBaseMenuItems()
-        {
-            BaseMenuItems = new List<ContextMenuFlyoutItemViewModel>()
+        public List<ContextMenuFlyoutItemViewModel> BaseMenuItems => new List<ContextMenuFlyoutItemViewModel>()
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -389,6 +387,5 @@ namespace Files.ViewModels
                     Command = commandsViewModel.ShowPropertiesCommand,
                 },
             };
-        }
     }
 }

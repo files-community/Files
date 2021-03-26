@@ -177,8 +177,6 @@ namespace Files.Views.LayoutModes
             {
                 SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
             }
-
-            ShowContextFlyout(sender as Grid, e.GetPosition(sender as Grid));
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -466,6 +464,8 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
+
+            args.ItemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

@@ -318,13 +318,6 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-
-        <Style x:Key="GridViewItemStandardContextFlyout" TargetType="GridViewItem">
-            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
-        </Style>
-        <Style x:Key="GridViewItemRecycleBinContextFlyout" TargetType="GridViewItem">
-            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
-        </Style>
     </local:BaseLayout.Resources>
 
     <Grid
