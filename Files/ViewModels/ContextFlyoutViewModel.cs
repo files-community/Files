@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -19,6 +20,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
@@ -48,6 +50,7 @@ namespace Files.ViewModels
 
         public CurrentInstanceViewModel CurrentInstanceViewModel { get; set; }
         public ItemViewModel ItemViewModel { get; set; }
+        public List<ShellNewEntry> CachedNewContextMenuEntries { get; set; }
 
         private List<ContextMenuFlyoutItemViewModel> menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
         public List<ContextMenuFlyoutItemViewModel> MenuItemsList
@@ -58,7 +61,16 @@ namespace Files.ViewModels
 
         public void Filter(bool shiftPressed)
         {
-            MenuItemsList = MenuItemsList.Where(x => (!x.ShowOnShift || shiftPressed) && (!x.SingleItemOnly || SelectedItems.Count == 1) && (x.CheckShowItem?.Invoke() ?? true)).ToList();
+            MenuItemsList = MenuItemsList.Where(x => Check(x, shiftPressed)).ToList();
+            MenuItemsList.ForEach(x => x.Items = x.Items.Where(y => Check(y, shiftPressed)).ToList());
+        }
+
+        private bool Check(ContextMenuFlyoutItemViewModel x, bool shiftPressed)
+        {
+            return (x.ShowInRecycleBin || !CurrentInstanceViewModel.IsPageTypeRecycleBin) // Hide non-recycle bin items
+                && (!x.ShowOnShift || shiftPressed)  // Hide items that are only shown on shift
+                && (!x.SingleItemOnly || SelectedItems.Count == 1)
+                && (x.CheckShowItem?.Invoke() ?? true);
         }
 
         public NamedPipeAsAppServiceConnection Connection { get; set; }
@@ -80,6 +92,11 @@ namespace Files.ViewModels
         public void SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu)
         {
             MenuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
+            if(CurrentInstanceViewModel.IsPageTypeRecycleBin)
+            {
+                return;
+            }
+
             var currentBaseLayoutItemCount = baseItems.Count;
             var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
 
@@ -151,7 +168,7 @@ namespace Files.ViewModels
                     {
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
-                        image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(50);
+                        image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
                     }
                 }
 
@@ -216,8 +233,62 @@ namespace Files.ViewModels
             return (null, null);
         }
 
+        public List<ContextMenuFlyoutItemViewModel> NewItemItems { 
+            get {
+                var list = new List<ContextMenuFlyoutItemViewModel>()
+                {
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Folder",
+                        Glyph = "\uE8B7",
+                        Command = commandsViewModel.CreateNewFolderCommand,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        ItemType = ItemType.Separator,
+                    }
+                };
+
+                CachedNewContextMenuEntries?.ForEach(i =>
+                {
+                    if (i.Icon != null)
+                    {
+                        var bitmap = new BitmapImage();
+                        bitmap.SetSourceAsync(i.Icon);
+                        list.Add(new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = i.Name,
+                            BitmapIcon = bitmap,
+                            Command = commandsViewModel.CreateNewFileCommand,
+                            //CommandParameter = i,
+                        });
+                    } else
+                    {
+                        list.Add(new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = i.Name,
+                            Glyph = "\xE7C3",
+                            Command = commandsViewModel.CreateNewFileCommand,
+                            //CommandParameter = i,
+                        });
+                    }
+
+                });
+
+                return list;
+            }
+        }
+
         public List<ContextMenuFlyoutItemViewModel> BaseItemMenuItems => new List<ContextMenuFlyoutItemViewModel>()
             {
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "Restore",
+                    Glyph = "\uE8E5",
+                    Command = commandsViewModel.RestoreItemCommand,
+                    ShowInRecycleBin = true,
+                    CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.IsRecycleBinItem))
+                },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "Open Item",
@@ -305,18 +376,20 @@ namespace Files.ViewModels
                 new ContextMenuFlyoutItemViewModel()
                 {
                     ItemType = ItemType.Separator,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "Cut",
                     Glyph = "\uE8C6",
-                    Command = commandsViewModel.CutItemCommand
+                    Command = commandsViewModel.CutItemCommand,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "Copy",
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -340,6 +413,7 @@ namespace Files.ViewModels
                     Glyph = "\uE74D",
                     Command = commandsViewModel.DeleteItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.Delete },
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -392,6 +466,186 @@ namespace Files.ViewModels
         {
             new ContextMenuFlyoutItemViewModel()
             {
+                Text = "Layout mode",
+                Glyph = "\uE152",
+                ShowInRecycleBin = true,
+                Items = new List<ContextMenuFlyoutItemViewModel>()
+                {
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Grid View (Large)",
+                        Glyph = "\uE739",
+                        ShowInRecycleBin = true,
+                        Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Grid View (Medium)",
+                        Glyph = "\uF0E2",
+                        ShowInRecycleBin = true,
+                        Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Grid View (Small)",
+                        Glyph = "\uE80A",
+                        ShowInRecycleBin = true,
+                        Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Tiles View",
+                        Glyph = "\uE15C",
+                        ShowInRecycleBin = true,
+                        Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeTiles,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Details View",
+                        Glyph = "\uE179",
+                        ShowInRecycleBin = true,
+                        Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
+                    },
+                }
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Sort by",
+                Glyph = "\uE8CB",
+                ShowInRecycleBin = true,
+                Items = new List<ContextMenuFlyoutItemViewModel>()
+                {
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Name",
+                        IsChecked = ItemViewModel.IsSortedByName,
+                        ShowInRecycleBin = true,
+                        // TODO: Make these better
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedByName = true),
+                        ItemType = ItemType.Toggle,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Orginial path",
+                        IsChecked = ItemViewModel.IsSortedByOriginalPath,
+                        ShowInRecycleBin = true,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedByOriginalPath = true),
+                        CheckShowItem = new Func<bool>(() => CurrentInstanceViewModel.IsPageTypeRecycleBin),
+                        ItemType = ItemType.Toggle,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Date deleted",
+                        IsChecked = ItemViewModel.IsSortedByDateDeleted,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedByDateDeleted = true),
+                        ShowInRecycleBin = true,
+                        CheckShowItem = new Func<bool>(() => CurrentInstanceViewModel.IsPageTypeRecycleBin),
+                        ItemType = ItemType.Toggle
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Type",
+                        IsChecked = ItemViewModel.IsSortedByType,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedByType = true),
+                        ShowInRecycleBin = true,
+                        ItemType = ItemType.Toggle
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Size",
+                        IsChecked = ItemViewModel.IsSortedBySize,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedBySize = true),
+                        ShowInRecycleBin = true,
+                        ItemType = ItemType.Toggle
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Date modified",
+                        IsChecked = ItemViewModel.IsSortedByDate,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedByDate = true),
+                        ShowInRecycleBin = true,
+                        ItemType = ItemType.Toggle
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Date created",
+                        IsChecked = ItemViewModel.IsSortedByDateCreated,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedByDateCreated = true),
+                        ShowInRecycleBin = true,
+                        ItemType = ItemType.Toggle
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        ItemType = ItemType.Separator,
+                        ShowInRecycleBin = true,
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Ascending",
+                        IsChecked = ItemViewModel.IsSortedAscending,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedAscending = true),
+                        ShowInRecycleBin = true,
+                        ItemType = ItemType.Toggle
+                    },
+                    new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "Descending",
+                        IsChecked = ItemViewModel.IsSortedDescending,
+                        Command = new RelayCommand(() => ItemViewModel.IsSortedDescending = true),
+                        ShowInRecycleBin = true,
+                        ItemType = ItemType.Toggle
+                    },
+                }
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Refresh",
+                Glyph = "\uE72C",
+                ShowInRecycleBin = true,
+                KeyboardAccelerator = new KeyboardAccelerator
+                {
+                    Key = Windows.System.VirtualKey.V,
+                    Modifiers = Windows.System.VirtualKeyModifiers.Shift,
+                    IsEnabled = false,
+                }
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Paste",
+                Glyph = "\uE72C",
+                Command = commandsViewModel.PasteItemsFromClipboardCommand,
+                CheckShowItem = new Func<bool>(() => CurrentInstanceViewModel.CanPasteInPage && App.InteractionViewModel.IsPasteEnabled),
+                KeyboardAccelerator = new KeyboardAccelerator
+                {
+                    Key = Windows.System.VirtualKey.V,
+                    Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                    IsEnabled = false,
+                }
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "Open in terminal",
+                Glyph = "\uE756",
+                Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                ItemType = ItemType.Separator,
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
+                Text = "New",
+                Glyph = "\uE710",
+                KeyboardAccelerator = new KeyboardAccelerator
+                {
+                    Key = Windows.System.VirtualKey.N,
+                    Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                    IsEnabled = false,
+                },
+                Items = NewItemItems,
+            },
+            new ContextMenuFlyoutItemViewModel()
+            {
                 Text = "Pin directory to sidebar",
                 Glyph = "\uE840",
                 Command = commandsViewModel.SidebarPinItemCommand,
@@ -409,7 +663,6 @@ namespace Files.ViewModels
                 Text = "Folder properties",
                 Glyph = "\uE946",
                 Command = commandsViewModel.ShowFolderPropertiesCommand,
-                CheckShowItem = new Func<bool>(() => !CurrentInstanceViewModel.IsPageTypeRecycleBin)
             },
             new ContextMenuFlyoutItemViewModel()
             {

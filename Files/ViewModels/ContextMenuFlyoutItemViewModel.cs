@@ -33,12 +33,19 @@ namespace Files.ViewModels
         /// Only show when one item is selected
         /// </summary>
         public bool SingleItemOnly { get; set; }
+        /// <summary>
+        /// True if the item is shown in the recycle bin
+        /// </summary>
+        public bool ShowInRecycleBin { get; set; }
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
+        public bool IsChecked { get; set; }
+        public bool IsEnabled { get; set; } = true;
     }
 
     public enum ItemType
     {
         Item,
         Separator,
+        Toggle,
     }
 }

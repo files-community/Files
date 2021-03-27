@@ -19,6 +19,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -518,16 +519,31 @@ namespace Files
 
         public void ItemContextFlyout_Opening(object sender, object e)
         {
-            LoadMenuItemsAsync();
+            try
+            {
+                LoadMenuItemsAsync();
+            }
+            catch (Exception error)
+            {
+                Debug.WriteLine(error);
+            }
         }
         public void BaseContextFlyout_Opening(object sender, object e)
         {
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            ContextFlyoutViewModel.SelectedItems = SelectedItems;
-            ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-            ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, true);
-            BaseContextMenuFlyout.Items.Clear();
-            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
+            try
+            {
+                var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                ContextFlyoutViewModel.SelectedItems = SelectedItems;
+                ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
+                ContextFlyoutViewModel.CachedNewContextMenuEntries = cachedNewContextMenuEntries;
+                ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, true);
+                BaseContextMenuFlyout.Items.Clear();
+                ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
+            }
+            catch (Exception error)
+            {
+                Debug.WriteLine(error);
+            }
         }
 
         private void LoadMenuItemsAsync()
