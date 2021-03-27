@@ -32,7 +32,8 @@ namespace Files.Views
         public SettingsViewModel AppSettings => App.AppSettings;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
         public ICommand EmptyRecycleBinCommand { get; private set; }
-        private AdaptiveSidebarViewModel adaptiveSidebarViewModel => ((Window.Current.Content as Frame).Content as MainPage).SidebarAdaptiveViewModel;
+
+        private AdaptiveSidebarViewModel adaptiveSidebarViewModel => ((Window.Current.Content as Frame).Content as MainPage)?.SidebarAdaptiveViewModel;
 
         public PaneHolderPage()
         {
@@ -42,7 +43,6 @@ namespace Files.Views
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             adaptiveSidebarViewModel.WindowCompactStateChanged += AdaptiveSidebarViewModel_WindowCompactStateChanged;
-            // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
         private void AdaptiveSidebarViewModel_WindowCompactStateChanged(object sender, WindowCompactStateChangedEventArgs e)
@@ -64,7 +64,7 @@ namespace Files.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => AppSettings.IsDualPaneEnabled && !adaptiveSidebarViewModel.IsWindowCompactSize;
+            get => AppSettings.IsDualPaneEnabled && !(adaptiveSidebarViewModel?.IsWindowCompactSize ?? false);
         }
 
         private string navParamsLeft;
