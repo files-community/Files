@@ -2,8 +2,6 @@
     x:Class="Files.Views.LayoutModes.GridViewBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
@@ -1088,26 +1086,26 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
+        <i:Interaction.Behaviors>
+            <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
+                <icore:ChangePropertyAction
                     PropertyName="ContextFlyout"
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
-                <Core:ChangePropertyAction
+            </icore:DataTriggerBehavior>
+            <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
+                <icore:ChangePropertyAction
                     PropertyName="ContextFlyout"
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{StaticResource BaseLayoutContextFlyout}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
+            </icore:DataTriggerBehavior>
+            <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
+                <icore:ChangePropertyAction
                     PropertyName="ContextFlyout"
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{x:Null}" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
+            </icore:DataTriggerBehavior>
+        </i:Interaction.Behaviors>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -1159,26 +1157,26 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </GridView.Resources>
-            <Interactivity:Interaction.Behaviors>
+            <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Drop">
                     <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DropCommand}"/>
                 </icore:EventTriggerBehavior>
                 <icore:EventTriggerBehavior EventName="DragEnter">
                     <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DragEnterCommand}"/>
                 </icore:EventTriggerBehavior>
-                <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
-                    <Core:ChangePropertyAction
+                <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
+                    <icore:ChangePropertyAction
                         PropertyName="ItemContainerStyle"
                         TargetObject="{Binding ElementName=FileList}"
                         Value="{StaticResource GridViewItemRecycleBinContextFlyout}" />
-                </Core:DataTriggerBehavior>
-                <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
-                    <Core:ChangePropertyAction
+                </icore:DataTriggerBehavior>
+                <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
+                    <icore:ChangePropertyAction
                         PropertyName="ItemContainerStyle"
                         TargetObject="{Binding ElementName=FileList}"
                         Value="{StaticResource GridViewItemStandardContextFlyout}" />
-                </Core:DataTriggerBehavior>
-            </Interactivity:Interaction.Behaviors>
+                </icore:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
         </GridView>
 
         <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
