@@ -1413,17 +1413,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Double panneau</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Afficher l'élément de menu de copie de l'emplacement</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Déplacer les éléments superflus dans un sous-menu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Afficher l'élément de menu d'ouverture dans un nouvel onglet</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Dossiers</value>

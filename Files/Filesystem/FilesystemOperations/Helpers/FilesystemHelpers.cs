@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
@@ -119,7 +120,7 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     associatedInstance.SlimContentPage.SelectedItems.Count);
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                if (UIHelpers.IsAnyContentDialogOpen())
                 {
                     // Can show only one dialog at a time
                     banner.Remove();
@@ -223,7 +224,7 @@ namespace Files.Filesystem
                     permanently,
                     associatedInstance.SlimContentPage.SelectedItems.Count);
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                if (UIHelpers.IsAnyContentDialogOpen())
                 {
                     // Can show only one dialog at a time
                     banner.Remove();
@@ -301,7 +302,7 @@ namespace Files.Filesystem
                     permanently,
                     associatedInstance.SlimContentPage.SelectedItems.Count);
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                if (UIHelpers.IsAnyContentDialogOpen())
                 {
                     // Can show only one dialog at a time
                     banner.Remove();
@@ -923,6 +924,20 @@ namespace Files.Filesystem
             }
 
             return false;
+        }
+
+        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection serviceConnection)
+        {
+            Debug.WriteLine("Launching shell command in FullTrustProcess");
+            if (serviceConnection != null)
+            {
+                ValueSet value = new ValueSet()
+                {
+                    { "ShellCommand", shellCommand },
+                    { "Arguments", "ShellCommand" }
+                };
+                await serviceConnection.SendMessageAsync(value);
+            }
         }
 
         #endregion Public Helpers

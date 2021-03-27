@@ -44,9 +44,7 @@ namespace Files
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
-
         public static SettingsViewModel AppSettings { get; private set; }
         public static InteractionViewModel InteractionViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
@@ -195,9 +193,9 @@ namespace Files
                 }
                 else
                 {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPage.AppInstances.Count > 0))
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
                     {
-                        await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
                 }
 
@@ -422,7 +420,7 @@ namespace Files
         {
             if (AppSettings != null)
             {
-                AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {

@@ -1205,34 +1205,34 @@
                             <MenuFlyoutItem
                                 x:Name="CopyPathButton"
                                 x:Uid="NavigationToolbarCopyPath"
-                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                                 Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
-                                Text="Copy location">
+                                Text="Copy location"
+                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE167;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                            <MenuFlyoutSeparator x:Name="SeparatorBar" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                             <MenuFlyoutItem
                                 x:Name="OpenInTerminalButton"
                                 x:Uid="NavigationToolbarOpenInTerminal"
-                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                                 Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
-                                Text="Open in Terminal...">
+                                Text="Open in Terminal..."
+                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE756;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                            <MenuFlyoutSeparator x:Name="SeparatorBar1" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                             <MenuFlyoutItem
                                 x:Name="PasteButton"
                                 x:Uid="NavigationToolbarPaste"
-                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                                 Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
-                                Text="Paste">
+                                Text="Paste"
+                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE77F;" />
                                 </MenuFlyoutItem.Icon>
@@ -1243,13 +1243,13 @@
                                         Modifiers="Control" />
                                 </MenuFlyoutItem.KeyboardAccelerators>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="SeparatorBar2" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                            <MenuFlyoutSeparator x:Name="SeparatorBar2" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                             <MenuFlyoutSubItem
                                 x:Name="NewEmptySpace"
                                 x:Uid="BaseLayoutContextFlyoutNew"
-                                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                                 IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
-                                Text="New">
+                                Text="New"
+                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                                 <MenuFlyoutSubItem.Icon>
                                     <FontIcon Glyph="&#xE710;" />
                                 </MenuFlyoutSubItem.Icon>

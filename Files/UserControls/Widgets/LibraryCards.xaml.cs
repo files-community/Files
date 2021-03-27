@@ -163,13 +163,13 @@ namespace Files.UserControls.Widgets
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            Interaction.OpenPathInNewTab(item.Path);
+            NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            await Interaction.OpenPathInNewWindowAsync(item.Path);
+            await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)

@@ -65,7 +65,7 @@ namespace Files.Views
             try
             {
                 var directoryName = Path.GetDirectoryName(e.ItemPath);
-                await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(e.ItemPath, workingDir: directoryName);
+                await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
             }
             catch (UnauthorizedAccessException)
             {
@@ -128,7 +128,7 @@ namespace Files.Views
 
         private async void LibraryWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardPropertiesInvokedEventArgs e)
         {
-            await AppInstance.InteractionOperations.OpenPropertiesWindowAsync(new LibraryItem(e.Library));
+            await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(e.Library), AppInstance);
         }
 
         private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)

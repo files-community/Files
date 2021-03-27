@@ -34,8 +34,6 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
-            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
-
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -93,7 +91,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
-                Width="{x:Bind SidebarWidth, Mode=TwoWay}"
+                Width="{x:Bind adaptiveSidebarViewModel.SidebarWidth, Mode=TwoWay}"
                 MinWidth="200"
                 MaxWidth="500" />
             <ColumnDefinition Width="*" />
@@ -102,8 +100,8 @@
         <controls:SidebarControl
             x:Name="SidebarControl"
             Grid.RowSpan="2"
-            IsOpen="{x:Bind IsSidebarOpen, Mode=TwoWay}"
-            IsCompact="{x:Bind IsWindowCompactSize, Mode=OneWay}"
+            IsOpen="{x:Bind adaptiveSidebarViewModel.IsSidebarOpen, Mode=TwoWay}"
+            IsCompact="{x:Bind adaptiveSidebarViewModel.IsWindowCompactSize, Mode=OneWay}"
             CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
             EmptyRecycleBinCommand="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
@@ -135,19 +133,7 @@
                     <RowDefinition Height="Auto" MinHeight="50" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid
-                    x:Name="DragArea"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Stretch"
-                    Background="Transparent"
-                    Loaded="DragArea_Loaded" />
-
-                <multitaskingcontrol:HorizontalMultitaskingControl
-                    x:Name="horizontalMultitaskingControl"
-                    Margin="{x:Bind DragRegionWidth, Converter={StaticResource WidthToRightMarginConverter}}"
-                    x:FieldModifier="public"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
-                    Loaded="HorizontalMultitaskingControl_Loaded" />
+                
 
                 <Border x:Name="PaneLeftLoader" Grid.Row="1">
                     <local:ModernShellPage
@@ -301,7 +287,7 @@
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}"
-            Visibility="{x:Bind IsSidebarOpen, Mode=OneWay}">
+            Visibility="{x:Bind adaptiveSidebarViewModel.IsSidebarOpen, Mode=OneWay}">
             <Custom:GridSplitter.RenderTransform>
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
@@ -311,7 +297,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                        <StateTrigger IsActive="{x:Bind adaptiveSidebarViewModel.IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SidebarColumn.MinWidth" Value="{ThemeResource NavigationViewCompactPaneLength}"/>

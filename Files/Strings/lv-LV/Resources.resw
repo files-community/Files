@@ -960,9 +960,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Komandu uzvednes lietotnes</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Rādīt atrašanās vietas kopēšanas izvēlnes vienumu</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Pārvietot pārpildītos vienumus apakšizvēlnē</value>
   </data>
@@ -1481,9 +1478,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubulti paneļi</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Rādīt atvērt jaunā cilnē vienumu izvēlnē</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mapes</value>
