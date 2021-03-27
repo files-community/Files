@@ -65,6 +65,8 @@ namespace Files.Interacts
             PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.PointerWheelChanged);
             GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeDecrease);
             GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeIncrease);
+            DragEnterCommand = new RelayCommand<DragEventArgs>(commandsModel.DragEnter);
+            DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
         }
 
         #endregion Command Initialization
@@ -142,6 +144,10 @@ namespace Files.Interacts
         public ICommand GridViewSizeDecreaseCommand { get; private set; }
 
         public ICommand GridViewSizeIncreaseCommand { get; private set; }
+
+        public ICommand DragEnterCommand { get; private set; }
+
+        public ICommand DropCommand { get; private set; }
 
         #endregion Commands
 

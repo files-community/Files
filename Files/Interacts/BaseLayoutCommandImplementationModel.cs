@@ -418,7 +418,7 @@ namespace Files.Interacts
             }
         }
 
-        public void PointerWheelChanged(PointerRoutedEventArgs e)
+        public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
@@ -435,7 +435,7 @@ namespace Files.Interacts
             }
         }
 
-        public void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
+        public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
         {
             associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
 
@@ -445,7 +445,7 @@ namespace Files.Interacts
             }
         }
 
-        public void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
+        public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
         {
             associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
 
@@ -453,6 +453,76 @@ namespace Files.Interacts
             {
                 e.Handled = true;
             }
+        }
+
+        public virtual async void DragEnter(DragEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            SlimContentPage.ClearSelection();
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.Handled = true;
+                e.DragUIOverride.IsCaptionVisible = true;
+                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                {
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
+                if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
+
+                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                // As long as one file doesn't already belong to this folder
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
+                else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
+                else
+                {
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                }
+            }
+
+            deferral.Complete();
+        }
+
+        public virtual async void Drop(DragEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, true);
+                e.Handled = true;
+            }
+
+            deferral.Complete();
         }
 
         #endregion Command Implementation

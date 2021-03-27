@@ -1143,8 +1143,6 @@
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
-            DragEnter="List_DragEnter"
-            Drop="List_Drop"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"
@@ -1162,6 +1160,12 @@
                 </ResourceDictionary>
             </GridView.Resources>
             <Interactivity:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Drop">
+                    <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DropCommand}"/>
+                </icore:EventTriggerBehavior>
+                <icore:EventTriggerBehavior EventName="DragEnter">
+                    <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DragEnterCommand}"/>
+                </icore:EventTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
                         PropertyName="ItemContainerStyle"

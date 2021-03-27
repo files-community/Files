@@ -77,5 +77,9 @@ namespace Files.Interacts
         void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e);
 
         void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
+
+        void DragEnter(DragEventArgs e);
+
+        void Drop(DragEventArgs e);
     }
 }

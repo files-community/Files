@@ -885,8 +885,6 @@
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
             DoubleTapped="AllView_DoubleTapped"
-            DragEnter="List_DragEnter"
-            Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
             Holding="AllView_Holding"
             IsDoubleTapEnabled="True"
@@ -957,6 +955,12 @@
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
             <Interactivity:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Drop">
+                    <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DropCommand}"/>
+                </icore:EventTriggerBehavior>
+                <icore:EventTriggerBehavior EventName="DragEnter">
+                    <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.DragEnterCommand}"/>
+                </icore:EventTriggerBehavior>
                 <icore:EventTriggerBehavior EventName="PointerPressed">
                     <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}"/>
                 </icore:EventTriggerBehavior>
