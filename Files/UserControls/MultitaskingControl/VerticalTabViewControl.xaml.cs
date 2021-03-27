@@ -13,8 +13,6 @@ namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class VerticalTabViewControl : BaseMultitaskingControl
     {
-        public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
-
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
 
@@ -44,7 +42,7 @@ namespace Files.UserControls.MultitaskingControl
 
                 if (CurrentSelectedAppInstance != null)
                 {
-                    CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
+                    OnCurrentInstanceChanged(new CurrentInstanceChangedEventArgs()
                     {
                         CurrentInstance = CurrentSelectedAppInstance,
                         PageInstances = GetAllTabInstances()
