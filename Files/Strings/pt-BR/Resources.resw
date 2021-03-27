@@ -1455,17 +1455,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Painel Duplo</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar localização da cópia do item do menu</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Mova sobra de itens para um submenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostrar item do menu aberto em uma nova guia</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>

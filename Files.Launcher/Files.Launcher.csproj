@@ -147,10 +147,10 @@
       <Version>10.0.19041.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.8</Version>
+      <Version>4.7.9</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.WindowsRuntime">
       <Version>4.7.0</Version>
@@ -159,10 +159,10 @@
       <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="Vanara.PInvoke.Mpr">
-      <Version>3.3.5</Version>
+      <Version>3.3.7</Version>
     </PackageReference>
     <PackageReference Include="Vanara.Windows.Shell">
-      <Version>3.3.5</Version>
+      <Version>3.3.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

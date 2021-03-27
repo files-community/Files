@@ -1,7 +1,6 @@
 ﻿using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
-using Files.Enums;
 using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
@@ -705,16 +704,6 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
-            if (!AppSettings.ShowCopyLocationMenuItem)
-            {
-                UnloadMenuFlyoutItemByName("CopyLocationItem");
-            }
-
-            if (!AppSettings.ShowOpenInNewTabMenuItem)
-            {
-                UnloadMenuFlyoutItemByName("OpenInNewTab");
-            }
-
             if (!DataTransferManager.IsSupported())
             {
                 UnloadMenuFlyoutItemByName("ShareItem");
@@ -810,11 +799,7 @@ namespace Files
                 {
                     LoadMenuFlyoutItemByName("CreateShortcut");
                     LoadMenuFlyoutItemByName("OpenItem");
-
-                    if (AppSettings.ShowCopyLocationMenuItem)
-                    {
-                        LoadMenuFlyoutItemByName("CopyLocationItem");
-                    }
+                    LoadMenuFlyoutItemByName("CopyLocationItem");
                 }
                 else
                 {
@@ -849,10 +834,7 @@ namespace Files
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    if (AppSettings.ShowOpenInNewTabMenuItem)
-                    {
-                        LoadMenuFlyoutItemByName("OpenInNewTab");
-                    }
+                    LoadMenuFlyoutItemByName("OpenInNewTab");
                     LoadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)

@@ -1,5 +1,5 @@
 using Files.Filesystem.Cloud;
-using Files.Views;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using NLog;
@@ -84,12 +84,12 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
                     if (section == null)
                     {
                         section = new LocationItem()
@@ -100,7 +100,7 @@ namespace Files.Filesystem
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        MainPage.SideBarItems.Add(section);
+                        SidebarControl.SideBarItems.Add(section);
                     }
 
                     foreach (DriveItem drive in Drives.ToList())
@@ -111,11 +111,11 @@ namespace Files.Filesystem
                         }
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

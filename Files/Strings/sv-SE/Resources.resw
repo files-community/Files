@@ -954,9 +954,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal-appar</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Visa menyalternativet 'kopiera sökväg'</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Flytta överflödesobjekt till en undermeny</value>
   </data>
@@ -1472,9 +1469,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubbla paneler</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Visa menyalternativet 'öppna i ny flik'</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mappar</value>

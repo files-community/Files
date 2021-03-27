@@ -1,6 +1,6 @@
 ﻿using Files.Helpers;
+using Files.UserControls;
 using Files.ViewModels;
-using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -69,34 +69,34 @@ namespace Files.Filesystem
 
         public async Task RemoveLibrarySideBarItemsUI()
         {
-            MainPage.SideBarItems.BeginBulkOperation();
+            SidebarControl.SideBarItems.BeginBulkOperation();
 
             try
             {
-                var item = (from n in MainPage.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
                 if (!App.AppSettings.ShowLibrarySection && item != null)
                 {
-                    MainPage.SideBarItems.Remove(item);
+                    SidebarControl.SideBarItems.Remove(item);
                 }
             }
             catch (Exception)
             { }
 
-            MainPage.SideBarItems.EndBulkOperation();
+            SidebarControl.SideBarItems.EndBulkOperation();
         }
 
         private async Task SyncLibrarySideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
                     try
                     {
-                        if (App.AppSettings.ShowLibrarySection && !MainPage.SideBarItems.Contains(librarySection))
+                        if (App.AppSettings.ShowLibrarySection && !SidebarControl.SideBarItems.Contains(librarySection))
                         {
                             librarySection = new LocationItem()
                             {
@@ -107,8 +107,7 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-
-                            MainPage.SideBarItems.Insert(1, librarySection);
+                            SidebarControl.SideBarItems.Insert(1, librarySection);
 
                             libraryItems.Clear();
                             libraryItems.Add(AppSettings.DocumentsPath);
@@ -144,11 +143,11 @@ namespace Files.Filesystem
                     {
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

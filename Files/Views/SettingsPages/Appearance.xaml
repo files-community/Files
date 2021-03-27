@@ -107,20 +107,6 @@
                     Header="Enable animations when opening and closing the context menu"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AreRightClickContentMenuAnimationsEnabled, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="ShowOpenInNewTabToggleSwitch"
-                    x:Uid="SettingsOpenInNewTabSwitch"
-                    Header="Show open in new tab menu item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowOpenInNewTabMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <ToggleSwitch
-                    x:Name="ShowCopyLocationToggleSwitch"
-                    x:Uid="SettingsCopyLocationSwitch"
-                    Header="Show copy location menu item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowCopyLocationMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
 
