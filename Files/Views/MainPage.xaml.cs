@@ -65,23 +65,18 @@ namespace Files.Views
                 // Set multitasking control if changed and subscribe it to event for sidebar items updating
                 if (MainPageViewModel.MultitaskingControl != null)
                 {
-                    MainPageViewModel.MultitaskingControl.SelectedInstanceChanged -= MultitaskingControl_SelectedInstanceChanged;
                     MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
                 }
                 MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
-                MainPageViewModel.MultitaskingControl.SelectedInstanceChanged += MultitaskingControl_SelectedInstanceChanged;
                 MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
-
-        public void MultitaskingControl_SelectedInstanceChanged(object sender, CurrentInstanceChangedEventArgs e) => MultitaskingControl_CurrentInstanceChanged(sender, e);
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
-                
             }
         }
 
@@ -91,7 +86,7 @@ namespace Files.Views
             {
                 SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged -= PaneHolder_ActivePaneChanged;
             }
-            SidebarAdaptiveViewModel.PaneHolder = (ViewModel.SelectedTabItem.Control.Content as Frame).Content as IPaneHolder;
+            SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
             SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;

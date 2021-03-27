@@ -8,8 +8,6 @@ namespace Files.UserControls.MultitaskingControl
     {
         public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
-        public event EventHandler<CurrentInstanceChangedEventArgs> SelectedInstanceChanged;
-
         public ObservableCollection<TabItem> Items { get; }
 
         public List<ITabItem> RecentlyClosedTabs { get; }

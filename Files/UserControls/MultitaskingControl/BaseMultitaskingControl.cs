@@ -23,7 +23,6 @@ namespace Files.UserControls.MultitaskingControl
         public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<CurrentInstanceChangedEventArgs> SelectedInstanceChanged;
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 

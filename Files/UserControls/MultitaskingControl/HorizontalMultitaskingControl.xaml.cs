@@ -17,7 +17,7 @@ namespace Files.UserControls.MultitaskingControl
     {
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
-        public event EventHandler<CurrentInstanceChangedEventArgs> SelectedInstanceChanged;
+        public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
         private SettingsViewModel AppSettings => App.AppSettings;
 
@@ -47,7 +47,7 @@ namespace Files.UserControls.MultitaskingControl
 
                 if (CurrentSelectedAppInstance != null)
                 {
-                    SelectedInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
+                    CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
                     {
                         CurrentInstance = CurrentSelectedAppInstance,
                         PageInstances = GetAllTabInstances()
