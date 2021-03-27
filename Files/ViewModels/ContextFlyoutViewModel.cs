@@ -472,6 +472,13 @@ namespace Files.ViewModels
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
                 },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "QuickLook",
+                    BitmapIcon = new BitmapImage(new Uri("ms-appx:///Assets/QuickLook/quicklook_icon_black.png")),
+                    Command = commandsViewModel.QuickLookCommand,
+                    CheckShowItem = new Func<bool>(() => App.InteractionViewModel.IsQuickLookEnabled)
+                },
             };
         public List<ContextMenuFlyoutItemViewModel> BaseLayoutMenuItems => new List<ContextMenuFlyoutItemViewModel>()
         {
@@ -515,7 +522,7 @@ namespace Files.ViewModels
                         Text = "Details View",
                         Glyph = "\uE179",
                         ShowInRecycleBin = true,
-                        Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
+                        Command = CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
                     },
                 }
             },
@@ -615,8 +622,7 @@ namespace Files.ViewModels
                 ShowInRecycleBin = true,
                 KeyboardAccelerator = new KeyboardAccelerator
                 {
-                    Key = Windows.System.VirtualKey.V,
-                    Modifiers = Windows.System.VirtualKeyModifiers.Shift,
+                    Key = Windows.System.VirtualKey.F5,
                     IsEnabled = false,
                 }
             },

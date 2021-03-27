@@ -1004,7 +1004,7 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
                     if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
                     {
-                        if (ContentPage.IsQuickLookEnabled)
+                        if (InteractionViewModel.IsQuickLookEnabled)
                         {
                             QuickLookHelpers.ToggleQuickLook(this);
                         }

@@ -61,8 +61,6 @@ namespace Files
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-        public bool IsQuickLookEnabled { get; set; } = false;
-
         public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
         public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
 
@@ -224,7 +222,7 @@ namespace Files
 
             if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
             {
-                IsQuickLookEnabled = true;
+                App.InteractionViewModel.IsQuickLookEnabled = true;
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
