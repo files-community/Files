@@ -93,7 +93,6 @@ namespace Files.Views.LayoutModes
             : base()
         {
             InitializeComponent();
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;

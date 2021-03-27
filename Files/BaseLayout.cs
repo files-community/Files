@@ -63,7 +63,8 @@ namespace Files
 
         public bool IsQuickLookEnabled { get; set; } = false;
 
-        public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
+        public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
+        public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
@@ -206,8 +207,6 @@ namespace Files
 
         public ListedItem SelectedItem { get; private set; }
 
-        private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
-
         private DispatcherQueueTimer dragOverTimer;
 
         public BaseLayout()
@@ -280,37 +279,6 @@ namespace Files
             foreach (ListedItem selectedItem in selectedItems)
             {
                 AddSelectedItem(selectedItem);
-            }
-        }
-
-        public virtual void SetShellContextmenu(MenuFlyout menuFlyout, bool shiftPressed, bool showOpenMenu)
-        {
-            var currentBaseLayoutItemCount = menuFlyout.Items.Count;
-            var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
-            if (Connection != null)
-            {
-                var (status, response) = Task.Run(() => Connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "LoadContextMenu" },
-                    { "FilePath", IsItemSelected ?
-                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        ParentShellPageInstance.FilesystemViewModel.WorkingDirectory },
-                    { "ExtendedMenu", shiftPressed },
-                    { "ShowOpenMenu", showOpenMenu }
-                })).Result;
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Handle"))
-                {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                    if (contextMenu != null)
-                    {
-                    }
-                }
-            }
-            var totalFlyoutItems = menuFlyout.Items.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(menuFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
-            {
-                menuFlyout.Items.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
             }
         }
 
@@ -443,8 +411,6 @@ namespace Files
 
             FolderSettings.IsLayoutModeChanging = false;
 
-            cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
-
             FocusFileList(); // Set focus on layout specific file list control
 
             try
@@ -491,22 +457,6 @@ namespace Files
             }
         }
 
-        private void UnloadMenuFlyoutItemByName(string nameToUnload)
-        {
-            if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
-            {
-                menuItem.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void LoadMenuFlyoutItemByName(string nameToUnload)
-        {
-            if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
-            {
-                menuItem.Visibility = Visibility.Visible;
-            }
-        }
-
         public void ShowContextFlyout(FrameworkElement target, Point p = new Point())
         {
             if(target == null)
@@ -535,8 +485,7 @@ namespace Files
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                 ContextFlyoutViewModel.SelectedItems = SelectedItems;
                 ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-                ContextFlyoutViewModel.CachedNewContextMenuEntries = cachedNewContextMenuEntries;
-                ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, true);
+                ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, false);
                 BaseContextMenuFlyout.Items.Clear();
                 ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
             }
@@ -551,257 +500,9 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
             ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-            ContextFlyoutViewModel.LoadItemContextCommands(shiftPressed, true);
+            ContextFlyoutViewModel.LoadItemContextCommands(shiftPressed, false);
             ItemContextMenuFlyout.Items.Clear();
             ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
-        }
-        public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
-        public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
-
-//        public void RightClickContextMenu_Opening(object sender, object e)
-//        {
-//            ClearSelection();
-//            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-//            SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
-//            var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
-//            if (newItemMenu == null || cachedNewContextMenuEntries == null)
-//            {
-//                return;
-//            }
-//            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
-//            {
-//                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-//                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
-//                {
-//                    MenuFlyoutItem menuLayoutItem;
-//                    if (newEntry.Icon != null)
-//                    {
-//                        var image = new BitmapImage();
-//#pragma warning disable CS4014
-//                        image.SetSourceAsync(newEntry.Icon);
-//#pragma warning restore CS4014
-//                        menuLayoutItem = new MenuFlyoutItemWithImage()
-//                        {
-//                            Text = newEntry.Name,
-//                            BitmapIcon = image,
-//                            Tag = "CreateNewFile"
-//                        };
-//                    }
-//                    else
-//                    {
-//                        menuLayoutItem = new MenuFlyoutItem()
-//                        {
-//                            Text = newEntry.Name,
-//                            Icon = new FontIcon()
-//                            {
-//                                Glyph = "\xE7C3"
-//                            },
-//                            Tag = "CreateNewFile"
-//                        };
-//                    }
-//                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
-//                    menuLayoutItem.CommandParameter = newEntry;
-//                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
-//                }
-//            }
-//            var isPinned = App.SidebarPinnedController.Model.FavoriteItems.Contains(
-//                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
-//            if (isPinned)
-//            {
-//                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
-//                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
-//            }
-//            else
-//            {
-//                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
-//                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
-//            }
-//        }
-
-        public void RightClickItemContextMenu_Opening(object sender, object e)
-        {
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var showOpenMenu = (SelectedItems.Count == 1)
-                && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File
-                && !string.IsNullOrEmpty(SelectedItem.FileExtension)
-                && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
-            SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
-
-            if (!AppSettings.ShowCopyLocationMenuItem)
-            {
-                UnloadMenuFlyoutItemByName("CopyLocationItem");
-            }
-
-            if (!AppSettings.ShowOpenInNewTabMenuItem)
-            {
-                UnloadMenuFlyoutItemByName("OpenInNewTab");
-            }
-
-            if (!DataTransferManager.IsSupported())
-            {
-                UnloadMenuFlyoutItemByName("ShareItem");
-            }
-
-            // Find selected items that are not folders
-            if (SelectedItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
-            {
-                UnloadMenuFlyoutItemByName("SidebarPinItem");
-                UnloadMenuFlyoutItemByName("SidebarUnpinItem");
-                UnloadMenuFlyoutItemByName("PinItemToStart");
-                UnloadMenuFlyoutItemByName("UnpinItemFromStart");
-                UnloadMenuFlyoutItemByName("OpenInNewTab");
-                UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-                UnloadMenuFlyoutItemByName("OpenInNewPane");
-
-                if (SelectedItems.Count == 1)
-                {
-                    if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
-                    {
-                        if (SelectedItem.IsShortcutItem)
-                        {
-                            LoadMenuFlyoutItemByName("OpenItem");
-                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            UnloadMenuFlyoutItemByName("CreateShortcut");
-                        }
-                        else if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
-                        {
-                            UnloadMenuFlyoutItemByName("OpenItem");
-                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
-                        }
-                        else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase) || SelectedItem.FileExtension.Equals(".cmd", StringComparison.OrdinalIgnoreCase))
-                        {
-                            LoadMenuFlyoutItemByName("OpenItem");
-                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            LoadMenuFlyoutItemByName("RunAsAdmin");
-                            LoadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
-                        }
-                        else if (SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
-                        {
-                            UnloadMenuFlyoutItemByName("OpenItem");
-                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            LoadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
-                        }
-                        else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".appxbundle", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
-                        {
-                            LoadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
-                        }
-                        else
-                        {
-                            LoadMenuFlyoutItemByName("OpenItem");
-                            LoadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            LoadMenuFlyoutItemByName("CreateShortcut");
-                        }
-                    }
-                }
-                else if (SelectedItems.Count > 1)
-                {
-                    UnloadMenuFlyoutItemByName("OpenItem");
-                    UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                    UnloadMenuFlyoutItemByName("CreateShortcut");
-                }
-            }
-            else  // All are folders or shortcuts to folders
-            {
-                UnloadMenuFlyoutItemByName("OpenItem");
-                UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-
-                if (SelectedItems.Any(x => x.IsShortcutItem))
-                {
-                    UnloadMenuFlyoutItemByName("SidebarPinItem");
-                    UnloadMenuFlyoutItemByName("PinItemToStart");
-                    UnloadMenuFlyoutItemByName("CreateShortcut");
-                }
-                else if (SelectedItems.Count == 1)
-                {
-                    LoadMenuFlyoutItemByName("CreateShortcut");
-                    LoadMenuFlyoutItemByName("OpenItem");
-
-                    if (AppSettings.ShowCopyLocationMenuItem)
-                    {
-                        LoadMenuFlyoutItemByName("CopyLocationItem");
-                    }
-                }
-                else
-                {
-                    LoadMenuFlyoutItemByName("SidebarPinItem");
-                    UnloadMenuFlyoutItemByName("CreateShortcut");
-                }
-
-                if (selectedItems.All(x => !x.IsShortcutItem))
-                {
-                    if (selectedItems.All(x => x.IsPinned))
-                    {
-                        LoadMenuFlyoutItemByName("SidebarUnpinItem");
-                        UnloadMenuFlyoutItemByName("SidebarPinItem");
-                    }
-                    else
-                    {
-                        LoadMenuFlyoutItemByName("SidebarPinItem");
-                        UnloadMenuFlyoutItemByName("SidebarUnpinItem");
-                    }
-
-                    if (selectedItems.All(x => x.IsItemPinnedToStart))
-                    {
-                        UnloadMenuFlyoutItemByName("PinItemToStart");
-                        LoadMenuFlyoutItemByName("UnpinItemFromStart");
-                    }
-                    else
-                    {
-                        LoadMenuFlyoutItemByName("PinItemToStart");
-                        UnloadMenuFlyoutItemByName("UnpinItemFromStart");
-                    }
-                }
-
-                if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
-                {
-                    if (AppSettings.ShowOpenInNewTabMenuItem)
-                    {
-                        LoadMenuFlyoutItemByName("OpenInNewTab");
-                    }
-                    LoadMenuFlyoutItemByName("OpenInNewWindowItem");
-                }
-                else if (SelectedItems.Count > 5)
-                {
-                    UnloadMenuFlyoutItemByName("OpenInNewTab");
-                    UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-                }
-
-                if (SelectedItems.Count == 1 && ParentShellPageInstance.IsMultiPaneEnabled && ParentShellPageInstance.IsPageMainPane)
-                {
-                    LoadMenuFlyoutItemByName("OpenInNewPane");
-                }
-                else
-                {
-                    UnloadMenuFlyoutItemByName("OpenInNewPane");
-                }
-
-                //Shift key is not held, remove extras here
-                if (!Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
-                {
-                    UnloadMenuFlyoutItemByName("PinItemToStart");
-                    UnloadMenuFlyoutItemByName("UnpinItemFromStart");
-                }
-            }
-
-            //check the file extension of the selected item
-            SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)

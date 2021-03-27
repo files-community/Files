@@ -31,7 +31,6 @@ namespace Files.Views.LayoutModes
         {
             InitializeComponent();
             this.DataContext = this;
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;

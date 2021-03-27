@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -233,6 +234,16 @@ namespace Files.ViewModels
             return (null, null);
         }
 
+        public ContextFlyoutViewModel()
+        {
+            InitNewItemItemsAsync();
+        }
+
+        private async void InitNewItemItemsAsync()
+        {
+            CachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
+        }
+
         public List<ContextMenuFlyoutItemViewModel> NewItemItems { 
             get {
                 var list = new List<ContextMenuFlyoutItemViewModel>()
@@ -371,7 +382,7 @@ namespace Files.ViewModels
                     Text = "Share",
                     Glyph = "\uE72D",
                     Command = commandsViewModel.ShareItemCommand,
-                    CheckShowItem = new Func<bool>(() => !SelectedItems.Any(i => i.IsHiddenItem || i.IsShortcutItem)),
+                    CheckShowItem = new Func<bool>(() => DataTransferManager.IsSupported() && !SelectedItems.Any(i => i.IsHiddenItem)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -612,9 +623,9 @@ namespace Files.ViewModels
             new ContextMenuFlyoutItemViewModel()
             {
                 Text = "Paste",
-                Glyph = "\uE72C",
+                Glyph = "\uE16D",
                 Command = commandsViewModel.PasteItemsFromClipboardCommand,
-                CheckShowItem = new Func<bool>(() => CurrentInstanceViewModel.CanPasteInPage && App.InteractionViewModel.IsPasteEnabled),
+                IsEnabled = CurrentInstanceViewModel.CanPasteInPage && App.InteractionViewModel.IsPasteEnabled,
                 KeyboardAccelerator = new KeyboardAccelerator
                 {
                     Key = Windows.System.VirtualKey.V,
