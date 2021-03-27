@@ -1446,17 +1446,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>デュアル ペイン</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>「場所をコピー」を表示</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>右クリックメニューの一部をサブメニューに移動</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリックメニューをカスタマイズ</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>「新しいタブで開く」を表示</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>フォルダ</value>

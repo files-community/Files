@@ -1455,17 +1455,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Çift pano</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Konumu kopyala menü ögesi görüntülensin</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Taşan ögeler bir alt menüye taşınsın</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Yeni sekmede aç menü ögesi görüntülensin</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Klasörler</value>

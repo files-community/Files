@@ -1455,17 +1455,11 @@
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>"Elérési út másolása" elem megjelenítése</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Ki nem férő elemek almenübe helyezése</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Helyi menü testreszabása</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>"Megnyitás új oldalon" elem megjelenítése</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mappák</value>

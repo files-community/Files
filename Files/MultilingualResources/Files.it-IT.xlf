@@ -1930,10 +1930,6 @@
           <source>Dual pane</source>
           <target state="translated">Doppio Pannello</target>
         </trans-unit>
-        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show copy location menu item</source>
-          <target state="translated">Mostra copia percorso nel menu contestuale</target>
-        </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Sposta elementi in eccesso in un sotto-menu</target>
@@ -1941,10 +1937,6 @@
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
           <target state="translated">Personalizza il menu contestuale</target>
-        </trans-unit>
-        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show open in new tab menu item</source>
-          <target state="translated">Mostra apri nuova scheda nel menu contestuale</target>
         </trans-unit>
         <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Folders</source>

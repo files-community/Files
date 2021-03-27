@@ -957,9 +957,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>터미널</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>메뉴 항목에 경로 복사 추가</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>초과된 항목을 하위 메뉴로 이동</value>
   </data>
@@ -1472,9 +1469,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>듀얼 패널</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>메뉴 항목에 새 탭에서 열기 추가</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>폴더</value>

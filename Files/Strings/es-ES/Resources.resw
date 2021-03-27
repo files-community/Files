@@ -1443,17 +1443,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel Doble</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar "Copiar ubicación" en el menú contextual</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Mover opciones adicionales a un sub menú</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personaliza el menú contextual</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostrar "Abrir en nueva pestaña" en el menú contextual</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Carpetas</value>

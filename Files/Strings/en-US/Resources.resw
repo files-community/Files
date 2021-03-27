@@ -1065,9 +1065,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal applications</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show copy location menu item</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
@@ -1586,9 +1583,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dual pane</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Show open in new tab menu item</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>

@@ -1452,17 +1452,11 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Geteilte Ansicht</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>'Speicherort kopieren' Menüeintrag anzeigen</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Einträge in ein Untermenü verschieben wenn das Menü überläuft</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>'In neuem Tab öffnen' Menüeintrag anzeigen</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Ordner</value>
