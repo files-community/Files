@@ -14,7 +14,7 @@ namespace Files.ViewModels
 {
     public class ContextMenuFlyoutItemViewModel
     {
-        public Func<bool> CheckShowItem { get; set; }
+        public bool ShowItem { get; set; } = true;
         public ICommand Command {get; set; }
         public object CommandParameter { get; set; }
         public string Glyph { get; set; }

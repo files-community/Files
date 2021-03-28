@@ -67,8 +67,6 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
-        public ContextFlyoutViewModel ContextFlyoutViewModel { get; private set; }
-
         public bool IsRenamingItem { get; set; } = false;
 
         private NavigationArguments navigationArguments;
@@ -427,12 +425,6 @@ namespace Files
             {
             }
 
-            ContextFlyoutViewModel = new ContextFlyoutViewModel()
-            {
-                CommandsViewModel = CommandsViewModel,
-                CurrentInstanceViewModel = InstanceViewModel,
-                ItemViewModel = ParentShellPageInstance.FilesystemViewModel,
-            };
             ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
             ItemContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
@@ -479,12 +471,9 @@ namespace Files
             try
             {
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-                ContextFlyoutViewModel.SelectedItems = SelectedItems;
-                ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-                ContextFlyoutViewModel.Connection = Connection;
-                ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, false);
+                var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 BaseContextMenuFlyout.Items.Clear();
-                ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
+                ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
             }
             catch (Exception error)
             {
@@ -495,12 +484,9 @@ namespace Files
         private void LoadMenuItemsAsync()
         {
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            ContextFlyoutViewModel.SelectedItems = SelectedItems;
-            ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
-            ContextFlyoutViewModel.Connection = Connection;
-            ContextFlyoutViewModel.LoadItemContextCommands(shiftPressed, false);
+            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.Items.Clear();
-            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
+            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
