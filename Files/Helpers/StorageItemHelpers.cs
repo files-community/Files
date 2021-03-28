@@ -58,7 +58,7 @@ namespace Files.Helpers
                 {
                     await GetFolder();
 
-                    if (!folder && !fileChecked && !file)
+                    if (!folder && !fileChecked)
                     {
                         // It wasn't a folder, so check file then because it wasn't checked
                         await GetFile();
