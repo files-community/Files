@@ -47,18 +47,15 @@ namespace Files.Helpers
             }
             else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
             {
-                bool fileChecked = false;
-
                 if (System.IO.Path.HasExtension(path)) // Probably a file
                 {
                     await GetFile();
-                    fileChecked = true;
                 }
                 else // Possibly a folder
                 {
                     await GetFolder();
 
-                    if (!folder && !fileChecked)
+                    if (!folder)
                     {
                         // It wasn't a folder, so check file then because it wasn't checked
                         await GetFile();
