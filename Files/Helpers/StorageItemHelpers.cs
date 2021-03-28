@@ -20,30 +20,55 @@ namespace Files.Helpers
             FilesystemResult<StorageFile> file = null;
             FilesystemResult<StorageFolder> folder = null;
 
-            if (associatedInstance == null)
+            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
             {
-                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
-
-                if (!file)
+                if (associatedInstance == null)
+                {
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                }
+                else
+                {
+                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                }
+            }
+            else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TOut)))
+            {
+                if (associatedInstance == null)
                 {
                     folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                 }
-            }
-            else
-            {
-                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
-
-                if (!file)
+                else
                 {
                     folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
                 }
             }
+            else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
+            {
+                if (associatedInstance == null)
+                {
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
 
-            if (file)
+                    if (!file)
+                    {
+                        folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                    }
+                }
+                else
+                {
+                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+
+                    if (!file)
+                    {
+                        folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                    }
+                }
+            }
+
+            if (file != null && file)
             {
                 return (TOut)(IStorageItem)file.Result;
             }
-            else if (folder)
+            else if (folder != null && folder)
             {
                 return (TOut)(IStorageItem)folder.Result;
             }
