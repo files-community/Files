@@ -31,7 +31,7 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-
+        
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
@@ -43,7 +43,8 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
+                Loaded="Grid_Loaded">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -184,7 +185,8 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
+                Loaded="Grid_Loaded">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />

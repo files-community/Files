@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
@@ -463,8 +464,6 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
-
-            args.ItemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -485,5 +484,14 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+            while (!(item is GridViewItem))
+                item = VisualTreeHelper.GetParent(item);
+            var itemContainer = item as GridViewItem;
+            itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
     }
 }
