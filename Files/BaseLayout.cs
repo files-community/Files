@@ -429,7 +429,6 @@ namespace Files
 
             ContextFlyoutViewModel = new ContextFlyoutViewModel()
             {
-                Connection = Connection,
                 CommandsViewModel = CommandsViewModel,
                 CurrentInstanceViewModel = InstanceViewModel,
                 ItemViewModel = ParentShellPageInstance.FilesystemViewModel,
@@ -482,6 +481,7 @@ namespace Files
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                 ContextFlyoutViewModel.SelectedItems = SelectedItems;
                 ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
+                ContextFlyoutViewModel.Connection = Connection;
                 ContextFlyoutViewModel.LoadBaseContextCommands(shiftPressed, false);
                 BaseContextMenuFlyout.Items.Clear();
                 ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
@@ -497,6 +497,7 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             ContextFlyoutViewModel.SelectedItems = SelectedItems;
             ContextFlyoutViewModel.SelectedItemsPropertiesViewModel = SelectedItemsPropertiesViewModel;
+            ContextFlyoutViewModel.Connection = Connection;
             ContextFlyoutViewModel.LoadItemContextCommands(shiftPressed, false);
             ItemContextMenuFlyout.Items.Clear();
             ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ContextFlyoutViewModel.MenuItemsList).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
