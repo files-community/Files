@@ -27,6 +27,8 @@ namespace Files.Helpers
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
                 //      we could implement this code here for getting .lnk files
                 //      for now, we can't
+                
+                return default(TOut);
 
                 if (false) // Prevent unnecessary exceptions
                 {
