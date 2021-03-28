@@ -250,7 +250,7 @@ namespace Files.ViewModels
                 {
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutNewFolder".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutNewFolder2".GetLocalized(),
                         Glyph = "\uE8B7",
                         Command = commandsViewModel.CreateNewFolderCommand,
                     },
@@ -294,7 +294,7 @@ namespace Files.ViewModels
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutRestore".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutRestore2".GetLocalized(),
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.RestoreItemCommand,
                     ShowInRecycleBin = true,
@@ -302,28 +302,28 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenItem".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutOpenItem2".GetLocalized(),
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.OpenItemCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.Count <= 10)
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenItemWith".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutOpenItemWith2".GetLocalized(),
                     Glyph = "\uE17D",
                     Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenFileLocation".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutOpenFileLocation2".GetLocalized(),
                     Glyph = "\uE8DA",
                     Command = commandsViewModel.OpenFileLocationCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.All(i => i.IsShortcutItem)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenInNewPane".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutOpenInNewPane2".GetLocalized(),
                     Glyph = "\uF57C",
                     Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
                     CheckShowItem = new Func<bool>(() => App.AppSettings.IsDualPaneEnabled && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
@@ -331,33 +331,33 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenInNewTab".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutOpenInNewTab2".GetLocalized(),
                     Glyph = "\uEC6C",
                     Command = commandsViewModel.OpenDirectoryInNewTabCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.Count < 5 && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenInNewWindow".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutOpenInNewWindow2".GetLocalized(),
                     Glyph = "\uE737",
                     Command = commandsViewModel.OpenInNewWindowItemCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.Count < 5 && SelectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutSetAs".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutSetAs2".GetLocalized(),
                     CheckShowItem = new Func<bool>(() => SelectedItemsPropertiesViewModel.IsSelectedItemImage),
                     Items = new List<ContextMenuFlyoutItemViewModel>()
                     {
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutItemContextFlyoutSetAsDesktopBackground".GetLocalized(),
+                            Text = "BaseLayoutItemContextFlyoutSetAsDesktopBackground2".GetLocalized(),
                             Glyph = "\uE91B",
                             Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground".GetLocalized(),
+                            Text = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground2".GetLocalized(),
                             Glyph = "\uF114",
                             Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
                         },
@@ -365,21 +365,21 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutRunAsAdmin".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutRunAsAdmin2".GetLocalized(),
                     Glyph = "\uE7EF",
                     Command = CommandsViewModel.RunAsAdminCommand,
                     CheckShowItem = new Func<bool>(() => new string[]{".bat", ".exe", "cmd" }.Contains(SelectedItems.FirstOrDefault().FileExtension))
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutRunAsAnotherUser".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutRunAsAnotherUser2".GetLocalized(),
                     Glyph = "\uE7EE",
                     Command = CommandsViewModel.RunAsAnotherUserCommand,
                     CheckShowItem = new Func<bool>(() => new string[]{".bat", ".exe", "cmd" }.Contains(SelectedItems.FirstOrDefault().FileExtension))
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutShare".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutShare2".GetLocalized(),
                     Glyph = "\uE72D",
                     Command = commandsViewModel.ShareItemCommand,
                     CheckShowItem = new Func<bool>(() => DataTransferManager.IsSupported() && !SelectedItems.Any(i => i.IsHiddenItem)),
@@ -391,27 +391,27 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCut".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutCut2".GetLocalized(),
                     Glyph = "\uE8C6",
                     Command = commandsViewModel.CutItemCommand,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCopy".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutCopy2".GetLocalized(),
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCopyLocation".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutCopyLocation2".GetLocalized(),
                     Glyph = "\uE167",
                     Command = commandsViewModel.CopyPathOfSelectedItemCommand,
                     SingleItemOnly = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutShortcut".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutShortcut2".GetLocalized(),
                     Glyph = "\uF10A",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.CreateShortcutCommand,
@@ -420,7 +420,7 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutDelete".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutDelete2".GetLocalized(),
                     Glyph = "\uE74D",
                     Command = commandsViewModel.DeleteItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.Delete },
@@ -428,7 +428,7 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutRename".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutRename2".GetLocalized(),
                     Glyph = "\uE8AC",
                     Command = commandsViewModel.RenameItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
@@ -436,21 +436,21 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutPinToSidebar".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutPinToSidebar2".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned))
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
                     CheckShowItem = new Func<bool>(() => SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned))
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "PinItemToStart".GetLocalized(),
+                    Text = "PinItemToStart2".GetLocalized(),
                     Glyph = "\uE840",
                     // TODO: Add command
                     ShowOnShift = true,
@@ -459,7 +459,7 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "UnpinItemFromStart".GetLocalized(),
+                    Text = "UnpinItemFromStart2".GetLocalized(),
                     Glyph = "\uE77A",
                     // TODO: Add command
                     ShowOnShift = true,
@@ -468,13 +468,13 @@ namespace Files.ViewModels
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutProperties".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutProperties2".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutQuickLook".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutQuickLook2".GetLocalized(),
                     BitmapIcon = new BitmapImage(new Uri("ms-appx:///Assets/QuickLook/quicklook_icon_black.png")),
                     Command = commandsViewModel.QuickLookCommand,
                     CheckShowItem = new Func<bool>(() => App.InteractionViewModel.IsQuickLookEnabled)
@@ -484,7 +484,7 @@ namespace Files.ViewModels
         {
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutLayoutMode".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutLayoutMode2".GetLocalized(),
                 Glyph = "\uE152",
                 ShowInRecycleBin = true,
                 Items = new List<ContextMenuFlyoutItemViewModel>()
@@ -492,7 +492,7 @@ namespace Files.ViewModels
                     // Grid view large
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutGridViewLarge".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutGridViewLarge2".GetLocalized(),
                         Glyph = "\uE739",
                         ShowInRecycleBin = true,
                         Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge,
@@ -500,7 +500,7 @@ namespace Files.ViewModels
                     // Grid view medium
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutGridViewMedium".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutGridViewMedium2".GetLocalized(),
                         Glyph = "\uF0E2",
                         ShowInRecycleBin = true,
                         Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium,
@@ -508,7 +508,7 @@ namespace Files.ViewModels
                     // Grid view small
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutGridViewSmall".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutGridViewSmall2".GetLocalized(),
                         Glyph = "\uE80A",
                         ShowInRecycleBin = true,
                         Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall,
@@ -516,7 +516,7 @@ namespace Files.ViewModels
                     // Tiles view
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutTilesView".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutTilesView2".GetLocalized(),
                         Glyph = "\uE15C",
                         ShowInRecycleBin = true,
                         Command =  CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeTiles,
@@ -524,7 +524,7 @@ namespace Files.ViewModels
                     // Details view
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutDetails".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutDetails2".GetLocalized(),
                         Glyph = "\uE179",
                         ShowInRecycleBin = true,
                         Command = CurrentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
@@ -533,14 +533,14 @@ namespace Files.ViewModels
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutSortBy".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutSortBy2".GetLocalized(),
                 Glyph = "\uE8CB",
                 ShowInRecycleBin = true,
                 Items = new List<ContextMenuFlyoutItemViewModel>()
                 {
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByName".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByName2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedByName,
                         ShowInRecycleBin = true,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedByName = true),
@@ -548,7 +548,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByOriginalPath".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByOriginalPath2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedByOriginalPath,
                         ShowInRecycleBin = true,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedByOriginalPath = true),
@@ -557,7 +557,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByDateDeleted".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByDateDeleted2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedByDateDeleted,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedByDateDeleted = true),
                         ShowInRecycleBin = true,
@@ -566,7 +566,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByType".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByType2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedByType,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedByType = true),
                         ShowInRecycleBin = true,
@@ -574,7 +574,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortBySize".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortBySize2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedBySize,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedBySize = true),
                         ShowInRecycleBin = true,
@@ -582,7 +582,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByDate".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByDate2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedByDate,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedByDate = true),
                         ShowInRecycleBin = true,
@@ -590,7 +590,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByDateCreated".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByDateCreated2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedByDateCreated,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedByDateCreated = true),
                         ShowInRecycleBin = true,
@@ -603,7 +603,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByAscending".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByAscending2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedAscending,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedAscending = true),
                         ShowInRecycleBin = true,
@@ -611,7 +611,7 @@ namespace Files.ViewModels
                     },
                     new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "BaseLayoutContextFlyoutSortByDescending".GetLocalized(),
+                        Text = "BaseLayoutContextFlyoutSortByDescending2".GetLocalized(),
                         IsChecked = ItemViewModel.IsSortedDescending,
                         Command = new RelayCommand(() => ItemViewModel.IsSortedDescending = true),
                         ShowInRecycleBin = true,
@@ -621,7 +621,7 @@ namespace Files.ViewModels
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutRefresh".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutRefresh2".GetLocalized(),
                 Glyph = "\uE72C",
                 ShowInRecycleBin = true,
                 KeyboardAccelerator = new KeyboardAccelerator
@@ -632,7 +632,7 @@ namespace Files.ViewModels
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutPaste".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutPaste2".GetLocalized(),
                 Glyph = "\uE16D",
                 Command = commandsViewModel.PasteItemsFromClipboardCommand,
                 IsEnabled = CurrentInstanceViewModel.CanPasteInPage && App.InteractionViewModel.IsPasteEnabled,
@@ -645,7 +645,7 @@ namespace Files.ViewModels
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutOpenInTerminal".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutOpenInTerminal2".GetLocalized(),
                 Glyph = "\uE756",
                 Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
             },
@@ -655,7 +655,7 @@ namespace Files.ViewModels
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutNew".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutNew2".GetLocalized(),
                 Glyph = "\uE710",
                 KeyboardAccelerator = new KeyboardAccelerator
                 {
@@ -667,27 +667,27 @@ namespace Files.ViewModels
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutPinDirectoryToSidebar".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutPinDirectoryToSidebar2".GetLocalized(),
                 Glyph = "\uE840",
                 Command = commandsViewModel.SidebarPinItemCommand,
                 CheckShowItem = new Func<bool>(() => !ItemViewModel.CurrentFolder.IsPinned)
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2".GetLocalized(),
                 Glyph = "\uE77A",
                 Command = commandsViewModel.SidebarUnpinItemCommand,
                 CheckShowItem = new Func<bool>(() => ItemViewModel.CurrentFolder.IsPinned)
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutPropertiesFolder".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutPropertiesFolder2".GetLocalized(),
                 Glyph = "\uE946",
                 Command = commandsViewModel.ShowFolderPropertiesCommand,
             },
             new ContextMenuFlyoutItemViewModel()
             {
-                Text = "BaseLayoutContextFlyoutEmptyRecycleBin".GetLocalized(),
+                Text = "BaseLayoutContextFlyoutEmptyRecycleBin2".GetLocalized(),
                 Glyph = "\uEF88",
                 Command = commandsViewModel.EmptyRecycleBinCommand,
                 CheckShowItem = new Func<bool>(() => CurrentInstanceViewModel.IsPageTypeRecycleBin)
