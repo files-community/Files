@@ -114,6 +114,13 @@
                     Header="Show Library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="OpenFoldersNewTab"
+                    x:Uid="SettingsPreferencesOpenFoldersNewTab"
+                    Header="Open Folders on new tab"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

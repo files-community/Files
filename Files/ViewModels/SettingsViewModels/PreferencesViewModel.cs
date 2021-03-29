@@ -17,6 +17,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
+        private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
 
         public PreferencesViewModel()
         {
@@ -111,6 +112,21 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showLibrarySection, value))
                 {
                     App.AppSettings.ShowLibrarySection = value;
+                }
+            }
+        }
+
+        public bool OpenFoldersNewTab
+        {
+            get
+            {
+                return openFoldersNewTab;
+            }
+            set
+            {
+                if (SetProperty(ref openFoldersNewTab, value))
+                {
+                    App.AppSettings.OpenFoldersNewTab = value;
                 }
             }
         }
