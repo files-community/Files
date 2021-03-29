@@ -497,7 +497,8 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutQuickLook2".GetLocalized(),
                     BitmapIcon = new BitmapImage(new Uri("ms-appx:///Assets/QuickLook/quicklook_icon_black.png")),
                     Command = commandsViewModel.QuickLookCommand,
-                    ShowItem = App.InteractionViewModel.IsQuickLookEnabled
+                    ShowItem = App.InteractionViewModel.IsQuickLookEnabled,
+                    SingleItemOnly = true,
                 },
             };
         }
