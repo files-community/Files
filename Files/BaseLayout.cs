@@ -437,6 +437,8 @@ namespace Files
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
+            BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
