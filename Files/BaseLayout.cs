@@ -208,7 +208,7 @@ namespace Files
         {
             jumpTimer = new DispatcherTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
-            jumpTimer.Tick += JumpTimer_Tick; ;
+            jumpTimer.Tick += JumpTimer_Tick;
 
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();

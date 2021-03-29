@@ -298,6 +298,7 @@ namespace Files.Helpers
                 },
             };
         }
+
         public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
             return new List<ContextMenuFlyoutItemViewModel>()
@@ -498,51 +499,51 @@ namespace Files.Helpers
                 },
             };
         }
+
         public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel)
         {
-                var list = new List<ContextMenuFlyoutItemViewModel>()
+            var list = new List<ContextMenuFlyoutItemViewModel>()
+            {
+                new ContextMenuFlyoutItemViewModel()
                 {
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        Text = "BaseLayoutContextFlyoutNewFolder2".GetLocalized(),
-                        Glyph = "\uE8B7",
-                        Command = commandsViewModel.CreateNewFolderCommand,
-                    },
-                    new ContextMenuFlyoutItemViewModel()
-                    {
-                        ItemType = ItemType.Separator,
-                    }
-                };
-
-                CachedNewContextMenuEntries?.ForEach(i =>
+                    Text = "BaseLayoutContextFlyoutNewFolder2".GetLocalized(),
+                    Glyph = "\uE8B7",
+                    Command = commandsViewModel.CreateNewFolderCommand,
+                },
+                new ContextMenuFlyoutItemViewModel()
                 {
-                    if (i.Icon != null)
-                    {
-                        var bitmap = new BitmapImage();
-                        bitmap.SetSourceAsync(i.Icon);
-                        list.Add(new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = i.Name,
-                            BitmapIcon = bitmap,
-                            Command = commandsViewModel.CreateNewFileCommand,
-                            //CommandParameter = i,
-                        });
-                    }
-                    else
-                    {
-                        list.Add(new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = i.Name,
-                            Glyph = "\xE7C3",
-                            Command = commandsViewModel.CreateNewFileCommand,
-                            //CommandParameter = i,
-                        });
-                    }
+                    ItemType = ItemType.Separator,
+                }
+            };
 
-                });
+            CachedNewContextMenuEntries?.ForEach(i =>
+            {
+                if (i.Icon != null)
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.SetSourceAsync(i.Icon);
+                    list.Add(new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = i.Name,
+                        BitmapIcon = bitmap,
+                        Command = commandsViewModel.CreateNewFileCommand,
+                        //CommandParameter = i,
+                    });
+                }
+                else
+                {
+                    list.Add(new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = i.Name,
+                        Glyph = "\xE7C3",
+                        Command = commandsViewModel.CreateNewFileCommand,
+                        //CommandParameter = i,
+                    });
+                }
+            });
 
-                return list;
-            }
+            return list;
+        }
     }
 }
 
