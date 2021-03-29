@@ -528,7 +528,7 @@ namespace Files.Helpers
                         Text = i.Name,
                         BitmapIcon = bitmap,
                         Command = commandsViewModel.CreateNewFileCommand,
-                        //CommandParameter = i,
+                        CommandParameter = i,
                     });
                 }
                 else
