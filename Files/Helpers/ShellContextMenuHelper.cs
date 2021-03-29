@@ -66,14 +66,21 @@ namespace Files.Helpers {
 
             if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
-                var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
+                var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
+                if (moreItem == null)
                 {
-                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
-                    Tag = ((Win32ContextMenuItem)null, menuHandle),
-                    Glyph = "\xE712",
-                };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
-                menuItemsListLocal.Insert(0, menuLayoutSubItem);
+                    var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
+                    {
+                        Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                        Tag = ((Win32ContextMenuItem)null, menuHandle),
+                        Glyph = "\xE712",
+                    };
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
+                    menuItemsListLocal.Insert(0, menuLayoutSubItem);
+                } else
+                {
+                    LoadMenuFlyoutItem(moreItem.Items, overflowItems, menuHandle, false);
+                }
             }
             foreach (var menuFlyoutItem in menuItems
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators

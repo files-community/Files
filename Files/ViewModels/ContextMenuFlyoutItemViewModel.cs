@@ -40,6 +40,10 @@ namespace Files.ViewModels
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
         public bool IsChecked { get; set; }
         public bool IsEnabled { get; set; } = true;
+        /// <summary>
+        /// A unique identifier that can be used to save preferences for menu items
+        /// </summary>
+        public string ID { get; set; }
     }
 
     public enum ItemType

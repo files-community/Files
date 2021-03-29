@@ -44,13 +44,34 @@ namespace Files.Helpers
         {
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
             items.ForEach(x => x.Items = x.Items.Where(y => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
+            var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
+            if(overflow != null && !shiftPressed)
+            {
+                var overflowItems = items.Where(x => x.ShowOnShift).ToList();
+
+                // Add a separator if there are other items in the list and there isn't already one
+                if(overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator)
+                {
+                    overflow.Items.Add(new ContextMenuFlyoutItemViewModel()
+                    {
+                        ItemType = ItemType.Separator,
+                    });
+                }
+                overflowItems.ForEach(x => overflow.Items.Add(x));
+                items = items.Except(overflowItems).ToList();
+            }
+
+            // remove the overflow if it has no child items
+            if (overflow != null && overflow.Items.Count == 0)
+            {
+                items.Remove(overflow);
+            }
             return items;
         }
 
         private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, bool shiftPressed)
         {
             return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) // Hide non-recycle bin items
-                && (!item.ShowOnShift || shiftPressed)  // Hide items that are only shown on shift
                 && (!item.SingleItemOnly || selectedItems.Count == 1)
                 && item.ShowItem;
         }
@@ -59,6 +80,12 @@ namespace Files.Helpers
         {
             return new List<ContextMenuFlyoutItemViewModel>()
             {
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Glyph = "\xE712",
+                    ID = "ItemOverflow"
+                },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutLayoutMode2".GetLocalized(),
@@ -367,6 +394,12 @@ namespace Files.Helpers
                     Glyph = "\uE72D",
                     Command = commandsViewModel.ShareItemCommand,
                     ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Glyph = "\xE712",
+                    ID = "ItemOverflow"
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
