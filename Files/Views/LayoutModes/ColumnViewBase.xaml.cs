@@ -77,6 +77,7 @@ namespace Files.Views.LayoutModes
             if (FileList.ItemsSource == null)
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+                ParentShellPageInstance.IsCurrentInstance = true;
             }
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -405,7 +406,19 @@ namespace Files.Views.LayoutModes
         {
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
+                if (item.ItemType == "File folder")
+                {
+                    if (item.ContainsFilesOrFolders)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    }
+                }
+                // The delay gives time for the item to be selected
+                else
+                {
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
             }
         }
 

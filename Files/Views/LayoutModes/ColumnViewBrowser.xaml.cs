@@ -449,7 +449,50 @@ namespace Files.Views.LayoutModes
         {
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
+                if (item.ItemType == "File folder")
+                {
+                    //var pane = new ModernShellPage();
+                    //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+                    //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
+                    //pane.IsPageMainPane = false;
+                    //pane.NavParams = item.ItemPath;
+                    try
+                    {
+                        while (ColumnHost.ActiveBlades.Count > 1)
+                        {
+                            ColumnHost.Items.RemoveAt(1);
+                            ColumnHost.ActiveBlades.RemoveAt(1);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    if (item.ContainsFilesOrFolders)
+                    {
+                        var frame = new Frame();
+                        var blade = new BladeItem();
+                        blade.Content = frame;
+                        ColumnHost.Items.Add(blade);
+                        //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
+                        //{
+                        //    NavPathParam = item.ItemPath,
+                        //    AssociatedTabInstance = ParentShellPageInstance
+                        //});
+
+                        frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                        {
+                            Column = 1,
+                            Path = item.ItemPath
+                        });
+                    }
+                }
+                // The delay gives time for the item to be selected
+                else
+                {
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
             }
         }
 
