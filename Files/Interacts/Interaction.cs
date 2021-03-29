@@ -118,7 +118,14 @@ namespace Files.Interacts
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                OpenSelectedItems(false);
+                if (AppSettings.OpenFoldersNewTab)
+                {
+                    OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
+                }
+                else
+                {
+                    OpenSelectedItems(false);
+                }                
             }
         }
 
