@@ -26,6 +26,7 @@ namespace Files.Helpers
                 return cachedNewContextMenuEntries;
             }
         }
+        static List<ContextMenuFlyoutItemViewModel> cachedNewItemItems; 
 
         public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
@@ -500,7 +501,7 @@ namespace Files.Helpers
                 },
             };
         }
-
+        
         public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel)
         {
             var list = new List<ContextMenuFlyoutItemViewModel>()
@@ -521,8 +522,13 @@ namespace Files.Helpers
             {
                 if (i.Icon != null)
                 {
-                    var bitmap = new BitmapImage();
-                    bitmap.SetSourceAsync(i.Icon);
+                    // loading the bitmaps takes a while, so this caches them
+                    var bitmap = cachedNewItemItems?.Where(x => x.Text == i.Name).FirstOrDefault()?.BitmapIcon;
+                    if(bitmap == null)
+                    {
+                        bitmap = new BitmapImage();
+                        bitmap.SetSourceAsync(i.Icon).AsTask().Wait(50);
+                    }
                     list.Add(new ContextMenuFlyoutItemViewModel()
                     {
                         Text = i.Name,
@@ -538,11 +544,12 @@ namespace Files.Helpers
                         Text = i.Name,
                         Glyph = "\xE7C3",
                         Command = commandsViewModel.CreateNewFileCommand,
-                        //CommandParameter = i,
+                        CommandParameter = i,
                     });
                 }
             });
 
+            cachedNewItemItems = list;
             return list;
         }
     }
