@@ -874,7 +874,7 @@
                         TextWrapping="NoWrap" />
                 </Grid>
                 <Popup
-                    x:Name="EditPopup"
+                    x:Name="EditPopup" x:Load="False"
                     Grid.Row="1">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
