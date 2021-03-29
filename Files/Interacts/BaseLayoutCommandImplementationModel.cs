@@ -403,6 +403,11 @@ namespace Files.Interacts
             }
         }
 
+        public virtual void RefreshItems(RoutedEventArgs e)
+        {
+            SlimContentPage.RefreshItems();
+        }
+
         #endregion Command Implementation
     }
 }

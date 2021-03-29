@@ -60,6 +60,7 @@ namespace Files.Interacts
             ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
             PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
             ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
+            RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
         }
 
         #endregion Command Initialization
@@ -127,6 +128,7 @@ namespace Files.Interacts
         public ICommand PinDirectoryToSidebarCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
+        public ICommand RefreshCommand { get; private set; }
 
         #endregion Commands
 

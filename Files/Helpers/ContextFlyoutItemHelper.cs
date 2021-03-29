@@ -49,8 +49,8 @@ namespace Files.Helpers
             {
                 var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
-                // Add a separator if there are other items in the list and there isn't already one
-                if(overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator)
+                // Adds a separator between items already there and the new ones
+                if(overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
                 {
                     overflow.Items.Add(new ContextMenuFlyoutItemViewModel()
                     {
@@ -228,6 +228,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutRefresh2".GetLocalized(),
                     Glyph = "\uE72C",
                     ShowInRecycleBin = true,
+                    Command = commandsViewModel.RefreshCommand,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
                         Key = Windows.System.VirtualKey.F5,

@@ -67,5 +67,6 @@ namespace Files.Interacts
         void PinDirectoryToSidebar(RoutedEventArgs e);
 
         void ItemPointerPressed(PointerRoutedEventArgs e);
+        void RefreshItems(RoutedEventArgs e);
     }
 }

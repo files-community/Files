@@ -787,5 +787,10 @@ namespace Files
         }
 
         public abstract void Dispose();
+
+        public void RefreshItems()
+        {
+            ParentShellPageInstance.Refresh_Click();
+        }
     }
 }
