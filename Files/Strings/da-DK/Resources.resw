@@ -145,7 +145,7 @@
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Send Feedback</value>
+    <value>Send feedback</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
     <value>Send udviklerne en problemrapport med detaljerede oplysninger</value>
@@ -220,7 +220,7 @@
     <value>Ved opstart</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Vis ejer i indstillinger</value>
+    <value>Vis ejer i egenskaber</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Præferencer</value>
@@ -688,7 +688,7 @@
     <value>Åbn mappe i en ny fane</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Når du åbner et emne fra jumplisten</value>
+    <value>Når en mappe åbnes i Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows-Standard</value>
@@ -781,7 +781,7 @@
     <value>Se, hvem der har bidraget til Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Udgivelses noter</value>
+    <value>Udgivelsesnoter</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Find ud af, hvad der er nyt i Files</value>
@@ -1521,11 +1521,32 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Sletningsdato</value>
   </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Faneblad tilpasning</value>
+  </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>Når Files startes</value>
+  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Bekræft</value>
   </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>En samling med det samme navn eksisterer allerede!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Input-feltet kan ikke være tomt!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Indtast navnet på samlingen</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Indtast navnet på samlingen</value>
+  </data>
   <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
     <value>Annuller</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Ønsket navn</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Bekræft</value>
@@ -1539,50 +1560,122 @@
   <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
     <value>Annuller</value>
   </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Ønsket navn</value>
+  </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Bekræft</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Tilføj bundt</value>
+    <value>Tilføj samling</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Eksporter samlinger</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Importer samlinger</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Opret samling</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Åbn på en ny fane</value>
   </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Åbn element-lokation</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Fjern fra samling</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Fjern samling</value>
+  </data>
   <data name="BundlesWidgetHeader.Text" xml:space="preserve">
-    <value>Pakker</value>
+    <value>Samlinger</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Træk og slip enhver fil eller mappe her for at få hurtig adgang til den</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Bekræft</value>
   </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Indtast navnet på samlingen</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Opret samling</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Omdøb samling</value>
+  </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Flere indstillinger</value>
+    <value>Flere indstillinger...</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Opret samling</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Element-sti</value>
+  </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Slå forhåndsvisningsruden til eller fra (Ctrl + P)</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Elementnavn</value>
   </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Cloud drev</value>
+  </data>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Vis samlinger på hjemmesiden</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Frigør mappe fra sidebjælke</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Netværksdrev</value>
+  </data>
   <data name="Network" xml:space="preserve">
-    <value>Netværket</value>
+    <value>Netværk</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Egenskaber</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Filoplysninger</value>
+    <value>Fildetaljer</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>Filgennemgang:</value>
+    <value>Forhåndsvisning af fil</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Markeret fil forhåndsvisningsrude</value>
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Dokumentation</value>
   </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Find tips og tricks og lær mere om Files</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Besøg Files dokumentationssiden</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Igangværende opgaver flyout</value>
+  </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Tilgængelig, når du er online</value>
+    <value>Tilgængelig online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Tilgængelig offline</value>
   </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Delvist tilgængelig offline</value>
+  </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Synkronisering</value>
+    <value>Synkroniserer</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Udeladt fra synkronisering</value>
   </data>
   <data name="ItemSizeNotCalcluated" xml:space="preserve">
     <value>Ikke beregnet</value>
@@ -1590,8 +1683,23 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Ukendt</value>
   </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Multimarkering</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Aktiver multimarkeringsindstillinger (i øjeblikket kun tilgængelig i flise- og gittervisnings-tilstand)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>Hvis du ændre filtypen kan filen muligvis ikke længere bruges. Er du sikker på at du vil ændre den?</value>
+  </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>cd-rom-drev</value>
+    <value>Cd-rom drev</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Netværksdrev</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fast Diskdrev</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>Diskettedrev</value>
@@ -1599,8 +1707,20 @@
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Netværksdrev</value>
   </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Umonteret drev</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Diskdrev</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Aftagelig lagerenhed</value>
+  </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Ukendt</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtuelt Drev</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Oprettelsesdato</value>
@@ -1609,7 +1729,7 @@
     <value>Oprettelsesdato</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Flere indstillinger</value>
+    <value>Flere indstillinger...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Tilknyt netværksdrev</value>
@@ -1617,32 +1737,50 @@
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Afbryd forbindelsen</value>
   </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Forebyggende cache parallel grænse (mindre værdier burde virke bedre på harddiske)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Brug forebyggende cache (forudindlæs elementer i undermapper under navigation)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Flere samlingsindstillinger</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Flere drevindstillinger</value>
+  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoritter</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Søg</value>
+    <value>Gennemse</value>
   </data>
   <data name="RecentLocations" xml:space="preserve">
     <value>Seneste placeringer</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Der er ikke noget eksempel.</value>
+    <value>Der er ikke noget eksempel</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Der er ingen detaljer tilgængelige.</value>
+    <value>Der er ingen detaljer tilgængelige</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>Der er ikke valgt nogen vare</value>
+    <value>Intet element valgt</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Mål</value>
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
-    <value>Argumenter:</value>
+    <value>Argumenter</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Vis bibliotekssektion i sidebjælken</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Biblioteker</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Åbn i ny Rude</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">
     <value>Standard</value>
@@ -1653,22 +1791,52 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Antal elementer</value>
   </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Sletning mislykkedes</value>
+  </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Der er opstået en ukendt fejl.</value>
   </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Sletning udført</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>Handlingen er fuldført.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Flytning til papirkurv fuldført</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Flytning fuldført</value>
+  </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Kopiering er fuldført.</value>
+    <value>Kopiering er fuldført</value>
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nej</value>
   </data>
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>JA</value>
+    <value>Ja</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Denne handling kræver administrator-rettigheder</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Vil du fortsætte som administrator?</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Luk faner til højre</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>administrator</value>
+    <value>Administrator</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files kører som administrator</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Fastgør til Start-menuen</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Frigør fra Start-menuen</value>
   </data>
 </root>
