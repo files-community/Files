@@ -39,7 +39,7 @@ namespace Files.Views.LayoutModes
         {
             this.InitializeComponent();
             //this.DataContext = this;
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
+            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;            
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
@@ -78,6 +78,7 @@ namespace Files.Views.LayoutModes
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
                 ParentShellPageInstance.IsCurrentInstance = true;
+                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
             }
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)

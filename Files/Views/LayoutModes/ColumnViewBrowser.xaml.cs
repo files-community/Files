@@ -44,6 +44,7 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
+        public static IShellPage columnparent;
 
         public ColumnViewBrowser() : base()
         {
@@ -123,6 +124,7 @@ namespace Files.Views.LayoutModes
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             }
+            columnparent = ParentShellPageInstance;
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
