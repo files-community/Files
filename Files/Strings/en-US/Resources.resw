@@ -1950,7 +1950,7 @@
     <data name="UnpinItemFromStart2" xml:space="preserve">
     <value>Unpin from the Start Menu</value>
   </data>
-    <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <data name="BaseLayoutContextFlyoutColumn" xml:space="preserve">
     <value>Column View</value>
   </data>
 </root>

@@ -134,6 +134,14 @@ namespace Files.Helpers
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
                         },
+                        // Column view
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutColumn".GetLocalized(),
+                            Glyph = "\uE8C0",
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnView,
+                        },
                     }
                 },
                 new ContextMenuFlyoutItemViewModel()

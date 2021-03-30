@@ -47,27 +47,8 @@
         </Style>
     </local:BaseLayout.Resources>
     <Grid
-        x:Name="RootGrid">
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="ContextFlyout"
-                    TargetObject="{Binding ElementName=RootGrid}"
-                    Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
-                <Core:ChangePropertyAction
-                    PropertyName="ContextFlyout"
-                    TargetObject="{Binding ElementName=RootGrid}"
-                    Value="{StaticResource BaseLayoutContextFlyout}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="ContextFlyout"
-                    TargetObject="{Binding ElementName=RootGrid}"
-                    Value="{x:Null}" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
+        x:Name="RootGrid"
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <controls:BladeView x:Name="ColumnHost">
             <controls:BladeItem x:Name="FirstBlade">
                 <Grid>
@@ -217,20 +198,6 @@
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        <i:Interaction.Behaviors>
-                            <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
-                                <icore:ChangePropertyAction
-                        PropertyName="ItemContainerStyle"
-                        TargetObject="{Binding ElementName=FileList}"
-                        Value="{StaticResource ListViewItemRecycleBinContextFlyout}" />
-                            </icore:DataTriggerBehavior>
-                            <icore:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
-                                <icore:ChangePropertyAction
-                        PropertyName="ItemContainerStyle"
-                        TargetObject="{Binding ElementName=FileList}"
-                        Value="{StaticResource ListViewItemStandardContextFlyout}" />
-                            </icore:DataTriggerBehavior>
-                        </i:Interaction.Behaviors>
                     </ListView>
                     <Canvas>
                         <Rectangle
