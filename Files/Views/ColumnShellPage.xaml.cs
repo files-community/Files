@@ -900,8 +900,7 @@ namespace Files.Views
         {
             ContentPage = await GetContentOrNullAsync();
             NavigationToolbar.ClearSearchBoxQueryText(true);
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
-                || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnViewBase))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
                 ContentPage.ResetItemOpacity();
@@ -930,7 +929,7 @@ namespace Files.Views
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
-                || CurrentPageType == typeof(GridViewBrowser);
+                || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -1053,7 +1052,7 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser))
+                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
                     {
                         if (ContentPage.IsItemSelected)
                         {
@@ -1340,7 +1339,7 @@ namespace Files.Views
             if (navArgs != null && navArgs.AssociatedTabInstance != null)
             {
                 ItemDisplayFrame.Navigate(
-                sourcePageType == null ? typeof(ColumnViewBase) : sourcePageType,
+                sourcePageType = typeof(ColumnViewBase),
                 navArgs,
                 new SuppressNavigationTransitionInfo());
             }
@@ -1356,7 +1355,7 @@ namespace Files.Views
                 }
 
                 ItemDisplayFrame.Navigate(
-                sourcePageType == null ? typeof(ColumnViewBase) : sourcePageType,
+                sourcePageType = typeof(ColumnViewBase),
                 new NavigationArguments()
                 {
                     NavPathParam = navigationPath,
