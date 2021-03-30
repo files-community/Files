@@ -1782,4 +1782,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>引数</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
 </root>

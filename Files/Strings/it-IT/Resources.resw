@@ -1773,4 +1773,7 @@
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Accesso rapido</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
 </root>

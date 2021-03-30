@@ -118,7 +118,7 @@
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"
                     x:Uid="SettingsPreferencesOpenFoldersNewTab"
-                    Header="Open Folders on new tab"
+                    Header="Open folders in new tab"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}" />
             </StackPanel>

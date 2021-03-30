@@ -1770,4 +1770,7 @@
   <data name="RecentLocations" xml:space="preserve">
     <value>Kürzlich verwendete Orte</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
 </root>

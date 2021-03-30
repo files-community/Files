@@ -1542,4 +1542,7 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Sletningsdato</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
 </root>
