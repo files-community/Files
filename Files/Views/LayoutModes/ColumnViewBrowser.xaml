@@ -81,7 +81,8 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
+                                      Loaded="Grid_Loaded">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="24" />
                                         <ColumnDefinition Width="*" />

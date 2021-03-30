@@ -667,5 +667,16 @@ namespace Files.Views.LayoutModes
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
             }
         }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+            // because you can't use bindings in the setters
+            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+            while (!(item is ListViewItem))
+                item = VisualTreeHelper.GetParent(item);
+            var itemContainer = item as ListViewItem;
+            itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
     }
 }
