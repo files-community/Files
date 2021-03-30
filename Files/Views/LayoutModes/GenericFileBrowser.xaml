@@ -147,6 +147,15 @@
                             <FontIcon  Glyph="&#xE179;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutColumn"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
+                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                    Text="Column View">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon  Glyph="&#xE8C0;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
                 <MenuFlyoutItem
                     x:Name="RefreshEmptySpace"

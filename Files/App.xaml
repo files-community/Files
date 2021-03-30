@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <fsvm:FolderLayoutInformation x:Key="DetailsInfo" Mode="DetailsView" />
             <fsvm:FolderLayoutInformation x:Key="TilesInfo" Mode="TilesView" />
+            <fsvm:FolderLayoutInformation x:Key="ColumnInfo" Mode="ColumnView" />
             <fsvm:FolderLayoutInformation
                 x:Key="SmallGridInfo"
                 Mode="GridView"
