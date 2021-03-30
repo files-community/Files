@@ -1089,6 +1089,21 @@
                                             FontSize="16"
                                             Glyph="&#xE739;" />
                                     </RadioButton>
+                                    <RadioButton
+                                        x:Uid="NavToolbarColumnView"
+                                        Height="32"
+                                        MinWidth="0"
+                                        Command="{x:Bind ToggleLayoutModeColumnView}"
+                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                        CornerRadius="4"
+                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                        Style="{StaticResource ToggleButtonRevealStyle}"
+                                        ToolTipService.ToolTip="Column View">
+                                        <FontIcon
+                                            Margin="0,2,0,0"
+                                            FontSize="16"
+                                            Glyph="&#xE8C0;" />
+                                    </RadioButton>
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>

@@ -6,6 +6,7 @@ using Files.Helpers.ContextFlyouts;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -196,8 +197,10 @@ namespace Files.Views.LayoutModes
             // Handle layout differences between tiles browser and photo album
             if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
-                Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
+                Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                //Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
+                //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 textBox = popup.Child as TextBox;
                 textBox.Text = textBlock.Text;
                 popup.IsOpen = true;
@@ -205,8 +208,10 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-                textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
+                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+                //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
+                //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
                 textBox.Text = textBlock.Text;
                 oldItemName = textBlock.Text;
                 textBlock.Visibility = Visibility.Collapsed;
