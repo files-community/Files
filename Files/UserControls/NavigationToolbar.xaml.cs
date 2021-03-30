@@ -271,8 +271,26 @@ namespace Files.UserControls
                 SetValue(ToggleLayoutModeGridViewLargeProperty, value);
             }
         }
+        public static readonly DependencyProperty ToggleLayoutModeColumnViewProperty = DependencyProperty.Register(
+          "ToggleLayoutModeColumnView",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
 
-        #endregion Layout Options
+        public ICommand ToggleLayoutModeColumnView
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeColumnViewProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeColumnViewProperty, value);
+            }
+        }
+
+        #endregion
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
