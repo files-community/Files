@@ -39,6 +39,20 @@ namespace Files.UserControls.MultitaskingControl
                     App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
                     break;
             }
+
+            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            {
+                CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
+
+                if (CurrentSelectedAppInstance != null)
+                {
+                    OnCurrentInstanceChanged(new CurrentInstanceChangedEventArgs()
+                    {
+                        CurrentInstance = CurrentSelectedAppInstance,
+                        PageInstances = GetAllTabInstances()
+                    });
+                }
+            }
         }
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)

@@ -1,13 +1,19 @@
-﻿using Files.UserControls;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,8 +22,11 @@ namespace Files.ViewModels
 {
     public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
     {
+        public ICommand EmptyRecycleBinCommand { get; private set; }
+        public IPaneHolder PaneHolder { get; set; }
+        public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
+
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
-        public event EventHandler<WindowCompactStateChangedEventArgs> WindowCompactStateChanged;
         private bool isWindowCompactSize;
 
         public bool IsWindowCompactSize
@@ -28,13 +37,68 @@ namespace Files.ViewModels
                 if (isWindowCompactSize != value)
                 {
                     isWindowCompactSize = value;
-                    WindowCompactStateChanged?.Invoke(this, new WindowCompactStateChangedEventArgs(isWindowCompactSize));
                     
                     OnPropertyChanged(nameof(IsWindowCompactSize));
                     OnPropertyChanged(nameof(SidebarWidth));
                     OnPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
+        }
+
+        public void NotifyInstanceRelatedPropertiesChanged(string arg)
+        {
+            UpdateSidebarSelectedItemFromArgs(arg);
+
+            OnPropertyChanged(nameof(SidebarSelectedItem));
+
+        }
+
+        public void UpdateSidebarSelectedItemFromArgs(string arg)
+        {
+            var value = arg;
+
+            INavigationControlItem item = null;
+            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
+                .Where(x => !string.IsNullOrWhiteSpace(x.Path))
+                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+                .ToList();
+
+            if (string.IsNullOrEmpty(value))
+            {
+                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                return;
+            }
+
+            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                if (value == "NewTab".GetLocalized())
+                {
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                }
+            }
+
+            if (SidebarSelectedItem != item)
+            {
+                SidebarSelectedItem = item;
+            }
+        }
+
+        public bool IsMultiPaneEnabled
+        {
+            get => App.AppSettings.IsDualPaneEnabled && !IsWindowCompactSize;
         }
 
         public GridLength SidebarWidth
@@ -72,11 +136,25 @@ namespace Files.ViewModels
             }
         }
 
+        private INavigationControlItem selectedSidebarItem;
+
+        public INavigationControlItem SidebarSelectedItem
+        {
+            get => selectedSidebarItem;
+            set => SetProperty(ref selectedSidebarItem, value);
+        }
+
         public AdaptiveSidebarViewModel()
         {
+            EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
             Window.Current.SizeChanged += Current_SizeChanged;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             Current_SizeChanged(null, null);
+        }
+
+        public void EmptyRecycleBin(RoutedEventArgs e)
+        {
+            RecycleBinHelpers.EmptyRecycleBin(PaneHolder.ActivePane);
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -107,21 +185,10 @@ namespace Files.ViewModels
             }
         }
 
-
         public void Dispose()
         {
             Window.Current.SizeChanged -= Current_SizeChanged;
             App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
-        }
-    }
-
-    public class WindowCompactStateChangedEventArgs
-    {
-        public bool IsWindowCompact { get; set; }
-
-        public WindowCompactStateChangedEventArgs(bool isCompact)
-        {
-            IsWindowCompact = isCompact;
         }
     }
 }

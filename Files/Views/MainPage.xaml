@@ -8,7 +8,10 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core" 
     xmlns:converters="using:Files.Converters" 
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl" 
-    xmlns:local1="using:Files" xmlns:viewmodels="using:Files.ViewModels"
+    xmlns:local1="using:Files" 
+    xmlns:viewmodels="using:Files.ViewModels" 
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:controls="using:Files.UserControls" xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
@@ -17,7 +20,64 @@
         <viewmodels:MainPageViewModel/>
     </Page.DataContext>
     <Page.Resources>
-        <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
+                <Setter Property="IsTabStop" Value="True" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="IsFocusEngagementEnabled" Value="True" />
+                <Setter Property="MinWidth" Value="2" />
+                <Setter Property="MinHeight" Value="2" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="GripperForeground" Value="Transparent" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Custom:GridSplitter">
+                            <Grid
+                                x:Name="RootGrid"
+                                Background="Transparent"
+                                BorderBrush="{ThemeResource SidebarBorderBrush}"
+                                BorderThickness="1,0,0,0">
+                                <ContentPresenter
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Content="{TemplateBinding Element}" />
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="GridSplitterStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="Transparent" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="Transparent" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
+            <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
     </Page.Resources>
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
@@ -152,28 +212,78 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
-                Width="{x:Bind SidebarAdaptiveViewModel.SidebarWidth, Mode=OneWay}" />
+                Width="{x:Bind SidebarAdaptiveViewModel.SidebarWidth, Mode=TwoWay}"
+                MinWidth="200"
+                MaxWidth="500" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid
-            x:Name="DragArea"
-            Margin="38,0,0,0"
-            Grid.ColumnSpan="2"
-            Canvas.ZIndex="3"
-            Height="40"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Stretch"
+
+        <controls:SidebarControl
+            x:Name="SidebarControl"
+            SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
+            IsOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
+            IsCompact="{x:Bind SidebarAdaptiveViewModel.IsWindowCompactSize, Mode=OneWay}"
+            CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}"
+            EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"/>
+
+        <Custom:GridSplitter
+            x:Name="SidebarResizer"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Width="5"
+            MinWidth="5"
+            HorizontalAlignment="Left"
             Background="Transparent"
-            Loaded="DragArea_Loaded" />
-        <Grid x:Name="RightMarginGrid" Padding="2,0,0,0"
-            Canvas.ZIndex="4" VerticalAlignment="Top" Grid.Column="1">
+            Canvas.ZIndex="150"
+            CursorBehavior="ChangeOnSplitterHover"
+            Foreground="Transparent"
+            GripperCursor="Default"
+            GripperForeground="Transparent"
+            IsTabStop="False"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
+            Style="{StaticResource DefaultGridSplitterStyle}"
+            Visibility="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=OneWay}">
+            <Custom:GridSplitter.RenderTransform>
+                <TranslateTransform X="0" />
+            </Custom:GridSplitter.RenderTransform>
+        </Custom:GridSplitter>
+        <Grid Canvas.ZIndex="4" Grid.Column="1" x:Name="RightMarginGrid" Padding="2,0,0,0"
+                 VerticalAlignment="Top" >
             <usercontrols:HorizontalMultitaskingControl
-                    x:Name="horizontalMultitaskingControl"
-                    x:FieldModifier="public"
-                    Height="50"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
-                    Loaded="HorizontalMultitaskingControl_Loaded" />
+                x:Name="horizontalMultitaskingControl"
+                x:FieldModifier="public"
+                Height="50"
+                Canvas.ZIndex="40"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+                Loaded="HorizontalMultitaskingControl_Loaded" />
+
         </Grid>
-        <ContentPresenter Grid.ColumnSpan="2" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+        <Grid
+                x:Name="DragArea"
+                Margin="38,0,0,0"
+                Grid.ColumnSpan="2"
+                Height="40"
+                Canvas.ZIndex="3"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Loaded="DragArea_Loaded" />
+        <ContentPresenter Grid.ColumnSpan="1" Grid.Column="2" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SidebarColumn.MinWidth" Value="{ThemeResource NavigationViewCompactPaneLength}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

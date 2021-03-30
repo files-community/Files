@@ -63,6 +63,11 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
+        protected void OnCurrentInstanceChanged(CurrentInstanceChangedEventArgs args)
+        {
+            CurrentInstanceChanged?.Invoke(this, args);
+        }
+
         protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
         {
             CloseTab(args.Item as TabItem);
