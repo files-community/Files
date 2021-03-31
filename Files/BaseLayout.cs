@@ -500,76 +500,6 @@ namespace Files
             }
         }
 
-        protected async void List_DragEnter(object sender, DragEventArgs e)
-        {
-            var deferral = e.GetDeferral();
-
-            ClearSelection();
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                e.Handled = true;
-                e.DragUIOverride.IsCaptionVisible = true;
-                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
-                {
-                    if (Connection != null)
-                    {
-                        await Connection.SendMessageAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
-                            { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                }
-                if (!draggedItems.Any())
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
-
-                var folderName = Path.GetFileName(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
-                // As long as one file doesn't already belong to this folder
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                }
-                else if (draggedItems.AreItemsInSameDrive(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
-                {
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Move;
-                }
-                else
-                {
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Copy;
-                }
-            }
-
-            deferral.Complete();
-        }
-
-        protected async void List_Drop(object sender, DragEventArgs e)
-        {
-            var deferral = e.GetDeferral();
-
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
-                e.Handled = true;
-            }
-
-            deferral.Complete();
-        }
-
         protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
@@ -736,57 +666,6 @@ namespace Files
         public readonly VirtualKey PlusKey = (VirtualKey)187;
 
         public readonly VirtualKey MinusKey = (VirtualKey)189;
-
-        public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            FolderSettings.GridViewSize = FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-            if (args != null)
-            {
-                args.Handled = true;
-            }
-        }
-
-        public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            FolderSettings.GridViewSize = FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-            if (args != null)
-            {
-                args.Handled = true;
-            }
-        }
-
-        public void BaseLayout_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
-                {
-                    GridViewSizeDecrease(null, null);
-                }
-                else // Mouse wheel up
-                {
-                    GridViewSizeIncrease(null, null);
-                }
-
-                e.Handled = true;
-            }
-        }
-
-        public async void PinItemToStart_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in SelectedItems)
-            {
-                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
-            }
-        }
-
-        public async void UnpinItemFromStart_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in SelectedItems)
-            {
-                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
-            }
-        }
 
         public abstract void Dispose();
 

@@ -2,8 +2,6 @@
     x:Class="Files.Views.LayoutModes.GridViewBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
@@ -18,9 +16,11 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
-    PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerWheelChanged">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}"/>
+        </icore:EventTriggerBehavior>
         <icore:EventTriggerBehavior EventName="PointerPressed">
             <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}"/>
         </icore:EventTriggerBehavior>
@@ -31,7 +31,7 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-        
+
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
@@ -329,20 +329,40 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind GridViewSizeIncrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
             <KeyboardAccelerator
                 Key="{x:Bind MinusKey}"
-                Invoked="{x:Bind GridViewSizeDecrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind GridViewSizeIncrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
             <KeyboardAccelerator
                 Key="Subtract"
-                Invoked="{x:Bind GridViewSizeDecrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
         <muxc:ProgressBar
             x:Name="progBar"
@@ -379,8 +399,6 @@
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
-            DragEnter="List_DragEnter"
-            Drop="List_Drop"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"

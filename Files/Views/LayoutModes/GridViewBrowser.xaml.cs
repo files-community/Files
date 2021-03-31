@@ -176,7 +176,7 @@ namespace Files.Views.LayoutModes
             var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (!parentContainer.IsSelected)
             {
-                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
+                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
             }
         }
 
