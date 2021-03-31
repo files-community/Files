@@ -64,7 +64,7 @@ namespace Files.Views.LayoutModes
         }
         public static event EventHandler ItemInvoked;
 
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             var param = (eventArgs.Parameter as NavigationArguments);
