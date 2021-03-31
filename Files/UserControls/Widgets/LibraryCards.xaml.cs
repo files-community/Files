@@ -232,7 +232,7 @@ namespace Files.UserControls.Widgets
                 },
                 TitleText = "LibraryCardsCreateNewLibraryDialogTitleText".GetLocalized(),
                 SubtitleText = "LibraryCardsCreateNewLibraryDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "DialogCreateButtonText".GetLocalized(),
+                PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
                 CloseButtonText = "DialogCancelButtonText".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
@@ -275,7 +275,7 @@ namespace Files.UserControls.Widgets
                 {
                     TitleText = "LibraryCardsDeleteLibraryDialogTitleText".GetLocalized(),
                     SubtitleText = "LibraryCardsDeleteLibraryDialogSubtitleText".GetLocalized(),
-                    PrimaryButtonText = "DialogDeleteButtonText".GetLocalized(),
+                    PrimaryButtonText = "DialogDeleteLibraryButtonText".GetLocalized(),
                     CloseButtonText = "DialogCancelButtonText".GetLocalized(),
                     PrimaryButtonAction = (vm, e) => LibraryCardDeleteInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Library }),
                     CloseButtonAction = (vm, e) => vm.HideDialog(),

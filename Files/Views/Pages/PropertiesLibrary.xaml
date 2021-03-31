@@ -60,15 +60,15 @@
                     <AppBarButton
                         x:Uid="LibraryLocationsButtonSetDefault"
                         Command="{x:Bind SetDefaultLocationCommand}"
-                        Icon="Accept"
                         IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+                        Icon="Accept"
                         Label="Default"
                         ToolTipService.ToolTip="Set as default save path" />
                     <AppBarButton
                         x:Uid="LibraryLocationsButtonRemove"
                         Command="{x:Bind RemoveLocationCommand}"
-                        Icon="Delete"
                         IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+                        Icon="Delete"
                         Label="Remove" />
                 </CommandBar>
             </Grid>
@@ -104,18 +104,21 @@
                 <ListView.Footer>
                     <StackPanel Margin="14,5,14,5" Spacing="5">
                         <TextBlock
+                            x:Uid="LibraryNoLocations"
                             Visibility="{x:Bind IsLibraryEmpty}"
-                            Text="No folders added."
+                            Text="No locations"
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>
                 </ListView.Footer>
             </ListView>
 
+            <!--
             <MenuFlyoutSeparator
                 Grid.ColumnSpan="2"
                 Grid.Row="3"
                 Margin="-12,12"
                 HorizontalAlignment="Stretch" />
+            -->
 
             <!-- TODO: add more controls? -->
 

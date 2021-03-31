@@ -163,7 +163,7 @@
                                             x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"/>
                                         <MenuFlyoutItem
                                             x:Name="DeleteLibrary"
-                                            x:Uid="DeleteLibrary"
+                                            x:Uid="BaseLayoutContextFlyoutDeleteLibrary"
                                             x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"
                                             Click="DeleteLibrary_Click"
                                             DataContext="{x:Bind}"
