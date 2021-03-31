@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Files.Views.ModernShellPage"
+    x:Class="Files.Views.ColumnShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -191,7 +191,7 @@
 
         <Frame
             x:Name="ItemDisplayFrame"
-            Grid.Row="2"
+            Grid.RowSpan="5" Canvas.ZIndex="30" Grid.ColumnSpan="3"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
             Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
@@ -225,7 +225,7 @@
 
         <controls:StatusBarControl
             x:Name="StatusBarControl"
-            Grid.Row="5"
+            Grid.Row="5" Height="0" Visibility="Collapsed"
             Grid.ColumnSpan="3"
             x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
             DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
@@ -234,7 +234,7 @@
 
         <Custom:DropShadowPanel
             Grid.Row="1"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="3" Visibility="Collapsed"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             BlurRadius="8"

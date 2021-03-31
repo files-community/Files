@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.DataModels;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
@@ -54,7 +55,7 @@ namespace Files.Interacts
 
         void CreateNewFolder(RoutedEventArgs e);
 
-        void CreateNewFile(RoutedEventArgs e);
+        void CreateNewFile(ShellNewEntry e);
 
         void PasteItemsFromClipboard(RoutedEventArgs e);
 
@@ -81,5 +82,6 @@ namespace Files.Interacts
         void DragEnter(DragEventArgs e);
 
         void Drop(DragEventArgs e);
+        void RefreshItems(RoutedEventArgs e);
     }
 }

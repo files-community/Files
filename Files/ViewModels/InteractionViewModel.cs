@@ -129,6 +129,8 @@ namespace Files.ViewModels
             set => SetProperty(ref multiselectEnabled, value);
         }
 
+        public bool IsQuickLookEnabled { get; set; }
+
         private FontFamily fontName;
 
         public FontFamily FontName

@@ -114,7 +114,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Notīrīt atlasi</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
     <value>Detalizēts skats</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -255,49 +255,49 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
     <value>Kārtot pēc</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
     <value>Nosaukums</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
     <value>Modificēšanas datums</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
     <value>Tips</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
     <value>Izmērs</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
     <value>Augošā secībā</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
     <value>Dilstošā secībā</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
     <value>Atsvaidzināt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
     <value>Ielīmēt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
     <value>Atvērt Komandu uzvednē...</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
     <value>Jauns</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
     <value>Mape</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fails</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
     <value>Rekvizīti</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
@@ -306,40 +306,40 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Izvērst</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
     <value>Atvērt</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
     <value>Atvērt jaunā cilnē</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
     <value>Atvērt jaunā logā</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
     <value>Iestatīt kā darbvirsmas fonu</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
     <value>Kopīgot</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
     <value>Izgriezt</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
     <value>Kopēt</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
     <value>Dzēst</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
     <value>Pārdēvēt</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
     <value>Piespraust sānu joslā</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
     <value>Rekvizīti</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -438,19 +438,19 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Vienums jau pastāv</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
     <value>Iestatīt kā bloķēšanas ekrāna fonu</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
     <value>Režģa skats (Liels)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
     <value>Režģa skats (Vidējs)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
     <value>Režģa skats (Mazs)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
     <value>Mozaīkas skats</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -507,10 +507,10 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Slēpts</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
     <value>Iztukšot atkritni</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
     <value>Atjaunot</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -543,7 +543,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} brīvi no {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
     <value>Atvērt ar</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -582,7 +582,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Failu pārvietošana uz Atkritni</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
     <value>Piespraust mapi sānu joslā</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
@@ -618,7 +618,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
     <value>Palaist kā administratoram</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
@@ -648,7 +648,7 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Faili, {1:#,##0} Mapes</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
     <value>Palaist kā citam lietotājam</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -720,7 +720,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopēt uz {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
     <value>Izveidot saīsni</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -765,7 +765,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - saīsne</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
     <value>Atvērt faila atrašanās vietu</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
@@ -900,10 +900,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Vairākuzdevumu režīms</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
     <value>Iestatīt kā</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
     <value>Kopēt atrašanās vietu</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
@@ -927,7 +927,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Izveido tukšu mapi</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
     <value>Izkārtojuma režīms</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1434,7 +1434,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Oriģinālais ceļš</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
     <value>Oriģinālais ceļš</value>
   </data>
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
@@ -1467,7 +1467,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>Iespējot dubulto paneļu skatu</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
     <value>Atvērt otrajā panelī</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1530,7 +1530,7 @@
   <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Rādīt paslēptos vienumus</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
     <value>Dzēšanas datums</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1647,7 +1647,7 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Rādīt saišķus sākumlapā</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" xml:space="preserve">
     <value>Atspraust mapi no sānu joslas</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1737,7 +1737,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuāla ierīce</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
     <value>Izveides datums</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">

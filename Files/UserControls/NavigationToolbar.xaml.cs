@@ -31,6 +31,9 @@ namespace Files.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        // TODO: Remove this MainPage reference when we work on new Vertical Tabs control in MainPage
+        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
+
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
@@ -268,8 +271,26 @@ namespace Files.UserControls
                 SetValue(ToggleLayoutModeGridViewLargeProperty, value);
             }
         }
+        public static readonly DependencyProperty ToggleLayoutModeColumnViewProperty = DependencyProperty.Register(
+          "ToggleLayoutModeColumnView",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
 
-        #endregion Layout Options
+        public ICommand ToggleLayoutModeColumnView
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeColumnViewProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeColumnViewProperty, value);
+            }
+        }
+
+        #endregion
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
@@ -1103,7 +1124,13 @@ namespace Files.UserControls
         {
             if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
             {
+                // Set multitasking control if changed and subscribe it to event for sidebar items updating
+                if (MainPageViewModel.MultitaskingControl != null)
+                {
+                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                }
                 MainPageViewModel.MultitaskingControl = VerticalTabs;
+                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
