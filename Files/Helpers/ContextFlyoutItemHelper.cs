@@ -101,6 +101,7 @@ namespace Files.Helpers
                             Glyph = "\uE739",
                             ShowInRecycleBin = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge,
+                            CommandParameter = true,
                         },
                         // Grid view medium
                         new ContextMenuFlyoutItemViewModel()
@@ -109,6 +110,7 @@ namespace Files.Helpers
                             Glyph = "\uF0E2",
                             ShowInRecycleBin = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium,
+                            CommandParameter = true,
                         },
                         // Grid view small
                         new ContextMenuFlyoutItemViewModel()
@@ -117,6 +119,7 @@ namespace Files.Helpers
                             Glyph = "\uE80A",
                             ShowInRecycleBin = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall,
+                            CommandParameter = true,
                         },
                         // Tiles view
                         new ContextMenuFlyoutItemViewModel()
@@ -125,6 +128,7 @@ namespace Files.Helpers
                             Glyph = "\uE15C",
                             ShowInRecycleBin = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTiles,
+                            CommandParameter = true,
                         },
                         // Details view
                         new ContextMenuFlyoutItemViewModel()
@@ -133,6 +137,7 @@ namespace Files.Helpers
                             Glyph = "\uE179",
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
+                            CommandParameter = true,
                         },
                         // Column view
                         new ContextMenuFlyoutItemViewModel()
@@ -141,6 +146,7 @@ namespace Files.Helpers
                             Glyph = "\uE8C0",
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnView,
+                            CommandParameter = true,
                         },
                     }
                 },
