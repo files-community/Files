@@ -93,8 +93,6 @@ namespace Files.Views.LayoutModes
             : base()
         {
             InitializeComponent();
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
@@ -539,16 +537,13 @@ namespace Files.Views.LayoutModes
                 }
 
                 // Check if RightTapped row is currently selected
-                if (IsItemSelected)
+                if (!IsItemSelected)
                 {
-                    if (SelectedItems.Contains(objectPressed))
+                    if (!SelectedItems.Contains(objectPressed))
                     {
-                        return;
+                        SetSelectedItemOnUi(objectPressed);
                     }
                 }
-
-                // The following code is only reachable when a user RightTapped an unselected row
-                SetSelectedItemOnUi(objectPressed);
             }
         }
 
@@ -582,6 +577,7 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
             }
+            e.Row.ContextFlyout = ItemContextMenuFlyout;
         }
 
         protected override ListedItem GetItemFromElement(object element)

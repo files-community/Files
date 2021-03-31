@@ -18,6 +18,7 @@ using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml.Input;
 using Files.ViewModels;
+using Files.DataModels;
 
 namespace Files.Interacts
 {
@@ -278,9 +279,9 @@ namespace Files.Interacts
             UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, associatedInstance);
         }
 
-        public virtual void CreateNewFile(RoutedEventArgs e)
+        public virtual void CreateNewFile(ShellNewEntry f)
         {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, associatedInstance);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, f, associatedInstance);
         }
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
@@ -401,6 +402,11 @@ namespace Files.Interacts
                     }
                 }
             }
+        }
+
+        public virtual void RefreshItems(RoutedEventArgs e)
+        {
+            SlimContentPage.RefreshItems();
         }
 
         #endregion Command Implementation

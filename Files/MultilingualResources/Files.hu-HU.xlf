@@ -136,7 +136,7 @@
           <source>Clear Selection</source>
           <target state="translated">Kijelölés megszüntetése</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutDetails2" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">Részletek</target>
         </trans-unit>
@@ -319,43 +319,43 @@
           <source>Videos</source>
           <target state="translated">Videók</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBy2" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">Rendezés</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByName2" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Név</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDate2" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">Módosítás dátuma</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByType2" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">Típus</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBySize2" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated">Méret</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByAscending2" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">Növekvő</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDescending2" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">Csökkenő</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRefresh2" translate="yes" xml:space="preserve">
           <source>Refresh</source>
           <target state="translated">Frissítés</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPaste2" translate="yes" xml:space="preserve">
           <source>Paste</source>
           <target state="translated">Beillesztés</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal2" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">Megnyitás terminálban...</target>
         </trans-unit>
@@ -363,15 +363,15 @@
           <source>MD5Hash:</source>
           <target state="translated">MD5 hash:</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNew2" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">Új</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNewFolder2" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Mappa</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder2" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Tulajdonságok</target>
         </trans-unit>
@@ -379,51 +379,51 @@
           <source>Extract</source>
           <target state="translated">Kicsomagolás</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem2" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Megnyitás</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab2" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Megnyitás új lapon</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow2" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
           <target state="translated">Megnyitás új ablakban</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated">Beállítás asztali háttérképként</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShare2" translate="yes" xml:space="preserve">
           <source>Share</source>
           <target state="translated">Megosztás</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCut2" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated">Kivágás</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopy2" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">Másolás</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutDelete2" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="translated">Törlés</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRename2" translate="yes" xml:space="preserve">
           <source>Rename</source>
           <target state="translated">Átnevezés</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar2" translate="yes" xml:space="preserve">
           <source>Pin to sidebar</source>
           <target state="translated">Kitűzés az oldalsávra</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutProperties2" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Tulajdonságok</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook2" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
           <target state="translated">QuickLook</target>
         </trans-unit>
@@ -551,23 +551,23 @@
           <source>Item already exists</source>
           <target state="translated">Az elem már létezik</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
           <target state="translated">Beállítás zárolási képernyő háttérként</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge2" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">Nagy ikonok</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium2" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">Közepes ikonok</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall2" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">Kis ikonok</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTilesView2" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="translated">Lista</target>
         </trans-unit>
@@ -631,11 +631,11 @@
           <source>Selection options</source>
           <target state="translated">Kijelölési lehetőségek</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin2" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">Lomtár ürítése</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore2" translate="yes" xml:space="preserve">
           <source>Restore</source>
           <target state="translated">Visszaállítás</target>
         </trans-unit>
@@ -679,7 +679,7 @@
           <source>{0} free of {1}</source>
           <target state="translated">Szabad hely: {0} / {1}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith2" translate="yes" xml:space="preserve">
           <source>Open With</source>
           <target state="translated">Társítás</target>
         </trans-unit>
@@ -731,7 +731,7 @@
           <source>Moving files to Recycle Bin</source>
           <target state="translated">Fájlok áthelyezése a lomtárba</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar2" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
           <target state="translated">Mappa kitűzése az oldalsávra</target>
         </trans-unit>
@@ -779,7 +779,7 @@
           <source>B</source>
           <target state="translated">B</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin2" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated">Futtatás rendszergazdaként</target>
         </trans-unit>
@@ -819,7 +819,7 @@
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="translated">{0:#,##0} fájl, {1:#,##0} mappa</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser2" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
           <target state="translated">Futtatás másik felhasználóként</target>
         </trans-unit>
@@ -916,7 +916,7 @@
           <source>Copy to {0}</source>
           <target state="translated">Másolás ide: {0}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut2" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
           <target state="translated">Parancsikon létrehozása</target>
         </trans-unit>
@@ -976,7 +976,7 @@
           <source>{0} - shortcut</source>
           <target state="translated">{0} - parancsikon</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation2" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Fájlt tartalmazó mappa megnyitása</target>
         </trans-unit>
@@ -1157,11 +1157,11 @@
           <source>Multitasking</source>
           <target state="translated">Multitaszking</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs2" translate="yes" xml:space="preserve">
           <source>Set as</source>
           <target state="translated">Beállítás mint</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation2" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Elérési út másolása</target>
         </trans-unit>
@@ -1185,7 +1185,7 @@
           <source>Creates an empty folder</source>
           <target state="translated">Új mappa létrehozása</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutLayoutMode2" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="translated">Elrendezés</target>
         </trans-unit>
@@ -1878,7 +1878,7 @@
           <source>Original path</source>
           <target state="translated">Eredeti elérési út</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath2" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="translated">Eredeti elérési út</target>
         </trans-unit>
@@ -1918,7 +1918,7 @@
           <source>Enable dual pane view</source>
           <target state="translated">Osztott nézet bekapcsolása</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane2" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Megnyitás a jobb oldali panelen</target>
         </trans-unit>
@@ -2020,7 +2020,7 @@
           <source>Details View</source>
           <target state="translated">Részletek</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted2" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">Törlés dátuma</target>
         </trans-unit>
@@ -2175,7 +2175,7 @@
           <target state="translated">Munkaterületek megjelenítése a kezdőlapon</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="translated">Levétel az oldalsávról</target>
         </trans-unit>
@@ -2299,7 +2299,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Virtuális meghajtó</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated2" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Létrehozás dátuma</target>
         </trans-unit>
@@ -2447,13 +2447,25 @@
           <source>Files is running as administrator</source>
           <target state="translated">A Files rendszergazdaként fut</target>
         </trans-unit>
-        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="PinItemToStart2" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
           <target state="translated">Kitűzés a Start menübe</target>
         </trans-unit>
-        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="UnpinItemFromStart2" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
           <target state="translated">Levétel a Start menüből</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Column View</source>
+          <target state="new">Column View</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Column View</source>
+          <target state="new">Column View</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
+          <source>Column View</source>
+          <target state="new">Column View</target>
         </trans-unit>
       </group>
     </body>
