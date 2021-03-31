@@ -138,79 +138,79 @@
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Nueva pestaña</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
     <value>Ordenar por</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
     <value>Fecha de modificación</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
     <value>Tipo</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
     <value>Tamaño</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
     <value>Ascendente</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
     <value>Descendente</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
     <value>Actualizar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
     <value>Pegar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
     <value>Abrir en la Terminal...</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
     <value>Nuevo</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
     <value>Carpeta</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
     <value>Propiedades</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extraer</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
     <value>Abrir en nueva pestaña</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
     <value>Abrir en nueva ventana</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
     <value>Fondo de escritorio</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
     <value>Compartir</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
     <value>Cortar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
     <value>Copiar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
     <value>Eliminar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
     <value>Renombrar</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
     <value>Anclar a la barra lateral</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
     <value>Propiedades</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Documento de Texto</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
     <value>Detalles</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
@@ -357,7 +357,7 @@
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>Invertir Selección</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
     <value>Abrir</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
@@ -399,19 +399,19 @@
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Reemplazar elemento existente</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
     <value>Fondo de pantalla de bloqueo</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
     <value>Iconos grandes</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
     <value>Iconos medianos</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
     <value>Iconos pequeños</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
     <value>Iconos</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -459,10 +459,10 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Aceptar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
     <value>Restaurar</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -495,7 +495,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} disponibles de {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
     <value>Abrir con...</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -525,7 +525,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>elementos</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
     <value>Anclar directorio a la barra lateral</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
@@ -594,10 +594,10 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Archivos, {1:#,##0} Carpetas</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
     <value>Ejecutar como administrador</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
     <value>Ejecutar como otro usuario</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiar a {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
     <value>Crear acceso directo</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -723,7 +723,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - Acceso directo</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
@@ -831,10 +831,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitarea</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
     <value>Establecer como</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
     <value>Copiar ubicación</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -867,7 +867,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crea una carpeta vacía</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
     <value>Modo de vista</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1401,7 +1401,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Ubicación original</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
     <value>Ubicación original</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
@@ -1431,7 +1431,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>Habilitar vista de panel doble</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
     <value>Abrir en panel secundario</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1503,7 +1503,7 @@
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Detalles</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
     <value>Fecha de eliminación</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1617,7 +1617,7 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Mostrar contenedores en la página de inicio</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" xml:space="preserve">
     <value>Desanclar directorio de la barra lateral</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1710,7 +1710,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Unidad virtual</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
     <value>Fecha de creación</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1821,10 +1821,10 @@
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
     <value>Files se está ejecutando como administrador</value>
   </data>
-  <data name="PinItemToStart.Text" xml:space="preserve">
+  <data name="PinItemToStart2" xml:space="preserve">
     <value>Anclar a Inicio</value>
   </data>
-  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStart2" xml:space="preserve">
     <value>Desanclar de Inicio</value>
   </data>
 </root>

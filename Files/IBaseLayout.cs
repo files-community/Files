@@ -37,5 +37,6 @@ namespace Files
         void FocusSelectedItems();
 
         void StartRenameItem();
+        void RefreshItems();
     }
 }

@@ -2,6 +2,7 @@
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.ContextFlyouts;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
@@ -18,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
@@ -31,8 +33,6 @@ namespace Files.Views.LayoutModes
         {
             InitializeComponent();
             this.DataContext = this;
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -174,12 +174,10 @@ namespace Files.Views.LayoutModes
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            if (parentContainer.IsSelected)
+            if (!parentContainer.IsSelected)
             {
-                return;
+                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
             }
-            // The following code is only reachable when a user RightTapped an unselected row
-            SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -334,7 +332,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    if (IsQuickLookEnabled)
+                    if (InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
@@ -491,6 +489,16 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion
-        
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+            // because you can't use bindings in the setters
+            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+            while (!(item is GridViewItem))
+                item = VisualTreeHelper.GetParent(item);
+            var itemContainer = item as GridViewItem;
+            itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
     }
 }
