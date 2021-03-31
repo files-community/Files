@@ -44,7 +44,7 @@ namespace Files.Helpers
         public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel)
         {
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
-            items.ForEach(x => x.Items = x.Items.Where(y => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
+            items.ForEach(x => x.Items = x.Items.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
             if(overflow != null && !shiftPressed)
             {
