@@ -69,11 +69,25 @@ namespace FilesFullTrust
                         Filter = "*.*",
                         NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
                     };
-                    watcher.Created += Watcher_Changed;
-                    watcher.Deleted += Watcher_Changed;
+                    watcher.Created += RecycleBinWatcher_Changed;
+                    watcher.Deleted += RecycleBinWatcher_Changed;
                     watcher.EnableRaisingEvents = true;
                     binWatchers.Add(watcher);
                 }
+
+                librariesWatcher = new FileSystemWatcher
+                {
+                    Path = librariesPath,
+                    Filter = "*" + ShellLibraryItem.EXTENSION,
+                    NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
+                    IncludeSubdirectories = false,
+                };
+
+                librariesWatcher.Created += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
+                librariesWatcher.Changed += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
+                librariesWatcher.Deleted += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, null);
+                librariesWatcher.Renamed += (object _, RenamedEventArgs e) => OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
+                librariesWatcher.EnableRaisingEvents = true;
 
                 // Preload context menu for better performance
                 // We query the context menu for the app's local folder
@@ -103,6 +117,7 @@ namespace FilesFullTrust
                 }
                 handleTable?.Dispose();
                 deviceWatcher?.Dispose();
+                librariesWatcher?.Dispose();
                 cancellation?.Cancel();
                 cancellation?.Dispose();
                 appServiceExit?.Dispose();
@@ -115,7 +130,7 @@ namespace FilesFullTrust
             Logger.Error(exception, exception.Message);
         }
 
-        private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
+        private static async void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
             if (e.Name.StartsWith("$I"))
@@ -148,6 +163,8 @@ namespace FilesFullTrust
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
+        private static FileSystemWatcher librariesWatcher;
+        private static readonly string librariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         private static async void InitializeAppServiceConnection()
         {
@@ -511,6 +528,10 @@ namespace FilesFullTrust
                     await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
                     break;
 
+                case "ShellLibrary":
+                    await HandleShellLibraryMessage(message);
+                    break;
+
                 default:
                     if (message.ContainsKey("Application"))
                     {
@@ -522,6 +543,161 @@ namespace FilesFullTrust
                         var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
                         HandleApplicationsLaunch(applicationList, message);
                     }
+                    break;
+            }
+        }
+
+        private static async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
+        {
+            if (newPath != null && (!newPath.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || !File.Exists(newPath)))
+            {
+                Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
+                return;
+            }
+
+            Debug.WriteLine($"Library event: {changeType}, {oldPath} -> {newPath}");
+            
+            if (connection?.IsConnected ?? false)
+            {
+                var response = new ValueSet { { "Library", newPath ?? oldPath } };
+                switch (changeType)
+                {
+                    case WatcherChangeTypes.Deleted:
+                    case WatcherChangeTypes.Renamed:
+                        response["OldPath"] = oldPath;
+                        break;
+                    default:
+                        break;
+                }
+                if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
+                {
+                    var library = ShellItem.Open(newPath) as ShellLibrary;
+                    if (library == null)
+                    {
+                        Logger.Error($"Failed to open library after {changeType}: {newPath}");
+                        return;
+                    }
+                    response["Item"] = JsonConvert.SerializeObject(GetShellLibraryItem(library, newPath));
+                    library.Dispose();
+                }
+                // Send message to UWP app to refresh items
+                await Win32API.SendMessageAsync(connection, response);
+            }
+        }
+
+        private static async Task HandleShellLibraryMessage(Dictionary<string, object> message)
+        {
+            switch ((string)message["action"])
+            {
+                case "Enumerate":
+                    // Read library information and send response to UWP
+                    var enumerateResponse = await Win32API.StartSTATask(() =>
+                    {
+                        var response = new ValueSet();
+                        try
+                        {
+                            var libraryItems = new List<ShellLibraryItem>();
+                            // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+                            var libFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
+                            foreach (var libFile in libFiles)
+                            {
+                                using var shellItem = ShellItem.Open(libFile);
+                                if (shellItem is ShellLibrary library)
+                                {
+                                    libraryItems.Add(GetShellLibraryItem(library, libFile));
+                                }
+                            }
+                            response.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e);
+                        }
+                        return response;
+                    });
+                    await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", (string)null));
+                    break;
+
+                case "Create":
+                    // Try create new library with the specified name and send response to UWP
+                    var createResponse = await Win32API.StartSTATask(() =>
+                    {
+                        var response = new ValueSet();
+                        try
+                        {
+                            using var library = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                            response.Add("Create", JsonConvert.SerializeObject(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e);
+                        }
+                        return response;
+                    });
+                    await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
+                    break;
+
+                case "Update":
+                    // Update details of the specified library and send response to UWP
+                    var updateResponse = await Win32API.StartSTATask(() =>
+                    {
+                        var response = new ValueSet();
+                        try
+                        {
+                            var folders = message.ContainsKey("folders") ? JsonConvert.DeserializeObject<string[]>((string)message["folders"]) : null;
+                            var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
+                            var isPinned = message.Get("isPinned", (bool?)null);
+
+                            bool updated = false;
+                            var libPath = (string)message["library"];
+                            using var library = ShellItem.Open(libPath) as ShellLibrary;
+                            if (folders != null)
+                            {
+                                if (folders.Length > 0)
+                                {
+                                    var foldersToRemove = library.Folders.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)));
+                                    foreach (var toRemove in foldersToRemove)
+                                    {
+                                        library.Folders.Remove(toRemove);
+                                        updated = true;
+                                    }
+                                    var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
+                                                              .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+                                                              .Select(ShellItem.Open);
+                                    foreach (var toAdd in foldersToAdd)
+                                    {
+                                        library.Folders.Add(toAdd);
+                                        updated = true;
+                                    }
+                                    foreach (var toAdd in foldersToAdd)
+                                    {
+                                        toAdd.Dispose();
+                                    }
+                                }
+                            }
+                            if (defaultSaveFolder != null)
+                            {
+                                library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
+                                updated = true;
+                            }
+                            if (isPinned != null)
+                            {
+                                library.PinnedToNavigationPane = isPinned == true;
+                                updated = true;
+                            }
+                            if (updated)
+                            {
+                                library.Commit();
+                                response.Add("Update", JsonConvert.SerializeObject(GetShellLibraryItem(library, libPath)));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e);
+                        }
+                        return response;
+                    });
+                    await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
                     break;
             }
         }
@@ -795,6 +971,25 @@ namespace FilesFullTrust
                 default:
                     break;
             }
+        }
+
+        private static ShellLibraryItem GetShellLibraryItem(ShellLibrary library, string filePath)
+        {
+            var libraryItem = new ShellLibraryItem
+            {
+                FullPath = filePath,
+                AbsolutePath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing),
+                RelativePath = library.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing),
+                DisplayName = library.GetDisplayName(ShellItemDisplayString.NormalDisplay),
+                IsPinned = library.PinnedToNavigationPane,
+            };
+            var folders = library.Folders;
+            if (folders.Count > 0)
+            {
+                libraryItem.DefaultSaveFolder = library.DefaultSaveFolder.FileSystemPath;
+                libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+            }
+            return libraryItem;
         }
 
         private static ShellFileItem GetShellFileItem(ShellItem folderItem)

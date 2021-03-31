@@ -139,6 +139,10 @@ namespace Files.Views
             {
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
+            else if (e.InvokedItemDataContext is LibraryLocationItem library)
+            {
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
+            }
             else if (e.InvokedItemDataContext is LocationItem)
             {
                 ListedItem listedItem = new ListedItem(null)

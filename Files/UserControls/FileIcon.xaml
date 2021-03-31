@@ -44,9 +44,9 @@
             x:Name="DriveItemIcon"
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
-            x:Load="{x:Bind ViewModel.LoadDriveItemGlyph, Mode=OneWay}"
+            x:Load="{x:Bind ViewModel.LoadCustomGlyph, Mode=OneWay}"
             FontSize="{x:Bind LargerItemSize}"
-            Glyph="{x:Bind ViewModel.DriveItemGlyphSource, Mode=OneWay}" />
+            Glyph="{x:Bind ViewModel.CustomGlyph, Mode=OneWay}" />
         <FontIcon
             x:Name="WebShortcutGlyph"
             HorizontalAlignment="Left"

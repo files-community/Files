@@ -68,9 +68,11 @@ namespace Files.DataModels
         /// </summary>
         public void AddDefaultItems()
         {
+            var udp = UserDataPaths.GetDefault();
+
             FavoriteItems.Add(AppSettings.DesktopPath);
             FavoriteItems.Add(AppSettings.DownloadsPath);
-            FavoriteItems.Add(AppSettings.DocumentsPath);
+            FavoriteItems.Add(udp.Documents);
         }
 
         /// <summary>

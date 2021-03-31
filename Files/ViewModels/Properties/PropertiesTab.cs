@@ -32,25 +32,28 @@ namespace Files.ViewModels.Properties
             AppInstance = np.AppInstanceArgument;
             ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.SlimContentPage);
 
-            if (np.navParameter is ListedItem)
+            if (np.navParameter is LibraryItem library)
             {
-                var listedItem = np.navParameter as ListedItem;
-                if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                BaseProperties = new LibraryProperties(ViewModel, np.tokenSource, Dispatcher, library, AppInstance);
+            }
+            else if (np.navParameter is ListedItem item)
+            {
+                if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, ItemMD5HashProgress, listedItem, AppInstance);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, ItemMD5HashProgress, item, AppInstance);
                 }
-                else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    BaseProperties = new FolderProperties(ViewModel, np.tokenSource, Dispatcher, listedItem, AppInstance);
+                    BaseProperties = new FolderProperties(ViewModel, np.tokenSource, Dispatcher, item, AppInstance);
                 }
             }
-            else if (np.navParameter is List<ListedItem>)
+            else if (np.navParameter is List<ListedItem> items)
             {
-                BaseProperties = new CombinedProperties(ViewModel, np.tokenSource, Dispatcher, np.navParameter as List<ListedItem>, AppInstance);
+                BaseProperties = new CombinedProperties(ViewModel, np.tokenSource, Dispatcher, items, AppInstance);
             }
-            else if (np.navParameter is DriveItem)
+            else if (np.navParameter is DriveItem drive)
             {
-                BaseProperties = new DriveProperties(ViewModel, np.navParameter as DriveItem, AppInstance);
+                BaseProperties = new DriveProperties(ViewModel, drive, AppInstance);
             }
 
             base.OnNavigatedTo(e);

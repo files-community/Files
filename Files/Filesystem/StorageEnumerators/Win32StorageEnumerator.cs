@@ -304,6 +304,14 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                 }
             }
+            else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+            {
+                return new LibraryItem(library)
+                {
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                };
+            }
             else
             {
                 bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);

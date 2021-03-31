@@ -105,11 +105,7 @@ namespace Files
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
-                if (App.AppSettings.ShowLibrarySection)
-                {
-                    await LibraryManager.EnumerateDrivesAsync();
-                }
-
+                await LibraryManager.EnumerateLibrariesAsync();
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
@@ -411,6 +407,7 @@ namespace Files
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
 
+            LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
         }
@@ -523,5 +520,7 @@ namespace Files
         public Uri Logo { get; set; }
 
         public SectionType Section { get; private set; }
+
+        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

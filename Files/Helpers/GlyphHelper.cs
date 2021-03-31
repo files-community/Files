@@ -1,6 +1,7 @@
 ﻿using Files.ViewModels;
 using System;
 using System.IO;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -13,43 +14,46 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="path">The path in the sidebar</param>
         /// <returns>The icon code</returns>
-        public static string GetItemIcon(string path)
+        public static string GetItemIcon(string path, string fallback = "\uE8B7")
         {
-            string iconCode;
-
-            if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            string iconCode = fallback;
+            if (path != null)
             {
-                iconCode = "\uE8FC";
+                // TODO: do library check based on the library file path?
+                var udp = UserDataPaths.GetDefault();
+                if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8FC";
+                }
+                else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE896";
+                }
+                else if (path.Equals(udp.Documents, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8A5";
+                }
+                else if (path.Equals(udp.Pictures, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uEB9F";
+                }
+                else if (path.Equals(udp.Music, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uEC4F";
+                }
+                else if (path.Equals(udp.Videos, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8B2";
+                }
+                else if (path.Equals(AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uE8CE";
+                }
+                else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = "\uEDA2";
+                }
             }
-            else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE896";
-            }
-            else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8A5";
-            }
-            else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEB9F";
-            }
-            else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEC4F";
-            }
-            else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uE8B2";
-            }
-            else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
-            {
-                iconCode = "\uEDA2";
-            }
-            else
-            {
-                iconCode = "\uE8B7";
-            }
-
             return iconCode;
         }
     }

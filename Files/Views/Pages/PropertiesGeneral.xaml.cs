@@ -1,9 +1,10 @@
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
-using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
@@ -20,9 +21,9 @@ namespace Files.Views
 
         public async Task SaveChangesAsync(ListedItem item)
         {
-            if (BaseProperties is DriveProperties)
+            if (BaseProperties is DriveProperties driveProps)
             {
-                var drive = (BaseProperties as DriveProperties).Drive;
+                var drive = driveProps.Drive;
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     if (AppInstance.FilesystemViewModel != null)
@@ -41,6 +42,27 @@ namespace Files.Views
                     }
                 }
             }
+            else if (BaseProperties is LibraryProperties libProps)
+            {
+                var library = libProps.Library;
+                var newName = ViewModel.ItemName;
+                if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
+                {
+                    if (AppInstance.FilesystemViewModel != null && App.LibraryManager.CanCreateLibrary(newName).result)
+                    {
+                        var libraryPath = library.ItemPath;
+                        var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), newName, Windows.Storage.NameCollisionOption.FailIfExists, false);
+                        if (renamed == Enums.ReturnResult.Success)
+                        {
+                            var newPath = Path.Combine(Path.GetDirectoryName(libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}");
+                            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(newPath);
+                            });
+                        }
+                    }
+                }
+            }
             else
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
@@ -52,11 +74,10 @@ namespace Files.Views
                 }
 
                 // Handle the hidden attribute
-                if (BaseProperties is CombinedProperties)
+                if (BaseProperties is CombinedProperties combinedProps)
                 {
                     // Handle each file independently
-                    var items = (BaseProperties as CombinedProperties).List;
-                    foreach (var fileOrFolder in items)
+                    foreach (var fileOrFolder in combinedProps.List)
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage));
                     }

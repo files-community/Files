@@ -235,26 +235,6 @@ namespace Files.ViewModels
                 tabLocationHeader = "SidebarDownloads".GetLocalized();
                 fontIconSource.Glyph = "\xE896";
             }
-            else if (currentPath.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarDocuments".GetLocalized();
-                fontIconSource.Glyph = "\xE8A5";
-            }
-            else if (currentPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarPictures".GetLocalized();
-                fontIconSource.Glyph = "\xEB9F";
-            }
-            else if (currentPath.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarMusic".GetLocalized();
-                fontIconSource.Glyph = "\xEC4F";
-            }
-            else if (currentPath.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarVideos".GetLocalized();
-                fontIconSource.Glyph = "\xE8B2";
-            }
             else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
@@ -266,6 +246,26 @@ namespace Files.ViewModels
             {
                 tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
                 fontIconSource.Glyph = "\uE8CE";
+            }
+            else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
+            {
+                fontIconSource.Glyph = library.Glyph;
+
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
+                switch (libName)
+                {
+                    case "Documents":
+                    case "Pictures":
+                    case "Music":
+                    case "Videos":
+                        // Show localized name
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized();
+                        break;
+                    default:
+                        // Show original name
+                        tabLocationHeader = library.Text;
+                        break;
+                }
             }
             else
             {

@@ -751,7 +751,10 @@
     <value>Contains:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Files, {1:#,##0} Folders</value>
+    <value>{0:#,##0} files, {1:#,##0} folders</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Run as another user</value>
@@ -1952,5 +1955,80 @@
   </data>
     <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
     <value>Column View</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>Locations:</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Set as default save path</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>No locations</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More library options</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Create Library</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Create Library</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
+    <value>Enter the name of the new library</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>Input field cannot be empty!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>Using this name is not allowed!</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>Library with the same name already exists!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>Delete Library</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
+    <value>Delete Library</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
+    <value>Do you really want to delete this library? The files and folders will remain on your filesystem.</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="DialogCancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>

@@ -252,7 +252,7 @@ namespace Files.UserControls
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as LocationItem;
 
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
@@ -262,27 +262,18 @@ namespace Files.UserControls
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
-                ShowEmptyRecycleBin = false;
-                ShowUnpinItem = true;
-                ShowProperties = true;
+                ShowUnpinItem = item.Section != SectionType.Library && !item.IsDefaultLocation;
+                ShowProperties = item.Section == SectionType.Library;
                 ShowEjectDevice = false;
 
-                if (item.IsDefaultLocation)
+                if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (item.Section != SectionType.Library)
-                    {
-                        ShowProperties = false;
-                    }
-
-                    if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                    {
-                        RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
-                        ShowEmptyRecycleBin = true;
-                    }
-                    else
-                    {
-                        ShowUnpinItem = false;
-                    }
+                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+                    ShowEmptyRecycleBin = true;
+                }
+                else
+                {
+                    ShowEmptyRecycleBin = false;
                 }
 
                 RightClickedItem = item;
@@ -294,7 +285,7 @@ namespace Files.UserControls
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as DriveItem;
 
             ShowEjectDevice = item.IsRemovable;
@@ -311,7 +302,7 @@ namespace Files.UserControls
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as WSLDistroItem;
 
             ShowEjectDevice = false;

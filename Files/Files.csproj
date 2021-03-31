@@ -187,6 +187,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
+    <Compile Include="Filesystem\LibraryLocationItem.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
     <Compile Include="Filesystem\WSLDistroManager.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
     <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
+    <Compile Include="Helpers\LibraryHelper.cs" />
     <Compile Include="Helpers\MenuFlyoutHelper.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="Helpers\CollectionDebugView.cs" />
@@ -442,6 +444,7 @@
     <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
     <Compile Include="ViewModels\Properties\DriveProperties.cs" />
     <Compile Include="ViewModels\Properties\FileProperties.cs" />
+    <Compile Include="ViewModels\Properties\LibraryProperties.cs" />
     <Compile Include="ViewModels\Properties\FolderProperties.cs" />
     <Compile Include="ViewModels\Properties\PropertiesTab.cs" />
     <Compile Include="ViewModels\SettingsViewModels\AboutViewModel.cs" />
@@ -461,6 +464,9 @@
     </Compile>
     <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
       <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
+      <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
@@ -911,6 +917,10 @@
     <Page Include="Views\LayoutModes\ColumnViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PropertiesLibrary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PaneHolderPage.xaml">
       <SubType>Designer</SubType>

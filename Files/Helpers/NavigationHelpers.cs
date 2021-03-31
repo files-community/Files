@@ -140,7 +140,34 @@ namespace Files.Helpers
 
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
-            if (itemType == FilesystemItemType.Directory) // OpenDirectory
+            if (itemType == FilesystemItemType.Library) // OpenLibrary
+            {
+                if (isHiddenItem)
+                {
+                    associatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    {
+                        NavPathParam = path,
+                        AssociatedTabInstance = associatedInstance
+                    });
+                    return true;
+                }
+                else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+                {
+                    opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
+                    if (opened)
+                    {
+                        associatedInstance.NavigationToolbar.PathControlDisplayText = library.Text;
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        {
+                            NavPathParam = path,
+                            AssociatedTabInstance = associatedInstance,
+                            SelectItems = selectItems,
+                        });
+                    }
+                }
+            }
+            else if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
                 if (isShortcutItem)
                 {

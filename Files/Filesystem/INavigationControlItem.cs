@@ -1,6 +1,8 @@
-﻿namespace Files.Filesystem
+﻿using System;
+
+namespace Files.Filesystem
 {
-    public interface INavigationControlItem
+    public interface INavigationControlItem : IComparable<INavigationControlItem>
     {
         public string Glyph { get; }
 
