@@ -40,9 +40,6 @@ namespace Files.Views.LayoutModes
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
-            //this.DataContext = this;
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;            
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -67,7 +64,7 @@ namespace Files.Views.LayoutModes
         public static event EventHandler ItemInvoked;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-            base.OnNavigatedTo(eventArgs);
+        { base.OnNavigatedTo(eventArgs);
             var param = (eventArgs.Parameter as NavigationArguments);
             //NavParam = param.NavPathParam;
             //var viewmodel = new ItemViewModel(FolderSettings);
@@ -414,11 +411,6 @@ namespace Files.Views.LayoutModes
                     if (item.ContainsFilesOrFolders)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
-                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
-                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
-                        {
-                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
-                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -480,11 +472,6 @@ namespace Files.Views.LayoutModes
                     if (item.ContainsFilesOrFolders)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
-                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
-                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
-                        {
-                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
-                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -532,7 +519,7 @@ namespace Files.Views.LayoutModes
             while (!(item is ListViewItem))
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as ListViewItem;
-            itemContainer.ContextFlyout = BaseLayoutItemContextFlyout;
+            itemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {

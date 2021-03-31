@@ -176,7 +176,7 @@ namespace Files.Views.LayoutModes
             var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (!parentContainer.IsSelected)
             {
-                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);   
+                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
             }
         }
 
@@ -489,6 +489,7 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion
+
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible

@@ -1355,7 +1355,7 @@ namespace Files.Views
                     return;
                 }
 
-                sourcePageType = typeof(ColumnViewBase),
+                ItemDisplayFrame.Navigate(sourcePageType = typeof(ColumnViewBase),
                 new NavigationArguments()
                 {
                     NavPathParam = navigationPath,

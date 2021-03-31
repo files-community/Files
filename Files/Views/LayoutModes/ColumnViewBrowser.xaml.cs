@@ -53,8 +53,6 @@ namespace Files.Views.LayoutModes
             this.InitializeComponent();
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
             //this.DataContext = this;
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -490,11 +488,6 @@ namespace Files.Views.LayoutModes
                             Column = 1,
                             Path = item.ItemPath
                         });
-                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
-                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
-                        {
-                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
-                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -587,11 +580,6 @@ namespace Files.Views.LayoutModes
                             Column = 1,
                             Path = item.ItemPath
                         });
-                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
-                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
-                        {
-                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
-                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -690,7 +678,7 @@ namespace Files.Views.LayoutModes
             while (!(item is ListViewItem))
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as ListViewItem;
-            itemContainer.ContextFlyout = BaseLayoutItemContextFlyout;
+            itemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
     }
 }
