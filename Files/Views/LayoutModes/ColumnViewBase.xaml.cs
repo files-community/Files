@@ -35,13 +35,11 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
+        private ListViewItem navigatedfolder;
 
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
-            //this.DataContext = this;
-            //base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
-            //base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -65,9 +63,8 @@ namespace Files.Views.LayoutModes
         }
         public static event EventHandler ItemInvoked;
 
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
-        {
-            base.OnNavigatedTo(eventArgs);
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        { base.OnNavigatedTo(eventArgs);
             var param = (eventArgs.Parameter as NavigationArguments);
             //NavParam = param.NavPathParam;
             //var viewmodel = new ItemViewModel(FolderSettings);
@@ -79,6 +76,7 @@ namespace Files.Views.LayoutModes
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
                 ParentShellPageInstance.IsCurrentInstance = true;
+                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
             }
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -513,6 +511,16 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+            // because you can't use bindings in the setters
+            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+            while (!(item is ListViewItem))
+                item = VisualTreeHelper.GetParent(item);
+            var itemContainer = item as ListViewItem;
+            itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)
@@ -531,16 +539,6 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
             }
-        }
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
-            // because you can't use bindings in the setters
-            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
-            while (!(item is ListViewItem))
-                item = VisualTreeHelper.GetParent(item);
-            var itemContainer = item as ListViewItem;
-            itemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
     }
 }

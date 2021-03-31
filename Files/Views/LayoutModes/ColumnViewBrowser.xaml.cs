@@ -44,14 +44,15 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
+        public static IShellPage columnparent;
+        private NavigationArguments parameters;
+        private ListViewItem navigatedfolder;
 
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
             //this.DataContext = this;
-            //base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
-            //base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -123,7 +124,8 @@ namespace Files.Views.LayoutModes
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             }
-            var parameters = (NavigationArguments)eventArgs.Parameter;
+            columnparent = ParentShellPageInstance;
+            parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
                 ReloadItemIcons();
@@ -358,7 +360,6 @@ namespace Files.Views.LayoutModes
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (e != null)
             {
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
@@ -421,6 +422,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
+                    
                     if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
