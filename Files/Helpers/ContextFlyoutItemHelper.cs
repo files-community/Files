@@ -493,7 +493,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "UnpinItemFromStart2".GetLocalized(),
+                    Text = "UnpinItemFromStart/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinItemFromStartCommand,
                     ShowOnShift = true,
@@ -569,4 +569,3 @@ namespace Files.Helpers
         }
     }
 }
-
