@@ -2,8 +2,6 @@
     x:Class="Files.Views.LayoutModes.GenericFileBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
@@ -17,10 +15,13 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
-    xmlns:usercontrols="using:Files.UserControls"
     NavigationCacheMode="Enabled"
-    PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerWheelChanged">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}"/>
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <local:BaseLayout.Resources>
         <ResourceDictionary>
@@ -46,12 +47,22 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
-                Invoked="{x:Bind GridViewSizeIncrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind GridViewSizeIncrease}"
-                Modifiers="Control" />
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
         <muxc:ProgressBar
             x:Name="progBar"
@@ -95,8 +106,6 @@
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
             DoubleTapped="AllView_DoubleTapped"
-            DragEnter="List_DragEnter"
-            Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
             Holding="AllView_Holding"
             IsDoubleTapEnabled="True"

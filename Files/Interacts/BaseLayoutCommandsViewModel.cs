@@ -61,6 +61,13 @@ namespace Files.Interacts
             ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
             PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
             ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
+            UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinItemFromStart);
+            PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinItemToStart);
+            PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.PointerWheelChanged);
+            GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeDecrease);
+            GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeIncrease);
+            DragEnterCommand = new RelayCommand<DragEventArgs>(commandsModel.DragEnter);
+            DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
             RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
         }
 
@@ -129,6 +136,21 @@ namespace Files.Interacts
         public ICommand PinDirectoryToSidebarCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
+
+        public ICommand UnpinItemFromStartCommand { get; private set; }
+
+        public ICommand PinItemToStartCommand { get; private set; }
+
+        public ICommand PointerWheelChangedCommand { get; private set; }
+
+        public ICommand GridViewSizeDecreaseCommand { get; private set; }
+
+        public ICommand GridViewSizeIncreaseCommand { get; private set; }
+
+        public ICommand DragEnterCommand { get; private set; }
+
+        public ICommand DropCommand { get; private set; }
+
         public ICommand RefreshCommand { get; private set; }
 
         #endregion Commands
