@@ -139,9 +139,15 @@ namespace Files.Filesystem
 
         public async Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
         {
+            // TODO: fix library update handling
+            /*string path = oldPath;
+            if (string.IsNullOrEmpty(oldPath))
+            {
+                path = library?.FullPath;
+            }
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, oldPath ?? library?.FullPath, StringComparison.OrdinalIgnoreCase));
+                var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
                 if (changedLibrary != null)
                 {
                     Libraries.Remove(changedLibrary);
@@ -151,7 +157,7 @@ namespace Files.Filesystem
                 {
                     Libraries.AddSorted(new LibraryLocationItem(library));
                 }
-            });
+            });*/
         }
 
         private async Task SyncLibrarySideBarItemsUI()
