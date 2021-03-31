@@ -88,6 +88,7 @@ namespace Files.Views
                             IsDefault = string.Equals(path, props.Library.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase),
                         });
                     }
+                    NotifyPropertyChanged(nameof(IsLibraryEmpty));
                 }
             }
         }
@@ -98,7 +99,7 @@ namespace Files.Views
             folderPicker.FileTypeFilter.Add("*");
 
             var folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
+            if (folder != null && !Folders.Any((f) => string.Equals(folder.Path, f.Path, StringComparison.OrdinalIgnoreCase)))
             {
                 bool isDefault = Folders.Count == 0;
                 Folders.Add(new LibraryFolder { Path = folder.Path, IsDefault = isDefault });
