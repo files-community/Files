@@ -484,7 +484,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "PinItemToStart2".GetLocalized(),
+                    Text = "PinItemToStart/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinItemToStartCommand,
                     ShowOnShift = true,
