@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -34,6 +35,7 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
+        private ListViewItem navigatedfolder;
 
         public ColumnViewBase() : base()
         {
@@ -413,6 +415,11 @@ namespace Files.Views.LayoutModes
                     if (item.ContainsFilesOrFolders)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
+                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
+                        {
+                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
+                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -474,6 +481,11 @@ namespace Files.Views.LayoutModes
                     if (item.ContainsFilesOrFolders)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
+                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
+                        {
+                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
+                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -512,6 +524,16 @@ namespace Files.Views.LayoutModes
                     (sender as SelectorItem).IsSelected = true;
                 }
             }
+        }
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+            // because you can't use bindings in the setters
+            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+            while (!(item is ListViewItem))
+                item = VisualTreeHelper.GetParent(item);
+            var itemContainer = item as ListViewItem;
+            itemContainer.ContextFlyout = BaseLayoutItemContextFlyout;
         }
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {

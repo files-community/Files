@@ -45,6 +45,8 @@ namespace Files.Views.LayoutModes
         private string oldItemName;
         private TextBlock textBlock;
         public static IShellPage columnparent;
+        private NavigationArguments parameters;
+        private ListViewItem navigatedfolder;
 
         public ColumnViewBrowser() : base()
         {
@@ -125,7 +127,7 @@ namespace Files.Views.LayoutModes
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             }
             columnparent = ParentShellPageInstance;
-            var parameters = (NavigationArguments)eventArgs.Parameter;
+            parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
                 ReloadItemIcons();
@@ -360,7 +362,7 @@ namespace Files.Views.LayoutModes
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
             if (e != null)
             {
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
@@ -449,6 +451,13 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
+            {
+                if (navigatedfolder != null)
+                {
+                    navigatedfolder.Style = (Style)this.Resources["ListViewItemStandardContextFlyout"];
+                }
+            }
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
@@ -488,6 +497,11 @@ namespace Files.Views.LayoutModes
                             Column = 1,
                             Path = item.ItemPath
                         });
+                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
+                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
+                        {
+                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
+                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -517,6 +531,15 @@ namespace Files.Views.LayoutModes
             {
                 if (SelectedItems.Contains(objectPressed))
                 {
+
+                    //navigatedfolder = FileList.ContainerFromItem(objectPressed) as ListViewItem;
+                    //if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
+                    //{
+                    //    if (navigatedfolder != null)
+                    //    { 
+                    //        navigatedfolder.Style = (Style)this.Resources["ListViewItemStandardContextFlyout"]; 
+                    //    }
+                    //}
                     return;
                 }
             }
@@ -524,9 +547,9 @@ namespace Files.Views.LayoutModes
             // The following code is only reachable when a user RightTapped an unselected row
             SetSelectedItemOnUi(objectPressed);
         }
-
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -580,6 +603,11 @@ namespace Files.Views.LayoutModes
                             Column = 1,
                             Path = item.ItemPath
                         });
+                        navigatedfolder = FileList.ContainerFromItem(item) as ListViewItem;
+                        if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
+                        {
+                            navigatedfolder.Style = (Style)this.Resources["ListViewItemUnfocusedStandardContextFlyout"];
+                        }
                     }
                 }
                 // The delay gives time for the item to be selected
@@ -633,6 +661,7 @@ namespace Files.Views.LayoutModes
         }
         private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
                 if ((sender as SelectorItem).IsSelected)
@@ -668,6 +697,17 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
             }
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+            // because you can't use bindings in the setters
+            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+            while (!(item is ListViewItem))
+                item = VisualTreeHelper.GetParent(item);
+            var itemContainer = item as ListViewItem;
+            itemContainer.ContextFlyout = BaseLayoutItemContextFlyout;
         }
     }
 }
