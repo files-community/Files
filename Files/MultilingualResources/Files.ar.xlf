@@ -136,7 +136,7 @@
           <source>Clear Selection</source>
           <target state="translated" state-qualifier="tm-suggestion">مسح التحديد</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutDetails2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated" state-qualifier="tm-suggestion">عرض التفاصيل</target>
         </trans-unit>
@@ -327,43 +327,43 @@
           <source>Videos</source>
           <target state="translated" state-qualifier="tm-suggestion">مقاطع الفيديو</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBy2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated" state-qualifier="tm-suggestion">فرز حسب</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">اسم</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">تاريخ التعديل</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">النوع</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySize2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated" state-qualifier="tm-suggestion">الحجم</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated" state-qualifier="tm-suggestion">تصاعدي</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">تنازلي</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRefresh2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
           <target state="translated" state-qualifier="tm-suggestion">تحديث</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPaste2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
           <target state="translated" state-qualifier="tm-suggestion">لصق</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">فتح في طرفيه</target>
         </trans-unit>
@@ -371,11 +371,11 @@
           <source>MD5Hash:</source>
           <target state="translated">MD5Hash:</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNew2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated" state-qualifier="tm-suggestion">جديد</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFolder2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated" state-qualifier="tm-suggestion">مجلد</target>
         </trans-unit>
@@ -383,7 +383,7 @@
           <source>File</source>
           <target state="translated" state-qualifier="tm-suggestion">ملف</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated" state-qualifier="tm-suggestion">خصائص</target>
         </trans-unit>
@@ -391,51 +391,51 @@
           <source>Extract</source>
           <target state="translated" state-qualifier="tm-suggestion">استخراج</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated" state-qualifier="tm-suggestion">فتح</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated" state-qualifier="tm-suggestion">فتح في علامة تبويب جديدة</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
           <target state="translated" state-qualifier="tm-suggestion">فتح في نافذة جديدة</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated" state-qualifier="tm-suggestion">تعيين كخلفية سطح المكتب</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShare2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
           <target state="translated" state-qualifier="tm-suggestion">مشاركة</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCut2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated" state-qualifier="tm-suggestion">قص</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopy2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated" state-qualifier="tm-suggestion">نسخ</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="translated" state-qualifier="tm-suggestion">حذف</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRename2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
           <target state="translated" state-qualifier="tm-suggestion">إعادة تسمية</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin to sidebar</source>
           <target state="translated">تثبيت في الشريط الجانبي</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutProperties2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated" state-qualifier="tm-suggestion">خصائص</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
           <target state="translated">نظرة سريعة</target>
         </trans-unit>
@@ -567,23 +567,23 @@
           <source>Item already exists</source>
           <target state="translated" state-qualifier="tm-suggestion">العنصر موجود بالفعل.</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
           <target state="translated">ضبط كخلفية قفل الشاشة</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">عرض الشبكة بشكل كبير</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">عرض الشبكة بشكل متوسط</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">عرض الشبكة بشكل صغير</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTilesView2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="translated">اظهار العنوان</target>
         </trans-unit>
@@ -659,11 +659,11 @@
           <source>Hidden</source>
           <target state="translated" state-qualifier="tm-suggestion">مخفية</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated" state-qualifier="tm-suggestion">إفراغ سلة المهملات</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRestore2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
           <target state="translated" state-qualifier="tm-suggestion">استعادة</target>
         </trans-unit>
@@ -707,7 +707,7 @@
           <source>{0} free of {1}</source>
           <target state="translated">{0} فارغ من {1}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
           <target state="translated" state-qualifier="tm-suggestion">فتح بواسطة</target>
         </trans-unit>
@@ -759,7 +759,7 @@
           <source>Moving files to Recycle Bin</source>
           <target state="translated">نقل الى سلة المهملات</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
           <target state="translated">تثبيت دليل التطبيقات الى الشريط الجانبي</target>
         </trans-unit>
@@ -807,7 +807,7 @@
           <source>B</source>
           <target state="translated" state-qualifier="tm-suggestion">B</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">تشغيل كمسؤول</target>
         </trans-unit>
@@ -847,7 +847,7 @@
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="translated">{0:#,##0} ملفات, {1:#,##0} حافظات</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
           <target state="translated" state-qualifier="tm-suggestion">التشغيل كمستخدم آخر</target>
         </trans-unit>
@@ -944,7 +944,7 @@
           <source>Copy to {0}</source>
           <target state="translated" state-qualifier="tm-suggestion">نسخ إلى {0}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShortcut2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
           <target state="translated" state-qualifier="tm-suggestion">إنشاء اختصار</target>
         </trans-unit>
@@ -1004,7 +1004,7 @@
           <source>{0} - shortcut</source>
           <target state="translated">{0} - الاختصار</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated" state-qualifier="tm-suggestion">فتح موقع الملف</target>
         </trans-unit>
@@ -1185,11 +1185,11 @@
           <source>Multitasking</source>
           <target state="translated" state-qualifier="tm-suggestion">تعدد المهام</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAs2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
           <target state="translated" state-qualifier="tm-suggestion">تعيين كـ</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated" state-qualifier="tm-suggestion">نسخ الموقع</target>
         </trans-unit>
@@ -1221,7 +1221,7 @@
           <source>Creates an empty folder</source>
           <target state="translated">قم بإنشاء ملف فارغ</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutLayoutMode2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="translated" state-qualifier="tm-suggestion">وضع التخطيط</target>
         </trans-unit>
@@ -1894,7 +1894,7 @@
           <source>Original path</source>
           <target state="translated">المسار الأصلي</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="translated">المسار الأصلي</target>
         </trans-unit>
@@ -1934,7 +1934,7 @@
           <source>Enable dual pane view</source>
           <target state="translated">تفعيل العرض الثنائي</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">فتح في الجزء الثانوي</target>
         </trans-unit>
@@ -2020,7 +2020,7 @@
           <source>Show hidden items</source>
           <target state="translated">إظهار العناصر المخفية</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated" state-qualifier="tm-suggestion">‏‏تاريخ الحذف</target>
         </trans-unit>
@@ -2170,7 +2170,7 @@
           <source>Item Name</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">اسم الصنف</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
         </trans-unit>
@@ -2298,7 +2298,7 @@
           <source>Virtual Drive</source>
           <target state="new">Virtual Drive</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">تاريخ الإنشاء</target>
         </trans-unit>
@@ -2446,11 +2446,11 @@
           <source>Files is running as administrator</source>
           <target state="new">Files is running as administrator</target>
         </trans-unit>
-        <trans-unit id="PinItemToStart2" translate="yes" xml:space="preserve">
+        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
           <target state="new">Pin to the Start Menu</target>
         </trans-unit>
-        <trans-unit id="UnpinItemFromStart2" translate="yes" xml:space="preserve">
+        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
           <target state="new">Unpin from the Start Menu</target>
         </trans-unit>
@@ -2462,7 +2462,7 @@
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutColumn.Text.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>
