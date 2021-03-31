@@ -79,7 +79,7 @@ namespace Files.Helpers
                 }
                 else if (path.Equals(udp.Pictures, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Picutres.svg"));
+                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Pictures.svg"));
                 }
                 else if (path.Equals(udp.Music, StringComparison.OrdinalIgnoreCase))
                 {
