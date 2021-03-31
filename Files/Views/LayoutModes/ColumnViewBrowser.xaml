@@ -1,4 +1,4 @@
-﻿<local:BaseLayout
+<local:BaseLayout
     x:Class="Files.Views.LayoutModes.ColumnViewBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -21,18 +21,6 @@
     x:Name="PageRoot"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
-        <Style x:Key="ListViewItemStandardContextFlyout" TargetType="ListViewItem">
-            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-        <Style x:Key="ListViewItemRecycleBinContextFlyout" TargetType="ListViewItem">
-            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
             x:Key="NegatedBoolToVisibilityConverter"
@@ -44,6 +32,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="TitleBarVisibility" Value="Collapsed"></Setter>
             <Setter Property="BorderThickness" Value="0,0,1,0"></Setter>
+            <Setter Property="Width" Value="300"/>
         </Style>
     </local:BaseLayout.Resources>
     <Grid
@@ -81,8 +70,7 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
-                                      Loaded="Grid_Loaded">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}" Loaded="Grid_Loaded">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="24" />
                                         <ColumnDefinition Width="*" />
