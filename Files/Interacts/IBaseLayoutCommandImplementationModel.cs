@@ -82,6 +82,7 @@ namespace Files.Interacts
         void DragEnter(DragEventArgs e);
 
         void Drop(DragEventArgs e);
+
         void RefreshItems(RoutedEventArgs e);
     }
 }

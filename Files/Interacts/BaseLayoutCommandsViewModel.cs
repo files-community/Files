@@ -136,7 +136,6 @@ namespace Files.Interacts
         public ICommand PinDirectoryToSidebarCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
-        public ICommand RefreshCommand { get; private set; }
 
         public ICommand UnpinItemFromStartCommand { get; private set; }
 
@@ -151,6 +150,8 @@ namespace Files.Interacts
         public ICommand DragEnterCommand { get; private set; }
 
         public ICommand DropCommand { get; private set; }
+
+        public ICommand RefreshCommand { get; private set; }
 
         #endregion Commands
 
