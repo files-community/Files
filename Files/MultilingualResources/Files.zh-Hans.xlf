@@ -177,55 +177,55 @@
           <target state="needs-review-translation">新建标签页</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBy2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">排序方式</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">名称</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">修改日期</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">类型</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySize2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated">大小</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">升序</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">降序</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRefresh2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
           <target state="translated">刷新</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPaste2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
           <target state="translated">粘贴</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">在终端中打开...</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNew2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">新建</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFolder2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">文件夹</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">属性</target>
         </trans-unit>
@@ -233,47 +233,47 @@
           <source>Extract</source>
           <target state="translated">提取</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">在新标签页中打开</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
           <target state="translated">在新窗口中打开</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated">设为桌面背景</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShare2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
           <target state="translated">共享</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCut2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated">剪切</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopy2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">复制</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="translated">删除</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRename2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
           <target state="translated">重命名</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin to sidebar</source>
           <target state="translated">固定到侧边栏</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutProperties2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">属性</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
           <target state="translated">速览 (QuickLook)</target>
         </trans-unit>
@@ -322,7 +322,7 @@
           <source>Text Document</source>
           <target state="translated">文本文档</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutDetails2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">列表</target>
         </trans-unit>
@@ -470,7 +470,7 @@
           <source>Invert Selection</source>
           <target state="translated">反选</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">打开</target>
         </trans-unit>
@@ -526,23 +526,23 @@
           <source>Replace existing item</source>
           <target state="translated">替换现有文件</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
           <target state="translated">设为锁屏</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">缩略图 (大)</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">缩略图 (中)</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">缩略图 (小)</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTilesView2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="translated">磁贴视图</target>
         </trans-unit>
@@ -606,11 +606,11 @@
           <source>OK</source>
           <target state="translated">确定</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">清空回收站</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRestore2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
           <target state="translated">撤销</target>
         </trans-unit>
@@ -654,7 +654,7 @@
           <source>{0} free of {1}</source>
           <target state="translated">{0} 可用，共 {1}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
           <target state="translated">打开方式</target>
         </trans-unit>
@@ -694,7 +694,7 @@
           <source>items</source>
           <target state="translated">项目</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
           <target state="translated">固定到侧边栏</target>
         </trans-unit>
@@ -798,11 +798,11 @@
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="translated">{0:#,##0} 个文件, {1:#,##0} 个文件夹</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated">以管理员身份运行</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
           <target state="translated">以其他身份运行</target>
         </trans-unit>
@@ -899,7 +899,7 @@
           <source>Copy to {0}</source>
           <target state="translated">复制到 {0}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShortcut2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
           <target state="translated">创建快捷方式</target>
         </trans-unit>
@@ -959,7 +959,7 @@
           <source>{0} - shortcut</source>
           <target state="translated">{0} - 快捷方式</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">打开文件位置</target>
         </trans-unit>
@@ -1104,11 +1104,11 @@
           <source>Multitasking</source>
           <target state="translated">多任务</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAs2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
           <target state="translated">设置为</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">复制路径</target>
         </trans-unit>
@@ -1152,7 +1152,7 @@
           <source>Creates an empty folder</source>
           <target state="translated">创建一个空文件夹</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutLayoutMode2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="translated" state-qualifier="tm-suggestion">布局模式</target>
         </trans-unit>
@@ -1882,7 +1882,7 @@
           <source>Original path</source>
           <target state="translated">原始路径</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="translated">原始路径</target>
         </trans-unit>
@@ -1922,7 +1922,7 @@
           <source>Enable dual pane view</source>
           <target state="translated">启用双面板视图</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">在第二面板打开</target>
         </trans-unit>
@@ -2020,7 +2020,7 @@
           <source>Details View</source>
           <target state="translated">详细信息视图</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">删除日期</target>
         </trans-unit>
@@ -2175,7 +2175,7 @@
           <target state="needs-review-translation">在主页上显示包</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="translated">从侧边栏取消固定路径</target>
         </trans-unit>
@@ -2299,7 +2299,7 @@
           <source>Virtual Drive</source>
           <target state="new">Virtual Drive</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">创建日期</target>
         </trans-unit>
@@ -2447,11 +2447,11 @@
           <source>Files is running as administrator</source>
           <target state="new">Files is running as administrator</target>
         </trans-unit>
-        <trans-unit id="PinItemToStart2" translate="yes" xml:space="preserve">
+        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
           <target state="new">Pin to the Start Menu</target>
         </trans-unit>
-        <trans-unit id="UnpinItemFromStart2" translate="yes" xml:space="preserve">
+        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
           <target state="new">Unpin from the Start Menu</target>
         </trans-unit>
@@ -2463,7 +2463,7 @@
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutColumn.Text.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>

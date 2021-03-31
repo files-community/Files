@@ -174,55 +174,55 @@
           <source>New tab</source>
           <target state="translated">Nueva pestaña</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBy2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">Ordenar por</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Nombre</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">Fecha de modificación</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">Tipo</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySize2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated">Tamaño</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">Ascendente</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">Descendente</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRefresh2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
           <target state="translated">Actualizar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPaste2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
           <target state="translated">Pegar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">Abrir en la Terminal...</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNew2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">Nuevo</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFolder2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Carpeta</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Propiedades</target>
         </trans-unit>
@@ -230,47 +230,47 @@
           <source>Extract</source>
           <target state="translated">Extraer</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Abrir en nueva pestaña</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
           <target state="translated">Abrir en nueva ventana</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated">Fondo de escritorio</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShare2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
           <target state="translated">Compartir</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCut2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated">Cortar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopy2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">Copiar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="translated">Eliminar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRename2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
           <target state="translated">Renombrar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin to sidebar</source>
           <target state="translated">Anclar a la barra lateral</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutProperties2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Propiedades</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
           <target state="translated">QuickLook</target>
         </trans-unit>
@@ -318,7 +318,7 @@
           <source>Text Document</source>
           <target state="translated">Documento de Texto</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutDetails2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">Detalles</target>
         </trans-unit>
@@ -466,7 +466,7 @@
           <source>Invert Selection</source>
           <target state="translated">Invertir Selección</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Abrir</target>
         </trans-unit>
@@ -522,23 +522,23 @@
           <source>Replace existing item</source>
           <target state="translated">Reemplazar elemento existente</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
           <target state="translated">Fondo de pantalla de bloqueo</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">Iconos grandes</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">Iconos medianos</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">Iconos pequeños</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTilesView2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="translated">Iconos</target>
         </trans-unit>
@@ -602,11 +602,11 @@
           <source>OK</source>
           <target state="translated">Aceptar</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">Vaciar papelera de reciclaje</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRestore2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
           <target state="translated">Restaurar</target>
         </trans-unit>
@@ -650,7 +650,7 @@
           <source>{0} free of {1}</source>
           <target state="translated">{0} disponibles de {1}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
           <target state="translated">Abrir con...</target>
         </trans-unit>
@@ -690,7 +690,7 @@
           <source>items</source>
           <target state="translated">elementos</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
           <target state="translated">Anclar directorio a la barra lateral</target>
         </trans-unit>
@@ -782,11 +782,11 @@
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="translated">{0:#,##0} Archivos, {1:#,##0} Carpetas</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated">Ejecutar como administrador</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
           <target state="translated">Ejecutar como otro usuario</target>
         </trans-unit>
@@ -894,7 +894,7 @@
           <source>Copy to {0}</source>
           <target state="translated">Copiar a {0}</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShortcut2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
           <target state="translated">Crear acceso directo</target>
         </trans-unit>
@@ -954,7 +954,7 @@
           <source>{0} - shortcut</source>
           <target state="translated">{0} - Acceso directo</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Abrir ubicación del archivo</target>
         </trans-unit>
@@ -1098,11 +1098,11 @@
           <source>Multitasking</source>
           <target state="translated">Multitarea</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAs2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
           <target state="translated">Establecer como</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Copiar ubicación</target>
         </trans-unit>
@@ -1146,7 +1146,7 @@
           <source>Creates an empty folder</source>
           <target state="translated">Crea una carpeta vacía</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutLayoutMode2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="translated">Modo de vista</target>
         </trans-unit>
@@ -1874,7 +1874,7 @@
           <source>Original path</source>
           <target state="translated">Ubicación original</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="translated">Ubicación original</target>
         </trans-unit>
@@ -1914,7 +1914,7 @@
           <source>Enable dual pane view</source>
           <target state="translated">Habilitar vista de panel doble</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Abrir en panel secundario</target>
         </trans-unit>
@@ -2010,7 +2010,7 @@
           <source>Details View</source>
           <target state="translated">Detalles</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">Fecha de eliminación</target>
         </trans-unit>
@@ -2162,7 +2162,7 @@
           <source>Show bundles on the home page</source>
           <target state="translated">Mostrar contenedores en la página de inicio</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="translated">Desanclar directorio de la barra lateral</target>
         </trans-unit>
@@ -2286,7 +2286,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Unidad virtual</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated2" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Fecha de creación</target>
         </trans-unit>
@@ -2434,11 +2434,11 @@
           <source>Files is running as administrator</source>
           <target state="translated">Files se está ejecutando como administrador</target>
         </trans-unit>
-        <trans-unit id="PinItemToStart2" translate="yes" xml:space="preserve">
+        <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
           <target state="translated">Anclar a Inicio</target>
         </trans-unit>
-        <trans-unit id="UnpinItemFromStart2" translate="yes" xml:space="preserve">
+        <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
           <target state="translated">Desanclar de Inicio</target>
         </trans-unit>
@@ -2450,7 +2450,7 @@
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutColumn.Text.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>

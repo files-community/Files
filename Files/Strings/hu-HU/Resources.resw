@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Kijelölés megszüntetése</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Részletek</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -243,85 +243,85 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videók</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Rendezés</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>Név</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
     <value>Módosítás dátuma</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Típus</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Méret</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
     <value>Növekvő</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
     <value>Csökkenő</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Frissítés</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Beillesztés</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Megnyitás terminálban...</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>Új</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Mappa</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Tulajdonságok</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Kicsomagolás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>Megnyitás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Megnyitás új lapon</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>Megnyitás új ablakban</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Beállítás asztali háttérképként</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Megosztás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Kivágás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Másolás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
     <value>Törlés</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Átnevezés</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>Kitűzés az oldalsávra</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Tulajdonságok</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -417,19 +417,19 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Az elem már létezik</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Beállítás zárolási képernyő háttérként</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Nagy ikonok</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Közepes ikonok</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Kis ikonok</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Lista</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -477,10 +477,10 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kijelölési lehetőségek</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Lomtár ürítése</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Visszaállítás</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -513,7 +513,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>Szabad hely: {0} / {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Társítás</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -552,7 +552,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Fájlok áthelyezése a lomtárba</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Mappa kitűzése az oldalsávra</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
@@ -588,7 +588,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Futtatás rendszergazdaként</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
@@ -618,7 +618,7 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} fájl, {1:#,##0} mappa</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Futtatás másik felhasználóként</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -690,7 +690,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Másolás ide: {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Parancsikon létrehozása</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -735,7 +735,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - parancsikon</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Fájlt tartalmazó mappa megnyitása</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
@@ -870,10 +870,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitaszking</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Beállítás mint</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Elérési út másolása</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
@@ -891,7 +891,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Új mappa létrehozása</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Elrendezés</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1410,7 +1410,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Eredeti elérési út</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Eredeti elérési út</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
@@ -1440,7 +1440,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>Osztott nézet bekapcsolása</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Megnyitás a jobb oldali panelen</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1515,7 +1515,7 @@
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Részletek</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Törlés dátuma</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1629,7 +1629,7 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Munkaterületek megjelenítése a kezdőlapon</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Levétel az oldalsávról</value>
   </data>
   <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
@@ -1722,7 +1722,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuális meghajtó</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Létrehozás dátuma</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1833,10 +1833,10 @@
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
     <value>A Files rendszergazdaként fut</value>
   </data>
-  <data name="PinItemToStart2" xml:space="preserve">
+  <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Kitűzés a Start menübe</value>
   </data>
-  <data name="UnpinItemFromStart2" xml:space="preserve">
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Levétel a Start menüből</value>
   </data>
 </root>
