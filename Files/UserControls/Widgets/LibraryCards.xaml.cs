@@ -17,6 +17,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
@@ -77,7 +78,7 @@ namespace Files.UserControls.Widgets
             });
             foreach (var item in ItemsAdded)
             {
-                item.Icon = GlyphHelper.GetItemIcon(item.Path);
+                item.Icon = GlyphHelper.GetIconUri(item.Path);
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
@@ -122,7 +123,7 @@ namespace Files.UserControls.Widgets
             {
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = GlyphHelper.GetItemIcon(lib.DefaultSaveFolder),
+                    Icon = GlyphHelper.GetIconUri(lib.DefaultSaveFolder),
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,
@@ -309,7 +310,7 @@ namespace Files.UserControls.Widgets
 
     public class LibraryCardItem
     {
-        public string Icon { get; set; }
+        public SvgImageSource Icon { get; set; }
         public string Text { get; set; }
         public string Path { get; set; }
         public LibraryLocationItem Library { get; set; }

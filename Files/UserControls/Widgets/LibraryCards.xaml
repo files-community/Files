@@ -37,7 +37,7 @@
                 Text="Folders"
                 TextTrimming="CharacterEllipsis" />
 
-            <!-- Options button -->
+            <!--  Options button  -->
             <Button
                 x:Uid="LibraryCardsOptionsButton"
                 Grid.Column="1"
@@ -70,7 +70,7 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <!--<MenuFlyoutSeparator />
-                        <MenuFlyoutItem ... -->
+                        <MenuFlyoutItem ...-->
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -158,17 +158,15 @@
                                                 <FontIcon Glyph="&#xE946;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator
-                                            x:Name="DeleteLibrarySeparator"
-                                            x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"/>
+                                        <MenuFlyoutSeparator x:Name="DeleteLibrarySeparator" x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}" />
                                         <MenuFlyoutItem
                                             x:Name="DeleteLibrary"
                                             x:Uid="BaseLayoutContextFlyoutDeleteLibrary"
                                             x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"
                                             Click="DeleteLibrary_Click"
                                             DataContext="{x:Bind}"
-                                            Text="Delete Library"
-                                            Foreground="OrangeRed">
+                                            Foreground="OrangeRed"
+                                            Text="Delete Library">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE107;" />
                                             </MenuFlyoutItem.Icon>
@@ -186,12 +184,12 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <FontIcon
+                                <Image
                                     Grid.Row="0"
+                                    Height="40"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    FontSize="28"
-                                    Glyph="{x:Bind Icon}" />
+                                    Source="{x:Bind Icon}" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"
