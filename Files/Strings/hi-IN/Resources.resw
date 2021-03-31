@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>चयन खाली करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
     <value>सूची व्यू</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -231,85 +231,85 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>चलचित्र</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
     <value>द्वारा सॉर्ट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
     <value>नाम</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
     <value>तिथि संशोधित</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
     <value>प्रकार</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
     <value>आकार</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
     <value>बढ़तेक्रममें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
     <value>घटतेक्रममें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
     <value>करेंताज़ा</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
     <value>पेस्ट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
     <value>टर्मिनल में खोलें ...</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 हैश:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
     <value>नया</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
     <value>फ़ोल्डर</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
     <value>गुण</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>निकाल</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
     <value>खोलें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
     <value>नए टैब में खोलें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
     <value>नई विंडो में खोलें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
     <value>डेस्कटॉप पृष्ठभूमि के रूप में सेट करें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
     <value>साझा</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
     <value>कटौती</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
     <value>प्रतिलिपि</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
     <value>हटाएँ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
     <value>पुनर्नाम</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
     <value>साइडबार मे पिन करें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
     <value>गुण</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
     <value>क्विकलुक</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -405,19 +405,19 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>वस्तु पहले से मौजूद है</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
     <value>लॉकस्क्रीन पृष्ठभूमि के रूप में सेट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
     <value>ग्रिड व्यू (बड़े)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
     <value>ग्रिड व्यू (मध्यम)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
     <value>ग्रिड व्यू (छोटा)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
     <value>टाइल्स व्यू</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -465,10 +465,10 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
     <value>पुनर्स्थापित</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -501,7 +501,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{1} से {0} खाली</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
     <value>के साथ खोलें</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -540,7 +540,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>फ़ाइलों को रीसायकल बिन में ले जा रहा है</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
     <value>डायरेक्ट्री को साइडबार मे पिन करें</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
@@ -576,7 +576,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
     <value>प्रशासक के रूप में भागो</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
@@ -606,7 +606,7 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} फ़ाइलें, {1:#,##0} फ़ोल्डर्स</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
     <value>किसी अन्य उपयोगकर्ता के रूप में भागो</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} की प्रतिलिपि बनाएँ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
     <value>शॉर्टकट बनाएँ</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -714,7 +714,7 @@
   <data name="ShortcutFileType" xml:space="preserve">
     <value>शॉर्टकट</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
     <value>फ़ाइल स्थान खोलें</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
@@ -765,10 +765,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>मल्टिटास्किंग</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
     <value>के रूप में सेट करें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
     <value>स्थान की प्रतिलिपि बनाएँ</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -1119,7 +1119,7 @@
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>विवरण दृश्‍य</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
     <value>हटाए जाने की तिथि</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1194,7 +1194,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>अज्ञात</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
     <value>निर्माण दिनांक</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">

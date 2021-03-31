@@ -211,7 +211,10 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
+    <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
+    <Compile Include="Helpers\ShellContextMenuHelper.cs" />
     <Compile Include="Helpers\UIFilesystemHelpers.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />
     <Compile Include="Helpers\UIHelpers.cs" />
@@ -293,6 +296,7 @@
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />
     <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
