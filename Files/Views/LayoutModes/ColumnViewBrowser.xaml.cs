@@ -362,7 +362,6 @@ namespace Files.Views.LayoutModes
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             if (e != null)
             {
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
@@ -425,7 +424,8 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    if (IsQuickLookEnabled)
+                    
+                    if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
@@ -451,13 +451,6 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
-            {
-                if (navigatedfolder != null)
-                {
-                    navigatedfolder.Style = (Style)this.Resources["ListViewItemStandardContextFlyout"];
-                }
-            }
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
@@ -531,15 +524,6 @@ namespace Files.Views.LayoutModes
             {
                 if (SelectedItems.Contains(objectPressed))
                 {
-
-                    //navigatedfolder = FileList.ContainerFromItem(objectPressed) as ListViewItem;
-                    //if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin)
-                    //{
-                    //    if (navigatedfolder != null)
-                    //    { 
-                    //        navigatedfolder.Style = (Style)this.Resources["ListViewItemStandardContextFlyout"]; 
-                    //    }
-                    //}
                     return;
                 }
             }
@@ -547,9 +531,9 @@ namespace Files.Views.LayoutModes
             // The following code is only reachable when a user RightTapped an unselected row
             SetSelectedItemOnUi(objectPressed);
         }
+
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -661,7 +645,6 @@ namespace Files.Views.LayoutModes
         }
         private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
                 if ((sender as SelectorItem).IsSelected)

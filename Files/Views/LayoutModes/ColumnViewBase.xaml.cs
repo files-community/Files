@@ -67,7 +67,6 @@ namespace Files.Views.LayoutModes
         public static event EventHandler ItemInvoked;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-        {
             base.OnNavigatedTo(eventArgs);
             var param = (eventArgs.Parameter as NavigationArguments);
             //NavParam = param.NavPathParam;
@@ -381,7 +380,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    if (IsQuickLookEnabled)
+                    if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }

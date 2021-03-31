@@ -1021,7 +1021,7 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
                     if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
                     {
-                        if (ContentPage.IsQuickLookEnabled)
+                        if (App.InteractionViewModel.IsQuickLookEnabled)
                         {
                             QuickLookHelpers.ToggleQuickLook(this);
                         }
@@ -1053,6 +1053,7 @@ namespace Files.Views
             {
                 case VirtualKey.F2: //F2, rename
                     if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
+
                     {
                         if (ContentPage.IsItemSelected)
                         {
@@ -1354,7 +1355,6 @@ namespace Files.Views
                     return;
                 }
 
-                ItemDisplayFrame.Navigate(
                 sourcePageType = typeof(ColumnViewBase),
                 new NavigationArguments()
                 {

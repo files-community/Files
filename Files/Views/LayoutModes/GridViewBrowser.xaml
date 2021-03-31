@@ -31,9 +31,8 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-
+        
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
-
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
             x:Name="BaseLayoutContextFlyout"
@@ -751,7 +750,6 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
-
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
                 Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -761,7 +759,8 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
+                Loaded="Grid_Loaded">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -901,7 +900,8 @@
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
+                Loaded="Grid_Loaded">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />
@@ -1035,19 +1035,13 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-
-        <Style x:Key="GridViewItemStandardContextFlyout" TargetType="GridViewItem">
-            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
-        </Style>
-        <Style x:Key="GridViewItemRecycleBinContextFlyout" TargetType="GridViewItem">
-            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
-        </Style>
     </local:BaseLayout.Resources>
 
     <Grid
         x:Name="RootGrid"
         Padding="0,0,0,0"
-        VerticalAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
@@ -1066,26 +1060,6 @@
                 Invoked="{x:Bind GridViewSizeDecrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="ContextFlyout"
-                    TargetObject="{Binding ElementName=RootGrid}"
-                    Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
-                <Core:ChangePropertyAction
-                    PropertyName="ContextFlyout"
-                    TargetObject="{Binding ElementName=RootGrid}"
-                    Value="{StaticResource BaseLayoutContextFlyout}" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
-                <Core:ChangePropertyAction
-                    PropertyName="ContextFlyout"
-                    TargetObject="{Binding ElementName=RootGrid}"
-                    Value="{x:Null}" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -1139,20 +1113,6 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </GridView.Resources>
-            <Interactivity:Interaction.Behaviors>
-                <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
-                    <Core:ChangePropertyAction
-                        PropertyName="ItemContainerStyle"
-                        TargetObject="{Binding ElementName=FileList}"
-                        Value="{StaticResource GridViewItemRecycleBinContextFlyout}" />
-                </Core:DataTriggerBehavior>
-                <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
-                    <Core:ChangePropertyAction
-                        PropertyName="ItemContainerStyle"
-                        TargetObject="{Binding ElementName=FileList}"
-                        Value="{StaticResource GridViewItemStandardContextFlyout}" />
-                </Core:DataTriggerBehavior>
-            </Interactivity:Interaction.Behaviors>
         </GridView>
 
         <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

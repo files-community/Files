@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using Files.DataModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -53,13 +54,14 @@ namespace Files.Interacts
             OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewPane);
             OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenInNewWindowItem);
             CreateNewFolderCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFolder);
-            CreateNewFileCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFile);
+            CreateNewFileCommand = new RelayCommand<ShellNewEntry>(commandsModel.CreateNewFile);
             PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PasteItemsFromClipboard);
             CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyPathOfSelectedItem);
             OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInDefaultTerminal);
             ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
             PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
             ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
+            RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
         }
 
         #endregion Command Initialization
@@ -127,6 +129,7 @@ namespace Files.Interacts
         public ICommand PinDirectoryToSidebarCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
+        public ICommand RefreshCommand { get; private set; }
 
         #endregion Commands
 

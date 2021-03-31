@@ -2442,6 +2442,18 @@
           <source>Unpin from the Start Menu</source>
           <target state="translated">スタートメニューから固定解除</target>
         </trans-unit>
+        <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Column View</source>
+          <target state="translated">カラム表示</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Column View</source>
+          <target state="translated">カラム表示</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutColumn.Text.Text" translate="yes" xml:space="preserve">
+          <source>Column View</source>
+          <target state="translated">カラム表示</target>
+        </trans-unit>
       </group>
     </body>
   </file>
