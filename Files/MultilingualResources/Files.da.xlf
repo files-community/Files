@@ -2460,7 +2460,7 @@
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutColumn.Text.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
           <target state="new">Column View</target>
         </trans-unit>

@@ -1830,4 +1830,10 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>スタートメニューから固定解除</value>
   </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>カラム表示</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>カラム表示</value>
+  </data>
 </root>
