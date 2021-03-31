@@ -1839,4 +1839,10 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Levétel a Start menüből</value>
   </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Mozaik</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mozaik</value>
+  </data>
 </root>

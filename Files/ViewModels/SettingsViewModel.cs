@@ -245,8 +245,6 @@ namespace Files.ViewModels
 
         #region CommonPaths
 
-        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
 
@@ -272,14 +270,6 @@ namespace Files.ViewModels
         {
             get => homePath;
             set => SetProperty(ref homePath, value);
-        }
-
-        private string winDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-
-        public string WinDirPath
-        {
-            get => winDirPath;
-            set => SetProperty(ref winDirPath, value);
         }
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
