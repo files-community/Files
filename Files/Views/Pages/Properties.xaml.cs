@@ -253,6 +253,10 @@ namespace Files.Views
                 case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
+
+                case "Security":
+                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
             }
         }
 
