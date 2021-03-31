@@ -1,4 +1,4 @@
-using ByteSizeLib;
+﻿using ByteSizeLib;
 using Files.Extensions;
 using Files.Helpers;
 using Files.Views.LayoutModes;

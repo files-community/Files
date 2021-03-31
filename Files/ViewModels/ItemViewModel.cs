@@ -872,7 +872,7 @@ namespace Files.ViewModels
 
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
-                if (path.EndsWith(ShellLibraryItem.EXTENSION))
+                if (path.ToLower().EndsWith(ShellLibraryItem.EXTENSION))
                 {
                     if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
                     {

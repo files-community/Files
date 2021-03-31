@@ -549,7 +549,7 @@ namespace FilesFullTrust
 
         private static async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
         {
-            if (newPath != null && (Path.GetExtension(newPath) != ShellLibraryItem.EXTENSION || !File.Exists(newPath)))
+            if (newPath != null && (!newPath.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || !File.Exists(newPath)))
             {
                 Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
                 return;

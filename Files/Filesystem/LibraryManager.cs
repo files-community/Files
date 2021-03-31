@@ -25,8 +25,6 @@ namespace Files.Filesystem
 
         public BulkConcurrentObservableCollection<LibraryLocationItem> Libraries { get; } = new BulkConcurrentObservableCollection<LibraryLocationItem>();
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public LibraryManager()
         {
             Libraries.CollectionChanged += Libraries_CollectionChanged;
@@ -58,7 +56,7 @@ namespace Files.Filesystem
                             break;
                         case NotifyCollectionChangedAction.Reset:
                             librarySection.ChildItems.Clear();
-                            foreach (var lib in Libraries.Where(l => !l.IsEmpty && l.IsDefaultLocation))
+                            foreach (var lib in Libraries.Where(IsLibraryOnSidebar))
                             {
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
@@ -68,7 +66,7 @@ namespace Files.Filesystem
                             }
                             break;
                         case NotifyCollectionChangedAction.Add:
-                            foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(l => !l.IsEmpty && l.IsDefaultLocation))
+                            foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(IsLibraryOnSidebar))
                             {
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
@@ -85,6 +83,8 @@ namespace Files.Filesystem
                 }
             });
         }
+
+        private static bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
 
         public void Dispose()
         {
@@ -173,58 +173,45 @@ namespace Files.Filesystem
 
         private async Task SyncLibrarySideBarItemsUI()
         {
-            if (!App.AppSettings.ShowLibrarySection)
-            {
-                return;
-            }
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
+                if (App.AppSettings.ShowLibrarySection && !SidebarControl.SideBarItems.Contains(librarySection))
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
+                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                     try
                     {
-                        if (librarySection == null || !SidebarControl.SideBarItems.Contains(librarySection))
+                        librarySection = new LocationItem
                         {
-                            librarySection = new LocationItem()
-                            {
-                                Text = "SidebarLibraries".GetLocalized(),
-                                Section = SectionType.Library,
-                                Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
-                                Glyph = "\uEC13",
-                                SelectsOnInvoked = false,
-                                ChildItems = new ObservableCollection<INavigationControlItem>(),
-                            };
-                            SidebarControl.SideBarItems.Insert(1, librarySection);
-                        }
-
-                        Libraries.BeginBulkOperation();
-                        Libraries.Clear();
-                        var libs = await LibraryHelper.ListUserLibraries();
-                        if (libs != null)
-                        {
-                            libs.Sort();
-                            Libraries.AddRange(libs);
-                        }
-                        Libraries.EndBulkOperation();
+                            Text = "SidebarLibraries".GetLocalized(),
+                            Section = SectionType.Library,
+                            Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
+                            Glyph = "\uEC13",
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        SidebarControl.SideBarItems.Insert(1, librarySection);
                     }
-                    catch (Exception)
-                    { }
+                    finally
+                    {
+                        SidebarControl.SideBarItemsSemaphore.Release();
+                    }
+                }
 
-                    SidebarControl.SideBarItems.EndBulkOperation();
-                }
-                finally
+                Libraries.BeginBulkOperation();
+                Libraries.Clear();
+                var libs = await LibraryHelper.ListUserLibraries();
+                if (libs != null)
                 {
-                    SidebarControl.SideBarItemsSemaphore.Release();
+                    libs.Sort();
+                    Libraries.AddRange(libs);
                 }
+                Libraries.EndBulkOperation();
             });
         }
 
         public bool TryGetLibrary(string path, out LibraryLocationItem library)
         {
-            if (string.IsNullOrWhiteSpace(path) || Path.GetExtension(path) != ShellLibraryItem.EXTENSION)
+            if (string.IsNullOrWhiteSpace(path) || !path.ToLower().EndsWith(ShellLibraryItem.EXTENSION))
             {
                 library = null;
                 return false;
