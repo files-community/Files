@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>選択をクリア</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>詳細</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -225,85 +225,85 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>名前</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
     <value>更新日時</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>種類</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>サイズ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
     <value>昇順</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
     <value>降順</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>最新の情報に更新</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>貼り付け</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>ターミナルで開く...</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 ハッシュ:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>新規作成</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>フォルダ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>抽出</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>新しいタブで開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>新しいウィンドウで開く</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>デスクトップの背景として設定</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>共有</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>切り取り</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>コピー</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>名前の変更</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>サイドバーに固定</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -399,19 +399,19 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>ファイルが既に存在します</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>ロック画面の背景として設定</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>大アイコン</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>中アイコン</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>小アイコン</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>タイル</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -459,10 +459,10 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選択オプション</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ごみ箱を空にする</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>元に戻す</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -495,7 +495,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>空き領域 {0}/{1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>プログラムから開く</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -525,7 +525,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>項目</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>サイドバーに固定</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
@@ -603,10 +603,10 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} ファイル, {1:#,##0} フォルダ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>管理者として実行</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>別のユーザーとして実行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0}にコピー</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>ショートカットの作成</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -723,7 +723,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - ショートカット</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>ファイルの場所を開く</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
@@ -831,10 +831,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>マルチタスク</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>背景に設定</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>場所をコピー</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -867,7 +867,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>空のフォルダを作成します</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>レイアウト モード</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1404,7 +1404,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>元のパス:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>元のパス:</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
@@ -1434,7 +1434,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>デュアル ペイン表示を有効化</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>セカンダリ ペインで開く</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1506,7 +1506,7 @@
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>詳細ビュー</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>削除した日時</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1620,7 +1620,7 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>ホームにバンドルを表示</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>サイドバーからフォルダを固定解除</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1713,7 +1713,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>バーチャル ドライブ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>作成日時</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1824,10 +1824,10 @@
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
     <value>Filesが管理者権限で起動しています</value>
   </data>
-  <data name="PinItemToStart2" xml:space="preserve">
+  <data name="PinItemToStart.Text" xml:space="preserve">
     <value>スタートメニューに固定</value>
   </data>
-  <data name="UnpinItemFromStart2" xml:space="preserve">
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>スタートメニューから固定解除</value>
   </data>
 </root>

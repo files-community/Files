@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Ryd markering</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Detaljeret visning</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -249,88 +249,88 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videoer</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortér efter</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>Navn</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
     <value>Ændringsdato</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Størrelse</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
     <value>Faldende</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
     <value>Stigende</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Opdatér</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Indsæt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Åbn i Terminal...</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>Ny</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Mappe</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fil</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Egenskaber</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Udpak</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>Åbn</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Åbn i ny fane</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>Åbn i nyt vindue</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Brug som skrivebordsbaggrund</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Del</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Klip</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Kopiér</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
     <value>Slet</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Omdøb</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>Fastgør til sidebjælke</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Egenskaber</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>Hurtig kig</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -429,19 +429,19 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Emnet findes allerede</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Indstil som låseskærmbaggrund</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Gittervisning (Stor)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Gittervisning (Mellem)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Gittervisning (Lille)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Flisevisning</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -498,10 +498,10 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Skjult</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Tøm papirkurven</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Gendan</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -534,7 +534,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} ledig af {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Åbn med</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -573,7 +573,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flytter filer til papirkurven</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Fastgør mappe til sidebjælke</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
@@ -609,7 +609,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kør som administrator</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
@@ -639,7 +639,7 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Filer, {1:#,##0} Mapper</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Kør som anden bruger</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -711,7 +711,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopiér til {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Opret genvej</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -756,7 +756,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - genvej</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Åbn filplacering</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
@@ -891,10 +891,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Sæt som</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Kopiér placering</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
@@ -918,7 +918,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Opretter en tom mappe</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layouttilstand</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1422,7 +1422,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Oprindelig sti</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oprindelig sti</value>
   </data>
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
@@ -1452,7 +1452,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>Aktivér visning af dobbeltrude</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1515,7 +1515,7 @@
   <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Vis skjulte emner</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Sletningsdato</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1722,7 +1722,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuelt Drev</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Oprettelsesdato</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">

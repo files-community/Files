@@ -81,7 +81,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Очистити виділення</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Список</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -186,79 +186,79 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Відео</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортування</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>Ім’я</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
     <value>Дата зміни</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Тип</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Розмір</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
     <value>За зростанням</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
     <value>За спаданням</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Оновити</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Вставити</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Відкрити через термінал...</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>Створити</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Властивості</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Вилучити</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Відкрити в новій вкладці</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>Відкрити в новому вікні</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Установити як тло робочого стола</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Поділитися</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Вирізати</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Копіювати</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
     <value>Видалити</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Перейменувати</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>Закріпити в бічній панелі</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Властивості</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -366,7 +366,7 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Властивості</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>Відкрити</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
@@ -399,19 +399,19 @@
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Замінити існуючий елемент</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Установити як тло екрану блокування</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Величезні піктограми</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Великі піктограми</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Середні піктограми</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Плитка</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -459,10 +459,10 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистити кошик</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Відновити</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -495,7 +495,7 @@
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Дана операція не підтримується</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Відкрити за допомогою</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -525,7 +525,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>елементів</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Закріпити в бічній панелі</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
@@ -603,10 +603,10 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Запуск від імені адміністратора</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск від імені іншого користувача</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Копіювати до {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Створити ярлик</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -723,7 +723,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - ярлик</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Відкрити розташування файлу</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
@@ -831,10 +831,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Багатозадачність</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Установити як</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Копіювати розташування</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -867,7 +867,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Створює порожню папку</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Вид піктограм</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1368,7 +1368,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Оригінальний шлях</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Оригінальний шлях</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
@@ -1398,7 +1398,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>Увімкнути режим подвійної панелі</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Відкрити на вторинній панелі</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1470,7 +1470,7 @@
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Список</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Дата видалення</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1584,7 +1584,7 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Показувати Колекції папок на домашній сторінці</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Відкріпити папку від бічної панелі</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1677,7 +1677,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Віртуальний диск</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Дата створення</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">

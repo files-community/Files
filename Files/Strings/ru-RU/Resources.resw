@@ -156,76 +156,76 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Поиск</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBy2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортировка</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
     <value>Дата изменения</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Тип</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Размер</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
     <value>По возрастанию</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
     <value>По убыванию</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRefresh2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Обновить</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPaste2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Вставить</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Открыть в терминале...</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>Создать</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Извлечь</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Открыть в новой вкладке</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>Открыть в новом окне</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Применить как фон рабочего стола</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShare2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Поделиться</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Вырезать</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Скопировать</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
     <value>Удалить</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRename2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Переименовать</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>Закрепить в боковой панели</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutProperties2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -255,7 +255,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Очистить выделение</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Таблица</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -363,7 +363,7 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>Открыть</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
@@ -396,19 +396,19 @@
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Заменить существующий элемент</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Применить как фон экрана блокировки</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Огромные значки</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Крупные значки</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Обычные значки</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Плитка</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -456,10 +456,10 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="BaseLayoutContextFlyoutEmptyRecycleBin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистить корзину</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutRestore2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Восстановить</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -492,7 +492,7 @@
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Запрошенная операция не поддерживается</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Открыть с помощью</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
@@ -522,7 +522,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>элементов</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Закрепить в боковой панели</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
@@ -591,10 +591,10 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлов, {1:#,##0} Папок</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Запуск от имени администратора</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAnotherUser2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск от имени другого пользователя</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
@@ -675,7 +675,7 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Копировать в {0}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutShortcut2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Создать ярлык</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
@@ -720,7 +720,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - ярлык</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenFileLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Открыть расположение файла</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
@@ -828,10 +828,10 @@
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Многозадачность</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Установить как</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Копировать местоположение</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -864,7 +864,7 @@
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Создает пустую папку</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLayoutMode2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Вид значков</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1371,7 +1371,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Исходный путь</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByOriginalPath2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Исходный путь</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
@@ -1401,7 +1401,7 @@
   <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
     <value>Включить режим двойной панели</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewPane2" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Открыть на дополнительной панели</value>
   </data>
   <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
@@ -1473,7 +1473,7 @@
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Таблица</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Дата удаления</value>
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
@@ -1587,7 +1587,7 @@
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Показывать Коллекции папок на домашней странице</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Открепить папку от боковой панели</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
@@ -1680,7 +1680,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Виртуальный диск</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated2" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Дата создания</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
