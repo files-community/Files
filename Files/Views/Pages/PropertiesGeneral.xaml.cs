@@ -1,8 +1,10 @@
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
@@ -43,17 +45,19 @@ namespace Files.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                var newName = ViewModel.ItemName;
+                if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
-                    if (AppInstance.FilesystemViewModel != null)
+                    if (AppInstance.FilesystemViewModel != null && App.LibraryManager.CanCreateLibrary(newName).result)
                     {
-                        var newLibrary = await App.LibraryManager.RenameLibrary(library.ItemPath, ViewModel.ItemName);
-                        if (newLibrary != null)
+                        var libraryPath = library.ItemPath;
+                        var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), newName, Windows.Storage.NameCollisionOption.FailIfExists, false);
+                        if (renamed == Enums.ReturnResult.Success)
                         {
+                            var newPath = Path.Combine(Path.GetDirectoryName(libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}");
                             _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                libProps.UpdateLibrary(new LibraryItem(newLibrary));
-                                await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(library.ItemPath);
+                                await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(newPath);
                             });
                         }
                     }

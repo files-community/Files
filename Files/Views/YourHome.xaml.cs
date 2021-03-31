@@ -45,6 +45,8 @@ namespace Files.Views
                 LibraryWidget.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
                 LibraryWidget.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
                 LibraryWidget.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
+                LibraryWidget.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
+                LibraryWidget.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
             }
             if (RecentFilesWidget != null)
             {
@@ -126,9 +128,14 @@ namespace Files.Views
             AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
         }
 
-        private async void LibraryWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardPropertiesInvokedEventArgs e)
+        private async void LibraryWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardEventArgs e)
         {
             await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(e.Library), AppInstance);
+        }
+
+        private async void LibraryWidget_LibraryCardDeleteInvoked(object sender, LibraryCardEventArgs e)
+        {
+            await AppInstance.FilesystemHelpers.DeleteItemAsync(new StorageFileWithPath(null, e.Library.Path), false, false, false);
         }
 
         private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)

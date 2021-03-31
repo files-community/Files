@@ -32,9 +32,13 @@ namespace Files.UserControls.Widgets
 
         public event LibraryCardNewPaneInvokedEventHandler LibraryCardNewPaneInvoked;
 
-        public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, LibraryCardPropertiesInvokedEventArgs e);
+        public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, LibraryCardEventArgs e);
 
         public event LibraryCardPropertiesInvokedEventHandler LibraryCardPropertiesInvoked;
+
+        public delegate void LibraryCardDeleteInvokedEventHandler(object sender, LibraryCardEventArgs e);
+
+        public event LibraryCardDeleteInvokedEventHandler LibraryCardDeleteInvoked;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -193,7 +197,7 @@ namespace Files.UserControls.Widgets
             var item = (sender as MenuFlyoutItem).DataContext as LibraryCardItem;
             if (item.IsLibrary)
             {
-                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardPropertiesInvokedEventArgs { Library = item.Library });
+                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Library });
             }
         }
 
@@ -273,7 +277,7 @@ namespace Files.UserControls.Widgets
                     SubtitleText = "LibraryCardsDeleteLibraryDialogSubtitleText".GetLocalized(),
                     PrimaryButtonText = "DialogDeleteButtonText".GetLocalized(),
                     CloseButtonText = "DialogCancelButtonText".GetLocalized(),
-                    PrimaryButtonAction = async (vm, e) => await App.LibraryManager.DeleteLibrary(item.Path),
+                    PrimaryButtonAction = (vm, e) => LibraryCardDeleteInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Library }),
                     CloseButtonAction = (vm, e) => vm.HideDialog(),
                     KeyDownAction = (vm, e) =>
                     {
@@ -298,7 +302,7 @@ namespace Files.UserControls.Widgets
         public string Path { get; set; }
     }
 
-    public class LibraryCardPropertiesInvokedEventArgs : EventArgs
+    public class LibraryCardEventArgs : EventArgs
     {
         public LibraryLocationItem Library { get; set; }
     }

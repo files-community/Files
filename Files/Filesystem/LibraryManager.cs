@@ -34,44 +34,56 @@ namespace Files.Filesystem
 
         private async void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (App.AppSettings.ShowLibrarySection)
+            if (!App.AppSettings.ShowLibrarySection)
             {
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Replace:
-                    case NotifyCollectionChangedAction.Remove:
-                        foreach (var lib in e.OldItems.Cast<LibraryLocationItem>())
-                        {
-                            librarySection.ChildItems.Remove(lib);
-                        }
-                        if (e.Action == NotifyCollectionChangedAction.Replace)
-                        {
-                            goto case NotifyCollectionChangedAction.Add;
-                        }
-                        break;
-                    case NotifyCollectionChangedAction.Reset:
-                        librarySection.ChildItems.Clear();
-                        foreach (var lib in Libraries.Where(l => !l.IsEmpty && l.IsDefaultLocation))
-                        {
-                            if (await lib.CheckDefaultSaveFolderAccess())
-                            {
-                                lib.Font = InteractionViewModel.FontName;
-                                librarySection.ChildItems.AddSorted(lib);
-                            }
-                        }
-                        break;
-                    case NotifyCollectionChangedAction.Add:
-                        foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(l => !l.IsEmpty && l.IsDefaultLocation))
-                        {
-                            if (await lib.CheckDefaultSaveFolderAccess())
-                            {
-                                lib.Font = InteractionViewModel.FontName;
-                                librarySection.ChildItems.AddSorted(lib);
-                            }
-                        }
-                        break;
-                }
+                return;
             }
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                try
+                {
+                    switch (e.Action)
+                    {
+                        case NotifyCollectionChangedAction.Replace:
+                        case NotifyCollectionChangedAction.Remove:
+                            foreach (var lib in e.OldItems.Cast<LibraryLocationItem>())
+                            {
+                                librarySection.ChildItems.Remove(lib);
+                            }
+                            if (e.Action == NotifyCollectionChangedAction.Replace)
+                            {
+                                goto case NotifyCollectionChangedAction.Add;
+                            }
+                            break;
+                        case NotifyCollectionChangedAction.Reset:
+                            librarySection.ChildItems.Clear();
+                            foreach (var lib in Libraries.Where(l => !l.IsEmpty && l.IsDefaultLocation))
+                            {
+                                if (await lib.CheckDefaultSaveFolderAccess())
+                                {
+                                    lib.Font = InteractionViewModel.FontName;
+                                    librarySection.ChildItems.AddSorted(lib);
+                                }
+                            }
+                            break;
+                        case NotifyCollectionChangedAction.Add:
+                            foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(l => !l.IsEmpty && l.IsDefaultLocation))
+                            {
+                                if (await lib.CheckDefaultSaveFolderAccess())
+                                {
+                                    lib.Font = InteractionViewModel.FontName;
+                                    librarySection.ChildItems.AddSorted(lib);
+                                }
+                            }
+                            break;
+                    }
+                }
+                finally
+                {
+                    SidebarControl.SideBarItemsSemaphore.Release();
+                }
+            });
         }
 
         public void Dispose()
@@ -139,8 +151,7 @@ namespace Files.Filesystem
 
         public async Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
         {
-            // TODO: fix library update handling
-            /*string path = oldPath;
+            string path = oldPath;
             if (string.IsNullOrEmpty(oldPath))
             {
                 path = library?.FullPath;
@@ -152,16 +163,20 @@ namespace Files.Filesystem
                 {
                     Libraries.Remove(changedLibrary);
                 }
-                // library = null in case it was deleted
+                // library is null in case it was deleted
                 if (library != null)
                 {
                     Libraries.AddSorted(new LibraryLocationItem(library));
                 }
-            });*/
+            });
         }
 
         private async Task SyncLibrarySideBarItemsUI()
         {
+            if (!App.AppSettings.ShowLibrarySection)
+            {
+                return;
+            }
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
@@ -171,36 +186,32 @@ namespace Files.Filesystem
 
                     try
                     {
-                        if (App.AppSettings.ShowLibrarySection)
+                        if (librarySection == null || !SidebarControl.SideBarItems.Contains(librarySection))
                         {
-                            if (librarySection == null || !SidebarControl.SideBarItems.Contains(librarySection))
+                            librarySection = new LocationItem()
                             {
-                                librarySection = new LocationItem()
-                                {
-                                    Text = "SidebarLibraries".GetLocalized(),
-                                    Section = SectionType.Library,
-                                    Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\uEC13",
-                                    SelectsOnInvoked = false,
-                                    ChildItems = new ObservableCollection<INavigationControlItem>(),
-                                };
-                                SidebarControl.SideBarItems.Insert(1, librarySection);
-                            }
-
-                            Libraries.BeginBulkOperation();
-                            Libraries.Clear();
-                            var libs = await LibraryHelper.ListUserLibraries();
-                            if (libs != null)
-                            {
-                                libs.Sort();
-                                Libraries.AddRange(libs);
-                            }
-                            Libraries.EndBulkOperation();
+                                Text = "SidebarLibraries".GetLocalized(),
+                                Section = SectionType.Library,
+                                Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
+                                Glyph = "\uEC13",
+                                SelectsOnInvoked = false,
+                                ChildItems = new ObservableCollection<INavigationControlItem>(),
+                            };
+                            SidebarControl.SideBarItems.Insert(1, librarySection);
                         }
+
+                        Libraries.BeginBulkOperation();
+                        Libraries.Clear();
+                        var libs = await LibraryHelper.ListUserLibraries();
+                        if (libs != null)
+                        {
+                            libs.Sort();
+                            Libraries.AddRange(libs);
+                        }
+                        Libraries.EndBulkOperation();
                     }
                     catch (Exception)
-                    {
-                    }
+                    { }
 
                     SidebarControl.SideBarItems.EndBulkOperation();
                 }
@@ -239,22 +250,6 @@ namespace Files.Filesystem
             return false;
         }
 
-        public async Task<LibraryLocationItem> RenameLibrary(string libraryPath, string newName)
-        {
-            if (!CanCreateLibrary(newName).result)
-            {
-                return null;
-            }
-            var newLib = await LibraryHelper.RenameLibrary(libraryPath, newName);
-            if (newLib != null)
-            {
-                Libraries.Remove(Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase)));
-                Libraries.AddSorted(newLib);
-                return newLib;
-            }
-            return null;
-        }
-
         public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
             var newLib = await LibraryHelper.UpdateLibrary(libraryPath, defaultSaveFolder, folders, isPinned);
@@ -268,17 +263,6 @@ namespace Files.Filesystem
                 return newLib;
             }
             return null;
-        }
-
-        public async Task<bool> DeleteLibrary(string libraryPath)
-        {
-            var success = await LibraryHelper.DeleteLibrary(libraryPath);
-            if (success)
-            {
-                Libraries.Remove(Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase)));
-                return true;
-            }
-            return false;
         }
 
         public (bool result, string reason) CanCreateLibrary(string name)

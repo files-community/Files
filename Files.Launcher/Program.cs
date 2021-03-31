@@ -559,11 +559,7 @@ namespace FilesFullTrust
             
             if (connection?.IsConnected ?? false)
             {
-                var response = new ValueSet()
-                {
-                    { "Library", newPath ?? oldPath },
-                    //{ "ChangeType", changeType.ToString() },
-                };
+                var response = new ValueSet { { "Library", newPath ?? oldPath } };
                 switch (changeType)
                 {
                     case WatcherChangeTypes.Deleted:
@@ -578,7 +574,7 @@ namespace FilesFullTrust
                     var library = ShellItem.Open(newPath) as ShellLibrary;
                     if (library == null)
                     {
-                        Debug.WriteLine($"Failed to open library: {newPath}");
+                        Logger.Error($"Failed to open library after {changeType}: {newPath}");
                         return;
                     }
                     response["Item"] = JsonConvert.SerializeObject(GetShellLibraryItem(library, newPath));
@@ -641,27 +637,6 @@ namespace FilesFullTrust
                     await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
                     break;
 
-                case "Rename":
-                    // Rename the specified library and send response to UWP
-                    var newName = (string)message["name"];
-                    var renameResponse = await Win32API.StartSTATask(() =>
-                    {
-                        var response = new ValueSet();
-                        try
-                        {
-                            using var library = ShellItem.Open((string)message["library"]) as ShellLibrary;
-                            // TODO: do rename
-                            //response.Add("Rename", JsonConvert.SerializeObject(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error(e);
-                        }
-                        return response;
-                    });
-                    await Win32API.SendMessageAsync(connection, renameResponse, message.Get("RequestID", (string)null));
-                    break;
-
                 case "Update":
                     // Update details of the specified library and send response to UWP
                     var updateResponse = await Win32API.StartSTATask(() =>
@@ -686,7 +661,9 @@ namespace FilesFullTrust
                                         library.Folders.Remove(toRemove);
                                         updated = true;
                                     }
-                                    var foldersToAdd = folders.Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase))).Select(ShellItem.Open);
+                                    var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
+                                                              .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+                                                              .Select(ShellItem.Open);
                                     foreach (var toAdd in foldersToAdd)
                                     {
                                         library.Folders.Add(toAdd);
@@ -721,39 +698,6 @@ namespace FilesFullTrust
                         return response;
                     });
                     await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
-                    break;
-
-                case "Delete":
-                    // Delete the specified library and send response to UWP
-                    var deleteResponse = await Win32API.StartSTATask(() =>
-                    {
-                        var response = new ValueSet();
-                        try
-                        {
-                            var libPath = (string)message["library"];
-                            var libPathDirectory = Path.GetDirectoryName(libPath);
-                            var libsDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
-                            if (string.Equals(libPathDirectory, libsDirectoryPath, StringComparison.OrdinalIgnoreCase) && libPath.EndsWith(ShellLibraryItem.EXTENSION) && File.Exists(libPath))
-                            {
-                                File.Delete(libPath);
-                                if (File.Exists(libPath))
-                                {
-                                    response.Add("Delete", "File not deleted");
-                                }
-                                else
-                                {
-                                    response.Add("Delete", string.Empty); // empty string = no error
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error(e);
-                            response.Add("Delete", e.Message);
-                        }
-                        return response;
-                    });
-                    await Win32API.SendMessageAsync(connection, deleteResponse, message.Get("RequestID", (string)null));
                     break;
             }
         }

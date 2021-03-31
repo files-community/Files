@@ -92,38 +92,6 @@ namespace Files.Helpers
         }
 
         /// <summary>
-        /// Change name of a library.
-        /// </summary>
-        /// <param name="libraryFilePath">Library file path</param>
-        /// <param name="name">The new name of the library (must be unique)</param>
-        /// <returns>The new library if successfully renamed</returns>
-        public static async Task<LibraryLocationItem> RenameLibrary(string libraryFilePath, string name)
-        {
-            if (string.IsNullOrWhiteSpace(libraryFilePath) || string.IsNullOrWhiteSpace(name) || IsDefaultLibrary(libraryFilePath))
-            {
-                return null;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
-            {
-                return null;
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Rename" },
-                { "library", libraryFilePath },
-                { "name", name }
-            });
-            LibraryLocationItem library = null;
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Rename"))
-            {
-                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Rename"]));
-            }
-            return library;
-        }
-
-        /// <summary>
         /// Update library details.
         /// </summary>
         /// <param name="libraryFilePath">Library file path</param>
@@ -168,38 +136,6 @@ namespace Files.Helpers
                 library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Update"]));
             }
             return library;
-        }
-
-        /// <summary>
-        /// Delete a library.
-        /// </summary>
-        /// <param name="libraryFilePath">Library file path</param>
-        /// <returns>True if the library successfully deleted</returns>
-        public static async Task<bool> DeleteLibrary(string libraryFilePath)
-        {
-            if (string.IsNullOrWhiteSpace(libraryFilePath) || IsDefaultLibrary(libraryFilePath))
-            {
-                return false;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
-            {
-                return false;
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Delete" },
-                { "library", libraryFilePath }
-            });
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Delete"))
-            {
-                if (string.IsNullOrEmpty(response["Delete"] as string))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }
