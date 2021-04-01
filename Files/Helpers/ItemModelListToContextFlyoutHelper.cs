@@ -29,6 +29,11 @@ namespace Files.Helpers.ContextFlyouts
             var primaryModels = items.Where(i => i.IsPrimary).ToList();
             var secondaryModels = items.Except(primaryModels).ToList();
 
+            if(secondaryModels.Last().ItemType == ItemType.Separator)
+            {
+                secondaryModels.RemoveAt(secondaryModels.Count - 1);
+            }
+
             var primary = new List<ICommandBarElement>();
             primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
             var secondary = new List<ICommandBarElement>();
@@ -181,12 +186,17 @@ namespace Files.Helpers.ContextFlyouts
                     Command = item.Command,
                     CommandParameter = item.CommandParameter,
                     IsChecked = item.IsChecked,
-                    Content = content,
+                    Content = content
                 };
 
                 if (icon != null)
                 {
                     (element as AppBarToggleButton).Icon = icon;
+                }
+
+                if(item.IsPrimary)
+                {
+                    (element as AppBarToggleButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }
             } else
             {
@@ -203,6 +213,11 @@ namespace Files.Helpers.ContextFlyouts
                 if(icon != null)
                 {
                     (element as AppBarButton).Icon = icon;
+                }
+
+                if (item.IsPrimary)
+                {
+                    (element as AppBarButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }
             }
 
