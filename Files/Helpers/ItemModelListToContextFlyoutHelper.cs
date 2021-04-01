@@ -172,7 +172,6 @@ namespace Files.Helpers.ContextFlyouts
                 };
             }
 
-
             if (item.ItemType == ItemType.Toggle)
             {
                 element = new AppBarToggleButton()
