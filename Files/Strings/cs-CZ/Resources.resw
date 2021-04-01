@@ -1464,9 +1464,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Složky</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Povolit animace při otevírání a zavírání kontextové nabídky</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zobrazení podrobností</value>
   </data>

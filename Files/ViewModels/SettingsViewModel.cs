@@ -83,7 +83,6 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
-            Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
 
         public static async void OpenLogLocation()
@@ -513,15 +512,6 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not acrylic is enabled.
         /// </summary>
         public bool IsAcrylicDisabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
-        /// </summary>
-        public bool AreRightClickContentMenuAnimationsEnabled
         {
             get => Get(false);
             set => Set(value);

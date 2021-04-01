@@ -1434,9 +1434,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>資料夾</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>用動畫顯示開啟及關閉時的右鍵選單</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細資料</value>
   </data>

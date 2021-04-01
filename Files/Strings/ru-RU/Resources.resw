@@ -1422,9 +1422,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Папки</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Использовать анимации при открытии и закрытии контекстного меню</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Таблица</value>
   </data>

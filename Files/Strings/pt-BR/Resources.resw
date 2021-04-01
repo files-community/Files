@@ -1464,9 +1464,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Ativar animações ao abrir e fechar o menu de contexto</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Visualizador de detalhes</value>
   </data>

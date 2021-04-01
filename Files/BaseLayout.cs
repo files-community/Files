@@ -426,10 +426,8 @@ namespace Files
             {
             }
 
-            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
-            ItemContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
+            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening; 
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
-            BaseContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

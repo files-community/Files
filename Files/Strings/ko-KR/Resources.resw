@@ -1473,9 +1473,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>폴더</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>컨텍스트 메뉴를 여닫을 때 애니메이션 활성화</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>자세히</value>
   </data>
