@@ -47,32 +47,62 @@ namespace Files.Views.LayoutModes
         public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem navigatedfolder;
-
+        private Grid gridindicatior;
+        private ListViewItem listViewItem;
+        public static ColumnViewBrowser ColumnViewBrowser1;
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
+            ColumnViewBrowser1 = this;
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             //this.DataContext = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
+        private void ColumnViewBase_DismissColumn(object sender, EventArgs e)
+        {
+            DismissOtherBlades(sender as ListView);
+        }
+
+        private void ColumnViewBase_UnFocusPreviousListView(object sender, EventArgs e)
+        {
+            var list = sender as ListView;
+            var blade = list.FindAscendant<BladeItem>();
+            var index = ColumnHost.ActiveBlades.IndexOf(blade) - 1;
+            if (index == 0)
+            {
+                listViewItem.Style = (Style)this.Resources["UnFocusedStyle"];
+            }
+            else
+            {
+                try
+                {
+                    var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
+                    ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
+                    if (listViewItem2 != null)
+                    {
+
+                        listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void FileList_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Got focus");
+        }
+
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {
             var column = sender as ColumnParam;
-            var blade = column.ListView.FindAscendant<BladeItem>();
-            try
-            {
-                while (ColumnHost.Items.Count > ColumnHost.Items.IndexOf(blade) + 1)
-                {
-                    ColumnHost.Items.RemoveAt(ColumnHost.Items.IndexOf(blade) + 1);
-                    ColumnHost.ActiveBlades.RemoveAt(ColumnHost.Items.IndexOf(blade) + 1);
-                }
-            }
-            catch
-            {
-
-            }
 
             var frame = new Frame();
             var newblade = new BladeItem();
@@ -369,7 +399,6 @@ namespace Files.Views.LayoutModes
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
-
         private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if (!IsRenamingItem)
@@ -447,10 +476,18 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            DismissOtherBlades(sender as ListView);
+            await Task.Delay(200);
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
+
+                if (listViewItem != null)
+                {
+
+                    listViewItem.Style = (Style)this.Resources["NormalStyle"];
+                }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
                 if (item.ItemType == "File folder")
                 {
@@ -473,6 +510,7 @@ namespace Files.Views.LayoutModes
                     }
                     if (item.ContainsFilesOrFolders)
                     {
+                listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
                         var blade = new BladeItem();
                         blade.Content = frame;
@@ -525,8 +563,51 @@ namespace Files.Views.LayoutModes
             SetSelectedItemOnUi(objectPressed);
         }
 
+        private void DismissOtherBlades(ListView listView)
+        {
+
+            var blade = listView.FindAscendant<BladeItem>();
+            var index = ColumnHost.ActiveBlades.IndexOf(blade);
+            if (index == 0)
+            {
+                try
+                {
+                    while (ColumnHost.ActiveBlades.Count > 1)
+                    {
+                        ColumnHost.Items.RemoveAt(1);
+                        ColumnHost.ActiveBlades.RemoveAt(1);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            else
+            {
+                try
+                {
+                    while (ColumnHost.ActiveBlades.Count > index + 1)
+                    {
+                        ColumnHost.Items.RemoveAt(index + 1);
+                        ColumnHost.ActiveBlades.RemoveAt(index + 1);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+        }
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            DismissOtherBlades(sender as ListView);
+            await Task.Delay(200);
+            if (listViewItem != null)
+            {
+
+                listViewItem.Style = (Style)this.Resources["NormalStyle"];
+            }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -551,20 +632,10 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-                    try
-                    {
-                        while (ColumnHost.ActiveBlades.Count > 1)
-                        {
-                            ColumnHost.Items.RemoveAt(1);
-                            ColumnHost.ActiveBlades.RemoveAt(1);
-                        }
-                    }
-                    catch
-                    {
-
-                    }
+                    
                     if (item.ContainsFilesOrFolders)
                     {
+                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
                         var blade = new BladeItem();
                         blade.Content = frame;
