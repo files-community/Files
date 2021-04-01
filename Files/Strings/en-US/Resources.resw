@@ -1950,10 +1950,10 @@
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Pin to the Start Menu</value>
   </data>
-    <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Unpin from the Start Menu</value>
   </data>
-    <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
     <value>Column View</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
@@ -2030,5 +2030,41 @@
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0} items will be copied</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>Copy items</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>Delete items</value>
+  </data>
+  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0} items will be moved</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>Move items</value>
+  </data>
+  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0} items will be deleted</value>
   </data>
 </root>

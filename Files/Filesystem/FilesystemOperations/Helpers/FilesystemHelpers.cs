@@ -4,6 +4,7 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls;
+using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -115,10 +117,25 @@ namespace Files.Filesystem
             {
                 var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
 
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
+                Dictionary<string, string> incomingItems = new Dictionary<string, string>();
+
+                for (int i = 0; i < source.Count(); i++)
+                {
+                    incomingItems.Add(source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null);
+                }
+
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new DataModels.FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    associatedInstance.SlimContentPage.SelectedItems.Count);
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new Dictionary<string, string>()));
+
+                //ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
+                //    deleteFromRecycleBin,
+                //    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                //    associatedInstance.SlimContentPage.SelectedItems.Count);
 
                 if (UIHelpers.IsAnyContentDialogOpen())
                 {
@@ -126,15 +143,16 @@ namespace Files.Filesystem
                     banner.Remove();
                     return ReturnResult.Cancelled;
                 }
-                await dialog.ShowAsync();
+                ContentDialogResult result = await dialog.ShowAsync();
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected items if the result is Yes
+                if (result == ContentDialogResult.Secondary) 
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                // Delete selected items if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
 
             var sw = new Stopwatch();
