@@ -11,7 +11,10 @@
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
-    CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}">
+    CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
+    PrimaryButtonStyle="{StaticResource DefaultButtonStyle}"
+    SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
+    CloseButtonStyle="{StaticResource DefaultButtonStyle}">
 
     <ContentDialog.Resources>
         <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter"/>
@@ -68,6 +71,25 @@
                                     <ItemsStackPanel Orientation="Vertical"/>
                                 </ItemsPanelTemplate>
                             </GridView.ItemsPanel>
+                            
+                            <!--  Remove Reveal Highlight Effect  -->
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <!--  Spacing  -->
+                                    <Setter Property="Margin" Value="0,0,8,8" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="GridViewItem">
+                                                <ListViewItemPresenter
+                                                    x:Name="Root"
+                                                    RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                                    RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                                    RevealBorderThickness="0" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GridView.ItemContainerStyle>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <Border>
