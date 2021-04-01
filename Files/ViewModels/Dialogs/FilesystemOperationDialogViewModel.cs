@@ -108,11 +108,11 @@ namespace Files.ViewModels.Dialogs
 
             if (itemsData.MustResolveConflicts)
             {
-                titleText = "ItemAlreadyExistsDialogTitle".GetLocalized();
-                subtitleText = "ItemAlreadyExistsDialogContent".GetLocalized();
-                primaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized();
-                secondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized();
-                closeButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized();
+                titleText = "ConflictingItemsDialogTitle".GetLocalized();
+                subtitleText = string.Format("ConflictingItemsDialogSubtitle".GetLocalized(), itemsData.ConflictingItems.Count);
+                primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
+                secondaryButtonText = "ConflictingItemsDialogSecondaryButtonText".GetLocalized();
+                closeButtonText = "ConflictingItemsDialogCloseButtonText".GetLocalized();
             }
             else
             {

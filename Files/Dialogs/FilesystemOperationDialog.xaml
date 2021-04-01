@@ -74,15 +74,15 @@
                                         <Grid ColumnSpacing="10">
                                             <Grid.ColumnDefinitions>
                                                 <!-- Status Icon -->
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
                                                 <!-- Source item name -->
                                                 <ColumnDefinition Width="Auto"/>
                                                 <!-- Arrow icon -->
-                                                <ColumnDefinition Width="Auto"/>
-                                                <!-- File added (+) icon -->
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
                                                 <!-- Destination item name -->
                                                 <ColumnDefinition Width="Auto"/>
+                                                <!-- File added (+) icon -->
+                                                <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
 
                                             <FontIcon 
@@ -99,15 +99,17 @@
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding ArrowIconGlyph}"/>
 
-                                            <FontIcon
+                                            <TextBlock
                                                 Grid.Column="3"
+                                                Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}"/>
+
+                                            <FontIcon
+                                                Grid.Column="4"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="&#xE903;"
+                                                FontSize="13"
+                                                Margin="-6 0 0 0"
                                                 Visibility="{Binding PlusIconVisibility}"/>
-
-                                            <TextBlock
-                                                Grid.Column="4"
-                                                Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

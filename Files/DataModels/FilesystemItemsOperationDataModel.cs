@@ -96,7 +96,7 @@ namespace Files.DataModels
             switch (operationType)
             {
                 case FilesystemOperationType.Copy:
-                    return "\uE92A";
+                    return "\uE9D6";
 
                 case FilesystemOperationType.Move:
                     return "\uE929";

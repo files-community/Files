@@ -2073,4 +2073,19 @@
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
     <value>{0} items will be deleted</value>
   </data>
+  <data name="ConflictingItemsDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Replace existingItem</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitle" xml:space="preserve">
+    <value>There are {0} conflicting file names</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>Conflicting file names</value>
+  </data>
 </root>
