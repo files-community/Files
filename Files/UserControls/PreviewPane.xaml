@@ -33,7 +33,7 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -71,15 +71,13 @@
             Background="Transparent">
             <controls:GridSplitter.Element>
                 <Grid>
-                    <TextBlock
-                        x:Name="GripperGlyphTextBlock"
+                    <FontIcon
+                        x:Name="GripperGlyph"
+                        Margin="-1,0,0,-1"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
-                        FontSize="36"
                         Foreground="{StaticResource SystemChromeHighColor}"
-                        IsHitTestVisible="False"
-                        Text="&#xEB3D;" />
+                        Glyph="&#xE76F;"
+                        IsHitTestVisible="False" />
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
@@ -175,7 +173,7 @@
                         <Setter Target="HorizontalGridSplitter.Width" Value="2" />
 
                         <Setter Target="PropertiesRow.Height" Value="0" />
-                        <Setter Target="GripperGlyphTextBlock.Text" Value="&#xE9FC;" />
+                        <Setter Target="GripperGlyph.Glyph" Value="&#xE784;" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -206,7 +204,7 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-            
+
             <VisualStateGroup>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>
@@ -217,7 +215,6 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
+using Windows.Foundation.Collections;
 using Windows.System;
 
 namespace FilesFullTrust
@@ -159,7 +163,7 @@ namespace FilesFullTrust
         {
             try
             {
-                Process process = new Process();
+                using Process process = new Process();
                 if (runAsAdmin)
                 {
                     process.StartInfo.UseShellExecute = true;
@@ -255,6 +259,14 @@ namespace FilesFullTrust
             }
 
             return false;
+        }
+
+        public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
+        {
+            var message = new Dictionary<string, object>(valueSet);
+            message.Add("RequestID", requestID);
+            var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            await pipe.WriteAsync(serialized, 0, serialized.Length);
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

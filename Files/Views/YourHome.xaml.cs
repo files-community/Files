@@ -4,7 +4,7 @@ using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Bundles;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,12 +15,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class YourHome : Page
+    public sealed partial class YourHome : Page, IDisposable
     {
         private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
-        public AppServiceConnection Connection => AppInstance?.ServiceConnection;
+        public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
         public YourHome()
         {
@@ -39,8 +39,14 @@ namespace Files.Views
             }
             if (LibraryWidget != null)
             {
-                LibraryWidget.LibraryCardInvoked -= LibraryLocationCardsWidget_LibraryCardInvoked;
-                LibraryWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
+                LibraryWidget.LibraryCardInvoked += LibraryWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
+                LibraryWidget.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
+                LibraryWidget.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
+                LibraryWidget.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
+                LibraryWidget.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
             }
             if (RecentFilesWidget != null)
             {
@@ -61,7 +67,7 @@ namespace Files.Views
             try
             {
                 var directoryName = Path.GetDirectoryName(e.ItemPath);
-                await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(e.ItemPath, workingDir: directoryName);
+                await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
             }
             catch (UnauthorizedAccessException)
             {
@@ -72,9 +78,8 @@ namespace Files.Views
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
                 {
-                    AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                    AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {
-                        AssociatedTabInstance = AppInstance,
                         NavPathParam = e.ItemPath
                     });
                 }
@@ -84,9 +89,8 @@ namespace Files.Views
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                             {
-                                AssociatedTabInstance = AppInstance,
                                 NavPathParam = e.ItemPath
                             });
                             return;
@@ -104,21 +108,34 @@ namespace Files.Views
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
-                NavPathParam = e.ItemPath,
-                AssociatedTabInstance = AppInstance
+                NavPathParam = e.ItemPath
             });
         }
 
-        private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
+        private void LibraryWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
-                NavPathParam = e.Path,
-                AssociatedTabInstance = AppInstance
+                NavPathParam = e.Path
             });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
+        }
+
+        private void LibraryWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
+        {
+            AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
+        }
+
+        private async void LibraryWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardEventArgs e)
+        {
+            await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(e.Library), AppInstance);
+        }
+
+        private async void LibraryWidget_LibraryCardDeleteInvoked(object sender, LibraryCardEventArgs e)
+        {
+            await AppInstance.FilesystemHelpers.DeleteItemAsync(new StorageFileWithPath(null, e.Library.Path), false, false, false);
         }
 
         private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
@@ -128,10 +145,9 @@ namespace Files.Views
 
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
-                NavPathParam = e.Path,
-                AssociatedTabInstance = AppInstance
+                NavPathParam = e.Path
             });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
@@ -147,8 +163,8 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             AppInstance.NavigationToolbar.CanRefresh = false;
-            AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
-            AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;
+            AppInstance.NavigationToolbar.CanGoBack = AppInstance.CanNavigateBackward;
+            AppInstance.NavigationToolbar.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavigationToolbar.CanNavigateToParent = false;
 
             // Set path of working directory empty
@@ -165,5 +181,16 @@ namespace Files.Views
             };
             AppInstance.NavigationToolbar.PathComponents.Add(item);
         }
+
+        #region IDisposable
+
+        // TODO: This Dispose() is never called, please implement the functionality to call this function.
+        //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
+        public void Dispose()
+        {
+            BundlesWidget?.Dispose();
+        }
+
+        #endregion IDisposable
     }
 }

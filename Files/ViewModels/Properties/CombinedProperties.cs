@@ -2,7 +2,7 @@
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -87,7 +87,7 @@ namespace Files.ViewModels.Properties
                     }
                     catch (Exception ex)
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                        NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                     }
                 }
             }

@@ -2,12 +2,11 @@
     x:Class="Files.SettingsPages.Preferences"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UserControls="using:Files.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
-    xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
         <settingsviewmodels:PreferencesViewModel />
@@ -37,8 +36,7 @@
                     x:Uid="SettingsPreferencesAppLanguage"
                     Width="200"
                     HorizontalAlignment="Left"
-                    AutomationProperties.Name="App Language"
-                    Header="App Language"
+                    Header="App language"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding DefaultLanguages}"
                     SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
@@ -61,8 +59,7 @@
                             Width="Auto"
                             MinWidth="200"
                             MaxWidth="250"
-                            AutomationProperties.Name="Terminal Applications"
-                            Header="Terminal Applications"
+                            Header="Terminal applications"
                             HeaderTemplate="{StaticResource CustomHeaderStyle}"
                             ItemsSource="{Binding Terminals}"
                             SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
@@ -80,19 +77,19 @@
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="Edit terminal applications"
                             Command="{Binding EditTerminalApplicationsCommand}"
-                            Content=""
-                            FontFamily="Segoe MDL2 Assets"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
+                            Style="{ThemeResource TextBlockButtonStyle}">
+                            <FontIcon FontSize="14" Glyph="&#xE104;" />
+                        </HyperlinkButton>
 
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="View sample profiles"
-                            Content="&#xE946;"
-                            FontFamily="Segoe MDL2 Assets"
                             NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}"
-                            ToolTipService.ToolTip="View sample profiles" />
+                            ToolTipService.ToolTip="View sample profiles">
+                            <FontIcon FontSize="14" Glyph="&#xE946;" />
+                        </HyperlinkButton>
                     </StackPanel>
                 </StackPanel>
 
@@ -108,12 +105,19 @@
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowLibrarySection"
+                    x:Uid="SettingsPreferencesShowLibrarySection"
+                    Header="Show library section on the sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 
-        <dialogs:RestartDialog
-            x:Name="RestartDialog"
+        <UserControls:RestartControl
+            x:Name="RestartControl"
             VerticalAlignment="Bottom"
-            ShowDialog="{Binding ShowRestartDialog, Mode=TwoWay}" />
+            ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
     </Grid>
 </Page>

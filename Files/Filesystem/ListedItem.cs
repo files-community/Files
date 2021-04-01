@@ -2,7 +2,7 @@
 using Files.Filesystem.Cloud;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -67,6 +67,26 @@ namespace Files.Filesystem
             set => SetProperty(ref loadWebShortcutGlyph, value);
         }
 
+        private bool loadCustomGlyph;
+
+        public bool LoadCustomGlyph
+        {
+            get => loadCustomGlyph;
+            set => SetProperty(ref loadCustomGlyph, value);
+        }
+
+        private string customGlyph;
+
+        public string CustomGlyph
+        {
+            get => customGlyph;
+            set
+            {
+                LoadCustomGlyph = true;
+                SetProperty(ref customGlyph, value);
+            }
+        }
+
         private double opacity;
 
         public double Opacity
@@ -98,6 +118,8 @@ namespace Files.Filesystem
                 }
             }
         }
+
+        public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
 
         private BitmapImage iconOverlay;
 
@@ -216,10 +238,9 @@ namespace Files.Filesystem
             }
         }
 
+        // Parameterless constructor for JsonConvert
         public ListedItem()
-        {
-
-        }
+        { }
 
         protected string DateReturnFormat { get; }
 
@@ -229,7 +250,7 @@ namespace Files.Filesystem
 
             if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
-                return d.ToString(returnFormat);
+                return d.ToLocalTime().ToString(returnFormat);
             }
             else if (elapsed.TotalDays > 2)
             {
@@ -281,6 +302,10 @@ namespace Files.Filesystem
             {
                 suffix = "ShortcutItemAutomation".GetLocalized();
             }
+            else if (IsLibraryItem)
+            {
+                suffix = "LibraryItemAutomation".GetLocalized();
+            }
             else
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
@@ -290,9 +315,10 @@ namespace Files.Filesystem
 
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
+        public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
+        public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private StorageFile itemFile;
 
@@ -308,6 +334,10 @@ namespace Files.Filesystem
         public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
+
+        // Parameterless constructor for JsonConvert
+        public RecycleBinItem() : base()
+        { }
 
         public string ItemDateDeleted { get; private set; }
 
@@ -336,6 +366,10 @@ namespace Files.Filesystem
         {
         }
 
+        // Parameterless constructor for JsonConvert
+        public ShortcutItem() : base()
+        { }
+
         // For shortcut elements (.lnk and .url)
         public string TargetPath { get; set; }
 
@@ -343,5 +377,28 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+    }
+
+    public class LibraryItem : ListedItem
+    {
+        public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
+        {
+            ItemPath = lib.Path;
+            ItemName = lib.Text;
+            PrimaryItemAttribute = StorageItemTypes.Folder;
+            ItemType = "ItemTypeLibrary".GetLocalized();
+            LoadCustomGlyph = true;
+            CustomGlyph = lib.Glyph;
+
+            IsEmpty = lib.IsEmpty;
+            DefaultSaveFolder = lib.DefaultSaveFolder;
+            Folders = lib.Folders;
+        }
+
+        public bool IsEmpty { get; }
+
+        public string DefaultSaveFolder { get; }
+
+        public ReadOnlyCollection<string> Folders { get; }
     }
 }

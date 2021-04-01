@@ -2,7 +2,7 @@
 using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -92,6 +92,8 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceText, value);
         }
 
+        public SectionType Section { get; set; }
+
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
@@ -152,45 +154,57 @@ namespace Files.Filesystem
             switch (type)
             {
                 case DriveType.Fixed:
-                    Glyph = "\ueb8b";
+                    Glyph = "\xEDA2";
                     break;
 
                 case DriveType.Removable:
-                    Glyph = "\uec0a";
+                    Glyph = "\xE88E";
                     break;
 
                 case DriveType.Network:
-                    Glyph = "\ueac2";
+                    Glyph = "\xE8CE";
                     break;
 
                 case DriveType.Ram:
+                    Glyph = "\xE950";
                     break;
 
                 case DriveType.CDRom:
-                    Glyph = "\uec39";
+                    Glyph = "\uE958";
                     break;
 
                 case DriveType.Unknown:
                     break;
 
                 case DriveType.NoRootDirectory:
+                    Glyph = "\xED25";
                     break;
 
                 case DriveType.VirtualDrive:
-                    Glyph = "\ue9b7";
+                    Glyph = "\uE753";
                     break;
 
                 case DriveType.CloudDrive:
-                    Glyph = "\ue9b7";
+                    Glyph = "\uE753";
                     break;
 
                 case DriveType.FloppyDisk:
-                    Glyph = "\ueb4a";
+                    Glyph = "\xE74E";
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
+        }
+
+        public int CompareTo(INavigationControlItem other)
+        {
+            var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
+            if (result == 0)
+            {
+                return Text.CompareTo(other.Text);
+            }
+            return result;
         }
     }
 

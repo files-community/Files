@@ -199,7 +199,7 @@
     <value>Működés</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>VIGYÁZAT: Kísérleti beállítások!</value>
+    <value>FIGYELEM: AZ ALÁBBI BEÁLLÍTÁSOK KÍSÉRLETI FUNKCIÓKHOZ TARTOZNAK!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Folytassa ott, ahol bezárta a programot</value>
@@ -229,7 +229,7 @@
     <value>Letöltések</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Kezdőoldal</value>
+    <value>Kezdőlap</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Zene</value>
@@ -382,7 +382,7 @@
     <value>Előre (Alt + Jobb nyíl)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fel (Alt + Felfelé nyíl)</value>
+    <value>Szülőmappába (Alt + Felfelé nyíl)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Frissítés (F5)</value>
@@ -613,7 +613,7 @@
     <value>BitLocker hiba</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Tartalmaz:</value>
+    <value>Tartalom:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} fájl, {1:#,##0} mappa</value>
@@ -844,7 +844,7 @@
     <value>Lap hozzáadása</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Lapok megnyitása</value>
+    <value>Megnyitott lapok</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Automatikus (ajánlott)</value>
@@ -909,12 +909,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Függőleges lap lista</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Alkalmazás nyelve</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminál alkalmazások módosítása</value>
   </data>
@@ -957,11 +951,8 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Meghajtók</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Könyvtárak megjelenítése a kezdőoldalon</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Könyvtárak megjelenítése a kezdőoldalon</value>
+    <value>Könyvtárak megjelenítése a kezdőlapon</value>
   </data>
   <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
     <value>Widgetek</value>
@@ -969,17 +960,11 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>Widgetek</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Meghajtók megjelenítése a kezdőoldalon</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Meghajtók megjelenítése a kezdőoldalon</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Előzmények megjelenítése a kezdőoldalon</value>
+    <value>Meghajtók megjelenítése a kezdőlapon</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Előzmények megjelenítése a kezdőoldalon</value>
+    <value>Előzmények megjelenítése a kezdőlapon</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fájl</value>
@@ -1126,7 +1111,7 @@
     <value>Formátum</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Mintavételi ráta</value>
+    <value>Mintavételi frekvencia</value>
   </data>
   <data name="PropertyDisplayArtist" xml:space="preserve">
     <value>Előadó</value>
@@ -1168,7 +1153,7 @@
     <value>Védelem típusa</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Szerző URL</value>
+    <value>Szerző weboldal</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Tartalomszolgáltató</value>
@@ -1188,6 +1173,12 @@
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producer</value>
   </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Promóciós weboldal</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Szolgáltatói műfaj</value>
+  </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Kiadó</value>
   </data>
@@ -1202,6 +1193,9 @@
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
     <value>Kis indexkép URI</value>
+  </data>
+  <data name="PropertyUserWebUrl" xml:space="preserve">
+    <value>Személyes weboldal</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Író</value>
@@ -1354,7 +1348,7 @@
     <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
-    <value>Engedje el itt</value>
+    <value>Ejtse ide</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Keresés eredménye itt:</value>
@@ -1390,13 +1384,13 @@
     <value>Igen</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Frissítés elérhető</value>
+    <value>Frissítés érhető el</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Védett operációs rendszer fájlok elrejtése (ajánlott)</value>
+    <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Védett operációs rendszer fájlok elrejtése (ajánlott)</value>
+    <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fájl</value>
@@ -1461,17 +1455,11 @@
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>"Elérési út másolása" elem megjelenítése</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Ki nem férő elemek almenübe helyezése</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Helyi menü testreszabása</value>
-  </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>"Megnyitás új oldalon" elem megjelenítése</value>
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mappák</value>
@@ -1479,25 +1467,25 @@
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>Animációk a menü megnyitásakor és bezárásakor</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Részletek</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nagy ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>Közepes ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kis ikonok</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Rendezés</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Megjelenítési lehetőségek</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1506,25 +1494,25 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Megjelenítési lehetőségek</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Nagy ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>Közepes ikonok</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>Kis ikonok</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
-    <value>Fájl kiterjesztések megjelenítése</value>
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
+    <value>Fájlkiterjesztések megjelenítése</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Rejtett fájlok megjelenítése</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Részletek</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1639,7 +1627,7 @@
     <value>Felhőtárhely</value>
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Munkaterületek megjelenítése a kezdőoldalon</value>
+    <value>Munkaterületek megjelenítése a kezdőlapon</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Levétel az oldalsávról</value>
@@ -1669,7 +1657,7 @@
     <value>Ismeretlen</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Hálózati meghajtó</value>
+    <value>Hálózati meghajtók</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Hálózat</value>
@@ -1678,7 +1666,7 @@
     <value>Tulajdonságok</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Fájl részletek</value>
+    <value>Fájl részletei</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
     <value>Fájl előnézet</value>
@@ -1693,19 +1681,19 @@
     <value>Tudjon meg többet a Files-ról</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Látogasson el a Files dokumentáció oldalára</value>
+    <value>Látogasson el a Files dokumentációs oldalára</value>
   </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Több elem kijelölése</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Többszörös kijelőlés (jelenleg lista és ikon nézetekben elérhető)</value>
+    <value>Többszörös kijelölés (jelenleg lista és ikon nézetekben elérhető)</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Ha a fájlnév kiterjesztését módosítja, akkor a fájl használhatatlanná válhat. Végrehajtja a módosítást?</value>
+    <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD-RW-meghajtó</value>
+    <value>CD meghajtó</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
     <value>Felhőtárhely</value>
@@ -1714,7 +1702,7 @@
     <value>Helyi lemez</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Floppy Meghajtó</value>
+    <value>Floppy meghajtó</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Hálózati meghajtó</value>
@@ -1744,15 +1732,117 @@
     <value>További lehetőségek...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Új hálózati meghajtóvá</value>
+    <value>Hálózati meghajtó csatlakoztatása</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Kapcsolat bontása</value>
+    <value>Szétkapcsolás</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Előzetes gyorsítótár szálak maximális száma (kisebb érték jobb lehet HDD esetén)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>Előzetes gyorsítótárazás (almappák beolvasása navigáláskor)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>További munkafelület lehetőségek</value>
+    <value>További munkaterület lehetőségek</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>További meghajtó lehetőségek</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Kedvencek</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Tallózás</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Legutóbbi helyek</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Nincs elérhető előnézet</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Nincsenek elérhető részletek</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Nincs elem kiválasztva</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Cél</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumentumok</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Könyvtárak megjelenítése az oldalsávon</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Könyvtárak</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Megnyitás jobb oldali panelen</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Alapértelmezett</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Színösszeállítás</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Elemek száma</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Sikertelen törlés</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Ismeretlen hiba történt.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Törlés befelyezve</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>Művelet befelyezve.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Újrahasznosítás befelyezve</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Áthelyezés befelyezve</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Másolás befelyezve</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Igen</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Ehhez a művelethez rendszergazdai jogosultságok szükségesek</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Szeretné rendszergazdaként folytatni?</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Jobbra lévő lapok bezárása</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Rendszergazda</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>A Files rendszergazdaként fut</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Kitűzés a Start menübe</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Levétel a Start menüből</value>
+  </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Mozaik</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mozaik</value>
   </data>
 </root>

@@ -1,9 +1,13 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.Interacts;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -14,57 +18,90 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.UserControls
 {
-    public sealed partial class StatusCenter : UserControl
+    public sealed partial class StatusCenter : UserControl, INotifyPropertyChanged, IStatusCenterActions
     {
-        public static ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
+        #region Public Properties
 
-        public event EventHandler ProgressBannerPosted;
+        public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+
+        public int OngoingOperationsCount
+        {
+            get
+            {
+                int count = 0;
+
+                foreach (var item in StatusBannersSource)
+                {
+                    if (item.IsProgressing)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+
+        public bool AnyOperationsOngoing
+        {
+            get => OngoingOperationsCount > 0;
+        }
+
+        #endregion Public Properties
+
+        #region Events
+
+        public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
+
+        #endregion Events
+
+        #region Constructor
 
         public StatusCenter()
         {
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Posts a new banner to the Status Center control for an operation.
-        /// It may be used to return the progress, success, or failure of the respective operation.
-        /// </summary>
-        /// <param name="title">Reserved for success and error banners. Otherwise, pass an empty string for this argument.</param>
-        /// <param name="message"></param>
-        /// <param name="initialProgress"></param>
-        /// <param name="status"></param>
-        /// <param name="operation"></param>
-        /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
+        #endregion Constructor
+
+        #region IStatusCenterActions
+
         public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
         {
-            StatusBanner item = new StatusBanner(message, title, initialProgress, status, operation);
-            StatusBannersSource.Add(item);
-            ProgressBannerPosted?.Invoke(this, EventArgs.Empty);
-            return new PostedStatusBanner(item);
+            StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
         }
 
-        /// <summary>
-        /// Posts a new banner with expanded height to the Status Center control. This is typically
-        /// used to represent a failure during a prior operation which must be acted upon.
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="primaryButtonText"></param>
-        /// <param name="cancelButtonText"></param>
-        /// <param name="primaryAction"></param>
-        /// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
         public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
         {
-            StatusBanner item = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
-            StatusBannersSource.Add(item);
-            return new PostedStatusBanner(item);
+            StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
         }
+
+        public bool CloseBanner(StatusBanner banner)
+        {
+            if (!StatusBannersSource.Contains(banner))
+            {
+                return false;
+            }
+
+            StatusBannersSource.Remove(banner);
+            return true;
+        }
+
+        #endregion IStatusCenterActions
 
         // Dismiss banner button event handler
         private void DismissBanner(object sender, RoutedEventArgs e)
         {
             StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
-            StatusBannersSource.Remove(itemToDismiss);
+            CloseBanner(itemToDismiss);
         }
 
         // Primary action button click
@@ -72,22 +109,59 @@ namespace Files.UserControls
         {
             StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
             await Task.Run(itemToDismiss.PrimaryButtonClick);
-            StatusBannersSource.Remove(itemToDismiss);
+            CloseBanner(itemToDismiss);
         }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateBanner(StatusBanner banner)
+        {
+            NotifyPropertyChanged(nameof(OngoingOperationsCount));
+            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
+        }
+
+        #endregion INotifyPropertyChanged
     }
 
     public class PostedStatusBanner
     {
-        internal StatusBanner Banner;
-        public Progress<float> Progress;
-        public Progress<FileSystemStatusCode> ErrorCode;
+        #region Private Members
 
-        public PostedStatusBanner(StatusBanner bannerArg)
+        private readonly IStatusCenterActions statusCenterActions;
+
+        private readonly StatusBanner Banner;
+
+        #endregion Private Members
+
+        #region Public Members
+
+        public readonly Progress<float> Progress;
+
+        public readonly Progress<FileSystemStatusCode> ErrorCode;
+
+        #endregion Public Members
+
+        #region Constructor
+
+        public PostedStatusBanner(StatusBanner banner, IStatusCenterActions statusCenterActions)
         {
-            Banner = bannerArg;
-            Progress = new Progress<float>(ReportProgressToBanner);
-            ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+            this.Banner = banner;
+            this.statusCenterActions = statusCenterActions;
+
+            this.Progress = new Progress<float>(ReportProgressToBanner);
+            this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
+
+        #endregion Constructor
+
+        #region Private Helpers
 
         private void ReportProgressToBanner(float value)
         {
@@ -96,24 +170,32 @@ namespace Files.UserControls
                 Banner.IsProgressing = true;
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
+                statusCenterActions.UpdateBanner(Banner);
+                return;
             }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                Debugger.Break(); // Argument out of range :(
             }
+
+            Banner.IsProgressing = false;
+            statusCenterActions.UpdateBanner(Banner);
         }
 
         private void ReportProgressToBanner(ReturnResult value)
         {
         }
 
+        #endregion Private Helpers
+
+        #region Public Helpers
+
         public void Remove()
         {
-            if (StatusCenter.StatusBannersSource.Contains(Banner))
-            {
-                StatusCenter.StatusBannersSource.Remove(Banner);
-            }
+            statusCenterActions.CloseBanner(Banner);
         }
+
+        #endregion Public Helpers
     }
 
     public class StatusBanner : ObservableObject
@@ -139,7 +221,16 @@ namespace Files.UserControls
             }
         }
 
-        public bool IsProgressing { get; set; } = false;
+        private bool isProgressing = false;
+
+        public bool IsProgressing
+        {
+            get => isProgressing;
+            set
+            {
+                SetProperty(ref isProgressing, value);
+            }
+        }
 
         public string Title { get; private set; }
 
@@ -164,7 +255,7 @@ namespace Files.UserControls
         public string FullTitle
         {
             get => fullTitle;
-            set => SetProperty(ref fullTitle, value);
+            set => SetProperty(ref fullTitle, value ?? string.Empty);
         }
 
         #endregion Public Properties
@@ -190,7 +281,7 @@ namespace Files.UserControls
                                 Title = "ExtractInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                                    FontFamily = Application.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                                     Glyph = "\xEA5C"    // Extract glyph
                                 };
                                 break;
@@ -199,8 +290,7 @@ namespace Files.UserControls
                                 Title = "CopyInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xE9B2"    // Copy glyph
+                                    Glyph = "\xE8C8"    // Copy glyph
                                 };
                                 break;
 
@@ -208,8 +298,7 @@ namespace Files.UserControls
                                 Title = "MoveInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xE9B2"    // Move glyph
+                                    Glyph = "\xE77F"    // Move glyph
                                 };
                                 break;
 
@@ -217,8 +306,7 @@ namespace Files.UserControls
                                 Title = "DeleteInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xE9EE"    // Delete glyph
+                                    Glyph = "\xE74D"    // Delete glyph
                                 };
                                 break;
 
@@ -236,6 +324,7 @@ namespace Files.UserControls
                     break;
 
                 case ReturnResult.Success:
+                    IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -246,13 +335,13 @@ namespace Files.UserControls
                         StrokeColor = new SolidColorBrush(Colors.Green);
                         GlyphSource = new FontIconSource()
                         {
-                            FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                            Glyph = "\xE9A1"    // CheckMark glyph
+                            Glyph = "\xE73E"    // CheckMark glyph
                         };
                     }
                     break;
 
                 case ReturnResult.Failed:
+                    IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -264,8 +353,7 @@ namespace Files.UserControls
                         StrokeColor = new SolidColorBrush(Colors.Red);
                         GlyphSource = new FontIconSource()
                         {
-                            FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                            Glyph = "\xEA41"    // Error glyph
+                            Glyph = "\xE783"    // Error glyph
                         };
                     }
                     break;
@@ -304,8 +392,7 @@ namespace Files.UserControls
                 StrokeColor = new SolidColorBrush(Colors.Red);
                 GlyphSource = new FontIconSource()
                 {
-                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                    Glyph = "\xEA41"    // Error glyph
+                    Glyph = "\xE783"    // Error glyph
                 };
             }
         }

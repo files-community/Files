@@ -1,8 +1,7 @@
 using Files.Filesystem.Cloud;
-using Files.UserControls.Widgets;
-using Files.Views;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -68,7 +67,7 @@ namespace Files.Filesystem
             }
             catch (Exception ex) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
-                Logger.Error(ex, "UI thread not ready yet");
+                Logger.Warn(ex, "UI thread not ready yet");
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
@@ -85,23 +84,23 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
                     if (section == null)
                     {
                         section = new LocationItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
-                            Font = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                            Glyph = "\ue9b7",
+                            Section = SectionType.CloudDrives,
+                            Glyph = "\uE753",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        MainPage.SideBarItems.Add(section);
+                        SidebarControl.SideBarItems.Add(section);
                     }
 
                     foreach (DriveItem drive in Drives.ToList())
@@ -112,11 +111,11 @@ namespace Files.Filesystem
                         }
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

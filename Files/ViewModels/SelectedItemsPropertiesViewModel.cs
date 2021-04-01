@@ -3,7 +3,7 @@ using Files.Extensions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -39,20 +39,20 @@ namespace Files.ViewModels
             set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private string driveItemGlyphSource;
+        private string customGlyph;
 
-        public string DriveItemGlyphSource
+        public string CustomGlyph
         {
-            get => driveItemGlyphSource;
-            set => SetProperty(ref driveItemGlyphSource, value);
+            get => customGlyph;
+            set => SetProperty(ref customGlyph, value);
         }
 
-        private bool loadDriveItemGlyph;
+        private bool loadCustomGlyph;
 
-        public bool LoadDriveItemGlyph
+        public bool LoadCustomGlyph
         {
-            get => loadDriveItemGlyph;
-            set => SetProperty(ref loadDriveItemGlyph, value);
+            get => loadCustomGlyph;
+            set => SetProperty(ref loadCustomGlyph, value);
         }
 
         private bool loadFileIcon;
@@ -232,6 +232,15 @@ namespace Files.ViewModels
         {
             get => itemMD5HashProgressVisibiity;
             set => SetProperty(ref itemMD5HashProgressVisibiity, value);
+        }
+
+        // For libraries
+        public int locationsCount;
+
+        public int LocationsCount
+        {
+            get => locationsCount;
+            set => SetProperty(ref locationsCount, value);
         }
 
         public int foldersCount;
@@ -507,11 +516,11 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private BaseLayout contentPage = null;
+        private IBaseLayout contentPage;
 
-        public SelectedItemsPropertiesViewModel(BaseLayout contentPageParam)
+        public SelectedItemsPropertiesViewModel(IBaseLayout contentPage)
         {
-            contentPage = contentPageParam;
+            this.contentPage = contentPage;
         }
 
         private bool isSelectedItemImage = false;

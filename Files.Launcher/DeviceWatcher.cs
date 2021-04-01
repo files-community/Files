@@ -1,8 +1,8 @@
 ﻿using Files.Common;
 using System;
+using System.IO.Pipes;
 using System.Management;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust
@@ -10,11 +10,11 @@ namespace FilesFullTrust
     public class DeviceWatcher : IDisposable
     {
         private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
-        private AppServiceConnection connection;
+        private NamedPipeServerStream connection;
 
         private const string WpdGuid = "{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
 
-        public DeviceWatcher(AppServiceConnection connection)
+        public DeviceWatcher(NamedPipeServerStream connection)
         {
             this.connection = connection;
         }
@@ -68,9 +68,9 @@ namespace FilesFullTrust
 
         private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
         {
-            if (connection != null)
+            if (connection?.IsConnected ?? false)
             {
-                await connection.SendMessageAsync(new ValueSet()
+                await Win32API.SendMessageAsync(connection, new ValueSet()
                 {
                     { "DeviceID", deviceId },
                     { "EventType", (int)eventType }

@@ -73,6 +73,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
+
         public bool ShowMultiselectOption
         {
             get

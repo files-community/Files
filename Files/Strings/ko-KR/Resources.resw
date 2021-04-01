@@ -531,6 +531,27 @@
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>예</value>
   </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>바이트</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>PB</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>B</value>
+  </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
@@ -610,7 +631,7 @@
     <value>페이지:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>점프 목록에서 항목 실행 시</value>
+    <value>Files 프로그램으로 폴더를 열 때</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>항상 새 인스턴스 열기</value>
@@ -753,7 +774,7 @@
   <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>레이아웃</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -921,12 +942,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>수직 탭 표시 줄</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>언어</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>터미널</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>터미널 편집</value>
   </data>
@@ -941,9 +956,6 @@
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>터미널</value>
-  </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>메뉴 항목에 경로 복사 추가</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>초과된 항목을 하위 메뉴로 이동</value>
@@ -1290,20 +1302,11 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>위젯</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>홈 화면에 드라이브 표시</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>홈 화면에 드라이브 표시</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>홈 화면에 라이브러리 표시</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>홈 화면에 라이브러리 표시</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>홈 화면에 최근 사용한 파일 표시</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>홈 화면에 최근 사용한 파일 표시</value>
@@ -1467,22 +1470,19 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>듀얼 패널</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>메뉴 항목에 새 탭에서 열기 추가</value>
-  </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>폴더</value>
   </data>
   <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
     <value>컨텍스트 메뉴를 여닫을 때 애니메이션 활성화</value>
   </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1491,34 +1491,34 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (중)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (중)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>파일 확장명 표시</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>숨긴 항목 표시</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1676,5 +1676,167 @@
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>알 수 없음</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>네트워크 드라이브</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>네트워크</value>
+  </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>다중 선택</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>다중 선택 옵션 활성화 (현재는 타일, 격자 레이아웃에서만 사용할 수 있습니다)</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>파일 확장명을 변경하면 파일을 사용할 수 없게 될 수도 있습니다. 변경하시겠습니까?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD ROM 드라이브</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>클라우드 드라이브</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>고정 디스크 드라이브</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>플로피 디스크 드라이브</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>네트워크 드라이브</value>
+  </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>마운트 해제된 드라이브</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>램 디스크 드라이브</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>이동식 저장 장치</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>알 수 없음</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>가상 드라이브</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>만든 날짜</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>만든 날짜</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>추가 옵션...</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>네트워크 드라이브 연결</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>연결 끊기</value>
+  </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>선점적 캐시 병렬 실행 제한 (하드 드라이브에는 숫자가 적을수록 좋습니다)</value>
+  </data>
+  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
+    <value>선점적 캐시 사용 (탐색 시 하위 폴더 내 항목을 미리 로딩합니다)</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>추가 보관함 옵션</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>추가 드라이브 옵션</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>즐겨찾기</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>탐색</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>최근 위치</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>미리보기를 사용할 수 없습니다</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>자세한 정보를 볼 수 없습니다</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>선택한 항목 없음</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>대상</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>전달인자</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>사이드바에 라이브러리 표시</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>라이브러리</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>새 패널에서 열기</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>기본값</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>색상 테마</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>항목 수</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>삭제 실패</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>알 수 없는 오류가 발생했습니다.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>삭제 완료</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>작업이 완료되었습니다.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>휴지통 이동 완료</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>이동 완료</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>복사 완료</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>아니오</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>예</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>이 작업은 관리자 권한이 필요합니다</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>관리자 권한으로 계속하시겠습니까?</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>오른쪽 탭 닫기</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>관리자 권한</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files가 관리자 권한으로 실행 중입니다</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>시작 메뉴에 고정</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>시작 메뉴에서 고정 해제</value>
   </data>
 </root>

@@ -1,5 +1,4 @@
-﻿using Files.ViewModels;
-using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Microsoft.Toolkit.Uwp;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -14,32 +13,29 @@ namespace Files.Dialogs
 
     public sealed partial class ConfirmDeleteDialog : ContentDialog
     {
-        private SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
-
         public bool PermanentlyDelete { get; set; }
 
         public string Description { get; set; }
 
         public DialogResult Result { get; set; }
 
-        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool permanently, SelectedItemsPropertiesViewModel propertiesViewModel)
+        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool permanently, int itemsSelected)
         {
             this.InitializeComponent();
 
             Result = DialogResult.Nothing; //clear the result in case the value is set from last time
             PermanentlyDelete = permanently;
-            SelectedItemsPropertiesViewModel = propertiesViewModel;
 
             // If deleting from recycle bin disable "permanently delete" option
             chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
 
-            if (SelectedItemsPropertiesViewModel.SelectedItemsCount == 1)
+            if (itemsSelected == 1)
             {
                 Description = "ConfirmDeleteDialogDeleteOneItem/Text".GetLocalized();
             }
             else
             {
-                Description = string.Format("ConfirmDeleteDialogDeleteMultipleItems/Text".GetLocalized(), SelectedItemsPropertiesViewModel.SelectedItemsCount);
+                Description = string.Format("ConfirmDeleteDialogDeleteMultipleItems/Text".GetLocalized(), itemsSelected);
             }
         }
 

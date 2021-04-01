@@ -35,9 +35,6 @@
                 <uap:SplashScreen Image="Assets\SplashScreen.png" uap5:Optional="true" />
             </uap:VisualElements>
             <Extensions>
-        <uap:Extension Category="windows.appService" EntryPoint="MessageRelay.StartupTask">
-          <uap3:AppService Name="FilesInteropService" uap4:SupportsMultipleInstances="false"/>
-        </uap:Extension>
               <uap3:Extension Category="windows.appExtensionHost">
                 <uap3:AppExtensionHost>
                   <uap3:Name>com.files.filepreview</uap3:Name>
@@ -68,7 +65,9 @@
         <!--<rescap:Capability Name="packageQuery"/>-->
         <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
+        <rescap:Capability Name="allowElevation"/>
         <uap:Capability Name="removableStorage" />
         <Capability Name="internetClient"/>
+        <Capability Name="privateNetworkClientServer"/>
     </Capabilities>
 </Package>
