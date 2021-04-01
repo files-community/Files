@@ -2037,7 +2037,6 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Open Storage Sense</value>
   </data>
-</root>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Copy</value>
   </data>
