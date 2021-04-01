@@ -332,7 +332,8 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutOpenItem/Text".GetLocalized(),
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.OpenItemCommand,
-                    ShowItem = selectedItems.Count <= 10
+                    IsPrimary = true,
+                    ShowItem = selectedItems.Count <= 10,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -362,6 +363,7 @@ namespace Files.Helpers
                     Glyph = "\uEC6C",
                     Command = commandsViewModel.OpenDirectoryInNewTabCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -407,13 +409,6 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalized(),
-                    Glyph = "\uE72D",
-                    Command = commandsViewModel.ShareItemCommand,
-                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
                     Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Glyph = "\xE712",
                     ID = "ItemOverflow"
@@ -428,6 +423,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalized(),
                     Glyph = "\uE8C6",
                     Command = commandsViewModel.CutItemCommand,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -435,6 +431,7 @@ namespace Files.Helpers
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -442,6 +439,7 @@ namespace Files.Helpers
                     Glyph = "\uE167",
                     Command = commandsViewModel.CopyPathOfSelectedItemCommand,
                     SingleItemOnly = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -459,6 +457,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.DeleteItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.Delete },
                     ShowInRecycleBin = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -467,6 +466,15 @@ namespace Files.Helpers
                     Command = commandsViewModel.RenameItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
                     SingleItemOnly = true,
+                    IsPrimary = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalized(),
+                    Glyph = "\uE72D",
+                    Command = commandsViewModel.ShareItemCommand,
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -505,6 +513,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

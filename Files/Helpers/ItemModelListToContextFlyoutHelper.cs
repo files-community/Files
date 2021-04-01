@@ -24,16 +24,26 @@ namespace Files.Helpers.ContextFlyouts
             return flyout;
         }
 
+        public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
+        {
+            var primaryModels = items.Where(i => i.IsPrimary).ToList();
+            var secondaryModels = items.Except(primaryModels).ToList();
+
+            var primary = new List<ICommandBarElement>();
+            primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
+            var secondary = new List<ICommandBarElement>();
+            secondaryModels.ForEach(i => secondary.Add(GetCommandBarItem(i)));
+
+            return (primary, secondary);
+        }
+
         private static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
         {
-            switch (item.ItemType)
+            return item.ItemType switch
             {
-                case ItemType.Separator:
-                    return new MenuFlyoutSeparator();
-
-                default:
-                    return GetMenuFlyoutItem(item);
-            }
+                ItemType.Separator => new MenuFlyoutSeparator(),
+                _ => GetMenuFlyoutItem(item),
+            };
         }
 
         private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item, bool isToggle = false)
@@ -120,6 +130,83 @@ namespace Files.Helpers.ContextFlyouts
             flyoutItem.IsEnabled = i.IsEnabled;
 
             return flyoutItem;
+        }
+
+        private static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
+        {
+            return item.ItemType switch
+            {
+                ItemType.Separator => new AppBarSeparator(),
+                _ => GetCommandBarButton(item),
+            };
+        }
+        private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
+        {
+            ICommandBarElement element;
+            FontIcon icon = null;
+            if(!string.IsNullOrEmpty(item.Glyph))
+            {
+                icon = new FontIcon
+                {
+                    Glyph = item.Glyph,
+                };
+            }
+
+            if (!string.IsNullOrEmpty(item.GlyphFontFamilyName))
+            {
+                var fontFamily = App.Current.Resources[item.GlyphFontFamilyName] as FontFamily;
+                icon.FontFamily = fontFamily;
+            }
+            MenuFlyout ctxFlyout = null;
+            if(item.Items.Count > 0)
+            {
+                ctxFlyout = new MenuFlyout();
+                GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => ctxFlyout.Items.Add(i));
+            }
+
+            Image content = null;
+            if(item.BitmapIcon != null)
+            {
+                content = new Image() {
+                    Source = item.BitmapIcon,
+                };
+            }
+
+            if (item.ItemType == ItemType.Toggle)
+            {
+                element = new AppBarToggleButton()
+                {
+                    Label = item.Text,
+                    Tag = item.Tag,
+                    Command = item.Command,
+                    CommandParameter = item.CommandParameter,
+                    IsChecked = item.IsChecked,
+                    Content = content,
+                };
+
+                if (icon != null)
+                {
+                    (element as AppBarToggleButton).Icon = icon;
+                }
+            } else
+            {
+                element = new AppBarButton()
+                {
+                    Label = item.Text,
+                    Tag = item.Tag,
+                    Command = item.Command,
+                    CommandParameter = item.CommandParameter,
+                    Flyout = ctxFlyout,
+                    Content = content,
+                };
+
+                if(icon != null)
+                {
+                    (element as AppBarButton).Icon = icon;
+                }
+            }
+
+            return element;
         }
     }
 }
