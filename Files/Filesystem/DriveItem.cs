@@ -94,6 +94,37 @@ namespace Files.Filesystem
 
         public SectionType Section { get; set; }
 
+
+        private float percentageUsed = 0.0f;
+        public float PercentageUsed
+        {
+            get => percentageUsed;
+            set
+            {
+                if (SetProperty(ref percentageUsed, value))
+                {
+                    if (Type == DriveType.Fixed)
+                    {
+                        if (percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold)
+                        {
+                            ShowStorageSense = true;
+                        }
+                        else
+                        {
+                            ShowStorageSense = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool showStorageSense = false;
+        public bool ShowStorageSense
+        {
+            get => showStorageSense;
+            set => SetProperty(ref showStorageSense, value);
+        }
+
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
@@ -107,7 +138,7 @@ namespace Files.Filesystem
             DeviceID = deviceId;
             Root = root;
 
-            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
+            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
         }
 
         public async Task UpdateLabelAsync()
@@ -140,6 +171,11 @@ namespace Files.Filesystem
                         "DriveFreeSpaceAndCapacity".GetLocalized(),
                         FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
                         MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+
+                    if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
+                    {
+                        PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
+                    }
                 }
             }
             catch (Exception)
