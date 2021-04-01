@@ -390,7 +390,7 @@ namespace Files.Views
 
         private async void ColumnShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
+            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
         }
 
         private void ColumnShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -1220,6 +1220,7 @@ namespace Files.Views
                         DataPackageOperation.Move,
                         e.DataView,
                         FilesystemViewModel.WorkingDirectory,
+                        false,
                         true);
                     return DataPackageOperation.Move;
                 }

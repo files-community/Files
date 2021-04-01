@@ -1,4 +1,5 @@
-﻿using Files.Dialogs;
+﻿using Files.DataModels;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
@@ -131,11 +132,6 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin,
                     incomingItems,
                     new Dictionary<string, string>()));
-
-                //ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                //    deleteFromRecycleBin,
-                //    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                //    associatedInstance.SlimContentPage.SelectedItems.Count);
 
                 if (UIHelpers.IsAnyContentDialogOpen())
                 {
@@ -377,6 +373,7 @@ namespace Files.Filesystem
         public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
                                                                   DataPackageView packageView,
                                                                   string destination,
+                                                                  bool showDialog,
                                                                   bool registerHistory)
         {
             try
@@ -387,11 +384,11 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.Copy))
                 {
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                    return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Move))
                 {
-                    return await MoveItemsFromClipboard(packageView, destination, registerHistory);
+                    return await MoveItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Link))
                 {
@@ -400,7 +397,7 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.None))
                 {
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                    return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else
                 {
@@ -415,17 +412,17 @@ namespace Files.Filesystem
 
         #region Copy
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory);
+            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
         {
-            return await CopyItemAsync(source.FromStorageItem(), destination, registerHistory);
+            return await CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -436,6 +433,14 @@ namespace Files.Filesystem
 
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+            var (collision, cancelOperation) = await GetCollision(source, destination, showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
 
             var sw = new Stopwatch();
             sw.Start();
@@ -450,6 +455,7 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(await filesystemOperations.CopyAsync(
                     source.ElementAt(i),
                     destination.ElementAt(i),
+                    collision,
                     null,
                     banner.ErrorCode,
                     cancellationToken));
@@ -487,7 +493,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -499,11 +505,19 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collision, cancelOperation) = await GetCollision(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
             associatedInstance.SlimContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
+            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, collision, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
@@ -527,7 +541,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -553,7 +567,7 @@ namespace Files.Filesystem
                     destinations.Add(Path.Combine(destination, item.Name));
                 }
 
-                returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+                returnStatus = await CopyItemsAsync(source, destinations, showDialog, registerHistory);
 
                 return returnStatus;
             }
@@ -587,17 +601,17 @@ namespace Files.Filesystem
 
         #region Move
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory);
+            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
         {
-            return await MoveItemAsync(source.FromStorageItem(), destination, registerHistory);
+            return await MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -608,6 +622,14 @@ namespace Files.Filesystem
 
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+            var (collision, cancelOperation) = await GetCollision(source, destination, showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
 
             var sw = new Stopwatch();
             sw.Start();
@@ -622,6 +644,7 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(await filesystemOperations.MoveAsync(
                     source.ElementAt(i),
                     destination.ElementAt(i),
+                    collision,
                     null,
                     banner.ErrorCode,
                     cancellationToken));
@@ -659,7 +682,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -671,11 +694,25 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collision, cancelOperation) = await GetCollision(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
             associatedInstance.SlimContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
+            IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, collision, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
@@ -699,7 +736,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -730,7 +767,7 @@ namespace Files.Filesystem
                 destinations.Add(Path.Combine(destination, item.Name));
             }
 
-            returnStatus = await MoveItemsAsync(source, destinations, registerHistory);
+            returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
 
             return returnStatus;
         }
@@ -812,6 +849,58 @@ namespace Files.Filesystem
         #endregion Rename
 
         #endregion IFilesystemHelpers
+
+        private static async Task<(NameCollisionOption collision, bool cancelOperation)> GetCollision(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        {
+            Dictionary<string, string> incomingItems = new Dictionary<string, string>();
+            Dictionary<string, string> conflictingItems = new Dictionary<string, string>();
+
+            NameCollisionOption collision = NameCollisionOption.FailIfExists;
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                incomingItems.Add(source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i));
+
+                if (Path.GetFileName(incomingItems.ElementAt(i).Key).SequenceEqual(Path.GetFileName(incomingItems.ElementAt(i).Value))) // Same item names in both directories
+                {
+                    conflictingItems.Add(incomingItems.ElementAt(i).Key, incomingItems.ElementAt(i).Value);
+                }
+            }
+
+            bool mustResolveConflicts = conflictingItems.Count > 0;
+
+            if (mustResolveConflicts || forceDialog)
+            {
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Copy,
+                    mustResolveConflicts,
+                    false,
+                    false,
+                    incomingItems,
+                    conflictingItems));
+
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (mustResolveConflicts) // If there were conflicts, result is different
+                {
+                    if (result == ContentDialogResult.Primary) // Generate new name
+                    {
+                        collision = NameCollisionOption.GenerateUniqueName;
+                    }
+                    else if (result == ContentDialogResult.Secondary) // Replace
+                    {
+                        collision = NameCollisionOption.ReplaceExisting;
+                    }
+                    else // Operation was cancelled
+                    {
+                        return (NameCollisionOption.GenerateUniqueName, true);
+                    }
+                }
+            }
+
+            return (collision, false);
+        }
+
 
         #region Public Helpers
 
