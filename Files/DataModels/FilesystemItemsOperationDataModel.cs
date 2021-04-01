@@ -89,8 +89,6 @@ namespace Files.DataModels
             }
 
             return items;
-
-            
         }
 
         private string GetOperationIconGlyph(FilesystemOperationType operationType)

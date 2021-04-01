@@ -902,7 +902,6 @@ namespace Files.Filesystem
             return (collision, false);
         }
 
-
         #region Public Helpers
 
         public static async Task<long> GetItemSize(IStorageItem item)
