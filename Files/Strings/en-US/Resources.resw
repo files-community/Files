@@ -2080,7 +2080,7 @@
     <value>Generate new name</value>
   </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Replace existingItem</value>
+    <value>Replace existing</value>
   </data>
   <data name="ConflictingItemsDialogSubtitle" xml:space="preserve">
     <value>There are {0} conflicting file names</value>
