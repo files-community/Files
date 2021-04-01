@@ -26,12 +26,13 @@
                     x:Name="chkPermanentlyDelete"
                     x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
                     x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
-                    BorderThickness="0"
                     Content="Permanently delete"
                     IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled, Mode=OneWay}"
                     IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}" />
 
                 <Button Padding="0"
+                        BorderThickness="0"
+                        BorderBrush="Transparent"
                         Background="Transparent"
                         Command="{x:Bind ViewModel.ExpandDetailsCommand, Mode=OneWay}"
                         CommandParameter="{x:Bind ViewModel}">
