@@ -220,7 +220,7 @@
                                             HorizontalAlignment="Right"
                                             Click="GoToStorageSense_Click"
                                             Background="Transparent"
-                                            BorderThickness="0"
+                                            BorderBrush="Transparent"
                                             Width="30"
                                             Height="30"
                                             ToolTipService.ToolTip="Open Storage Sense"
