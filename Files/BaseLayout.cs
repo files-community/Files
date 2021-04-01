@@ -32,6 +32,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -60,7 +61,7 @@ namespace Files
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-        public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
         public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
@@ -447,16 +448,6 @@ namespace Files
             }
         }
 
-        public void ShowContextFlyout(FrameworkElement target, Point p = new Point())
-        {
-            if(target == null)
-            {
-                return;
-            }
-            LoadMenuItemsAsync();
-            ItemContextMenuFlyout.ShowAt(target, p);
-        }
-
         public void ItemContextFlyout_Opening(object sender, object e)
         {
             try
@@ -487,8 +478,11 @@ namespace Files
         {
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
-            ItemContextMenuFlyout.Items.Clear();
-            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
+            ItemContextMenuFlyout.PrimaryCommands.Clear();
+            ItemContextMenuFlyout.SecondaryCommands.Clear();
+            var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+            primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
+            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)

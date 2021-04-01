@@ -44,6 +44,7 @@ namespace Files.ViewModels
         /// A unique identifier that can be used to save preferences for menu items
         /// </summary>
         public string ID { get; set; }
+        public bool IsPrimary { get; set; }
     }
 
     public enum ItemType
