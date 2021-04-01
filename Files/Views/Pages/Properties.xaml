@@ -61,7 +61,7 @@
                     Content="Security"
                     Tag="Security">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xEA18;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
