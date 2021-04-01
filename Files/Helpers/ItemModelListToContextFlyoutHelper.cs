@@ -181,12 +181,17 @@ namespace Files.Helpers.ContextFlyouts
                     Command = item.Command,
                     CommandParameter = item.CommandParameter,
                     IsChecked = item.IsChecked,
-                    Content = content,
+                    Content = content
                 };
 
                 if (icon != null)
                 {
                     (element as AppBarToggleButton).Icon = icon;
+                }
+
+                if(item.IsPrimary)
+                {
+                    (element as AppBarToggleButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }
             } else
             {
@@ -203,6 +208,11 @@ namespace Files.Helpers.ContextFlyouts
                 if(icon != null)
                 {
                     (element as AppBarButton).Icon = icon;
+                }
+
+                if (item.IsPrimary)
+                {
+                    (element as AppBarButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }
             }
 
