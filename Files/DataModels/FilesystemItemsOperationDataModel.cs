@@ -1,12 +1,27 @@
 ﻿using Files.Enums;
-using System;
+using Files.ViewModels.Dialogs;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace Files.DataModels
 {
+    public struct FilesystemItemsOperationItemModel
+    {
+        public FilesystemOperationType OperationType;
+
+        public string SourcePath;
+
+        public string DestinationPath;
+
+        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath)
+        {
+            this.OperationType = operationType;
+            this.SourcePath = sourcePath;
+            this.DestinationPath = destinationPath;
+        }
+    }
+
     public struct FilesystemItemsOperationDataModel
     {
         public FilesystemOperationType OperationType;
@@ -20,14 +35,14 @@ namespace Files.DataModels
         /// <summary>
         /// The items that are copied/moved/deleted from the source directory (to destination)
         /// </summary>
-        public Dictionary<string, string> IncomingItems;
+        public List<FilesystemItemsOperationItemModel> IncomingItems;
 
         /// <summary>
         /// The items that are conflicting between <see cref="IncomingItems"/> and the items that are in the destination directory
         /// </summary>
-        public Dictionary<string, string> ConflictingItems;
+        public List<FilesystemItemsOperationItemModel> ConflictingItems;
 
-        public FilesystemItemsOperationDataModel(FilesystemOperationType operationType, bool mustResolveConflicts, bool permanentlyDelete, bool permanentlyDeleteEnabled, Dictionary<string, string> incomingItems, Dictionary<string, string> conflictingItems)
+        public FilesystemItemsOperationDataModel(FilesystemOperationType operationType, bool mustResolveConflicts, bool permanentlyDelete, bool permanentlyDeleteEnabled, List<FilesystemItemsOperationItemModel> incomingItems, List<FilesystemItemsOperationItemModel> conflictingItems)
         {
             this.OperationType = operationType;
             this.MustResolveConflicts = mustResolveConflicts;
@@ -37,56 +52,63 @@ namespace Files.DataModels
             this.ConflictingItems = conflictingItems;
         }
 
-        public override string ToString()
+        public List<FilesystemOperationItemViewModel> ToItems()
         {
-            string operationName = string.Empty;
+            List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
 
-            switch (OperationType)
-            {
-                case FilesystemOperationType.Copy:
-                    operationName = "COPY";
-                    break;
+            List<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems).ToList();
 
-                case FilesystemOperationType.Move:
-                    operationName = "MOVE";
-                    break;
-
-                case FilesystemOperationType.Delete:
-                    operationName = "DELETE";
-                    break;
-            }
-
-            string serialized = string.Empty;
-
-            List<string> serializedItems = new List<string>();
-            Dictionary<string, string> nonConflictingItems = IncomingItems.Except(ConflictingItems).ToDictionary((kvp) => kvp.Key, (kvp) => kvp.Value);
-
-            // Conflicting items
+            // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                serializedItems.Add($"CONFLICT {item.Key} -- {item.Value}");
+                items.Add(new FilesystemOperationItemViewModel()
+                {
+                    OperationIconGlyph = "CONFLICT",
+                    SourcePath = item.SourcePath,
+                    ArrowIconGlyph = "CROSSED_ARROW",
+                    PlusIconVisibility = Visibility.Collapsed,
+                    DestinationPath = item.DestinationPath,
+                    IsConflict = true,
+                    ItemOperation = item.OperationType
+                });
             }
 
-            // Non-conflicting items
+            // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                if (OperationType == FilesystemOperationType.Delete)
+                items.Add(new FilesystemOperationItemViewModel()
                 {
-                    serializedItems.Add($"{operationName} {item.Key}");
-                }
-                else
-                {
-                    serializedItems.Add($"{operationName} {item.Key} -> NEW {item.Value}");
-                }
+                    OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
+                    SourcePath = item.SourcePath,
+                    ArrowIconGlyph = "ARROW",
+                    PlusIconVisibility = Visibility.Visible,
+                    DestinationPath = item.DestinationPath,
+                    IsConflict = false,
+                    ItemOperation = item.OperationType
+                });
             }
 
-            // Create a string
-            foreach (var item in serializedItems)
+            return items;
+
+            
+        }
+
+        private string GetOperationIconGlyph(FilesystemOperationType operationType)
+        {
+            switch (operationType)
             {
-                serialized += $"{item}\n";
-            }
+                case FilesystemOperationType.Copy:
+                    return "COPY";
 
-            return serialized;
+                case FilesystemOperationType.Move:
+                    return "MOVE";
+
+                case FilesystemOperationType.Delete:
+                    return "DELETE";
+
+                default:
+                    return "DEFAULT";
+            }
         }
     }
 }

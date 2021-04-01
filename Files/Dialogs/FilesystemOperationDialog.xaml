@@ -5,6 +5,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.Converters"
     mc:Ignorable="d"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
@@ -12,6 +13,10 @@
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
     CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}">
 
+    <ContentDialog.Resources>
+        <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter"/>
+    </ContentDialog.Resources>
+    
     <Border>
         <Grid>
             <StackPanel Spacing="10">
@@ -52,9 +57,51 @@
                     x:Name="ExpandableDetails"
                     x:Load="{x:Bind ViewModel.ExpandableDetailsLoad, Mode=OneWay}">
                     <Grid>
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind ViewModel.ExpandableDetailsData, Mode=OneWay}"/>
-                        </StackPanel>
+                        <GridView 
+                            ItemsSource="{x:Bind ViewModel.Items}"
+                            IsItemClickEnabled="False">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <!-- Status Icon -->
+                                                <ColumnDefinition/>
+                                                <!-- Source item name -->
+                                                <ColumnDefinition/>
+                                                <!-- Arrow icon -->
+                                                <ColumnDefinition/>
+                                                <!-- File added (+) icon -->
+                                                <ColumnDefinition/>
+                                                <!-- Destination item name -->
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <FontIcon 
+                                                Grid.Column="0"
+                                                Glyph="{Binding OperationIconGlyph, Mode=OneWay}"/>
+
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Text="{Binding SourcePath, Converter={StaticResource MiddleTextEllipsisConverter}}"/>
+
+                                            <FontIcon
+                                                Grid.Column="2"
+                                                Glyph="{Binding ArrowIconGlyph}"/>
+
+                                            <FontIcon
+                                                Grid.Column="3"
+                                                Glyph="PLUSICON"
+                                                Visibility="{Binding PlusIconVisibility}"/>
+
+                                            <TextBlock
+                                                Grid.Column="4"
+                                                Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
                     </Grid>
                 </ScrollViewer>
             </StackPanel>

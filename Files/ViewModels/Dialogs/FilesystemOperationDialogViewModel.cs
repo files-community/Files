@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
+        public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
+
         private string title;
         public string Title
         {
@@ -69,13 +72,6 @@ namespace Files.ViewModels.Dialogs
         {
             get => expandableDetailsLoad;
             set => SetProperty(ref expandableDetailsLoad, value);
-        }
-
-        private string expandableDetailsData;
-        public string ExpandableDetailsData
-        {
-            get => expandableDetailsData;
-            set => SetProperty(ref expandableDetailsData, value);
         }
 
         private bool permanentlyDeleteLoad = false;
@@ -170,7 +166,7 @@ namespace Files.ViewModels.Dialogs
                     vm.ChevronDownLoad = !detailsShown;
                     vm.ChevronUpLoad = detailsShown;
                 }),
-                ExpandableDetailsData = itemsData.ToString()
+                Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems())
             };
 
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);

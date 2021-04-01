@@ -2,8 +2,8 @@
 {
     public enum FilesystemOperationType
     {
-        Copy = 1,
-        Move = 2,
-        Delete = 4
+        Copy = 0,
+        Move = 1,
+        Delete = 2
     }
 }

@@ -118,20 +118,20 @@ namespace Files.Filesystem
             {
                 var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
 
-                Dictionary<string, string> incomingItems = new Dictionary<string, string>();
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
                 for (int i = 0; i < source.Count(); i++)
                 {
-                    incomingItems.Add(source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null);
+                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null));
                 }
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new DataModels.FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     !deleteFromRecycleBin,
                     incomingItems,
-                    new Dictionary<string, string>()));
+                    new List<FilesystemItemsOperationItemModel>()));
 
                 if (UIHelpers.IsAnyContentDialogOpen())
                 {
@@ -434,7 +434,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(source, destination, showDialog);
+            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -505,7 +505,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
 
             if (cancelOperation)
             {
@@ -623,7 +623,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(source, destination, showDialog);
+            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -694,7 +694,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
 
             if (cancelOperation)
             {
@@ -850,20 +850,21 @@ namespace Files.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(NameCollisionOption collision, bool cancelOperation)> GetCollision(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private static async Task<(NameCollisionOption collision, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
-            Dictionary<string, string> incomingItems = new Dictionary<string, string>();
-            Dictionary<string, string> conflictingItems = new Dictionary<string, string>();
+            List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
+            List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
 
             NameCollisionOption collision = NameCollisionOption.FailIfExists;
 
             for (int i = 0; i < source.Count(); i++)
             {
-                incomingItems.Add(source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i));
+                incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
 
+                // TODO: Using StorageItemHelpers.Exists() on large amount of items is slow. Replace it with something faster
                 if (destination.Count() > 0 && await StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
-                    conflictingItems.Add(incomingItems.ElementAt(i).Key, incomingItems.ElementAt(i).Value);
+                    conflictingItems.Add(incomingItems.ElementAt(i));
                 }
             }
 
@@ -872,7 +873,7 @@ namespace Files.Filesystem
             if (mustResolveConflicts || forceDialog)
             {
                 FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
-                    FilesystemOperationType.Copy,
+                    operationType,
                     mustResolveConflicts,
                     false,
                     false,
