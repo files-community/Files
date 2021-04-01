@@ -29,6 +29,11 @@
             {
                 public const int MaxAmountOfItemsPerBundle = 8;
             }
+
+            public static class Drives
+            {
+                public const float LowStorageSpacePercentageThreshold = 90.0f;
+            }
         }
 
         public static class LocalSettings
