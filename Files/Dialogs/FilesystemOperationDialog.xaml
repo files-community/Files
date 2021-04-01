@@ -108,24 +108,34 @@
                                             </Grid.ColumnDefinitions>
 
                                             <FontIcon 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
                                                 Grid.Column="0"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}"/>
 
                                             <TextBlock
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
                                                 Grid.Column="1"
                                                 Text="{Binding SourcePath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}"/>
 
                                             <FontIcon
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
                                                 Grid.Column="2"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding ArrowIconGlyph}"/>
 
                                             <TextBlock
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
                                                 Grid.Column="3"
                                                 Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}"/>
 
                                             <FontIcon
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
                                                 Grid.Column="4"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="&#xE903;"
