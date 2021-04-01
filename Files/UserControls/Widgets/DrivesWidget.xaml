@@ -213,10 +213,11 @@
                                         
                                         <Button 
                                             x:Uid="DrivesWidgetOpenStorageSenseButton"
-                                            Grid.Column="1" 
-                                            HorizontalAlignment="Right"
                                             x:Name="GoToStorageSense"
                                             x:Load="{x:Bind ShowStorageSense}"
+                                            AutomationProperties.Name="Open Storage Sense"
+                                            Grid.Column="1" 
+                                            HorizontalAlignment="Right"
                                             Click="GoToStorageSense_Click"
                                             Background="Transparent"
                                             BorderThickness="0"
@@ -227,9 +228,8 @@
                                             HorizontalContentAlignment="Center"
                                             Padding="0">
                                             <FontIcon
-                                                Glyph="&#xEA41;"
+                                                Glyph="&#xE7BA;"
                                                 FontSize="18"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"/>
                                         </Button>
