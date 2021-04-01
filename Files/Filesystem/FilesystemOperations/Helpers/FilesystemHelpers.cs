@@ -861,7 +861,7 @@ namespace Files.Filesystem
             {
                 incomingItems.Add(source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i));
 
-                if (Path.GetFileName(incomingItems.ElementAt(i).Key).SequenceEqual(Path.GetFileName(incomingItems.ElementAt(i).Value))) // Same item names in both directories
+                if (destination.Count() > 0 && await StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
                     conflictingItems.Add(incomingItems.ElementAt(i).Key, incomingItems.ElementAt(i).Value);
                 }
