@@ -29,6 +29,11 @@ namespace Files.Helpers.ContextFlyouts
             var primaryModels = items.Where(i => i.IsPrimary).ToList();
             var secondaryModels = items.Except(primaryModels).ToList();
 
+            if(secondaryModels.Last().ItemType == ItemType.Separator)
+            {
+                secondaryModels.RemoveAt(secondaryModels.Count - 1);
+            }
+
             var primary = new List<ICommandBarElement>();
             primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
             var secondary = new List<ICommandBarElement>();
