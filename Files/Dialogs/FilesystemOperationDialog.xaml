@@ -54,49 +54,59 @@
 
                 <ScrollViewer
                     MaxHeight="300"
+                    HorizontalAlignment="Stretch"
                     x:Name="ExpandableDetails"
                     x:Load="{x:Bind ViewModel.ExpandableDetailsLoad, Mode=OneWay}">
                     <Grid>
                         <GridView 
                             ItemsSource="{x:Bind ViewModel.Items}"
-                            IsItemClickEnabled="False">
+                            IsItemClickEnabled="False"
+                            SelectionMode="None">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <Border>
-                                        <Grid>
+                                        <Grid ColumnSpacing="10">
                                             <Grid.ColumnDefinitions>
                                                 <!-- Status Icon -->
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <!-- Source item name -->
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <!-- Arrow icon -->
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <!-- File added (+) icon -->
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <!-- Destination item name -->
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
                                             <FontIcon 
                                                 Grid.Column="0"
+                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}"/>
 
                                             <TextBlock
                                                 Grid.Column="1"
-                                                Text="{Binding SourcePath, Converter={StaticResource MiddleTextEllipsisConverter}}"/>
+                                                Text="{Binding SourcePath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}"/>
 
                                             <FontIcon
                                                 Grid.Column="2"
+                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding ArrowIconGlyph}"/>
 
                                             <FontIcon
                                                 Grid.Column="3"
-                                                Glyph="PLUSICON"
+                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                                Glyph="&#xE903;"
                                                 Visibility="{Binding PlusIconVisibility}"/>
 
                                             <TextBlock
                                                 Grid.Column="4"
-                                                Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}}"/>
+                                                Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

@@ -63,9 +63,9 @@ namespace Files.DataModels
             {
                 items.Add(new FilesystemOperationItemViewModel()
                 {
-                    OperationIconGlyph = "CONFLICT",
+                    OperationIconGlyph = "\uEC17",
                     SourcePath = item.SourcePath,
-                    ArrowIconGlyph = "CROSSED_ARROW",
+                    ArrowIconGlyph = "\uE9F9",
                     PlusIconVisibility = Visibility.Collapsed,
                     DestinationPath = item.DestinationPath,
                     IsConflict = true,
@@ -80,8 +80,8 @@ namespace Files.DataModels
                 {
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
-                    ArrowIconGlyph = "ARROW",
-                    PlusIconVisibility = Visibility.Visible,
+                    ArrowIconGlyph = item.OperationType == FilesystemOperationType.Delete ? string.Empty : "\uE91F",
+                    PlusIconVisibility = item.OperationType == FilesystemOperationType.Delete ? Visibility.Collapsed : Visibility.Visible,
                     DestinationPath = item.DestinationPath,
                     IsConflict = false,
                     ItemOperation = item.OperationType
@@ -98,16 +98,16 @@ namespace Files.DataModels
             switch (operationType)
             {
                 case FilesystemOperationType.Copy:
-                    return "COPY";
+                    return "\uE92A";
 
                 case FilesystemOperationType.Move:
-                    return "MOVE";
+                    return "\uE929";
 
                 case FilesystemOperationType.Delete:
-                    return "DELETE";
+                    return "\uE9EE";
 
                 default:
-                    return "DEFAULT";
+                    return "\uE9A1";
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Files.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             string text = value as string;
-            int count = parameter is int num ? num : 15;
+            int count = parameter == null ? 15 : System.Convert.ToInt32(parameter);
 
             if (text?.Length > count)
             {
