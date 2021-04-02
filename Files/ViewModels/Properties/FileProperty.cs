@@ -1,4 +1,5 @@
 ﻿using Files.Converters;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -284,6 +285,7 @@ namespace Files.ViewModels.Properties
         {
             { "DivideBy1000", input => (((uint) input)/1000).ToString() },
             { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
+            { "Fraction" , input => ((double)input).ToFractions(2000)}
         };
     }
 }

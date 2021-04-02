@@ -85,7 +85,8 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.ExposureTime",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName": "Fraction"
   },
   {
     "NameResource": "PropertyFocalLength",

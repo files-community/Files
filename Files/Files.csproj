@@ -213,6 +213,7 @@
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
+    <Compile Include="Helpers\Fractions.cs" />
     <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
     <Compile Include="Helpers\ShellContextMenuHelper.cs" />
