@@ -67,13 +67,6 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDateTaken",
-    "SectionResource": "PropertySectionPhoto",
-    "Property": "System.Photo.DateTaken",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
     "NameResource": "PropertyCameraManufacturer",
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.CameraManufacturer",
@@ -401,6 +394,13 @@
     "NameResource": "PropertyDateModified",
     "SectionResource": "PropertySectionCore",
     "Property": "System.DateModified",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateTaken",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.DateTaken",
     "IsReadOnly": true,
     "ID": null
   }
