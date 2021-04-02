@@ -233,26 +233,29 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    permanently,
-                    associatedInstance.SlimContentPage.SelectedItems.Count);
-
-                if (UIHelpers.IsAnyContentDialogOpen())
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
+                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
+                };
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
+                
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (result != ContentDialogResult.Primary) 
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                // Delete selected item if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
 
             var sw = new Stopwatch();
@@ -311,26 +314,29 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    permanently,
-                    associatedInstance.SlimContentPage.SelectedItems.Count);
-
-                if (UIHelpers.IsAnyContentDialogOpen())
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
+                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
+                };
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
+                
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (result != ContentDialogResult.Primary)
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                // Delete selected item if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
 
             var sw = new Stopwatch();

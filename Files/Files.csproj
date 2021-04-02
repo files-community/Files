@@ -215,9 +215,6 @@
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
-      <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
     <Compile Include="Helpers\EnumConversionHelpers.cs" />
     <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
@@ -792,10 +789,6 @@
     <Page Include="Dialogs\DynamicDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\ElevateConfirmDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
