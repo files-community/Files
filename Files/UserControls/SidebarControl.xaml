@@ -63,7 +63,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{x:Bind Font}" Glyph="{x:Bind Glyph}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon}"/>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
