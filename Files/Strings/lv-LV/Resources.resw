@@ -1482,9 +1482,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mapes</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Iespējot animācijas, atverot un aizverot konteksta izvēlni</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalizēts skats</value>
   </data>

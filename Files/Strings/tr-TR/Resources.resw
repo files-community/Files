@@ -1464,9 +1464,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Klasörler</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Sağ tık menüsü açılıp kapatılırken canlandırma kullanılsın</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar</value>
   </data>

@@ -1422,9 +1422,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Dossiers</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Activer les animations à l'ouverture et à la fermeture du menu contextuel</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue détaillée</value>
   </data>

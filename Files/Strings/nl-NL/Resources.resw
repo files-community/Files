@@ -1326,9 +1326,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mappen</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Animaties inschakelen bij het openen en sluiten van het context menu</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detailweergave</value>
   </data>
