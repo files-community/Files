@@ -2071,7 +2071,7 @@
     <value>Conflicting file name(s)</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>There is one conflicting file name, and {1} outgoing item(s)</value>
+    <value>There is one conflicting file name, and {0} outgoing item(s)</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>One item will be copied</value>
