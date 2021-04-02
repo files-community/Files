@@ -115,8 +115,10 @@ namespace Files.ViewModels.Dialogs
 
             if (itemsData.MustResolveConflicts)
             {
+                List<FilesystemItemsOperationItemModel> nonConflictingItems = itemsData.IncomingItems.Except(itemsData.ConflictingItems).ToList();
+
                 titleText = "ConflictingItemsDialogTitle".GetLocalized();
-                subtitleText = string.Format("ConflictingItemsDialogSubtitle".GetLocalized(), itemsData.ConflictingItems.Count);
+                subtitleText = itemsData.ConflictingItems.Count == 1 ? string.Format("ConflictingItemsDialogSubtitleSingle".GetLocalized(), nonConflictingItems.Count) : string.Format("ConflictingItemsDialogSubtitleMultiple".GetLocalized(), itemsData.ConflictingItems.Count, nonConflictingItems.Count);
                 primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
                 secondaryButtonText = "ConflictingItemsDialogSecondaryButtonText".GetLocalized();
                 closeButtonText = "ConflictingItemsDialogCloseButtonText".GetLocalized();
@@ -128,7 +130,7 @@ namespace Files.ViewModels.Dialogs
                     case FilesystemOperationType.Copy:
                         {
                             titleText = "CopyItemsDialogTitle".GetLocalized();
-                            subtitleText = string.Format("CopyItemsDialogSubtitle".GetLocalized(), itemsData.IncomingItems.Count);
+                            subtitleText = itemsData.IncomingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".GetLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "CopyItemsDialogPrimaryButtonText".GetLocalized();
                             secondaryButtonText = "CopyItemsDialogSecondaryButtonText".GetLocalized();
                             break;
@@ -137,7 +139,7 @@ namespace Files.ViewModels.Dialogs
                     case FilesystemOperationType.Move:
                         {
                             titleText = "MoveItemsDialogTitle".GetLocalized();
-                            subtitleText = string.Format("MoveItemsDialogSubtitle".GetLocalized(), itemsData.IncomingItems.Count);
+                            subtitleText = itemsData.IncomingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".GetLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "MoveItemsDialogPrimaryButtonText".GetLocalized();
                             secondaryButtonText = "MoveItemsDialogSecondaryButtonText".GetLocalized();
                             break;
@@ -146,7 +148,7 @@ namespace Files.ViewModels.Dialogs
                     case FilesystemOperationType.Delete:
                         {
                             titleText = "DeleteItemsDialogTitle".GetLocalized();
-                            subtitleText = string.Format("DeleteItemsDialogSubtitle".GetLocalized(), itemsData.IncomingItems.Count);
+                            subtitleText = itemsData.IncomingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".GetLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "DeleteItemsDialogPrimaryButtonText".GetLocalized();
                             secondaryButtonText = "DeleteItemsDialogSecondaryButtonText".GetLocalized();
                             permanentlyDeleteLoad = true;

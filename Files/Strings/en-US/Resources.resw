@@ -2025,14 +2025,14 @@
   <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be copied</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy items</value>
+    <value>Copy item(s)</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete items</value>
+    <value>Delete item(s)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Move</value>
@@ -2040,11 +2040,11 @@
   <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be moved</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move items</value>
+    <value>Move item(s)</value>
   </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Delete</value>
@@ -2052,7 +2052,7 @@
   <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be deleted</value>
   </data>
   <data name="ConflictingItemsDialogCloseButtonText" xml:space="preserve">
@@ -2064,10 +2064,22 @@
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitle" xml:space="preserve">
-    <value>There are {0} conflicting file names</value>
+  <data name="ConflictingItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>There are {0} conflicting file names, and {1} outgoing item(s)</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting file names</value>
+    <value>Conflicting file name(s)</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>There is one conflicting file name, and {1} outgoing item(s)</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>One item will be copied</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>One item will be deleted</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>One item will be moved</value>
   </data>
 </root>
