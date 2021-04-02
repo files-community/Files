@@ -100,7 +100,8 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.Aperture",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName":  "AddF",
   },
   {
     "NameResource": "PropertyPeopleNames",
