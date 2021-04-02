@@ -73,7 +73,7 @@
                 <Grid>
                     <FontIcon
                         x:Name="GripperGlyph"
-                        Margin="-1,0,0,-1"
+                        Margin="-1.5,0,0,-1"
                         HorizontalAlignment="Center"
                         Foreground="{StaticResource SystemChromeHighColor}"
                         Glyph="&#xE76F;"
