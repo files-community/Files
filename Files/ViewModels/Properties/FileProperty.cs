@@ -284,7 +284,7 @@ namespace Files.ViewModels.Properties
         private static readonly Dictionary<string, Func<object, string>> DisplayFuncs = new Dictionary<string, Func<object, string>>()
         {
             { "DivideBy1000", input => (((uint) input)/1000).ToString() },
-            { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
+            { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("hh':'mm':'ss")},
             { "Fraction" , input => ((double)input).ToFractions(2000)}
         };
     }
