@@ -36,7 +36,7 @@
 
                 <Button
                     x:Name="ExpandButton"
-                    x:Load="{x:Bind ViewModel.Resolved}"
+                    x:Load="{x:Bind ViewModel.MustResolveConflicts}"
                     Padding="0,4,0,0"
                     Background="Transparent"
                     BorderBrush="Transparent"
