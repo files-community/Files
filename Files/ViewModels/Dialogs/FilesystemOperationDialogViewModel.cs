@@ -95,6 +95,13 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref permanentlyDeleteEnabled, value);
         }
 
+        private bool mustResolveConflicts = false;
+        public bool MustResolveConflicts
+        {
+            get => mustResolveConflicts;
+            set => SetProperty(ref mustResolveConflicts, value);
+        }
+
         public ICommand ExpandDetailsCommand { get; private set; }
 
         public static FilesystemOperationDialog GetDialog(FilesystemItemsOperationDataModel itemsData)
@@ -158,6 +165,7 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDeleteLoad = permanentlyDeleteLoad,
                 PermanentlyDelete = itemsData.PermanentlyDelete,
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
+                MustResolveConflicts = itemsData.MustResolveConflicts,
                 ExpandDetailsCommand = new RelayCommand<FilesystemOperationDialogViewModel>((vm) =>
                 {
                     bool detailsShown = !vm.ExpandableDetailsLoad; // Inverted
