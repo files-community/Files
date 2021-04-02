@@ -310,7 +310,8 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
                     Glyph = "\uEF88",
                     Command = commandsViewModel.EmptyRecycleBinCommand,
-                    ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin
+                    ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin,
+                    ShowInRecycleBin = true,
                 },
             };
         }
