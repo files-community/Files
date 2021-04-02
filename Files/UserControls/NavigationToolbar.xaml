@@ -841,6 +841,8 @@
                 PlaceholderText="Search"
                 QuerySubmitted="SearchRegion_QuerySubmitted"
                 SuggestionChosen="SearchRegion_SuggestionChosen"
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
+                BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
                 TextChanged="SearchRegion_TextChanged"
                 UpdateTextOnSelect="False"
