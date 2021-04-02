@@ -98,7 +98,7 @@ namespace Files.Interacts
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }
-        
+
         public ICommand CopyItemCommand { get; private set; }
 
         public ICommand CutItemCommand { get; private set; }
