@@ -309,6 +309,7 @@ namespace Files.Helpers
                 {
                     Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
                     Glyph = "\uEF88",
+                    GlyphFontFamilyName = "RecycleBinIcons",
                     Command = commandsViewModel.EmptyRecycleBinCommand,
                     ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin,
                     ShowInRecycleBin = true,
