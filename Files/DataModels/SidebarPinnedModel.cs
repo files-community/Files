@@ -270,6 +270,7 @@ namespace Files.DataModels
                     Path = path,
                     Section = SectionType.Favorites,
                     Glyph = GlyphHelper.GetItemIcon(path),
+                    Icon = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
