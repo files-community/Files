@@ -2034,4 +2034,16 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Open Storage Sense</value>
   </data>
+  <data name="HomePageEmptyPageSubtitleHyperlink.Content" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="HomePageEmptyPageSubtitleP1" xml:space="preserve">
+    <value>Make Homepage your very own with amazing widgets by heading to </value>
+  </data>
+  <data name="HomePageEmptyPageSubtitleP2" xml:space="preserve">
+    <value>.</value>
+  </data>
+  <data name="HomePageEmptyPageTitle.Text" xml:space="preserve">
+    <value>It's quiet here...</value>
+  </data>
 </root>

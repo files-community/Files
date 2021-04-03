@@ -1,6 +1,7 @@
 ﻿using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.SettingsPages;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Bundles;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.AppService;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -21,6 +23,21 @@ namespace Files.Views
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
+
+        public bool NoWidgetsShown
+        {
+            get => !App.AppSettings.ShowLibraryCardsWidget && !App.AppSettings.ShowDrivesWidget && !App.AppSettings.ShowBundlesWidget && !App.AppSettings.ShowRecentFilesWidget;
+        }
+        
+        public string HomePageEmptyPageSubtitleP1Text
+        {
+            get => "HomePageEmptyPageSubtitleP1".GetLocalized().Replace(' ', (char)160) + "\ufeff";
+        }
+        
+        public string HomePageEmptyPageSubtitleP2Text
+        {
+            get => "HomePageEmptyPageSubtitleP2".GetLocalized().Replace(' ', (char)160) + "\ufeff";
+        }
 
         public YourHome()
         {
@@ -192,5 +209,10 @@ namespace Files.Views
         }
 
         #endregion IDisposable
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationHelpers.OpenSettingsAtPage(typeof(Widgets));
+        }
     }
 }

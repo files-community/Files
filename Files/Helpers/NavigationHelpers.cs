@@ -14,11 +14,59 @@ using Microsoft.Toolkit.Uwp;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
 using Files.ViewModels;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Files.SettingsPages;
 
 namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
+        public static void OpenSettingsAtPage(Type pageType)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(Settings));
+
+            Settings settingsPage = (Window.Current.Content as Frame).Content as Settings;
+
+            int indexToSelect = 0;
+
+            if (pageType == typeof(Appearance))
+            {
+                indexToSelect = 0;
+            }
+            else if (pageType == typeof(OnStartup))
+            {
+                indexToSelect = 1;
+            }
+            else if (pageType == typeof(Preferences))
+            {
+                indexToSelect = 2;
+            }
+            else if (pageType == typeof(Widgets))
+            {
+                indexToSelect = 3;
+            }
+            else if (pageType == typeof(Multitasking))
+            {
+                indexToSelect = 4;
+            }
+            else if (pageType == typeof(FilesAndFolders))
+            {
+                indexToSelect = 5;
+            }
+            else if (pageType == typeof(Experimental))
+            {
+                indexToSelect = 6;
+            }
+            else if (pageType == typeof(About))
+            {
+                indexToSelect = 7;
+            }
+
+            settingsPage.SettingsContentFrame.Navigate(pageType);
+            settingsPage.SettingsPane.SelectedItem = settingsPage.SettingsPane.MenuItems[indexToSelect];
+        }
+
         public static async void OpenPathInNewTab(string path)
         {
             await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);

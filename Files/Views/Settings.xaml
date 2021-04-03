@@ -50,6 +50,7 @@
             Canvas.ZIndex="100" />
 
         <muxc:NavigationView
+            x:FieldModifier="public"
             x:Name="SettingsPane"
             BackRequested="SettingsPane_BackRequested"
             CompactModeThresholdWidth="0"
@@ -148,6 +149,7 @@
             </muxc:NavigationView.MenuItems>
             <Frame
                 x:Name="SettingsContentFrame"
+                x:FieldModifier="public"
                 Padding="14,30,0,0"
                 Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
         </muxc:NavigationView>
