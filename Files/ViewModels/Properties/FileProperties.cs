@@ -244,25 +244,31 @@ namespace Files.ViewModels.Properties
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
-        public async Task<string> GetSystemFileHashes(string hashType, StorageFile file)
+        public async Task GetSystemFileHashes(string hashType, StorageFile file)
         {
             if (file == null)
             {
                 // Could not access file, can't show any other property
-                return "";
-            }
-
-            if (hashType.Equals(HashAlgorithmNames.Md5))
-            {
-                return await GenerateMD5Compare(file);
-            }
-            else if (hashType.Equals(HashAlgorithmNames.Sha1))
-            {
-                return await GenerateSHA1Compare(file);
+                ViewModel.ItemMD5Hash = ViewModel.ItemSHA1Hash = ViewModel.ItemCRC32Hash = string.Empty;
+                ViewModel.ItemCompareHashProgressVisibility = Visibility.Collapsed;
             }
             else
             {
-                return await GenerateCRC32Compare(file);
+                ViewModel.ItemCompareHashProgressVisibility = Visibility.Visible;
+                ViewModel.ItemCompareHashVisibility = Visibility.Visible;
+
+                if (hashType.Equals(HashAlgorithmNames.Md5))
+                {
+                    ViewModel.ItemCompareHash = await GenerateMD5Compare(file);
+                }
+                else if (hashType.Equals(HashAlgorithmNames.Sha1))
+                {
+                    ViewModel.ItemCompareHash = await GenerateSHA1Compare(file);
+                }
+                else
+                {
+                    ViewModel.ItemCompareHash = await GenerateCRC32Compare(file);
+                }
             }
         }
 

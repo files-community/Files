@@ -219,6 +219,8 @@
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="Interacts\Crc32.cs" />
+    <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
@@ -433,7 +435,6 @@
     <Compile Include="ViewModels\InteractionViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPropertiesViewModel.cs" />
     <Compile Include="ViewModels\SelectedItemsPropertiesViewModel.cs" />
-    <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>

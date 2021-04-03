@@ -312,6 +312,46 @@ namespace Files.ViewModels
             set => SetProperty(ref itemCRC32HashProgressVisibiity, value);
         }
 
+
+        private bool itemCompareHashCalcError;
+
+        public bool ItemCompareHashCalcError
+        {
+            get => itemCompareHashCalcError;
+            set => SetProperty(ref itemCompareHashCalcError, value);
+        }
+
+        public Visibility itemCompareHashVisibility = Visibility.Collapsed;
+
+        public Visibility ItemCompareHashVisibility
+        {
+            get => itemCompareHashVisibility;
+            set => SetProperty(ref itemCompareHashVisibility, value);
+        }
+
+        public Visibility itemCompareHashProgressVisibiity = Visibility.Collapsed;
+
+        public Visibility ItemCompareHashProgressVisibility
+        {
+            get => itemCompareHashProgressVisibiity;
+            set => SetProperty(ref itemCompareHashProgressVisibiity, value);
+        }
+
+        public string itemCompareHash;
+
+        public string ItemCompareHash
+        {
+            get => itemCompareHash;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && value != itemCompareHash)
+                {
+                    SetProperty(ref itemCompareHash, value);
+                    ItemCompareHashProgressVisibility = Visibility.Collapsed;
+                }
+            }
+        }
+
         public int foldersCount;
 
         public int FoldersCount

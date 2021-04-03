@@ -61,7 +61,7 @@ namespace Files.Views
             }
         }
 
-        private async void btnCompareHash_Click(object sender, RoutedEventArgs e)
+        private async void CompareHash_Click(object sender, RoutedEventArgs e)
         {
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.Thumbnail;
@@ -84,13 +84,13 @@ namespace Files.Views
                     switch (ComboItem.Name)
                     {
                         case "MD5":
-                            txtCompareHash.Text = await (BaseProperties as FileProperties).GetSystemFileHashes(HashAlgorithmNames.Md5, file);
+                            await (BaseProperties as FileProperties).GetSystemFileHashes(HashAlgorithmNames.Md5, file);
                             break;
                         case "SHA1":
-                            txtCompareHash.Text = await (BaseProperties as FileProperties).GetSystemFileHashes(HashAlgorithmNames.Sha1, file);
+                            await (BaseProperties as FileProperties).GetSystemFileHashes(HashAlgorithmNames.Sha1, file);
                             break;
                         default:
-                            txtCompareHash.Text = await (BaseProperties as FileProperties).GetSystemFileHashes(string.Empty, file);
+                            await (BaseProperties as FileProperties).GetSystemFileHashes(string.Empty, file);
                             break;
                     }
 

@@ -156,7 +156,7 @@
                 Margin="5,27,5,5"
                 HorizontalAlignment="Stretch"
                 Style="{StaticResource PropertyName}"
-                Text=""/>
+                Text="{x:Bind ViewModel.ItemCompareHash, Mode=OneWay}"/>
 
             <ComboBox x:Name="ddlCompareHash"
                       x:Uid="ddlCompareHash"
@@ -173,7 +173,7 @@
             <Button 
                 x:Name="btnCompareHash"
                 x:Uid="btnCompareHash"
-                Click="btnCompareHash_Click"
+                Click="CompareHash_Click"
                 Grid.Row="7"
                 Grid.Column="1"
                 Margin="0,5,5,0"
