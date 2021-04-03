@@ -889,8 +889,7 @@ namespace Files.Filesystem
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
                 collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.None);
 
-                // TODO: Using StorageItemHelpers.Exists() on large amount of items is slow. Replace it with something faster
-                if (destination.Count() > 0 && await StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
+                if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
                     conflictingItems.Add(incomingItems.ElementAt(i));
                 }
