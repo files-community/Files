@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Files.Interacts
 {
-    /// <summary>
-    /// https://rosettacode.org/wiki/CRC-32#C.23
-    /// </summary>
-
+    // https://rosettacode.org/wiki/CRC-32#C.23
     public class Crc32
     {
         #region Constants

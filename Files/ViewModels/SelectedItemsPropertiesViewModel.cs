@@ -312,7 +312,6 @@ namespace Files.ViewModels
             set => SetProperty(ref itemCRC32HashProgressVisibiity, value);
         }
 
-
         private bool itemCompareHashCalcError;
 
         public bool ItemCompareHashCalcError
