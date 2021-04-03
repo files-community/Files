@@ -7,8 +7,10 @@ using Files.ViewModels;
 using Files.ViewModels.Bundles;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml;
@@ -17,9 +19,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class YourHome : Page, IDisposable
+    public sealed partial class YourHome : Page, INotifyPropertyChanged, IDisposable
     {
         private IShellPage AppInstance = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
@@ -45,8 +50,14 @@ namespace Files.Views
             this.Loaded += YourHome_Loaded;
         }
 
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationHelpers.OpenSettingsAtPage(typeof(Widgets));
+        }
+
         private void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            NotifyPropertyChanged(nameof(NoWidgetsShown));
             if (DrivesWidget != null)
             {
                 DrivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -199,6 +210,11 @@ namespace Files.Views
             AppInstance.NavigationToolbar.PathComponents.Add(item);
         }
 
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         #region IDisposable
 
         // TODO: This Dispose() is never called, please implement the functionality to call this function.
@@ -209,10 +225,5 @@ namespace Files.Views
         }
 
         #endregion IDisposable
-
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationHelpers.OpenSettingsAtPage(typeof(Widgets));
-        }
     }
 }
