@@ -65,10 +65,9 @@ namespace Files.DataModels
                 {
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
-                    ArrowIconGlyph = "\uE9F9",
                     PlusIconVisibility = Visibility.Collapsed,
                     DestinationPath = item.DestinationPath,
-                    IsConflict = true,
+                    IsConflicting = true,
                     ExclamationMarkVisibility = Visibility.Visible,
                     ItemOperation = item.OperationType
                 });
@@ -81,10 +80,10 @@ namespace Files.DataModels
                 {
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
-                    ArrowIconGlyph = item.OperationType == FilesystemOperationType.Delete ? string.Empty : "\uE91F",
+                    ArrowIconVisibility = item.OperationType == FilesystemOperationType.Delete ? Visibility.Collapsed : Visibility.Visible,
                     PlusIconVisibility = item.OperationType == FilesystemOperationType.Delete ? Visibility.Collapsed : Visibility.Visible,
                     DestinationPath = item.DestinationPath,
-                    IsConflict = false,
+                    IsConflicting = false,
                     ExclamationMarkVisibility = Visibility.Collapsed,
                     ItemOperation = item.OperationType
                 });

@@ -12,39 +12,37 @@ namespace Files.ViewModels.Dialogs
 
         public string SourcePath { get; set; }
 
-        public string ArrowIconGlyph { get; set; } // Either an arrow or a crossed arrow
-
-        private Brush arrowIconBrush = new SolidColorBrush();
-        public Brush ArrowIconBrush
-        {
-            get => arrowIconBrush;
-            set => SetProperty(ref arrowIconBrush, value);
-        }
-
         public Visibility PlusIconVisibility { get; set; } // Item will be created - show plus icon
 
         public string DestinationPath { get; set; }
 
-        private bool isConflict = false;
+        private bool isConflicting = false;
         /// <summary>
         /// Determines whether an item is or was a conflicting one
         /// <br/>
         /// <br/>
         /// If the item is no longer a conflicting file name, this property value should NOT be changed.
         /// </summary>
-        public bool IsConflict 
+        public bool IsConflicting
         {
-            get => isConflict;
+            get => isConflicting;
             set
             {
-                if (isConflict != value)
+                if (isConflicting != value)
                 {
-                    isConflict = value;
+                    isConflicting = value;
 
-                    ExclamationMarkVisibility = isConflict ? Visibility.Visible : Visibility.Collapsed;
-                    ArrowIconBrush = isConflict ? new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)) : (SolidColorBrush)App.Current.Resources["ContentDialogContentFontForegroundColor"];
+                    ExclamationMarkVisibility = isConflicting ? Visibility.Visible : Visibility.Collapsed;
+                    ArrowIconVisibility = isConflicting ? Visibility.Collapsed : Visibility.Visible;
                 }
             }
+        }
+
+        private Visibility arrowIconVisibility = Visibility.Visible;
+        public Visibility ArrowIconVisibility
+        {
+            get => arrowIconVisibility;
+            set => SetProperty(ref arrowIconVisibility, value);
         }
 
         private Visibility exclamationMarkVisibility = Visibility.Collapsed;
@@ -60,7 +58,7 @@ namespace Files.ViewModels.Dialogs
             get => conflictResolveOption;
             set
             {
-                if (conflictResolveOption != value && IsConflict)
+                if (conflictResolveOption != value && IsConflicting)
                 {
                     conflictResolveOption = value;
                 }

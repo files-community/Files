@@ -8,7 +8,7 @@ namespace Files.ViewModels.Dialogs
 
         string DestinationPath { get; }
 
-        bool IsConflict { get; }
+        bool IsConflicting { get; }
 
         FileNameConflictResolveOptionType ConflictResolveOption { get; }
 

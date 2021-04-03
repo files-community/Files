@@ -22,6 +22,7 @@
 
     <ContentDialog.Resources>
         <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />
+        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter"/>
     </ContentDialog.Resources>
 
     <Border Width="400">
@@ -129,7 +130,7 @@
                                                 Margin="0 0 -2 8">
                                                 <Polygon
                                                     Points="6,0 0,10, 12,10"
-                                                    Fill="{ThemeResource ButtonBackgroundThemeBrush}"/>
+                                                    Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}"/>
                                                 <FontIcon
                                                     Visibility="{Binding ExclamationMarkVisibility}"
                                                     FontSize="12"
@@ -144,13 +145,23 @@
                                                 VerticalAlignment="Center"
                                                 Text="{Binding SourcePath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}" />
 
+                                            <!-- Arrow Icon -->
                                             <FontIcon
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Foreground="{Binding ArrowIconBrush}"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
-                                                Glyph="{Binding ArrowIconGlyph}" />
+                                                Visibility="{Binding ArrowIconVisibility}"
+                                                Glyph="&#xE91F;" />
+                                            <!-- 'x' icon -->
+                                            <FontIcon
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                                Visibility="{Binding ArrowIconVisibility, Converter={StaticResource VisiblityInvertConverter}}"
+                                                Glyph="&#xE9F9;" />
 
                                             <TextBlock
                                                 Grid.Column="3"
