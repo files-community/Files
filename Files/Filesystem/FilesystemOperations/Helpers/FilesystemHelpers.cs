@@ -133,12 +133,6 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
-                if (UIHelpers.IsAnyContentDialogOpen())
-                {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
                 ContentDialogResult result = await dialog.ShowAsync();
 
                 if (result == ContentDialogResult.Secondary) 
@@ -888,12 +882,12 @@ namespace Files.Filesystem
             List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
             List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
 
-            List<FileNameConflictResolveOptionType> collisions = new List<FileNameConflictResolveOptionType>();
+            Dictionary<string, FileNameConflictResolveOptionType> collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
 
             for (int i = 0; i < source.Count(); i++)
             {
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
-                collisions.Add(FileNameConflictResolveOptionType.None);
+                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.None);
 
                 // TODO: Using StorageItemHelpers.Exists() on large amount of items is slow. Replace it with something faster
                 if (destination.Count() > 0 && await StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
@@ -928,11 +922,25 @@ namespace Files.Filesystem
                 List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
                 foreach (var item in itemsResult)
                 {
-                    collisions.Add(item.ConflictResolveOption);
+                    collisions.Add(item.SourcePath, item.ConflictResolveOption);
                 }
             }
 
-            return (collisions, false);
+            // Since collisions are scrambled, we need to sort them PATH--PATH
+            List<FileNameConflictResolveOptionType> newCollisions = new List<FileNameConflictResolveOptionType>();
+
+            for (int i = 0; i < collisions.Count; i++)
+            {
+                for (int j = 0; j < source.Count(); j++)
+                {
+                    if (collisions.ElementAt(i).Key == (source.ElementAt(j).Path ?? source.ElementAt(j).Item.Path))
+                    {
+                        newCollisions.Add(collisions.ElementAt(j).Value);
+                    }
+                }
+            }
+
+            return (newCollisions, false);
         }
 
         #region Public Helpers
