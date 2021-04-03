@@ -129,6 +129,7 @@
                                                 Grid.Column="0"
                                                 VerticalAlignment="Bottom"
                                                 HorizontalAlignment="Right"
+                                                Visibility="{Binding ExclamationMarkVisibility}"
                                                 Margin="0 0 -2 8">
                                                 <!-- Background -->
                                                 <Polygon
@@ -136,7 +137,6 @@
                                                     Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}"/>
                                                 <!-- Exclamation mark -->
                                                 <FontIcon
-                                                    Visibility="{Binding ExclamationMarkVisibility}"
                                                     FontSize="12"
                                                     Foreground="Yellow"
                                                     FontFamily="{StaticResource OldFluentUIGlyphs}"

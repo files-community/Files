@@ -103,7 +103,7 @@ namespace Files.DataModels
                     return "\uE929";
 
                 case FilesystemOperationType.Delete:
-                    return "\uE9EE";
+                    return "\uE9ED";
 
                 default:
                     return "\uE9A1";
