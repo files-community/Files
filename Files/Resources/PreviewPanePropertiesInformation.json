@@ -328,20 +328,6 @@
     "DisplayFunctionName": "DivideBy1000"
   },
   {
-    "NameResource": "PropertyEncodingBitrate",
-    "SectionResource": "PropertySectionVideo",
-    "Property": "System.Video.EncodingBitrate",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyItemName",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.ItemNameDisplay",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
     "NameResource": "PropertyRatingText",
     "SectionResource": "PropertySectionCore",
     "Property": "System.RatingText",
@@ -352,13 +338,6 @@
     "NameResource": "PropertyItemPathDisplay",
     "SectionResource": "PropertySectionCore",
     "Property": "System.ItemPathDisplay",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyItemTypeText",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.ItemTypeText",
     "IsReadOnly": true,
     "ID": null
   },
