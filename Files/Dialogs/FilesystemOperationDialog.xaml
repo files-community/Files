@@ -18,7 +18,8 @@
     mc:Ignorable="d"
     PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
-    CloseButtonCommand="{x:Bind ViewModel.CloseButtonCommand, Mode=OneWay}">
+    CloseButtonCommand="{x:Bind ViewModel.CloseButtonCommand, Mode=OneWay}"
+    DefaultButton="Primary">
 
     <ContentDialog.Resources>
         <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />
