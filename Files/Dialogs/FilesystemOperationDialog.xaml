@@ -103,11 +103,11 @@
                                                 <!--  Status Icon  -->
                                                 <ColumnDefinition Width="Auto" />
                                                 <!--  Source item name  -->
-                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
                                                 <!--  Arrow icon  -->
                                                 <ColumnDefinition Width="Auto" />
                                                 <!--  Destination item name  -->
-                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
                                                 <!--  File added (+) icon  -->
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
@@ -119,6 +119,22 @@
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
 
+                                            <Grid
+                                                Grid.Column="0"
+                                                VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Right"
+                                                Margin="0 0 -2 8">
+                                                <Polygon
+                                                    Points="6,0 0,10, 12,10"
+                                                    Fill="{ThemeResource ButtonBackgroundThemeBrush}"/>
+                                                <FontIcon
+                                                    Visibility="{Binding ExclamationMarkVisibility}"
+                                                    FontSize="12"
+                                                    Foreground="Yellow"
+                                                    FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                                    Glyph="&#xEC17;"/>
+                                            </Grid>
+
                                             <TextBlock
                                                 Grid.Column="1"
                                                 HorizontalAlignment="Center"
@@ -129,6 +145,7 @@
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
+                                                Foreground="{Binding ArrowIconBrush}"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding ArrowIconGlyph}" />
 
