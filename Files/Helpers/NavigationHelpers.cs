@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Uwp;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
 using Files.ViewModels;
+using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -74,7 +75,15 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+
+                if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control) == CoreVirtualKeyStates.Down)
+                {
+                    await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance.PaneHolder.ActivePane);                    
+                }
+                else
+                {
+                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                }
             }
         }
 
