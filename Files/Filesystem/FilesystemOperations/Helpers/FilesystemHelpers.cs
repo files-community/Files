@@ -135,7 +135,7 @@ namespace Files.Filesystem
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                if (result == ContentDialogResult.Secondary) 
+                if (result != ContentDialogResult.Primary) 
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
@@ -911,7 +911,7 @@ namespace Files.Filesystem
 
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
-                    if (result == ContentDialogResult.None) // Operation was cancelled
+                    if (result != ContentDialogResult.Primary && result != ContentDialogResult.Secondary) // Operation was cancelled
                     {
                         return (new List<FileNameConflictResolveOptionType>(), true);
                     }
