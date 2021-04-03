@@ -179,7 +179,7 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            if (((IList<ListedItem>)AllView.ItemsSource).Contains(item))
+            if (((IList<ListedItem>)AllView?.ItemsSource)?.Contains(item) ?? false)
             {
                 AllView.SelectedItems.Add(item);
             }
