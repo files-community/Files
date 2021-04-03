@@ -2082,4 +2082,7 @@
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
     <value>One item will be moved</value>
   </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Permanently delete</value>
+  </data>
 </root>

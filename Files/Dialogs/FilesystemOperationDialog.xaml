@@ -32,7 +32,7 @@
 
                 <CheckBox
                     x:Name="chkPermanentlyDelete"
-                    x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
+                    x:Uid="DeleteItemsDialogPermanentlyDeleteCheckBox"
                     x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
                     Content="Permanently delete"
                     IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
