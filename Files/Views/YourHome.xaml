@@ -18,7 +18,7 @@
             </StackPanel.ChildrenTransitions>
             
             <!-- No Widgets info -->
-            <Grid RowSpacing="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" x:Name="NoWidgetsInfo" x:Load="{x:Bind NoWidgetsShown}">
+            <Grid RowSpacing="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" x:Name="NoWidgetsInfo" x:Load="{x:Bind NoWidgetsShown, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
