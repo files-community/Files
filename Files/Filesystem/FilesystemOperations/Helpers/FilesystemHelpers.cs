@@ -893,6 +893,7 @@ namespace Files.Filesystem
             for (int i = 0; i < source.Count(); i++)
             {
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
+                collisions.Add(FileNameConflictResolveOptionType.None);
 
                 // TODO: Using StorageItemHelpers.Exists() on large amount of items is slow. Replace it with something faster
                 if (destination.Count() > 0 && await StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
@@ -921,13 +922,13 @@ namespace Files.Filesystem
                     {
                         return (new List<FileNameConflictResolveOptionType>(), true);
                     }
+                }
 
-                    List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
-
-                    foreach (var item in itemsResult)
-                    {
-                        collisions.Add(item.ConflictResolveOption);
-                    }
+                collisions.Clear();
+                List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
+                foreach (var item in itemsResult)
+                {
+                    collisions.Add(item.ConflictResolveOption);
                 }
             }
 
