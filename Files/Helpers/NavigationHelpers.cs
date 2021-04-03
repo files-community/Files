@@ -76,7 +76,7 @@ namespace Files.Helpers
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
 
-                if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control) == CoreVirtualKeyStates.Down)
+                if (Window.Current.CoreWindow.GetKeyState((VirtualKey)18).HasFlag(CoreVirtualKeyStates.Down))
                 {
                     await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance.PaneHolder.ActivePane);                    
                 }
