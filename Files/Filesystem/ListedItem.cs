@@ -180,6 +180,12 @@ namespace Files.Filesystem
             set
             {
                 ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
+
+                FolderTooltipText = string.Format("Name: {0}\nType: {1}\nDate modified: {2}",
+                    ItemName,
+                    ItemType,
+                    ItemDateModified);
+
                 itemDateModifiedReal = value;
             }
         }
