@@ -25,7 +25,7 @@
         <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter"/>
     </ContentDialog.Resources>
 
-    <Border Width="400">
+    <Border>
         <Grid>
             <StackPanel Spacing="12">
                 <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
@@ -113,9 +113,10 @@
                                                 <!--  Destination item name  -->
                                                 <ColumnDefinition Width="*" />
                                                 <!--  File added (+) icon  -->
-                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
 
+                                            <!-- Operation type icon -->
                                             <FontIcon
                                                 Grid.Column="0"
                                                 HorizontalAlignment="Center"
@@ -123,14 +124,17 @@
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
 
+                                            <!-- Exclamation mark icon for conflicts -->
                                             <Grid
                                                 Grid.Column="0"
                                                 VerticalAlignment="Bottom"
                                                 HorizontalAlignment="Right"
                                                 Margin="0 0 -2 8">
+                                                <!-- Background -->
                                                 <Polygon
                                                     Points="6,0 0,10, 12,10"
                                                     Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}"/>
+                                                <!-- Exclamation mark -->
                                                 <FontIcon
                                                     Visibility="{Binding ExclamationMarkVisibility}"
                                                     FontSize="12"
@@ -139,6 +143,7 @@
                                                     Glyph="&#xEC17;"/>
                                             </Grid>
 
+                                            <!-- Source file path -->
                                             <TextBlock
                                                 Grid.Column="1"
                                                 HorizontalAlignment="Center"
@@ -163,16 +168,20 @@
                                                 Visibility="{Binding ArrowIconVisibility, Converter={StaticResource VisiblityInvertConverter}}"
                                                 Glyph="&#xE9F9;" />
 
+                                            <!-- Destination file path -->
                                             <TextBlock
                                                 Grid.Column="3"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}, ConverterParameter=8}" />
 
+                                            <!-- '+' icon -->
                                             <FontIcon
                                                 Grid.Column="4"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
+                                                Foreground="Lime"
+                                                FontSize="12"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="&#xE903;"
                                                 Visibility="{Binding PlusIconVisibility}" />
