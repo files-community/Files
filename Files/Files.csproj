@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Enums\DynamicDialogButtons.cs" />
     <Compile Include="Enums\DynamicDialogResult.cs" />
+    <Compile Include="Enums\FileNameConflictResolveOptionType.cs" />
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\FilesystemOperationDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\FilesystemOperationItemViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\IFilesystemOperationItemModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />

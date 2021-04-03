@@ -1,18 +1,12 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels.Dialogs
 {
-    public class FilesystemOperationItemViewModel : ObservableObject
+    public class FilesystemOperationItemViewModel : ObservableObject, IFilesystemOperationItemModel
     {
         public string OperationIconGlyph { get; set; }
 
@@ -32,6 +26,12 @@ namespace Files.ViewModels.Dialogs
         public string DestinationPath { get; set; }
 
         private bool isConflict = false;
+        /// <summary>
+        /// Determines whether an item is or was a conflicting one
+        /// <br/>
+        /// <br/>
+        /// If the item is no longer a conflicting file name, this property value should NOT be changed.
+        /// </summary>
         public bool IsConflict 
         {
             get => isConflict;
@@ -52,6 +52,19 @@ namespace Files.ViewModels.Dialogs
         {
             get => exclamationMarkVisibility;
             set => SetProperty(ref exclamationMarkVisibility, value);
+        }
+
+        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
+        public FileNameConflictResolveOptionType ConflictResolveOption
+        {
+            get => conflictResolveOption;
+            set
+            {
+                if (conflictResolveOption != value && IsConflict)
+                {
+                    conflictResolveOption = value;
+                }
+            }
         }
 
         public FilesystemOperationType ItemOperation { get; set; }

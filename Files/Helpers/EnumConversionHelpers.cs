@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using Files.Enums;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -19,6 +20,27 @@ namespace Files.Helpers
 
                 default:
                     return CreationCollisionOption.GenerateUniqueName;
+            }
+        }
+
+        public static NameCollisionOption Convert(this FileNameConflictResolveOptionType option)
+        {
+            switch (option)
+            {
+                case FileNameConflictResolveOptionType.None:
+                    return NameCollisionOption.GenerateUniqueName;
+
+                case FileNameConflictResolveOptionType.GenerateNewName:
+                    return NameCollisionOption.GenerateUniqueName;
+
+                case FileNameConflictResolveOptionType.ReplaceExisting:
+                    return NameCollisionOption.ReplaceExisting;
+
+                case FileNameConflictResolveOptionType.Skip:
+                    return NameCollisionOption.FailIfExists;
+
+                default:
+                    return NameCollisionOption.GenerateUniqueName;
             }
         }
     }

@@ -15,7 +15,10 @@
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
+    SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
+    CloseButtonCommand="{x:Bind ViewModel.CloseButtonCommand, Mode=OneWay}">
 
     <ContentDialog.Resources>
         <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />

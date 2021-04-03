@@ -16,6 +16,8 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
+        #region Public Properties
+
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
 
         private string title;
@@ -102,7 +104,75 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref mustResolveConflicts, value);
         }
 
+        #endregion
+
+        #region Commands
+
         public ICommand ExpandDetailsCommand { get; private set; }
+
+        public ICommand PrimaryButtonCommand { get; private set; }
+
+        public ICommand SecondaryButtonCommand { get; private set; }
+
+        public ICommand CloseButtonCommand { get; private set; }
+
+        #endregion
+
+        public FilesystemOperationDialogViewModel()
+        {
+            // Create commands
+            PrimaryButtonCommand = new RelayCommand(PrimaryButton);
+            SecondaryButtonCommand = new RelayCommand(SecondaryButton);
+            CloseButtonCommand = new RelayCommand(CloseButton);
+        }
+
+        #region Command Implementation
+
+        private void PrimaryButton()
+        {
+            if (MustResolveConflicts)
+            {
+                // Generate new name
+
+                foreach (var item in Items)
+                {
+                    item.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
+                }
+            }
+        }
+
+        private void SecondaryButton()
+        {
+            if (MustResolveConflicts)
+            {
+                // Replace existing
+
+                foreach (var item in Items)
+                {
+                    item.ConflictResolveOption = FileNameConflictResolveOptionType.ReplaceExisting;
+                }
+            }
+        }
+
+        private void CloseButton()
+        {
+            if (MustResolveConflicts)
+            {
+                // Skip
+
+                foreach (var item in Items)
+                {
+                    item.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
+                }
+            }
+        }
+
+        #endregion
+
+        public List<IFilesystemOperationItemModel> GetResult()
+        {
+            return Items.Cast<IFilesystemOperationItemModel>().ToList();
+        }
 
         public static FilesystemOperationDialog GetDialog(FilesystemItemsOperationDataModel itemsData)
         {

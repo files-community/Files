@@ -440,7 +440,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -458,13 +458,16 @@ namespace Files.Filesystem
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await filesystemOperations.CopyAsync(
-                    source.ElementAt(i),
-                    destination.ElementAt(i),
-                    collision,
-                    null,
-                    banner.ErrorCode,
-                    cancellationToken));
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await filesystemOperations.CopyAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        banner.ErrorCode,
+                        cancellationToken));
+                }
 
                 progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
@@ -511,7 +514,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
 
             if (cancelOperation)
             {
@@ -523,8 +526,18 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.SlimContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, collision, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
+
+            IStorageHistory history = null;
+            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
+            {
+                history = await filesystemOperations.CopyAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+            }
+            else
+            {
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+                return ReturnResult.Cancelled;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -629,7 +642,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -647,13 +660,16 @@ namespace Files.Filesystem
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await filesystemOperations.MoveAsync(
-                    source.ElementAt(i),
-                    destination.ElementAt(i),
-                    collision,
-                    null,
-                    banner.ErrorCode,
-                    cancellationToken));
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await filesystemOperations.MoveAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        banner.ErrorCode,
+                        cancellationToken));
+                }
 
                 progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
@@ -700,7 +716,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collision, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
 
             if (cancelOperation)
             {
@@ -718,8 +734,19 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.SlimContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, collision, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
+
+            IStorageHistory history = null;
+
+            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
+            {
+                history = await filesystemOperations.MoveAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+            }
+            else
+            {
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+                return ReturnResult.Cancelled;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -856,12 +883,12 @@ namespace Files.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(NameCollisionOption collision, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
             List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
             List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
 
-            NameCollisionOption collision = NameCollisionOption.FailIfExists;
+            List<FileNameConflictResolveOptionType> collisions = new List<FileNameConflictResolveOptionType>();
 
             for (int i = 0; i < source.Count(); i++)
             {
@@ -888,24 +915,23 @@ namespace Files.Filesystem
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                if (mustResolveConflicts) // If there were conflicts, result is different
+                if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
-                    if (result == ContentDialogResult.Primary) // Generate new name
+                    if (result == ContentDialogResult.None) // Operation was cancelled
                     {
-                        collision = NameCollisionOption.GenerateUniqueName;
+                        return (new List<FileNameConflictResolveOptionType>(), true);
                     }
-                    else if (result == ContentDialogResult.Secondary) // Replace
+
+                    List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
+
+                    foreach (var item in itemsResult)
                     {
-                        collision = NameCollisionOption.ReplaceExisting;
-                    }
-                    else // Operation was cancelled
-                    {
-                        return (NameCollisionOption.GenerateUniqueName, true);
+                        collisions.Add(item.ConflictResolveOption);
                     }
                 }
             }
 
-            return (collision, false);
+            return (collisions, false);
         }
 
         #region Public Helpers
