@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels.Widgets
 {
-    public class WidgetsListControlViewModel : ObservableObject
+    public class WidgetsListControlViewModel : ObservableObject, IDisposable
     {
         public ObservableCollection<Control> Widgets { get; private set; } = new ObservableCollection<Control>();
 
@@ -18,6 +18,7 @@ namespace Files.ViewModels.Widgets
                 return false;
             }
 
+            // Don't add existing ones!
             if (Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetItemModel.WidgetName))
             {
                 return false;
@@ -38,6 +39,17 @@ namespace Files.ViewModels.Widgets
         {
             int widgetIndex = Widgets.IndexOf(widgetModel);
             Widgets.Move(widgetIndex, place);
+        }
+
+        public void Dispose()
+        {
+            for (int i = 0; i < Widgets.Count; i++)
+            {
+                (Widgets[i] as IDisposable)?.Dispose();
+            }
+
+            Widgets.Clear();
+            Widgets = null;
         }
     }
 }

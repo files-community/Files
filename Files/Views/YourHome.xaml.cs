@@ -201,7 +201,7 @@ namespace Files.Views
         //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
         public void Dispose()
         {
-            //BundlesWidget?.Dispose();
+            Widgets?.Dispose();
         }
 
         #endregion IDisposable
