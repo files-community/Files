@@ -30,12 +30,11 @@ namespace Files.Views
 
         private async void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Bundles b_widget = new Bundles();
-            b_widget.ViewModel.Initialize(AppInstance);
-            await b_widget.ViewModel.Load();
+            Bundles bundlesWidget = new Bundles();
+            bundlesWidget.ViewModel.Initialize(AppInstance);
+            await bundlesWidget.ViewModel.Load();
 
-
-            Widgets.ViewModel.AddWidget(b_widget);
+            Widgets.ViewModel.AddWidget(bundlesWidget);
 
             if (DrivesWidget != null)
             {

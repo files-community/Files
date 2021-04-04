@@ -33,7 +33,6 @@ namespace Files.UserControls.Widgets
 
         public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
 
-
         private IShellPage associatedInstance;
 
         public IShellPage AppInstance
@@ -44,6 +43,7 @@ namespace Files.UserControls.Widgets
                 if (value != associatedInstance)
                 {
                     associatedInstance = value;
+                    NotifyPropertyChanged(nameof(AppInstance));
                 }
             }
         }

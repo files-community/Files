@@ -35,9 +35,7 @@
 
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <ContentControl Content="{Binding WidgetContent, Mode=OneWay}"/>
-                        </Grid>
+                        <ContentControl Content="{Binding WidgetContent, Mode=OneWay}"/>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
