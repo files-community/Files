@@ -30,41 +30,48 @@ namespace Files.Views
 
         private async void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Bundles bundlesWidget = new Bundles();
-            bundlesWidget.ViewModel.Initialize(AppInstance);
-            await bundlesWidget.ViewModel.Load();
+            var libraryCards = WidgetsHelpers.GetLibraryCards();
+            var drivesWidget = WidgetsHelpers.GetDrivesWidget();
+            var bundles = WidgetsHelpers.GetBundles();
+            var recentFiles = WidgetsHelpers.GetRecentFiles();
 
-            Widgets.ViewModel.AddWidget(bundlesWidget);
+            if (libraryCards != null)
+            {
+                libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
+                libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
+                libraryCards.LibraryCardInvoked += LibraryWidget_LibraryCardInvoked;
+                libraryCards.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
+                libraryCards.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
+                libraryCards.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
+                libraryCards.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
+                libraryCards.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
 
-            if (DrivesWidget != null)
-            {
-                DrivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
-                DrivesWidget.DrivesWidgetNewPaneInvoked -= DrivesWidget_DrivesWidgetNewPaneInvoked;
-                DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
-                DrivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
+                Widgets.ViewModel.AddWidget(libraryCards);
             }
-            if (LibraryWidget != null)
+            if (drivesWidget != null)
             {
-                LibraryWidget.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
-                LibraryWidget.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
-                LibraryWidget.LibraryCardInvoked += LibraryWidget_LibraryCardInvoked;
-                LibraryWidget.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
-                LibraryWidget.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
-                LibraryWidget.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
-                LibraryWidget.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
-                LibraryWidget.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
+                drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
+                drivesWidget.DrivesWidgetNewPaneInvoked -= DrivesWidget_DrivesWidgetNewPaneInvoked;
+                drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
+                drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
+
+                Widgets.ViewModel.AddWidget(drivesWidget);
             }
-            if (RecentFilesWidget != null)
+            if (bundles != null)
             {
-                RecentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                RecentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
-                RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+                Widgets.ViewModel.AddWidget(bundles);
+
+                bundles.ViewModel.Initialize(AppInstance);
+                await bundles.ViewModel.Load();
             }
-            if (BundlesWidget != null)
+            if (recentFiles != null)
             {
-                (BundlesWidget?.DataContext as BundlesViewModel)?.Initialize(AppInstance);
-                (BundlesWidget?.DataContext as BundlesViewModel)?.Load();
+                recentFiles.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFiles.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
+                recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+
+                Widgets.ViewModel.AddWidget(recentFiles);
             }
         }
 
@@ -194,7 +201,7 @@ namespace Files.Views
         //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
         public void Dispose()
         {
-            BundlesWidget?.Dispose();
+            //BundlesWidget?.Dispose();
         }
 
         #endregion IDisposable

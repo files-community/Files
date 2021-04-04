@@ -220,6 +220,7 @@
     <Compile Include="Helpers\NavigationHelpers.cs" />
     <Compile Include="Helpers\UIHelpers.cs" />
     <Compile Include="Helpers\WallpaperHelpers.cs" />
+    <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>

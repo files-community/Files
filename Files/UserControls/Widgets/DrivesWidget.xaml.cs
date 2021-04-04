@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class DrivesWidget : UserControl, INotifyPropertyChanged
+    public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -47,6 +47,8 @@ namespace Files.UserControls.Widgets
                 }
             }
         }
+
+        public string WidgetName => nameof(DrivesWidget);
 
         public DrivesWidget()
         {

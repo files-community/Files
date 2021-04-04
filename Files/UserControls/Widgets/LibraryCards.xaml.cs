@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
+using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -21,7 +22,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class LibraryCards : UserControl, INotifyPropertyChanged
+    public sealed partial class LibraryCards : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -44,6 +45,8 @@ namespace Files.UserControls.Widgets
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
+
+        public string WidgetName => nameof(LibraryCards);
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
         {

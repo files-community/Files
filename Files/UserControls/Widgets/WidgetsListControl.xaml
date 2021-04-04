@@ -14,11 +14,13 @@
         <Grid>
             <GridView
                 SelectionMode="None"
-                ItemsSource="{Binding Widgets, Mode=OneWay}">
+                ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}">
 
                 <!--  Remove Reveal Highlight Effect  -->
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
+                        <!--  Spacing  -->
+                        <Setter Property="Margin" Value="0,0,0,24" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="GridViewItem">
@@ -32,12 +34,6 @@
                         </Setter>
                     </Style>
                 </GridView.ItemContainerStyle>
-
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentControl Content="{Binding WidgetContent, Mode=OneWay}"/>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
             </GridView>
         </Grid>
     </Border>
