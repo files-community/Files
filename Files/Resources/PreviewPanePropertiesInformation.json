@@ -101,7 +101,15 @@
     "Property": "System.Photo.Aperture",
     "IsReadOnly": true,
     "ID": null,
-    "DisplayFunctionName":  "AddF",
+    "DisplayFunctionName": "AddF"
+  },
+  {
+    "NameResource": "PropertyISO",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.ISOSpeed",
+    "IsReadOnly": true,
+    "ID": null,
+    "DisplayFunctionName": "AddISO"
   },
   {
     "NameResource": "PropertyPeopleNames",

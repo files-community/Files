@@ -287,6 +287,7 @@ namespace Files.ViewModels.Properties
             { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("hh':'mm':'ss")},
             { "Fraction" , input => ((double)input).ToFractions(2000)},
             { "AddF" , input => $"f/{(double)input}"},
+            { "AddISO" , input => $"ISO-{(UInt16)input}"},
         };
     }
 }
