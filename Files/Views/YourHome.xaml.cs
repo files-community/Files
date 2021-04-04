@@ -3,7 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
-using Files.ViewModels.Bundles;
+using Files.ViewModels.Widgets.Bundles;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
@@ -28,8 +28,15 @@ namespace Files.Views
             this.Loaded += YourHome_Loaded;
         }
 
-        private void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            Bundles b_widget = new Bundles();
+            b_widget.ViewModel.Initialize(AppInstance);
+            await b_widget.ViewModel.Load();
+
+
+            Widgets.ViewModel.AddWidget(b_widget);
+
             if (DrivesWidget != null)
             {
                 DrivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;

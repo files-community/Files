@@ -2,6 +2,7 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -32,6 +33,7 @@ namespace Files.UserControls.Widgets
 
         public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
 
+
         private IShellPage associatedInstance;
 
         public IShellPage AppInstance
@@ -42,7 +44,6 @@ namespace Files.UserControls.Widgets
                 if (value != associatedInstance)
                 {
                     associatedInstance = value;
-                    NotifyPropertyChanged(nameof(AppInstance));
                 }
             }
         }

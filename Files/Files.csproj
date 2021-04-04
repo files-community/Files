@@ -290,11 +290,14 @@
     <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
       <DependentUpon>Bundles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
+      <DependentUpon>WidgetsListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
-    <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
-    <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
-    <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
+    <Compile Include="ViewModels\Widgets\Bundles\BundleContainerViewModel.cs" />
+    <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />
+    <Compile Include="ViewModels\Widgets\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
@@ -455,6 +458,8 @@
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
+    <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
+    <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
     <Compile Include="Views\ColumnParam.cs" />
     <Compile Include="Views\ColumnShellPage.xaml.cs">
       <DependentUpon>ColumnShellPage.xaml</DependentUpon>
@@ -915,6 +920,10 @@
     <Page Include="UserControls\Widgets\RecentFiles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Widgets\WidgetsListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ColumnShellPage.xaml">
       <SubType>Designer</SubType>

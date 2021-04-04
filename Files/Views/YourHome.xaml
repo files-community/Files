@@ -16,6 +16,13 @@
                     <EntranceThemeTransition />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
+
+            <widgets:WidgetsListControl 
+                x:Name="Widgets" 
+                Background="Red"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"/>
+
             <widgets:LibraryCards
                 x:Name="LibraryWidget"
                 x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}"

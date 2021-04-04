@@ -19,7 +19,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.ViewModels.Bundles
+namespace Files.ViewModels.Widgets.Bundles
 {
     /// <summary>
     /// Bundle's contents view model
