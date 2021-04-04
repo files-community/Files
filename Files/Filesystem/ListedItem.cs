@@ -17,7 +17,7 @@ namespace Files.Filesystem
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
-        public string FolderTooltipText { get; set; }
+        public string ItemTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
         private bool loadFolderGlyph;
@@ -181,9 +181,12 @@ namespace Files.Filesystem
             {
                 ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
 
-                FolderTooltipText = string.Format("Name: {0}\nType: {1}\nDate modified: {2}",
+                ItemTooltipText = string.Format("{0}:{1}\n{2}:{3}\n{4}:{5}",
+                    "ToolTipDescriptionName".GetLocalized(),
                     ItemName,
+                    "ToolTipDescriptionType".GetLocalized(),
                     ItemType,
+                    "ToolTipDescriptionDate".GetLocalized(),
                     ItemDateModified);
 
                 itemDateModifiedReal = value;
