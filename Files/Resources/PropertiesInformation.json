@@ -122,6 +122,7 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.FocalLength",
     "IsReadOnly": true,
+    "DisplayFunctionName": "UnitMM",
     "ID": null
   },
   {

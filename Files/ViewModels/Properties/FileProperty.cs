@@ -289,6 +289,7 @@ namespace Files.ViewModels.Properties
             { "AddF" , input => $"f/{(double)input}"},
             { "AddISO" , input => $"ISO-{(UInt16)input}"},
             { "RoundDouble" , input => $"{Math.Round((double)input)}"},
+            { "UnitMM" , input => $"{(double)input} mm"},
         };
     }
 }
