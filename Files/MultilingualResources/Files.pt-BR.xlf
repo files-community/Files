@@ -2443,18 +2443,6 @@
           <source>Files is running as administrator</source>
           <target state="new">Files is running as administrator</target>
         </trans-unit>
-        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
-          <source>Name: </source>
-          <target state="new">ToolTip description Name field</target>
-        </trans-unit>
-        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
-          <source>Type: </source>
-          <target state="new">ToolTip description Type field</target>
-        </trans-unit>
-        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
-          <source>Date modified: </source>
-          <target state="new">ToolTip description Date modified field</target>
-        </trans-unit>
       </group>
     </body>
   </file>

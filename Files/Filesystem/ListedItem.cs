@@ -181,7 +181,7 @@ namespace Files.Filesystem
             {
                 ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
 
-                ItemTooltipText = string.Format("{0}:{1}\n{2}:{3}\n{4}:{5}",
+                ItemTooltipText = string.Format("{0} {1}\n{2} {3}\n{4} {5}",
                     "ToolTipDescriptionName".GetLocalized(),
                     ItemName,
                     "ToolTipDescriptionType".GetLocalized(),
