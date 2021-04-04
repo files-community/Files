@@ -19,13 +19,18 @@ namespace Files.ViewModels.Widgets
             }
 
             // Don't add existing ones!
-            if (Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetItemModel.WidgetName))
+            if (!CanAddWidget(widgetItemModel.WidgetName))
             {
                 return false;
             }
 
             Widgets.Add(widgetModel);
             return true;
+        }
+
+        public bool CanAddWidget(string widgetName)
+        {
+            return !(Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetName));
         }
 
         public void RemoveWidget(Control widgetModel)
