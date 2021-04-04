@@ -8,11 +8,24 @@ namespace Files.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             string text = value as string;
-            int count = parameter == null ? 15 : System.Convert.ToInt32(parameter);
+            int maxLength = parameter == null ? 15 : System.Convert.ToInt32(parameter);
 
-            if (text?.Length > count)
+            if (string.IsNullOrWhiteSpace(text))
             {
-                return string.Format("{0}...{1}", text.Substring(0, 11), text.Substring(text.Length - 11));
+                return value;
+            }
+
+            if (text.Length > maxLength)
+            {
+                int amountToCutOff = text.Length - maxLength;
+                int middleIndexInString = text.Length / 2;
+
+                int startIndex = text.Length - (middleIndexInString + (amountToCutOff / 2));
+                int endIndex = middleIndexInString + (amountToCutOff / 2);
+
+                string newString = string.Format("{0}...{1}", text.Substring(0, startIndex), text.Substring(endIndex));
+
+                return newString;
             }
 
             return value;
