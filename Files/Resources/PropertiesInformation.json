@@ -39,13 +39,15 @@
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.HorizontalResolution",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName":  "RoundDouble"
   },
   {
     "NameResource": "PropertyVerticalResolution",
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.VerticalResolution",
     "IsReadOnly": true,
+    "DisplayFunctionName": "RoundDouble",
     "ID": null
   },
   {

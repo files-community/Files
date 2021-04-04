@@ -2035,6 +2035,6 @@
     <value>Open Storage Sense</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
-    <value>ISO</value>
+    <value>ISO speed</value>
   </data>
 </root>

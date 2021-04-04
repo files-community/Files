@@ -288,6 +288,7 @@ namespace Files.ViewModels.Properties
             { "Fraction" , input => ((double)input).ToFractions(2000)},
             { "AddF" , input => $"f/{(double)input}"},
             { "AddISO" , input => $"ISO-{(UInt16)input}"},
+            { "RoundDouble" , input => $"{Math.Round((double)input)}"},
         };
     }
 }
