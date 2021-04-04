@@ -1806,13 +1806,4 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>從開始功能表取消釘選</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Name:</value>
-  </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Type:</value>
-  </data>
-  <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Date modified:</value>
-  </data>
 </root>
