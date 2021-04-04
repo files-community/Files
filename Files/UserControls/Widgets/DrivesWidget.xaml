@@ -196,14 +196,44 @@
                                     Margin="12,0,0,0"
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
-                                    <TextBlock
-                                        x:Name="ItemLocationName"
-                                        Margin="0,0,0,8"
-                                        VerticalAlignment="Center"
-                                        FontSize="14"
-                                        FontWeight="Medium"
-                                        Text="{x:Bind Text, Mode=OneWay}"
-                                        TextWrapping="NoWrap" />
+                                    <Grid Margin="0,0,0,8" HorizontalAlignment="Stretch">
+                                        
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock
+                                            x:Name="ItemLocationName"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            FontWeight="Medium"
+                                            Text="{x:Bind Text, Mode=OneWay}"
+                                            TextWrapping="NoWrap" />
+                                        
+                                        <Button 
+                                            x:Uid="DrivesWidgetOpenStorageSenseButton"
+                                            x:Name="GoToStorageSense"
+                                            x:Load="{x:Bind ShowStorageSense}"
+                                            AutomationProperties.Name="Open Storage Sense"
+                                            Grid.Column="1" 
+                                            HorizontalAlignment="Right"
+                                            Click="GoToStorageSense_Click"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            Width="30"
+                                            Height="30"
+                                            ToolTipService.ToolTip="Open Storage Sense"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            Padding="0">
+                                            <FontIcon
+                                                Glyph="&#xE7BA;"
+                                                FontSize="18"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"/>
+                                        </Button>
+                                    </Grid>
                                     <muxc:ProgressBar
                                         Margin="0,0,0,8"
                                         AutomationProperties.AccessibilityView="Raw"

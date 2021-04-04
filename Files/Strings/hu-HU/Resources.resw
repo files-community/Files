@@ -1464,9 +1464,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mappák</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Animációk a menü megnyitásakor és bezárásakor</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Részletek</value>
   </data>

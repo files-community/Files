@@ -9,6 +9,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -168,6 +169,11 @@ namespace Files.UserControls.Widgets
                         { "drive", item.Path }
                     });
             }
+        }
+
+        private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
         }
     }
 }

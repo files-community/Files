@@ -1191,9 +1191,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>תיקיות</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>אפשר הנפשות בפתיחה וסגירה של התפריט תלוי-ההקשר</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>תצוגת פרטים</value>
   </data>

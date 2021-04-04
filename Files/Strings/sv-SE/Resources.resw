@@ -1473,9 +1473,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mappar</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Aktivera animationer när högerklicksmenyn öppnas och stängs</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detaljvy</value>
   </data>

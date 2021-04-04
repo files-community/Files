@@ -1452,9 +1452,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Carpetas</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Habilitar animaciones al abrir y cerrar el menú contextual</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalles</value>
   </data>

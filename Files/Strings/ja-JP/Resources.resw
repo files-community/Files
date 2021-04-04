@@ -1455,9 +1455,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>フォルダ</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>右クリックメニューを開閉するときのアニメーションを有効化</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細ビュー</value>
   </data>

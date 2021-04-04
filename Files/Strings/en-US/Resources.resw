@@ -1590,9 +1590,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Enable animations when opening and closing the context menu</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details View</value>
   </data>
@@ -1950,10 +1947,10 @@
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Pin to the Start Menu</value>
   </data>
-    <data name="UnpinItemFromStart.Text" xml:space="preserve">
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Unpin from the Start Menu</value>
   </data>
-    <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
     <value>Column View</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
@@ -2030,5 +2027,11 @@
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open Storage Sense</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Open Storage Sense</value>
   </data>
 </root>

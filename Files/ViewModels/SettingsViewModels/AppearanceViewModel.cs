@@ -14,7 +14,6 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private bool areRightClickContentMenuAnimationsEnabled = App.AppSettings.AreRightClickContentMenuAnimationsEnabled;
         private string selectedThemeName = App.AppSettings.PathToThemeFile;
         private bool showRestartControl = false;
 
@@ -96,20 +95,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool AreRightClickContentMenuAnimationsEnabled
-        {
-            get
-            {
-                return areRightClickContentMenuAnimationsEnabled;
-            }
-            set
-            {
-                if (SetProperty(ref areRightClickContentMenuAnimationsEnabled, value))
-                {
-                    App.AppSettings.AreRightClickContentMenuAnimationsEnabled = value;
-                }
-            }
-        }
         public string SelectedThemeName
         {
             get
