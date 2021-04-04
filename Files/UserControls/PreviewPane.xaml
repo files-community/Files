@@ -116,30 +116,17 @@
                                 HorizontalAlignment="Stretch"
                                 Style="{StaticResource HeaderTextBlockStyle}"
                                 Text="{x:Bind Name, Mode=OneWay}"
-                                FontSize="14"
-                                FontFamily="Segoe UI Light"/>
-                            <TextBox
+                                FontSize="14" />
+                            
+                            <TextBlock
                                 x:Name="PropertyValueTemplateTextBox"
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
-                                Margin="-12, 0, 0, 0"
-                                IsReadOnly="True"
-                                Style="{StaticResource DetailsValueTextBox}"
+                                TextWrapping="Wrap"
+                                IsTextSelectionEnabled="True"
                                 Text="{x:Bind ValueText, Mode=TwoWay}">
-                                <TextBox.Resources>
-                                    <ResourceDictionary>
-                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBorderFocused" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextBoxButtonPointerOverBackgroundThemeBrush" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextBoxButtonPressedBackgroundThemeBrush" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextBoxBackgroundThemeBrush" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent" />
-                                    </ResourceDictionary>
-                                </TextBox.Resources>
-                            </TextBox>
+                            </TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
