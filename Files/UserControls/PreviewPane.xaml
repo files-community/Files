@@ -98,8 +98,8 @@
                 Visibility="{x:Bind Model.DetailsListVisibility, Mode=OneWay}">
                 <ListView.Header>
                     <StackPanel Orientation="Vertical" Spacing="5" Margin="10">
-                        <TextBlock IsTextSelectionEnabled="True" FontWeight="Bold" Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}" FontSize="20"/>
-                        <TextBlock Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}" FontSize="18" IsTextSelectionEnabled="True"/>
+                        <TextBlock IsTextSelectionEnabled="True" FontWeight="Bold" Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}" FontSize="20" TextWrapping="Wrap"/>
+                        <TextBlock Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}" FontSize="18" IsTextSelectionEnabled="True" TextWrapping="Wrap"/>
                     </StackPanel>
                 </ListView.Header>
                 <ListView.ItemTemplate>
