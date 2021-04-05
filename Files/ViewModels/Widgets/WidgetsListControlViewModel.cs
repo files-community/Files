@@ -12,6 +12,11 @@ namespace Files.ViewModels.Widgets
 
         public bool AddWidget(Control widgetModel)
         {
+            return InsertWidget(widgetModel, Widgets.Count + 1);
+        }
+
+        public bool InsertWidget(Control widgetModel, int atIndex)
+        {
             // The widget must not be null and must implement IWidgetItemModel
             if (!(widgetModel is IWidgetItemModel widgetItemModel))
             {
@@ -24,7 +29,15 @@ namespace Files.ViewModels.Widgets
                 return false;
             }
 
-            Widgets.Add(widgetModel);
+            if (atIndex > Widgets.Count)
+            {
+                Widgets.Add(widgetModel);
+            }
+            else
+            {
+                Widgets.Insert(atIndex, widgetModel);
+            }
+
             return true;
         }
 

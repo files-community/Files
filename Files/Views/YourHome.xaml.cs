@@ -20,6 +20,11 @@ namespace Files.Views
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
+        LibraryCards libraryCards;
+        DrivesWidget drivesWidget;
+        Bundles bundles;
+        RecentFiles recentFiles;
+
         public YourHome()
         {
             InitializeComponent();
@@ -28,10 +33,10 @@ namespace Files.Views
 
         private async void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel);
-            var drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel);
-            var bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel);
-            var recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel);
+            libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, libraryCards);
+            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, drivesWidget);
+            bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel, bundles);
+            recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel, recentFiles);
 
             // Now prepare widgets
             if (libraryCards != null)
@@ -47,7 +52,7 @@ namespace Files.Views
                 libraryCards.LibraryCardShowMultiPaneControlsInvoked -= LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
                 libraryCards.LibraryCardShowMultiPaneControlsInvoked += LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
 
-                Widgets.ViewModel.AddWidget(libraryCards);
+                Widgets.ViewModel.InsertWidget(libraryCards, 0);
             }
             if (drivesWidget != null)
             {
@@ -57,11 +62,11 @@ namespace Files.Views
                 drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
                 drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
 
-                Widgets.ViewModel.AddWidget(drivesWidget);
+                Widgets.ViewModel.InsertWidget(drivesWidget, 1);
             }
             if (bundles != null)
             {
-                Widgets.ViewModel.AddWidget(bundles);
+                Widgets.ViewModel.InsertWidget(bundles, 2);
 
                 bundles.ViewModel.Initialize(AppInstance);
                 await bundles.ViewModel.Load();
@@ -73,7 +78,7 @@ namespace Files.Views
                 recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
 
-                Widgets.ViewModel.AddWidget(recentFiles);
+                Widgets.ViewModel.InsertWidget(recentFiles, 3);
             }
         }
 

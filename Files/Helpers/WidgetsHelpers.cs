@@ -5,7 +5,7 @@ namespace Files.Helpers
 {
     public static class WidgetsHelpers
     {
-        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel) where TWidget : IWidgetItemModel, new()
+        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel, TWidget defaultValue = default(TWidget)) where TWidget : IWidgetItemModel, new()
         {
             bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
             bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>();
@@ -20,7 +20,7 @@ namespace Files.Helpers
                 widgetsViewModel.RemoveWidget<TWidget>();
             }
 
-            return default(TWidget);
+            return defaultValue;
         }
 
         public static bool TryGetIsWidgetSettingEnabled<TWidget>() where TWidget : IWidgetItemModel

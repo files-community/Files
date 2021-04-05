@@ -26,6 +26,8 @@
                                 <ControlTemplate TargetType="GridViewItem">
                                     <ListViewItemPresenter
                                         x:Name="Root"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
                                         RevealBackground="{ThemeResource GridViewItemRevealBackground}"
                                         RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
                                         RevealBorderThickness="0" />
