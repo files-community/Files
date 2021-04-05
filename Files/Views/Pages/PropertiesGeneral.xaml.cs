@@ -23,21 +23,24 @@ namespace Files.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && !ViewModel.OriginalItemName.Equals(ViewModel.ItemName))
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName))
                 {
-                    if (AppInstance.FilesystemViewModel != null)
+                    if (ViewModel.OriginalItemName != ViewModel.ItemName)
                     {
-                        await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
+                        if (AppInstance.FilesystemViewModel != null)
                         {
-                            { "Arguments", "SetVolumeLabel" },
-                            { "drivename", drive.Path },
-                            { "newlabel", ViewModel.ItemName }
-                        });
-                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                        {
-                            await drive.UpdateLabelAsync();
-                            await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
-                        });
+                            await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
+                            {
+                                { "Arguments", "SetVolumeLabel" },
+                                { "drivename", drive.Path },
+                                { "newlabel", ViewModel.ItemName }
+                            });
+                            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                await drive.UpdateLabelAsync();
+                                await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
+                            });
+                        }
                     }
                 }
             }
