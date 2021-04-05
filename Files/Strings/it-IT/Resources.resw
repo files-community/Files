@@ -646,7 +646,7 @@
     <value>Pagine:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Quando si avvia una cartella fissata</value>
+    <value>Quando si avvia una cartella</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Apri sempre una nuova finestra</value>
@@ -885,12 +885,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Barra schede verticale</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Lingua dell'App</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Applicazioni Terminale</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Modifica le app terminale</value>
   </data>
@@ -969,9 +963,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Risorse</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra le schede della libreria nella schermata iniziale</value>
-  </data>
   <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
     <value>Mostra le schede della libreria nella schermata iniziale</value>
   </data>
@@ -981,14 +972,8 @@
   <data name="SettingsWidgets.Content" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra risorse nella schermata iniziale</value>
-  </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
     <value>Mostra risorse nella schermata iniziale</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra file recenti nella schermata iniziale</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Mostra file recenti nella schermata iniziale</value>
@@ -1470,70 +1455,61 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Doppio Pannello</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostra copia percorso nel menu contestuale</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Sposta elementi in eccesso in un sotto-menu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizza il menu contestuale</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostra apri nuova scheda nel menu contestuale</value>
-  </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Cartelle</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Abilita animazioni quando si apre il menu contestuale</value>
-  </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dettagli</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>Icone (Grandi)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>Icone (Medie)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>Icone (Piccole)</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Riquadri</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Layout</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Opzioni</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opzioni</value>
+    <value>Opzioni di visualizzazione</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opzioni</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Icone (Grandi)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>Icone (Medie)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>Icone (Piccole)</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>Riquadri</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Mostra estensione file</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>Mostra elementi nascosti</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Dettagli</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1651,7 +1627,7 @@
     <value>Rimuovi la cartella dalla barra laterale</value>
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Mostra i Gruppi nella schermata iniziale</value>
+    <value>Mostra i gruppi nella schermata iniziale</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Dischi di rete</value>
@@ -1772,5 +1748,92 @@
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Accesso rapido</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Esplora</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>Percorsi recenti</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Anteprima non disponibile</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Dettagli non disponibili</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Nessun elemento selezionato</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Destinazione</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argomenti:</value>
+  </data>
+  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+    <value>Mostra le librerie nella barra laterale</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Librerie</value>
+  </data>
+  <data name="BundlesOpenInNewPane" xml:space="preserve">
+    <value>Apri in un nuovo pannello</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>Predefinito</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>Numero elementi</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Eliminazione non riuscita</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>Si è verificato un errore sconosciuto.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Eliminazione completata</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>L'operazione è stata completata.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Eliminazione nel cestino completata</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Spostamento completato</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Copia completata</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Questa operazione richiede privilegi elevati</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Vuoi continuare come amministratore?</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Chiudi schede a destra</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>Amministratore</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files è eseguito come amministratore</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Fissa al Menu Start</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Rimuovi dal Menu Start</value>
   </data>
 </root>

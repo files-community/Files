@@ -2,9 +2,9 @@
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Files.ViewModels;
-using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -28,7 +29,10 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        [JsonProperty("favoriteitems")]
+        [JsonIgnore]
+        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+
+        [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         public void SetController(SidebarPinnedController controller)
@@ -41,8 +45,8 @@ namespace Files.DataModels
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
-                Glyph = "\uE80F",
+                Section = SectionType.Home,
+                Font = InteractionViewModel.FontName,
                 IsDefaultLocation = true,
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -50,8 +54,9 @@ namespace Files.DataModels
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
-                Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
-                Glyph = "\uE734",
+                Section = SectionType.Favorites,
+                SelectsOnInvoked = false,
+                Font = InteractionViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -61,9 +66,11 @@ namespace Files.DataModels
         /// </summary>
         public void AddDefaultItems()
         {
+            var udp = UserDataPaths.GetDefault();
+
             FavoriteItems.Add(AppSettings.DesktopPath);
             FavoriteItems.Add(AppSettings.DownloadsPath);
-            FavoriteItems.Add(AppSettings.DocumentsPath);
+            FavoriteItems.Add(udp.Documents);
         }
 
         /// <summary>
@@ -90,7 +97,7 @@ namespace Files.DataModels
 
         public async Task ShowHideRecycleBinItemAsync(bool show)
         {
-            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
             try
             {
                 if (show)
@@ -99,7 +106,6 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-                        Glyph = "\uEF87",
                         IsDefaultLocation = true,
                         Path = App.AppSettings.RecycleBinPath
                     };
@@ -123,7 +129,7 @@ namespace Files.DataModels
             }
             finally
             {
-                MainPage.SideBarItemsSemaphore.Release();
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
         }
 
@@ -257,9 +263,10 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = App.Current.Resources["FluentGlyphs"] as FontFamily,
+                    Font = InteractionViewModel.FontName,
                     Path = path,
-                    Glyph = GlyphHelper.GetItemIcon(path),
+                    Section = SectionType.Favorites,
+                    Icon = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
@@ -296,10 +303,10 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            await MainPage.SideBarItemsSemaphore.WaitAsync();
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
             try
             {
-                MainPage.SideBarItems.BeginBulkOperation();
+                SidebarControl.SideBarItems.BeginBulkOperation();
 
                 if (homeSection != null)
                 {
@@ -312,16 +319,16 @@ namespace Files.DataModels
                     await AddItemToSidebarAsync(path);
                 }
 
-                if (!MainPage.SideBarItems.Contains(favoriteSection))
+                if (!SidebarControl.SideBarItems.Contains(favoriteSection))
                 {
-                    MainPage.SideBarItems.Add(favoriteSection);
+                    SidebarControl.SideBarItems.Add(favoriteSection);
                 }
 
-                MainPage.SideBarItems.EndBulkOperation();
+                SidebarControl.SideBarItems.EndBulkOperation();
             }
             finally
             {
-                MainPage.SideBarItemsSemaphore.Release();
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
 
             await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);

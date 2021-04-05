@@ -36,14 +36,19 @@ namespace Files.ViewModels
 
         #endregion Constructor
 
-        #region Protected Helpers
+        #region Helpers
 
         protected virtual async void Init()
         {
             await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
         }
 
-        #endregion Protected Helpers
+        public virtual bool NotifyOnValueUpdated<TValue>(TValue value, string propertyName)
+        {
+            return Set(value, propertyName);
+        }
+
+        #endregion Helpers
 
         #region Get, Set
 

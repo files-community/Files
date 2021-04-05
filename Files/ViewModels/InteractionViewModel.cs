@@ -1,7 +1,10 @@
 ﻿using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -13,6 +16,7 @@ namespace Files.ViewModels
         {
             Window.Current.SizeChanged += Current_SizeChanged;
 
+            DetectFontName();
             SetMultitaskingControl();
         }
 
@@ -59,14 +63,22 @@ namespace Files.ViewModels
                     {
                         SetProperty(ref tabStripSelectedIndex, value);
                     }
-                    if (value < MainPage.MultitaskingControl.Items.Count)
+                    if (value < MainPageViewModel.MultitaskingControl.Items.Count)
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var mainView = rootFrame.Content as MainPage;
-                        mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
+                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.MultitaskingControl.Items[value];
                     }
                 }
             }
+        }
+
+        private bool isFullTrustElevated = false;
+
+        public bool IsFullTrustElevated
+        {
+            get => isFullTrustElevated;
+            set => SetProperty(ref isFullTrustElevated, value);
         }
 
         private bool isPasteEnabled = false;
@@ -110,10 +122,38 @@ namespace Files.ViewModels
         }
 
         private bool multiselectEnabled;
+
         public bool MultiselectEnabled
         {
             get => multiselectEnabled;
             set => SetProperty(ref multiselectEnabled, value);
+        }
+
+        public bool IsQuickLookEnabled { get; set; }
+
+        private FontFamily fontName;
+
+        public FontFamily FontName
+        {
+            get => fontName;
+            set => SetProperty(ref fontName, value);
+        }
+
+        private void DetectFontName()
+        {
+            var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            var currentVersion = new Version((int)((rawVersion & 0xFFFF000000000000) >> 48), (int)((rawVersion & 0x0000FFFF00000000) >> 32), (int)((rawVersion & 0x00000000FFFF0000) >> 16), (int)(rawVersion & 0x000000000000FFFF));
+            var newIconsMinVersion = new Version(10, 0, 21327, 1000);
+            bool isRunningNewIconsVersion = currentVersion >= newIconsMinVersion;
+
+            if (isRunningNewIconsVersion)
+            {
+                FontName = new FontFamily("Segoe Fluent Icons");
+            }
+            else
+            {
+                FontName = new FontFamily("Segoe MDL2 Assets");
+            }
         }
     }
 }

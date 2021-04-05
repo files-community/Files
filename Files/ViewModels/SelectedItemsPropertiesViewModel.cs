@@ -3,13 +3,14 @@ using Files.Extensions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
@@ -53,6 +54,22 @@ namespace Files.ViewModels
         {
             get => loadDriveItemGlyph;
             set => SetProperty(ref loadDriveItemGlyph, value);
+        }
+
+        private SvgImageSource customIcon;
+
+        public SvgImageSource CustomIcon
+        {
+            get => customIcon;
+            set => SetProperty(ref customIcon, value);
+        }
+
+        private bool loadCustomIcon;
+
+        public bool LoadCustomIcon
+        {
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
         }
 
         private bool loadFileIcon;
@@ -312,6 +329,7 @@ namespace Files.ViewModels
             set => SetProperty(ref itemCRC32HashProgressVisibiity, value);
         }
 
+
         private bool itemCompareHashCalcError;
 
         public bool ItemCompareHashCalcError
@@ -349,6 +367,15 @@ namespace Files.ViewModels
                     ItemCompareHashProgressVisibility = Visibility.Collapsed;
                 }
             }
+        }
+
+        // For libraries
+        public int locationsCount;
+
+        public int LocationsCount
+        {
+            get => locationsCount;
+            set => SetProperty(ref locationsCount, value);
         }
 
         public int foldersCount;
@@ -631,6 +658,11 @@ namespace Files.ViewModels
             contentPage = contentPageParam;
         }
 
+        public SelectedItemsPropertiesViewModel(IBaseLayout slimContentPage)
+        {
+            SlimContentPage = slimContentPage;
+        }
+
         private bool isSelectedItemImage = false;
 
         public bool IsSelectedItemImage
@@ -796,5 +828,6 @@ namespace Files.ViewModels
             get => isHidden;
             set => SetProperty(ref isHidden, value);
         }
+        public IBaseLayout SlimContentPage { get; }
     }
 }

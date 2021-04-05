@@ -1,6 +1,8 @@
-﻿using Files.Interacts;
+﻿using Files.Helpers;
+using Files.Interacts;
+using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.ApplicationModel.DataTransfer;
@@ -32,6 +34,20 @@ namespace Files.UserControls.MultitaskingControl
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
                     App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
                     break;
+            }
+
+            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            {
+                CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
+
+                if (CurrentSelectedAppInstance != null)
+                {
+                    OnCurrentInstanceChanged(new CurrentInstanceChangedEventArgs()
+                    {
+                        CurrentInstance = CurrentSelectedAppInstance,
+                        PageInstances = GetAllTabInstances()
+                    });
+                }
             }
         }
 
@@ -125,7 +141,7 @@ namespace Files.UserControls.MultitaskingControl
 
             var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
             ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-            await MainPage.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+            await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -133,7 +149,7 @@ namespace Files.UserControls.MultitaskingControl
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
                 (bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
             {
-                RemoveTab(args.Item as TabItem);
+                CloseTab(args.Item as TabItem);
             }
             else
             {
@@ -156,8 +172,8 @@ namespace Files.UserControls.MultitaskingControl
             var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
             var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
-            RemoveTab(args.Item as TabItem);
-            if (!await Interaction.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+            CloseTab(args.Item as TabItem);
+            if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
             {
                 sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
                 sender.SelectedIndex = selectedTabViewItemIndex;

@@ -1,6 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;

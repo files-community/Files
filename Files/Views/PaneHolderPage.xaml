@@ -13,7 +13,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
@@ -33,8 +33,6 @@
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-
-            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
 
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
@@ -80,6 +78,8 @@
             </Style>
 
             <SolidColorBrush x:Key="PaneSelectedBorderBrush" Color="{ThemeResource SystemAccentColorLight1}" />
+
+            <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -88,21 +88,6 @@
             <RowDefinition Height="Auto" MinHeight="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                x:Name="SidebarColumn"
-                Width="{x:Bind SidebarWidth, Mode=TwoWay}"
-                MinWidth="200"
-                MaxWidth="500" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <controls:SidebarControl
-            x:Name="SidebarControl"
-            Grid.RowSpan="2"
-            CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-            EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
-            Loaded="SidebarControl_Loaded" />
 
         <Custom:DropShadowPanel
             Grid.RowSpan="2"
@@ -131,19 +116,6 @@
                     <RowDefinition Height="Auto" MinHeight="50" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid
-                    x:Name="DragArea"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Stretch"
-                    Background="Transparent"
-                    Loaded="DragArea_Loaded" />
-
-                <multitaskingcontrol:HorizontalMultitaskingControl
-                    x:Name="horizontalMultitaskingControl"
-                    Margin="{x:Bind DragRegionWidth, Converter={StaticResource WidthToRightMarginConverter}}"
-                    x:FieldModifier="public"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
-                    Loaded="HorizontalMultitaskingControl_Loaded" />
 
                 <Border x:Name="PaneLeftLoader" Grid.Row="1">
                     <local:ModernShellPage
@@ -279,28 +251,6 @@
                 </Interactivity:Interaction.Behaviors>
             </Grid>
         </Custom:DropShadowPanel>
-
-        <Custom:GridSplitter
-            x:Name="SidebarResizer"
-            Grid.RowSpan="2"
-            Grid.Column="1"
-            Width="5"
-            MinWidth="5"
-            HorizontalAlignment="Left"
-            Background="Transparent"
-            Canvas.ZIndex="150"
-            CursorBehavior="ChangeOnSplitterHover"
-            Foreground="Transparent"
-            GripperCursor="Default"
-            GripperForeground="Transparent"
-            IsTabStop="False"
-            ResizeBehavior="BasedOnAlignment"
-            ResizeDirection="Auto"
-            Style="{StaticResource DefaultGridSplitterStyle}">
-            <Custom:GridSplitter.RenderTransform>
-                <TranslateTransform X="0" />
-            </Custom:GridSplitter.RenderTransform>
-        </Custom:GridSplitter>
     </Grid>
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator

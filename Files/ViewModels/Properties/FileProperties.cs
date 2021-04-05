@@ -2,8 +2,9 @@
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Interacts;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,9 +16,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -56,6 +59,8 @@ namespace Files.ViewModels.Properties
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
+                ViewModel.CustomIcon = Item.CustomIcon;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
 
                 if (Item.IsShortcutItem)
@@ -80,7 +85,7 @@ namespace Files.ViewModels.Properties
                         if (Item.IsLinkItem)
                         {
                             var tmpItem = (ShortcutItem)Item;
-                            await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                            await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                         }
                         else
                         {
@@ -152,72 +157,17 @@ namespace Files.ViewModels.Properties
 
             try
             {
-                TokenSource.Cancel();
-                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Md5, TokenSource.Token, ProgressBar);
-                ViewModel.ItemSHA1Hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Sha1, TokenSource.Token, ProgressBar);
-                ViewModel.ItemCRC32Hash = await AppInstance.InteractionOperations.GetCRC32HashForFileAsync(file, ProgressBar);
+                ViewModel.ItemMD5Hash = await GetHashForFileAsync(file, HashAlgorithmNames.Md5, TokenSource.Token, ProgressBar, AppInstance);
+                ViewModel.ItemSHA1Hash = await GetHashForFileAsync(file, HashAlgorithmNames.Sha1, TokenSource.Token, ProgressBar, AppInstance);
+                ViewModel.ItemCRC32Hash = await GetCRC32HashForFileAsync(file, ProgressBar);
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
                 ViewModel.ItemSHA1HashCalcError = true;
                 ViewModel.ItemCRC32HashCalcError = true;
             }
-        }
-
-        public async Task<string> GenerateMD5Compare(StorageFile file)
-        {
-            string hash;
-            // Get file MD5 hash
-            try
-            {
-                TokenSource.Cancel();
-                hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Md5, TokenSource.Token, ProgressBar);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                hash = string.Empty;
-            }
-
-            return hash;
-        }
-
-        public async Task<string> GenerateSHA1Compare(StorageFile file)
-        {
-            string hash;
-            // Get file SHA1 hash
-            try
-            {
-                TokenSource.Cancel();
-                hash = await AppInstance.InteractionOperations.GetHashForFileAsync(file, HashAlgorithmNames.Sha1, TokenSource.Token, ProgressBar);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                hash = string.Empty;
-            }
-
-            return hash;
-        }
-
-        public async Task<string> GenerateCRC32Compare(StorageFile file)
-        {
-            string hash;
-            // Get file CRC32 hash
-            try
-            {
-                TokenSource.Cancel();
-                hash = await AppInstance.InteractionOperations.GetCRC32HashForFileAsync(file, ProgressBar);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                hash = string.Empty;
-            }
-
-            return hash;
         }
 
         public async void GetSystemFileProperties()
@@ -242,6 +192,60 @@ namespace Files.ViewModels.Properties
                 .Where(section => !section.All(fileProp => fileProp.Value == null));
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
+        }
+
+        public async Task<string> GenerateMD5Compare(StorageFile file)
+        {
+            string hash;
+            // Get file MD5 hash
+            try
+            {
+                TokenSource.Cancel();
+                hash = await GetHashForFileAsync(file, HashAlgorithmNames.Md5, TokenSource.Token, ProgressBar, AppInstance);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                hash = string.Empty;
+            }
+
+            return hash;
+        }
+
+        public async Task<string> GenerateSHA1Compare(StorageFile file)
+        {
+            string hash;
+            // Get file SHA1 hash
+            try
+            {
+                TokenSource.Cancel();
+                hash = await GetHashForFileAsync(file, HashAlgorithmNames.Sha1, TokenSource.Token, ProgressBar, AppInstance);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                hash = string.Empty;
+            }
+
+            return hash;
+        }
+
+        public async Task<string> GenerateCRC32Compare(StorageFile file)
+        {
+            string hash;
+            // Get file CRC32 hash
+            try
+            {
+                TokenSource.Cancel();
+                hash = await GetCRC32HashForFileAsync(file, ProgressBar);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                hash = string.Empty;
+            }
+
+            return hash;
         }
 
         public async Task GetSystemFileHashes(string hashType, StorageFile file)
@@ -426,10 +430,99 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.ServiceConnection.SendMessageSafeAsync(value);
+                        await AppInstance.ServiceConnection.SendMessageAsync(value);
                     }
                     break;
             }
+        }
+
+        private async Task<string> GetHashForFileAsync(StorageFile file, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
+        {
+            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
+            if (file == null)
+            {
+                return "";
+            }
+
+            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
+            if (stream == null)
+            {
+                return "";
+            }
+
+            var inputStream = stream.AsInputStream();
+            var str = inputStream.AsStreamForRead();
+            var cap = (long)(0.5 * str.Length) / 100;
+            uint capacity;
+            if (cap >= uint.MaxValue)
+            {
+                capacity = uint.MaxValue;
+            }
+            else
+            {
+                capacity = Convert.ToUInt32(cap);
+            }
+
+            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
+            var hash = algorithmProvider.CreateHash();
+            while (!token.IsCancellationRequested)
+            {
+                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
+                if (buffer.Length > 0)
+                {
+                    hash.Append(buffer);
+                }
+                else
+                {
+                    break;
+                }
+                if (progress != null)
+                {
+                    progress.Value = (double)str.Position / str.Length * 100;
+                }
+            }
+            inputStream.Dispose();
+            stream.Dispose();
+            if (token.IsCancellationRequested)
+            {
+                return "";
+            }
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
+        }
+
+        public async Task<string> GetCRC32HashForFileAsync(StorageFile itemFromPath, Microsoft.UI.Xaml.Controls.ProgressBar progress)
+        {
+            if (itemFromPath == null)
+            {
+                return "";
+            }
+
+            Stream stream = await FilesystemTasks.Wrap(() => itemFromPath.OpenStreamForReadAsync());
+            if (stream == null)
+            {
+                return "";
+            }
+
+            byte[] fileBytes = await GetBytesAsync(itemFromPath);
+            var crc32 = new Crc32();
+
+            return crc32.Get(fileBytes).ToString("X");
+        }
+
+        public static async Task<byte[]> GetBytesAsync(StorageFile file)
+        {
+            byte[] fileBytes = null;
+            if (file == null) return null;
+            using (var stream = await file.OpenReadAsync())
+            {
+                fileBytes = new byte[stream.Size];
+                using (var reader = new DataReader(stream))
+                {
+                    await reader.LoadAsync((uint)stream.Size);
+                    reader.ReadBytes(fileBytes);
+                }
+            }
+            return fileBytes;
         }
     }
 }

@@ -1,15 +1,18 @@
-﻿using Files.Views;
+﻿using Files.ViewModels;
+using Files.Views;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public class BaseMultitaskingControl : UserControl, IMultitaskingControl
+    public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
         protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -19,6 +22,8 @@ namespace Files.UserControls.MultitaskingControl
 
         public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public BaseMultitaskingControl()
@@ -26,7 +31,7 @@ namespace Files.UserControls.MultitaskingControl
             Loaded += MultitaskingControl_Loaded;
         }
 
-        public ObservableCollection<TabItem> Items => MainPage.AppInstances;
+        public ObservableCollection<TabItem> Items => MainPageViewModel.AppInstances;
 
         public List<ITabItem> RecentlyClosedTabs { get; private set; } = new List<ITabItem>();
 
@@ -58,14 +63,19 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
+        protected void OnCurrentInstanceChanged(CurrentInstanceChangedEventArgs args)
+        {
+            CurrentInstanceChanged?.Invoke(this, args);
+        }
+
         protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
         {
-            RemoveTab(args.Item as TabItem);
+            CloseTab(args.Item as TabItem);
         }
 
         protected async void TabView_AddTabButtonClick(TabView sender, object args)
         {
-            await MainPage.AddNewTabAsync();
+            await MainPageViewModel.AddNewTabAsync();
         }
 
         public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
@@ -75,15 +85,15 @@ namespace Files.UserControls.MultitaskingControl
 
         public ITabItemContent GetCurrentSelectedTabInstance()
         {
-            return MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Control?.TabItemContent;
+            return MainPageViewModel.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Control?.TabItemContent;
         }
 
         public List<ITabItemContent> GetAllTabInstances()
         {
-            return MainPage.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
+            return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
         }
 
-        public void RemoveTab(TabItem tabItem)
+        public void CloseTab(TabItem tabItem)
         {
             if (Items.Count == 1)
             {
@@ -95,6 +105,11 @@ namespace Files.UserControls.MultitaskingControl
                 tabItem?.Unload(); // Dispose and save tab arguments
                 RecentlyClosedTabs.Add((ITabItem)tabItem);
             }
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
