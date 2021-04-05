@@ -67,23 +67,23 @@ namespace Files.Filesystem
             set => SetProperty(ref loadWebShortcutGlyph, value);
         }
 
-        private bool loadCustomGlyph;
+        private bool loadCustomIcon;
 
-        public bool LoadCustomGlyph
+        public bool LoadCustomIcon
         {
-            get => loadCustomGlyph;
-            set => SetProperty(ref loadCustomGlyph, value);
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
         }
 
-        private string customGlyph;
+        private SvgImageSource customIcon;
 
-        public string CustomGlyph
+        public SvgImageSource CustomIcon
         {
-            get => customGlyph;
+            get => customIcon;
             set
             {
-                LoadCustomGlyph = true;
-                SetProperty(ref customGlyph, value);
+                LoadCustomIcon = true;
+                SetProperty(ref customIcon, value);
             }
         }
 
@@ -387,8 +387,8 @@ namespace Files.Filesystem
             ItemName = lib.Text;
             PrimaryItemAttribute = StorageItemTypes.Folder;
             ItemType = "ItemTypeLibrary".GetLocalized();
-            LoadCustomGlyph = true;
-            CustomGlyph = lib.Glyph;
+            LoadCustomIcon = true;
+            CustomIcon = lib.Icon;
 
             IsEmpty = lib.IsEmpty;
             DefaultSaveFolder = lib.DefaultSaveFolder;

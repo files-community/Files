@@ -9,7 +9,7 @@ namespace Files.Filesystem
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public string Glyph { get; set; }
+        //public string Glyph { get; set; }
         public SvgImageSource Icon { get; set; }
         public string Text { get; set; }
 
