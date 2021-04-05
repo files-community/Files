@@ -7,26 +7,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vc="using:Files.Converters"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
+    CloseButtonCommand="{x:Bind ViewModel.CloseButtonCommand, Mode=OneWay}"
     CloseButtonStyle="{StaticResource DefaultButtonStyle}"
     CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
     CornerRadius="4"
+    DefaultButton="Primary"
+    PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
     PrimaryButtonStyle="{StaticResource DefaultButtonStyle}"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+    SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
     SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
-    mc:Ignorable="d"
-    PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
-    SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
-    CloseButtonCommand="{x:Bind ViewModel.CloseButtonCommand, Mode=OneWay}"
-    DefaultButton="Primary">
+    mc:Ignorable="d">
 
     <ContentDialog.Resources>
         <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />
-        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter"/>
+        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
     </ContentDialog.Resources>
 
-    <Border>
+    <Border Width="400">
         <Grid>
             <StackPanel Spacing="12">
                 <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
@@ -48,7 +48,7 @@
                     Command="{x:Bind ViewModel.ExpandDetailsCommand, Mode=OneWay}"
                     CommandParameter="{x:Bind ViewModel}">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
                             <FontIcon
                                 x:Name="Expand"
                                 x:Load="{x:Bind ViewModel.ChevronDownLoad, Mode=OneWay}"
@@ -117,7 +117,7 @@
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- Operation type icon -->
+                                            <!--  Operation type icon  -->
                                             <FontIcon
                                                 Grid.Column="0"
                                                 HorizontalAlignment="Center"
@@ -125,65 +125,62 @@
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
 
-                                            <!-- Exclamation mark icon for conflicts -->
+                                            <!--  Exclamation mark icon for conflicts  -->
                                             <Grid
                                                 Grid.Column="0"
-                                                VerticalAlignment="Bottom"
+                                                Margin="0,0,-2,8"
                                                 HorizontalAlignment="Right"
-                                                Visibility="{Binding ExclamationMarkVisibility}"
-                                                Margin="0 0 -2 8">
-                                                <!-- Background -->
-                                                <Polygon
-                                                    Points="6,0 0,10, 12,10"
-                                                    Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}"/>
-                                                <!-- Exclamation mark -->
+                                                VerticalAlignment="Bottom"
+                                                Visibility="{Binding ExclamationMarkVisibility}">
+                                                <!--  Background  -->
+                                                <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
+                                                <!--  Exclamation mark  -->
                                                 <FontIcon
                                                     FontSize="12"
                                                     Foreground="Yellow"
-                                                    FontFamily="{StaticResource OldFluentUIGlyphs}"
-                                                    Glyph="&#xEC17;"/>
+                                                    Glyph="&#xE7BA;" />
                                             </Grid>
 
-                                            <!-- Source file path -->
+                                            <!--  Source file path  -->
                                             <TextBlock
                                                 Grid.Column="1"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding SourcePath}" />
 
-                                            <!-- Arrow Icon -->
+                                            <!--  Arrow Icon  -->
                                             <FontIcon
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
-                                                Visibility="{Binding ArrowIconVisibility}"
-                                                Glyph="&#xE91F;" />
-                                            <!-- 'x' icon -->
+                                                Glyph="&#xE91F;"
+                                                Visibility="{Binding ArrowIconVisibility}" />
+                                            <!--  'x' icon  -->
                                             <FontIcon
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
+                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Foreground="Red"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
-                                                Visibility="{Binding ArrowIconVisibility, Converter={StaticResource VisiblityInvertConverter}}"
-                                                Glyph="&#xE9F9;" />
+                                                Glyph="&#xE9F9;"
+                                                Visibility="{Binding ArrowIconVisibility, Converter={StaticResource VisiblityInvertConverter}}" />
 
-                                            <!-- Destination file path -->
+                                            <!--  Destination file path  -->
                                             <TextBlock
                                                 Grid.Column="3"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding DestinationPath}" />
 
-                                            <!-- '+' icon -->
+                                            <!--  '+' icon  -->
                                             <FontIcon
                                                 Grid.Column="4"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Foreground="Lime"
-                                                FontSize="12"
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                                FontSize="12"
+                                                Foreground="Lime"
                                                 Glyph="&#xE903;"
                                                 Visibility="{Binding PlusIconVisibility}" />
                                         </Grid>
