@@ -189,7 +189,7 @@
                                 <Image
                                     Grid.Column="0"
                                     x:Phase="1"
-                                    Height="28"
+                                    Height="40"
                                     Source="{x:Bind Icon, Mode=OneWay}" />
                                 <StackPanel
                                     Grid.Column="1"
