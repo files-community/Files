@@ -34,6 +34,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -497,7 +498,7 @@ namespace Files
 
     public class WSLDistroItem : INavigationControlItem
     {
-        public string Glyph { get; set; } = null;
+        public SvgImageSource Icon { get; set; } = null;
 
         public string Text { get; set; }
 

@@ -249,8 +249,6 @@ namespace Files.ViewModels
             }
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
-                fontIconSource.Glyph = library.Glyph;
-
                 var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
                 switch (libName)
                 {
