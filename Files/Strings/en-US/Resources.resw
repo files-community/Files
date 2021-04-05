@@ -2034,4 +2034,7 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Open Storage Sense</value>
   </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO speed</value>
+  </data>
 </root>
