@@ -21,7 +21,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Files.ViewModels.Bundles
+namespace Files.ViewModels.Widgets.Bundles
 {
     /// <summary>
     /// Bundles list View Model

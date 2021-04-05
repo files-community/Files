@@ -2,9 +2,11 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
+using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -16,7 +18,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class DrivesWidget : UserControl, INotifyPropertyChanged
+    public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -46,6 +48,8 @@ namespace Files.UserControls.Widgets
                 }
             }
         }
+
+        public string WidgetName => nameof(DrivesWidget);
 
         public DrivesWidget()
         {
@@ -115,19 +119,9 @@ namespace Files.UserControls.Widgets
             visual.Scale = new Vector3(1);
         }
 
-        private bool showMultiPaneControls;
-
         public bool ShowMultiPaneControls
         {
-            get => showMultiPaneControls;
-            set
-            {
-                if (value != showMultiPaneControls)
-                {
-                    showMultiPaneControls = value;
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
-                }
-            }
+            get => AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
@@ -174,6 +168,11 @@ namespace Files.UserControls.Widgets
         private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
+        }
+
+        public void Dispose()
+        {
+            Debugger.Break();
         }
     }
 }

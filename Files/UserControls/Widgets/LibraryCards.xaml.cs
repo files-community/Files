@@ -5,11 +5,13 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
+using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -21,7 +23,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class LibraryCards : UserControl, INotifyPropertyChanged
+    public sealed partial class LibraryCards : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -41,9 +43,13 @@ namespace Files.UserControls.Widgets
 
         public event LibraryCardDeleteInvokedEventHandler LibraryCardDeleteInvoked;
 
+        public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
+
+        public string WidgetName => nameof(LibraryCards);
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
         {
@@ -154,7 +160,12 @@ namespace Files.UserControls.Widgets
 
         public bool ShowMultiPaneControls
         {
-            get => showMultiPaneControls;
+            get
+            {
+                LibraryCardShowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
+
+                return showMultiPaneControls;
+            }
             set
             {
                 if (value != showMultiPaneControls)
@@ -295,6 +306,11 @@ namespace Files.UserControls.Widgets
                 });
                 await dialog.ShowAsync();
             }
+        }
+
+        public void Dispose()
+        {
+            Debugger.Break();
         }
     }
 
