@@ -426,10 +426,8 @@ namespace Files
             {
             }
 
-            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
-            ItemContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
+            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening; 
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
-            BaseContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -476,6 +474,7 @@ namespace Files
 
         private void LoadMenuItemsAsync()
         {
+            SelectedItemsPropertiesViewModel.CheckFileExtension();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();

@@ -1467,9 +1467,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Mapper</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Aktivér animationer, når du åbner og lukker genvejsmenuen</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detaljeret visning</value>
   </data>

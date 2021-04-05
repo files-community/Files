@@ -1464,9 +1464,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Cartelle</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Abilita animazioni quando si apre il menu contestuale</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dettagli</value>
   </data>

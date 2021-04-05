@@ -1572,9 +1572,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Enable animations when opening and closing the context menu</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details View</value>
   </data>
@@ -2084,5 +2081,8 @@
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO speed</value>
   </data>
 </root>

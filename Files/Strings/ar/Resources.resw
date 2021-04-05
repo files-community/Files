@@ -1455,9 +1455,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>المجلدات</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>تمكين الرسوم المتحركة عند فتح وإغلاق قائمة السياق</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
   </data>

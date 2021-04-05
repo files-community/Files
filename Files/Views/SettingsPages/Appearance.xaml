@@ -101,12 +101,6 @@
                     Header="Move overflow items into a sub menu"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="SettingsContextMenuAnimationsSwitch"
-                    Header="Enable animations when opening and closing the context menu"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding AreRightClickContentMenuAnimationsEnabled, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

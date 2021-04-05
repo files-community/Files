@@ -316,7 +316,10 @@ namespace Files.Interacts
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
-            DataTransferManager.ShowShareUI();
+            DataTransferManager.ShowShareUI(new ShareUIOptions
+            {
+                Theme = Enum.IsDefined(typeof(ShareUITheme), ThemeHelper.RootTheme.ToString()) ? (ShareUITheme)ThemeHelper.RootTheme : ShareUITheme.Default
+            });
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {

@@ -1458,9 +1458,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Foldery</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Włącz animacje podczas otwierania i zamykania menu kontekstowego</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Widok szczegółów</value>
   </data>
