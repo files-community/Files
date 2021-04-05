@@ -63,7 +63,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon}"/>
+                        <muxc:ImageIcon Width="100" Height="100" Source="{x:Bind Icon}"/>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -84,6 +84,14 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
+                    <muxc:NavigationViewItem.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <muxc:ImageIcon Source="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </muxc:NavigationViewItem.ContentTemplate>
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="{x:Bind Icon}"/>
                     </muxc:NavigationViewItem.Icon>
@@ -216,8 +224,6 @@
                     </MenuFlyout>
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
-
-            
 
             <muxc:NavigationView.PaneHeader>
                 <TextBlock
