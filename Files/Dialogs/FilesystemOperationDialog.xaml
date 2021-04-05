@@ -45,7 +45,7 @@
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <Border MinWidth="500">
+    <Border MaxWidth="500">
         <Grid>
             <StackPanel Spacing="12">
                 <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
