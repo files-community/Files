@@ -9,11 +9,10 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <Border Padding="14">
-            <widgets:WidgetsListControl 
-                x:Name="Widgets" 
-                VerticalAlignment="Stretch"
-                HorizontalAlignment="Stretch"/>
-        </Border>
+        <widgets:WidgetsListControl
+            x:Name="Widgets"
+            Margin="24"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
     </ScrollViewer>
 </Page>
