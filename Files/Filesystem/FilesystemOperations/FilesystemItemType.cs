@@ -18,6 +18,11 @@ namespace Files.Filesystem
         /// The item is a symlink
         /// </summary>
         [Obsolete("The symlink has no use for now here.")]
-        Symlink = 2
+        Symlink = 2,
+
+        /// <summary>
+        /// The item is a library
+        /// </summary>
+        Library = 3,
     }
 }

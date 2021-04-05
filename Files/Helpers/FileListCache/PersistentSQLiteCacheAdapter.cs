@@ -69,7 +69,7 @@ namespace Files.Helpers.FileListCache
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Files.Helpers.FileListCache
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 return null;
             }
         }
@@ -204,7 +204,7 @@ namespace Files.Helpers.FileListCache
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 }
             });
         }
@@ -249,7 +249,7 @@ namespace Files.Helpers.FileListCache
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, $"Failed initializing database with path: {dbPath}");
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, $"Failed initializing database with path: {dbPath}");
                 return false;
             }
         }

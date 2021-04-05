@@ -1,4 +1,4 @@
-﻿using Files.Views;
+﻿using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
@@ -14,7 +14,6 @@ namespace Files.Filesystem
     {
         public WSLDistroManager()
         {
-
         }
 
         public async Task EnumerateDrivesAsync()
@@ -41,28 +40,28 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
                     try
                     {
                         var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
                         if ((await distroFolder.GetFoldersAsync()).Count != 0)
                         {
-                            var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "WSL") as LocationItem;
-
-                            section = new LocationItem()
+                            var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL") as LocationItem;
+                            if (section == null)
                             {
-                                Text = "WSL",
-                                Font = App.Current.Resources["FluentGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
-                                Glyph = "\uEC7A",
-                                SelectsOnInvoked = false,
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
-                            };
-                            MainPage.SideBarItems.Add(section);
-
+                                section = new LocationItem()
+                                {
+                                    Text = "WSL",
+                                    Section = SectionType.WSL,
+                                    SelectsOnInvoked = false,
+                                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                                };
+                                SidebarControl.SideBarItems.Add(section);
+                            }
 
                             foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
                             {
@@ -92,14 +91,16 @@ namespace Files.Filesystem
                                     logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                                 }
 
-                                section.ChildItems.Add(new WSLDistroItem()
+                                if (!section.ChildItems.Any(x => x.Path == folder.Path))
                                 {
-                                    Text = folder.DisplayName,
-                                    Path = folder.Path,
-                                    Logo = logoURI
-                                });
+                                    section.ChildItems.Add(new WSLDistroItem()
+                                    {
+                                        Text = folder.DisplayName,
+                                        Path = folder.Path,
+                                        Logo = logoURI
+                                    });
+                                }
                             }
-
                         }
                     }
                     catch (Exception)
@@ -107,12 +108,11 @@ namespace Files.Filesystem
                         // WSL Not Supported/Enabled
                     }
 
-
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

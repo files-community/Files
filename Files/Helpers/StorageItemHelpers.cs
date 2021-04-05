@@ -1,5 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -20,35 +22,83 @@ namespace Files.Helpers
             FilesystemResult<StorageFile> file = null;
             FilesystemResult<StorageFolder> folder = null;
 
-            if (associatedInstance == null)
+            if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
             {
-                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
+                //      we could implement this code here for getting .lnk files
+                //      for now, we can't
+                
+                return default(TOut);
 
-                if (!file)
+                if (false) // Prevent unnecessary exceptions
                 {
-                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-                }
-            }
-            else
-            {
-                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
-
-                if (!file)
-                {
-                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                    Debugger.Break();
+                    throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
                 }
             }
 
-            if (file)
+            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+            {
+                await GetFile();
+            }
+            else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TOut)))
+            {
+                await GetFolder();
+            }
+            else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
+            {
+                if (System.IO.Path.HasExtension(path)) // Probably a file
+                {
+                    await GetFile();
+                }
+                else // Possibly a folder
+                {
+                    await GetFolder();
+
+                    if (!folder)
+                    {
+                        // It wasn't a folder, so check file then because it wasn't checked
+                        await GetFile();
+                    }
+                }
+            }
+
+            if (file != null && file)
             {
                 return (TOut)(IStorageItem)file.Result;
             }
-            else if (folder)
+            else if (folder != null && folder)
             {
                 return (TOut)(IStorageItem)folder.Result;
             }
 
             return default(TOut);
+
+            // Extensions
+
+            async Task GetFile()
+            {
+                if (associatedInstance == null)
+                {
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                }
+                else
+                {
+                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                }
+            }
+
+            async Task GetFolder()
+            {
+                if (associatedInstance == null)
+                {
+                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                }
+                else
+                {
+                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                }
+            }
         }
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)

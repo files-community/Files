@@ -3,13 +3,14 @@ using Files.Extensions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
@@ -39,20 +40,20 @@ namespace Files.ViewModels
             set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private string driveItemGlyphSource;
+        private SvgImageSource customIcon;
 
-        public string DriveItemGlyphSource
+        public SvgImageSource CustomIcon
         {
-            get => driveItemGlyphSource;
-            set => SetProperty(ref driveItemGlyphSource, value);
+            get => customIcon;
+            set => SetProperty(ref customIcon, value);
         }
 
-        private bool loadDriveItemGlyph;
+        private bool loadCustomIcon;
 
-        public bool LoadDriveItemGlyph
+        public bool LoadCustomIcon
         {
-            get => loadDriveItemGlyph;
-            set => SetProperty(ref loadDriveItemGlyph, value);
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
         }
 
         private bool loadFileIcon;
@@ -232,6 +233,15 @@ namespace Files.ViewModels
         {
             get => itemMD5HashProgressVisibiity;
             set => SetProperty(ref itemMD5HashProgressVisibiity, value);
+        }
+
+        // For libraries
+        public int locationsCount;
+
+        public int LocationsCount
+        {
+            get => locationsCount;
+            set => SetProperty(ref locationsCount, value);
         }
 
         public int foldersCount;
@@ -507,11 +517,11 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private BaseLayout contentPage = null;
+        private IBaseLayout contentPage;
 
-        public SelectedItemsPropertiesViewModel(BaseLayout contentPageParam)
+        public SelectedItemsPropertiesViewModel(IBaseLayout contentPage)
         {
-            contentPage = contentPageParam;
+            this.contentPage = contentPage;
         }
 
         private bool isSelectedItemImage = false;
@@ -530,14 +540,14 @@ namespace Files.ViewModels
             set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
-        public async void CheckFileExtension()
+        public void CheckFileExtension()
         {
             // Set properties to false
             IsSelectedItemImage = false;
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => contentPage?.SelectedItem?.FileExtension);
+            string ItemExtension = contentPage?.SelectedItem?.FileExtension;
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)

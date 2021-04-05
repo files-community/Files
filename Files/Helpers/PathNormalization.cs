@@ -56,7 +56,7 @@ namespace Files.Helpers
                 }
                 catch (UriFormatException ex)
                 {
-                    LogManager.GetCurrentClassLogger().Error(ex, path);
+                    LogManager.GetCurrentClassLogger().Warn(ex, path);
                     return path;
                 }
             }
