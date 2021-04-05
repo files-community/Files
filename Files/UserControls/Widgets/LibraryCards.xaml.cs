@@ -42,6 +42,8 @@ namespace Files.UserControls.Widgets
 
         public event LibraryCardDeleteInvokedEventHandler LibraryCardDeleteInvoked;
 
+        public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
@@ -157,7 +159,12 @@ namespace Files.UserControls.Widgets
 
         public bool ShowMultiPaneControls
         {
-            get => showMultiPaneControls;
+            get
+            {
+                LibraryCardShowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
+
+                return showMultiPaneControls;
+            }
             set
             {
                 if (value != showMultiPaneControls)
