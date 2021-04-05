@@ -118,19 +118,9 @@ namespace Files.UserControls.Widgets
             visual.Scale = new Vector3(1);
         }
 
-        private bool showMultiPaneControls;
-
         public bool ShowMultiPaneControls
         {
-            get => showMultiPaneControls;
-            set
-            {
-                if (value != showMultiPaneControls)
-                {
-                    showMultiPaneControls = value;
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
-                }
-            }
+            get => AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
