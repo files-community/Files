@@ -7,7 +7,7 @@ namespace Files.Helpers
     {
         public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel) where TWidget : IWidgetItemModel, new()
         {
-            if (widgetsViewModel.CanAddWidget(nameof(TWidget)) && TryGetIsWidgetSettingEnabled<TWidget>())
+            if (widgetsViewModel.CanAddWidget(typeof(TWidget).Name) && TryGetIsWidgetSettingEnabled<TWidget>())
             {
                 return new TWidget();
             }
@@ -15,7 +15,7 @@ namespace Files.Helpers
             return default(TWidget);
         }
 
-        public static bool TryGetIsWidgetSettingEnabled<TWidget>() where TWidget : IWidgetItemModel, new()
+        public static bool TryGetIsWidgetSettingEnabled<TWidget>() where TWidget : IWidgetItemModel
         {
             if (typeof(TWidget) == typeof(LibraryCards))
             {
