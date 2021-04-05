@@ -459,6 +459,7 @@
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
+    <Compile Include="ViewModels\Widgets\ICustomWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
     <Compile Include="Views\ColumnParam.cs" />

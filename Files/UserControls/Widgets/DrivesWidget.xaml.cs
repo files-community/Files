@@ -168,5 +168,10 @@ namespace Files.UserControls.Widgets
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

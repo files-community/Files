@@ -1,60 +1,46 @@
 ﻿using Files.UserControls.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Files.ViewModels.Widgets;
 
 namespace Files.Helpers
 {
     public static class WidgetsHelpers
     {
-        public static LibraryCards GetLibraryCards()
+        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel) where TWidget : IWidgetItemModel, new()
         {
-            if (App.AppSettings.ShowLibraryCardsWidget)
+            if (widgetsViewModel.CanAddWidget(nameof(TWidget)) && TryGetIsWidgetSettingEnabled<TWidget>())
             {
-                return new LibraryCards();
+                return new TWidget();
             }
-            else
-            {
-                return null;
-            }
+
+            return default(TWidget);
         }
 
-        public static DrivesWidget GetDrivesWidget()
+        public static bool TryGetIsWidgetSettingEnabled<TWidget>() where TWidget : IWidgetItemModel, new()
         {
-            if (App.AppSettings.ShowDrivesWidget)
+            if (typeof(TWidget) == typeof(LibraryCards))
             {
-                return new DrivesWidget();
+                return App.AppSettings.ShowLibraryCardsWidget;
             }
-            else
+            if (typeof(TWidget) == typeof(DrivesWidget))
             {
-                return null;
+                return App.AppSettings.ShowDrivesWidget;
             }
-        }
+            if (typeof(TWidget) == typeof(Bundles))
+            {
+                return App.AppSettings.ShowBundlesWidget;
+            }
+            if (typeof(TWidget) == typeof(RecentFiles))
+            {
+                return App.AppSettings.ShowRecentFilesWidget;
+            }
+            // A custom widget it is - TWidget implements ICustomWidgetItemModel
+            if (typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)))
+            {
+                // Return true for custom widgets - they're always enabled
+                return true;
+            }
 
-        public static Bundles GetBundles()
-        {
-            if (App.AppSettings.ShowBundlesWidget)
-            {
-                return new Bundles();
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public static RecentFiles GetRecentFiles()
-        {
-            if (App.AppSettings.ShowBundlesWidget)
-            {
-                return new RecentFiles();
-            }
-            else
-            {
-                return null;
-            }
+            return false;
         }
     }
 }

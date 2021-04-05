@@ -30,28 +30,12 @@ namespace Files.Views
 
         private async void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            LibraryCards libraryCards = null;
-            DrivesWidget drivesWidget = null;
-            Bundles bundles = null;
-            RecentFiles recentFiles = null;
+            var libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel);
+            var drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel);
+            var bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel);
+            var recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel);
 
-            if (Widgets.ViewModel.CanAddWidget(nameof(LibraryCards)))
-            {
-                libraryCards = WidgetsHelpers.GetLibraryCards();
-            }
-            if (Widgets.ViewModel.CanAddWidget(nameof(DrivesWidget)))
-            {
-                drivesWidget = WidgetsHelpers.GetDrivesWidget();
-            }
-            if (Widgets.ViewModel.CanAddWidget(nameof(Bundles)))
-            {
-                bundles = WidgetsHelpers.GetBundles();
-            }
-            if (Widgets.ViewModel.CanAddWidget(nameof(RecentFiles)))
-            {
-                recentFiles = WidgetsHelpers.GetRecentFiles();
-            }
-
+            // Now prepare widgets
             if (libraryCards != null)
             {
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;

@@ -306,6 +306,11 @@ namespace Files.UserControls.Widgets
                 await dialog.ShowAsync();
             }
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class LibraryCardInvokedEventArgs : EventArgs

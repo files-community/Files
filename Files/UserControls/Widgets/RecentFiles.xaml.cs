@@ -209,6 +209,11 @@ namespace Files.UserControls.Widgets
             mru.Clear();
             Empty.Visibility = Visibility.Visible;
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class RecentItem
