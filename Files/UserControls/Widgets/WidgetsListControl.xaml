@@ -12,18 +12,18 @@
 
     <Border>
         <Grid>
-            <GridView
+            <ListView
                 SelectionMode="None"
                 ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}">
 
                 <!--  Remove Reveal Highlight Effect  -->
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
                         <!--  Spacing  -->
                         <Setter Property="Margin" Value="0,0,0,24" />
                         <Setter Property="Template">
                             <Setter.Value>
-                                <ControlTemplate TargetType="GridViewItem">
+                                <ControlTemplate TargetType="ListViewItem">
                                     <ListViewItemPresenter
                                         x:Name="Root"
                                         HorizontalContentAlignment="Stretch"
@@ -35,8 +35,8 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                </GridView.ItemContainerStyle>
-            </GridView>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
     </Border>
 </UserControl>
