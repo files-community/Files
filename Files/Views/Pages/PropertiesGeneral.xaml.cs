@@ -23,7 +23,7 @@ namespace Files.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && !ViewModel.OriginalItemName.Equals(ViewModel.ItemName))
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
