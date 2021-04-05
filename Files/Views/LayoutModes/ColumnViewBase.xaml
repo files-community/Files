@@ -54,7 +54,7 @@
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ScrollViewer.IsScrollInertiaEnabled="True"
             SelectionChanged="FileList_SelectionChanged"
-            SelectionMode="Extended">
+            SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local2:ListedItem">
                                 <Grid Margin="10,0"
