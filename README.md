@@ -4,7 +4,7 @@ Meet Files, an enthusiast take on what a modern file explorer should be.
 Files [code of conduct](https://github.com/files-community/Files/blob/master/CODE_OF_CONDUCT.md)
 
 [![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
-[![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/mr5hVu8)
+[![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
 
 ![Files](Files/Assets/FilesHome.png)
 ## Download Files 
