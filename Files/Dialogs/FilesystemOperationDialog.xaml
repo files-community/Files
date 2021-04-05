@@ -22,8 +22,27 @@
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
-        <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />
-        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Goldenrod"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />
+                    <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </ContentDialog.Resources>
 
     <Border MinWidth="500">
@@ -175,7 +194,6 @@
                                                 Grid.Column="4"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 FontSize="12"
                                                 Foreground="Lime"
                                                 Glyph="&#xE710;"

@@ -30,7 +30,6 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Goldenrod"/>
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
@@ -60,7 +59,6 @@
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#0F000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow"/>
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
@@ -90,7 +88,6 @@
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#33000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow"/>
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
