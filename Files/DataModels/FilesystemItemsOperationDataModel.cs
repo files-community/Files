@@ -97,16 +97,16 @@ namespace Files.DataModels
             switch (operationType)
             {
                 case FilesystemOperationType.Copy:
-                    return "\uE9D6";
+                    return "\uE8C8";
 
                 case FilesystemOperationType.Move:
-                    return "\uE929";
+                    return "\uE8C6";
 
                 case FilesystemOperationType.Delete:
-                    return "\uE9ED";
+                    return "\uE74D";
 
                 default:
-                    return "\uE9A1";
+                    return "\uE8FB";
             }
         }
     }

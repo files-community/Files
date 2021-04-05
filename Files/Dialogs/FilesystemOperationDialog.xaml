@@ -26,7 +26,7 @@
         <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
     </ContentDialog.Resources>
 
-    <Border MaxWidth="500">
+    <Border MinWidth="500">
         <Grid>
             <StackPanel Spacing="12">
                 <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
@@ -108,13 +108,13 @@
                                                 <!--  Status Icon  -->
                                                 <ColumnDefinition Width="Auto" />
                                                 <!--  Source item name  -->
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <!--  Arrow icon  -->
                                                 <ColumnDefinition Width="Auto" />
                                                 <!--  Destination item name  -->
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <!--  File added (+) icon  -->
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
                                             <!--  Operation type icon  -->
@@ -122,7 +122,6 @@
                                                 Grid.Column="0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
 
                                             <!--  Exclamation mark icon for conflicts  -->
@@ -137,7 +136,7 @@
                                                 <!--  Exclamation mark  -->
                                                 <FontIcon
                                                     FontSize="12"
-                                                    Foreground="Yellow"
+                                                    Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
                                                     Glyph="&#xE7BA;" />
                                             </Grid>
 
@@ -153,17 +152,15 @@
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
-                                                Glyph="&#xE91F;"
+                                                Glyph="&#xEA62;"
                                                 Visibility="{Binding ArrowIconVisibility}" />
                                             <!--  'x' icon  -->
                                             <FontIcon
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 Foreground="Red"
-                                                Glyph="&#xE9F9;"
+                                                Glyph="&#xE894;"
                                                 Visibility="{Binding ArrowIconVisibility, Converter={StaticResource VisiblityInvertConverter}}" />
 
                                             <!--  Destination file path  -->
@@ -181,7 +178,7 @@
                                                 FontFamily="{StaticResource OldFluentUIGlyphs}"
                                                 FontSize="12"
                                                 Foreground="Lime"
-                                                Glyph="&#xE903;"
+                                                Glyph="&#xE710;"
                                                 Visibility="{Binding PlusIconVisibility}" />
                                         </Grid>
                                     </Border>
