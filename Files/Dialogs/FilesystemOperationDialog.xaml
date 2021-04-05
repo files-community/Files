@@ -26,7 +26,7 @@
         <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
     </ContentDialog.Resources>
 
-    <Border Width="400">
+    <Border MaxWidth="500">
         <Grid>
             <StackPanel Spacing="12">
                 <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
