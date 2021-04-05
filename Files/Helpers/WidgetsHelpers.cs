@@ -18,6 +18,7 @@ namespace Files.Helpers
             {
                 // Remove the widget
                 widgetsViewModel.RemoveWidget<TWidget>();
+                return default(TWidget);
             }
 
             return defaultValue;
