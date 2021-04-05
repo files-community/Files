@@ -123,7 +123,7 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            if (FileList.Items.Contains(item))
+            if (FileList?.Items.Contains(item) ?? false)
             {
                 FileList.SelectedItems.Add(item);
             }

@@ -135,7 +135,7 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            FileList.SelectedItems.Add(item);
+            FileList?.SelectedItems.Add(item);
         }
 
         public override void InvertSelection()
