@@ -149,7 +149,7 @@
                                                 Grid.Column="1"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="{Binding SourcePath, Converter={StaticResource MiddleTextEllipsisConverter}}" />
+                                                Text="{Binding SourcePath}" />
 
                                             <!-- Arrow Icon -->
                                             <FontIcon
@@ -174,7 +174,7 @@
                                                 Grid.Column="3"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="{Binding DestinationPath, Converter={StaticResource MiddleTextEllipsisConverter}}" />
+                                                Text="{Binding DestinationPath}" />
 
                                             <!-- '+' icon -->
                                             <FontIcon
