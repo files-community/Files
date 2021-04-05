@@ -6,6 +6,7 @@ using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -171,7 +172,7 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Debugger.Break();
         }
     }
 }

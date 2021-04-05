@@ -7,9 +7,17 @@ namespace Files.Helpers
     {
         public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel) where TWidget : IWidgetItemModel, new()
         {
-            if (widgetsViewModel.CanAddWidget(typeof(TWidget).Name) && TryGetIsWidgetSettingEnabled<TWidget>())
+            bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
+            bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>();
+
+            if (canAddWidget && isWidgetSettingEnabled)
             {
                 return new TWidget();
+            }
+            else if (!canAddWidget && !isWidgetSettingEnabled) // The widgets exists but the setting has been disabled for it
+            {
+                // Remove the widget
+                widgetsViewModel.RemoveWidget<TWidget>();
             }
 
             return default(TWidget);

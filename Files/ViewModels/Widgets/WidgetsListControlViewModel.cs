@@ -40,6 +40,28 @@ namespace Files.ViewModels.Widgets
             Widgets.RemoveAt(indexToRemove);
         }
 
+        public void RemoveWidget<TWidget>() where TWidget : IWidgetItemModel
+        {
+            int indexToRemove = -1;
+
+            for (int i = 0; i < Widgets.Count; i++)
+            {
+                if (typeof(TWidget).IsAssignableFrom(Widgets[i].GetType()))
+                {
+                    // Found matching types
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            if (indexToRemove == -1)
+            {
+                return;
+            }
+
+            RemoveWidget(Widgets[indexToRemove]);
+        }
+
         public void ReorderWidget(Control widgetModel, int place)
         {
             int widgetIndex = Widgets.IndexOf(widgetModel);

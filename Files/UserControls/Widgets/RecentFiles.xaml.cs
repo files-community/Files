@@ -5,6 +5,7 @@ using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -212,7 +213,7 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Debugger.Break();
         }
     }
 

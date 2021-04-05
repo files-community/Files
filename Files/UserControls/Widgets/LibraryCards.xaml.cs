@@ -11,6 +11,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -309,7 +310,7 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Debugger.Break();
         }
     }
 
