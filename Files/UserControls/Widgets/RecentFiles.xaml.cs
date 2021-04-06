@@ -33,6 +33,8 @@ namespace Files.UserControls.Widgets
 
         public string WidgetName => nameof(RecentFiles);
 
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
+
         public RecentFiles()
         {
             InitializeComponent();
@@ -213,7 +215,6 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            Debugger.Break();
         }
     }
 

@@ -302,6 +302,7 @@
     </Compile>
     <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundlesViewModel.cs" />
@@ -467,7 +468,6 @@
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
     <Compile Include="ViewModels\Widgets\ICustomWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
@@ -522,9 +522,6 @@
     <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\Widgets.xaml.cs">
-      <DependentUpon>Widgets.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
     </Compile>
@@ -544,8 +541,8 @@
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="Views\YourHome.xaml.cs">
-      <DependentUpon>YourHome.xaml</DependentUpon>
+    <Compile Include="Views\WidgetsPage.xaml.cs">
+      <DependentUpon>WidgetsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1004,10 +1001,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPages\Widgets.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\SettingsPages\OnStartup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1036,7 +1029,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\YourHome.xaml">
+    <Page Include="Views\WidgetsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

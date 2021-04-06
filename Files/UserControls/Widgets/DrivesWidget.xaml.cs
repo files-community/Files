@@ -51,6 +51,8 @@ namespace Files.UserControls.Widgets
 
         public string WidgetName => nameof(DrivesWidget);
 
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowDrivesWidget;
+
         public DrivesWidget()
         {
             InitializeComponent();
@@ -172,7 +174,6 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            Debugger.Break();
         }
     }
 }
