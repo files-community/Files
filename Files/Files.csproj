@@ -468,7 +468,6 @@
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
     <Compile Include="ViewModels\Widgets\ICustomWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
@@ -522,9 +521,6 @@
     </Compile>
     <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPages\Widgets.xaml.cs">
-      <DependentUpon>Widgets.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
@@ -1004,10 +1000,6 @@
     <Page Include="Views\SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsPages\Widgets.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\OnStartup.xaml">
       <Generator>MSBuild:Compile</Generator>
