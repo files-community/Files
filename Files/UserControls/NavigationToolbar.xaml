@@ -922,7 +922,7 @@
                     Height="32"
                     Style="{StaticResource ToolBarButtonStyle}"
                     Background="Transparent"
-                    x:Load="{x:Bind IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}}">
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="Bottom">
