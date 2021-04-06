@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>从侧边栏取消固定</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>删除项</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>永久删除</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>桌面</value>
   </data>
@@ -800,12 +788,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>取消</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>确实要删除此项目吗？</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>确实要删除 {0} 个项目吗？</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>自适应 (推荐)</value>
