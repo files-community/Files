@@ -1,9 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.EventArguments;
+using Files.Filesystem;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Interacts
 {
@@ -18,6 +16,7 @@ namespace Files.Interacts
         public event EventHandler StartRenameItemInvoked;
         public event EventHandler<ListedItem> ScrollIntoViewInvoked;
         public event EventHandler SetDragModeForItemsInvoked;
+        public event EventHandler RefreshItemsOpacityInvoked;
 
         public void FocusFileList()
         {
@@ -82,6 +81,11 @@ namespace Files.Interacts
         public void SetDragModeForItems()
         {
             SetDragModeForItemsInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RefreshItemsOpacity()
+        {
+            RefreshItemsOpacityInvoked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

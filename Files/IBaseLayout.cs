@@ -17,10 +17,6 @@ namespace Files
 
         ItemManipulationModel ItemManipulationModel { get; }
 
-        void SetItemOpacity(ListedItem item); // TODO: Add opactiy value here
-
-        void ResetItemOpacity();
-
         void RefreshItems();
     }
 }
