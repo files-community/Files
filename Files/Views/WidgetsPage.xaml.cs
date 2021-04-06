@@ -50,12 +50,12 @@ namespace Files.Views
 
         private void ReloadWidgets()
         {
-            libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, libraryCards);
-            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, drivesWidget);
-            bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel, bundles);
-            recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel, recentFiles);
+            libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, out bool shouldReloadLibraryCards, libraryCards);
+            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+            bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel, out bool shouldReloadBundles, bundles);
+            recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFiles);
 
-            if (libraryCards != null)
+            if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
 
@@ -70,7 +70,7 @@ namespace Files.Views
                 libraryCards.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
                 libraryCards.LibraryCardShowMultiPaneControlsInvoked += LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
             }
-            if (drivesWidget != null)
+            if (shouldReloadDrivesWidget && drivesWidget != null)
             {
                 Widgets.ViewModel.InsertWidget(drivesWidget, 1);
 
@@ -80,13 +80,13 @@ namespace Files.Views
                 drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
                 drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
-            if (bundles != null)
+            if (shouldReloadBundles && bundles != null)
             {
                 Widgets.ViewModel.InsertWidget(bundles, 2);
 
                 ViewModel.LoadBundlesCommand?.Execute(bundles.ViewModel);
             }
-            if (recentFiles != null)
+            if (shouldReloadRecentFiles && recentFiles != null)
             {
                 Widgets.ViewModel.InsertWidget(recentFiles, 3);
 
