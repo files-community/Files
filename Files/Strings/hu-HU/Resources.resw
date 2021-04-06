@@ -12,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Elem(ek) törlése</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Mégse</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Törlés</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Végleges törlés</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Megnyitás új lapon</value>
   </data>
@@ -833,12 +821,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Mégse</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Biztosan törölni szeretne {0} fájlt?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Bizotsan törölni szeretné a fájlt?</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Lap hozzáadása</value>
@@ -1841,5 +1823,44 @@
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mozaik</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Könyvtár</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>Könyvtár</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>Könyvtár</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>Hozzáadás</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>Alapértelmezett</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>Eltávolítás</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>További lehetőségek...</value>
+  </data>
+  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Könyvtár létrehozása</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Könyvtár neve</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Létrehozás</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>A mező nem lehet üres!</value>
+  </data>
+  <data name="DialogCancelButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
+    <value>Törlés</value>
   </data>
 </root>

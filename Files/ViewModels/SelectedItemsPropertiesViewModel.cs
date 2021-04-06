@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
@@ -39,20 +40,20 @@ namespace Files.ViewModels
             set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private string customGlyph;
+        private SvgImageSource customIcon;
 
-        public string CustomGlyph
+        public SvgImageSource CustomIcon
         {
-            get => customGlyph;
-            set => SetProperty(ref customGlyph, value);
+            get => customIcon;
+            set => SetProperty(ref customIcon, value);
         }
 
-        private bool loadCustomGlyph;
+        private bool loadCustomIcon;
 
-        public bool LoadCustomGlyph
+        public bool LoadCustomIcon
         {
-            get => loadCustomGlyph;
-            set => SetProperty(ref loadCustomGlyph, value);
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
         }
 
         private bool loadFileIcon;
@@ -539,14 +540,14 @@ namespace Files.ViewModels
             set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
-        public async void CheckFileExtension()
+        public void CheckFileExtension()
         {
             // Set properties to false
             IsSelectedItemImage = false;
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => contentPage?.SelectedItem?.FileExtension);
+            string ItemExtension = contentPage?.SelectedItem?.FileExtension;
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)

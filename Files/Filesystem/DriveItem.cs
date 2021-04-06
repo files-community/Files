@@ -8,13 +8,15 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public string Glyph { get; set; }
+        public SvgImageSource Icon { get; set; }
 
         private string path;
 
@@ -185,52 +187,55 @@ namespace Files.Filesystem
             }
         }
 
-        private void SetGlyph(DriveType type)
+        private async void SetGlyph(DriveType type)
         {
-            switch (type)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case DriveType.Fixed:
-                    Glyph = "\xEDA2";
-                    break;
+                switch (type)
+                {
+                    case DriveType.Fixed:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive.svg"));
+                        break;
 
-                case DriveType.Removable:
-                    Glyph = "\xE88E";
-                    break;
+                    case DriveType.Removable:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                case DriveType.Network:
-                    Glyph = "\xE8CE";
-                    break;
+                    case DriveType.Network:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg"));
+                        break;
 
-                case DriveType.Ram:
-                    Glyph = "\xE950";
-                    break;
+                    case DriveType.Ram:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                case DriveType.CDRom:
-                    Glyph = "\uE958";
-                    break;
+                    case DriveType.CDRom:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                case DriveType.Unknown:
-                    break;
+                    case DriveType.Unknown:
+                        break;
 
-                case DriveType.NoRootDirectory:
-                    Glyph = "\xED25";
-                    break;
+                    case DriveType.NoRootDirectory:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                case DriveType.VirtualDrive:
-                    Glyph = "\uE753";
-                    break;
+                    case DriveType.VirtualDrive:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                case DriveType.CloudDrive:
-                    Glyph = "\uE753";
-                    break;
+                    case DriveType.CloudDrive:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                case DriveType.FloppyDisk:
-                    Glyph = "\xE74E";
-                    break;
+                    case DriveType.FloppyDisk:
+                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                }
+            });
         }
 
         public int CompareTo(INavigationControlItem other)

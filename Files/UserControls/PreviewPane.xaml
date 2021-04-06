@@ -73,7 +73,7 @@
                 <Grid>
                     <FontIcon
                         x:Name="GripperGlyph"
-                        Margin="-1,0,0,-1"
+                        Margin="-1.5,0,0,-1"
                         HorizontalAlignment="Center"
                         Foreground="{StaticResource SystemChromeHighColor}"
                         Glyph="&#xE76F;"
@@ -96,42 +96,37 @@
                 ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
                 SelectionMode="None"
                 Visibility="{x:Bind Model.DetailsListVisibility, Mode=OneWay}">
+                <ListView.Header>
+                    <StackPanel Orientation="Vertical" Spacing="5" Margin="10">
+                        <TextBlock IsTextSelectionEnabled="True" FontWeight="Bold" Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}" FontSize="20" TextWrapping="Wrap"/>
+                        <TextBlock Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}" FontSize="18" IsTextSelectionEnabled="True" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
-                        <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
+                        <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}" Padding="0, 0, 0, 10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
 
                             <TextBlock
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
-                                Style="{StaticResource PropertyName}"
+                                Style="{StaticResource HeaderTextBlockStyle}"
                                 Text="{x:Bind Name, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" />
-                            <TextBox
+                                FontSize="14" />
+                            
+                            <TextBlock
                                 x:Name="PropertyValueTemplateTextBox"
-                                Grid.Row="0"
-                                Grid.Column="1"
+                                Grid.Row="1"
+                                Grid.Column="0"
                                 HorizontalAlignment="Stretch"
-                                IsReadOnly="True"
-                                Style="{StaticResource DetailsValueTextBox}"
+                                TextWrapping="Wrap"
+                                IsTextSelectionEnabled="True"
                                 Text="{x:Bind ValueText, Mode=TwoWay}">
-                                <TextBox.Resources>
-                                    <ResourceDictionary>
-                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBorderFocused" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextBoxButtonPointerOverBackgroundThemeBrush" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextBoxButtonPressedBackgroundThemeBrush" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextBoxBackgroundThemeBrush" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
-                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent" />
-                                    </ResourceDictionary>
-                                </TextBox.Resources>
-                            </TextBox>
+                            </TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

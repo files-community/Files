@@ -12,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>वस्तु(ओं) को हटाएं</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>हटाएँ</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>स्थायी रूप से हटाएं</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>नए टैब में खोलें</value>
   </data>
@@ -749,9 +737,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>रद्द करें</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>क्‍या आप वाकई यह आइटम हटाना चाहते हैं?</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
     <value>क्षैतिज्य</value>

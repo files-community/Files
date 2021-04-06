@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Yan çubuktan kaldır</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Ögeleri Sil</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>İptal</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Sil</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Kalıcı olarak sil</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Masaüstü</value>
   </data>
@@ -800,12 +788,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>İptal</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Bu ögeyi silmek istediğinize emin misiniz?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>{0} ögeyi silmek istediğinize emin misiniz?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Uyarlanabilir (Önerilen)</value>

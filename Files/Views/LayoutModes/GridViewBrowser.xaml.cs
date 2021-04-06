@@ -123,7 +123,7 @@ namespace Files.Views.LayoutModes
 
         protected override void AddSelectedItem(ListedItem item)
         {
-            if (FileList.Items.Contains(item))
+            if (FileList?.Items.Contains(item) ?? false)
             {
                 FileList.SelectedItems.Add(item);
             }
@@ -476,7 +476,10 @@ namespace Files.Views.LayoutModes
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                if (!InteractionViewModel.MultiselectEnabled)
+                {
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
             }
         }
 

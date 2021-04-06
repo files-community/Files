@@ -6,22 +6,6 @@
     </header>
     <body>
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
-        <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Delete Item(s)</source>
-          <target state="translated">உருப்படி(கள்) ஐ நீக்குக</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">இரத்து</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated">நீக்கு</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
-          <source>Permanently delete</source>
-          <target state="translated">நிரந்தரமாக நீக்கு</target>
-        </trans-unit>
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">புதியத் தாவலில் திற</target>
@@ -1070,14 +1054,6 @@
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">இரத்து</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete this item?</source>
-          <target state="translated" state-qualifier="tm-suggestion">இந்த உருப்படியை உறுதியாக நீக்க விரும்புகிறீர்களா?</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete these {0} items?</source>
-          <target state="translated">இந்த {0} உருப்படிகளை நீங்கள் நீக்க விரும்புகிறீர்களா?</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
@@ -2577,6 +2553,106 @@
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
           <target state="new">Open Storage Sense</target>
+        </trans-unit>
+        <trans-unit id="PropertyISO" translate="yes" xml:space="preserve">
+          <source>ISO speed</source>
+          <target state="new">ISO speed</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>{0} items will be copied</source>
+          <target state="new">{0} items will be copied</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Copy item(s)</source>
+          <target state="new">Copy item(s)</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Delete item(s)</source>
+          <target state="new">Delete item(s)</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Move</source>
+          <target state="new">Move</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>{0} items will be moved</source>
+          <target state="new">{0} items will be moved</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Move item(s)</source>
+          <target state="new">Move item(s)</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>{0} items will be deleted</source>
+          <target state="new">{0} items will be deleted</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names, and {1} outgoing item(s)</source>
+          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s)</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Conflicting file name(s)</source>
+          <target state="new">Conflicting file name(s)</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name, and {0} outgoing item(s)</source>
+          <target state="new">There is one conflicting file name, and {0} outgoing item(s)</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>One item will be copied</source>
+          <target state="new">One item will be copied</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>One item will be deleted</source>
+          <target state="new">One item will be deleted</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>One item will be moved</source>
+          <target state="new">One item will be moved</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
+          <source>Permanently delete</source>
+          <target state="new">Permanently delete</target>
+        </trans-unit>
+        <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Didn't find what you're looking for?</source>
+          <target state="new">Didn't find what you're looking for?</target>
+        </trans-unit>
+        <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
+          <source>Search unindexed items.</source>
+          <target state="new">Search unindexed items.</target>
         </trans-unit>
       </group>
     </body>

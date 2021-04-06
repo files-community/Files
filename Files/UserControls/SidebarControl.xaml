@@ -85,7 +85,7 @@
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="{x:Bind Glyph}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon}"/>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>

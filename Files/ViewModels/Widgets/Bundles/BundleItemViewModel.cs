@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels.Bundles
+namespace Files.ViewModels.Widgets.Bundles
 {
     public class BundleItemViewModel : ObservableObject, IDisposable
     {

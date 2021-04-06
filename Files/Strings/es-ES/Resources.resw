@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Desanclar de la barra lateral</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Eliminar Archivo(s)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Eliminar</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Eliminar permanentemente</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Escritorio</value>
   </data>
@@ -800,12 +788,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>¿Está seguro que desea eliminar este elemento?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>¿Está seguro que desea eliminar estos {0} elementos?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptable (Recomendado)</value>
@@ -1823,5 +1805,101 @@
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Desanclar de Inicio</value>
+  </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} archivos, {1:#,##0} carpetas de {2:#,##0} ubicaciones</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>Ubicaciones:</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>Predeterminado</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Establecer como ruta de guardado predeterminada</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>Sin ubicaciones</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones de bibliotecas</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Más opciones...</value>
+  </data>
+  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Crear biblioteca</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Nombre deseado</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Crear biblioteca</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
+    <value>Ingresa el nombre de la nueva biblioteca</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>¡El campo de entrada no puede estar vacío!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>El nombre no debe contener los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>¡No se permite usar este nombre!</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>¡Ya existe una biblioteca con el mismo nombre!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>Eliminar biblioteca</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
+    <value>Eliminar biblioteca</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
+    <value>¿Estás seguro que quieres eliminar esta biblioteca? Los archivos y carpetas no se eliminarán.</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="DialogCancelButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Abrir sensor de almacenamiento</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Abrir sensor de almacenamiento</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>Velocidad ISO</value>
   </data>
 </root>

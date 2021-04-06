@@ -186,11 +186,11 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <FontIcon
+                                <Image
                                     Grid.Column="0"
                                     x:Phase="1"
-                                    FontSize="28"
-                                    Glyph="{x:Bind Glyph}" />
+                                    Height="40"
+                                    Source="{x:Bind Icon, Mode=OneWay}" />
                                 <StackPanel
                                     Grid.Column="1"
                                     Margin="12,0,0,0"
