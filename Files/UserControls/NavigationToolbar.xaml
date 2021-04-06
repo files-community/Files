@@ -917,9 +917,11 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
-                    Width="36"
-                    Height="36"
                     x:Name="WidgetsManager"
+                    Width="36"
+                    Height="32"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    Background="Transparent"
                     x:Load="{x:Bind IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}}">
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
                     <AppBarButton.Flyout>

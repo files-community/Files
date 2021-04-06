@@ -61,13 +61,13 @@ namespace Files.Views
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
+                libraryCards.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
+                libraryCards.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
+                libraryCards.LibraryCardShowMultiPaneControlsInvoked -= LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
                 libraryCards.LibraryCardInvoked += LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
-                libraryCards.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
                 libraryCards.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
-                libraryCards.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
                 libraryCards.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
-                libraryCards.LibraryCardShowMultiPaneControlsInvoked -= LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
                 libraryCards.LibraryCardShowMultiPaneControlsInvoked += LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
             }
             if (drivesWidget != null)
