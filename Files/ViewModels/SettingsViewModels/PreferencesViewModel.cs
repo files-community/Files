@@ -135,6 +135,21 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool OpenFoldersNewTab
+        {
+            get
+            {
+                return openFoldersNewTab;
+            }
+            set
+            {
+                if (SetProperty(ref openFoldersNewTab, value))
+                {
+                    App.AppSettings.OpenFoldersNewTab = value;
+                }
+            }
+        }
+
         private async void LaunchTerminalsConfigFile()
         {
             await Launcher.LaunchFileAsync(
