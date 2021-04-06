@@ -188,6 +188,7 @@ namespace Files.Views
             NavigationToolbar.ForwardRequested += ModernShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested += ModernShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested += ModernShellPage_RefreshRequested;
+            NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
             NavigationToolbar.ItemDraggedOverPathItem += ModernShellPage_NavigationRequested;
             NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             NavigationToolbar.CanGoBack = false;
@@ -211,6 +212,12 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+        }
+
+        private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
+        {
+            YourHome currentPage = ItemDisplayFrame?.Content as YourHome;
+            currentPage.RefreshWidgetList();
         }
 
         private void CopyWorkingLocation()
@@ -1157,6 +1164,7 @@ namespace Files.Views
             NavigationToolbar.ForwardRequested -= ModernShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested -= ModernShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
+            NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)

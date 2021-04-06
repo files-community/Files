@@ -917,6 +917,29 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
+                    Width="36"
+                    Height="36"
+                    x:Name="WidgetsManager"
+                    x:Load="{x:Bind IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}}">
+                    <FontIcon FontSize="14" Glyph="&#xE710;" />
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <ToggleMenuFlyoutItem
+                            Text="Show Library Cards Widget"
+                            IsChecked="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}"/>
+                            <ToggleMenuFlyoutItem
+                            Text="Show Drives Widget"
+                            IsChecked="{x:Bind ShowDrivesWidget, Mode=TwoWay}"/>
+                            <ToggleMenuFlyoutItem
+                            Text="Show Bundles Widget"
+                            IsChecked="{x:Bind ShowBundlesWidget, Mode=TwoWay}"/>
+                            <ToggleMenuFlyoutItem
+                            Text="Show Recent Files Widget"
+                            IsChecked="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
                     x:Name="SelectionOptions"
                     x:Uid="NavToolbarSelectionOptions"
                     Width="36"

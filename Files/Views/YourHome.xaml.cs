@@ -41,6 +41,8 @@ namespace Files.Views
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
         }
 
+        public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
+
         private void ViewModel_WidgetListRefreshRequestedInvoked(object sender, EventArgs e)
         {
             ReloadWidgets();

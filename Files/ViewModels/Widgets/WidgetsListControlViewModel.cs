@@ -9,85 +9,9 @@ namespace Files.ViewModels.Widgets
     {
         public event EventHandler WidgetListRefreshRequestedInvoked;
 
-        #region Public Properties
-
         public ObservableCollection<object> Widgets { get; private set; } = new ObservableCollection<object>();
 
-        private bool showLibraryCards = true;
-        public bool ShowLibraryCards
-        {
-            get => showLibraryCards;
-            set
-            {
-                if (SetProperty(ref showLibraryCards, value))
-                {
-                    App.AppSettings.ShowLibraryCardsWidget = value;
-
-                    if (value)
-                    {
-                        RefreshWidgetList();
-                    }
-                }
-            }
-        }
-
-        private bool showDrives = true;
-        public bool ShowDrives
-        {
-            get => showDrives;
-            set
-            {
-                if (SetProperty(ref showDrives, value))
-                {
-                    App.AppSettings.ShowDrivesWidget = value;
-
-                    if (value)
-                    {
-                        RefreshWidgetList();
-                    }
-                }
-            }
-        }
-
-        private bool showBundles = true;
-        public bool ShowBundles
-        {
-            get => showBundles;
-            set
-            {
-                if (SetProperty(ref showBundles, value))
-                {
-                    App.AppSettings.ShowBundlesWidget = value;
-
-                    if (value)
-                    {
-                        RefreshWidgetList();
-                    }
-                }
-            }
-        }
-
-        private bool showRecentFiles = true;
-        public bool ShowRecentFiles
-        {
-            get => showRecentFiles;
-            set
-            {
-                if (SetProperty(ref showRecentFiles, value))
-                {
-                    App.AppSettings.ShowRecentFilesWidget = value;
-
-                    if (value)
-                    {
-                        RefreshWidgetList();
-                    }
-                }
-            }
-        }
-
-        #endregion
-
-        private void RefreshWidgetList()
+        public void RefreshWidgetList()
         {
             for (int i = 0; i < Widgets.Count; i++)
             {

@@ -20,6 +20,10 @@ namespace Files.Helpers
                 widgetsViewModel.RemoveWidget<TWidget>();
                 return default(TWidget);
             }
+            else if (!isWidgetSettingEnabled)
+            {
+                return default(TWidget);
+            }
 
             return defaultValue;
         }
