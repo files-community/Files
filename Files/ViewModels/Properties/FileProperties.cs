@@ -27,14 +27,15 @@ namespace Files.ViewModels.Properties
 {
     public class FileProperties : BaseProperties
     {
-        public IProgress<double> hashProgress;
+        private IProgress<float> hashProgress;
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, IProgress<float> hashProgress, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
+            this.hashProgress = hashProgress;
             Dispatcher = coreDispatcher;
             Item = item;
             AppInstance = instance;
@@ -340,7 +341,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, IProgress<double> hashProgress, CancellationToken token, IShellPage associatedInstance)
+        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, IProgress<float> hashProgress, CancellationToken token, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);

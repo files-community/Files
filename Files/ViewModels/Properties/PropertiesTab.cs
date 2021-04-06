@@ -17,7 +17,7 @@ namespace Files.ViewModels.Properties
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
-        public IProgress<float> HashProgress { get; protected set; }
+        protected IProgress<float> hashProgress;
 
         protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
@@ -42,7 +42,7 @@ namespace Files.ViewModels.Properties
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, item, AppInstance);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, hashProgress, Dispatcher, item, AppInstance);
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {

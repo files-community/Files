@@ -17,9 +17,9 @@ namespace Files.Views
         public PropertiesGeneral()
         {
             this.InitializeComponent();
-            base.HashProgress = new Progress<float>();
+            base.hashProgress = new Progress<float>();
 
-            (base.HashProgress as Progress<float>).ProgressChanged += PropertiesGeneral_ProgressChanged;
+            (base.hashProgress as Progress<float>).ProgressChanged += PropertiesGeneral_ProgressChanged;
         }
 
         private void PropertiesGeneral_ProgressChanged(object sender, float e)
@@ -106,7 +106,7 @@ namespace Files.Views
 
         public override void Dispose()
         {
-            (base.HashProgress as Progress<float>).ProgressChanged -= PropertiesGeneral_ProgressChanged;
+            (base.hashProgress as Progress<float>).ProgressChanged -= PropertiesGeneral_ProgressChanged;
         }
     }
 }
