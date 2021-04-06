@@ -12,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Excluir item(ns)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Apagar</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Excluir permanentemente</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Abrir em uma nova guia</value>
   </data>
@@ -800,12 +788,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Tem certeza de que pretende apagar este item?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Tem certeza de que pretende apagar estes {0} itens?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptável (recomendado)</value>

@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Открепить от боковой панели</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Удалить элемент(ы)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Отменить</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Удалить безвозвратно</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Рабочий стол</value>
   </data>
@@ -797,12 +785,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Отмена</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Вы действительно хотите удалить этот элемент?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Вы действительно хотите удалить {0} элемента(ов)?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Адаптивная (рекомендуется)</value>

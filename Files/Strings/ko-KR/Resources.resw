@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>사이드바 고정 해제</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>(여러) 항목 삭제</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>취소</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>삭제</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>영구 삭제</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>바탕 화면</value>
   </data>
@@ -860,12 +848,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>취소</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>{0}개의 항목을 삭제하시겠습니까?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>항목을 삭제하시겠습니까?</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>탭 추가</value>
