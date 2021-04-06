@@ -801,12 +801,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ड्राइव:</value>
   </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>विजेट्स</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>विजेट्स</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
   </data>
