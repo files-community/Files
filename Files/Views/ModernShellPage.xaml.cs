@@ -382,7 +382,7 @@ namespace Files.Views
 
         private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
+            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
         }
 
         private void ModernShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -1274,6 +1274,7 @@ namespace Files.Views
                         DataPackageOperation.Move,
                         e.DataView,
                         FilesystemViewModel.WorkingDirectory,
+                        false,
                         true);
                     return DataPackageOperation.Move;
                 }

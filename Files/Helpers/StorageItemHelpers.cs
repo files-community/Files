@@ -135,11 +135,9 @@ namespace Files.Helpers
             return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
         }
 
-        public static async Task<bool> Exists(string path, IShellPage associatedInstance = null)
+        public static bool Exists(string path)
         {
-            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
-
-            return item != null;
+            return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
         }
 
         public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)

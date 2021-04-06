@@ -164,6 +164,7 @@
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
+    <Compile Include="Converters\MiddleTextEllipsisConverter.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\NavigationViewCompactConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
+    <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -179,8 +181,13 @@
     <Compile Include="Dialogs\ElevateConfirmDialog.xaml.cs">
       <DependentUpon>ElevateConfirmDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\FilesystemOperationDialog.xaml.cs">
+      <DependentUpon>FilesystemOperationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\DynamicDialogButtons.cs" />
     <Compile Include="Enums\DynamicDialogResult.cs" />
+    <Compile Include="Enums\FileNameConflictResolveOptionType.cs" />
+    <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
@@ -209,10 +216,8 @@
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
-      <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
+    <Compile Include="Helpers\EnumConversionHelpers.cs" />
     <Compile Include="Helpers\Fractions.cs" />
     <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
@@ -301,6 +306,9 @@
     <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\FilesystemOperationDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\FilesystemOperationItemViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\IFilesystemOperationItemModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />
@@ -792,13 +800,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\ElevateConfirmDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\FilesystemOperationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\RestartControl.xaml">
       <SubType>Designer</SubType>

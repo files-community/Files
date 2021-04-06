@@ -523,7 +523,7 @@ namespace Files.Interacts
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, true);
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
             }
 
