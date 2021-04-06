@@ -1,8 +1,7 @@
-﻿using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.ViewModels.Widgets
 {
@@ -24,7 +23,10 @@ namespace Files.ViewModels.Widgets
                 {
                     App.AppSettings.ShowLibraryCardsWidget = value;
 
-                    RefreshWidgetList();
+                    if (value)
+                    {
+                        RefreshWidgetList();
+                    }
                 }
             }
         }
@@ -38,8 +40,11 @@ namespace Files.ViewModels.Widgets
                 if (SetProperty(ref showDrives, value))
                 {
                     App.AppSettings.ShowDrivesWidget = value;
-                    
-                    RefreshWidgetList();
+
+                    if (value)
+                    {
+                        RefreshWidgetList();
+                    }
                 }
             }
         }
@@ -54,7 +59,10 @@ namespace Files.ViewModels.Widgets
                 {
                     App.AppSettings.ShowBundlesWidget = value;
 
-                    RefreshWidgetList();
+                    if (value)
+                    {
+                        RefreshWidgetList();
+                    }
                 }
             }
         }
@@ -69,7 +77,10 @@ namespace Files.ViewModels.Widgets
                 {
                     App.AppSettings.ShowRecentFilesWidget = value;
 
-                    RefreshWidgetList();
+                    if (value)
+                    {
+                        RefreshWidgetList();
+                    }
                 }
             }
         }
@@ -84,11 +95,9 @@ namespace Files.ViewModels.Widgets
                 {
                     RemoveWidgetAt(i);
                 }
-                else
-                {
-                    WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
-                }
             }
+
+            WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
         }
 
         public bool AddWidget(object widgetModel)
