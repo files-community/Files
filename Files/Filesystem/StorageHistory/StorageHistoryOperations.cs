@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +33,7 @@ namespace Files.Filesystem.FilesystemHistory
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
             filesystemOperations = new FilesystemOperations(associatedInstance);
-            filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
+            filesystemHelpers = this.associatedInstance.FilesystemHelpers;
         }
 
         #endregion Constructor

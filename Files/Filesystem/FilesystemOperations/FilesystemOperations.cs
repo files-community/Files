@@ -3,6 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -31,6 +32,8 @@ namespace Files.Filesystem
         #region Private Members
 
         private IShellPage associatedInstance;
+
+        private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
         private RecycleBinHelpers recycleBinHelpers;
 
@@ -286,7 +289,7 @@ namespace Files.Filesystem
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
-                _ = Windows.ApplicationModel.Core.CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     await Task.Delay(50); // Small delay for the item to appear in the file list
                     List<ListedItem> copiedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
@@ -294,10 +297,10 @@ namespace Files.Filesystem
 
                     if (copiedListedItems.Count > 0)
                     {
-                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(copiedListedItems);
-                        associatedInstance.SlimContentPage.FocusSelectedItems();
+                        itemManipulationModel.AddSelectedItems(copiedListedItems);
+                        itemManipulationModel.FocusSelectedItems();
                     }
-                }, Windows.UI.Core.CoreDispatcherPriority.Low);
+                }, Windows.System.DispatcherQueuePriority.Low);
             }
 
             progress?.Report(100.0f);
@@ -507,7 +510,7 @@ namespace Files.Filesystem
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
-                _ = Windows.ApplicationModel.Core.CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                _ = Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     await Task.Delay(50); // Small delay for the item to appear in the file list
                     List<ListedItem> movedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
@@ -515,10 +518,10 @@ namespace Files.Filesystem
 
                     if (movedListedItems.Count > 0)
                     {
-                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(movedListedItems);
-                        associatedInstance.SlimContentPage.FocusSelectedItems();
+                        itemManipulationModel.AddSelectedItems(movedListedItems);
+                        itemManipulationModel.FocusSelectedItems();
                     }
-                }, Windows.UI.Core.CoreDispatcherPriority.Low);
+                }, Windows.System.DispatcherQueuePriority.Low);
             }
 
             progress?.Report(100.0f);

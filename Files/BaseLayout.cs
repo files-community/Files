@@ -1,40 +1,26 @@
-﻿using Files.Common;
-using Files.DataModels;
-using Files.Dialogs;
-using Files.EventArguments;
+﻿using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
-using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -130,8 +116,8 @@ namespace Files
 
                     if (jumpedToItem != null)
                     {
-                        SetSelectedItemOnUi(jumpedToItem);
-                        ScrollIntoView(jumpedToItem);
+                        ItemManipulationModel.SetSelectedItem(jumpedToItem);
+                        ItemManipulationModel.ScrollIntoView(jumpedToItem);
                     }
 
                     // Restart the timer
@@ -196,7 +182,7 @@ namespace Files
                         }
                     }
                     NotifyPropertyChanged(nameof(SelectedItems));
-                    SetDragModeForItems();
+                    ItemManipulationModel.SetDragModeForItems();
                 }
             }
         }
@@ -207,6 +193,10 @@ namespace Files
 
         public BaseLayout()
         {
+            ItemManipulationModel = new ItemManipulationModel();
+
+            HookEvents();
+
             jumpTimer = new DispatcherTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
@@ -226,6 +216,12 @@ namespace Files
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
+        protected abstract void HookEvents();
+
+        protected abstract void UnhookEvents();
+
+        public ItemManipulationModel ItemManipulationModel { get; private set; }
+
         private void JumpTimer_Tick(object sender, object e)
         {
             jumpString = string.Empty;
@@ -234,53 +230,7 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        public abstract void FocusFileList();
-
-        public abstract void SelectAllItems();
-
-        public virtual void InvertSelection()
-        {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
-
-            SetSelectedItemsOnUi(newSelectedItems);
-        }
-
-        public abstract void ClearSelection();
-
-        public abstract void SetDragModeForItems();
-
-        public abstract void ScrollIntoView(ListedItem item);
-
-        protected abstract void AddSelectedItem(ListedItem item);
-
         protected abstract IEnumerable GetAllItems();
-
-        public virtual void SetSelectedItemOnUi(ListedItem selectedItem)
-        {
-            ClearSelection();
-            AddSelectedItem(selectedItem);
-        }
-
-        public virtual void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            ClearSelection();
-            AddSelectedItemsOnUi(selectedItems);
-        }
-
-        public virtual void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            foreach (ListedItem selectedItem in selectedItems)
-            {
-                AddSelectedItem(selectedItem);
-            }
-        }
-
-        public abstract void FocusSelectedItems();
-
-        public abstract void StartRenameItem();
 
         public virtual void ResetItemOpacity()
         {
@@ -407,7 +357,7 @@ namespace Files
 
             FolderSettings.IsLayoutModeChanging = false;
 
-            FocusFileList(); // Set focus on layout specific file list control
+            ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
 
             try
             {
@@ -419,7 +369,7 @@ namespace Files
                         liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
                     }
 
-                    SetSelectedItemsOnUi(liItemsToSelect);
+                    ItemManipulationModel.SetSelectedItems(liItemsToSelect);
                 }
             }
             catch (Exception e)
@@ -549,7 +499,7 @@ namespace Files
                 item = gvi.Content as ListedItem;
             }
 
-            SetSelectedItemOnUi(item);
+            ItemManipulationModel.SetSelectedItem(item);
 
             if (dragOverItem != item)
             {

@@ -3,6 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Interacts;
 using Files.UserControls;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -28,6 +29,8 @@ namespace Files.Filesystem
         private IShellPage associatedInstance;
 
         private IFilesystemOperations filesystemOperations;
+
+        private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
         private RecycleBinHelpers recycleBinHelpers;
 
@@ -56,8 +59,8 @@ namespace Files.Filesystem
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            filesystemOperations = new FilesystemOperations(this.associatedInstance);
-            recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            this.filesystemOperations = new FilesystemOperations(this.associatedInstance);
+            this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
         #endregion Constructor
@@ -425,7 +428,7 @@ namespace Files.Filesystem
             IStorageHistory history;
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
@@ -484,7 +487,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
@@ -597,7 +600,7 @@ namespace Files.Filesystem
             IStorageHistory history;
             var rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
@@ -656,7 +659,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
