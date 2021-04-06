@@ -665,9 +665,5 @@ namespace Files
         {
             ParentShellPageInstance.Refresh_Click();
         }
-        protected void SearchUnindexedItemsButton_Click(object sender, RoutedEventArgs e)
-        {
-            ParentShellPageInstance.SubmitSearch(InstanceViewModel.CurrentSearchQuery, true);
-        }
     }
 }
