@@ -3,7 +3,6 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -23,24 +22,21 @@ namespace Files.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName))
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    if (ViewModel.OriginalItemName != ViewModel.ItemName)
+                    if (AppInstance.FilesystemViewModel != null)
                     {
-                        if (AppInstance.FilesystemViewModel != null)
+                        await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
                         {
-                            await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
-                            {
-                                { "Arguments", "SetVolumeLabel" },
-                                { "drivename", drive.Path },
-                                { "newlabel", ViewModel.ItemName }
-                            });
-                            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                            {
-                                await drive.UpdateLabelAsync();
-                                await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
-                            });
-                        }
+                            { "Arguments", "SetVolumeLabel" },
+                            { "drivename", drive.Path },
+                            { "newlabel", ViewModel.ItemName }
+                        });
+                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            await drive.UpdateLabelAsync();
+                            await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
+                        });
                     }
                 }
             }
