@@ -187,6 +187,12 @@
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+                        <ListView.Footer>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
+                                <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel"/>
+                                <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton"/>
+                            </StackPanel>
+                        </ListView.Footer>
                     </ListView>
                     <Canvas>
                         <Rectangle
