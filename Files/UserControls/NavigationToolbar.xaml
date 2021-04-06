@@ -927,17 +927,21 @@
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <ToggleMenuFlyoutItem
-                            Text="Show Library Cards Widget"
-                            IsChecked="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}"/>
+                                x:Uid="NavToolbarShowLibraryCardsWidget"
+                                Text="Show Library Cards Widget"
+                                IsChecked="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}"/>
                             <ToggleMenuFlyoutItem
-                            Text="Show Drives Widget"
-                            IsChecked="{x:Bind ShowDrivesWidget, Mode=TwoWay}"/>
+                                x:Uid="NavToolbarShowDrivesWidget"
+                                Text="Show Drives Widget"
+                                IsChecked="{x:Bind ShowDrivesWidget, Mode=TwoWay}"/>
                             <ToggleMenuFlyoutItem
-                            Text="Show Bundles Widget"
-                            IsChecked="{x:Bind ShowBundlesWidget, Mode=TwoWay}"/>
+                                x:Uid="NavToolbarShowBundlesWidget"
+                                Text="Show Bundles Widget"
+                                IsChecked="{x:Bind ShowBundlesWidget, Mode=TwoWay}"/>
                             <ToggleMenuFlyoutItem
-                            Text="Show Recent Files Widget"
-                            IsChecked="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}"/>
+                                x:Uid="NavToolbarShowRecentFilesWidget"
+                                Text="Show Recent Files Widget"
+                                IsChecked="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
