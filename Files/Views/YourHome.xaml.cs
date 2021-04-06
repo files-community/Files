@@ -209,8 +209,6 @@ namespace Files.Views
 
         #region IDisposable
 
-        // TODO: This Dispose() is never called, please implement the functionality to call this function.
-        //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
         public void Dispose()
         {
             Widgets?.Dispose();
