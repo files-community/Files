@@ -2565,6 +2565,10 @@
           <source>Open Storage Sense</source>
           <target state="new">Open Storage Sense</target>
         </trans-unit>
+        <trans-unit id="PropertyISO" translate="yes" xml:space="preserve">
+          <source>ISO speed</source>
+          <target state="new">ISO speed</target>
+        </trans-unit>
       </group>
     </body>
   </file>
