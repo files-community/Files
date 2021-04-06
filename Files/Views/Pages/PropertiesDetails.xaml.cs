@@ -1,5 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Enums;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
@@ -30,11 +31,7 @@ namespace Files.Views
             }
         }
 
-        /// <summary>
-        /// Tries to save changed properties to file.
-        /// </summary>
-        /// <returns>Returns true if properties have been saved successfully.</returns>
-        public async Task<bool> SaveChangesAsync()
+        public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             while (true)
             {
@@ -72,6 +69,10 @@ namespace Files.Views
         {
             ClearPropertiesFlyout.Hide();
             await (BaseProperties as FileProperties).ClearPropertiesAsync();
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }

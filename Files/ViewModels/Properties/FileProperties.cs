@@ -27,15 +27,14 @@ namespace Files.ViewModels.Properties
 {
     public class FileProperties : BaseProperties
     {
-        private ProgressBar ProgressBar;
+        public IProgress<double> hashProgress;
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
-            ProgressBar = progressBar;
             Dispatcher = coreDispatcher;
             Item = item;
             AppInstance = instance;
@@ -148,7 +147,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar, AppInstance);
+                ViewModel.ItemMD5Hash = await GetHashForFileAsync(Item, hashAlgTypeName, hashProgress, TokenSource.Token, AppInstance);
             }
             catch (Exception ex)
             {
@@ -341,7 +340,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
+        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, IProgress<double> hashProgress, CancellationToken token, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
@@ -382,10 +381,7 @@ namespace Files.ViewModels.Properties
                 {
                     break;
                 }
-                if (progress != null)
-                {
-                    progress.Value = (double)str.Position / str.Length * 100;
-                }
+                hashProgress?.Report((float)str.Position / str.Length * 100.0f);
             }
             inputStream.Dispose();
             stream.Dispose();
