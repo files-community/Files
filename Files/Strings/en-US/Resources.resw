@@ -2096,6 +2096,7 @@
   </data>
   <data name="NavToolbarShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files Widget</value>
+  </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Didn't find what you're looking for?</value>
   </data>
