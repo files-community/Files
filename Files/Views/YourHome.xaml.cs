@@ -16,9 +16,7 @@ namespace Files.Views
     public sealed partial class YourHome : Page, IDisposable
     {
         private IShellPage AppInstance = null;
-        public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
-        public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
         LibraryCards libraryCards;
         DrivesWidget drivesWidget;
@@ -112,7 +110,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
+                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, App.AppSettings.CloudDrivesManager.Drives))
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {

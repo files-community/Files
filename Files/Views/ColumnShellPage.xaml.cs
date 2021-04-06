@@ -2,6 +2,7 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -291,7 +292,7 @@ namespace Files.Views
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+                ItemDisplayFrame.SafeNavigate(typeof(ColumnViewBase), new NavigationArguments()
                 {
                     NavPathParam = invokedItem.ItemPath,
                     AssociatedTabInstance = this
@@ -324,7 +325,7 @@ namespace Files.Views
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
                 FilesystemViewModel.IsLoadingIndicatorActive = true;
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+                ItemDisplayFrame.SafeNavigate(typeof(ColumnViewBase), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
@@ -548,7 +549,7 @@ namespace Files.Views
                 {
                     flyoutItem.Click += (sender, args) =>
                     {
-                        ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
+                        ItemDisplayFrame.SafeNavigate(typeof(ColumnViewBase),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = childFolder.Path,
@@ -563,7 +564,7 @@ namespace Files.Views
 
         private void ColumnShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+            ItemDisplayFrame.SafeNavigate(typeof(ColumnViewBase), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = this
@@ -595,7 +596,7 @@ namespace Files.Views
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    ItemDisplayFrame.Navigate(typeof(YourHome),
+                    ItemDisplayFrame.SafeNavigate(typeof(YourHome),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = "NewTab".GetLocalized(),
@@ -617,7 +618,7 @@ namespace Files.Views
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
-                        ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
+                        ItemDisplayFrame.SafeNavigate(typeof(ColumnViewBase),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = pathToNavigate,
@@ -761,7 +762,7 @@ namespace Files.Views
         {
             if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home")
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome),
+                ItemDisplayFrame.SafeNavigate(typeof(YourHome),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -770,7 +771,7 @@ namespace Files.Views
             }
             else
             {
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
+                ItemDisplayFrame.SafeNavigate(typeof(ColumnViewBase),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -1339,7 +1340,7 @@ namespace Files.Views
         {
             if (navArgs != null && navArgs.AssociatedTabInstance != null)
             {
-                ItemDisplayFrame.Navigate(
+                ItemDisplayFrame.SafeNavigate(
                 sourcePageType = typeof(ColumnViewBase),
                 navArgs,
                 new SuppressNavigationTransitionInfo());
@@ -1355,7 +1356,7 @@ namespace Files.Views
                     return;
                 }
 
-                ItemDisplayFrame.Navigate(sourcePageType = typeof(ColumnViewBase),
+                ItemDisplayFrame.SafeNavigate(sourcePageType = typeof(ColumnViewBase),
                 new NavigationArguments()
                 {
                     NavPathParam = navigationPath,

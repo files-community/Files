@@ -213,7 +213,6 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            Debugger.Break();
         }
     }
 
