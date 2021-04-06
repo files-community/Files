@@ -42,6 +42,8 @@ namespace Files
         void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 
         void RemoveLastPageFromBackStack();
+
+        void SubmitSearch(string query, bool searchUnindexedItems);
     }
 
     public interface IPaneHolder : IDisposable

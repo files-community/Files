@@ -310,7 +310,7 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
-                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this);
+                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems);
                 }
                 else
                 {
@@ -323,16 +323,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                FilesystemViewModel.IsLoadingIndicatorActive = true;
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
-                {
-                    AssociatedTabInstance = this,
-                    IsSearchResultPage = true,
-                    SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1,
-                        InstanceViewModel.FolderSettings.GetIconSize())
-                });
-                FilesystemViewModel.IsLoadingIndicatorActive = false;
+                SubmitSearch(args.QueryText, App.AppSettings.SearchUnindexedItems);
             }
         }
 
@@ -1372,6 +1363,21 @@ namespace Files.Views
         {
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
-    }
 
+        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        {
+            InstanceViewModel.CurrentSearchQuery = query;
+            FilesystemViewModel.IsLoadingIndicatorActive = true;
+            InstanceViewModel.SearchedUnindexedItems = !searchUnindexedItems;
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+            {
+                AssociatedTabInstance = this,
+                IsSearchResultPage = true,
+                SearchPathParam = FilesystemViewModel.WorkingDirectory,
+                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, searchUnindexedItems, -1,
+                    InstanceViewModel.FolderSettings.GetIconSize())
+            });
+            FilesystemViewModel.IsLoadingIndicatorActive = false;
+        }
+    }
 }

@@ -304,7 +304,7 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
@@ -314,15 +314,18 @@ namespace Files.Views
 
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
+            InstanceViewModel.CurrentSearchQuery = query;
             FilesystemViewModel.IsLoadingIndicatorActive = true;
+            InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
             {
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems, -1,
+                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, searchUnindexedItems, -1,
                     InstanceViewModel.FolderSettings.GetIconSize())
             });
+
             FilesystemViewModel.IsLoadingIndicatorActive = false;
         }
 
