@@ -17,6 +17,8 @@ namespace Files.UserControls.Widgets
 
         public string WidgetName => nameof(Bundles);
 
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowBundlesWidget;
+
         public Bundles()
         {
             this.InitializeComponent();

@@ -36,6 +36,22 @@
                         </Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ContextFlyout>
+                    <MenuFlyout>
+                        <ToggleMenuFlyoutItem
+                            Text="Show Library Cards Widget"
+                            IsChecked="{x:Bind ViewModel.ShowLibraryCards, Mode=TwoWay}"/>
+                        <ToggleMenuFlyoutItem
+                            Text="Show Drives Widget"
+                            IsChecked="{x:Bind ViewModel.ShowDrives, Mode=TwoWay}"/>
+                        <ToggleMenuFlyoutItem
+                            Text="Show Bundles Widget"
+                            IsChecked="{x:Bind ViewModel.ShowBundles, Mode=TwoWay}"/>
+                        <ToggleMenuFlyoutItem
+                            Text="Show Recent Files Widget"
+                            IsChecked="{x:Bind ViewModel.ShowRecentFiles, Mode=TwoWay}"/>
+                    </MenuFlyout>
+                </ListView.ContextFlyout>
             </ListView>
         </Grid>
     </Border>
