@@ -535,6 +535,11 @@ namespace Files.Interacts
             SlimContentPage.RefreshItems();
         }
 
+        public void SearchUnindexedItems(RoutedEventArgs e)
+        {
+            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
+        }
+
         #endregion Command Implementation
     }
 }

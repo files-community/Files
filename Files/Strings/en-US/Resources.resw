@@ -2037,4 +2037,10 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>Didn't find what you're looking for?</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>Search unindexed items.</value>
+  </data>
 </root>

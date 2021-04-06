@@ -31,7 +31,33 @@ namespace Files.ViewModels
                 OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
             }
+        }
+
+        private string currentSearchQuery;
+        public string CurrentSearchQuery
+        {
+            get => currentSearchQuery;
+            set => SetProperty(ref currentSearchQuery, value);
+        }
+
+        private bool searchedUnindexedItems;
+        public bool SearchedUnindexedItems
+        {
+            get => searchedUnindexedItems;
+            set
+            {
+                if(SetProperty(ref searchedUnindexedItems, value))
+                {
+                    OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                }
+            }
+        }
+
+        public bool ShowSearchUnindexedItemsMessage
+        {
+            get => !SearchedUnindexedItems && IsPageTypeSearchResults;
         }
 
         private bool isPageTypeNotHome = false;
