@@ -917,12 +917,13 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
+                    x:Uid="NavToolbarWidgets"
                     x:Name="WidgetsManager"
                     Width="36"
                     Height="32"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    AutomationProperties.Name="Widgets Manager"
-                    ToolTipService.ToolTip="Widgets Manager"
+                    AutomationProperties.Name="Manage Widgets"
+                    ToolTipService.ToolTip="Manage Widgets"
                     Background="Transparent"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
