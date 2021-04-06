@@ -921,6 +921,8 @@
                     Width="36"
                     Height="32"
                     Style="{StaticResource ToolBarButtonStyle}"
+                    AutomationProperties.Name="Widgets Manager"
+                    ToolTipService.ToolTip="Widgets Manager"
                     Background="Transparent"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
