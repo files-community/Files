@@ -216,7 +216,7 @@ namespace Files.Views
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
         {
-            YourHome currentPage = ItemDisplayFrame?.Content as YourHome;
+            WidgetsPage currentPage = ItemDisplayFrame?.Content as WidgetsPage;
             currentPage.RefreshWidgetList();
         }
 
@@ -589,12 +589,12 @@ namespace Files.Views
                 return;
             }
 
-            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(YourHome))
+            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(WidgetsPage))
             {
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    ItemDisplayFrame.Navigate(typeof(YourHome),
+                    ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = "NewTab".GetLocalized(),
@@ -634,7 +634,7 @@ namespace Files.Views
                         else // Not a file or not accessible
                         {
                             var workingDir = string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory)
-                                    || CurrentPageType == typeof(YourHome)
+                                    || CurrentPageType == typeof(WidgetsPage)
                                 ? AppSettings.HomePath
                                 : FilesystemViewModel.WorkingDirectory;
 
@@ -759,7 +759,7 @@ namespace Files.Views
         {
             if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home")
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome),
+                ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -917,7 +917,7 @@ namespace Files.Views
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
 
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(WidgetsPage))
             {
                 UpdatePositioning(true);
             }
@@ -1086,14 +1086,14 @@ namespace Files.Views
                 var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
                 var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
                 previousPageNavPath.IsLayoutSwitch = false;
-                if (previousPageContent.SourcePageType != typeof(YourHome))
+                if (previousPageContent.SourcePageType != typeof(WidgetsPage))
                 {
                     // Update layout type
                     InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
                 }
                 SelectSidebarItemFromPath(previousPageContent.SourcePageType);
 
-                if (previousPageContent.SourcePageType == typeof(YourHome))
+                if (previousPageContent.SourcePageType == typeof(WidgetsPage))
                 {
                     ItemDisplayFrame.GoBack(new DrillInNavigationTransitionInfo());
                 }
@@ -1112,7 +1112,7 @@ namespace Files.Views
                 var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
                 var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
                 incomingPageNavPath.IsLayoutSwitch = false;
-                if (incomingPageContent.SourcePageType != typeof(YourHome))
+                if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
                 {
                     // Update layout type
                     InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
@@ -1152,7 +1152,7 @@ namespace Files.Views
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
-            if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
+            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
             {
                 NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
@@ -1420,7 +1420,7 @@ namespace Files.Views
 
                 NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
-                if (sourcePageType == typeof(YourHome))
+                if (sourcePageType == typeof(WidgetsPage))
                 {
                     transition = new DrillInNavigationTransitionInfo();
                 }

@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class YourHome : Page, IDisposable
+    public sealed partial class WidgetsPage : Page, IDisposable
     {
         private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -32,7 +32,7 @@ namespace Files.Views
             set => DataContext = value;
         }
 
-        public YourHome()
+        public WidgetsPage()
         {
             InitializeComponent();
 

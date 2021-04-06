@@ -199,7 +199,7 @@ namespace Files.Views
                             }
 
                             navigationPath = "NewTab".GetLocalized();
-                            sourcePageType = typeof(YourHome);
+                            sourcePageType = typeof(WidgetsPage);
                         }
                         else // Any other item
                         {

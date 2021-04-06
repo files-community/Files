@@ -545,8 +545,8 @@
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="Views\YourHome.xaml.cs">
-      <DependentUpon>YourHome.xaml</DependentUpon>
+    <Compile Include="Views\WidgetsPage.xaml.cs">
+      <DependentUpon>WidgetsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1037,7 +1037,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\YourHome.xaml">
+    <Page Include="Views\WidgetsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
