@@ -1268,26 +1268,6 @@
           <source>Drives</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ड्राइव:</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
-          <source>Show library cards on the home page</source>
-          <target state="new">Show library cards on the home page</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Widgets</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">विजेट्स</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
-          <source>Widgets</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">विजेट्स</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
-          <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</target>
@@ -2149,10 +2129,6 @@
           <source>Cloud Drives</source>
           <target state="new">Cloud Drives</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
-          <source>Show bundles on the home page</source>
-          <target state="new">Show bundles on the home page</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
@@ -2656,6 +2632,30 @@
         <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
           <source>Search unindexed items.</source>
           <target state="new">Search unindexed items.</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowBundlesWidget" translate="yes" xml:space="preserve">
+          <source>Show Bundles Widget</source>
+          <target state="new">Show Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowDrivesWidget" translate="yes" xml:space="preserve">
+          <source>Show Drives Widget</source>
+          <target state="new">Show Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowLibraryCardsWidget" translate="yes" xml:space="preserve">
+          <source>Show Library Cards Widget</source>
+          <target state="new">Show Library Cards Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowRecentFilesWidget" translate="yes" xml:space="preserve">
+          <source>Show Recent Files Widget</source>
+          <target state="new">Show Recent Files Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarWidgets.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Widgets Manage Widgets</source>
+          <target state="new">Widgets Manage Widgets</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarWidgetsManager.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Manage Widgets</source>
+          <target state="new">Manage Widgets</target>
         </trans-unit>
       </group>
     </body>

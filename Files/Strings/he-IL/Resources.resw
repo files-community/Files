@@ -996,12 +996,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>כוננים:</value>
   </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>הצג כוננים בדף הבית</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>הצג קבצים שנגשו לאחרונה בדף הבית</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
   </data>
