@@ -64,6 +64,10 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -416,6 +420,11 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
+            <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel"/>
+            <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton"/>
+        </StackPanel>
 
         <Canvas Grid.RowSpan="2" Margin="12,12,12,0">
             <Rectangle

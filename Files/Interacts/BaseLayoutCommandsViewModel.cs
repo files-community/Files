@@ -69,6 +69,7 @@ namespace Files.Interacts
             DragEnterCommand = new RelayCommand<DragEventArgs>(commandsModel.DragEnter);
             DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
             RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
+            SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(commandsModel.SearchUnindexedItems);
         }
 
         #endregion Command Initialization
@@ -152,6 +153,7 @@ namespace Files.Interacts
         public ICommand DropCommand { get; private set; }
 
         public ICommand RefreshCommand { get; private set; }
+        public ICommand SearchUnindexedItems { get; private set; }
 
         #endregion Commands
 
