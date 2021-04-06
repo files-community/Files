@@ -611,10 +611,5 @@ namespace Files
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
         public abstract void Dispose();
-
-        public void RefreshItems()
-        {
-            ParentShellPageInstance.Refresh_Click();
-        }
     }
 }

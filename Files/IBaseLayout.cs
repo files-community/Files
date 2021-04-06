@@ -16,7 +16,5 @@ namespace Files
         public ListedItem SelectedItem { get; }
 
         ItemManipulationModel ItemManipulationModel { get; }
-
-        void RefreshItems();
     }
 }

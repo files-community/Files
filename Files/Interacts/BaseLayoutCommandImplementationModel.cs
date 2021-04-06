@@ -535,7 +535,7 @@ namespace Files.Interacts
 
         public virtual void RefreshItems(RoutedEventArgs e)
         {
-            SlimContentPage.RefreshItems();
+            associatedInstance.Refresh_Click();
         }
 
         #endregion Command Implementation
