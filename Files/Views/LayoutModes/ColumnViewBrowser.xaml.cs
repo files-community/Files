@@ -175,7 +175,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
+        private void ColumnViewBase_DismissColumn(object sender, EventArgs e)
         {
             DismissOtherBlades(sender as ListView);
         }
