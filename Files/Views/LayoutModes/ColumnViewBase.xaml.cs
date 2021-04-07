@@ -36,10 +36,12 @@ namespace Files.Views.LayoutModes
         private string oldItemName;
         private TextBlock textBlock;
         private ListViewItem navigatedfolder;
+        private Grid gridindicatior;
 
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
+            CurrentColumn = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -176,6 +178,8 @@ namespace Files.Views.LayoutModes
             }
         }
         public static event EventHandler ItemInvoked;
+        public static event EventHandler DismissColumn;
+        public static event EventHandler UnFocusPreviousListView;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         { base.OnNavigatedTo(eventArgs);
@@ -195,7 +199,7 @@ namespace Files.Views.LayoutModes
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
-                ReloadItemIcons();
+                //ReloadItemIcons();
             }
         }
 
@@ -339,6 +343,8 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion IDisposable
+        public static ColumnViewBase CurrentColumn;
+        private ListViewItem listViewItem;
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -348,6 +354,7 @@ namespace Files.Views.LayoutModes
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
                 //FileList.CommitEdit();
             }
+            UnFocusPreviousListView?.Invoke(FileList, EventArgs.Empty);
             tapDebounceTimer.Stop();
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
@@ -429,15 +436,29 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
+            await Task.Delay(200);
+            if (listViewItem != null)
+            {
+
+                listViewItem.Style = (Style)this.Resources["NormalStyle"];
+            }
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
+                if (listViewItem != null)
+                {
+
+                    listViewItem.Style = (Style)this.Resources["NormalStyle"];
+                }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
                 if (item.ItemType == "File folder")
                 {
                     if (item.ContainsFilesOrFolders)
                     {
+                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                        
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }
@@ -478,6 +499,13 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
+            await Task.Delay(200);
+            if (listViewItem != null)
+            {
+
+                listViewItem.Style = (Style)this.Resources["NormalStyle"];
+            }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -499,6 +527,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (item.ContainsFilesOrFolders)
                     {
+            listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }
@@ -509,7 +538,6 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
-
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = DependencyObjectHelpers.FindParent<ListViewItem>(e.OriginalSource as DependencyObject);

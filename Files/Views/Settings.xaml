@@ -100,14 +100,6 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsWidgets"
-                    BorderThickness="0.8"
-                    Content="Widgets">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xF246;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     BorderThickness="0.8"
                     Content="Multitasking">

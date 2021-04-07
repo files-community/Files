@@ -51,6 +51,8 @@ namespace Files.UserControls.Widgets
 
         public string WidgetName => nameof(LibraryCards);
 
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
+
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
         {
             if (string.IsNullOrEmpty(item.Path))
@@ -310,7 +312,6 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            Debugger.Break();
         }
     }
 

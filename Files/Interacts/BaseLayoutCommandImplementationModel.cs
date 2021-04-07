@@ -526,7 +526,7 @@ namespace Files.Interacts
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, true);
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
             }
 
@@ -536,6 +536,11 @@ namespace Files.Interacts
         public virtual void RefreshItems(RoutedEventArgs e)
         {
             associatedInstance.Refresh_Click();
+        }
+
+        public void SearchUnindexedItems(RoutedEventArgs e)
+        {
+            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
         #endregion Command Implementation
