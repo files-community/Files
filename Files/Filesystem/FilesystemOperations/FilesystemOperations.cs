@@ -3,6 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -31,6 +32,8 @@ namespace Files.Filesystem
         #region Private Members
 
         private IShellPage associatedInstance;
+
+        private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
         private RecycleBinHelpers recycleBinHelpers;
 
@@ -249,8 +252,8 @@ namespace Files.Filesystem
 
                     if (copiedListedItems.Count > 0)
                     {
-                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(copiedListedItems);
-                        associatedInstance.SlimContentPage.FocusSelectedItems();
+                        itemManipulationModel.AddSelectedItems(copiedListedItems);
+                        itemManipulationModel.FocusSelectedItems();
                     }
                 }, Windows.System.DispatcherQueuePriority.Low);
             }
@@ -432,8 +435,8 @@ namespace Files.Filesystem
 
                     if (movedListedItems.Count > 0)
                     {
-                        associatedInstance.SlimContentPage.AddSelectedItemsOnUi(movedListedItems);
-                        associatedInstance.SlimContentPage.FocusSelectedItems();
+                        itemManipulationModel.AddSelectedItems(movedListedItems);
+                        itemManipulationModel.FocusSelectedItems();
                     }
                 }, Windows.System.DispatcherQueuePriority.Low);
             }

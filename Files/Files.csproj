@@ -228,6 +228,7 @@
     <Compile Include="Helpers\WallpaperHelpers.cs" />
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
+    <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
