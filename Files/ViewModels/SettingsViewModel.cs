@@ -4,6 +4,7 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -21,6 +22,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels
 {
@@ -88,6 +90,16 @@ namespace Files.ViewModels
         public static async void OpenLogLocation()
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+        public static void OpenThemesFolder()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            // Go back to main page
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+            }
+            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()

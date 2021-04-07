@@ -945,21 +945,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Диски</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Показувати стандартні папки на домашній сторінці</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Віджети</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Віджети</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Показувати диски на домашній сторінці</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Показувати останні файли на домашній сторінці</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Показувати приховані файли і папки</value>
   </data>
@@ -1559,9 +1544,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Хмарні диски</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Показувати Колекції папок на домашній сторінці</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Відкріпити папку від бічної панелі</value>

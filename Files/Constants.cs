@@ -2,6 +2,11 @@
 {
     public static class Constants
     {
+        public static class UI
+        {
+            public const float DimItemOpacity = 0.4f;
+        }
+
         public static class Browser
         {
             public static class GridViewBrowser

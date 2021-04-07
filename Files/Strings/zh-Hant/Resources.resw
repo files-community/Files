@@ -951,21 +951,6 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>移到這裡</value>
   </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>小工具</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>在首頁顯示磁碟區</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>在首頁顯示媒體櫃</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>在首頁顯示最近開啟的項目</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>小工具</value>
-  </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>可以安心的移除硬體</value>
   </data>
@@ -1574,9 +1559,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>雲端硬碟</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>在首頁顯示綁定</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>從側邊欄取消釘選資料夾</value>

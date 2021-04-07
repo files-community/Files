@@ -1260,7 +1260,7 @@ namespace Files.ViewModels
 
                 if (isHidden)
                 {
-                    opacity = 0.4;
+                    opacity = Constants.UI.DimItemOpacity;
                 }
 
                 var currentFolder = library ?? new ListedItem(null, returnformat)

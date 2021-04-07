@@ -945,21 +945,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Sürücüler</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Açılışta Hızlı Erişim kartları görüntülensin</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Pano Bileşenleri</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Pano Bileşenleri</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Açılışta sürücüler görüntülensin</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Açılışta son kullanılan dosyalar görüntülensin</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Gizli dosya ve klasörler görüntülensin</value>
   </data>
@@ -1604,9 +1589,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Bulut Sürücüleri</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Açılışta paketler görüntülensin</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Klasörü yan çubuktan kaldır</value>
