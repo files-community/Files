@@ -2080,7 +2080,7 @@
     <value>Show Recent Files Widget</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widgets Manage Widgets</value>
+    <value>Manage Widgets</value>
   </data>
   <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
     <value>Manage Widgets</value>

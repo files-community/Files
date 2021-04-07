@@ -917,34 +917,34 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
-                    x:Uid="NavToolbarWidgets"
                     x:Name="WidgetsManager"
+                    x:Uid="NavToolbarWidgets"
                     Width="36"
                     Height="32"
-                    Style="{StaticResource ToolBarButtonStyle}"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     AutomationProperties.Name="Manage Widgets"
-                    ToolTipService.ToolTip="Manage Widgets"
                     Background="Transparent"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
-                    <FontIcon FontSize="14" Glyph="&#xE710;" />
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Manage Widgets">
+                    <FontIcon FontSize="14" Glyph="&#xF246;" />
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarShowLibraryCardsWidget"
-                                Text="Show Library Cards Widget"
-                                IsChecked="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}"/>
+                                IsChecked="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}"
+                                Text="Show Library Cards Widget" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarShowDrivesWidget"
-                                Text="Show Drives Widget"
-                                IsChecked="{x:Bind ShowDrivesWidget, Mode=TwoWay}"/>
+                                IsChecked="{x:Bind ShowDrivesWidget, Mode=TwoWay}"
+                                Text="Show Drives Widget" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarShowBundlesWidget"
-                                Text="Show Bundles Widget"
-                                IsChecked="{x:Bind ShowBundlesWidget, Mode=TwoWay}"/>
+                                IsChecked="{x:Bind ShowBundlesWidget, Mode=TwoWay}"
+                                Text="Show Bundles Widget" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarShowRecentFilesWidget"
-                                Text="Show Recent Files Widget"
-                                IsChecked="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}"/>
+                                IsChecked="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}"
+                                Text="Show Recent Files Widget" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

@@ -2650,8 +2650,8 @@
           <target state="new">Show Recent Files Widget</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgets.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Widgets Manage Widgets</source>
-          <target state="new">Widgets Manage Widgets</target>
+          <source>Manage Widgets</source>
+          <target state="new">Manage Widgets</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgetsManager.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Manage Widgets</source>
