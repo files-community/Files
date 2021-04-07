@@ -1,110 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -117,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Excluir item(ns)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Apagar</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Apagar permanentemente</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Abrir em uma nova guia</value>
   </data>
@@ -352,7 +235,7 @@
     <value>Tamanho</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
-    <value>Ascendente</value>
+    <value>Crescente</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
     <value>Decrescente</value>
@@ -364,7 +247,7 @@
     <value>Colar</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Abrir Linha de Comando</value>
+    <value>Abrir na Linha de Comando</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
@@ -406,7 +289,7 @@
     <value>Apagar</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Re-nomear</value>
+    <value>Renomear</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>Fixar na barra lateral</value>
@@ -571,7 +454,7 @@
     <value>Opções de seleção</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Esvaziar lixeira</value>
+    <value>Esvaziar reciclagem</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Restaurar</value>
@@ -802,7 +685,7 @@
     <value>Diretório de trabalho:</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Aplicativo</value>
+    <value>Aplicação</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Ficheiro</value>
@@ -906,12 +789,6 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Tem certeza de que pretende apagar este item?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Tem certeza de que pretende apagar estes {0} itens?</value>
-  </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptável (recomendado)</value>
   </data>
@@ -990,12 +867,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Faixa de tabulação vertical</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Idioma da aplicação</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplicações de Terminal</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar aplicações de terminal</value>
   </data>
@@ -1006,7 +877,7 @@
     <value>Ver perfis de amostra</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Idioma da Aplicação</value>
+    <value>Idioma do Aplicativo</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Aplicações de Terminal</value>
@@ -1073,30 +944,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Unidades</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar cartões da biblioteca na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Mostrar cartões da biblioteca na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar as unidades na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Mostrar as unidades na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar ficheiros recentes na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Mostrar ficheiros recentes na página inicial</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Mostrar ficheiros e pastas ocultos</value>
@@ -1450,7 +1297,7 @@
     <value>Verifique o estado das operações dos ficheiros aqui</value>
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
-    <value>Centro de estado</value>
+    <value>Centro de Estado</value>
   </data>
   <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
     <value>Licença</value>
@@ -1575,23 +1422,14 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Painel Duplo</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar localização da cópia do item do menu</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Mova sobra de itens para um submenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostrar item do menu aberto em uma nova guia</value>
-  </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>
-  </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Ativar animações ao abrir e fechar o menu de contexto</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Visualizador de detalhes</value>
@@ -1751,9 +1589,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades em Cloud</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Mostrar Pacotes na página inicial</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Desafixar diretório da barra lateral</value>

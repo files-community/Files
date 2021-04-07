@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +33,7 @@ namespace Files.Filesystem.FilesystemHistory
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
             filesystemOperations = new FilesystemOperations(associatedInstance);
-            filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
+            filesystemHelpers = this.associatedInstance.FilesystemHelpers;
         }
 
         #endregion Constructor
@@ -91,7 +92,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -101,7 +102,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -239,7 +240,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS

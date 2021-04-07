@@ -77,7 +77,7 @@ namespace Files.Views
                     isCurrentInstance = value;
                     if (isCurrentInstance)
                     {
-                        ContentPage?.FocusFileList();
+                        ContentPage?.ItemManipulationModel.FocusFileList();
                     }
                     else
                     {
@@ -124,11 +124,11 @@ namespace Files.Views
             }
         }
 
-        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() => SlimContentPage?.SelectAllItems());
+        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
 
-        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() => SlimContentPage?.InvertSelection());
+        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
 
-        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() => SlimContentPage?.ClearSelection());
+        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
 
         public ICommand PasteItemsFromClipboardCommand => new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 
@@ -310,7 +310,7 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
-                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this);
+                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems);
                 }
                 else
                 {
@@ -323,16 +323,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                FilesystemViewModel.IsLoadingIndicatorActive = true;
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
-                {
-                    AssociatedTabInstance = this,
-                    IsSearchResultPage = true,
-                    SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1,
-                        InstanceViewModel.FolderSettings.GetIconSize())
-                });
-                FilesystemViewModel.IsLoadingIndicatorActive = false;
+                SubmitSearch(args.QueryText, App.AppSettings.SearchUnindexedItems);
             }
         }
 
@@ -390,7 +381,7 @@ namespace Files.Views
 
         private async void ColumnShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
+            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
         }
 
         private void ColumnShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -590,12 +581,12 @@ namespace Files.Views
                 return;
             }
 
-            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(YourHome))
+            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(WidgetsPage))
             {
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    ItemDisplayFrame.Navigate(typeof(YourHome),
+                    ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = "NewTab".GetLocalized(),
@@ -635,7 +626,7 @@ namespace Files.Views
                         else // Not a file or not accessible
                         {
                             var workingDir = string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory)
-                                    || CurrentPageType == typeof(YourHome)
+                                    || CurrentPageType == typeof(WidgetsPage)
                                 ? AppSettings.HomePath
                                 : FilesystemViewModel.WorkingDirectory;
 
@@ -761,7 +752,7 @@ namespace Files.Views
         {
             if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home")
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome),
+                ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -912,7 +903,7 @@ namespace Files.Views
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
 
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(WidgetsPage))
             {
                 UpdatePositioning(true);
             }
@@ -1001,7 +992,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        this.SlimContentPage.SelectAllItems();
+                        this.SlimContentPage.ItemManipulationModel.SelectAllItems();
                     }
 
                     break;
@@ -1057,7 +1048,7 @@ namespace Files.Views
                     {
                         if (ContentPage.IsItemSelected)
                         {
-                            ContentPage.StartRenameItem();
+                            ContentPage.ItemManipulationModel.StartRenameItem();
                         }
                     }
                     break;
@@ -1091,7 +1082,7 @@ namespace Files.Views
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
-            if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
+            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
             {
                 NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
@@ -1189,8 +1180,8 @@ namespace Files.Views
 
                             if (itemToSelect != null && ContentPage != null)
                             {
-                                ContentPage.SetSelectedItemOnUi(itemToSelect);
-                                ContentPage.ScrollIntoView(itemToSelect);
+                                ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+                                ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
                             }
                         }
                     }
@@ -1220,6 +1211,7 @@ namespace Files.Views
                         DataPackageOperation.Move,
                         e.DataView,
                         FilesystemViewModel.WorkingDirectory,
+                        false,
                         true);
                     return DataPackageOperation.Move;
                 }
@@ -1372,6 +1364,21 @@ namespace Files.Views
         {
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
-    }
 
+        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        {
+            InstanceViewModel.CurrentSearchQuery = query;
+            FilesystemViewModel.IsLoadingIndicatorActive = true;
+            InstanceViewModel.SearchedUnindexedItems = !searchUnindexedItems;
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+            {
+                AssociatedTabInstance = this,
+                IsSearchResultPage = true,
+                SearchPathParam = FilesystemViewModel.WorkingDirectory,
+                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, searchUnindexedItems, -1,
+                    InstanceViewModel.FolderSettings.GetIconSize())
+            });
+            FilesystemViewModel.IsLoadingIndicatorActive = false;
+        }
+    }
 }

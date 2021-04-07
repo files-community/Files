@@ -12,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>ଆଇଟମ୍(ଗୁଡିକ) ବିଲୋପ କର</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>ବିଲୋପ କର</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>ସ୍ଥାୟୀ ଭାବରେ ବିଲୋପ କର</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>ନୂଆ ଟ୍ୟାବରେ ଖୋଲ</value>
   </data>
@@ -740,9 +728,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>ବାତିଲ୍</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>ଆପଣ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ଚାହୁଁଥିବା ନିଶ୍ଚିତ କି?</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
     <value>ଅକ୍ଷାଂଶ</value>

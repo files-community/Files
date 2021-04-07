@@ -102,9 +102,139 @@ namespace Files.Views.LayoutModes
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
+        protected override void HookEvents()
+        {
+            UnhookEvents();
+            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
+            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
+            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
+            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
+            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
+            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
+            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
+            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
+        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
+        {
+            foreach (ListedItem listedItem in (IEnumerable)AllView.ItemsSource)
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
+            }
+        }
+
+        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
+        {
+            if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
+            {
+                var rows = new List<DataGridRow>();
+                DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
+
+                foreach (DataGridRow row in rows)
+                {
+                    row.CanDrag = SelectedItems.Contains(row.DataContext);
+                }
+            }
+        }
+
+        private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
+        {
+            try
+            {
+                AllView.ScrollIntoView(e, null);
+            }
+            catch (Exception)
+            {
+                // Catch error where row index could not be found
+            }
+        }
+
+        private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (IsItemSelected)
+                {
+                    AllView.CurrentColumn = AllView.Columns[1];
+                    AllView.BeginEdit();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
+            }
+        }
+
+        private void ItemManipulationModel_FocusSelectedItemsInvoked(object sender, EventArgs e)
+        {
+            if(SelectedItems.Any())
+            {
+                AllView.ScrollIntoView(SelectedItems.Last(), null);
+            }
+        }
+
+        private void ItemManipulationModel_AddSelectedItemInvoked(object sender, ListedItem e)
+        {
+            if (((IList<ListedItem>)AllView?.ItemsSource)?.Contains(e) ?? false)
+            {
+                AllView.SelectedItems.Add(e);
+            }
+        }
+
+        private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
+        {
+            List<ListedItem> newSelectedItems = GetAllItems()
+                .Cast<ListedItem>()
+                .Except(SelectedItems)
+                .ToList();
+
+            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+        }
+
+        private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
+        {
+            AllView.SelectedItems.Clear();
+        }
+
+        private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
+        {
+            SelectAllMethod.Invoke(AllView, null);
+        }
+
+        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
+        {
+            AllView.Focus(FocusState.Programmatic);
+        }
+
+        protected override void UnhookEvents()
+        {
+            if (ItemManipulationModel != null)
+            {
+                ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
+                ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
+                ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
+                ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
+                ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
+                ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
+                ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
+                ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+            }
+        }
+
         protected override void InitializeCommandsViewModel()
         {
-            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -177,82 +307,9 @@ namespace Files.Views.LayoutModes
             RequestedTheme = ThemeHelper.RootTheme;
         }
 
-        protected override void AddSelectedItem(ListedItem item)
-        {
-            if (((IList<ListedItem>)AllView?.ItemsSource)?.Contains(item) ?? false)
-            {
-                AllView.SelectedItems.Add(item);
-            }
-        }
-
         protected override IEnumerable GetAllItems()
         {
             return AllView.ItemsSource;
-        }
-
-        public override void SelectAllItems()
-        {
-            SelectAllMethod.Invoke(AllView, null);
-        }
-
-        public override void ClearSelection()
-        {
-            AllView.SelectedItems.Clear();
-        }
-
-        public override void SetDragModeForItems()
-        {
-            if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
-            {
-                var rows = new List<DataGridRow>();
-                DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
-
-                foreach (DataGridRow row in rows)
-                {
-                    row.CanDrag = SelectedItems.Contains(row.DataContext);
-                }
-            }
-        }
-
-        public override void ScrollIntoView(ListedItem item)
-        {
-            try
-            {
-                AllView.ScrollIntoView(item, null);
-            }
-            catch (Exception)
-            {
-                // Catch error where row index could not be found
-            }
-        }
-
-        public override void FocusFileList()
-        {
-            AllView.Focus(FocusState.Programmatic);
-        }
-
-        public override void FocusSelectedItems()
-        {
-            if (SelectedItems.Any())
-            {
-                AllView.ScrollIntoView(SelectedItems.Last(), null);
-            }
-        }
-
-        public override void StartRenameItem()
-        {
-            try
-            {
-                if (IsItemSelected)
-                {
-                    AllView.CurrentColumn = AllView.Columns[1];
-                    AllView.BeginEdit();
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
-            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -541,7 +598,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (!SelectedItems.Contains(objectPressed))
                     {
-                        SetSelectedItemOnUi(objectPressed);
+                        ItemManipulationModel.SetSelectedItem(objectPressed);
                     }
                 }
             }
@@ -649,7 +706,7 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
-            Debugger.Break(); // Not Implemented
+            UnhookEvents();
             CommandsViewModel?.Dispose();
         }
 
