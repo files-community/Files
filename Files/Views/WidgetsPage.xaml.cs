@@ -113,6 +113,11 @@ namespace Files.Views
             await NavigationHelpers.OpenPath(e.path, AppInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
         }
 
+        private async void ViewModel_OpenPathEvent(object sender, EventArguments.BundlesOpenPathEventArgs e)
+        {
+            await NavigationHelpers.OpenPath(e.path, AppInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
+        }
+
         private void ViewModel_OpenPathInNewPaneEvent(object sender, string e)
         {
             AppInstance.PaneHolder.OpenPathInNewPane(e);
