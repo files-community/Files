@@ -18,7 +18,7 @@ namespace Files
 
         public bool IsPageMainPane { get; } // The instance is the left (or only) pane
 
-                                            // Multi pane is enabled
+        // Multi pane is enabled
         public IPaneHolder PaneHolder { get; }
     }
 
