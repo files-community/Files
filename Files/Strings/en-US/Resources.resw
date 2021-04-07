@@ -2067,16 +2067,16 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget" xml:space="preserve">
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Show Bundles Widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget" xml:space="preserve">
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Show Drives Widget</value>
   </data>
-  <data name="NavToolbarShowLibraryCardsWidget" xml:space="preserve">
+  <data name="NavToolbarShowLibraryCardsWidget.Header" xml:space="preserve">
     <value>Show Library Cards Widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget" xml:space="preserve">
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Show Recent Files Widget</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">

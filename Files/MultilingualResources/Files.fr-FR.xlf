@@ -2631,22 +2631,6 @@
           <source>Search unindexed items.</source>
           <target state="new">Search unindexed items.</target>
         </trans-unit>
-        <trans-unit id="NavToolbarShowBundlesWidget" translate="yes" xml:space="preserve">
-          <source>Show Bundles Widget</source>
-          <target state="new">Show Bundles Widget</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowDrivesWidget" translate="yes" xml:space="preserve">
-          <source>Show Drives Widget</source>
-          <target state="new">Show Drives Widget</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowLibraryCardsWidget" translate="yes" xml:space="preserve">
-          <source>Show Library Cards Widget</source>
-          <target state="new">Show Library Cards Widget</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowRecentFilesWidget" translate="yes" xml:space="preserve">
-          <source>Show Recent Files Widget</source>
-          <target state="new">Show Recent Files Widget</target>
-        </trans-unit>
         <trans-unit id="NavToolbarWidgets.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Manage widgets</source>
           <target state="new">Manage widgets</target>
@@ -2654,6 +2638,22 @@
         <trans-unit id="NavToolbarWidgetsManager.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Manage widgets</source>
           <target state="new">Manage widgets</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowBundlesWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles Widget</source>
+          <target state="new">Show Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowDrivesWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Drives Widget</source>
+          <target state="new">Show Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowLibraryCardsWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Library Cards Widget</source>
+          <target state="new">Show Library Cards Widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowRecentFilesWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Recent Files Widget</source>
+          <target state="new">Show Recent Files Widget</target>
         </trans-unit>
       </group>
     </body>
