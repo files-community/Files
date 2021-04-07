@@ -37,8 +37,7 @@ namespace Files.ViewModels.Pages
 
         private async void LoadBundles(BundlesViewModel viewModel)
         {
-            viewModel.Initialize(associatedInstance);
-            await viewModel.Load();
+            await viewModel.Initialize();
         }
 
         #region IDisposable

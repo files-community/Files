@@ -48,7 +48,7 @@ namespace Files.Views
             ReloadWidgets();
         }
 
-        private void ReloadWidgets()
+        private async void ReloadWidgets()
         {
             libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, out bool shouldReloadLibraryCards, libraryCards);
             drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
@@ -106,11 +106,6 @@ namespace Files.Views
         private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ReloadWidgets();
-        }
-
-        private async void ViewModel_OpenPathEvent(object sender, EventArguments.BundlesOpenPathEventArgs e)
-        {
-            await NavigationHelpers.OpenPath(e.path, AppInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
         }
 
         private async void ViewModel_OpenPathEvent(object sender, EventArguments.BundlesOpenPathEventArgs e)

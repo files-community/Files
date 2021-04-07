@@ -33,7 +33,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public Action<string> OpenPathInNewPane { get; set; }
 
-        public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay { get; set; }
+        public Func<string, uint, (byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlay { get; set; }
 
         public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
@@ -153,7 +153,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     if (Path.EndsWith(".lnk"))
                     {
-                        var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(Path, 24u);
+                        var (IconData, OverlayData, IsCustom) = LoadIconOverlay(Path, 24u);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {

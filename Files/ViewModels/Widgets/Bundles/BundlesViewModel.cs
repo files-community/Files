@@ -283,7 +283,7 @@ namespace Files.ViewModels.Widgets.Bundles
             OpenPathInNewPaneEvent?.Invoke(this, path);
         }
 
-        private async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayHandle(string path, uint thumbnailSize)
+        private (byte[] IconData, byte[] OverlayData, bool IsCustom) LoadIconOverlayHandle(string path, uint thumbnailSize)
         {
             BundlesLoadIconOverlayEventArgs eventArgs = new BundlesLoadIconOverlayEventArgs(path, thumbnailSize);
             LoadIconOverlayEvent?.Invoke(this, eventArgs);
