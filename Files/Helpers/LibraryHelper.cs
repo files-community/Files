@@ -20,47 +20,6 @@ namespace Files.Helpers
         // TODO: move everything to LibraryManager from here?
         // TODO: do Rename and Delete like in case of normal files
 
-        public static bool IsDefaultLibrary(string libraryFilePath)
-        {
-            // TODO: try to find a better way for this
-            switch (Path.GetFileNameWithoutExtension(libraryFilePath))
-            {
-                case "CameraRoll":
-                case "Documents":
-                case "Music":
-                case "Pictures":
-                case "SavedPictures":
-                case "Videos":
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Get libraries of the current user with the help of the FullTrust process.
-        /// </summary>
-        /// <returns>List of library items</returns>
-        public static async Task<List<LibraryLocationItem>> ListUserLibraries()
-        {
-            List<LibraryLocationItem> libraries = null;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
-            {
-                return null;
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Enumerate" }
-            });
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
-            {
-                libraries = JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
-            }
-            return libraries;
-        }
-
         /// <summary>
         /// Create new library with the specified name.
         /// </summary>
@@ -89,6 +48,48 @@ namespace Files.Helpers
                 library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Create"]));
             }
             return library;
+        }
+
+        public static bool IsDefaultLibrary(string libraryFilePath)
+        {
+            // TODO: try to find a better way for this
+            switch (Path.GetFileNameWithoutExtension(libraryFilePath))
+            {
+                case "CameraRoll":
+                case "Documents":
+                case "Music":
+                case "Pictures":
+                case "SavedPictures":
+                case "Videos":
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Get libraries of the current user with the help of the FullTrust process.
+        /// </summary>
+        /// <returns>List of library items</returns>
+        public static async Task<List<LibraryLocationItem>> ListUserLibraries()
+        {
+            List<LibraryLocationItem> libraries = null;
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
+            {
+                return null;
+            }
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+            {
+                { "Arguments", "ShellLibrary" },
+                { "action", "Enumerate" }
+            });
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
+            {
+                libraries = JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
+            }
+            return libraries;
         }
 
         /// <summary>

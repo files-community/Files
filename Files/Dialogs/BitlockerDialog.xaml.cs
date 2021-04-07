@@ -20,25 +20,6 @@ namespace Files.Dialogs
             IsPrimaryButtonEnabled = false;
         }
 
-        private void BitlockerDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            storedPasswordInput = inputBox.Password;
-        }
-
-        private void BitlockerInput_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            var textBox = sender as PasswordBox;
-
-            if (string.IsNullOrEmpty(textBox.Password))
-            {
-                IsPrimaryButtonEnabled = false;
-            }
-            else
-            {
-                IsPrimaryButtonEnabled = true;
-            }
-        }
-
         public new IAsyncOperation<ContentDialogResult> ShowAsync()
         {
             var tcs = new TaskCompletionSource<ContentDialogResult>();
@@ -77,6 +58,25 @@ namespace Files.Dialogs
             var asyncOperation = base.ShowAsync();
             asyncOperation.AsTask().ContinueWith(task => tcs.TrySetResult(task.Result));
             return tcs.Task.AsAsyncOperation();
+        }
+
+        private void BitlockerDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            storedPasswordInput = inputBox.Password;
+        }
+
+        private void BitlockerInput_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var textBox = sender as PasswordBox;
+
+            if (string.IsNullOrEmpty(textBox.Password))
+            {
+                IsPrimaryButtonEnabled = false;
+            }
+            else
+            {
+                IsPrimaryButtonEnabled = true;
+            }
         }
     }
 }

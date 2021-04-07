@@ -1,5 +1,4 @@
 ﻿using Files.ViewModels;
-using Files.Views;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -11,12 +10,37 @@ namespace Files.Dialogs
     public sealed partial class ExceptionDialog : ContentDialog
     {
         private string message;
-        private string stackTrace;
         private string offendingMethod;
+        private string stackTrace;
 
         public ExceptionDialog()
         {
             this.InitializeComponent();
+        }
+
+        private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            message = App.ExceptionInfo.Exception.Message;
+            if (!string.IsNullOrWhiteSpace(App.ExceptionStackTrace))
+            {
+                stackTrace = App.ExceptionStackTrace;
+            }
+            else
+            {
+                stackTrace = "No stack trace found.";
+            }
+
+            if (!string.IsNullOrWhiteSpace(App.ExceptionInfo.Exception.TargetSite?.ReflectedType.FullName))
+            {
+                offendingMethod = App.ExceptionInfo.Exception.TargetSite.ReflectedType.FullName;
+            }
+            else
+            {
+                offendingMethod = "(Method name unknown)";
+            }
+
+            Summary.Text = $"{message} within method {offendingMethod}";
+            ErrorInfo.Text = stackTrace;
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -51,31 +75,6 @@ namespace Files.Dialogs
                 CollapseIcon.Visibility = Visibility.Collapsed;
                 TechnicalInformation.Visibility = Visibility.Collapsed;
             }
-        }
-
-        private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
-        {
-            message = App.ExceptionInfo.Exception.Message;
-            if (!string.IsNullOrWhiteSpace(App.ExceptionStackTrace))
-            {
-                stackTrace = App.ExceptionStackTrace;
-            }
-            else
-            {
-                stackTrace = "No stack trace found.";
-            }
-
-            if (!string.IsNullOrWhiteSpace(App.ExceptionInfo.Exception.TargetSite?.ReflectedType.FullName))
-            {
-                offendingMethod = App.ExceptionInfo.Exception.TargetSite.ReflectedType.FullName;
-            }
-            else
-            {
-                offendingMethod = "(Method name unknown)";
-            }
-
-            Summary.Text = $"{message} within method {offendingMethod}";
-            ErrorInfo.Text = stackTrace;
         }
     }
 }

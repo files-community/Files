@@ -9,11 +9,11 @@ namespace Files.DataModels
 {
     public class ShellNewEntry
     {
-        public string Extension { get; set; }
-        public string Name { get; set; }
         public string Command { get; set; }
-        public StorageItemThumbnail Icon { get; set; }
         public byte[] Data { get; set; }
+        public string Extension { get; set; }
+        public StorageItemThumbnail Icon { get; set; }
+        public string Name { get; set; }
         public string Template { get; set; }
 
         public async Task<FilesystemResult<StorageFile>> Create(string filePath, IShellPage associatedInstance)

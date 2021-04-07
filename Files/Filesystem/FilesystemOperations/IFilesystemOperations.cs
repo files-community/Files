@@ -18,20 +18,6 @@ namespace Files.Filesystem
     // It would give us the ability to extend the reported progress by e.g.: transfer speed
     {
         /// <summary>
-        /// Creates an item from <paramref name="source"/>
-        /// </summary>
-        /// <param name="source">FullPath to the item</param>
-        /// <param name="errorCode">Status of the operation</param>
-        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
-        /// <returns><see cref="IStorageHistory"/> where:
-        /// <br/>
-        /// Source: The created item fullPath (as <see cref="PathWithType"/>)
-        /// <br/>
-        /// Destination: null
-        /// </returns>
-        Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken);
-
-        /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source item to be copied</param>
@@ -76,48 +62,18 @@ namespace Files.Filesystem
                                         CancellationToken cancellationToken);
 
         /// <summary>
-        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// Creates an item from <paramref name="source"/>
         /// </summary>
-        /// <param name="source">The source item to be moved</param>
-        /// <param name="destination">The destination fullPath</param>
-        /// <param name="collision">The item naming collision</param>
-        /// <param name="progress">Progress of the operation</param>
+        /// <param name="source">FullPath to the item</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The source item fullPath (as <see cref="PathWithType"/>)
+        /// Source: The created item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
+        /// Destination: null
         /// </returns>
-        Task<IStorageHistory> MoveAsync(IStorageItem source,
-                                        string destination,
-                                        NameCollisionOption collision,
-                                        IProgress<float> progress,
-                                        IProgress<FileSystemStatusCode> errorCode,
-                                        CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source item to be moved</param>
-        /// <param name="destination">The destination fullPath</param>
-        /// <param name="collision">The item naming collision</param>
-        /// <param name="progress">Progress of the operation</param>
-        /// <param name="errorCode">Status of the operation</param>
-        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
-        /// <returns><see cref="IStorageHistory"/> where:
-        /// <br/>
-        /// Source: The source item fullPath (as <see cref="PathWithType"/>)
-        /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
-        /// </returns>
-        Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
-                                        string destination,
-                                        NameCollisionOption collision,
-                                        IProgress<float> progress,
-                                        IProgress<FileSystemStatusCode> errorCode,
-                                        CancellationToken cancellationToken);
+        Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Deletes <paramref name="source"/>
@@ -167,6 +123,50 @@ namespace Files.Filesystem
                                           IProgress<FileSystemStatusCode> errorCode,
                                           bool permanently,
                                           CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source item to be moved</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="collision">The item naming collision</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The source item fullPath (as <see cref="PathWithType"/>)
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
+        /// </returns>
+        Task<IStorageHistory> MoveAsync(IStorageItem source,
+                                        string destination,
+                                        NameCollisionOption collision,
+                                        IProgress<float> progress,
+                                        IProgress<FileSystemStatusCode> errorCode,
+                                        CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source item to be moved</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="collision">The item naming collision</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The source item fullPath (as <see cref="PathWithType"/>)
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
+        /// </returns>
+        Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
+                                        string destination,
+                                        NameCollisionOption collision,
+                                        IProgress<float> progress,
+                                        IProgress<FileSystemStatusCode> errorCode,
+                                        CancellationToken cancellationToken);
 
         /// <summary>
         /// Renames <paramref name="source"/> with <paramref name="newName"/>

@@ -11,6 +11,12 @@ namespace Files.Helpers
         private Color tintColor;
         private double tintOpacity;
 
+        public AcrylicTheme()
+        {
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Color FallbackColor
         {
             get { return fallbackColor; }
@@ -41,15 +47,11 @@ namespace Files.Helpers
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        public void SetDarkTheme()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public AcrylicTheme()
-        {
+            FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
+            TintColor = Color.FromArgb(255, 44, 44, 44);
+            TintOpacity = 0.15;
         }
 
         public void SetDefaultTheme()
@@ -71,11 +73,9 @@ namespace Files.Helpers
             TintOpacity = 0.0;
         }
 
-        public void SetDarkTheme()
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintColor = Color.FromArgb(255, 44, 44, 44);
-            TintOpacity = 0.15;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

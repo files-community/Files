@@ -18,6 +18,10 @@ namespace Files.Filesystem
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
+        public CloudDrivesManager()
+        {
+        }
+
         public IReadOnlyList<DriveItem> Drives
         {
             get
@@ -27,10 +31,6 @@ namespace Files.Filesystem
                     return drivesList.ToList().AsReadOnly();
                 }
             }
-        }
-
-        public CloudDrivesManager()
-        {
         }
 
         public async Task EnumerateDrivesAsync()

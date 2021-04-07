@@ -9,57 +9,56 @@ using System;
 
 namespace Files
 {
-    public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
+    public interface IMultiPaneInfo
     {
-        IStatusCenterActions StatusCenterActions { get; }
+        public bool IsMultiPaneActive { get; }
 
-        //Interaction InteractionOperations { get; }
+        // Another pane is shown
+        public bool IsMultiPaneEnabled { get; }
 
-        ItemViewModel FilesystemViewModel { get; }
+        public bool IsPageMainPane { get; } // The instance is the left (or only) pane
 
-        CurrentInstanceViewModel InstanceViewModel { get; }
-
-        NamedPipeAsAppServiceConnection ServiceConnection { get; }
-
-        IBaseLayout SlimContentPage { get; }
-
-        Type CurrentPageType { get; }
-
-        IFilesystemHelpers FilesystemHelpers { get; }
-
-        INavigationToolbar NavigationToolbar { get; }
-
-        bool CanNavigateBackward { get; }
-
-        bool CanNavigateForward { get; }
-
-        void Refresh_Click();
-
-        void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
-
-        void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
-
-        void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
-
-        void RemoveLastPageFromBackStack();
-
-        void SubmitSearch(string query, bool searchUnindexedItems);
+        // Multi pane is enabled
+        public IPaneHolder PaneHolder { get; }
     }
 
     public interface IPaneHolder : IDisposable
     {
         public event EventHandler ActivePaneChanged;
+
         public IShellPage ActivePane { get; set; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
+
         public void OpenPathInNewPane(string path);
     }
 
-    public interface IMultiPaneInfo
+    public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
-        public bool IsPageMainPane { get; } // The instance is the left (or only) pane
-        public bool IsMultiPaneActive { get; } // Another pane is shown
-        public bool IsMultiPaneEnabled { get; } // Multi pane is enabled
-        public IPaneHolder PaneHolder { get; }
+        bool CanNavigateBackward { get; }
+        bool CanNavigateForward { get; }
+        Type CurrentPageType { get; }
+        IFilesystemHelpers FilesystemHelpers { get; }
+        ItemViewModel FilesystemViewModel { get; }
+
+        //Interaction InteractionOperations { get; }
+        CurrentInstanceViewModel InstanceViewModel { get; }
+
+        INavigationToolbar NavigationToolbar { get; }
+        NamedPipeAsAppServiceConnection ServiceConnection { get; }
+        IBaseLayout SlimContentPage { get; }
+        IStatusCenterActions StatusCenterActions { get; }
+
+        void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+
+        void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
+
+        void Refresh_Click();
+
+        void RemoveLastPageFromBackStack();
+
+        void SubmitSearch(string query, bool searchUnindexedItems);
+
+        void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
     }
 }

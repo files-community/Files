@@ -12,6 +12,42 @@ namespace Files.Helpers
     /// </summary>
     public static class StorageItemHelpers
     {
+        public static bool Exists(string path)
+        {
+            return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
+        }
+
+        public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
+        {
+            return (itemType == FilesystemItemType.File) ?
+                    (IStorageItemWithPath)new StorageFileWithPath(null, customPath) :
+                    (IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
+        }
+
+        public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
+        {
+            if (item == null)
+            {
+                return FromPathAndType(customPath, itemType);
+            }
+            else if (item.IsOfType(StorageItemTypes.File))
+            {
+                return new StorageFileWithPath(item as StorageFile, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+            }
+            else if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+            }
+            return null;
+        }
+
+        public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
+        {
+            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
+
+            return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
+        }
+
         public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
             return (await item.ToStorageItemResult(associatedInstance)).Result;
@@ -27,7 +63,7 @@ namespace Files.Helpers
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
                 //      we could implement this code here for getting .lnk files
                 //      for now, we can't
-                
+
                 return default(TOut);
 
                 if (false) // Prevent unnecessary exceptions
@@ -119,42 +155,6 @@ namespace Files.Helpers
                 returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
             }
             return returnedItem;
-        }
-
-        public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
-        {
-            return (itemType == FilesystemItemType.File) ?
-                    (IStorageItemWithPath)new StorageFileWithPath(null, customPath) :
-                    (IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
-        }
-
-        public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
-        {
-            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
-
-            return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
-        }
-
-        public static bool Exists(string path)
-        {
-            return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
-        }
-
-        public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
-        {
-            if (item == null)
-            {
-                return FromPathAndType(customPath, itemType);
-            }
-            else if (item.IsOfType(StorageItemTypes.File))
-            {
-                return new StorageFileWithPath(item as StorageFile, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
-            }
-            else if (item.IsOfType(StorageItemTypes.Folder))
-            {
-                return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
-            }
-            return null;
         }
 
         public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class

@@ -1,6 +1,5 @@
 ﻿using Files.Enums;
 using Files.Helpers;
-using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,13 +15,10 @@ namespace Files.Filesystem.FilesystemHistory
     {
         #region Private Members
 
-        private IFilesystemOperations filesystemOperations;
-
-        private IFilesystemHelpers filesystemHelpers;
-
-        private IShellPage associatedInstance;
-
         private readonly CancellationToken cancellationToken;
+        private IShellPage associatedInstance;
+        private IFilesystemHelpers filesystemHelpers;
+        private IFilesystemOperations filesystemOperations;
 
         #endregion Private Members
 
