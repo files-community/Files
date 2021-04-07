@@ -2638,6 +2638,10 @@
           <source>Show Recent Files Widget</source>
           <target state="new">Show Recent Files Widget</target>
         </trans-unit>
+        <trans-unit id="NavToolbarManageWidgetsFlyoutHeader.Text" translate="yes" xml:space="preserve">
+          <source>Manage Widgets</source>
+          <target state="new">Manage Widgets</target>
+        </trans-unit>
       </group>
     </body>
   </file>

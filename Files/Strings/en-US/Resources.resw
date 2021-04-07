@@ -2091,4 +2091,7 @@
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items.</value>
   </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>Manage Widgets</value>
+  </data>
 </root>
