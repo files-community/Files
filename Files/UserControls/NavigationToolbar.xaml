@@ -922,10 +922,10 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                    AutomationProperties.Name="Manage Widgets"
+                    AutomationProperties.Name="Manage widgets"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Manage Widgets">
+                    ToolTipService.ToolTip="Manage widgets">
                     <FontIcon FontSize="14" Glyph="&#xF246;" />
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="Bottom">
