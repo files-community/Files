@@ -1,4 +1,4 @@
-﻿namespace Files.EventArguments
+﻿namespace Files.EventArguments.Bundles
 {
     public class BundlesLoadIconOverlayEventArgs
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Files.Filesystem;
 
-namespace Files.EventArguments
+namespace Files.EventArguments.Bundles
 {
     public class BundlesOpenPathEventArgs
     {

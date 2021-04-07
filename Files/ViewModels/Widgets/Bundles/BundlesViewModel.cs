@@ -1,6 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Enums;
-using Files.EventArguments;
+using Files.EventArguments.Bundles;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.SettingsInterfaces;
@@ -46,15 +46,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #endregion Private Members
 
-        #region Events
-
         public event EventHandler<BundlesOpenPathEventArgs> OpenPathEvent;
 
         public event EventHandler<string> OpenPathInNewPaneEvent;
 
         public event EventHandler<BundlesLoadIconOverlayEventArgs> LoadIconOverlayEvent;
-
-        #endregion Events
 
         #region Public Properties
 

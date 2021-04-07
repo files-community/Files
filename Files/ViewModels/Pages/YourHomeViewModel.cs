@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.EventArguments.Bundles;
+using Files.Helpers;
 using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -57,7 +58,7 @@ namespace Files.ViewModels.Pages
             await bundlesViewModel.Initialize();
         }
 
-        private async void BundlesViewModel_LoadIconOverlayEvent(object sender, EventArguments.BundlesLoadIconOverlayEventArgs e)
+        private async void BundlesViewModel_LoadIconOverlayEvent(object sender, BundlesLoadIconOverlayEventArgs e)
         {
             e.outData = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(e.path, e.thumbnailSize);
         }
@@ -67,7 +68,7 @@ namespace Files.ViewModels.Pages
             associatedInstance.PaneHolder.OpenPathInNewPane(e);
         }
 
-        private async void BundlesViewModel_OpenPathEvent(object sender, EventArguments.BundlesOpenPathEventArgs e)
+        private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
         {
             await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
         }
@@ -76,6 +77,13 @@ namespace Files.ViewModels.Pages
 
         public void Dispose()
         {
+            if (bundlesViewModel != null)
+            {
+                bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
+                bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
+                bundlesViewModel.LoadIconOverlayEvent -= BundlesViewModel_LoadIconOverlayEvent;
+            }
+
             widgetsViewModel?.Dispose();
         }
 
