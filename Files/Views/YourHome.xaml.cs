@@ -68,8 +68,13 @@ namespace Files.Views
             {
                 Widgets.ViewModel.InsertWidget(bundles, 2);
 
-                bundles.ViewModel.Initialize(AppInstance);
-                await bundles.ViewModel.Load();
+                bundles.ViewModel.OpenPathEvent -= ViewModel_OpenPathEvent;
+                bundles.ViewModel.OpenPathInNewPaneEvent -= ViewModel_OpenPathInNewPaneEvent;
+                bundles.ViewModel.LoadIconOverlayEvent -= ViewModel_LoadIconOverlayEvent;
+                bundles.ViewModel.OpenPathEvent += ViewModel_OpenPathEvent;
+                bundles.ViewModel.OpenPathInNewPaneEvent += ViewModel_OpenPathInNewPaneEvent;
+                bundles.ViewModel.LoadIconOverlayEvent += ViewModel_LoadIconOverlayEvent;
+                await bundles.ViewModel.Initialize();
             }
             if (recentFiles != null)
             {
@@ -80,6 +85,21 @@ namespace Files.Views
 
                 Widgets.ViewModel.InsertWidget(recentFiles, 3);
             }
+        }
+
+        private async void ViewModel_OpenPathEvent(object sender, EventArguments.BundlesOpenPathEventArgs e)
+        {
+            await NavigationHelpers.OpenPath(e.path, AppInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
+        }
+
+        private void ViewModel_OpenPathInNewPaneEvent(object sender, string e)
+        {
+            AppInstance.PaneHolder.OpenPathInNewPane(e);
+        }
+
+        private async void ViewModel_LoadIconOverlayEvent(object sender, EventArguments.BundlesLoadIconOverlayEventArgs e)
+        {
+            e.outData = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(e.path, e.thumbnailSize);
         }
 
         private void LibraryCards_LibraryCardShowMultiPaneControlsInvoked(object sender, EventArgs e)
