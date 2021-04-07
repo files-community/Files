@@ -9,48 +9,55 @@ namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
-        public bool IsSearchRegionVisible { get; set; }
-        public bool IsEditModeEnabled { get; set; }
-        public bool CanRefresh { get; set; }
-        public bool CanCopyPathInPage { get; set; }
-        public bool CanNavigateToParent { get; set; }
-        public bool CanGoBack { get; set; }
-        public bool CanGoForward { get; set; }
-        public string PathControlDisplayText { get; set; }
-        public ObservableCollection<PathBoxItem> PathComponents { get; }
+        public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarQuerySubmittedEventHandler(object sender, ToolbarQuerySubmittedEventArgs e);
 
-        public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
-
-        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
+        public event EventHandler BackRequested;
 
         public event EventHandler EditModeEnabled;
 
-        public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
-
-        public event EventHandler BackRequested;
-
         public event EventHandler ForwardRequested;
 
-        public event EventHandler UpRequested;
+        public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
+
+        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
         public event EventHandler RefreshRequested;
 
         public event EventHandler RefreshWidgetsRequested;
 
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
+
+        public event EventHandler UpRequested;
+
+        public bool CanCopyPathInPage { get; set; }
+        public bool CanGoBack { get; set; }
+        public bool CanGoForward { get; set; }
+        public bool CanNavigateToParent { get; set; }
+        public bool CanRefresh { get; set; }
+        public bool IsEditModeEnabled { get; set; }
+        public bool IsSearchRegionVisible { get; set; }
+        public ObservableCollection<PathBoxItem> PathComponents { get; }
+        public string PathControlDisplayText { get; set; }
+
         public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
     }
 
-    public class ToolbarQuerySubmittedEventArgs
+    public class AddressBarTextEnteredEventArgs
     {
-        public string QueryText { get; set; } = null;
+        public AutoSuggestBox AddressBarTextField { get; set; }
+    }
+
+    public class PathBoxItemDroppedEventArgs
+    {
+        public DataPackageOperation AcceptedOperation { get; set; }
+        public DataPackageView Package { get; set; }
+        public string Path { get; set; }
     }
 
     public class PathNavigationEventArgs
@@ -65,19 +72,12 @@ namespace Files.UserControls
 
     public class ToolbarPathItemLoadedEventArgs
     {
-        public MenuFlyout OpenedFlyout { get; set; }
         public PathBoxItem Item { get; set; }
+        public MenuFlyout OpenedFlyout { get; set; }
     }
 
-    public class AddressBarTextEnteredEventArgs
+    public class ToolbarQuerySubmittedEventArgs
     {
-        public AutoSuggestBox AddressBarTextField { get; set; }
-    }
-
-    public class PathBoxItemDroppedEventArgs
-    {
-        public DataPackageView Package { get; set; }
-        public string Path { get; set; }
-        public DataPackageOperation AcceptedOperation { get; set; }
+        public string QueryText { get; set; } = null;
     }
 }

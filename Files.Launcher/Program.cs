@@ -556,7 +556,7 @@ namespace FilesFullTrust
             }
 
             Debug.WriteLine($"Library event: {changeType}, {oldPath} -> {newPath}");
-            
+
             if (connection?.IsConnected ?? false)
             {
                 var response = new ValueSet { { "Library", newPath ?? oldPath } };
@@ -566,6 +566,7 @@ namespace FilesFullTrust
                     case WatcherChangeTypes.Renamed:
                         response["OldPath"] = oldPath;
                         break;
+
                     default:
                         break;
                 }

@@ -9,29 +9,13 @@ namespace Files.Filesystem
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
-        
-        public string Text { get; set; }
-
         private string path;
-
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home" ? Text : Path;
-            }
-        }
-
-        public string HoverDisplayText { get; private set; }
-        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
-        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
-        public bool IsDefaultLocation { get; set; }
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
+        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
+        public string HoverDisplayText { get; private set; }
+        public SvgImageSource Icon { get; set; }
 
-        public bool SelectsOnInvoked { get; set; } = true;
+        public bool IsDefaultLocation { get; set; }
 
         public bool IsExpanded
         {
@@ -43,7 +27,21 @@ namespace Files.Filesystem
             }
         }
 
+        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home" ? Text : Path;
+            }
+        }
+
         public SectionType Section { get; set; }
+        public bool SelectsOnInvoked { get; set; } = true;
+        public string Text { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }

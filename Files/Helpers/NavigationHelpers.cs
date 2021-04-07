@@ -1,41 +1,24 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Enums;
+using Files.Filesystem;
+using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.System;
-using Files.Common;
-using Windows.Storage.Search;
-using Windows.Storage;
-using Files.Enums;
-using Microsoft.Toolkit.Uwp;
-using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
-using Files.ViewModels;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Search;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async void OpenPathInNewTab(string path)
-        {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-        }
-
-        public static async Task<bool> OpenPathInNewWindowAsync(string path)
-        {
-            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
-            return await Launcher.LaunchUriAsync(folderUri);
-        }
-
-        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
-        {
-            var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
-            return await Launcher.LaunchUriAsync(folderUri);
-        }
-
         public static async void LaunchNewWindow()
         {
             var filesUWPUri = new Uri("files-uwp:");
@@ -56,25 +39,6 @@ namespace Files.Helpers
                        Helpers.PathNormalization.NormalizePath(workingDir)) }
                 };
                 await associatedInstance.ServiceConnection.SendMessageAsync(value);
-            }
-        }
-
-        public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
-        {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
-            {
-                // Do not open files and folders inside the recycle bin
-                return;
-            }
-            if (associatedInstance.SlimContentPage == null)
-            {
-                return;
-            }
-            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
-            {
-                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
-                    FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
             }
         }
 
@@ -369,6 +333,42 @@ namespace Files.Helpers
             }
 
             return opened;
+        }
+
+        public static async void OpenPathInNewTab(string path)
+        {
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+        }
+
+        public static async Task<bool> OpenPathInNewWindowAsync(string path)
+        {
+            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
+            return await Launcher.LaunchUriAsync(folderUri);
+        }
+
+        public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
+        {
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+            if (associatedInstance.SlimContentPage == null)
+            {
+                return;
+            }
+            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
+            {
+                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
+                    FilesystemItemType.Directory : FilesystemItemType.File;
+                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+            }
+        }
+
+        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+        {
+            var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
+            return await Launcher.LaunchUriAsync(folderUri);
         }
     }
 }

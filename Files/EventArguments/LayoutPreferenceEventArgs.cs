@@ -4,9 +4,8 @@ namespace Files.EventArguments
 {
     public class LayoutPreferenceEventArgs
     {
-        public readonly LayoutPreferences LayoutPreference;
-
         public readonly bool IsAdaptiveLayoutUpdateRequired;
+        public readonly LayoutPreferences LayoutPreference;
 
         internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired = false)
         {

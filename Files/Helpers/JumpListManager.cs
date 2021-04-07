@@ -13,32 +13,13 @@ namespace Files.Helpers
     public sealed class JumpListManager
     {
         private JumpList instance = null;
-        private List<string> JumpListItemPaths { get; set; }
 
         public JumpListManager()
         {
             Initialize();
         }
 
-        private async void Initialize()
-        {
-            try
-            {
-                if (JumpList.IsSupported())
-                {
-                    instance = await JumpList.LoadCurrentAsync();
-
-                    // Disable automatic jumplist. It doesn't work with Files UWP.
-                    instance.SystemGroupKind = JumpListSystemGroupKind.None;
-                    JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                instance = null;
-            }
-        }
+        private List<string> JumpListItemPaths { get; set; }
 
         public async void AddFolderToJumpList(string path)
         {
@@ -48,6 +29,21 @@ namespace Files.Helpers
             {
                 await AddFolder(path);
                 await instance?.SaveAsync();
+            }
+            catch { }
+        }
+
+        public async void RemoveFolder(string path)
+        {
+            // Updating the jumplist may fail randomly with error: FileLoadException: File in use
+            // In that case app should just catch the error and proceed as usual
+            try
+            {
+                if (JumpListItemPaths.Contains(path))
+                {
+                    JumpListItemPaths.Remove(path);
+                    await UpdateAsync();
+                }
             }
             catch { }
         }
@@ -82,6 +78,7 @@ namespace Files.Helpers
                             // Use localized name
                             displayName = $"ms-resource:///Resources/Sidebar{libName}";
                             break;
+
                         default:
                             // Use original name
                             displayName = library.Text;
@@ -102,19 +99,24 @@ namespace Files.Helpers
             }
         }
 
-        public async void RemoveFolder(string path)
+        private async void Initialize()
         {
-            // Updating the jumplist may fail randomly with error: FileLoadException: File in use
-            // In that case app should just catch the error and proceed as usual
             try
             {
-                if (JumpListItemPaths.Contains(path))
+                if (JumpList.IsSupported())
                 {
-                    JumpListItemPaths.Remove(path);
-                    await UpdateAsync();
+                    instance = await JumpList.LoadCurrentAsync();
+
+                    // Disable automatic jumplist. It doesn't work with Files UWP.
+                    instance.SystemGroupKind = JumpListSystemGroupKind.None;
+                    JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                instance = null;
+            }
         }
 
         private async Task UpdateAsync()

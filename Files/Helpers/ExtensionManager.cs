@@ -30,17 +30,40 @@ namespace Files.Helpers
             //_dispatcher = null;
         }
 
+        // The name that extensions must specify to be considered an extension this host can load
+        public string ExtensionContractName { get; private set; }
+
         // The collection of extensions for this host
         public ObservableCollection<Extension> Extensions { get; } = new ObservableCollection<Extension>();
+
+        /// <summary>
+        /// Find all of the extensions currently installed on the machine that have the same name specified by this host
+        /// in its package.appxmanifest file and load them
+        /// </summary>
+        public async void FindAndLoadExtensions()
+        {
+            #region Error Checking
+
+            // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
+            //if (_dispatcher == null)
+            //{
+            //    throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is not initialized.");
+            //}
+
+            #endregion Error Checking
+
+            IReadOnlyList<AppExtension> extensions = await catalog.FindAllAsync();
+            foreach (AppExtension ext in extensions)
+            {
+                await LoadExtension(ext);
+            }
+        }
 
         // new jtw
         public Extension GetExtension(string id)
         {
             return Extensions.Where(e => e.UniqueId == id).FirstOrDefault();
         }
-
-        // The name that extensions must specify to be considered an extension this host can load
-        public string ExtensionContractName { get; private set; }
 
         /// <summary>
         /// Sets up handlers for package events
@@ -69,107 +92,6 @@ namespace Files.Helpers
             //_catalog.PackageStatusChanged += Catalog_PackageStatusChanged; // raised when a package changes with respect to integrity, licensing state, or availability (package is installed on a SD card that is then unplugged; you wouldn't get an uninstalling event)
 
             FindAndLoadExtensions();
-        }
-
-        /// <summary>
-        /// Find all of the extensions currently installed on the machine that have the same name specified by this host
-        /// in its package.appxmanifest file and load them
-        /// </summary>
-        public async void FindAndLoadExtensions()
-        {
-            #region Error Checking
-
-            // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            //if (_dispatcher == null)
-            //{
-            //    throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is not initialized.");
-            //}
-
-            #endregion Error Checking
-
-            IReadOnlyList<AppExtension> extensions = await catalog.FindAllAsync();
-            foreach (AppExtension ext in extensions)
-            {
-                await LoadExtension(ext);
-            }
-        }
-
-        /// <summary>
-        /// Handles a new package installed event. The new package may contain extensions this host can use.
-        /// </summary>
-        /// <param name="sender">The catalog that the extensions belong to</param>
-        /// <param name="args">Contains the package that was installed</param>
-        private async void Catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
-        {
-            foreach (AppExtension ext in args.Extensions)
-            {
-                await LoadExtension(ext);
-            }
-        }
-
-        /// <summary>
-        /// A package has been updated. Reload its extensions.
-        /// </summary>
-        /// <param name="sender">The catalog that the extensions belong to</param>
-        /// <param name="args">Contains the package that was updated</param>
-        private async void Catalog_PackageUpdated(AppExtensionCatalog sender, AppExtensionPackageUpdatedEventArgs args)
-        {
-            foreach (AppExtension ext in args.Extensions)
-            {
-                await LoadExtension(ext);
-            }
-        }
-
-        /// <summary>
-        /// A package is being updated. Unload all the extensions in the package.
-        /// </summary>
-        /// <param name="sender">The catalog that the extensions belong to</param>
-        /// <param name="args">Contains the package that is updating</param>
-        private async void Catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
-        {
-            await UnloadExtensions(args.Package);
-        }
-
-        /// <summary>
-        /// A package has been removed. Remove all the extensions in the package.
-        /// </summary>
-        /// <param name="sender">The catalog that the extensions belong to</param>
-        /// <param name="args">Contains the package that is uninstalling</param>
-        private async void Catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
-        {
-            await RemoveExtensions(args.Package);
-        }
-
-        /// <summary>
-        /// The status of a package has changed (it could be a licensing issue, the package was on USB and has been removed removed, etc)
-        /// Unload extensions if a package went offline or is otherwise no longer available
-        /// </summary>
-        /// <param name="sender">The catalog that the extensions belong to</param>
-        /// <param name="args">Contains the package that has changed status</param>
-        private async void Catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
-        {
-            if (!args.Package.Status.VerifyIsOK()) // If the package isn't ok, unload its extensions
-            {
-                // if it's offline, unload its extensions
-                if (args.Package.Status.PackageOffline)
-                {
-                    await UnloadExtensions(args.Package);
-                }
-                else if (args.Package.Status.Servicing || args.Package.Status.DeploymentInProgress)
-                {
-                    // if the package is being serviced or deployed, ignore the status events
-                }
-                else
-                {
-                    // Deal with an invalid or tampered with package, or other issue, by removing the extensions
-                    // Adding a UI glyph to the affected extensions could be a good user experience if you wish
-                    await RemoveExtensions(args.Package);
-                }
-            }
-            else // The package is now OK--attempt to load its extensions
-            {
-                await LoadExtensions(args.Package);
-            }
         }
 
         /// <summary>
@@ -231,16 +153,13 @@ namespace Files.Helpers
         }
 
         /// <summary>
-        /// Unloads all extensions associated with a package - used for updating and when package status goes away
+        /// Asks the user whether to uninstall the package containing an extension from the machine
+        /// and removes it if the user agrees.
         /// </summary>
-        /// <param name="package">Package containing the extensions to unload</param>
-        /// <returns></returns>
-        public async Task UnloadExtensions(Package package)
+        /// <param name="ext"></param>
+        public async void RemoveExtension(Extension ext)
         {
-            Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); });
-            //// Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            //await _dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-            //});
+            await catalog.RequestRemovePackageAsync(ext.AppExtension.Package.Id.FullName);
         }
 
         /// <summary>
@@ -255,13 +174,94 @@ namespace Files.Helpers
         }
 
         /// <summary>
-        /// Asks the user whether to uninstall the package containing an extension from the machine
-        /// and removes it if the user agrees.
+        /// Unloads all extensions associated with a package - used for updating and when package status goes away
         /// </summary>
-        /// <param name="ext"></param>
-        public async void RemoveExtension(Extension ext)
+        /// <param name="package">Package containing the extensions to unload</param>
+        /// <returns></returns>
+        public async Task UnloadExtensions(Package package)
         {
-            await catalog.RequestRemovePackageAsync(ext.AppExtension.Package.Id.FullName);
+            Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); });
+            //// Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
+            //await _dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+            //});
+        }
+
+        /// <summary>
+        /// Handles a new package installed event. The new package may contain extensions this host can use.
+        /// </summary>
+        /// <param name="sender">The catalog that the extensions belong to</param>
+        /// <param name="args">Contains the package that was installed</param>
+        private async void Catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
+        {
+            foreach (AppExtension ext in args.Extensions)
+            {
+                await LoadExtension(ext);
+            }
+        }
+
+        /// <summary>
+        /// The status of a package has changed (it could be a licensing issue, the package was on USB and has been removed removed, etc)
+        /// Unload extensions if a package went offline or is otherwise no longer available
+        /// </summary>
+        /// <param name="sender">The catalog that the extensions belong to</param>
+        /// <param name="args">Contains the package that has changed status</param>
+        private async void Catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
+        {
+            if (!args.Package.Status.VerifyIsOK()) // If the package isn't ok, unload its extensions
+            {
+                // if it's offline, unload its extensions
+                if (args.Package.Status.PackageOffline)
+                {
+                    await UnloadExtensions(args.Package);
+                }
+                else if (args.Package.Status.Servicing || args.Package.Status.DeploymentInProgress)
+                {
+                    // if the package is being serviced or deployed, ignore the status events
+                }
+                else
+                {
+                    // Deal with an invalid or tampered with package, or other issue, by removing the extensions
+                    // Adding a UI glyph to the affected extensions could be a good user experience if you wish
+                    await RemoveExtensions(args.Package);
+                }
+            }
+            else // The package is now OK--attempt to load its extensions
+            {
+                await LoadExtensions(args.Package);
+            }
+        }
+
+        /// <summary>
+        /// A package has been removed. Remove all the extensions in the package.
+        /// </summary>
+        /// <param name="sender">The catalog that the extensions belong to</param>
+        /// <param name="args">Contains the package that is uninstalling</param>
+        private async void Catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
+        {
+            await RemoveExtensions(args.Package);
+        }
+
+        /// <summary>
+        /// A package has been updated. Reload its extensions.
+        /// </summary>
+        /// <param name="sender">The catalog that the extensions belong to</param>
+        /// <param name="args">Contains the package that was updated</param>
+        private async void Catalog_PackageUpdated(AppExtensionCatalog sender, AppExtensionPackageUpdatedEventArgs args)
+        {
+            foreach (AppExtension ext in args.Extensions)
+            {
+                await LoadExtension(ext);
+            }
+        }
+
+        /// <summary>
+        /// A package is being updated. Unload all the extensions in the package.
+        /// </summary>
+        /// <param name="sender">The catalog that the extensions belong to</param>
+        /// <param name="args">Contains the package that is updating</param>
+        private async void Catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
+        {
+            await UnloadExtensions(args.Package);
         }
 
         #region Extra exceptions

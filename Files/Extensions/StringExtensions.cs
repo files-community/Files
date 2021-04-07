@@ -8,6 +8,26 @@ namespace Files.Extensions
 {
     public static class StringExtensions
     {
+        private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
+        {
+            { "KiB", "KiloByteSymbol".GetLocalized() },
+            { "MiB", "MegaByteSymbol".GetLocalized() },
+            { "GiB", "GigaByteSymbol".GetLocalized() },
+            { "TiB", "TeraByteSymbol".GetLocalized() },
+            { "PiB", "PetaByteSymbol".GetLocalized() },
+            { "B", "ByteSymbol".GetLocalized() },
+            { "b", "ByteSymbol".GetLocalized() }
+        };
+
+        public static string ConvertSizeAbbreviation(this string value)
+        {
+            foreach (var item in abbreviations)
+            {
+                value = value.Replace(item.Key, item.Value);
+            }
+            return value;
+        }
+
         /// <summary>
         /// Returns true if <paramref name="path"/> starts with the path <paramref name="baseDirPath"/>.
         /// The comparison is case-insensitive, handles / and \ slashes as folder separators and
@@ -22,6 +42,24 @@ namespace Files.Extensions
                 .WithEnding("\\"));
 
             return normalizedPath.StartsWith(normalizedBaseDirPath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>Gets the rightmost <paramref name="length" /> characters from a string.</summary>
+        /// <param name="value">The string to retrieve the substring from.</param>
+        /// <param name="length">The number of characters to retrieve.</param>
+        /// <returns>The substring.</returns>
+        public static string Right([NotNull] this string value, int length)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length", length, "Length is less than zero");
+            }
+
+            return (length < value.Length) ? value.Substring(value.Length - length) : value;
         }
 
         /// <summary>
@@ -51,44 +89,6 @@ namespace Files.Extensions
             }
 
             return result;
-        }
-
-        /// <summary>Gets the rightmost <paramref name="length" /> characters from a string.</summary>
-        /// <param name="value">The string to retrieve the substring from.</param>
-        /// <param name="length">The number of characters to retrieve.</param>
-        /// <returns>The substring.</returns>
-        public static string Right([NotNull] this string value, int length)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException("length", length, "Length is less than zero");
-            }
-
-            return (length < value.Length) ? value.Substring(value.Length - length) : value;
-        }
-
-        private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
-        {
-            { "KiB", "KiloByteSymbol".GetLocalized() },
-            { "MiB", "MegaByteSymbol".GetLocalized() },
-            { "GiB", "GigaByteSymbol".GetLocalized() },
-            { "TiB", "TeraByteSymbol".GetLocalized() },
-            { "PiB", "PetaByteSymbol".GetLocalized() },
-            { "B", "ByteSymbol".GetLocalized() },
-            { "b", "ByteSymbol".GetLocalized() }
-        };
-
-        public static string ConvertSizeAbbreviation(this string value)
-        {
-            foreach (var item in abbreviations)
-            {
-                value = value.Replace(item.Key, item.Value);
-            }
-            return value;
         }
     }
 }
