@@ -56,7 +56,7 @@
                     SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" 
                     x:Load="{x:Bind ShowColorSchemeSelector}"/>
 
-                <Button
+                <HyperlinkButton
                     x:Name="OpenThemesFolderButton"
                     x:Uid="SettingsAppearanceOpenThemesFolderButton"
                     Command="{Binding OpenThemesFolderCommand}"
