@@ -2068,16 +2068,16 @@
     <value>ISO speed</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Show Bundles Widget</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Show Drives Widget</value>
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowLibraryCardsWidget.Header" xml:space="preserve">
-    <value>Show Library Cards Widget</value>
+  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+    <value>Show Library widget</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Show Recent Files Widget</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
     <value>Manage widgets</value>
