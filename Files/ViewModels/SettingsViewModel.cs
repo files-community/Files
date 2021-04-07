@@ -94,7 +94,7 @@ namespace Files.ViewModels
         public static void OpenThemesFolder()
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            // This works (tm)
+            // Go back to main page
             if (rootFrame.CanGoBack)
             {
                 rootFrame.GoBack();
