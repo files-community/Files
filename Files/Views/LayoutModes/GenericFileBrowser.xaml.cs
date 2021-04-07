@@ -486,7 +486,14 @@ namespace Files.Views.LayoutModes
                 }
                 else
                 {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                    if (AppSettings.OpenFoldersNewTab)
+                    {
+                        NavigationHelpers.OpenPathNewTab(ParentShellPageInstance, false);
+                    }
+                    else
+                    {
+                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                    }
                 }
                 e.Handled = true;
             }

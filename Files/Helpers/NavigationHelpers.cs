@@ -19,7 +19,7 @@ namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async void OpenPathInNewTab(string path)
+        public static async Task OpenPathInNewTab(string path)
         {
             await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
@@ -56,6 +56,26 @@ namespace Files.Helpers
                        Helpers.PathNormalization.NormalizePath(workingDir)) }
                 };
                 await associatedInstance.ServiceConnection.SendMessageAsync(value);
+            }
+        }
+        //
+
+        public static async void OpenPathNewTab(IShellPage associatedInstance, bool openViaApplicationPicker = false)
+        {
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+            if (associatedInstance.SlimContentPage == null)
+            {
+                return;
+            }
+            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
+            {
+                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
+                    FilesystemItemType.Directory : FilesystemItemType.File;
+                await OpenPathInNewTab(item.ItemPath);
             }
         }
 
