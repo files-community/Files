@@ -436,15 +436,15 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async Task<string> GetHashForFileAsync(StorageFile file, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
+        private async Task<string> GetHashForFileAsync(StorageFile itemFromPath, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            if (file == null)
+            if (itemFromPath == null)
             {
                 return "";
             }
 
-            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
+            Stream stream = await FilesystemTasks.Wrap(() => itemFromPath.OpenStreamForReadAsync());
             if (stream == null)
             {
                 return "";
@@ -465,7 +465,7 @@ namespace Files.ViewModels.Properties
 
             Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
             var hash = algorithmProvider.CreateHash();
-            while (!token.IsCancellationRequested)
+            while (token.IsCancellationRequested)
             {
                 await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
                 if (buffer.Length > 0)
@@ -483,10 +483,7 @@ namespace Files.ViewModels.Properties
             }
             inputStream.Dispose();
             stream.Dispose();
-            if (token.IsCancellationRequested)
-            {
-                return "";
-            }
+
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
 

@@ -84,7 +84,7 @@ namespace Files.Views
                 {
                     Stopwatch stopwatch = Stopwatch.StartNew();
 
-                    ComboBoxItem ComboItem = (ComboBoxItem)ddlCompareHash.SelectedItem;
+                    ComboBoxItem ComboItem = (ComboBoxItem)CompareHashSelector.SelectedItem;
                     switch (ComboItem.Name)
                     {
                         case "MD5":
@@ -104,9 +104,9 @@ namespace Files.Views
             }
         }
 
-        private void ddlCompareHash_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CompareHashSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            txtCompareHash.Text = string.Empty;
+            CompareHashOutput.Text = string.Empty;
         }
     }
 }

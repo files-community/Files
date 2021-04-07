@@ -76,7 +76,7 @@
                 Text="MD5Hash:"
                 Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
             <TextBlock
-                x:Name="itemMD5HashValue"
+                x:Name="ItemMD5HashValue"
                 Grid.Row="2"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
@@ -100,7 +100,7 @@
                 Text="SHA1Hash:"
                 Visibility="{x:Bind ViewModel.ItemSHA1HashVisibility, Mode=OneWay}" />
             <TextBlock
-                x:Name="itemSHA1HashValue"
+                x:Name="ItemSHA1HashValue"
                 Grid.Row="3"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
@@ -124,7 +124,7 @@
                 Text="CRC32Hash:"
                 Visibility="{x:Bind ViewModel.ItemCRC32HashVisibility, Mode=OneWay}" />
             <TextBlock
-                x:Name="itemCRC32HashValue"
+                x:Name="ItemCRC32HashValue"
                 Grid.Row="4"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
@@ -149,8 +149,8 @@
                 Text="Hash Comparison:"/>
 
             <TextBox 
-                x:Name="txtCompareHash"
-                x:Uid="txtCompareHash"
+                x:Name="CompareHashOutput"
+                x:Uid="CompareHashOutput"
                 Grid.Row="6"
                 Grid.Column="1"
                 Margin="5,27,5,5"
@@ -158,12 +158,12 @@
                 Style="{StaticResource PropertyName}"
                 Text="{x:Bind ViewModel.ItemCompareHash, Mode=OneWay}"/>
 
-            <ComboBox x:Name="ddlCompareHash"
-                      x:Uid="ddlCompareHash"
+            <ComboBox x:Name="CompareHashSelector"
+                      x:Uid="CompareHashSelector"
                       Grid.Row="7"
                       Grid.Column="0"
                       Margin="5,5,0,0"
-                      SelectionChanged="ddlCompareHash_SelectionChanged"
+                      SelectionChanged="CompareHashSelector_SelectionChanged"
                       HorizontalAlignment="Left">
                 <ComboBoxItem Name="MD5" Content="MD5"></ComboBoxItem>
                 <ComboBoxItem Name="SHA1" Content="SHA1" IsSelected="True"></ComboBoxItem>
@@ -171,8 +171,8 @@
             </ComboBox>
 
             <Button 
-                x:Name="btnCompareHash"
-                x:Uid="btnCompareHash"
+                x:Name="CompareHash"
+                x:Uid="CompareHash"
                 Click="CompareHash_Click"
                 Grid.Row="7"
                 Grid.Column="1"

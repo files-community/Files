@@ -59,7 +59,7 @@
                     Content="Hashes"
                     Tag="Hashes">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentGlyphs}" Glyph="&#xE946;" />
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
