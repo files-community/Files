@@ -91,7 +91,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -101,7 +101,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -239,7 +239,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
