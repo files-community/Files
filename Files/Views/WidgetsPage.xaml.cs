@@ -48,7 +48,7 @@ namespace Files.Views
             ReloadWidgets();
         }
 
-        private async void ReloadWidgets()
+        private void ReloadWidgets()
         {
             libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, out bool shouldReloadLibraryCards, libraryCards);
             drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
@@ -83,14 +83,7 @@ namespace Files.Views
             if (shouldReloadBundles && bundles != null)
             {
                 Widgets.ViewModel.InsertWidget(bundles, 2);
-
-                bundles.ViewModel.OpenPathEvent -= ViewModel_OpenPathEvent;
-                bundles.ViewModel.OpenPathInNewPaneEvent -= ViewModel_OpenPathInNewPaneEvent;
-                bundles.ViewModel.LoadIconOverlayEvent -= ViewModel_LoadIconOverlayEvent;
-                bundles.ViewModel.OpenPathEvent += ViewModel_OpenPathEvent;
-                bundles.ViewModel.OpenPathInNewPaneEvent += ViewModel_OpenPathInNewPaneEvent;
-                bundles.ViewModel.LoadIconOverlayEvent += ViewModel_LoadIconOverlayEvent;
-                await bundles.ViewModel.Initialize();
+                ViewModel.LoadBundlesCommand.Execute(bundles.ViewModel);
             }
             if (shouldReloadRecentFiles && recentFiles != null)
             {
@@ -105,22 +98,9 @@ namespace Files.Views
 
         private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            // We must change the associatedInstance because only now it has loaded and not null
+            ViewModel.ChangeAppInstance(AppInstance);
             ReloadWidgets();
-        }
-
-        private async void ViewModel_OpenPathEvent(object sender, EventArguments.BundlesOpenPathEventArgs e)
-        {
-            await NavigationHelpers.OpenPath(e.path, AppInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
-        }
-
-        private void ViewModel_OpenPathInNewPaneEvent(object sender, string e)
-        {
-            AppInstance.PaneHolder.OpenPathInNewPane(e);
-        }
-
-        private async void ViewModel_LoadIconOverlayEvent(object sender, EventArguments.BundlesLoadIconOverlayEventArgs e)
-        {
-            e.outData = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(e.path, e.thumbnailSize);
         }
 
         private void LibraryCards_LibraryCardShowMultiPaneControlsInvoked(object sender, EventArgs e)
