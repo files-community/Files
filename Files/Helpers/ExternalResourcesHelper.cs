@@ -17,7 +17,7 @@ namespace Files.Helpers
             "DefaultScheme".GetLocalized()
         };
 
-        private StorageFolder ThemeFolder { get; set; }
+        public StorageFolder ThemeFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
 
