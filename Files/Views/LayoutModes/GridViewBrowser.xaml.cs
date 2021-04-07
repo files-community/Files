@@ -38,9 +38,121 @@ namespace Files.Views.LayoutModes
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
 
+        protected override void HookEvents()
+        {
+            UnhookEvents();
+            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
+            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
+            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
+            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
+            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
+            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
+            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
+            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
+        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
+        {
+            foreach (ListedItem listedItem in (IEnumerable)FileList.ItemsSource)
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
+            }
+        }
+
+        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
+        {
+            if (!InstanceViewModel.IsPageTypeSearchResults)
+            {
+                foreach (ListedItem listedItem in FileList.Items.ToList())
+                {
+                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
+                    {
+                        gridViewItem.CanDrag = gridViewItem.IsSelected;
+                    }
+                }
+            }
+        }
+
+        private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
+        {
+            FileList.ScrollIntoView(e);
+        }
+
+        private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
+        {
+            StartRenameItem();
+        }
+
+        private void ItemManipulationModel_FocusSelectedItemsInvoked(object sender, EventArgs e)
+        {
+            if (SelectedItems.Any())
+            {
+                FileList.ScrollIntoView(SelectedItems.Last());
+            }
+        }
+
+        private void ItemManipulationModel_AddSelectedItemInvoked(object sender, ListedItem e)
+        {
+            if (FileList?.Items.Contains(e) ?? false)
+            {
+                FileList.SelectedItems.Add(e);
+            }
+        }
+
+        private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
+        {
+            List<ListedItem> newSelectedItems = GetAllItems()
+                .Cast<ListedItem>()
+                .Except(SelectedItems)
+                .ToList();
+
+            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+        }
+
+        private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
+        {
+            FileList.SelectedItems.Clear();
+        }
+
+        private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
+        {
+            FileList.SelectAll();
+        }
+
+        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
+        {
+            FileList.Focus(FocusState.Programmatic);
+        }
+
+        protected override void UnhookEvents()
+        {
+            if (ItemManipulationModel != null)
+            {
+                ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
+                ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
+                ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
+                ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
+                ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
+                ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
+                ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
+                ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+            }
+        }
+
         protected override void InitializeCommandsViewModel()
         {
-            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance));
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -86,11 +198,6 @@ namespace Files.Views.LayoutModes
             FileList.Focus(FocusState.Programmatic);
         }
 
-        public override void FocusFileList()
-        {
-            FileList.Focus(FocusState.Programmatic);
-        }
-
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
@@ -121,54 +228,9 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        protected override void AddSelectedItem(ListedItem item)
-        {
-            if (FileList?.Items.Contains(item) ?? false)
-            {
-                FileList.SelectedItems.Add(item);
-            }
-        }
-
         protected override IEnumerable GetAllItems()
         {
             return FileList.Items;
-        }
-
-        public override void SelectAllItems()
-        {
-            FileList.SelectAll();
-        }
-
-        public override void ClearSelection()
-        {
-            FileList.SelectedItems.Clear();
-        }
-
-        public override void SetDragModeForItems()
-        {
-            if (!InstanceViewModel.IsPageTypeSearchResults)
-            {
-                foreach (ListedItem listedItem in FileList.Items.ToList())
-                {
-                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
-                    {
-                        gridViewItem.CanDrag = gridViewItem.IsSelected;
-                    }
-                }
-            }
-        }
-
-        public override void ScrollIntoView(ListedItem item)
-        {
-            FileList.ScrollIntoView(item);
-        }
-
-        public override void FocusSelectedItems()
-        {
-            if (SelectedItems.Any())
-            {
-                FileList.ScrollIntoView(SelectedItems.Last());
-            }
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -176,7 +238,7 @@ namespace Files.Views.LayoutModes
             var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (!parentContainer.IsSelected)
             {
-                SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
+                ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
             }
         }
 
@@ -187,7 +249,7 @@ namespace Files.Views.LayoutModes
 
         private ListedItem renamingItem;
 
-        public override void StartRenameItem()
+        private void StartRenameItem()
         {
             renamingItem = SelectedItem;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
@@ -487,7 +549,7 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
-            Debugger.Break(); // Not Implemented
+            UnhookEvents();
             CommandsViewModel?.Dispose();
         }
 

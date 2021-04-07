@@ -83,8 +83,7 @@ namespace Files.Views
             if (shouldReloadBundles && bundles != null)
             {
                 Widgets.ViewModel.InsertWidget(bundles, 2);
-
-                ViewModel.LoadBundlesCommand?.Execute(bundles.ViewModel);
+                ViewModel.LoadBundlesCommand.Execute(bundles.ViewModel);
             }
             if (shouldReloadRecentFiles && recentFiles != null)
             {
@@ -99,6 +98,8 @@ namespace Files.Views
 
         private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            // We must change the associatedInstance because only now it has loaded and not null
+            ViewModel.ChangeAppInstance(AppInstance);
             ReloadWidgets();
         }
 

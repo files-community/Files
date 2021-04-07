@@ -42,13 +42,16 @@ namespace Files.Interacts
 
         private readonly IShellPage associatedInstance;
 
+        private readonly ItemManipulationModel itemManipulationModel;
+
         #endregion Private Members
 
         #region Constructor
 
-        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance)
+        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
         {
             this.associatedInstance = associatedInstance;
+            this.itemManipulationModel = itemManipulationModel;
         }
 
         #endregion Constructor
@@ -66,7 +69,7 @@ namespace Files.Interacts
 
         public virtual void RenameItem(RoutedEventArgs e)
         {
-            SlimContentPage.StartRenameItem();
+            itemManipulationModel.StartRenameItem();
         }
 
         public virtual async void CreateShortcut(RoutedEventArgs e)
@@ -464,7 +467,7 @@ namespace Files.Interacts
         {
             var deferral = e.GetDeferral();
 
-            SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
@@ -532,7 +535,7 @@ namespace Files.Interacts
 
         public virtual void RefreshItems(RoutedEventArgs e)
         {
-            SlimContentPage.RefreshItems();
+            associatedInstance.Refresh_Click();
         }
 
         public void SearchUnindexedItems(RoutedEventArgs e)

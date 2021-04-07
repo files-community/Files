@@ -1,5 +1,7 @@
 ﻿using Files.Dialogs;
 using Files.Enums;
+using Files.EventArguments.Bundles;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
@@ -36,13 +38,19 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Private Members
 
-        private IShellPage associatedInstance;
+        private bool isInitialized;
 
         private bool itemAddedInternally;
 
         private int internalCollectionCount;
 
         #endregion Private Members
+
+        public event EventHandler<BundlesOpenPathEventArgs> OpenPathEvent;
+
+        public event EventHandler<string> OpenPathInNewPaneEvent;
+
+        public event EventHandler<BundlesLoadIconOverlayEventArgs> LoadIconOverlayEvent;
 
         #region Public Properties
 
@@ -206,11 +214,14 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             itemAddedInternally = true;
-            Items.Add(new BundleContainerViewModel(associatedInstance)
+            Items.Add(new BundleContainerViewModel()
             {
                 BundleName = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
-                NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle
+                NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
+                OpenPath = OpenPathHandle,
+                OpenPathInNewPane = OpenPathInNewPaneHandle,
+                LoadIconOverlay = LoadIconOverlayHandle
             });
             NoBundlesAddItemLoad = false;
             itemAddedInternally = false;
@@ -257,6 +268,24 @@ namespace Files.ViewModels.Widgets.Bundles
         #endregion Command Implementation
 
         #region Handlers
+
+        private void OpenPathHandle(string path, FilesystemItemType itemType, bool openSilent, bool openViaApplicationPicker, IEnumerable<string> selectItems)
+        {
+            OpenPathEvent?.Invoke(this, new BundlesOpenPathEventArgs(path, itemType, openSilent, openViaApplicationPicker, selectItems));
+        }
+
+        private void OpenPathInNewPaneHandle(string path)
+        {
+            OpenPathInNewPaneEvent?.Invoke(this, path);
+        }
+
+        private (byte[] IconData, byte[] OverlayData, bool IsCustom) LoadIconOverlayHandle(string path, uint thumbnailSize)
+        {
+            BundlesLoadIconOverlayEventArgs eventArgs = new BundlesLoadIconOverlayEventArgs(path, thumbnailSize);
+            LoadIconOverlayEvent?.Invoke(this, eventArgs);
+
+            return eventArgs.outData;
+        }
 
         /// <summary>
         /// This function gets called when an item is removed to update the collection
@@ -364,22 +393,29 @@ namespace Files.ViewModels.Widgets.Bundles
                         {
                             if (bundleItem != null)
                             {
-                                bundleItems.Add(new BundleItemViewModel(associatedInstance, bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance))
+                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem))
                                 {
                                     ParentBundleName = bundle.Key,
-                                    NotifyItemRemoved = NotifyBundleItemRemovedHandle
+                                    NotifyItemRemoved = NotifyBundleItemRemovedHandle,
+                                    OpenPath = OpenPathHandle,
+                                    OpenPathInNewPane = OpenPathInNewPaneHandle,
+                                    LoadIconOverlay = LoadIconOverlayHandle
                                 });
+                                bundleItems.Last().UpdateIcon();
                             }
                         }
                     }
 
                     // Fill current bundle with collected bundle items
                     itemAddedInternally = true;
-                    Items.Add(new BundleContainerViewModel(associatedInstance)
+                    Items.Add(new BundleContainerViewModel()
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
-                        NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle
+                        NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
+                        OpenPath = OpenPathHandle,
+                        OpenPathInNewPane = OpenPathInNewPaneHandle,
+                        LoadIconOverlay = LoadIconOverlayHandle
                     }.SetBundleItems(bundleItems));
                     itemAddedInternally = false;
                 }
@@ -399,9 +435,10 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        public void Initialize(IShellPage associatedInstance)
+        public async Task Initialize()
         {
-            this.associatedInstance = associatedInstance;
+            await Load();
+            isInitialized = true;
         }
 
         public (bool result, string reason) CanAddBundle(string name)
@@ -436,7 +473,6 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             Items.CollectionChanged -= Items_CollectionChanged;
-            associatedInstance = null;
             Items = null;
         }
 

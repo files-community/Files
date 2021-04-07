@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using System.Linq;
+using Files.Interacts;
 
 namespace Files.Helpers
 {
@@ -28,12 +29,12 @@ namespace Files.Helpers
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
-                associatedInstance.SlimContentPage.ResetItemOpacity();
+                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
                     // Dim opacities accordingly
-                    associatedInstance.SlimContentPage.SetItemOpacity(listedItem);
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
 
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -56,7 +57,7 @@ namespace Files.Helpers
                 }
                 if (result.ErrorCode == FileSystemStatusCode.NotFound)
                 {
-                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
                     return;
                 }
                 else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
@@ -77,7 +78,7 @@ namespace Files.Helpers
                             return;
                         }
                     }
-                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
                     return;
                 }
             }
@@ -171,7 +172,7 @@ namespace Files.Helpers
             if (packageView != null)
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, false, true);
-                associatedInstance.SlimContentPage.ResetItemOpacity();
+                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
             }
         }
 
@@ -265,10 +266,10 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="item"></param>
         /// <param name="isHidden"></param>
-        public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, IBaseLayout slimContentPage)
+        public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
         {
             item.IsHiddenItem = isHidden;
-            slimContentPage.ResetItemOpacity();
+            itemManipulationModel.RefreshItemsOpacity();
         }
     }
 }

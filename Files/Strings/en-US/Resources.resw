@@ -2067,17 +2067,17 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles Widget</value>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives Widget</value>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowLibraryCardsWidget" xml:space="preserve">
-    <value>Show Library Cards Widget</value>
+  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+    <value>Show Library widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files Widget</value>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
     <value>Manage widgets</value>
@@ -2090,6 +2090,9 @@
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items.</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>Manage Widgets</value>
   </data>
     <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>

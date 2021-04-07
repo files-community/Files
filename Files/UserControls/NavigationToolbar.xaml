@@ -928,24 +928,32 @@
                     ToolTipService.ToolTip="Manage widgets">
                     <FontIcon FontSize="14" Glyph="&#xF246;" />
                     <AppBarButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarShowLibraryCardsWidget"
-                                IsChecked="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}"
-                                Text="Show Library Cards Widget" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarShowDrivesWidget"
-                                IsChecked="{x:Bind ShowDrivesWidget, Mode=TwoWay}"
-                                Text="Show Drives Widget" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarShowBundlesWidget"
-                                IsChecked="{x:Bind ShowBundlesWidget, Mode=TwoWay}"
-                                Text="Show Bundles Widget" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarShowRecentFilesWidget"
-                                IsChecked="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}"
-                                Text="Show Recent Files Widget" />
-                        </MenuFlyout>
+                        <Flyout Placement="Bottom">
+                            <StackPanel Spacing="12">
+                                <TextBlock
+                                    x:Uid="NavToolbarManageWidgetsFlyoutHeader"
+                                    FontWeight="Medium"
+                                    Text="Manage Widgets" />
+                                <StackPanel Spacing="4">
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowLibraryWidget"
+                                        Header="Show Library widget"
+                                        IsOn="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowDrivesWidget"
+                                        Header="Show Drives widget"
+                                        IsOn="{x:Bind ShowDrivesWidget, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowBundlesWidget"
+                                        Header="Show Bundles widget"
+                                        IsOn="{x:Bind ShowBundlesWidget, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowRecentFilesWidget"
+                                        Header="Show Recent Files widget"
+                                        IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton

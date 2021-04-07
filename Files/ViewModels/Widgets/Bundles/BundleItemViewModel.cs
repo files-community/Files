@@ -5,9 +5,10 @@ using Files.SettingsInterfaces;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -26,13 +27,13 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #endregion Singleton
 
-        #region Private Members
-
-        private IShellPage associatedInstance;
-
-        #endregion Private Members
-
         #region Actions
+
+        public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
+
+        public Action<string> OpenPathInNewPane { get; set; }
+
+        public Func<string, uint, (byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlay { get; set; }
 
         public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
@@ -105,9 +106,8 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Constructor
 
-        public BundleItemViewModel(IShellPage associatedInstance, string path, FilesystemItemType targetType)
+        public BundleItemViewModel(string path, FilesystemItemType targetType)
         {
-            this.associatedInstance = associatedInstance;
             this.Path = path;
             this.TargetType = targetType;
 
@@ -116,8 +116,6 @@ namespace Files.ViewModels.Widgets.Bundles
             OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
             RemoveItemCommand = new RelayCommand(RemoveItem);
-
-            SetIcon();
         }
 
         #endregion Constructor
@@ -131,19 +129,19 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private void OpenInNewPane()
         {
-            associatedInstance.PaneHolder.OpenPathInNewPane(Path);
+            OpenPathInNewPane(Path);
         }
 
-        private async void OpenItemLocation()
+        private void OpenItemLocation()
         {
-            await NavigationHelpers.OpenPath(System.IO.Path.GetDirectoryName(Path), associatedInstance, FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
+            OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, false, false, System.IO.Path.GetFileName(Path).CreateEnumerable());
         }
 
         #endregion Command Implementation
 
-        #region Private Helpers
+        #region Public Helpers
 
-        private async void SetIcon()
+        public async void UpdateIcon()
         {
             if (TargetType == FilesystemItemType.Directory) // OpenDirectory
             {
@@ -155,9 +153,9 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     if (Path.EndsWith(".lnk"))
                     {
-                        var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, 24u);
+                        var (IconData, OverlayData, IsCustom) = LoadIconOverlay(Path, 24u);
 
-                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             Icon = await IconData.ToBitmapAsync();
                         });
@@ -165,7 +163,7 @@ namespace Files.ViewModels.Widgets.Bundles
                         return;
                     }
 
-                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
+                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path);
 
                     if (file == null) // No file found
                     {
@@ -191,13 +189,9 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        #endregion Private Helpers
-
-        #region Public Helpers
-
-        public async void OpenItem()
+        public void OpenItem()
         {
-            await NavigationHelpers.OpenPath(Path, associatedInstance, TargetType);
+            OpenPath(Path, TargetType, false, false, null);
         }
 
         public void RemoveItem()
@@ -224,7 +218,9 @@ namespace Files.ViewModels.Widgets.Bundles
             OpenItemLocationCommand = null;
             RemoveItemCommand = null;
 
-            associatedInstance = null;
+            OpenPath = null;
+            OpenPathInNewPane = null;
+            LoadIconOverlay = null;
         }
 
         #endregion IDisposable
