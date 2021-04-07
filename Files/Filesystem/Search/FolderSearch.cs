@@ -92,7 +92,7 @@ namespace Files.Filesystem.Search
                                         ItemPropertiesInitialized = false, // Load thumbnail
                                         FileExtension = itemFileExtension,
                                         ItemType = itemType,
-                                        Opacity = isHidden ? 0.4 : 1
+                                        Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                                     });
                                 }
                                 else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
@@ -109,7 +109,7 @@ namespace Files.Filesystem.Search
                                             LoadUnknownTypeGlyph = false,
                                             LoadFolderGlyph = true,
                                             ItemPropertiesInitialized = true,
-                                            Opacity = isHidden ? 0.4 : 1
+                                            Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                                         });
                                     }
                                 }

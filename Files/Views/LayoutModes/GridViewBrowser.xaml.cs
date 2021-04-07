@@ -59,7 +59,7 @@ namespace Files.Views.LayoutModes
             {
                 if (listedItem.IsHiddenItem)
                 {
-                    listedItem.Opacity = 0.4;
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
                 }
                 else
                 {

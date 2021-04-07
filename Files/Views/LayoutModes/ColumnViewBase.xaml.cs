@@ -65,7 +65,7 @@ namespace Files.Views.LayoutModes
             {
                 if (listedItem.IsHiddenItem)
                 {
-                    listedItem.Opacity = 0.4;
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
                 }
                 else
                 {
@@ -321,11 +321,6 @@ namespace Files.Views.LayoutModes
         }
 
         public override void ResetItemOpacity()
-        {
-            // throw new NotImplementedException();
-        }
-
-        public override void SetItemOpacity(ListedItem item)
         {
             // throw new NotImplementedException();
         }

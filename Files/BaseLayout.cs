@@ -244,18 +244,13 @@ namespace Files
             {
                 if (listedItem.IsHiddenItem)
                 {
-                    listedItem.Opacity = 0.4;
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
                 }
                 else
                 {
                     listedItem.Opacity = 1;
                 }
             }
-        }
-
-        public virtual void SetItemOpacity(ListedItem item)
-        {
-            item.Opacity = 0.4;
         }
 
         protected abstract ListedItem GetItemFromElement(object element);
