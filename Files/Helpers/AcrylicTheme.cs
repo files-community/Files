@@ -8,7 +8,6 @@ namespace Files.Helpers
     public class AcrylicTheme : INotifyPropertyChanged
     {
         private Color fallbackColor;
-        private Color tintColor;
         private double tintOpacity;
 
         public AcrylicTheme()
@@ -27,16 +26,6 @@ namespace Files.Helpers
             }
         }
 
-        public Color TintColor
-        {
-            get { return tintColor; }
-            set
-            {
-                tintColor = value;
-                NotifyPropertyChanged(nameof(TintColor));
-            }
-        }
-
         public double TintOpacity
         {
             get { return tintOpacity; }
@@ -50,7 +39,6 @@ namespace Files.Helpers
         public void SetDarkTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintColor = Color.FromArgb(255, 44, 44, 44);
             TintOpacity = 0.15;
         }
 
@@ -69,7 +57,6 @@ namespace Files.Helpers
         public void SetLightTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintColor = Color.FromArgb(255, 252, 252, 252);
             TintOpacity = 0.0;
         }
 
