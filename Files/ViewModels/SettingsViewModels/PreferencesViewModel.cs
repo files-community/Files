@@ -12,14 +12,12 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class PreferencesViewModel : ObservableObject
     {
-        private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
-        private bool showRestartControl;
-        private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
+        private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
+        private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
-
-        public static LibraryManager LibraryManager { get; private set; }
+        private bool showRestartControl;
 
         public PreferencesViewModel()
         {
@@ -29,7 +27,25 @@ namespace Files.ViewModels.SettingsViewModels
             LibraryManager ??= new LibraryManager();
         }
 
+        public static LibraryManager LibraryManager { get; private set; }
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
+
+        public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
+
+        public bool PinRecycleBinToSideBar
+        {
+            get
+            {
+                return pinRecycleBinToSideBar;
+            }
+            set
+            {
+                if (SetProperty(ref pinRecycleBinToSideBar, value))
+                {
+                    App.AppSettings.PinRecycleBinToSideBar = value;
+                }
+            }
+        }
 
         public int SelectedLanguageIndex
         {
@@ -52,14 +68,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ShowRestartControl
-        {
-            get => showRestartControl;
-            set => SetProperty(ref showRestartControl, value);
-        }
-
-        public List<Terminal> Terminals { get; set; }
-
         public Terminal SelectedTerminal
         {
             get { return selectedTerminal; }
@@ -69,23 +77,6 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     App.AppSettings.TerminalController.Model.DefaultTerminalName = value.Name;
                     App.AppSettings.TerminalController.SaveModel();
-                }
-            }
-        }
-
-        public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
-
-        public bool PinRecycleBinToSideBar
-        {
-            get
-            {
-                return pinRecycleBinToSideBar;
-            }
-            set
-            {
-                if (SetProperty(ref pinRecycleBinToSideBar, value))
-                {
-                    App.AppSettings.PinRecycleBinToSideBar = value;
                 }
             }
         }
@@ -121,6 +112,14 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        public bool ShowRestartControl
+        {
+            get => showRestartControl;
+            set => SetProperty(ref showRestartControl, value);
+        }
+
+        public List<Terminal> Terminals { get; set; }
 
         public async void LibraryVisibility(bool visible)
         {

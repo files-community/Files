@@ -29,8 +29,6 @@ namespace Files.ViewModels.Properties
     {
         private ProgressBar ProgressBar;
 
-        public ListedItem Item { get; }
-
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
@@ -42,6 +40,77 @@ namespace Files.ViewModels.Properties
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        public ListedItem Item { get; }
+
+        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
+        {
+            if (!Lat.HasValue || !Lon.HasValue)
+            {
+                return null;
+            }
+
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            MapService.ServiceToken = (string)obj.SelectToken("key");
+
+            BasicGeoposition location = new BasicGeoposition();
+            location.Latitude = Lat.Value;
+            location.Longitude = Lon.Value;
+            Geopoint pointToReverseGeocode = new Geopoint(location);
+
+            // Reverse geocode the specified geographic location.
+
+            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+            return result != null ? result.Locations[0].DisplayName : null;
+        }
+
+        /// <summary>
+        /// This function goes through ever read-write property saved, then syncs it
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearPropertiesAsync()
+        {
+            var failedProperties = new List<string>();
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
+            {
+                return;
+            }
+
+            foreach (var group in ViewModel.PropertySections)
+            {
+                foreach (FileProperty prop in group)
+                {
+                    if (!prop.IsReadOnly)
+                    {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, null);
+
+                        try
+                        {
+                            await file.Properties.SavePropertiesAsync(newDict);
+                        }
+                        catch
+                        {
+                            failedProperties.Add(prop.Name);
+                        }
+                    }
+                }
+            }
+
+            GetSystemFileProperties();
         }
 
         public override void GetBaseProperties()
@@ -181,38 +250,6 @@ namespace Files.ViewModels.Properties
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
-        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
-        {
-            if (!Lat.HasValue || !Lon.HasValue)
-            {
-                return null;
-            }
-
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            MapService.ServiceToken = (string)obj.SelectToken("key");
-
-            BasicGeoposition location = new BasicGeoposition();
-            location.Latitude = Lat.Value;
-            location.Longitude = Lon.Value;
-            Geopoint pointToReverseGeocode = new Geopoint(location);
-
-            // Reverse geocode the specified geographic location.
-
-            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-            return result != null ? result.Locations[0].DisplayName : null;
-        }
-
         public async Task SyncPropertyChangesAsync()
         {
             StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
@@ -247,97 +284,6 @@ namespace Files.ViewModels.Properties
             if (!string.IsNullOrWhiteSpace(failedProperties))
             {
                 throw new Exception($"The following properties failed to save: {failedProperties}");
-            }
-        }
-
-        /// <summary>
-        /// This function goes through ever read-write property saved, then syncs it
-        /// </summary>
-        /// <returns></returns>
-        public async Task ClearPropertiesAsync()
-        {
-            var failedProperties = new List<string>();
-            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
-            if (file == null)
-            {
-                return;
-            }
-
-            foreach (var group in ViewModel.PropertySections)
-            {
-                foreach (FileProperty prop in group)
-                {
-                    if (!prop.IsReadOnly)
-                    {
-                        var newDict = new Dictionary<string, object>();
-                        newDict.Add(prop.Property, null);
-
-                        try
-                        {
-                            await file.Properties.SavePropertiesAsync(newDict);
-                        }
-                        catch
-                        {
-                            failedProperties.Add(prop.Name);
-                        }
-                    }
-                }
-            }
-
-            GetSystemFileProperties();
-        }
-
-        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "IsReadOnly":
-                    if (ViewModel.IsReadOnly)
-                    {
-                        NativeFileOperationsHelper.SetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-                    }
-                    else
-                    {
-                        NativeFileOperationsHelper.UnsetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-                    }
-                    break;
-
-                case "IsHidden":
-                    if (ViewModel.IsHidden)
-                    {
-                        NativeFileOperationsHelper.SetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.Hidden);
-                    }
-                    else
-                    {
-                        NativeFileOperationsHelper.UnsetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.Hidden);
-                    }
-                    break;
-
-                case "ShortcutItemPath":
-                case "ShortcutItemWorkingDir":
-                case "ShortcutItemArguments":
-                    var tmpItem = (ShortcutItem)Item;
-                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
-                        return;
-                    if (AppInstance.ServiceConnection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await AppInstance.ServiceConnection.SendMessageAsync(value);
-                    }
-                    break;
             }
         }
 
@@ -394,6 +340,60 @@ namespace Files.ViewModels.Properties
                 return "";
             }
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "IsReadOnly":
+                    if (ViewModel.IsReadOnly)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    break;
+
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    break;
+
+                case "ShortcutItemPath":
+                case "ShortcutItemWorkingDir":
+                case "ShortcutItemArguments":
+                    var tmpItem = (ShortcutItem)Item;
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+                    if (AppInstance.ServiceConnection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await AppInstance.ServiceConnection.SendMessageAsync(value);
+                    }
+                    break;
+            }
         }
     }
 }
