@@ -12,37 +12,26 @@ namespace Files.ViewModels.Dialogs
 
         public string SourcePath { get; set; }
 
-        public Visibility PlusIconVisibility { get; set; } // Item will be created - show plus icon
-
         public string DestinationPath { get; set; }
 
-        private bool isConflicting = false;
-        /// <summary>
-        /// Determines whether an item is or was a conflicting one
-        /// <br/>
-        /// <br/>
-        /// If the item is no longer a conflicting file name, this property value should NOT be changed.
-        /// </summary>
-        public bool IsConflicting
+        public string SourceDirectoryDisplayName
         {
-            get => isConflicting;
-            set
-            {
-                if (isConflicting != value)
-                {
-                    isConflicting = value;
-
-                    ExclamationMarkVisibility = isConflicting ? Visibility.Visible : Visibility.Collapsed;
-                    ArrowIconVisibility = isConflicting ? Visibility.Collapsed : Visibility.Visible;
-                }
-            }
+            get => System.IO.Path.GetDirectoryName(SourcePath);
         }
 
-        private Visibility arrowIconVisibility = Visibility.Visible;
-        public Visibility ArrowIconVisibility
+        public string DestinationDirectoryDisplayName
         {
-            get => arrowIconVisibility;
-            set => SetProperty(ref arrowIconVisibility, value);
+            get => System.IO.Path.GetDirectoryName(DestinationPath);
+        }
+
+        public string SourceFileNameDisplayName
+        {
+            get => System.IO.Path.GetFileName(SourcePath);
+        }
+
+        public string DestinationFileNameDisplayName
+        {
+            get => System.IO.Path.GetFileName(DestinationPath);
         }
 
         private Visibility exclamationMarkVisibility = Visibility.Collapsed;
@@ -52,15 +41,28 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref exclamationMarkVisibility, value);
         }
 
-        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
+        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.NotAConflict;
         public FileNameConflictResolveOptionType ConflictResolveOption
         {
             get => conflictResolveOption;
             set
             {
-                if (conflictResolveOption != value && IsConflicting)
+                if (SetProperty(ref conflictResolveOption, value))
                 {
-                    conflictResolveOption = value;
+                    ConflictResolveOptionIndex = (int)(uint)conflictResolveOption;
+                }
+            }
+        }
+
+        private int conflictResolveOptionIndex = 0;
+        public int ConflictResolveOptionIndex
+        {
+            get => conflictResolveOptionIndex;
+            set
+            {
+                if (SetProperty(ref conflictResolveOptionIndex, value))
+                {
+                    ConflictResolveOption = (FileNameConflictResolveOptionType)(uint)conflictResolveOptionIndex;
                 }
             }
         }

@@ -48,13 +48,6 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref secondaryButtonText, value);
         }
 
-        private string closeButtonText;
-        public string CloseButtonText
-        {
-            get => closeButtonText;
-            set => SetProperty(ref closeButtonText, value);
-        }
-
         private bool chevronUpLoad = false;
         public bool ChevronUpLoad
         {
@@ -104,41 +97,75 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref mustResolveConflicts, value);
         }
 
+        public IFilesystemOperationDialogView View { get; set; }
+
         #endregion
 
         #region Commands
 
         public ICommand ExpandDetailsCommand { get; private set; }
 
+        public ICommand OptionGenerateNewNameCommand { get; private set; }
+
+        public ICommand OptionReplaceExistingCommand { get; private set; }
+
+        public ICommand OptionSkipCommand { get; private set; }
+
         public ICommand PrimaryButtonCommand { get; private set; }
 
         public ICommand SecondaryButtonCommand { get; private set; }
 
-        public ICommand CloseButtonCommand { get; private set; }
+        public ICommand LoadedCommand { get; private set; }
 
         #endregion
 
         public FilesystemOperationDialogViewModel()
         {
             // Create commands
+            OptionGenerateNewNameCommand = new RelayCommand(OptionGenerateNewName);
+            OptionReplaceExistingCommand = new RelayCommand(OptionReplaceExisting);
+            OptionSkipCommand = new RelayCommand(OptionSkip);
+
             PrimaryButtonCommand = new RelayCommand(PrimaryButton);
             SecondaryButtonCommand = new RelayCommand(SecondaryButton);
-            CloseButtonCommand = new RelayCommand(CloseButton);
+            LoadedCommand = new RelayCommand(() => { });
         }
 
         #region Command Implementation
 
+        private void OptionSkip()
+        {
+            foreach (var item in View.SelectedItems)
+            {
+                var detailItem = (FilesystemOperationItemViewModel)item;
+
+                detailItem.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
+            }
+        }
+
+        private void OptionReplaceExisting()
+        {
+            foreach (var item in View.SelectedItems)
+            {
+                var detailItem = (FilesystemOperationItemViewModel)item;
+
+                detailItem.ConflictResolveOption = FileNameConflictResolveOptionType.ReplaceExisting;
+            }
+        }
+
+        private void OptionGenerateNewName()
+        {
+            foreach (var item in View.SelectedItems)
+            {
+                var detailItem = (FilesystemOperationItemViewModel)item;
+
+                detailItem.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
+            }
+        }
+
         private void PrimaryButton()
         {
-            if (MustResolveConflicts)
-            {
-                // Generate new name
-
-                foreach (var item in Items)
-                {
-                    item.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
-                }
-            }
+            // Something there?
         }
 
         private void SecondaryButton()
@@ -149,19 +176,7 @@ namespace Files.ViewModels.Dialogs
 
                 foreach (var item in Items)
                 {
-                    item.ConflictResolveOption = FileNameConflictResolveOptionType.ReplaceExisting;
-                }
-            }
-        }
-
-        private void CloseButton()
-        {
-            if (MustResolveConflicts)
-            {
-                // Skip
-
-                foreach (var item in Items)
-                {
+                    // Don't do anything
                     item.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
                 }
             }
@@ -191,7 +206,6 @@ namespace Files.ViewModels.Dialogs
                 subtitleText = itemsData.ConflictingItems.Count == 1 ? string.Format("ConflictingItemsDialogSubtitleSingle".GetLocalized(), nonConflictingItems.Count) : string.Format("ConflictingItemsDialogSubtitleMultiple".GetLocalized(), itemsData.ConflictingItems.Count, nonConflictingItems.Count);
                 primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
                 secondaryButtonText = "ConflictingItemsDialogSecondaryButtonText".GetLocalized();
-                closeButtonText = "ConflictingItemsDialogCloseButtonText".GetLocalized();
             }
             else
             {
@@ -233,7 +247,6 @@ namespace Files.ViewModels.Dialogs
                 Subtitle = subtitleText,
                 PrimaryButtonText = primaryButtonText,
                 SecondaryButtonText = secondaryButtonText,
-                CloseButtonText = closeButtonText,
                 PermanentlyDeleteLoad = permanentlyDeleteLoad,
                 PermanentlyDelete = itemsData.PermanentlyDelete,
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,

@@ -890,7 +890,7 @@ namespace Files.Filesystem
             for (int i = 0; i < source.Count(); i++)
             {
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
-                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.None);
+                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
                 if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
