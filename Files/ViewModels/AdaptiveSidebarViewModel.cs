@@ -10,9 +10,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -22,12 +19,43 @@ namespace Files.ViewModels
 {
     public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
     {
-        public ICommand EmptyRecycleBinCommand { get; private set; }
-        public IPaneHolder PaneHolder { get; set; }
-        public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
-
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
         private bool isWindowCompactSize;
+        private INavigationControlItem selectedSidebarItem;
+
+        public AdaptiveSidebarViewModel()
+        {
+            EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
+            Window.Current.SizeChanged += Current_SizeChanged;
+            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            Current_SizeChanged(null, null);
+        }
+
+        public ICommand EmptyRecycleBinCommand { get; private set; }
+        public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
+
+        public bool IsMultiPaneEnabled
+        {
+            get => App.AppSettings.IsDualPaneEnabled && !IsWindowCompactSize;
+        }
+
+        public bool IsSidebarOpen
+        {
+            get => !IsWindowCompactSize && App.AppSettings.IsSidebarOpen;
+            set
+            {
+                if (IsWindowCompactSize)
+                {
+                    return;
+                }
+                if (App.AppSettings.IsSidebarOpen != value)
+                {
+                    App.AppSettings.IsSidebarOpen = value;
+                    OnPropertyChanged(nameof(SidebarWidth));
+                    OnPropertyChanged(nameof(IsSidebarOpen));
+                }
+            }
+        }
 
         public bool IsWindowCompactSize
         {
@@ -37,7 +65,7 @@ namespace Files.ViewModels
                 if (isWindowCompactSize != value)
                 {
                     isWindowCompactSize = value;
-                    
+
                     OnPropertyChanged(nameof(IsWindowCompactSize));
                     OnPropertyChanged(nameof(SidebarWidth));
                     OnPropertyChanged(nameof(IsSidebarOpen));
@@ -45,12 +73,47 @@ namespace Files.ViewModels
             }
         }
 
+        public IPaneHolder PaneHolder { get; set; }
+
+        public INavigationControlItem SidebarSelectedItem
+        {
+            get => selectedSidebarItem;
+            set => SetProperty(ref selectedSidebarItem, value);
+        }
+
+        public GridLength SidebarWidth
+        {
+            get => IsWindowCompactSize || !IsSidebarOpen ? CompactSidebarWidth : App.AppSettings.SidebarWidth;
+            set
+            {
+                if (IsWindowCompactSize || !IsSidebarOpen)
+                {
+                    return;
+                }
+                if (App.AppSettings.SidebarWidth != value)
+                {
+                    App.AppSettings.SidebarWidth = value;
+                    OnPropertyChanged(nameof(SidebarWidth));
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            Window.Current.SizeChanged -= Current_SizeChanged;
+            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+        }
+
+        public void EmptyRecycleBin(RoutedEventArgs e)
+        {
+            RecycleBinHelpers.EmptyRecycleBin(PaneHolder.ActivePane);
+        }
+
         public void NotifyInstanceRelatedPropertiesChanged(string arg)
         {
             UpdateSidebarSelectedItemFromArgs(arg);
 
             OnPropertyChanged(nameof(SidebarSelectedItem));
-
         }
 
         public void UpdateSidebarSelectedItemFromArgs(string arg)
@@ -96,67 +159,6 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsMultiPaneEnabled
-        {
-            get => App.AppSettings.IsDualPaneEnabled && !IsWindowCompactSize;
-        }
-
-        public GridLength SidebarWidth
-        {
-            get => IsWindowCompactSize || !IsSidebarOpen ? CompactSidebarWidth : App.AppSettings.SidebarWidth;
-            set
-            {
-                if (IsWindowCompactSize || !IsSidebarOpen)
-                {
-                    return;
-                }
-                if (App.AppSettings.SidebarWidth != value)
-                {
-                    App.AppSettings.SidebarWidth = value;
-                    OnPropertyChanged(nameof(SidebarWidth));
-                }
-            }
-        }
-
-        public bool IsSidebarOpen
-        {
-            get => !IsWindowCompactSize && App.AppSettings.IsSidebarOpen;
-            set
-            {
-                if (IsWindowCompactSize)
-                {
-                    return;
-                }
-                if (App.AppSettings.IsSidebarOpen != value)
-                {
-                    App.AppSettings.IsSidebarOpen = value;
-                    OnPropertyChanged(nameof(SidebarWidth));
-                    OnPropertyChanged(nameof(IsSidebarOpen));
-                }
-            }
-        }
-
-        private INavigationControlItem selectedSidebarItem;
-
-        public INavigationControlItem SidebarSelectedItem
-        {
-            get => selectedSidebarItem;
-            set => SetProperty(ref selectedSidebarItem, value);
-        }
-
-        public AdaptiveSidebarViewModel()
-        {
-            EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
-            Window.Current.SizeChanged += Current_SizeChanged;
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
-            Current_SizeChanged(null, null);
-        }
-
-        public void EmptyRecycleBin(RoutedEventArgs e)
-        {
-            RecycleBinHelpers.EmptyRecycleBin(PaneHolder.ActivePane);
-        }
-
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -183,12 +185,6 @@ namespace Files.ViewModels
                     IsWindowCompactSize = Window.Current.Bounds.Width <= 750;
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            Window.Current.SizeChanged -= Current_SizeChanged;
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
 using System;
 using System.Collections.Generic;
 
@@ -6,37 +7,10 @@ namespace Files
 {
     public interface IBaseLayout : IDisposable
     {
-        bool IsRenamingItem { get; }
-
         bool IsItemSelected { get; }
-
-        public List<ListedItem> SelectedItems { get; }
-
+        bool IsRenamingItem { get; }
+        ItemManipulationModel ItemManipulationModel { get; }
         public ListedItem SelectedItem { get; }
-
-        void SetItemOpacity(ListedItem item); // TODO: Add opactiy value here
-
-        void ResetItemOpacity();
-
-        void ClearSelection();
-
-        void SelectAllItems();
-
-        void InvertSelection();
-
-        void SetDragModeForItems();
-
-        void ScrollIntoView(ListedItem item);
-
-        void SetSelectedItemOnUi(ListedItem item);
-
-        void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
-
-        void AddSelectedItemsOnUi(List<ListedItem> selectedItems);
-
-        void FocusSelectedItems();
-
-        void StartRenameItem();
-        void RefreshItems();
+        public List<ListedItem> SelectedItems { get; }
     }
 }

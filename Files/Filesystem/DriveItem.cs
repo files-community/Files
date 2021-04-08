@@ -3,7 +3,6 @@ using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -14,11 +13,71 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
+    public enum DriveType
+    {
+        Fixed,
+        Removable,
+        Network,
+        Ram,
+        CDRom,
+        FloppyDisk,
+        Unknown,
+        NoRootDirectory,
+        VirtualDrive,
+        CloudDrive,
+    }
+
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
-
+        private ByteSize freeSpace;
+        private ByteSize maxSpace;
         private string path;
+        private float percentageUsed = 0.0f;
+        private bool showStorageSense = false;
+        private string spaceText;
+        private ByteSize spaceUsed;
+        private string text;
+        private DriveType type;
+
+        public DriveItem()
+        {
+            ItemType = NavigationControlItemType.CloudDrive;
+        }
+
+        public DriveItem(StorageFolder root, string deviceId, DriveType type)
+        {
+            Text = root.DisplayName;
+            Type = type;
+            Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            DeviceID = deviceId;
+            Root = root;
+
+            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
+        }
+
+        public string DeviceID { get; set; }
+
+        public ByteSize FreeSpace
+        {
+            get => freeSpace;
+            set => SetProperty(ref freeSpace, value);
+        }
+
+        public string HoverDisplayText { get; private set; }
+        public SvgImageSource Icon { get; set; }
+        public bool IsNetwork => Type == DriveType.Network;
+
+        public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
+
+        public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
+
+        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
+
+        public ByteSize MaxSpace
+        {
+            get => maxSpace;
+            set => SetProperty(ref maxSpace, value);
+        }
 
         public string Path
         {
@@ -30,74 +89,6 @@ namespace Files.Filesystem
             }
         }
 
-        public string HoverDisplayText { get; private set; }
-        public string DeviceID { get; set; }
-        public StorageFolder Root { get; set; }
-        public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
-
-        public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
-        public bool IsNetwork => Type == DriveType.Network;
-
-        private ByteSize maxSpace;
-        private ByteSize freeSpace;
-        private ByteSize spaceUsed;
-
-        public ByteSize MaxSpace
-        {
-            get => maxSpace;
-            set => SetProperty(ref maxSpace, value);
-        }
-
-        public ByteSize FreeSpace
-        {
-            get => freeSpace;
-            set => SetProperty(ref freeSpace, value);
-        }
-
-        public ByteSize SpaceUsed
-        {
-            get => spaceUsed;
-            set => SetProperty(ref spaceUsed, value);
-        }
-
-        public Visibility ShowDriveDetails
-        {
-            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private DriveType type;
-
-        public DriveType Type
-        {
-            get => type;
-            set
-            {
-                type = value;
-                SetGlyph(type);
-            }
-        }
-
-        private string text;
-
-        public string Text
-        {
-            get => text;
-            set => SetProperty(ref text, value);
-        }
-
-        private string spaceText;
-
-        public string SpaceText
-        {
-            get => spaceText;
-            set => SetProperty(ref spaceText, value);
-        }
-
-        public SectionType Section { get; set; }
-
-
-        private float percentageUsed = 0.0f;
         public float PercentageUsed
         {
             get => percentageUsed;
@@ -120,27 +111,56 @@ namespace Files.Filesystem
             }
         }
 
-        private bool showStorageSense = false;
+        public StorageFolder Root { get; set; }
+        public SectionType Section { get; set; }
+
+        public Visibility ShowDriveDetails
+        {
+            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         public bool ShowStorageSense
         {
             get => showStorageSense;
             set => SetProperty(ref showStorageSense, value);
         }
 
-        public DriveItem()
+        public string SpaceText
         {
-            ItemType = NavigationControlItemType.CloudDrive;
+            get => spaceText;
+            set => SetProperty(ref spaceText, value);
         }
 
-        public DriveItem(StorageFolder root, string deviceId, DriveType type)
+        public ByteSize SpaceUsed
         {
-            Text = root.DisplayName;
-            Type = type;
-            Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
-            DeviceID = deviceId;
-            Root = root;
+            get => spaceUsed;
+            set => SetProperty(ref spaceUsed, value);
+        }
 
-            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
+        }
+
+        public DriveType Type
+        {
+            get => type;
+            set
+            {
+                type = value;
+                SetGlyph(type);
+            }
+        }
+
+        public int CompareTo(INavigationControlItem other)
+        {
+            var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
+            if (result == 0)
+            {
+                return Text.CompareTo(other.Text);
+            }
+            return result;
         }
 
         public async Task UpdateLabelAsync()
@@ -237,29 +257,5 @@ namespace Files.Filesystem
                 }
             });
         }
-
-        public int CompareTo(INavigationControlItem other)
-        {
-            var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
-            if (result == 0)
-            {
-                return Text.CompareTo(other.Text);
-            }
-            return result;
-        }
-    }
-
-    public enum DriveType
-    {
-        Fixed,
-        Removable,
-        Network,
-        Ram,
-        CDRom,
-        FloppyDisk,
-        Unknown,
-        NoRootDirectory,
-        VirtualDrive,
-        CloudDrive,
     }
 }

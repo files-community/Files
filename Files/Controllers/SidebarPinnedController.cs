@@ -9,22 +9,31 @@ namespace Files.Controllers
 {
     public class SidebarPinnedController : IJson
     {
-        private StorageFolder Folder { get; set; }
-        private StorageFile JsonFile { get; set; }
-
-        public SidebarPinnedModel Model { get; set; }
-        public string JsonFileName { get; } = "PinnedItems.json";
-
         private SidebarPinnedController()
         {
             Model = new SidebarPinnedModel();
             Model.SetController(this);
         }
 
+        public string JsonFileName { get; } = "PinnedItems.json";
+        public SidebarPinnedModel Model { get; set; }
+        private StorageFolder Folder { get; set; }
+        private StorageFile JsonFile { get; set; }
+
         public static Task<SidebarPinnedController> CreateInstance()
         {
             var instance = new SidebarPinnedController();
             return instance.InitializeAsync();
+        }
+
+        public void SaveModel()
+        {
+            using (var file = File.CreateText(ApplicationData.Current.LocalCacheFolder.Path + Path.DirectorySeparatorChar + JsonFileName))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Formatting = Formatting.Indented;
+                serializer.Serialize(file, Model);
+            }
         }
 
         private async Task<SidebarPinnedController> InitializeAsync()
@@ -85,16 +94,6 @@ namespace Files.Controllers
             }
 
             await Model.AddAllItemsToSidebar();
-        }
-
-        public void SaveModel()
-        {
-            using (var file = File.CreateText(ApplicationData.Current.LocalCacheFolder.Path + Path.DirectorySeparatorChar + JsonFileName))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
-                serializer.Serialize(file, Model);
-            }
         }
     }
 }

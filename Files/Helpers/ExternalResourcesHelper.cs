@@ -17,9 +17,8 @@ namespace Files.Helpers
             "DefaultScheme".GetLocalized()
         };
 
-        private StorageFolder ThemeFolder { get; set; }
-
         public string CurrentThemeResources { get; set; }
+        public StorageFolder ThemeFolder { get; set; }
 
         public async Task LoadSelectedTheme()
         {
@@ -31,21 +30,6 @@ namespace Files.Helpers
             }
 
             LoadOtherThemesAsync();
-        }
-
-        private async void LoadOtherThemesAsync()
-        {
-            try
-            {
-                foreach (var file in (await ThemeFolder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
-                {
-                    Themes.Add(file.Name);
-                }
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine($"Error loading themes");
-            }
         }
 
         public async Task<bool> TryLoadThemeAsync(string name)
@@ -65,10 +49,25 @@ namespace Files.Helpers
             }
         }
 
+        private async void LoadOtherThemesAsync()
+        {
+            try
+            {
+                foreach (var file in (await ThemeFolder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
+                {
+                    Themes.Add(file.Name);
+                }
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine($"Error loading themes");
+            }
+        }
+
         public struct AppTheme
         {
-            public ResourceDictionary ResourceDictionary { get; set; }
             public string Name { get; set; }
+            public ResourceDictionary ResourceDictionary { get; set; }
         }
     }
 }

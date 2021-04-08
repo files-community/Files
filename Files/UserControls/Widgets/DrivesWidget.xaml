@@ -188,8 +188,8 @@
                                 </Grid.ColumnDefinitions>
                                 <Image
                                     Grid.Column="0"
-                                    x:Phase="1"
                                     Height="40"
+                                    x:Phase="1"
                                     Source="{x:Bind Icon, Mode=OneWay}" />
                                 <StackPanel
                                     Grid.Column="1"
@@ -197,12 +197,12 @@
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
                                     <Grid Margin="0,0,0,8" HorizontalAlignment="Stretch">
-                                        
+
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <TextBlock
                                             x:Name="ItemLocationName"
                                             VerticalAlignment="Center"
@@ -210,28 +210,28 @@
                                             FontWeight="Medium"
                                             Text="{x:Bind Text, Mode=OneWay}"
                                             TextWrapping="NoWrap" />
-                                        
-                                        <Button 
-                                            x:Uid="DrivesWidgetOpenStorageSenseButton"
+
+                                        <Button
                                             x:Name="GoToStorageSense"
-                                            x:Load="{x:Bind ShowStorageSense}"
-                                            AutomationProperties.Name="Open Storage Sense"
-                                            Grid.Column="1" 
-                                            HorizontalAlignment="Right"
-                                            Click="GoToStorageSense_Click"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
+                                            x:Uid="DrivesWidgetOpenStorageSenseButton"
+                                            Grid.Column="1"
                                             Width="30"
                                             Height="30"
-                                            ToolTipService.ToolTip="Open Storage Sense"
-                                            VerticalContentAlignment="Center"
+                                            Padding="0"
+                                            HorizontalAlignment="Right"
                                             HorizontalContentAlignment="Center"
-                                            Padding="0">
+                                            VerticalContentAlignment="Center"
+                                            x:Load="{x:Bind ShowStorageSense}"
+                                            AutomationProperties.Name="Open Storage Sense"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            Click="GoToStorageSense_Click"
+                                            ToolTipService.ToolTip="Open Storage Sense">
                                             <FontIcon
-                                                Glyph="&#xE7BA;"
-                                                FontSize="18"
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"/>
+                                                VerticalAlignment="Center"
+                                                FontSize="18"
+                                                Glyph="&#xE7BA;" />
                                         </Button>
                                     </Grid>
                                     <muxc:ProgressBar

@@ -1,7 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -18,7 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views

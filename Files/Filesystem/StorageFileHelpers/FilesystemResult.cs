@@ -14,38 +14,6 @@ namespace Files.Filesystem
         }
     }
 
-    public class FilesystemResult<T> : FilesystemResult
-    {
-        public FilesystemResult(T result, FileSystemStatusCode errorCode) : base(errorCode)
-        {
-            this.Result = result;
-        }
-
-        public T Result { get; private set; }
-
-        public static implicit operator T(FilesystemResult<T> res) => res.Result;
-    }
-
-    public class FilesystemResult
-    {
-        public FilesystemResult(FileSystemStatusCode errorCode)
-        {
-            this.ErrorCode = errorCode;
-        }
-
-        public FileSystemStatusCode ErrorCode { get; private set; }
-
-        public static implicit operator FileSystemStatusCode(FilesystemResult res) => res.ErrorCode;
-
-        public static implicit operator FilesystemResult(FileSystemStatusCode res) => new FilesystemResult(res);
-
-        public static implicit operator bool(FilesystemResult res) =>
-            res.ErrorCode == FileSystemStatusCode.Success;
-
-        public static explicit operator FilesystemResult(bool res) =>
-            new FilesystemResult(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
-    }
-
     public static class FilesystemTasks
     {
         public static FileSystemStatusCode GetErrorCode(Exception ex, Type T = null)
@@ -89,31 +57,6 @@ namespace Files.Filesystem
             }
         }
 
-        public async static Task<FilesystemResult<T>> Wrap<T>(Func<Task<T>> wrapped)
-        {
-            try
-            {
-                return new FilesystemResult<T>(await wrapped(), FileSystemStatusCode.Success);
-            }
-            catch (Exception ex)
-            {
-                return new FilesystemResult<T>(default, GetErrorCode(ex, typeof(T)));
-            }
-        }
-
-        public async static Task<FilesystemResult> Wrap(Func<Task> wrapped)
-        {
-            try
-            {
-                await wrapped();
-                return new FilesystemResult(FileSystemStatusCode.Success);
-            }
-            catch (Exception ex)
-            {
-                return new FilesystemResult(GetErrorCode(ex));
-            }
-        }
-
         public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<V>> func)
         {
             var res = await wrapped;
@@ -143,5 +86,62 @@ namespace Files.Filesystem
             }
             return res;
         }
+
+        public async static Task<FilesystemResult<T>> Wrap<T>(Func<Task<T>> wrapped)
+        {
+            try
+            {
+                return new FilesystemResult<T>(await wrapped(), FileSystemStatusCode.Success);
+            }
+            catch (Exception ex)
+            {
+                return new FilesystemResult<T>(default, GetErrorCode(ex, typeof(T)));
+            }
+        }
+
+        public async static Task<FilesystemResult> Wrap(Func<Task> wrapped)
+        {
+            try
+            {
+                await wrapped();
+                return new FilesystemResult(FileSystemStatusCode.Success);
+            }
+            catch (Exception ex)
+            {
+                return new FilesystemResult(GetErrorCode(ex));
+            }
+        }
+    }
+
+    public class FilesystemResult<T> : FilesystemResult
+    {
+        public FilesystemResult(T result, FileSystemStatusCode errorCode) : base(errorCode)
+        {
+            this.Result = result;
+        }
+
+        public T Result { get; private set; }
+
+        public static implicit operator T(FilesystemResult<T> res) => res.Result;
+    }
+
+    public class FilesystemResult
+    {
+        public FilesystemResult(FileSystemStatusCode errorCode)
+        {
+            this.ErrorCode = errorCode;
+        }
+
+        public FileSystemStatusCode ErrorCode { get; private set; }
+
+        public static explicit operator FilesystemResult(bool res) =>
+            new FilesystemResult(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+
+        public static implicit operator bool(FilesystemResult res) =>
+            res.ErrorCode == FileSystemStatusCode.Success;
+
+        public static implicit operator FilesystemResult(FileSystemStatusCode res) => new FilesystemResult(res);
+
+        public static implicit operator FileSystemStatusCode(FilesystemResult res) => res.ErrorCode;
     }
 }

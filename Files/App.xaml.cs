@@ -39,34 +39,39 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
+    public class WSLDistroItem : INavigationControlItem
+    {
+        private string path;
+        public string HoverDisplayText { get; private set; }
+        public SvgImageSource Icon { get; set; } = null;
+
+        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
+        public Uri Logo { get; set; }
+
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = Path.Contains("?") ? Text : Path;
+            }
+        }
+
+        public SectionType Section { get; private set; }
+        public string Text { get; set; }
+
+        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+    }
+
     sealed partial class App : Application
     {
-        private static bool ShowErrorNotification = false;
-
-        public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
-        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
-        public static SettingsViewModel AppSettings { get; private set; }
-        public static InteractionViewModel InteractionViewModel { get; private set; }
-        public static JumpListManager JumpList { get; } = new JumpListManager();
-        public static SidebarPinnedController SidebarPinnedController { get; private set; }
-        public static CloudDrivesManager CloudDrivesManager { get; private set; }
-        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
-        public static DrivesManager DrivesManager { get; private set; }
-        public static WSLDistroManager WSLDistroManager { get; private set; }
-        public static LibraryManager LibraryManager { get; private set; }
-        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
-
+        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
+        public static List<string> pathsToDeleteAfterPaste = new List<string>();
+        public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-        public static class AppData
-        {
-            // Get the extensions that are available for this host.
-            // Extensions that declare the same contract string as the host will be recognized.
-            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
-        }
+        private static bool ShowErrorNotification = false;
 
         public App()
         {
@@ -85,158 +90,44 @@ namespace Files
             StartAppCenter();
         }
 
-        private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
-        {
-            if (AppSettings == null)
-            {
-                AppSettings = await SettingsViewModel.CreateInstance();
-            }
-
-            ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadSelectedTheme();
-
-            InteractionViewModel ??= new InteractionViewModel();
-            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
-            LibraryManager ??= new LibraryManager();
-            DrivesManager ??= new DrivesManager();
-            NetworkDrivesManager ??= new NetworkDrivesManager();
-            CloudDrivesManager ??= new CloudDrivesManager();
-            WSLDistroManager ??= new WSLDistroManager();
-
-            // Start off a list of tasks we need to run before we can continue startup
-            _ = Task.Factory.StartNew(async () =>
-            {
-                await LibraryManager.EnumerateLibrariesAsync();
-                await DrivesManager.EnumerateDrivesAsync();
-                await CloudDrivesManager.EnumerateDrivesAsync();
-                await NetworkDrivesManager.EnumerateDrivesAsync();
-                await WSLDistroManager.EnumerateDrivesAsync();
-            });
-        }
-
-        private async void StartAppCenter()
-        {
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch
-            {
-                return;
-            }
-
-            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
-        }
-
-        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            DrivesManager?.ResumeDeviceWatcher();
-        }
-
+        public static SettingsViewModel AppSettings { get; private set; }
+        public static CloudDrivesManager CloudDrivesManager { get; private set; }
+        public static DrivesManager DrivesManager { get; private set; }
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
-        public static List<string> pathsToDeleteAfterPaste = new List<string>();
+        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static InteractionViewModel InteractionViewModel { get; private set; }
+        public static JumpListManager JumpList { get; } = new JumpListManager();
+        public static LibraryManager LibraryManager { get; private set; }
+        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
+        public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+        public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static WSLDistroManager WSLDistroManager { get; private set; }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        public static async void CloseApp()
         {
-            //start tracking app usage
-            SystemInformation.Instance.TrackAppUse(e);
-
-            Logger.Info("App launched");
-
-            bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
-
-            await EnsureSettingsAndConfigurationAreBootstrapped();
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
+            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync())
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                Application.Current.Exit();
             }
+        }
 
-            if (e.PrelaunchActivated == false)
+        public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+        {
+            if (AppSettings != null)
             {
-                if (canEnablePrelaunch)
+                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
-                    TryEnablePrelaunch();
-                }
-
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+                    if (tab != null && tab.TabItemArguments != null)
                     {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                        return tab.TabItemArguments.Serialize();
                     }
-                }
-
-                // Ensure the current window is active
-                Window.Current.Activate();
-                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-            }
-        }
-
-        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
-        {
-            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
-                args.WindowActivationState == CoreWindowActivationState.PointerActivated)
-            {
-                ShowErrorNotification = true;
-                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                Clipboard_ContentChanged(null, null);
-            }
-        }
-
-        private void Clipboard_ContentChanged(object sender, object e)
-        {
-            if (App.InteractionViewModel == null)
-            {
-                return;
-            }
-
-            try
-            {
-                // Clipboard.GetContent() will throw UnauthorizedAccessException
-                // if the app window is not in the foreground and active
-                DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
-                {
-                    App.InteractionViewModel.IsPasteEnabled = true;
-                }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
+                    else
+                    {
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        return defaultArg.Serialize();
+                    }
+                }).ToArray();
             }
         }
 
@@ -379,65 +270,67 @@ namespace Files
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
         }
 
-        private void TryEnablePrelaunch()
-        {
-            CoreApplication.EnablePrelaunch(true);
-        }
-
         /// <summary>
-        /// Invoked when Navigation to a certain page fails
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used such as when the application is launched to open a specific file.
         /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        /// <param name="e">Details about the launch request and process.</param>
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
+            //start tracking app usage
+            SystemInformation.Instance.TrackAppUse(e);
 
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            SaveSessionTabs();
+            Logger.Info("App launched");
 
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
-            LibraryManager?.Dispose();
-            DrivesManager?.Dispose();
-            deferral.Complete();
-        }
+            await EnsureSettingsAndConfigurationAreBootstrapped();
 
-        public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
-        {
-            if (AppSettings != null)
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (!(Window.Current.Content is Frame rootFrame))
             {
-                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+                rootFrame.CacheSize = 1;
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    if (tab != null && tab.TabItemArguments != null)
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (e.PrelaunchActivated == false)
+            {
+                if (canEnablePrelaunch)
+                {
+                    TryEnablePrelaunch();
+                }
+
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
                     {
-                        return tab.TabItemArguments.Serialize();
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
-                    else
-                    {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
-                        return defaultArg.Serialize();
-                    }
-                }).ToArray();
+                }
+
+                // Ensure the current window is active
+                Window.Current.Activate();
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
             }
         }
-
-        // Occurs when an exception is not handled on the UI thread.
-        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
-
-        // Occurs when an exception is not handled on a background thread.
-        // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
         private static void AppUnhandledException(Exception ex)
         {
@@ -487,41 +380,141 @@ namespace Files
             }
         }
 
-        public static async void CloseApp()
+        private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync())
+            if (AppSettings == null)
             {
-                Application.Current.Exit();
+                AppSettings = await SettingsViewModel.CreateInstance();
+            }
+
+            ExternalResourcesHelper ??= new ExternalResourcesHelper();
+            await ExternalResourcesHelper.LoadSelectedTheme();
+
+            InteractionViewModel ??= new InteractionViewModel();
+            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
+            LibraryManager ??= new LibraryManager();
+            DrivesManager ??= new DrivesManager();
+            NetworkDrivesManager ??= new NetworkDrivesManager();
+            CloudDrivesManager ??= new CloudDrivesManager();
+            WSLDistroManager ??= new WSLDistroManager();
+
+            // Start off a list of tasks we need to run before we can continue startup
+            _ = Task.Factory.StartNew(async () =>
+            {
+                await LibraryManager.EnumerateLibrariesAsync();
+                await DrivesManager.EnumerateDrivesAsync();
+                await CloudDrivesManager.EnumerateDrivesAsync();
+                await NetworkDrivesManager.EnumerateDrivesAsync();
+                await WSLDistroManager.EnumerateDrivesAsync();
+            });
+        }
+
+        // Occurs when an exception is not handled on the UI thread.
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
+
+        // Occurs when an exception is not handled on a background thread.
+        // ie. A task is fired and forgotten Task.Run(() => {...})
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+
+        private void Clipboard_ContentChanged(object sender, object e)
+        {
+            if (App.InteractionViewModel == null)
+            {
+                return;
+            }
+
+            try
+            {
+                // Clipboard.GetContent() will throw UnauthorizedAccessException
+                // if the app window is not in the foreground and active
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
+                {
+                    App.InteractionViewModel.IsPasteEnabled = true;
+                }
+                else
+                {
+                    App.InteractionViewModel.IsPasteEnabled = false;
+                }
+            }
+            catch
+            {
+                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
-    }
 
-    public class WSLDistroItem : INavigationControlItem
-    {
-        public SvgImageSource Icon { get; set; } = null;
-
-        public string Text { get; set; }
-
-        private string path;
-
-        public string Path
+        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
-            get => path;
-            set
+            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
+                args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
-                path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
+                ShowErrorNotification = true;
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                Clipboard_ContentChanged(null, null);
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            DrivesManager?.ResumeDeviceWatcher();
+        }
 
-        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
+        /// <summary>
+        /// Invoked when Navigation to a certain page fails
+        /// </summary>
+        /// <param name="sender">The Frame which failed navigation</param>
+        /// <param name="e">Details about the navigation failure</param>
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
 
-        public Uri Logo { get; set; }
+        /// <summary>
+        /// Invoked when application execution is being suspended.  Application state is saved
+        /// without knowing whether the application will be terminated or resumed with the contents
+        /// of memory still intact.
+        /// </summary>
+        /// <param name="sender">The source of the suspend request.</param>
+        /// <param name="e">Details about the suspend request.</param>
+        private void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            SaveSessionTabs();
 
-        public SectionType Section { get; private set; }
+            var deferral = e.SuspendingOperation.GetDeferral();
+            //TODO: Save application state and stop any background activity
 
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+            LibraryManager?.Dispose();
+            DrivesManager?.Dispose();
+            deferral.Complete();
+        }
+
+        private async void StartAppCenter()
+        {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+        }
+
+        private void TryEnablePrelaunch()
+        {
+            CoreApplication.EnablePrelaunch(true);
+        }
+
+        public static class AppData
+        {
+            // Get the extensions that are available for this host.
+            // Extensions that declare the same contract string as the host will be recognized.
+            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
+        }
     }
 }

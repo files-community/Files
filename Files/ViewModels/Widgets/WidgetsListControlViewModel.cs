@@ -2,20 +2,37 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels.Widgets
 {
     public class WidgetsListControlViewModel : ObservableObject, IDisposable
     {
-        public ObservableCollection<Control> Widgets { get; private set; } = new ObservableCollection<Control>();
+        public event EventHandler WidgetListRefreshRequestedInvoked;
 
-        public bool AddWidget(Control widgetModel)
+        public ObservableCollection<object> Widgets { get; private set; } = new ObservableCollection<object>();
+
+        public bool AddWidget(object widgetModel)
         {
             return InsertWidget(widgetModel, Widgets.Count + 1);
         }
 
-        public bool InsertWidget(Control widgetModel, int atIndex)
+        public bool CanAddWidget(string widgetName)
+        {
+            return !(Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetName));
+        }
+
+        public void Dispose()
+        {
+            for (int i = 0; i < Widgets.Count; i++)
+            {
+                (Widgets[i] as IDisposable)?.Dispose();
+            }
+
+            Widgets.Clear();
+            Widgets = null;
+        }
+
+        public bool InsertWidget(object widgetModel, int atIndex)
         {
             // The widget must not be null and must implement IWidgetItemModel
             if (!(widgetModel is IWidgetItemModel widgetItemModel))
@@ -41,16 +58,17 @@ namespace Files.ViewModels.Widgets
             return true;
         }
 
-        public bool CanAddWidget(string widgetName)
+        public void RefreshWidgetList()
         {
-            return !(Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetName));
-        }
+            for (int i = 0; i < Widgets.Count; i++)
+            {
+                if (!(Widgets[i] as IWidgetItemModel).IsWidgetSettingEnabled)
+                {
+                    RemoveWidgetAt(i);
+                }
+            }
 
-        public void RemoveWidget(Control widgetModel)
-        {
-            int indexToRemove = Widgets.IndexOf(widgetModel);
-            (Widgets[indexToRemove] as IDisposable)?.Dispose();
-            Widgets.RemoveAt(indexToRemove);
+            WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
         }
 
         public void RemoveWidget<TWidget>() where TWidget : IWidgetItemModel
@@ -67,29 +85,24 @@ namespace Files.ViewModels.Widgets
                 }
             }
 
-            if (indexToRemove == -1)
+            RemoveWidgetAt(indexToRemove);
+        }
+
+        public void RemoveWidgetAt(int index)
+        {
+            if (index < 0)
             {
                 return;
             }
 
-            RemoveWidget(Widgets[indexToRemove]);
+            (Widgets[index] as IDisposable)?.Dispose();
+            Widgets.RemoveAt(index);
         }
 
-        public void ReorderWidget(Control widgetModel, int place)
+        public void ReorderWidget(object widgetModel, int place)
         {
             int widgetIndex = Widgets.IndexOf(widgetModel);
             Widgets.Move(widgetIndex, place);
-        }
-
-        public void Dispose()
-        {
-            for (int i = 0; i < Widgets.Count; i++)
-            {
-                (Widgets[i] as IDisposable)?.Dispose();
-            }
-
-            Widgets.Clear();
-            Widgets = null;
         }
     }
 }

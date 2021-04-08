@@ -10,17 +10,9 @@ namespace Files.ViewModels
 {
     public abstract class BaseJsonSettingsViewModel
     {
-        #region Protected Members
-
-        protected Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
-
-        protected readonly string settingsPath;
-
         protected readonly bool initialized = false;
-
-        #endregion Protected Members
-
-        #region Constructor
+        protected readonly string settingsPath;
+        protected Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
 
         /// <summary>
         /// Initializes an instance of <see cref="BaseJsonSettingsViewModel"/>, <see cref="Init"/> is called by default
@@ -34,46 +26,23 @@ namespace Files.ViewModels
             initialized = true;
         }
 
-        #endregion Constructor
-
-        #region Helpers
-
-        protected virtual async void Init()
+        public virtual object ExportSettings()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
+            return serializableSettings;
+        }
+
+        public virtual void ImportSettings(object import)
+        {
+            try
+            {
+                serializableSettings = (Dictionary<string, object>)import;
+            }
+            catch { }
         }
 
         public virtual bool NotifyOnValueUpdated<TValue>(TValue value, string propertyName)
         {
             return Set(value, propertyName);
-        }
-
-        #endregion Helpers
-
-        #region Get, Set
-
-        protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
-        {
-            try
-            {
-                if (!serializableSettings.ContainsKey(propertyName))
-                {
-                    serializableSettings.Add(propertyName, value);
-                }
-                else
-                {
-                    serializableSettings[propertyName] = value;
-                }
-
-                // Serialize
-                NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
-            }
-            catch (Exception e)
-            {
-                Debugger.Break();
-                return false;
-            }
-            return true;
         }
 
         protected virtual TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
@@ -117,24 +86,33 @@ namespace Files.ViewModels
             }
         }
 
-        #endregion Get, Set
-
-        #region Virtual Helpers
-
-        public virtual object ExportSettings()
+        protected virtual async void Init()
         {
-            return serializableSettings;
+            await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
         }
 
-        public virtual void ImportSettings(object import)
+        protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
         {
             try
             {
-                serializableSettings = (Dictionary<string, object>)import;
-            }
-            catch { }
-        }
+                if (!serializableSettings.ContainsKey(propertyName))
+                {
+                    serializableSettings.Add(propertyName, value);
+                }
+                else
+                {
+                    serializableSettings[propertyName] = value;
+                }
 
-        #endregion Virtual Helpers
+                // Serialize
+                NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
+            }
+            catch (Exception e)
+            {
+                Debugger.Break();
+                return false;
+            }
+            return true;
+        }
     }
 }

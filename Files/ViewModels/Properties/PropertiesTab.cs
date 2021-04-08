@@ -19,12 +19,14 @@ namespace Files.ViewModels.Properties
 
         protected IProgress<float> hashProgress;
 
-        protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (BaseProperties != null)
+            if (BaseProperties != null && BaseProperties.TokenSource != null)
             {
-                BaseProperties.GetSpecialProperties();
+                BaseProperties.TokenSource.Cancel();
             }
+
+            base.OnNavigatedFrom(e);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,14 +63,12 @@ namespace Files.ViewModels.Properties
             base.OnNavigatedTo(e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            if (BaseProperties != null && BaseProperties.TokenSource != null)
+            if (BaseProperties != null)
             {
-                BaseProperties.TokenSource.Cancel();
+                BaseProperties.GetSpecialProperties();
             }
-
-            base.OnNavigatedFrom(e);
         }
 
         /// <summary>

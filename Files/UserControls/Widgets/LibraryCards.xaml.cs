@@ -2,7 +2,6 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.ViewModels.Widgets;
@@ -11,7 +10,6 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -50,6 +48,8 @@ namespace Files.UserControls.Widgets
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
 
         public string WidgetName => nameof(LibraryCards);
+
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
         {
@@ -310,7 +310,6 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
-            Debugger.Break();
         }
     }
 

@@ -29,9 +29,7 @@ namespace Files.ViewModels.Properties
     {
         private IProgress<float> hashProgress;
 
-        public ListedItem Item { get; }
-
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, IProgress<float> hashProgress, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
@@ -42,6 +40,77 @@ namespace Files.ViewModels.Properties
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        public ListedItem Item { get; }
+
+        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
+        {
+            if (!Lat.HasValue || !Lon.HasValue)
+            {
+                return null;
+            }
+
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            MapService.ServiceToken = (string)obj.SelectToken("key");
+
+            BasicGeoposition location = new BasicGeoposition();
+            location.Latitude = Lat.Value;
+            location.Longitude = Lon.Value;
+            Geopoint pointToReverseGeocode = new Geopoint(location);
+
+            // Reverse geocode the specified geographic location.
+
+            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+            return result != null ? result.Locations[0].DisplayName : null;
+        }
+
+        /// <summary>
+        /// This function goes through ever read-write property saved, then syncs it
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearPropertiesAsync()
+        {
+            var failedProperties = new List<string>();
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
+            {
+                return;
+            }
+
+            foreach (var group in ViewModel.PropertySections)
+            {
+                foreach (FileProperty prop in group)
+                {
+                    if (!prop.IsReadOnly)
+                    {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, null);
+
+                        try
+                        {
+                            await file.Properties.SavePropertiesAsync(newDict);
+                        }
+                        catch
+                        {
+                            failedProperties.Add(prop.Name);
+                        }
+                    }
+                }
+            }
+
+            GetSystemFileProperties();
         }
 
         public override void GetBaseProperties()
@@ -181,38 +250,6 @@ namespace Files.ViewModels.Properties
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
-        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
-        {
-            if (!Lat.HasValue || !Lon.HasValue)
-            {
-                return null;
-            }
-
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            MapService.ServiceToken = (string)obj.SelectToken("key");
-
-            BasicGeoposition location = new BasicGeoposition();
-            location.Latitude = Lat.Value;
-            location.Longitude = Lon.Value;
-            Geopoint pointToReverseGeocode = new Geopoint(location);
-
-            // Reverse geocode the specified geographic location.
-
-            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-            return result != null ? result.Locations[0].DisplayName : null;
-        }
-
         public async Task SyncPropertyChangesAsync()
         {
             StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
@@ -250,41 +287,59 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        /// <summary>
-        /// This function goes through ever read-write property saved, then syncs it
-        /// </summary>
-        /// <returns></returns>
-        public async Task ClearPropertiesAsync()
+        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
         {
-            var failedProperties = new List<string>();
-            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
+            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
             if (file == null)
             {
-                return;
+                return "";
             }
 
-            foreach (var group in ViewModel.PropertySections)
+            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
+            if (stream == null)
             {
-                foreach (FileProperty prop in group)
-                {
-                    if (!prop.IsReadOnly)
-                    {
-                        var newDict = new Dictionary<string, object>();
-                        newDict.Add(prop.Property, null);
+                return "";
+            }
 
-                        try
-                        {
-                            await file.Properties.SavePropertiesAsync(newDict);
-                        }
-                        catch
-                        {
-                            failedProperties.Add(prop.Name);
-                        }
-                    }
+            var inputStream = stream.AsInputStream();
+            var str = inputStream.AsStreamForRead();
+            var cap = (long)(0.5 * str.Length) / 100;
+            uint capacity;
+            if (cap >= uint.MaxValue)
+            {
+                capacity = uint.MaxValue;
+            }
+            else
+            {
+                capacity = Convert.ToUInt32(cap);
+            }
+
+            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
+            var hash = algorithmProvider.CreateHash();
+            while (!token.IsCancellationRequested)
+            {
+                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
+                if (buffer.Length > 0)
+                {
+                    hash.Append(buffer);
+                }
+                else
+                {
+                    break;
+                }
+                if (progress != null)
+                {
+                    progress.Value = (double)str.Position / str.Length * 100;
                 }
             }
-
-            GetSystemFileProperties();
+            inputStream.Dispose();
+            stream.Dispose();
+            if (token.IsCancellationRequested)
+            {
+                return "";
+            }
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -339,58 +394,6 @@ namespace Files.ViewModels.Properties
                     }
                     break;
             }
-        }
-
-        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, IProgress<float> hashProgress, CancellationToken token, IShellPage associatedInstance)
-        {
-            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
-            if (file == null)
-            {
-                return "";
-            }
-
-            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
-            if (stream == null)
-            {
-                return "";
-            }
-
-            var inputStream = stream.AsInputStream();
-            var str = inputStream.AsStreamForRead();
-            var cap = (long)(0.5 * str.Length) / 100;
-            uint capacity;
-            if (cap >= uint.MaxValue)
-            {
-                capacity = uint.MaxValue;
-            }
-            else
-            {
-                capacity = Convert.ToUInt32(cap);
-            }
-
-            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
-            var hash = algorithmProvider.CreateHash();
-            while (!token.IsCancellationRequested)
-            {
-                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
-                if (buffer.Length > 0)
-                {
-                    hash.Append(buffer);
-                }
-                else
-                {
-                    break;
-                }
-                hashProgress?.Report((float)str.Position / str.Length * 100.0f);
-            }
-            inputStream.Dispose();
-            stream.Dispose();
-            if (token.IsCancellationRequested)
-            {
-                return "";
-            }
-            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
 }
