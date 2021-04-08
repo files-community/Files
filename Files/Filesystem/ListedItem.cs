@@ -17,7 +17,13 @@ namespace Files.Filesystem
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
-        public string ItemTooltipText { get; set; }
+        public string ItemTooltipText 
+        { 
+            get 
+            {
+                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName} {Environment.NewLine} {"ToolTipDescriptionType".GetLocalized()} {itemType} {Environment.NewLine} {"ToolTipDescriptionDate".GetLocalized()} {itemModifiedDate}";
+            }
+        }
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
         private bool loadFolderGlyph;
@@ -170,7 +176,8 @@ namespace Files.Filesystem
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 
-        public string ItemDateModified { get; private set; }
+        private string itemModifiedDate;
+        public string ItemDateModified { get { return itemModifiedDate; } set { itemModifiedDate = value; } }
         public string ItemDateCreated { get; private set; }
         public string ItemDateAccessed { get; private set; }
 
@@ -180,15 +187,6 @@ namespace Files.Filesystem
             set
             {
                 ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
-
-                ItemTooltipText = string.Format("{0} {1}\n{2} {3}\n{4} {5}",
-                    "ToolTipDescriptionName".GetLocalized(),
-                    ItemName,
-                    "ToolTipDescriptionType".GetLocalized(),
-                    ItemType,
-                    "ToolTipDescriptionDate".GetLocalized(),
-                    ItemDateModified);
-
                 itemDateModifiedReal = value;
             }
         }
@@ -243,8 +241,8 @@ namespace Files.Filesystem
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                DateReturnFormat = returnformat;
-            }
+                DateReturnFormat = returnformat;                
+            }            
         }
 
         // Parameterless constructor for JsonConvert
