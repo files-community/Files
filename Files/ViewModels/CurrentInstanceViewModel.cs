@@ -48,7 +48,7 @@ namespace Files.ViewModels
             get => searchedUnindexedItems;
             set
             {
-                if(SetProperty(ref searchedUnindexedItems, value))
+                if (SetProperty(ref searchedUnindexedItems, value))
                 {
                     OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 }

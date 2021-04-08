@@ -7,16 +7,10 @@ namespace Files.ViewModels
 {
     public class BundlesSettingsViewModel : BaseJsonSettingsViewModel, IBundlesSettings
     {
-        #region Constructor
-
         public BundlesSettingsViewModel()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName))
         {
         }
-
-        #endregion Constructor
-
-        #region IBundlesSettings
 
         public Dictionary<string, List<string>> SavedBundles
         {
@@ -24,9 +18,11 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        #endregion IBundlesSettings
-
-        #region Override
+        public override object ExportSettings()
+        {
+            // Return string in Json format
+            return JsonConvert.SerializeObject(SavedBundles, Formatting.Indented);
+        }
 
         public override void ImportSettings(object import)
         {
@@ -36,13 +32,5 @@ namespace Files.ViewModels
             }
             catch { }
         }
-
-        public override object ExportSettings()
-        {
-            // Return string in Json format
-            return JsonConvert.SerializeObject(SavedBundles, Formatting.Indented);
-        }
-
-        #endregion Override
     }
 }

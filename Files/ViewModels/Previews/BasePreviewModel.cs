@@ -4,7 +4,6 @@ using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,11 +38,12 @@ namespace Files.ViewModels.Previews
         {
             LoadCancelledTokenSource.Cancel();
         }
+
         /// <summary>
         /// Override this and place the code to load the file preview here.
         /// You can return details that may have been obtained while loading the preview (eg. word count).
         /// This details will be displayed *before* the system file properties.
-        /// If there are none, return an empty list. 
+        /// If there are none, return an empty list.
         /// </summary>
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
@@ -101,7 +101,7 @@ namespace Files.ViewModels.Previews
         public event LoadedEventHandler LoadedEvent;
 
         public delegate void LoadedEventHandler(object sender, EventArgs e);
-        
+
         protected virtual void RaiseLoadedEvent()
         {
             // Raise the event in a thread-safe manner using the ?. operator.

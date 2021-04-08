@@ -23,23 +23,41 @@ namespace Files.ViewModels
 {
     public class PreviewPaneViewModel : ObservableObject
     {
+        private string detailsErrorText;
+        private Visibility detailsListVisibility = Visibility.Collapsed;
+        private CancellationTokenSource loadCancellationTokenSource;
+        private string previewErrorText;
+        private UIElement previewPaneContent;
+        private ListedItem selectedItem;
         private List<ListedItem> selectedItems;
 
-        public List<ListedItem> SelectedItems
+        public PreviewPaneViewModel()
         {
-            get => selectedItems;
-            set
-            {
-                if (SetProperty(ref selectedItems, value))
-                {
-                    SelectedItem = SelectedItems?.FirstOrDefault();
-                }
-            }
         }
 
-        private ListedItem selectedItem;
+        public string DetailsErrorText
+        {
+            get => detailsErrorText;
+            set => SetProperty(ref detailsErrorText, value);
+        }
 
-        private CancellationTokenSource loadCancellationTokenSource;
+        public Visibility DetailsListVisibility
+        {
+            get => detailsListVisibility;
+            set => SetProperty(ref detailsListVisibility, value);
+        }
+
+        public string PreviewErrorText
+        {
+            get => previewErrorText;
+            set => SetProperty(ref previewErrorText, value);
+        }
+
+        public UIElement PreviewPaneContent
+        {
+            get => previewPaneContent;
+            set => SetProperty(ref previewPaneContent, value);
+        }
 
         public ListedItem SelectedItem
         {
@@ -52,86 +70,16 @@ namespace Files.ViewModels
             }
         }
 
-        private string previewErrorText;
-
-        public string PreviewErrorText
+        public List<ListedItem> SelectedItems
         {
-            get => previewErrorText;
-            set => SetProperty(ref previewErrorText, value);
-        }
-
-        private string detailsErrorText;
-
-        public string DetailsErrorText
-        {
-            get => detailsErrorText;
-            set => SetProperty(ref detailsErrorText, value);
-        }
-
-        private Visibility detailsListVisibility = Visibility.Collapsed;
-
-        public Visibility DetailsListVisibility
-        {
-            get => detailsListVisibility;
-            set => SetProperty(ref detailsListVisibility, value);
-        }
-
-        private UIElement previewPaneContent;
-
-        public UIElement PreviewPaneContent
-        {
-            get => previewPaneContent;
-            set => SetProperty(ref previewPaneContent, value);
-        }
-
-        public PreviewPaneViewModel()
-        {
-        }
-
-        private async Task LoadPreviewControlAsync(CancellationToken token)
-        {
-            DetailsErrorText = "";
-            PreviewErrorText = "";
-
-            if (SelectedItem.IsHiddenItem)
+            get => selectedItems;
+            set
             {
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
-                PreviewPaneContent = null;
-                return;
-            }
-
-            foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
-            {
-                if (extension.FileExtensions.Contains(SelectedItem.FileExtension))
+                if (SetProperty(ref selectedItems, value))
                 {
-                    var extControl = await LoadPreviewControlFromExtension(SelectedItem, extension);
-                    if (!token.IsCancellationRequested && extControl != null)
-                    {
-                        PreviewPaneContent = extControl;
-                    }
-
-                    return;
+                    SelectedItem = SelectedItems?.FirstOrDefault();
                 }
             }
-
-            var control = await GetBuiltInPreviewControlAsync(SelectedItem);
-
-            if (token.IsCancellationRequested)
-            {
-                return;
-            }
-
-            if (control != null)
-            {
-                PreviewPaneContent = control;
-                return;
-            }
-
-            var basicModel = new BasicPreviewViewModel(SelectedItem);
-            await basicModel.LoadAsync();
-            control = new BasicPreview(basicModel);
-            PreviewPaneContent = control;
         }
 
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
@@ -212,6 +160,52 @@ namespace Files.ViewModels
             }
 
             return null;
+        }
+
+        private async Task LoadPreviewControlAsync(CancellationToken token)
+        {
+            DetailsErrorText = "";
+            PreviewErrorText = "";
+
+            if (SelectedItem.IsHiddenItem)
+            {
+                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
+                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                PreviewPaneContent = null;
+                return;
+            }
+
+            foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
+            {
+                if (extension.FileExtensions.Contains(SelectedItem.FileExtension))
+                {
+                    var extControl = await LoadPreviewControlFromExtension(SelectedItem, extension);
+                    if (!token.IsCancellationRequested && extControl != null)
+                    {
+                        PreviewPaneContent = extControl;
+                    }
+
+                    return;
+                }
+            }
+
+            var control = await GetBuiltInPreviewControlAsync(SelectedItem);
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            if (control != null)
+            {
+                PreviewPaneContent = control;
+                return;
+            }
+
+            var basicModel = new BasicPreviewViewModel(SelectedItem);
+            await basicModel.LoadAsync();
+            control = new BasicPreview(basicModel);
+            PreviewPaneContent = control;
         }
 
         private async Task<UIElement> LoadPreviewControlFromExtension(ListedItem item, Extension extension)

@@ -106,6 +106,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
                     ShowItem = App.AppSettings.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
                     SingleItemOnly = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -121,6 +122,7 @@ namespace Files.Helpers
                     Glyph = "\uE737",
                     Command = commandsViewModel.OpenInNewWindowItemCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -173,7 +175,6 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalized(),
                     Glyph = "\uE8C6",
                     Command = commandsViewModel.CutItemCommand,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -181,7 +182,6 @@ namespace Files.Helpers
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -199,6 +199,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.CreateShortcutCommand,
                     ShowItem = !selectedItems.FirstOrDefault().IsShortcutItem,
                     SingleItemOnly = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -216,7 +217,6 @@ namespace Files.Helpers
                     Command = commandsViewModel.RenameItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
                     SingleItemOnly = true,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -231,14 +231,16 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToSidebar/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned)
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned)
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -263,7 +265,6 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

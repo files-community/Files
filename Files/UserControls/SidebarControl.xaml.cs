@@ -1,8 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
-using Files.UserControls;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -57,7 +55,7 @@ namespace Files.UserControls
         public bool IsOpen
         {
             get => (bool)GetValue(IsOpenProperty);
-            set 
+            set
             {
                 if (this.IsLoaded)
                 {
@@ -71,9 +69,9 @@ namespace Files.UserControls
         public bool IsCompact
         {
             get => (bool)GetValue(IsCompactProperty);
-            set 
-            { 
-                if(this.IsLoaded)
+            set
+            {
+                if (this.IsLoaded)
                 {
                     SetValue(IsCompactProperty, value);
                 }

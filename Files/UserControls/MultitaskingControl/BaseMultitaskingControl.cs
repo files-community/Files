@@ -1,5 +1,4 @@
 ﻿using Files.ViewModels;
-using Files.Views;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
