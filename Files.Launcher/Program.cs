@@ -532,6 +532,18 @@ namespace FilesFullTrust
                     await HandleShellLibraryMessage(message);
                     break;
 
+                case "SetCustomFolderIcon":
+                    SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"]);
+                    break;
+
+                case "GetFolderIconsFromDLL":
+                    var iconInfos = Win32API.ExtractIconsFromDLL((string)message["iconFile"]);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "IconInfos", iconInfos },
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
                 default:
                     if (message.ContainsKey("Application"))
                     {
@@ -545,6 +557,35 @@ namespace FilesFullTrust
                     }
                     break;
             }
+        }
+
+        private static void SetCustomDirectoryIcon(string folderPath, string iconFile, int iconIndex = 0)
+        {
+            string fileName = "desktop.ini";
+            if (!Directory.Exists(folderPath))
+            {
+                return;
+            }
+            var folder = new DirectoryInfo(folderPath);
+            fileName = Path.Combine(folderPath, fileName);
+
+            // Create the file
+            using (StreamWriter sw = new StreamWriter(fileName))
+            {
+                sw.WriteLine("[.ShellClassInfo]");
+                sw.WriteLine("ConfirmFileOp={0}", true);
+                sw.WriteLine("NoSharing={0}", false);
+                sw.WriteLine("IconFile={0}", iconFile);
+                sw.WriteLine("IconIndex={0}", iconIndex);
+                sw.WriteLine("InfoTip={0}", folder.Name);
+                sw.Close();
+            }
+
+            // Update the folder attributes
+            folder.Attributes = folder.Attributes | System.IO.FileAttributes.System;
+
+            // "Hide" the desktop.ini
+            File.SetAttributes(fileName, File.GetAttributes(fileName) | System.IO.FileAttributes.Hidden);
         }
 
         private static async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)

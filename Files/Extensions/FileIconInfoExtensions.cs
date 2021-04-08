@@ -1,0 +1,19 @@
+﻿using Files.Common;
+using Files.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Files.Extensions
+{
+    public static class FileIconInfoExtensions
+    {
+        public static async void LoadImageFromModelString(this IconFileInfo info)
+        {
+            var dataBytes = Convert.FromBase64String(info.IconData);
+            info.ImageSource = await dataBytes.ToBitmapAsync();
+        }
+    }
+}

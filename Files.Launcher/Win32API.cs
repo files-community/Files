@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Common;
+using Files.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -57,6 +59,47 @@ namespace FilesFullTrust
             User32.LoadString(lib, number, result, result.Capacity);
             Kernel32.FreeLibrary(lib);
             return result.ToString();
+        }
+
+        public static IList<IconFileInfo> ExtractIconsFromDLL(string file)
+        {
+            var iconsList = new List<IconFileInfo>();
+            var currentProc = Process.GetCurrentProcess();
+            using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
+            if (icoCnt == null)
+            {
+                return null;
+            }
+            int count = icoCnt.DangerousGetHandle().ToInt32();
+            int maxIndex = count - 1;
+            if (maxIndex == 0)
+            {
+                using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0))
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, 0));
+                }
+            }
+            else if (maxIndex > 0)
+            {
+                for (int i = 0; i <= maxIndex; i++)
+                {
+                    using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, i))
+                    {
+                        using var image = icon.ToBitmap();
+                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        iconsList.Add(new IconFileInfo(icoStr, i));
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return iconsList;
         }
 
         public static async Task<string> GetFileAssociationAsync(string filename)
