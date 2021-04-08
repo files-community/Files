@@ -249,12 +249,23 @@ namespace Files.ViewModels
                 catch (Exception e)
                 {
                     Debug.WriteLine(e);
-                    DetailsListVisibility = Visibility.Collapsed;
                     loadCancellationTokenSource?.Cancel();
-                    // Show no preview/details available on unhandled exception
-                    PreviewPaneContent = null;
-                    DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                    PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                    // If initial loading fails, attempt to load a basic preivew (thumbnail and details only)
+                    // If that fails, revert to no preview/details available
+                    try
+                    {
+                        var basicModel = new BasicPreviewViewModel(SelectedItem);
+                        await basicModel.LoadAsync();
+                        PreviewPaneContent = new BasicPreview(basicModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                        PreviewPaneContent = null;
+                        DetailsListVisibility = Visibility.Collapsed;
+                        DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
+                        PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                    }
                 }
             }
             else if (SelectedItem != null)
