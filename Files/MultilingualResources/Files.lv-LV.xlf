@@ -2645,10 +2645,6 @@
           <source>Show Library widget</source>
           <target state="new">Show Library widget</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
-          <source>Open themes folder</source>
-          <target state="new">Open themes folder</target>
-        </trans-unit>
       </group>
     </body>
   </file>

@@ -9,56 +9,57 @@ using System;
 
 namespace Files
 {
-    public interface IMultiPaneInfo
-    {
-        public bool IsMultiPaneActive { get; }
-
-        // Another pane is shown
-        public bool IsMultiPaneEnabled { get; }
-
-        public bool IsPageMainPane { get; } // The instance is the left (or only) pane
-
-        // Multi pane is enabled
-        public IPaneHolder PaneHolder { get; }
-    }
-
-    public interface IPaneHolder : IDisposable
-    {
-        public event EventHandler ActivePaneChanged;
-
-        public IShellPage ActivePane { get; set; }
-        public IFilesystemHelpers FilesystemHelpers { get; }
-        public TabItemArguments TabItemArguments { get; set; }
-
-        public void OpenPathInNewPane(string path);
-    }
-
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
-        bool CanNavigateBackward { get; }
-        bool CanNavigateForward { get; }
-        Type CurrentPageType { get; }
-        IFilesystemHelpers FilesystemHelpers { get; }
-        ItemViewModel FilesystemViewModel { get; }
+        IStatusCenterActions StatusCenterActions { get; }
 
         //Interaction InteractionOperations { get; }
+
+        ItemViewModel FilesystemViewModel { get; }
+
         CurrentInstanceViewModel InstanceViewModel { get; }
 
-        INavigationToolbar NavigationToolbar { get; }
         NamedPipeAsAppServiceConnection ServiceConnection { get; }
+
         IBaseLayout SlimContentPage { get; }
-        IStatusCenterActions StatusCenterActions { get; }
+
+        Type CurrentPageType { get; }
+
+        IFilesystemHelpers FilesystemHelpers { get; }
+
+        INavigationToolbar NavigationToolbar { get; }
+
+        bool CanNavigateBackward { get; }
+
+        bool CanNavigateForward { get; }
+
+        void Refresh_Click();
+
+        void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
 
         void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
 
         void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 
-        void Refresh_Click();
-
         void RemoveLastPageFromBackStack();
 
         void SubmitSearch(string query, bool searchUnindexedItems);
+    }
 
-        void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
+    public interface IPaneHolder : IDisposable
+    {
+        public event EventHandler ActivePaneChanged;
+        public IShellPage ActivePane { get; set; }
+        public IFilesystemHelpers FilesystemHelpers { get; }
+        public TabItemArguments TabItemArguments { get; set; }
+        public void OpenPathInNewPane(string path);
+    }
+
+    public interface IMultiPaneInfo
+    {
+        public bool IsPageMainPane { get; } // The instance is the left (or only) pane
+        public bool IsMultiPaneActive { get; } // Another pane is shown
+        public bool IsMultiPaneEnabled { get; } // Multi pane is enabled
+        public IPaneHolder PaneHolder { get; }
     }
 }

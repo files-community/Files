@@ -1,14 +1,18 @@
-﻿using Files.Filesystem;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Files.Filesystem;
 
 namespace Files.EventArguments.Bundles
 {
     public class BundlesOpenPathEventArgs
     {
-        public readonly FilesystemItemType itemType;
-        public readonly bool openSilent;
-        public readonly bool openViaApplicationPicker;
         public readonly string path;
+
+        public readonly FilesystemItemType itemType;
+
+        public readonly bool openSilent;
+
+        public readonly bool openViaApplicationPicker;
+
         public readonly IEnumerable<string> selectItems;
 
         public BundlesOpenPathEventArgs(string path, FilesystemItemType itemType, bool openSilent, bool openViaApplicationPicker, IEnumerable<string> selectItems)

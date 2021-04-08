@@ -9,12 +9,10 @@ namespace Files.Dialogs
 {
     public sealed partial class DynamicDialog : ContentDialog, IDisposable
     {
-        public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
+        public DynamicDialogViewModel ViewModel
         {
-            this.InitializeComponent();
-
-            dynamicDialogViewModel.HideDialog = this.Hide;
-            this.ViewModel = dynamicDialogViewModel;
+            get => (DynamicDialogViewModel)DataContext;
+            private set => DataContext = value;
         }
 
         public DynamicDialogResult DynamicResult
@@ -22,10 +20,12 @@ namespace Files.Dialogs
             get => ViewModel.DynamicResult;
         }
 
-        public DynamicDialogViewModel ViewModel
+        public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
         {
-            get => (DynamicDialogViewModel)DataContext;
-            private set => DataContext = value;
+            this.InitializeComponent();
+
+            dynamicDialogViewModel.HideDialog = this.Hide;
+            this.ViewModel = dynamicDialogViewModel;
         }
 
         #region IDisposable

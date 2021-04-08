@@ -9,19 +9,8 @@ namespace Files.Helpers
     /// </summary>
     internal static class DispatcherHelper
     { /// <summary>
-      /// <summary>
-      /// Yield and allow UI update during tasks.
+      /// This struct represents an awaitable dispatcher.
       /// </summary>
-      /// <param name="dispatcher">Dispatcher of a thread to yield</param>
-      /// <param name="priority">Dispatcher execution priority, default is low</param>
-      /// <returns>Awaitable dispatcher task</returns>
-        public static DispatcherPriorityAwaitable YieldAsync(this CoreDispatcher dispatcher, CoreDispatcherPriority priority = CoreDispatcherPriority.Low)
-        {
-            return new DispatcherPriorityAwaitable(dispatcher, priority);
-        }
-
-        /// This struct represents an awaitable dispatcher.
-        /// </summary>
         public struct DispatcherPriorityAwaitable
         {
             private readonly CoreDispatcher dispatcher;
@@ -51,16 +40,16 @@ namespace Files.Helpers
             private readonly CoreDispatcher dispatcher;
             private readonly CoreDispatcherPriority priority;
 
+            /// <summary>
+            /// Gets a value indicating whether task has completed
+            /// </summary>
+            public bool IsCompleted => false;
+
             internal DispatcherPriorityAwaiter(CoreDispatcher dispatcher, CoreDispatcherPriority priority)
             {
                 this.dispatcher = dispatcher;
                 this.priority = priority;
             }
-
-            /// <summary>
-            /// Gets a value indicating whether task has completed
-            /// </summary>
-            public bool IsCompleted => false;
 
             /// <summary>
             /// Get result for this awaiter
@@ -77,6 +66,17 @@ namespace Files.Helpers
             {
                 await this.dispatcher.RunAsync(this.priority, new DispatchedHandler(continuation));
             }
+        }
+
+        /// <summary>
+        /// Yield and allow UI update during tasks.
+        /// </summary>
+        /// <param name="dispatcher">Dispatcher of a thread to yield</param>
+        /// <param name="priority">Dispatcher execution priority, default is low</param>
+        /// <returns>Awaitable dispatcher task</returns>
+        public static DispatcherPriorityAwaitable YieldAsync(this CoreDispatcher dispatcher, CoreDispatcherPriority priority = CoreDispatcherPriority.Low)
+        {
+            return new DispatcherPriorityAwaitable(dispatcher, priority);
         }
     }
 }

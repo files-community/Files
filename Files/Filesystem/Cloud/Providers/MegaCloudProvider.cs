@@ -71,9 +71,71 @@ namespace Files.Filesystem.Cloud.Providers
             }
         }
 
-        private string ByteArrayToString(byte[] ba)
+        private byte[] GetLocalStorageKey()
         {
-            return BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
+            if (!NativeWinApiHelper.OpenProcessToken(NativeWinApiHelper.GetCurrentProcess(), NativeWinApiHelper.TokenAccess.TOKEN_QUERY, out var hToken))
+            {
+                return null;
+            }
+
+            NativeWinApiHelper.GetTokenInformation(hToken, NativeWinApiHelper.TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, 0, out int dwBufferSize);
+            if (dwBufferSize == 0)
+            {
+                NativeWinApiHelper.CloseHandle(hToken);
+                return null;
+            }
+
+            IntPtr userToken = Marshal.AllocHGlobal(dwBufferSize);
+            if (!NativeWinApiHelper.GetTokenInformation(hToken, NativeWinApiHelper.TOKEN_INFORMATION_CLASS.TokenUser, userToken, dwBufferSize, out var dwInfoBufferSize))
+            {
+                NativeWinApiHelper.CloseHandle(hToken);
+                Marshal.FreeHGlobal(userToken);
+                return null;
+            }
+
+            var userStruct = (NativeWinApiHelper.TOKEN_USER)Marshal.PtrToStructure(userToken, typeof(NativeWinApiHelper.TOKEN_USER));
+
+            int dwLength = NativeWinApiHelper.GetLengthSid(userStruct.User.Sid);
+            byte[] result = new byte[dwLength];
+            Marshal.Copy(userStruct.User.Sid, result, 0, dwLength);
+            NativeWinApiHelper.CloseHandle(hToken);
+            Marshal.FreeHGlobal(userToken);
+            return result;
+        }
+
+        private byte[] XOR(byte[] key, byte[] data)
+        {
+            int keyLen = key.Length;
+            if (keyLen == 0)
+            {
+                return data;
+            }
+
+            var result = new List<byte>();
+            var k3 = key[keyLen / 3] >= 128 ? key[keyLen / 3] - 256 : key[keyLen / 3];
+            var k5 = key[keyLen / 5] >= 128 ? key[keyLen / 5] - 256 : key[keyLen / 5];
+            var k2 = key[keyLen / 2] >= 128 ? key[keyLen / 2] - 256 : key[keyLen / 2];
+            var k7 = key[keyLen / 7] >= 128 ? key[keyLen / 7] - 256 : key[keyLen / 7];
+            int rotation = Math.Abs(k3 * k5) % keyLen;
+            int increment = Math.Abs(k2 * k7) % keyLen;
+            for (int i = 0, j = rotation; i < data.Length; i++, j -= increment)
+            {
+                if (j < 0)
+                {
+                    j += keyLen;
+                }
+                result.Add((byte)(data[i] ^ key[j]));
+            }
+            return result.ToArray();
+        }
+
+        private string Hash(string key, string group, byte[] encryptionKey)
+        {
+            var sh = SHA1.Create();
+            byte[] xPath = XOR(encryptionKey, Encoding.UTF8.GetBytes(key + group));
+            byte[] keyHash = sh.ComputeHash(xPath);
+            byte[] xKeyHash = XOR(Encoding.UTF8.GetBytes(key), keyHash);
+            return ByteArrayToString(xKeyHash);
         }
 
         private string Decrypt(string key, string value, string group)
@@ -110,71 +172,9 @@ namespace Files.Filesystem.Cloud.Providers
             return Encoding.UTF8.GetString(xDecrypted);
         }
 
-        private byte[] GetLocalStorageKey()
+        private string ByteArrayToString(byte[] ba)
         {
-            if (!NativeWinApiHelper.OpenProcessToken(NativeWinApiHelper.GetCurrentProcess(), NativeWinApiHelper.TokenAccess.TOKEN_QUERY, out var hToken))
-            {
-                return null;
-            }
-
-            NativeWinApiHelper.GetTokenInformation(hToken, NativeWinApiHelper.TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, 0, out int dwBufferSize);
-            if (dwBufferSize == 0)
-            {
-                NativeWinApiHelper.CloseHandle(hToken);
-                return null;
-            }
-
-            IntPtr userToken = Marshal.AllocHGlobal(dwBufferSize);
-            if (!NativeWinApiHelper.GetTokenInformation(hToken, NativeWinApiHelper.TOKEN_INFORMATION_CLASS.TokenUser, userToken, dwBufferSize, out var dwInfoBufferSize))
-            {
-                NativeWinApiHelper.CloseHandle(hToken);
-                Marshal.FreeHGlobal(userToken);
-                return null;
-            }
-
-            var userStruct = (NativeWinApiHelper.TOKEN_USER)Marshal.PtrToStructure(userToken, typeof(NativeWinApiHelper.TOKEN_USER));
-
-            int dwLength = NativeWinApiHelper.GetLengthSid(userStruct.User.Sid);
-            byte[] result = new byte[dwLength];
-            Marshal.Copy(userStruct.User.Sid, result, 0, dwLength);
-            NativeWinApiHelper.CloseHandle(hToken);
-            Marshal.FreeHGlobal(userToken);
-            return result;
-        }
-
-        private string Hash(string key, string group, byte[] encryptionKey)
-        {
-            var sh = SHA1.Create();
-            byte[] xPath = XOR(encryptionKey, Encoding.UTF8.GetBytes(key + group));
-            byte[] keyHash = sh.ComputeHash(xPath);
-            byte[] xKeyHash = XOR(Encoding.UTF8.GetBytes(key), keyHash);
-            return ByteArrayToString(xKeyHash);
-        }
-
-        private byte[] XOR(byte[] key, byte[] data)
-        {
-            int keyLen = key.Length;
-            if (keyLen == 0)
-            {
-                return data;
-            }
-
-            var result = new List<byte>();
-            var k3 = key[keyLen / 3] >= 128 ? key[keyLen / 3] - 256 : key[keyLen / 3];
-            var k5 = key[keyLen / 5] >= 128 ? key[keyLen / 5] - 256 : key[keyLen / 5];
-            var k2 = key[keyLen / 2] >= 128 ? key[keyLen / 2] - 256 : key[keyLen / 2];
-            var k7 = key[keyLen / 7] >= 128 ? key[keyLen / 7] - 256 : key[keyLen / 7];
-            int rotation = Math.Abs(k3 * k5) % keyLen;
-            int increment = Math.Abs(k2 * k7) % keyLen;
-            for (int i = 0, j = rotation; i < data.Length; i++, j -= increment)
-            {
-                if (j < 0)
-                {
-                    j += keyLen;
-                }
-                result.Add((byte)(data[i] ^ key[j]));
-            }
-            return result.ToArray();
+            return BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
         }
     }
 }

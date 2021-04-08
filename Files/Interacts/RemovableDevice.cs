@@ -7,8 +7,8 @@ namespace Files.Interacts
 {
     public class RemovableDevice
     {
-        private char driveLetter;
         private IntPtr handle;
+        private char driveLetter;
 
         public RemovableDevice(string letter)
         {
@@ -39,21 +39,6 @@ namespace Files.Interacts
             return result;
         }
 
-        private bool AutoEjectVolume()
-        {
-            return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
-        }
-
-        private bool CloseVolume()
-        {
-            return CloseHandle(handle);
-        }
-
-        private bool DismountVolume()
-        {
-            return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
-        }
-
         private async Task<bool> LockVolumeAsync()
         {
             bool result = false;
@@ -76,11 +61,26 @@ namespace Files.Interacts
             return result;
         }
 
+        private bool DismountVolume()
+        {
+            return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
+        }
+
         private bool PreventRemovalOfVolume(bool prevent)
         {
             byte[] buf = new byte[1];
             buf[0] = prevent ? (byte)1 : (byte)0;
             return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, IntPtr.Zero, 0, out _, IntPtr.Zero);
+        }
+
+        private bool AutoEjectVolume()
+        {
+            return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
+        }
+
+        private bool CloseVolume()
+        {
+            return CloseHandle(handle);
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
@@ -26,13 +29,7 @@ namespace Files.Helpers
             return ret;
         }
 
-        private static int GCD(int a, int b)
-        {
-            if (b == 0) return a;
-            else return GCD(b, a % b);
-        }
-
-        private static void RoundToMixedFraction(double input, int accuracy, out int whole, out int numerator, out int denominator)
+        static void RoundToMixedFraction(double input, int accuracy, out int whole, out int numerator, out int denominator)
         {
             double dblAccuracy = (double)accuracy;
             whole = (int)(Math.Truncate(input));
@@ -57,6 +54,12 @@ namespace Files.Helpers
             var gcd = GCD(n, accuracy);
             numerator = n / gcd;
             denominator = accuracy / gcd;
+        }
+
+        static int GCD(int a, int b)
+        {
+            if (b == 0) return a;
+            else return GCD(b, a % b);
         }
     }
 }
