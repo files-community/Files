@@ -21,18 +21,47 @@ namespace Files.ViewModels.Previews
             Item = item;
         }
 
-        public delegate void LoadedEventHandler(object sender, EventArgs e);
-
-        public event LoadedEventHandler LoadedEvent;
+        public ListedItem Item { get; internal set; }
 
         public List<FileProperty> DetailsFromPreview { get; set; }
-        public ListedItem Item { get; internal set; }
+
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
-        public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
+        public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
         {
-            var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
-            await temp.LoadAsync();
+            LoadCancelledTokenSource.Cancel();
+        }
+
+        public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
+        {
+            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+
+            if (IconData != null)
+            {
+                Item.FileImage = await IconData.ToBitmapAsync();
+            }
+            else
+            {
+                using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
+                Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
+                await Item.FileImage.SetSourceAsync(icon);
+            }
+
+            return new List<FileProperty>();
+        }
+
+        private async Task<List<FileProperty>> GetSystemFileProperties()
+        {
+            if (Item.IsShortcutItem)
+            {
+                return null;
+            }
+
+            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile, Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
+
+            list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                            (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+            return list.Where(i => i.Value != null).ToList();
         }
 
         public virtual async Task LoadAsync()
@@ -57,28 +86,9 @@ namespace Files.ViewModels.Previews
             }
         }
 
-        public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
-        {
-            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+        public event LoadedEventHandler LoadedEvent;
 
-            if (IconData != null)
-            {
-                Item.FileImage = await IconData.ToBitmapAsync();
-            }
-            else
-            {
-                using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-                Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
-                await Item.FileImage.SetSourceAsync(icon);
-            }
-
-            return new List<FileProperty>();
-        }
-
-        public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
-        {
-            LoadCancelledTokenSource.Cancel();
-        }
+        public delegate void LoadedEventHandler(object sender, EventArgs e);
 
         protected virtual void RaiseLoadedEvent()
         {
@@ -86,18 +96,10 @@ namespace Files.ViewModels.Previews
             LoadedEvent?.Invoke(this, new EventArgs());
         }
 
-        private async Task<List<FileProperty>> GetSystemFileProperties()
+        public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
         {
-            if (Item.IsShortcutItem)
-            {
-                return null;
-            }
-
-            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile, Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
-
-            list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-                                                                                            (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-            return list.Where(i => i.Value != null).ToList();
+            var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
+            await temp.LoadAsync();
         }
 
         internal class DetailsOnlyPreviewModel : BasePreviewModel

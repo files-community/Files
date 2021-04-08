@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Dialogs;
+using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -14,13 +15,16 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
@@ -223,7 +227,7 @@ namespace Files.Views
         }
 
         public static event EventHandler NotifyRoot;
-
+        
         private void CopyWorkingLocation()
         {
             try
@@ -1063,17 +1067,17 @@ namespace Files.Views
 
         public void Back_Click()
         {
-
+            
         }
 
         public void Forward_Click()
         {
-
+            
         }
 
         public void Up_Click()
         {
-
+            
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)

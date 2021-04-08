@@ -19,9 +19,37 @@ namespace Files.ViewModels.Properties
     public abstract class BaseProperties
     {
         public IShellPage AppInstance { get; set; } = null;
-        public CoreDispatcher Dispatcher { get; set; }
-        public CancellationTokenSource TokenSource { get; set; }
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
+
+        public CancellationTokenSource TokenSource { get; set; }
+
+        public CoreDispatcher Dispatcher { get; set; }
+
+        public abstract void GetBaseProperties();
+
+        public abstract void GetSpecialProperties();
+
+        public async void GetOtherProperties(StorageItemContentProperties properties)
+        {
+            string dateAccessedProperty = "System.DateAccessed";
+            string fileOwnerProperty = "System.FileOwner";
+            List<string> propertiesName = new List<string>();
+            propertiesName.Add(dateAccessedProperty);
+            propertiesName.Add(fileOwnerProperty);
+            IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
+
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+            // Cannot get date and owner in MTP devices
+            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);
+
+            if (App.AppSettings.ShowFileOwner)
+            {
+                // Cannot get date and owner in MTP devices
+                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
+            }
+        }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
         {
@@ -85,32 +113,6 @@ namespace Files.ViewModels.Properties
                 return 0;
             }
         }
-
-        public abstract void GetBaseProperties();
-
-        public async void GetOtherProperties(StorageItemContentProperties properties)
-        {
-            string dateAccessedProperty = "System.DateAccessed";
-            string fileOwnerProperty = "System.FileOwner";
-            List<string> propertiesName = new List<string>();
-            propertiesName.Add(dateAccessedProperty);
-            propertiesName.Add(fileOwnerProperty);
-            IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
-
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
-            // Cannot get date and owner in MTP devices
-            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);
-
-            if (App.AppSettings.ShowFileOwner)
-            {
-                // Cannot get date and owner in MTP devices
-                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
-            }
-        }
-
-        public abstract void GetSpecialProperties();
 
         public void SetItemsCountString()
         {

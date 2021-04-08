@@ -1,23 +1,23 @@
-﻿using Files.Common;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Files.Common;
+using Windows.UI.Xaml;
+using System.Collections.Generic;
+using Files.Filesystem;
+using System.Collections.ObjectModel;
 
 namespace Files.ViewModels
 {
@@ -25,7 +25,29 @@ namespace Files.ViewModels
     {
         private bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
+        public static IMultitaskingControl MultitaskingControl { get; set; }
+
+        public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
+
         private TabItem selectedTabItem;
+
+        public TabItem SelectedTabItem
+        {
+            get => selectedTabItem;
+            set => SetProperty(ref selectedTabItem, value);
+        }
+
+        #region Commands
+
+        public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
+
+        public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
+
+        public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
+
+        public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
+
+        #endregion
 
         public MainPageViewModel()
         {
@@ -36,52 +58,107 @@ namespace Files.ViewModels
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
         }
 
-        public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
-        public static IMultitaskingControl MultitaskingControl { get; set; }
-        public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
+        #region Command Implementation
 
-        public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
-
-        public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
-
-        public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
-
-        public TabItem SelectedTabItem
+        private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            get => selectedTabItem;
-            set => SetProperty(ref selectedTabItem, value);
-        }
+            int indexToSelect = 0;
 
-        public static async Task AddNewTabAsync()
-        {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-        }
-
-        public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
-        {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-        }
-
-        public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
-        {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
-
-            TabItem tabItem = new TabItem()
+            switch (e.KeyboardAccelerator.Key)
             {
-                Header = null,
-                IconSource = fontIconSource,
-                Description = null
-            };
-            tabItem.Control.NavigationArguments = new TabItemArguments()
+                case VirtualKey.Number1:
+                    indexToSelect = 0;
+                    break;
+
+                case VirtualKey.Number2:
+                    indexToSelect = 1;
+                    break;
+
+                case VirtualKey.Number3:
+                    indexToSelect = 2;
+                    break;
+
+                case VirtualKey.Number4:
+                    indexToSelect = 3;
+                    break;
+
+                case VirtualKey.Number5:
+                    indexToSelect = 4;
+                    break;
+
+                case VirtualKey.Number6:
+                    indexToSelect = 5;
+                    break;
+
+                case VirtualKey.Number7:
+                    indexToSelect = 6;
+                    break;
+
+                case VirtualKey.Number8:
+                    indexToSelect = 7;
+                    break;
+
+                case VirtualKey.Number9:
+                    // Select the last tab
+                    indexToSelect = AppInstances.Count - 1;
+                    break;
+            }
+
+            // Only select the tab if it is in the list
+            if (indexToSelect < AppInstances.Count)
             {
-                InitialPageType = type,
-                NavigationArg = tabViewItemArgs
-            };
-            tabItem.Control.ContentChanged += Control_ContentChanged;
-            await UpdateTabInfo(tabItem, tabViewItemArgs);
-            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
+                App.InteractionViewModel.TabStripSelectedIndex = indexToSelect;
+            }
+            e.Handled = true;
         }
+
+        private async void OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            e.Handled = true;
+            Uri filesUWPUri = new Uri("files-uwp:");
+            await Launcher.LaunchUriAsync(filesUWPUri);
+        }
+
+        private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
+            {
+                TabItem tabItem = AppInstances[AppInstances.Count - 1];
+                MultitaskingControl?.CloseTab(tabItem);
+            }
+            else
+            {
+                TabItem tabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                MultitaskingControl?.CloseTab(tabItem);
+            }
+            e.Handled = true;
+        }
+
+        private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+
+            if (!shift)
+            {
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            }
+            else // ctrl + shift + t, restore recently closed tab
+            {
+                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
+                {
+                    isRestoringClosedTab = true;
+                    ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
+                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
+                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
+                    isRestoringClosedTab = false;
+                }
+            }
+            e.Handled = true;
+        }
+
+        #endregion
+
+        #region Public Helpers
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
@@ -109,34 +186,26 @@ namespace Files.ViewModels
             AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
         }
 
-        public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
+        public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
         {
-            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
-        public static async void Control_ContentChanged(object sender, TabItemArguments e)
-        {
-            TabItem matchingTabItem = MainPageViewModel.AppInstances.SingleOrDefault(x => x.Control == sender);
-            if (matchingTabItem == null)
+            tabItem.AllowStorageItemDrop = true;
+            if (navigationArg is PaneNavigationArguments paneArgs)
             {
-                return;
+                if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+                {
+                    var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                    var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+                    tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+                    tabItem.IconSource = leftTabInfo.tabIcon;
+                }
+                else
+                {
+                    (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                }
             }
-            await UpdateTabInfo(matchingTabItem, e.NavigationArg);
-        }
-
-        public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
-        {
-            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
-            var index = AppInstances.IndexOf(tabItem);
-
-            if (AppInstances[index].TabItemArguments != null)
+            else if (navigationArg is string pathArgs)
             {
-                var tabArgs = AppInstances[index].TabItemArguments;
-                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-            }
-            else
-            {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+                (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(pathArgs);
             }
         }
 
@@ -145,8 +214,7 @@ namespace Files.ViewModels
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             fontIconSource.FontFamily = App.InteractionViewModel.FontName;
-            //TODO Use glyph helper for the icons
-            //TODO Add a helper to get localized text for common paths
+
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {
                 tabLocationHeader = "SidebarSettings/Text".GetLocalized();
@@ -191,7 +259,6 @@ namespace Files.ViewModels
                         // Show localized name
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized();
                         break;
-
                     default:
                         // Show original name
                         tabLocationHeader = library.Text;
@@ -265,34 +332,6 @@ namespace Files.ViewModels
             }
 
             return (tabLocationHeader, fontIconSource);
-        }
-
-        public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
-        {
-            await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
-        public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
-        {
-            tabItem.AllowStorageItemDrop = true;
-            if (navigationArg is PaneNavigationArguments paneArgs)
-            {
-                if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
-                {
-                    var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-                    var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-                    tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
-                    tabItem.IconSource = leftTabInfo.tabIcon;
-                }
-                else
-                {
-                    (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-                }
-            }
-            else if (navigationArg is string pathArgs)
-            {
-                (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(pathArgs);
-            }
         }
 
         public async void OnNavigatedTo(NavigationEventArgs e)
@@ -384,100 +423,73 @@ namespace Files.ViewModels
             }
         }
 
-        private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        public static async Task AddNewTabAsync()
         {
-            bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-
-            if (!shift)
-            {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-            }
-            else // ctrl + shift + t, restore recently closed tab
-            {
-                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
-                {
-                    isRestoringClosedTab = true;
-                    ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                    isRestoringClosedTab = false;
-                }
-            }
-            e.Handled = true;
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
-        private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+        }
+
+        public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            var index = AppInstances.IndexOf(tabItem);
+
+            if (AppInstances[index].TabItemArguments != null)
             {
-                TabItem tabItem = AppInstances[AppInstances.Count - 1];
-                MultitaskingControl?.CloseTab(tabItem);
+                var tabArgs = AppInstances[index].TabItemArguments;
+                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
             }
             else
             {
-                TabItem tabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
-                MultitaskingControl?.CloseTab(tabItem);
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             }
-            e.Handled = true;
         }
 
-        private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
         {
-            int indexToSelect = 0;
-
-            switch (e.KeyboardAccelerator.Key)
-            {
-                case VirtualKey.Number1:
-                    indexToSelect = 0;
-                    break;
-
-                case VirtualKey.Number2:
-                    indexToSelect = 1;
-                    break;
-
-                case VirtualKey.Number3:
-                    indexToSelect = 2;
-                    break;
-
-                case VirtualKey.Number4:
-                    indexToSelect = 3;
-                    break;
-
-                case VirtualKey.Number5:
-                    indexToSelect = 4;
-                    break;
-
-                case VirtualKey.Number6:
-                    indexToSelect = 5;
-                    break;
-
-                case VirtualKey.Number7:
-                    indexToSelect = 6;
-                    break;
-
-                case VirtualKey.Number8:
-                    indexToSelect = 7;
-                    break;
-
-                case VirtualKey.Number9:
-                    // Select the last tab
-                    indexToSelect = AppInstances.Count - 1;
-                    break;
-            }
-
-            // Only select the tab if it is in the list
-            if (indexToSelect < AppInstances.Count)
-            {
-                App.InteractionViewModel.TabStripSelectedIndex = indexToSelect;
-            }
-            e.Handled = true;
+            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem);
         }
 
-        private async void OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            e.Handled = true;
-            Uri filesUWPUri = new Uri("files-uwp:");
-            await Launcher.LaunchUriAsync(filesUWPUri);
+            await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem);
         }
+
+        public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+        {
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+
+            TabItem tabItem = new TabItem()
+            {
+                Header = null,
+                IconSource = fontIconSource,
+                Description = null
+            };
+            tabItem.Control.NavigationArguments = new TabItemArguments()
+            {
+                InitialPageType = type,
+                NavigationArg = tabViewItemArgs
+            };
+            tabItem.Control.ContentChanged += Control_ContentChanged;
+            await UpdateTabInfo(tabItem, tabViewItemArgs);
+            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
+        }
+
+        public static async void Control_ContentChanged(object sender, TabItemArguments e)
+        {
+            TabItem matchingTabItem = MainPageViewModel.AppInstances.SingleOrDefault(x => x.Control == sender);
+            if (matchingTabItem == null)
+            {
+                return;
+            }
+            await UpdateTabInfo(matchingTabItem, e.NavigationArg);
+        }
+
+        #endregion
     }
 }

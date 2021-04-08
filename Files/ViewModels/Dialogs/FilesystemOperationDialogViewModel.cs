@@ -4,27 +4,119 @@ using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
-        private bool chevronDownLoad = true;
-        private bool chevronUpLoad = false;
-        private string closeButtonText;
-        private bool expandableDetailsLoad = false;
-        private bool mustResolveConflicts = false;
-        private bool permanentlyDelete = false;
-        private bool permanentlyDeleteEnabled = false;
-        private bool permanentlyDeleteLoad = false;
-        private string primaryButtonText;
-        private string secondaryButtonText;
-        private string subtitle;
+        #region Public Properties
+
+        public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
+
         private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
+        }
+
+        private string subtitle;
+        public string Subtitle
+        {
+            get => subtitle;
+            set => SetProperty(ref subtitle, value);
+        }
+
+        private string primaryButtonText;
+        public string PrimaryButtonText
+        {
+            get => primaryButtonText;
+            set => SetProperty(ref primaryButtonText, value);
+        }
+
+        private string secondaryButtonText;
+        public string SecondaryButtonText
+        {
+            get => secondaryButtonText;
+            set => SetProperty(ref secondaryButtonText, value);
+        }
+
+        private string closeButtonText;
+        public string CloseButtonText
+        {
+            get => closeButtonText;
+            set => SetProperty(ref closeButtonText, value);
+        }
+
+        private bool chevronUpLoad = false;
+        public bool ChevronUpLoad
+        {
+            get => chevronUpLoad;
+            set => SetProperty(ref chevronUpLoad, value);
+        }
+
+        private bool chevronDownLoad = true;
+        public bool ChevronDownLoad
+        {
+            get => chevronDownLoad;
+            set => SetProperty(ref chevronDownLoad, value);
+        }
+
+        private bool expandableDetailsLoad = false;
+        public bool ExpandableDetailsLoad
+        {
+            get => expandableDetailsLoad;
+            set => SetProperty(ref expandableDetailsLoad, value);
+        }
+
+        private bool permanentlyDeleteLoad = false;
+        public bool PermanentlyDeleteLoad
+        {
+            get => permanentlyDeleteLoad;
+            set => SetProperty(ref permanentlyDeleteLoad, value);
+        }
+
+        private bool permanentlyDelete = false;
+        public bool PermanentlyDelete
+        {
+            get => permanentlyDelete;
+            set => SetProperty(ref permanentlyDelete, value);
+        }
+
+        private bool permanentlyDeleteEnabled = false;
+        public bool PermanentlyDeleteEnabled
+        {
+            get => permanentlyDeleteEnabled;
+            set => SetProperty(ref permanentlyDeleteEnabled, value);
+        }
+
+        private bool mustResolveConflicts = false;
+        public bool MustResolveConflicts
+        {
+            get => mustResolveConflicts;
+            set => SetProperty(ref mustResolveConflicts, value);
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand ExpandDetailsCommand { get; private set; }
+
+        public ICommand PrimaryButtonCommand { get; private set; }
+
+        public ICommand SecondaryButtonCommand { get; private set; }
+
+        public ICommand CloseButtonCommand { get; private set; }
+
+        #endregion
 
         public FilesystemOperationDialogViewModel()
         {
@@ -34,85 +126,52 @@ namespace Files.ViewModels.Dialogs
             CloseButtonCommand = new RelayCommand(CloseButton);
         }
 
-        public bool ChevronDownLoad
+        #region Command Implementation
+
+        private void PrimaryButton()
         {
-            get => chevronDownLoad;
-            set => SetProperty(ref chevronDownLoad, value);
+            if (MustResolveConflicts)
+            {
+                // Generate new name
+
+                foreach (var item in Items)
+                {
+                    item.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
+                }
+            }
         }
 
-        public bool ChevronUpLoad
+        private void SecondaryButton()
         {
-            get => chevronUpLoad;
-            set => SetProperty(ref chevronUpLoad, value);
+            if (MustResolveConflicts)
+            {
+                // Replace existing
+
+                foreach (var item in Items)
+                {
+                    item.ConflictResolveOption = FileNameConflictResolveOptionType.ReplaceExisting;
+                }
+            }
         }
 
-        public ICommand CloseButtonCommand { get; private set; }
-
-        public string CloseButtonText
+        private void CloseButton()
         {
-            get => closeButtonText;
-            set => SetProperty(ref closeButtonText, value);
+            if (MustResolveConflicts)
+            {
+                // Skip
+
+                foreach (var item in Items)
+                {
+                    item.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
+                }
+            }
         }
 
-        public bool ExpandableDetailsLoad
+        #endregion
+
+        public List<IFilesystemOperationItemModel> GetResult()
         {
-            get => expandableDetailsLoad;
-            set => SetProperty(ref expandableDetailsLoad, value);
-        }
-
-        public ICommand ExpandDetailsCommand { get; private set; }
-        public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
-
-        public bool MustResolveConflicts
-        {
-            get => mustResolveConflicts;
-            set => SetProperty(ref mustResolveConflicts, value);
-        }
-
-        public bool PermanentlyDelete
-        {
-            get => permanentlyDelete;
-            set => SetProperty(ref permanentlyDelete, value);
-        }
-
-        public bool PermanentlyDeleteEnabled
-        {
-            get => permanentlyDeleteEnabled;
-            set => SetProperty(ref permanentlyDeleteEnabled, value);
-        }
-
-        public bool PermanentlyDeleteLoad
-        {
-            get => permanentlyDeleteLoad;
-            set => SetProperty(ref permanentlyDeleteLoad, value);
-        }
-
-        public ICommand PrimaryButtonCommand { get; private set; }
-
-        public string PrimaryButtonText
-        {
-            get => primaryButtonText;
-            set => SetProperty(ref primaryButtonText, value);
-        }
-
-        public ICommand SecondaryButtonCommand { get; private set; }
-
-        public string SecondaryButtonText
-        {
-            get => secondaryButtonText;
-            set => SetProperty(ref secondaryButtonText, value);
-        }
-
-        public string Subtitle
-        {
-            get => subtitle;
-            set => SetProperty(ref subtitle, value);
-        }
-
-        public string Title
-        {
-            get => title;
-            set => SetProperty(ref title, value);
+            return Items.Cast<IFilesystemOperationItemModel>().ToList();
         }
 
         public static FilesystemOperationDialog GetDialog(FilesystemItemsOperationDataModel itemsData)
@@ -193,50 +252,6 @@ namespace Files.ViewModels.Dialogs
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
             return dialog;
-        }
-
-        public List<IFilesystemOperationItemModel> GetResult()
-        {
-            return Items.Cast<IFilesystemOperationItemModel>().ToList();
-        }
-
-        private void CloseButton()
-        {
-            if (MustResolveConflicts)
-            {
-                // Skip
-
-                foreach (var item in Items)
-                {
-                    item.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
-                }
-            }
-        }
-
-        private void PrimaryButton()
-        {
-            if (MustResolveConflicts)
-            {
-                // Generate new name
-
-                foreach (var item in Items)
-                {
-                    item.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
-                }
-            }
-        }
-
-        private void SecondaryButton()
-        {
-            if (MustResolveConflicts)
-            {
-                // Replace existing
-
-                foreach (var item in Items)
-                {
-                    item.ConflictResolveOption = FileNameConflictResolveOptionType.ReplaceExisting;
-                }
-            }
         }
     }
 }

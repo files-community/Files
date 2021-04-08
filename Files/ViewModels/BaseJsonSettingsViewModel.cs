@@ -10,9 +10,17 @@ namespace Files.ViewModels
 {
     public abstract class BaseJsonSettingsViewModel
     {
-        protected readonly bool initialized = false;
-        protected readonly string settingsPath;
+        #region Protected Members
+
         protected Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
+
+        protected readonly string settingsPath;
+
+        protected readonly bool initialized = false;
+
+        #endregion Protected Members
+
+        #region Constructor
 
         /// <summary>
         /// Initializes an instance of <see cref="BaseJsonSettingsViewModel"/>, <see cref="Init"/> is called by default
@@ -26,23 +34,46 @@ namespace Files.ViewModels
             initialized = true;
         }
 
-        public virtual object ExportSettings()
-        {
-            return serializableSettings;
-        }
+        #endregion Constructor
 
-        public virtual void ImportSettings(object import)
+        #region Helpers
+
+        protected virtual async void Init()
         {
-            try
-            {
-                serializableSettings = (Dictionary<string, object>)import;
-            }
-            catch { }
+            await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
         }
 
         public virtual bool NotifyOnValueUpdated<TValue>(TValue value, string propertyName)
         {
             return Set(value, propertyName);
+        }
+
+        #endregion Helpers
+
+        #region Get, Set
+
+        protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
+        {
+            try
+            {
+                if (!serializableSettings.ContainsKey(propertyName))
+                {
+                    serializableSettings.Add(propertyName, value);
+                }
+                else
+                {
+                    serializableSettings[propertyName] = value;
+                }
+
+                // Serialize
+                NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
+            }
+            catch (Exception e)
+            {
+                Debugger.Break();
+                return false;
+            }
+            return true;
         }
 
         protected virtual TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
@@ -86,33 +117,24 @@ namespace Files.ViewModels
             }
         }
 
-        protected virtual async void Init()
+        #endregion Get, Set
+
+        #region Virtual Helpers
+
+        public virtual object ExportSettings()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
+            return serializableSettings;
         }
 
-        protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
+        public virtual void ImportSettings(object import)
         {
             try
             {
-                if (!serializableSettings.ContainsKey(propertyName))
-                {
-                    serializableSettings.Add(propertyName, value);
-                }
-                else
-                {
-                    serializableSettings[propertyName] = value;
-                }
-
-                // Serialize
-                NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
+                serializableSettings = (Dictionary<string, object>)import;
             }
-            catch (Exception e)
-            {
-                Debugger.Break();
-                return false;
-            }
-            return true;
+            catch { }
         }
+
+        #endregion Virtual Helpers
     }
 }

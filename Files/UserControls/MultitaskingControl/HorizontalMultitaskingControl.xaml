@@ -49,8 +49,8 @@
                             x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
                             Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
-                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
-                            Text="Close tabs to the right" />
+                            Text="Close tabs to the right"
+                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged" />
                     </MenuFlyout>
                 </ResourceDictionary>
                 <ResourceDictionary>
@@ -465,7 +465,7 @@
 
                                                 <VisualState x:Name="PointerOver">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource SystemBaseLowColor}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource SystemBaseLowColor}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
@@ -478,7 +478,7 @@
 
                                                 <VisualState x:Name="Pressed">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
@@ -490,8 +490,8 @@
 
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}"/>
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
@@ -503,7 +503,7 @@
 
                                                 <VisualState x:Name="PointerOverSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
@@ -517,7 +517,7 @@
 
                                                 <VisualState x:Name="PressedSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
@@ -813,12 +813,12 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Height="36"
                         Margin="4,4"
-                        HorizontalAlignment="Stretch"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         CornerRadius="4"
+                        Height="36"
+                        HorizontalAlignment="Stretch"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"

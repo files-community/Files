@@ -1,7 +1,7 @@
-﻿using Files.ViewModels.Widgets;
-using Files.ViewModels.Widgets.Bundles;
-using System;
+﻿using System;
 using Windows.UI.Xaml.Controls;
+using Files.ViewModels.Widgets.Bundles;
+using Files.ViewModels.Widgets;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

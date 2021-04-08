@@ -12,9 +12,17 @@ namespace Files.ViewModels.Pages
 {
     public class YourHomeViewModel : ObservableObject, IDisposable
     {
-        private readonly WidgetsListControlViewModel widgetsViewModel;
-        private IShellPage associatedInstance;
         private BundlesViewModel bundlesViewModel;
+
+        private readonly WidgetsListControlViewModel widgetsViewModel;
+
+        private IShellPage associatedInstance;
+
+        public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
+
+        public ICommand YourHomeLoadedCommand { get; private set; }
+
+        public ICommand LoadBundlesCommand { get; private set; }
 
         public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
         {
@@ -26,29 +34,14 @@ namespace Files.ViewModels.Pages
             LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
         }
 
-        public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
-
-        public ICommand LoadBundlesCommand { get; private set; }
-        public ICommand YourHomeLoadedCommand { get; private set; }
-
         public void ChangeAppInstance(IShellPage associatedInstance)
         {
             this.associatedInstance = associatedInstance;
         }
 
-        private async void BundlesViewModel_LoadIconOverlayEvent(object sender, BundlesLoadIconOverlayEventArgs e)
+        private void YourHomeLoaded(RoutedEventArgs e)
         {
-            e.outData = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(e.path, e.thumbnailSize);
-        }
-
-        private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
-        {
-            await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
-        }
-
-        private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
-        {
-            associatedInstance.PaneHolder.OpenPathInNewPane(e);
+            YourHomeLoadedInvoked?.Invoke(this, e);
         }
 
         private async void LoadBundles(BundlesViewModel viewModel)
@@ -65,9 +58,19 @@ namespace Files.ViewModels.Pages
             await bundlesViewModel.Initialize();
         }
 
-        private void YourHomeLoaded(RoutedEventArgs e)
+        private async void BundlesViewModel_LoadIconOverlayEvent(object sender, BundlesLoadIconOverlayEventArgs e)
         {
-            YourHomeLoadedInvoked?.Invoke(this, e);
+            e.outData = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(e.path, e.thumbnailSize);
+        }
+
+        private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
+        {
+            associatedInstance.PaneHolder.OpenPathInNewPane(e);
+        }
+
+        private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
+        {
+            await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
         }
 
         #region IDisposable
@@ -84,6 +87,6 @@ namespace Files.ViewModels.Pages
             widgetsViewModel?.Dispose();
         }
 
-        #endregion IDisposable
+        #endregion
     }
 }

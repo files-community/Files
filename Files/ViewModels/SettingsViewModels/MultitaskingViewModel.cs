@@ -4,40 +4,25 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class MultitaskingViewModel : ObservableObject
     {
-        private bool alwaysOpenDualPaneInNewTab = App.AppSettings.AlwaysOpenDualPaneInNewTab;
-        private bool isDualPaneEnabled = App.AppSettings.IsDualPaneEnabled;
-        private bool isHorizontalTabStripOn = App.AppSettings.IsHorizontalTabStripOn;
         private bool isMultitaskingExperienceAdaptive = App.AppSettings.IsMultitaskingExperienceAdaptive;
+        private bool isHorizontalTabStripOn = App.AppSettings.IsHorizontalTabStripOn;
         private bool isVerticalTabFlyoutOn = App.AppSettings.IsVerticalTabFlyoutOn;
-
-        public bool AlwaysOpenDualPaneInNewTab
-        {
-            get
-            {
-                return alwaysOpenDualPaneInNewTab;
-            }
-            set
-            {
-                if (SetProperty(ref alwaysOpenDualPaneInNewTab, value))
-                {
-                    App.AppSettings.AlwaysOpenDualPaneInNewTab = value;
-                }
-            }
-        }
-
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        public bool IsDualPaneEnabled
+        public bool IsMultitaskingExperienceAdaptive
         {
             get
             {
-                return isDualPaneEnabled;
+                return isMultitaskingExperienceAdaptive;
             }
             set
             {
-                if (SetProperty(ref isDualPaneEnabled, value))
+                if (SetProperty(ref isMultitaskingExperienceAdaptive, value))
                 {
-                    App.AppSettings.IsDualPaneEnabled = value;
+                    App.AppSettings.IsMultitaskingExperienceAdaptive = value;
+
+                    // Setup the correct multitasking control
+                    InteractionViewModel.SetMultitaskingControl();
                 }
             }
         }
@@ -60,24 +45,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool IsMultitaskingExperienceAdaptive
-        {
-            get
-            {
-                return isMultitaskingExperienceAdaptive;
-            }
-            set
-            {
-                if (SetProperty(ref isMultitaskingExperienceAdaptive, value))
-                {
-                    App.AppSettings.IsMultitaskingExperienceAdaptive = value;
-
-                    // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
-                }
-            }
-        }
-
         public bool IsVerticalTabFlyoutOn
         {
             get
@@ -92,6 +59,39 @@ namespace Files.ViewModels.SettingsViewModels
 
                     // Setup the correct multitasking control
                     InteractionViewModel.SetMultitaskingControl();
+                }
+            }
+        }
+
+        private bool isDualPaneEnabled = App.AppSettings.IsDualPaneEnabled;
+        private bool alwaysOpenDualPaneInNewTab = App.AppSettings.AlwaysOpenDualPaneInNewTab;
+
+        public bool IsDualPaneEnabled
+        {
+            get
+            {
+                return isDualPaneEnabled;
+            }
+            set
+            {
+                if (SetProperty(ref isDualPaneEnabled, value))
+                {
+                    App.AppSettings.IsDualPaneEnabled = value;
+                }
+            }
+        }
+
+        public bool AlwaysOpenDualPaneInNewTab
+        {
+            get
+            {
+                return alwaysOpenDualPaneInNewTab;
+            }
+            set
+            {
+                if (SetProperty(ref alwaysOpenDualPaneInNewTab, value))
+                {
+                    App.AppSettings.AlwaysOpenDualPaneInNewTab = value;
                 }
             }
         }

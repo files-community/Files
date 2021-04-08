@@ -4,10 +4,12 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -180,8 +182,7 @@ namespace Files.Views.LayoutModes
         public static event EventHandler UnFocusPreviousListView;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-        {
-            base.OnNavigatedTo(eventArgs);
+        { base.OnNavigatedTo(eventArgs);
             var param = (eventArgs.Parameter as NavigationArguments);
             //NavParam = param.NavPathParam;
             //var viewmodel = new ItemViewModel(FolderSettings);
@@ -457,7 +458,7 @@ namespace Files.Views.LayoutModes
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-
+                        
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }
@@ -526,7 +527,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (item.ContainsFilesOrFolders)
                     {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+            listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }

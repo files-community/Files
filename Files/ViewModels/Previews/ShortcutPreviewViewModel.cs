@@ -13,19 +13,6 @@ namespace Files.ViewModels.Previews
         {
         }
 
-        public override async Task LoadAsync()
-        {
-            try
-            {
-                var details = await LoadPreviewAndDetails();
-                Item.FileDetails?.Clear();
-                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var item = Item as ShortcutItem;
@@ -61,6 +48,19 @@ namespace Files.ViewModels.Previews
             _ = await base.LoadPreviewAndDetails();
 
             return details;
+        }
+
+        public override async Task LoadAsync()
+        {
+            try
+            {
+                var details = await LoadPreviewAndDetails();
+                Item.FileDetails?.Clear();
+                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Files.Helpers;
+using Files.Interacts;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;

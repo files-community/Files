@@ -13,16 +13,16 @@ namespace Files.ViewModels.Previews
 {
     public class PDFPreviewViewModel : BasePreviewModel
     {
-        public static List<string> Extensions = new List<string>()
-        {
-            ".pdf",
-        };
-
         private Visibility loadingBarVisibility;
 
         public PDFPreviewViewModel(ListedItem item) : base(item)
         {
         }
+
+        public static List<string> Extensions = new List<string>()
+        {
+            ".pdf",
+        };
 
         public Visibility LoadingBarVisibility
         {
@@ -81,8 +81,8 @@ namespace Files.ViewModels.Previews
 
         public struct PageViewModel
         {
-            public BitmapImage PageImage { get; set; }
             public int PageNumber { get; set; }
+            public BitmapImage PageImage { get; set; }
         }
     }
 }
