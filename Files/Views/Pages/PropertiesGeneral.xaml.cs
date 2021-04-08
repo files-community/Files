@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -99,6 +100,8 @@ namespace Files.Views
                     return true;
                 }
             }
+
+            return false;
         }
 
         public override void Dispose()

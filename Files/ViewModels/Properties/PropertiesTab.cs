@@ -44,7 +44,7 @@ namespace Files.ViewModels.Properties
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, hashProgress, Dispatcher, item, AppInstance);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, hashProgress, item, AppInstance);
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
