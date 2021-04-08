@@ -4,6 +4,7 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -21,6 +22,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels
 {
@@ -83,12 +85,21 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
-            Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
 
         public static async void OpenLogLocation()
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+        public static void OpenThemesFolder()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            // Go back to main page
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+            }
+            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()
@@ -245,14 +256,8 @@ namespace Files.ViewModels
 
         #region CommonPaths
 
-        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
-        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
-        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
-        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
-        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
@@ -276,14 +281,6 @@ namespace Files.ViewModels
         {
             get => homePath;
             set => SetProperty(ref homePath, value);
-        }
-
-        private string winDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-
-        public string WinDirPath
-        {
-            get => winDirPath;
-            set => SetProperty(ref winDirPath, value);
         }
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
@@ -533,36 +530,9 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
-        /// </summary>
-        public bool AreRightClickContentMenuAnimationsEnabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
         public bool MoveOverflowMenuItemsToSubMenu
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationMenuItem
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowOpenInNewTabMenuItem
         {
             get => Get(true);
             set => Set(value);

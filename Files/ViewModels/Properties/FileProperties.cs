@@ -58,6 +58,8 @@ namespace Files.ViewModels.Properties
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
+                ViewModel.CustomIcon = Item.CustomIcon;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
 
                 if (Item.IsShortcutItem)

@@ -5,10 +5,6 @@ namespace Files.DataModels
 {
     public class DefaultLanguageModel
     {
-        public string ID { get; set; }
-
-        public string Name { get; set; }
-
         public DefaultLanguageModel(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -24,6 +20,10 @@ namespace Files.DataModels
                 Name = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
             }
         }
+
+        public string ID { get; set; }
+
+        public string Name { get; set; }
 
         public override string ToString()
         {

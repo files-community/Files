@@ -18,124 +18,29 @@ namespace FilesFullTrust
 {
     internal partial class Win32API
     {
-        public class ThreadWithMessageQueue<T> : IDisposable
+        // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
+        // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
+        // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-menuiteminfoa
+        private enum HBITMAP_HMENU : long
         {
-            private BlockingCollection<Internal> messageQueue;
-            private Thread thread;
-            private DisposableDictionary state;
-
-            public void Dispose()
-            {
-                messageQueue.CompleteAdding();
-                thread.Join();
-                state.Dispose();
-            }
-
-            public async Task<V> PostMessageAsync<V>(T payload)
-            {
-                var message = new Internal(payload);
-                messageQueue.TryAdd(message);
-                return (V)await message.tcs.Task;
-            }
-
-            public Task PostMessage(T payload)
-            {
-                var message = new Internal(payload);
-                messageQueue.TryAdd(message);
-                return message.tcs.Task;
-            }
-
-            public ThreadWithMessageQueue(Func<T, DisposableDictionary, object> handleMessage)
-            {
-                messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
-                state = new DisposableDictionary();
-                thread = new Thread(new ThreadStart(() =>
-                {
-                    foreach (var message in messageQueue.GetConsumingEnumerable())
-                    {
-                        var res = handleMessage(message.payload, state);
-                        message.tcs.SetResult(res);
-                    }
-                }));
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-            }
-
-            private class Internal
-            {
-                public T payload;
-                public TaskCompletionSource<object> tcs;
-
-                public Internal(T payload)
-                {
-                    this.payload = payload;
-                    this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
-                }
-            }
-        }
-
-        public class DisposableDictionary : IDisposable
-        {
-            private ConcurrentDictionary<string, object> dict;
-
-            public DisposableDictionary()
-            {
-                dict = new ConcurrentDictionary<string, object>();
-            }
-
-            public string AddValue(object obj)
-            {
-                string key = Guid.NewGuid().ToString();
-                if (!dict.TryAdd(key, obj))
-                {
-                    throw new ArgumentException("Could not create handle: key exists");
-                }
-
-                return key;
-            }
-
-            public void SetValue(string key, object obj)
-            {
-                RemoveValue(key);
-                if (!dict.TryAdd(key, obj))
-                {
-                    throw new ArgumentException("Could not create handle: key exists");
-                }
-            }
-
-            public object GetValue(string key)
-            {
-                dict.TryGetValue(key, out var elem);
-                return elem;
-            }
-
-            public T GetValue<T>(string key)
-            {
-                dict.TryGetValue(key, out var elem);
-                return (T)elem;
-            }
-
-            public void RemoveValue(string key)
-            {
-                dict.TryRemove(key, out var elem);
-                (elem as IDisposable)?.Dispose();
-            }
-
-            public void Dispose()
-            {
-                foreach (var elem in dict)
-                {
-                    dict.TryRemove(elem.Key, out _);
-                    (elem.Value as IDisposable)?.Dispose();
-                }
-            }
+            HBMMENU_CALLBACK = -1,
+            HBMMENU_MBAR_CLOSE = 5,
+            HBMMENU_MBAR_CLOSE_D = 6,
+            HBMMENU_MBAR_MINIMIZE = 3,
+            HBMMENU_MBAR_MINIMIZE_D = 7,
+            HBMMENU_MBAR_RESTORE = 2,
+            HBMMENU_POPUP_CLOSE = 8,
+            HBMMENU_POPUP_MAXIMIZE = 10,
+            HBMMENU_POPUP_MINIMIZE = 11,
+            HBMMENU_POPUP_RESTORE = 9,
+            HBMMENU_SYSTEM = 1
         }
 
         public class ContextMenu : Win32ContextMenu, IDisposable
         {
             private Shell32.IContextMenu cMenu;
             private User32.SafeHMENU hMenu;
-            public List<string> ItemsPath { get; }
 
             public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath)
             {
@@ -143,6 +48,31 @@ namespace FilesFullTrust
                 this.hMenu = hMenu;
                 this.ItemsPath = itemsPath.ToList();
                 this.Items = new List<Win32ContextMenuItem>();
+            }
+
+            public List<string> ItemsPath { get; }
+
+            public void InvokeItem(int itemID)
+            {
+                if (itemID < 0)
+                {
+                    return;
+                }
+
+                try
+                {
+                    var pici = new Shell32.CMINVOKECOMMANDINFOEX();
+                    pici.lpVerb = Macros.MAKEINTRESOURCE(itemID);
+                    pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
+                    pici.cbSize = (uint)Marshal.SizeOf(pici);
+                    cMenu.InvokeCommand(pici);
+                }
+                catch (Exception ex) when (
+                    ex is COMException
+                    || ex is UnauthorizedAccessException)
+                {
+                    Debug.WriteLine(ex);
+                }
             }
 
             public void InvokeVerb(string verb)
@@ -156,29 +86,6 @@ namespace FilesFullTrust
                 {
                     var pici = new Shell32.CMINVOKECOMMANDINFOEX();
                     pici.lpVerb = new SafeResourceId(verb, CharSet.Ansi);
-                    pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
-                    pici.cbSize = (uint)Marshal.SizeOf(pici);
-                    cMenu.InvokeCommand(pici);
-                }
-                catch (Exception ex) when (
-                    ex is COMException
-                    || ex is UnauthorizedAccessException)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
-
-            public void InvokeItem(int itemID)
-            {
-                if (itemID < 0)
-                {
-                    return;
-                }
-
-                try
-                {
-                    var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                    pici.lpVerb = Macros.MAKEINTRESOURCE(itemID);
                     pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
@@ -347,6 +254,17 @@ namespace FilesFullTrust
 
             private bool disposedValue = false; // To detect redundant calls
 
+            ~ContextMenu()
+            {
+                Dispose(false);
+            }
+
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
             protected virtual void Dispose(bool disposing)
             {
                 if (!disposedValue)
@@ -381,23 +299,17 @@ namespace FilesFullTrust
                 }
             }
 
-            ~ContextMenu()
-            {
-                Dispose(false);
-            }
-
-            public void Dispose()
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
             #endregion IDisposable Support
         }
 
         public class ContextMenuItem : Win32ContextMenuItem, IDisposable
         {
             private Bitmap icon;
+
+            public ContextMenuItem()
+            {
+                this.SubItems = new List<Win32ContextMenuItem>();
+            }
 
             [JsonIgnore]
             public Bitmap Icon
@@ -412,11 +324,6 @@ namespace FilesFullTrust
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(value, typeof(byte[]));
                     IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                 }
-            }
-
-            public ContextMenuItem()
-            {
-                this.SubItems = new List<Win32ContextMenuItem>();
             }
 
             public void Dispose()
@@ -434,23 +341,117 @@ namespace FilesFullTrust
             }
         }
 
-        // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-        // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-        // The ones below are due to bugs in the current version of the library and can be removed once fixed
-        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-menuiteminfoa
-        private enum HBITMAP_HMENU : long
+        public class DisposableDictionary : IDisposable
         {
-            HBMMENU_CALLBACK = -1,
-            HBMMENU_MBAR_CLOSE = 5,
-            HBMMENU_MBAR_CLOSE_D = 6,
-            HBMMENU_MBAR_MINIMIZE = 3,
-            HBMMENU_MBAR_MINIMIZE_D = 7,
-            HBMMENU_MBAR_RESTORE = 2,
-            HBMMENU_POPUP_CLOSE = 8,
-            HBMMENU_POPUP_MAXIMIZE = 10,
-            HBMMENU_POPUP_MINIMIZE = 11,
-            HBMMENU_POPUP_RESTORE = 9,
-            HBMMENU_SYSTEM = 1
+            private ConcurrentDictionary<string, object> dict;
+
+            public DisposableDictionary()
+            {
+                dict = new ConcurrentDictionary<string, object>();
+            }
+
+            public string AddValue(object obj)
+            {
+                string key = Guid.NewGuid().ToString();
+                if (!dict.TryAdd(key, obj))
+                {
+                    throw new ArgumentException("Could not create handle: key exists");
+                }
+
+                return key;
+            }
+
+            public void Dispose()
+            {
+                foreach (var elem in dict)
+                {
+                    dict.TryRemove(elem.Key, out _);
+                    (elem.Value as IDisposable)?.Dispose();
+                }
+            }
+
+            public object GetValue(string key)
+            {
+                dict.TryGetValue(key, out var elem);
+                return elem;
+            }
+
+            public T GetValue<T>(string key)
+            {
+                dict.TryGetValue(key, out var elem);
+                return (T)elem;
+            }
+
+            public void RemoveValue(string key)
+            {
+                dict.TryRemove(key, out var elem);
+                (elem as IDisposable)?.Dispose();
+            }
+
+            public void SetValue(string key, object obj)
+            {
+                RemoveValue(key);
+                if (!dict.TryAdd(key, obj))
+                {
+                    throw new ArgumentException("Could not create handle: key exists");
+                }
+            }
+        }
+
+        public class ThreadWithMessageQueue<T> : IDisposable
+        {
+            private BlockingCollection<Internal> messageQueue;
+            private DisposableDictionary state;
+            private Thread thread;
+
+            public ThreadWithMessageQueue(Func<T, DisposableDictionary, object> handleMessage)
+            {
+                messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
+                state = new DisposableDictionary();
+                thread = new Thread(new ThreadStart(() =>
+                {
+                    foreach (var message in messageQueue.GetConsumingEnumerable())
+                    {
+                        var res = handleMessage(message.payload, state);
+                        message.tcs.SetResult(res);
+                    }
+                }));
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+            }
+
+            public void Dispose()
+            {
+                messageQueue.CompleteAdding();
+                thread.Join();
+                state.Dispose();
+            }
+
+            public Task PostMessage(T payload)
+            {
+                var message = new Internal(payload);
+                messageQueue.TryAdd(message);
+                return message.tcs.Task;
+            }
+
+            public async Task<V> PostMessageAsync<V>(T payload)
+            {
+                var message = new Internal(payload);
+                messageQueue.TryAdd(message);
+                return (V)await message.tcs.Task;
+            }
+
+            private class Internal
+            {
+                public T payload;
+                public TaskCompletionSource<object> tcs;
+
+                public Internal(T payload)
+                {
+                    this.payload = payload;
+                    this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+                }
+            }
         }
     }
 }

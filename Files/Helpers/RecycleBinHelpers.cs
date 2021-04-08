@@ -30,58 +30,6 @@ namespace Files.Helpers
             this.associatedInstance = associatedInstance;
         }
 
-        public async Task<List<ShellFileItem>> EnumerateRecycleBin()
-        {
-            if (Connection != null)
-            {
-                ValueSet value = new ValueSet
-                {
-                    { "Arguments", "ShellFolder" },
-                    { "action", "Enumerate" },
-                    { "folder", App.AppSettings.RecycleBinPath }
-                };
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
-
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Enumerate"))
-                {
-                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
-                    return items;
-                }
-            }
-
-            return null;
-        }
-
-        public async Task<bool> IsRecycleBinItem(IStorageItem item)
-        {
-            List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
-
-            if (recycleBinItems == null)
-            {
-                return false;
-            }
-
-            return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
-        }
-
-        public async Task<bool> IsRecycleBinItem(string path)
-        {
-            List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
-
-            if (recycleBinItems == null)
-            {
-                return false;
-            }
-
-            return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
-        }
-
-        public bool IsPathUnderRecycleBin(string path)
-        {
-            return recycleBinPathRegex.IsMatch(path);
-        }
-
         public static void EmptyRecycleBin(IShellPage associatedInstance)
         {
             new RecycleBinHelpers(associatedInstance).EmptyRecycleBin();
@@ -110,6 +58,58 @@ namespace Files.Helpers
                     await Connection.SendMessageAsync(value);
                 }
             }
+        }
+
+        public async Task<List<ShellFileItem>> EnumerateRecycleBin()
+        {
+            if (Connection != null)
+            {
+                ValueSet value = new ValueSet
+                {
+                    { "Arguments", "ShellFolder" },
+                    { "action", "Enumerate" },
+                    { "folder", App.AppSettings.RecycleBinPath }
+                };
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+
+                if (status == AppServiceResponseStatus.Success
+                    && response.ContainsKey("Enumerate"))
+                {
+                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
+                    return items;
+                }
+            }
+
+            return null;
+        }
+
+        public bool IsPathUnderRecycleBin(string path)
+        {
+            return recycleBinPathRegex.IsMatch(path);
+        }
+
+        public async Task<bool> IsRecycleBinItem(IStorageItem item)
+        {
+            List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
+            if (recycleBinItems == null)
+            {
+                return false;
+            }
+
+            return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
+        }
+
+        public async Task<bool> IsRecycleBinItem(string path)
+        {
+            List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
+            if (recycleBinItems == null)
+            {
+                return false;
+            }
+
+            return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
         }
 
         #region IDisposable

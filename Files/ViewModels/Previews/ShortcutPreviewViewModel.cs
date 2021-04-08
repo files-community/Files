@@ -40,7 +40,7 @@ namespace Files.ViewModels.Previews
                 },
                 new FileProperty()
                 {
-                    NameResource = "PropertyItemName",
+                    NameResource = "PropertyItemArguments",
                     Value = item.Arguments,
                 }
             };

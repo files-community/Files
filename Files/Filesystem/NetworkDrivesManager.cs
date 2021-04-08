@@ -1,5 +1,5 @@
 ﻿using Files.Helpers;
-using Files.Views;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using NLog;
@@ -20,17 +20,6 @@ namespace Files.Filesystem
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
-        public IReadOnlyList<DriveItem> Drives
-        {
-            get
-            {
-                lock (drivesList)
-                {
-                    return drivesList.ToList().AsReadOnly();
-                }
-            }
-        }
-
         public NetworkDrivesManager()
         {
             var networkItem = new DriveItem()
@@ -44,6 +33,17 @@ namespace Files.Filesystem
             lock (drivesList)
             {
                 drivesList.Add(networkItem);
+            }
+        }
+
+        public IReadOnlyList<DriveItem> Drives
+        {
+            get
+            {
+                lock (drivesList)
+                {
+                    return drivesList.ToList().AsReadOnly();
+                }
             }
         }
 
@@ -107,23 +107,22 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
                     if (section == null && this.drivesList.Any(d => d.DeviceID != "network-folder"))
                     {
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
-                            Glyph = "\uE8CE",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        MainPage.SideBarItems.Add(section);
+                        SidebarControl.SideBarItems.Add(section);
                     }
 
                     if (section != null)
@@ -139,11 +138,11 @@ namespace Files.Filesystem
                         }
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

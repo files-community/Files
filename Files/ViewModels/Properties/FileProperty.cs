@@ -1,4 +1,5 @@
 ﻿using Files.Converters;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -283,7 +284,12 @@ namespace Files.ViewModels.Properties
         private static readonly Dictionary<string, Func<object, string>> DisplayFuncs = new Dictionary<string, Func<object, string>>()
         {
             { "DivideBy1000", input => (((uint) input)/1000).ToString() },
-            { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
+            { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("hh':'mm':'ss")},
+            { "Fraction" , input => ((double)input).ToFractions(2000)},
+            { "AddF" , input => $"f/{(double)input}"},
+            { "AddISO" , input => $"ISO-{(UInt16)input}"},
+            { "RoundDouble" , input => $"{Math.Round((double)input)}"},
+            { "UnitMM" , input => $"{(double)input} mm"},
         };
     }
 }

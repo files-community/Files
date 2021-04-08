@@ -25,12 +25,14 @@
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.HorizontalResolution",
     "IsReadOnly": true,
+    "DisplayFunctionName": "RoundDouble",
     "ID": null
   },
   {
     "NameResource": "PropertyVerticalResolution",
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.VerticalResolution",
+    "DisplayFunctionName": "RoundDouble",
     "IsReadOnly": true,
     "ID": null
   },
@@ -67,13 +69,6 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDateTaken",
-    "SectionResource": "PropertySectionPhoto",
-    "Property": "System.Photo.DateTaken",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
     "NameResource": "PropertyCameraManufacturer",
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.CameraManufacturer",
@@ -92,13 +87,15 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.ExposureTime",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName": "Fraction"
   },
   {
     "NameResource": "PropertyFocalLength",
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.FocalLength",
     "IsReadOnly": true,
+    "DisplayFunctionName": "UnitMM",
     "ID": null
   },
   {
@@ -106,7 +103,16 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.Aperture",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName": "AddF"
+  },
+  {
+    "NameResource": "PropertyISO",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.ISOSpeed",
+    "IsReadOnly": true,
+    "ID": null,
+    "DisplayFunctionName": "AddISO"
   },
   {
     "NameResource": "PropertyPeopleNames",
@@ -328,20 +334,6 @@
     "DisplayFunctionName": "DivideBy1000"
   },
   {
-    "NameResource": "PropertyEncodingBitrate",
-    "SectionResource": "PropertySectionVideo",
-    "Property": "System.Video.EncodingBitrate",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyItemName",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.ItemNameDisplay",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
     "NameResource": "PropertyRatingText",
     "SectionResource": "PropertySectionCore",
     "Property": "System.RatingText",
@@ -352,13 +344,6 @@
     "NameResource": "PropertyItemPathDisplay",
     "SectionResource": "PropertySectionCore",
     "Property": "System.ItemPathDisplay",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
-    "NameResource": "PropertyItemTypeText",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.ItemTypeText",
     "IsReadOnly": true,
     "ID": null
   },
@@ -401,6 +386,13 @@
     "NameResource": "PropertyDateModified",
     "SectionResource": "PropertySectionCore",
     "Property": "System.DateModified",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyDateTaken",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.DateTaken",
     "IsReadOnly": true,
     "ID": null
   }

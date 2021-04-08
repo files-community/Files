@@ -46,6 +46,22 @@ namespace Files.Helpers
             }
         }
 
+        private IAsyncResult DownloadUpdates()
+        {
+            if (UpdateList == null || UpdateList.Count < 1)
+            {
+                return null;
+            }
+
+            if (context == null)
+            {
+                context = StoreContext.GetDefault();
+            }
+
+            IAsyncResult downloadOperation = (IAsyncResult)context.RequestDownloadAndInstallStorePackageUpdatesAsync(UpdateList);
+            return downloadOperation;
+        }
+
         private async Task<bool> DownloadUpdatesConsent()
         {
             ContentDialog dialog = new ContentDialog
@@ -62,22 +78,6 @@ namespace Files.Helpers
                 return true;
             }
             return false;
-        }
-
-        private IAsyncResult DownloadUpdates()
-        {
-            if (UpdateList == null || UpdateList.Count < 1)
-            {
-                return null;
-            }
-
-            if (context == null)
-            {
-                context = StoreContext.GetDefault();
-            }
-
-            IAsyncResult downloadOperation = (IAsyncResult)context.RequestDownloadAndInstallStorePackageUpdatesAsync(UpdateList);
-            return downloadOperation;
         }
     }
 }

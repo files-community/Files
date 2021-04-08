@@ -4,6 +4,18 @@ namespace Files.Filesystem
 {
     public class StorageFileWithPath : IStorageItemWithPath
     {
+        public StorageFileWithPath(StorageFile file)
+        {
+            File = file;
+            Path = File.Path;
+        }
+
+        public StorageFileWithPath(StorageFile file, string path)
+        {
+            File = file;
+            Path = path;
+        }
+
         public StorageFile File
         {
             get
@@ -16,20 +28,8 @@ namespace Files.Filesystem
             }
         }
 
-        public string Path { get; set; }
         public IStorageItem Item { get; set; }
         public FilesystemItemType ItemType => FilesystemItemType.File;
-
-        public StorageFileWithPath(StorageFile file)
-        {
-            File = file;
-            Path = File.Path;
-        }
-
-        public StorageFileWithPath(StorageFile file, string path)
-        {
-            File = file;
-            Path = path;
-        }
+        public string Path { get; set; }
     }
 }

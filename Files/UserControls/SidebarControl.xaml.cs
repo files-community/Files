@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -21,6 +23,10 @@ namespace Files.UserControls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
+        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
+
+        public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -51,7 +57,13 @@ namespace Files.UserControls
         public bool IsOpen
         {
             get => (bool)GetValue(IsOpenProperty);
-            set => SetValue(IsOpenProperty, value);
+            set 
+            {
+                if (this.IsLoaded)
+                {
+                    SetValue(IsOpenProperty, value);
+                }
+            }
         }
 
         public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
@@ -59,7 +71,13 @@ namespace Files.UserControls
         public bool IsCompact
         {
             get => (bool)GetValue(IsCompactProperty);
-            set => SetValue(IsCompactProperty, value);
+            set 
+            { 
+                if(this.IsLoaded)
+                {
+                    SetValue(IsCompactProperty, value);
+                }
+            }
         }
 
         public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
@@ -80,17 +98,16 @@ namespace Files.UserControls
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
-        private INavigationControlItem selectedSidebarItem;
+        public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
 
         public INavigationControlItem SelectedSidebarItem
         {
-            get => selectedSidebarItem;
+            get => (INavigationControlItem)GetValue(SelectedSidebarItemProperty);
             set
             {
-                if (value != selectedSidebarItem)
+                if (this.IsLoaded)
                 {
-                    selectedSidebarItem = value;
-                    NotifyPropertyChanged(nameof(SelectedSidebarItem));
+                    SetValue(SelectedSidebarItemProperty, value);
                 }
             }
         }
@@ -212,6 +229,18 @@ namespace Files.UserControls
             }
         }
 
+        public static GridLength GetSidebarCompactSize()
+        {
+            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
+            {
+                if (paneLength is double paneLengthDouble)
+                {
+                    return new GridLength(paneLengthDouble);
+                }
+            }
+            return new GridLength(200);
+        }
+
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (args.InvokedItem == null || args.InvokedItemContainer == null)
@@ -223,7 +252,7 @@ namespace Files.UserControls
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as LocationItem;
 
             if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
@@ -233,27 +262,18 @@ namespace Files.UserControls
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
-                ShowEmptyRecycleBin = false;
-                ShowUnpinItem = true;
-                ShowProperties = true;
+                ShowUnpinItem = item.Section != SectionType.Library && !item.IsDefaultLocation;
+                ShowProperties = item.Section == SectionType.Library;
                 ShowEjectDevice = false;
 
-                if (item.IsDefaultLocation)
+                if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (item.Section != SectionType.Library)
-                    {
-                        ShowProperties = false;
-                    }
-
-                    if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                    {
-                        RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
-                        ShowEmptyRecycleBin = true;
-                    }
-                    else
-                    {
-                        ShowUnpinItem = false;
-                    }
+                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+                    ShowEmptyRecycleBin = true;
+                }
+                else
+                {
+                    ShowEmptyRecycleBin = false;
                 }
 
                 RightClickedItem = item;
@@ -265,7 +285,7 @@ namespace Files.UserControls
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as DriveItem;
 
             ShowEjectDevice = item.IsRemovable;
@@ -282,7 +302,7 @@ namespace Files.UserControls
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as WSLDistroItem;
 
             ShowEjectDevice = false;
@@ -566,7 +586,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await DeviceHelpers.EjectDeviceAsync(RightClickedItem.Path);
+            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)

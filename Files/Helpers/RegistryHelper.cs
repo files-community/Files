@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
+using Files.DataModels;
 using Files.Filesystem;
 using Microsoft.Win32;
 using System;
@@ -17,8 +18,7 @@ namespace Files.Helpers
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
             var newMenuItems = new List<ShellNewEntry>();
-            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames()
-                .Where(x => x.StartsWith(".") && !new string[] { ".library-ms", ".url", ".lnk" }.Contains(x)))
+            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith(".") && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x)))
             {
                 using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
                 if (key != null)
@@ -63,6 +63,18 @@ namespace Files.Helpers
                 }
             }
             return null;
+        }
+
+        private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
+        {
+            try
+            {
+                return root.OpenSubKey(keyName);
+            }
+            catch (SecurityException)
+            {
+                return null;
+            }
         }
 
         private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
@@ -116,18 +128,6 @@ namespace Files.Helpers
             };
 
             return entry;
-        }
-
-        private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
-        {
-            try
-            {
-                return root.OpenSubKey(keyName);
-            }
-            catch (SecurityException)
-            {
-                return null;
-            }
         }
     }
 }

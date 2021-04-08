@@ -50,11 +50,18 @@
                     Width="Auto"
                     MinWidth="200"
                     MaxWidth="250"
-                    x:Load="{x:Bind ShowColorSchemeSelector}"
                     Header="Color scheme"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" />
+                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" 
+                    x:Load="{x:Bind ShowColorSchemeSelector}"/>
+
+                <HyperlinkButton
+                    x:Name="OpenThemesFolderButton"
+                    x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    Command="{Binding OpenThemesFolderCommand}"
+                    Content="Open themes folder" 
+                    x:Load="{x:Bind ShowColorSchemeSelector}"/>
 
                 <StackPanel
                     Width="Auto"
@@ -101,26 +108,6 @@
                     Header="Move overflow items into a sub menu"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="SettingsContextMenuAnimationsSwitch"
-                    Header="Enable animations when opening and closing the context menu"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding AreRightClickContentMenuAnimationsEnabled, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="ShowOpenInNewTabToggleSwitch"
-                    x:Uid="SettingsOpenInNewTabSwitch"
-                    Header="Show open in new tab menu item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowOpenInNewTabMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <ToggleSwitch
-                    x:Name="ShowCopyLocationToggleSwitch"
-                    x:Uid="SettingsCopyLocationSwitch"
-                    Header="Show copy location menu item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowCopyLocationMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
 

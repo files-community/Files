@@ -1,5 +1,5 @@
 using Files.Filesystem.Cloud;
-using Files.Views;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using NLog;
@@ -18,6 +18,10 @@ namespace Files.Filesystem
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
+        public CloudDrivesManager()
+        {
+        }
+
         public IReadOnlyList<DriveItem> Drives
         {
             get
@@ -27,10 +31,6 @@ namespace Files.Filesystem
                     return drivesList.ToList().AsReadOnly();
                 }
             }
-        }
-
-        public CloudDrivesManager()
-        {
         }
 
         public async Task EnumerateDrivesAsync()
@@ -84,23 +84,22 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MainPage.SideBarItemsSemaphore.WaitAsync();
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    MainPage.SideBarItems.BeginBulkOperation();
+                    SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    var section = MainPage.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
                     if (section == null)
                     {
                         section = new LocationItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
-                            Glyph = "\uE753",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        MainPage.SideBarItems.Add(section);
+                        SidebarControl.SideBarItems.Add(section);
                     }
 
                     foreach (DriveItem drive in Drives.ToList())
@@ -111,11 +110,11 @@ namespace Files.Filesystem
                         }
                     }
 
-                    MainPage.SideBarItems.EndBulkOperation();
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
-                    MainPage.SideBarItemsSemaphore.Release();
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

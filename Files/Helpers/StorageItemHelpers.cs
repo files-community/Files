@@ -1,5 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -10,6 +12,42 @@ namespace Files.Helpers
     /// </summary>
     public static class StorageItemHelpers
     {
+        public static bool Exists(string path)
+        {
+            return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
+        }
+
+        public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
+        {
+            return (itemType == FilesystemItemType.File) ?
+                    (IStorageItemWithPath)new StorageFileWithPath(null, customPath) :
+                    (IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
+        }
+
+        public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
+        {
+            if (item == null)
+            {
+                return FromPathAndType(customPath, itemType);
+            }
+            else if (item.IsOfType(StorageItemTypes.File))
+            {
+                return new StorageFileWithPath(item as StorageFile, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+            }
+            else if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+            }
+            return null;
+        }
+
+        public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
+        {
+            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
+
+            return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
+        }
+
         public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
             return (await item.ToStorageItemResult(associatedInstance)).Result;
@@ -20,35 +58,83 @@ namespace Files.Helpers
             FilesystemResult<StorageFile> file = null;
             FilesystemResult<StorageFolder> folder = null;
 
-            if (associatedInstance == null)
+            if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
             {
-                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
+                //      we could implement this code here for getting .lnk files
+                //      for now, we can't
 
-                if (!file)
-                {
-                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-                }
-            }
-            else
-            {
-                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                return default(TOut);
 
-                if (!file)
+                if (false) // Prevent unnecessary exceptions
                 {
-                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                    Debugger.Break();
+                    throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
                 }
             }
 
-            if (file)
+            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+            {
+                await GetFile();
+            }
+            else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TOut)))
+            {
+                await GetFolder();
+            }
+            else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
+            {
+                if (System.IO.Path.HasExtension(path)) // Probably a file
+                {
+                    await GetFile();
+                }
+                else // Possibly a folder
+                {
+                    await GetFolder();
+
+                    if (!folder)
+                    {
+                        // It wasn't a folder, so check file then because it wasn't checked
+                        await GetFile();
+                    }
+                }
+            }
+
+            if (file != null && file)
             {
                 return (TOut)(IStorageItem)file.Result;
             }
-            else if (folder)
+            else if (folder != null && folder)
             {
                 return (TOut)(IStorageItem)folder.Result;
             }
 
             return default(TOut);
+
+            // Extensions
+
+            async Task GetFile()
+            {
+                if (associatedInstance == null)
+                {
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                }
+                else
+                {
+                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                }
+            }
+
+            async Task GetFolder()
+            {
+                if (associatedInstance == null)
+                {
+                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                }
+                else
+                {
+                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                }
+            }
         }
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
@@ -69,44 +155,6 @@ namespace Files.Helpers
                 returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
             }
             return returnedItem;
-        }
-
-        public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
-        {
-            return (itemType == FilesystemItemType.File) ?
-                    (IStorageItemWithPath)new StorageFileWithPath(null, customPath) :
-                    (IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
-        }
-
-        public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
-        {
-            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
-
-            return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
-        }
-
-        public static async Task<bool> Exists(string path, IShellPage associatedInstance = null)
-        {
-            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
-
-            return item != null;
-        }
-
-        public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
-        {
-            if (item == null)
-            {
-                return FromPathAndType(customPath, itemType);
-            }
-            else if (item.IsOfType(StorageItemTypes.File))
-            {
-                return new StorageFileWithPath(item as StorageFile, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
-            }
-            else if (item.IsOfType(StorageItemTypes.Folder))
-            {
-                return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
-            }
-            return null;
         }
 
         public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class

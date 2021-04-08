@@ -25,7 +25,7 @@
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
@@ -35,7 +35,7 @@
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
@@ -63,7 +63,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{x:Bind Font}" Glyph="{x:Bind Glyph}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -85,7 +85,7 @@
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="{x:Bind Glyph}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -133,7 +133,7 @@
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-            MenuItemsSource="{x:Bind local3:MainPage.SideBarItems, Mode=OneWay}"
+            MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
             OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
             PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -217,109 +217,7 @@
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
 
-            <muxc:NavigationView.PaneToggleButtonStyle>
-                <Style BasedOn="{StaticResource PaneToggleButtonStyle}" TargetType="Button">
-                    <!--
-                        Note: This template might be updated in the next version of WinUI.
-                        When moving to a new version, this template override might be removed
-                        as it is here only for overriding the navigation pane toggle icon.
-                    -->
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Grid
-                                    x:Name="LayoutRoot"
-                                    Height="{TemplateBinding MinHeight}"
-                                    MinWidth="{TemplateBinding MinWidth}"
-                                    Margin="{TemplateBinding Padding}"
-                                    HorizontalAlignment="Stretch"
-                                    Background="{TemplateBinding Background}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="{ThemeResource PaneToggleButtonHeight}" />
-                                    </Grid.RowDefinitions>
 
-                                    <Border Width="{TemplateBinding MinWidth}">
-                                        <Viewbox
-                                            x:Name="IconHost"
-                                            Width="18"
-                                            Height="18"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                            AutomationProperties.AccessibilityView="Raw">
-                                            <FontIcon
-                                                x:Name="Icon"
-                                                AutomationProperties.AccessibilityView="Raw"
-                                                FontSize="{TemplateBinding FontSize}"
-                                                Glyph="&#xE700;" />
-                                        </Viewbox>
-                                    </Border>
-
-                                    <ContentPresenter
-                                        x:Name="ContentPresenter"
-                                        Grid.Column="1"
-                                        VerticalContentAlignment="Center"
-                                        Content="{TemplateBinding Content}"
-                                        FontSize="{TemplateBinding FontSize}" />
-
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal" />
-                                            <VisualState x:Name="PointerOver">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewButtonForegroundPointerOver}" />
-                                                    <Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewButtonForegroundPointerOver}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Pressed">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewButtonBackgroundPressed}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewButtonForegroundPressed}" />
-                                                    <Setter Target="Icon.Foreground" Value="{ThemeResource NavigationViewButtonForegroundPressed}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Disabled">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationViewButtonBackgroundDisabled}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationViewButtonForegroundDisabled}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Checked">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource ToggleButtonBackgroundChecked}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundChecked}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="CheckedPointerOver">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource ToggleButtonBackgroundCheckedPointerOver}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundCheckedPointerOver}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="CheckedPressed">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource ToggleButtonBackgroundCheckedPressed}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundCheckedPressed}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="CheckedDisabled">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource ToggleButtonBackgroundCheckedDisabled}" />
-                                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ToggleButtonForegroundCheckedDisabled}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </muxc:NavigationView.PaneToggleButtonStyle>
 
             <muxc:NavigationView.PaneHeader>
                 <TextBlock

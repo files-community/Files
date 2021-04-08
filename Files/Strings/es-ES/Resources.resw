@@ -49,7 +49,7 @@
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Enviar opiniones</value>
+    <value>Enviar comentarios</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
     <value>Envía un informe de fallos a los desarrolladores con información detallada</value>
@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Desanclar de la barra lateral</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Eliminar Archivo(s)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Eliminar</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Eliminar permanentemente</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Escritorio</value>
   </data>
@@ -136,7 +124,7 @@
     <value>Videos</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Nueva Pestaña</value>
+    <value>Nueva pestaña</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordenar por</value>
@@ -214,7 +202,7 @@
     <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Nueva Ventana</value>
+    <value>Nueva ventana</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
     <value>Copiar Ubicación</value>
@@ -646,7 +634,7 @@
     <value>Páginas</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Al abrir una carpeta anclada desde la JumpList</value>
+    <value>Al abrir una carpeta en Files</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Abrir en una nueva ventana</value>
@@ -733,7 +721,7 @@
     <value>Ver quiénes contribuyen a Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Notas de publicación</value>
+    <value>Notas de la versión</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Ver las novedades de esta versión</value>
@@ -800,12 +788,6 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>¿Está seguro que desea eliminar este elemento?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>¿Está seguro que desea eliminar estos {0} elementos?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptable (Recomendado)</value>
@@ -950,21 +932,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Dispositivos y unidades</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Mostrar bibliotecas en la página de inicio</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Mostrar unidades en la página de inicio</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Mostrar archivos recientes en la página de inicio</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Archivo</value>
@@ -1443,23 +1410,14 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel Doble</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar "Copiar ubicación" en el menú contextual</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Mover opciones adicionales a un sub menú</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personaliza el menú contextual</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostrar "Abrir en nueva pestaña" en el menú contextual</value>
-  </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Carpetas</value>
-  </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Habilitar animaciones al abrir y cerrar el menú contextual</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalles</value>
@@ -1619,9 +1577,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades de la nube</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Mostrar contenedores en la página de inicio</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Desanclar directorio de la barra lateral</value>
@@ -1783,30 +1738,150 @@
     <value>Esquema de colores</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>Recuento de elementos</value>
+    <value>Elementos</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Error de eliminación</value>
+    <value>Error al eliminar</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Error desconocido.</value>
   </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>El elemento se eliminó correctamente</value>
+  </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>La operación se completó.</value>
   </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Papelera vaciada</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>El elemento se movió correctamente</value>
+  </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copia completa</value>
+    <value>El elemento de copió correctamente</value>
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>NO</value>
+    <value>No</value>
   </data>
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>SÍ</value>
+    <value>Sí</value>
+  </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Esta acción requiere permisos de administrador</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>¿Le gustaría continuar como administrador?</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Cerrar las pestaña de la derecha</value>
+    <value>Cerrar las pestañas de la derecha</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrador</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files se está ejecutando como administrador</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Anclar a Inicio</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Desanclar de Inicio</value>
+  </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} archivos, {1:#,##0} carpetas de {2:#,##0} ubicaciones</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>Bibliotecas</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>Ubicaciones:</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>Predeterminado</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Establecer como ruta de guardado predeterminada</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>Sin ubicaciones</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones de bibliotecas</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Más opciones...</value>
+  </data>
+  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Crear biblioteca</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Nombre deseado</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Crear biblioteca</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
+    <value>Ingresa el nombre de la nueva biblioteca</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>¡El campo de entrada no puede estar vacío!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>El nombre no debe contener los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>¡No se permite usar este nombre!</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>¡Ya existe una biblioteca con el mismo nombre!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>Eliminar biblioteca</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
+    <value>Eliminar biblioteca</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
+    <value>¿Estás seguro que quieres eliminar esta biblioteca? Los archivos y carpetas no se eliminarán.</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="DialogCancelButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Abrir sensor de almacenamiento</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Abrir sensor de almacenamiento</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>Velocidad ISO</value>
   </data>
 </root>

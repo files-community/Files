@@ -15,61 +15,37 @@ namespace Files.Helpers.FileListCache
         private SqliteConnection connection;
         private bool disposedValue;
 
-        public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
+        public void Dispose()
+        {
+            if (!disposedValue)
+            {
+                connection.Dispose();
+                disposedValue = true;
+            }
+        }
+
+        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
         {
             if (!await InitializeIfNeeded())
             {
-                return;
+                return null;
             }
-            const int maxCachedEntries = 128;
             try
             {
-                if (cacheEntry == null)
-                {
-                    using var deleteCommand = new SqliteCommand("DELETE FROM FileListCache WHERE Id = @Id", connection);
-                    deleteCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
-                    await deleteCommand.ExecuteNonQueryAsync();
-                    return;
-                }
-
-                if (cacheEntry.FileList.Count > maxCachedEntries)
-                {
-                    cacheEntry.FileList = cacheEntry.FileList.Take(maxCachedEntries).ToList();
-                }
-
-                using var cmd = new SqliteCommand("SELECT Id FROM FileListCache WHERE Id = @Id", connection);
+                using var cmd = new SqliteCommand("SELECT DisplayName FROM FileDisplayNameCache WHERE Id = @Id", connection);
                 cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
-                using var reader = await cmd.ExecuteReaderAsync();
-                if (reader.HasRows)
+
+                using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
+                if (!await reader.ReadAsync())
                 {
-                    // need to update entry
-                    using var updateCommand = new SqliteCommand("UPDATE FileListCache SET Timestamp = @Timestamp, Entry = @Entry WHERE Id = @Id", connection);
-                    updateCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
-                    updateCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
-                    var settings = new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto
-                    };
-                    updateCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
-                    await updateCommand.ExecuteNonQueryAsync();
+                    return null;
                 }
-                else
-                {
-                    // need to insert entry
-                    using var insertCommand = new SqliteCommand("INSERT INTO FileListCache (Id, Timestamp, Entry) VALUES (@Id, @Timestamp, @Entry)", connection);
-                    insertCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
-                    insertCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
-                    var settings = new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto
-                    };
-                    insertCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
-                    await insertCommand.ExecuteNonQueryAsync();
-                }
+                return reader.GetString(0);
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                Debug.WriteLine(ex.ToString());
+                return null;
             }
         }
 
@@ -149,64 +125,67 @@ namespace Files.Helpers.FileListCache
             }
         }
 
-        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
             if (!await InitializeIfNeeded())
             {
-                return null;
+                return;
             }
+            const int maxCachedEntries = 128;
             try
             {
-                using var cmd = new SqliteCommand("SELECT DisplayName FROM FileDisplayNameCache WHERE Id = @Id", connection);
-                cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
-
-                using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
-                if (!await reader.ReadAsync())
+                if (cacheEntry == null)
                 {
-                    return null;
+                    using var deleteCommand = new SqliteCommand("DELETE FROM FileListCache WHERE Id = @Id", connection);
+                    deleteCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    await deleteCommand.ExecuteNonQueryAsync();
+                    return;
                 }
-                return reader.GetString(0);
+
+                if (cacheEntry.FileList.Count > maxCachedEntries)
+                {
+                    cacheEntry.FileList = cacheEntry.FileList.Take(maxCachedEntries).ToList();
+                }
+
+                using var cmd = new SqliteCommand("SELECT Id FROM FileListCache WHERE Id = @Id", connection);
+                cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (reader.HasRows)
+                {
+                    // need to update entry
+                    using var updateCommand = new SqliteCommand("UPDATE FileListCache SET Timestamp = @Timestamp, Entry = @Entry WHERE Id = @Id", connection);
+                    updateCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    updateCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
+                    var settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    };
+                    updateCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    // need to insert entry
+                    using var insertCommand = new SqliteCommand("INSERT INTO FileListCache (Id, Timestamp, Entry) VALUES (@Id, @Timestamp, @Entry)", connection);
+                    insertCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
+                    insertCommand.Parameters.Add("@Timestamp", SqliteType.Integer).Value = GetTimestamp(DateTime.UtcNow);
+                    var settings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    };
+                    insertCommand.Parameters.Add("@Entry", SqliteType.Text).Value = JsonConvert.SerializeObject(cacheEntry, settings);
+                    await insertCommand.ExecuteNonQueryAsync();
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
-                return null;
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
         }
 
         private long GetTimestamp(DateTime dateTime)
         {
             return new DateTimeOffset(dateTime).ToUnixTimeSeconds();
-        }
-
-        public void Dispose()
-        {
-            if (!disposedValue)
-            {
-                connection.Dispose();
-                disposedValue = true;
-            }
-        }
-
-        private void RunCleanupRoutine()
-        {
-            Task.Run(async () =>
-            {
-                try
-                {
-                    // remove entries that are 1 month old (timestamp is updated every time the cache is set)
-                    var limitTimestamp = GetTimestamp(DateTime.Now.AddMonths(-1));
-                    using var cmd = new SqliteCommand("DELETE FROM FileListCache WHERE Timestamp < @Timestamp", connection);
-                    cmd.Parameters.Add("@Timestamp", SqliteType.Integer).Value = limitTimestamp;
-
-                    var count = await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
-                    Debug.WriteLine($"Removed {count} old entries from cache database");
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                }
-            });
         }
 
         private async Task<bool> InitializeIfNeeded()
@@ -252,6 +231,27 @@ namespace Files.Helpers.FileListCache
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, $"Failed initializing database with path: {dbPath}");
                 return false;
             }
+        }
+
+        private void RunCleanupRoutine()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    // remove entries that are 1 month old (timestamp is updated every time the cache is set)
+                    var limitTimestamp = GetTimestamp(DateTime.Now.AddMonths(-1));
+                    using var cmd = new SqliteCommand("DELETE FROM FileListCache WHERE Timestamp < @Timestamp", connection);
+                    cmd.Parameters.Add("@Timestamp", SqliteType.Integer).Value = limitTimestamp;
+
+                    var count = await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    Debug.WriteLine($"Removed {count} old entries from cache database");
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
+            });
         }
     }
 }

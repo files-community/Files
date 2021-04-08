@@ -63,7 +63,16 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-
+                <NavigationViewItem
+                    x:Name="TabLibrary"
+                    x:Uid="PropertiesDialogTabLibrary"
+                    Content="Library"
+                    Tag="Library"
+                    Visibility="Collapsed">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE1D3;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem
                     x:Name="TabDetails"
                     x:Uid="PropertiesDialogTabDetails"

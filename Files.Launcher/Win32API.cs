@@ -20,56 +20,6 @@ namespace FilesFullTrust
 {
     internal partial class Win32API
     {
-        public static Task<T> StartSTATask<T>(Func<T> func)
-        {
-            var tcs = new TaskCompletionSource<T>();
-            Thread thread = new Thread(() =>
-            {
-                try
-                {
-                    tcs.SetResult(func());
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetResult(default);
-                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
-                    //tcs.SetException(e);
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            return tcs.Task;
-        }
-
-        public static async Task<string> GetFileAssociationAsync(string filename)
-        {
-            // Find UWP apps
-            var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-            if (uwpApps.Any())
-            {
-                return uwpApps.First().PackageFamilyName;
-            }
-
-            // Find desktop apps
-            var lpResult = new StringBuilder(2048);
-            var hResult = Shell32.FindExecutable(filename, null, lpResult);
-            if (hResult.ToInt64() > 32)
-            {
-                return lpResult.ToString();
-            }
-
-            return null;
-        }
-
-        public static string ExtractStringFromDLL(string file, int number)
-        {
-            var lib = Kernel32.LoadLibrary(file);
-            StringBuilder result = new StringBuilder(2048);
-            User32.LoadString(lib, number, result, result.Capacity);
-            Kernel32.FreeLibrary(lib);
-            return result.ToString();
-        }
-
         public static string[] CommandLineToArgs(string commandLine)
         {
             if (string.IsNullOrEmpty(commandLine))
@@ -98,6 +48,35 @@ namespace FilesFullTrust
             {
                 Marshal.FreeHGlobal(argv);
             }
+        }
+
+        public static string ExtractStringFromDLL(string file, int number)
+        {
+            var lib = Kernel32.LoadLibrary(file);
+            StringBuilder result = new StringBuilder(2048);
+            User32.LoadString(lib, number, result, result.Capacity);
+            Kernel32.FreeLibrary(lib);
+            return result.ToString();
+        }
+
+        public static async Task<string> GetFileAssociationAsync(string filename)
+        {
+            // Find UWP apps
+            var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+            if (uwpApps.Any())
+            {
+                return uwpApps.First().PackageFamilyName;
+            }
+
+            // Find desktop apps
+            var lpResult = new StringBuilder(2048);
+            var hResult = Shell32.FindExecutable(filename, null, lpResult);
+            if (hResult.ToInt64() > 32)
+            {
+                return lpResult.ToString();
+            }
+
+            return null;
         }
 
         public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
@@ -159,34 +138,6 @@ namespace FilesFullTrust
             return (iconStr, overlayStr, isCustom);
         }
 
-        private static void RunPowershellCommand(string command, bool runAsAdmin)
-        {
-            try
-            {
-                using Process process = new Process();
-                if (runAsAdmin)
-                {
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.Verb = "runas";
-                }
-                process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = command;
-                process.Start();
-                process.WaitForExit(30 * 1000);
-            }
-            catch (Win32Exception)
-            {
-                // If user cancels UAC
-            }
-        }
-
-        public static void UnlockBitlockerDrive(string drive, string password)
-        {
-            RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
-        }
-
         public static void OpenFormatDriveDialog(string drive)
         {
             // format requires elevation
@@ -194,10 +145,59 @@ namespace FilesFullTrust
             RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
         }
 
+        public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
+        {
+            var message = new Dictionary<string, object>(valueSet);
+            message.Add("RequestID", requestID);
+            var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            await pipe.WriteAsync(serialized, 0, serialized.Length);
+        }
+
         public static void SetVolumeLabel(string driveName, string newLabel)
         {
             // rename requires elevation
             RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
+        }
+
+        // Get information from recycle bin.
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
+        public static extern int SHQueryRecycleBin(string pszRootPath,
+            ref SHQUERYRBINFO pSHQueryRBInfo);
+
+        public static Task<T> StartSTATask<T>(Func<T> func)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    tcs.SetResult(func());
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetResult(default);
+                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
+                    //tcs.SetException(e);
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return tcs.Task;
+        }
+
+        public static void UnlockBitlockerDrive(string drive, string password)
+        {
+            RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
+        }
+
+        private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
+        {
+            return new Bitmap(
+                    bmpData.Width,
+                    bmpData.Height,
+                    bmpData.Stride,
+                    PixelFormat.Format32bppArgb,
+                    bmpData.Scan0);
         }
 
         private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -219,16 +219,6 @@ namespace FilesFullTrust
             {
                 return null;
             }
-        }
-
-        private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
-        {
-            return new Bitmap(
-                    bmpData.Width,
-                    bmpData.Height,
-                    bmpData.Stride,
-                    PixelFormat.Format32bppArgb,
-                    bmpData.Scan0);
         }
 
         private static bool IsAlphaBitmap(Bitmap bmp, out BitmapData bmpData)
@@ -261,12 +251,27 @@ namespace FilesFullTrust
             return false;
         }
 
-        public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
+        private static void RunPowershellCommand(string command, bool runAsAdmin)
         {
-            var message = new Dictionary<string, object>(valueSet);
-            message.Add("RequestID", requestID);
-            var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-            await pipe.WriteAsync(serialized, 0, serialized.Length);
+            try
+            {
+                using Process process = new Process();
+                if (runAsAdmin)
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                }
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.Arguments = command;
+                process.Start();
+                process.WaitForExit(30 * 1000);
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+            }
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
@@ -280,10 +285,5 @@ namespace FilesFullTrust
             public long i64Size;
             public long i64NumItems;
         }
-
-        // Get information from recycle bin.
-        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
-        public static extern int SHQueryRecycleBin(string pszRootPath,
-            ref SHQUERYRBINFO pSHQueryRBInfo);
     }
 }

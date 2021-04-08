@@ -1,4 +1,4 @@
-﻿using Files.Views;
+﻿using Files.ViewModels;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,46 +10,12 @@ namespace Files.Dialogs
     public sealed partial class ExceptionDialog : ContentDialog
     {
         private string message;
-        private string stackTrace;
         private string offendingMethod;
+        private string stackTrace;
 
         public ExceptionDialog()
         {
             this.InitializeComponent();
-        }
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            if (MainPage.MultitaskingControl.Items.Count == 1)
-            {
-                App.CloseApp();
-            }
-            else if (MainPage.MultitaskingControl.Items.Count > 1)
-            {
-                MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
-            }
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            App.CloseApp();
-        }
-
-        private void ExpandMoreInfo_Click(object sender, RoutedEventArgs e)
-        {
-            // If technical info is collapsed
-            if (CollapseIcon.Visibility == Visibility.Collapsed)
-            {
-                ExpandIcon.Visibility = Visibility.Collapsed;
-                CollapseIcon.Visibility = Visibility.Visible;
-                TechnicalInformation.Visibility = Visibility.Visible;
-            }
-            else // if technical info is expanded
-            {
-                ExpandIcon.Visibility = Visibility.Visible;
-                CollapseIcon.Visibility = Visibility.Collapsed;
-                TechnicalInformation.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
@@ -75,6 +41,40 @@ namespace Files.Dialogs
 
             Summary.Text = $"{message} within method {offendingMethod}";
             ErrorInfo.Text = stackTrace;
+        }
+
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            if (MainPageViewModel.MultitaskingControl.Items.Count == 1)
+            {
+                App.CloseApp();
+            }
+            else if (MainPageViewModel.MultitaskingControl.Items.Count > 1)
+            {
+                MainPageViewModel.MultitaskingControl?.CloseTab(MainPageViewModel.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
+            }
+        }
+
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            App.CloseApp();
+        }
+
+        private void ExpandMoreInfo_Click(object sender, RoutedEventArgs e)
+        {
+            // If technical info is collapsed
+            if (CollapseIcon.Visibility == Visibility.Collapsed)
+            {
+                ExpandIcon.Visibility = Visibility.Collapsed;
+                CollapseIcon.Visibility = Visibility.Visible;
+                TechnicalInformation.Visibility = Visibility.Visible;
+            }
+            else // if technical info is expanded
+            {
+                ExpandIcon.Visibility = Visibility.Visible;
+                CollapseIcon.Visibility = Visibility.Collapsed;
+                TechnicalInformation.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

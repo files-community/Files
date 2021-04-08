@@ -7,6 +7,16 @@ namespace Files.Filesystem.FilesystemHistory
     public interface IStorageHistory : IDisposable
     {
         /// <summary>
+        /// Destination file/folder
+        /// <br/>
+        /// <br/>
+        /// Attention!
+        /// <br/>
+        /// May contain more that one item
+        /// </summary>
+        IEnumerable<IStorageItemWithPath> Destination { get; }
+
+        /// <summary>
         /// Type of operation that took place
         /// </summary>
         FileOperationType OperationType { get; }
@@ -20,16 +30,6 @@ namespace Files.Filesystem.FilesystemHistory
         /// May contain more that one item
         /// </summary>
         IEnumerable<IStorageItemWithPath> Source { get; }
-
-        /// <summary>
-        /// Destination file/folder
-        /// <br/>
-        /// <br/>
-        /// Attention!
-        /// <br/>
-        /// May contain more that one item
-        /// </summary>
-        IEnumerable<IStorageItemWithPath> Destination { get; }
 
         #region Modify
 

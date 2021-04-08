@@ -42,6 +42,11 @@ namespace Files.UserControls.Selection
             return baseList.Cast<T>().GetEnumerator();
         }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return baseList.GetEnumerator();
+        }
+
         public bool Remove(T item)
         {
             if (baseList.Contains(item))
@@ -50,11 +55,6 @@ namespace Files.UserControls.Selection
                 return true;
             }
             return false;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return baseList.GetEnumerator();
         }
     }
 }

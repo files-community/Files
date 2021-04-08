@@ -116,8 +116,14 @@ namespace Files.ViewModels.Properties
 
         public void SetItemsCountString()
         {
-            ViewModel.FilesAndFoldersCountString = string.Format(
-                "PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+            if (ViewModel.LocationsCount > 0)
+            {
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
+            }
+            else
+            {
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+            }
         }
     }
 }

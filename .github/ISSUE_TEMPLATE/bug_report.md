@@ -32,7 +32,7 @@ Write a clear description of what you expected.
 Upload the log file here for us to understand your issue better. 
 - You can access it from Settings->About->Open log location. 
 or 
-- Copy the debug.txt and debug_fulltrust.txt from the following directory, and upload the files here.
+- Copy the debug.log and debug_fulltrust.log from the following directory, and upload the files here.
 `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState` 
 
 **Screenshots**

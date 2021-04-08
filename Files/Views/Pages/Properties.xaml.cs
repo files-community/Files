@@ -53,9 +53,10 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             listedItem = args.Item as ListedItem;
-            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
+            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
@@ -142,6 +143,13 @@ namespace Files.Views
             {
                 await propertiesGeneral.SaveChangesAsync(listedItem);
             }
+            else if (contentFrame.Content is PropertiesLibrary propertiesLibrary)
+            {
+                if (!await propertiesLibrary.SaveChangesAsync())
+                {
+                    return;
+                }
+            }
             else if (contentFrame.Content is PropertiesDetails propertiesDetails)
             {
                 if (!await propertiesDetails.SaveChangesAsync())
@@ -204,6 +212,10 @@ namespace Files.Views
 
                 case "Shortcut":
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Library":
+                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
 
                 case "Details":
