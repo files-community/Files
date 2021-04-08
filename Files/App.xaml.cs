@@ -99,7 +99,7 @@ namespace Files
         public static InteractionViewModel InteractionViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static LibraryManager LibraryManager { get; private set; }
-        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
+        public static NetworkDrivesManrrager NetworkDrivesManager { get; private set; }
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static WSLDistroManager WSLDistroManager { get; private set; }

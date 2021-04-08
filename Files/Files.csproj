@@ -1148,10 +1148,6 @@
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Files.Extensions\Files.Extensions.vcxproj">
-      <Project>{d4e6a3ab-df72-44a4-9acb-c8a222656a20}</Project>
-      <Name>Files.Extensions</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
