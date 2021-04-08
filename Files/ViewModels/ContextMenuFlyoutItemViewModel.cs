@@ -1,12 +1,5 @@
-﻿using Files.Filesystem;
-using Microsoft.Toolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -15,7 +8,7 @@ namespace Files.ViewModels
     public class ContextMenuFlyoutItemViewModel
     {
         public bool ShowItem { get; set; } = true;
-        public ICommand Command {get; set; }
+        public ICommand Command { get; set; }
         public object CommandParameter { get; set; }
         public string Glyph { get; set; }
         public string GlyphFontFamilyName { get; set; }
