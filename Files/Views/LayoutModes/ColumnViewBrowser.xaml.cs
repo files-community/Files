@@ -4,27 +4,20 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
-using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -284,7 +277,7 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            
+
         }
 
         private async void ReloadItemIcons()
@@ -443,7 +436,7 @@ namespace Files.Views.LayoutModes
                     return;
                 }
             }
-                // Check if RightTapped row is currently selected
+            // Check if RightTapped row is currently selected
             if (IsItemSelected)
             {
                 if (SelectedItems.Contains(objectPressed))
@@ -478,7 +471,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    
+
                     if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -537,7 +530,7 @@ namespace Files.Views.LayoutModes
                     }
                     if (item.ContainsFilesOrFolders)
                     {
-                listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
                         var blade = new BladeItem();
                         blade.Content = frame;
@@ -659,7 +652,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-                    
+
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -711,7 +704,7 @@ namespace Files.Views.LayoutModes
             //    NavPathParam = item.ItemPath,
             //    AssociatedTabInstance = ParentShellPageInstance
             //});
-            
+
             frame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
                 Column = ColumnHost.ActiveBlades.IndexOf(blade),

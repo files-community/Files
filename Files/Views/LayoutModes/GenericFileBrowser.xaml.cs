@@ -11,7 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -176,7 +175,7 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusSelectedItemsInvoked(object sender, EventArgs e)
         {
-            if(SelectedItems.Any())
+            if (SelectedItems.Any())
             {
                 AllView.ScrollIntoView(SelectedItems.Last(), null);
             }

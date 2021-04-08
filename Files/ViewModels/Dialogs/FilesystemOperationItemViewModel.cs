@@ -1,22 +1,42 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationItemViewModel : ObservableObject, IFilesystemOperationItemModel
     {
-        public string OperationIconGlyph { get; set; }
+        private Visibility arrowIconVisibility = Visibility.Visible;
+        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
+        private Visibility exclamationMarkVisibility = Visibility.Collapsed;
+        private bool isConflicting = false;
 
-        public string SourcePath { get; set; }
+        public Visibility ArrowIconVisibility
+        {
+            get => arrowIconVisibility;
+            set => SetProperty(ref arrowIconVisibility, value);
+        }
 
-        public Visibility PlusIconVisibility { get; set; } // Item will be created - show plus icon
+        public FileNameConflictResolveOptionType ConflictResolveOption
+        {
+            get => conflictResolveOption;
+            set
+            {
+                if (conflictResolveOption != value && IsConflicting)
+                {
+                    conflictResolveOption = value;
+                }
+            }
+        }
 
         public string DestinationPath { get; set; }
 
-        private bool isConflicting = false;
+        public Visibility ExclamationMarkVisibility
+        {
+            get => exclamationMarkVisibility;
+            set => SetProperty(ref exclamationMarkVisibility, value);
+        }
+
         /// <summary>
         /// Determines whether an item is or was a conflicting one
         /// <br/>
@@ -38,33 +58,12 @@ namespace Files.ViewModels.Dialogs
             }
         }
 
-        private Visibility arrowIconVisibility = Visibility.Visible;
-        public Visibility ArrowIconVisibility
-        {
-            get => arrowIconVisibility;
-            set => SetProperty(ref arrowIconVisibility, value);
-        }
-
-        private Visibility exclamationMarkVisibility = Visibility.Collapsed;
-        public Visibility ExclamationMarkVisibility
-        {
-            get => exclamationMarkVisibility;
-            set => SetProperty(ref exclamationMarkVisibility, value);
-        }
-
-        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
-        public FileNameConflictResolveOptionType ConflictResolveOption
-        {
-            get => conflictResolveOption;
-            set
-            {
-                if (conflictResolveOption != value && IsConflicting)
-                {
-                    conflictResolveOption = value;
-                }
-            }
-        }
-
         public FilesystemOperationType ItemOperation { get; set; }
+        public string OperationIconGlyph { get; set; }
+
+        public Visibility PlusIconVisibility { get; set; }
+        public string SourcePath { get; set; }
+
+        // Item will be created - show plus icon
     }
 }

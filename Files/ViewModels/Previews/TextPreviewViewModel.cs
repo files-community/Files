@@ -17,16 +17,6 @@ namespace Files.ViewModels.Previews
         {
         }
 
-        public string TextValue
-        {
-            get => textValue;
-            set => SetProperty(ref textValue, value);
-        }
-
-        public static List<string> Extensions => new List<string>() {
-            ".txt"
-        };
-
         /// <summary>
         /// A list of extensions that will be ignored when using TryLoadAsTextAsync
         /// </summary>
@@ -34,6 +24,16 @@ namespace Files.ViewModels.Previews
         {
             ".iso"
         };
+
+        public static List<string> Extensions => new List<string>() {
+            ".txt"
+        };
+
+        public string TextValue
+        {
+            get => textValue;
+            set => SetProperty(ref textValue, value);
+        }
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
