@@ -544,6 +544,13 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutContextFlyoutNewFile/Text".GetLocalized(),
+                    Glyph = "\uE7C3",
+                    Command = commandsViewModel.CreateNewFileCommand,
+                    CommandParameter = null,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     ItemType = ItemType.Separator,
                 }
             };
