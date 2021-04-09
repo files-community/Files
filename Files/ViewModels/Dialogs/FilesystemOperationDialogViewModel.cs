@@ -125,13 +125,21 @@ namespace Files.ViewModels.Dialogs
         public FilesystemOperationDialogViewModel()
         {
             // Create commands
+            ExpandDetailsCommand = new RelayCommand(ExpandOrCollapseDetails);
             OptionGenerateNewNameCommand = new RelayCommand(OptionGenerateNewName);
             OptionReplaceExistingCommand = new RelayCommand(OptionReplaceExisting);
             OptionSkipCommand = new RelayCommand(OptionSkip);
 
             PrimaryButtonCommand = new RelayCommand(PrimaryButton);
             SecondaryButtonCommand = new RelayCommand(SecondaryButton);
-            LoadedCommand = new RelayCommand(() => { });
+            LoadedCommand = new RelayCommand(() => 
+            {
+                // Any conflicting items?
+                if (MustResolveConflicts)
+                {
+                    ExpandOrCollapseDetails();
+                }
+            });
         }
 
         #region Command Implementation
@@ -183,6 +191,15 @@ namespace Files.ViewModels.Dialogs
                     item.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
                 }
             }
+        }
+
+        private void ExpandOrCollapseDetails()
+        {
+            bool detailsShown = !ExpandableDetailsLoad; // Inverted
+
+            ExpandableDetailsLoad = detailsShown;
+            ChevronDownLoad = !detailsShown;
+            ChevronUpLoad = detailsShown;
         }
 
         #endregion
@@ -254,14 +271,6 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDelete = itemsData.PermanentlyDelete,
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
                 MustResolveConflicts = itemsData.MustResolveConflicts,
-                ExpandDetailsCommand = new RelayCommand<FilesystemOperationDialogViewModel>((vm) =>
-                {
-                    bool detailsShown = !vm.ExpandableDetailsLoad; // Inverted
-
-                    vm.ExpandableDetailsLoad = detailsShown;
-                    vm.ChevronDownLoad = !detailsShown;
-                    vm.ChevronUpLoad = detailsShown;
-                }),
                 Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems())
             };
 

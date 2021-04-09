@@ -69,8 +69,7 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     BorderThickness="0"
-                    Command="{x:Bind ViewModel.ExpandDetailsCommand, Mode=OneWay}"
-                    CommandParameter="{x:Bind ViewModel}">
+                    Command="{x:Bind ViewModel.ExpandDetailsCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <FontIcon
