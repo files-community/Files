@@ -7,7 +7,6 @@ using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
@@ -1260,7 +1259,7 @@ namespace Files.ViewModels
 
                 if (isHidden)
                 {
-                    opacity = 0.4;
+                    opacity = Constants.UI.DimItemOpacity;
                 }
 
                 var currentFolder = library ?? new ListedItem(null, returnformat)

@@ -72,9 +72,11 @@ namespace Files.Helpers
                         ConnectionChanged?.Invoke(null, Instance);
                         wasElevated = true;
                         break;
+
                     case -1: // FTP is already admin
                         wasElevated = true;
                         break;
+
                     default: // Failed (e.g canceled UAC)
                         wasElevated = false;
                         break;

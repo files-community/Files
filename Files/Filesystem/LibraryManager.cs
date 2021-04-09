@@ -54,6 +54,7 @@ namespace Files.Filesystem
                                 goto case NotifyCollectionChangedAction.Add;
                             }
                             break;
+
                         case NotifyCollectionChangedAction.Reset:
                             librarySection.ChildItems.Clear();
                             foreach (var lib in Libraries.Where(IsLibraryOnSidebar))
@@ -65,6 +66,7 @@ namespace Files.Filesystem
                                 }
                             }
                             break;
+
                         case NotifyCollectionChangedAction.Add:
                             foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(IsLibraryOnSidebar))
                             {

@@ -89,7 +89,6 @@
                                             Background="{TemplateBinding Background}"
                                             XYFocusKeyboardNavigation="Enabled">
 
-
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition x:Name="LeftContentColumn" Width="Auto" />
                                                 <ColumnDefinition x:Name="TabColumn" Width="Auto" />
@@ -389,7 +388,6 @@
                                             BorderBrush="{StaticResource SystemBaseLowColor}"
                                             BorderThickness="0" />
 
-
                                         <Grid
                                             x:Name="TabContainer"
                                             Grid.Column="1"
@@ -465,7 +463,7 @@
 
                                                 <VisualState x:Name="PointerOver">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource SystemBaseLowColor}"/>
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource SystemBaseLowColor}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
@@ -478,7 +476,7 @@
 
                                                 <VisualState x:Name="Pressed">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
@@ -490,8 +488,8 @@
 
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}"/>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
@@ -503,7 +501,7 @@
 
                                                 <VisualState x:Name="PointerOverSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
@@ -517,7 +515,7 @@
 
                                                 <VisualState x:Name="PressedSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}"/>
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />

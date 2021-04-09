@@ -14,7 +14,7 @@ namespace Files.Filesystem.Search
 {
     internal class FolderSearch
     {
-        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, int maxItemCount = 10, uint thumbnailSize = 24)
+        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, bool searchUnindexedItems, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             var returnedItems = new ObservableCollection<ListedItem>();
             maxItemCount = maxItemCount < 0 ? int.MaxValue : maxItemCount;
@@ -23,7 +23,7 @@ namespace Files.Filesystem.Search
             var workingDir = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(WorkingDirectory);
             if (workingDir)
             {
-                foreach (var item in await SearchWithStorageFolder(userText, workingDir, maxItemCount, thumbnailSize))
+                foreach (var item in await SearchWithStorageFolder(userText, workingDir, searchUnindexedItems, maxItemCount, thumbnailSize))
                 {
                     returnedItems.Add(item);
                 }
@@ -92,7 +92,7 @@ namespace Files.Filesystem.Search
                                         ItemPropertiesInitialized = false, // Load thumbnail
                                         FileExtension = itemFileExtension,
                                         ItemType = itemType,
-                                        Opacity = isHidden ? 0.4 : 1
+                                        Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                                     });
                                 }
                                 else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
@@ -109,7 +109,7 @@ namespace Files.Filesystem.Search
                                             LoadUnknownTypeGlyph = false,
                                             LoadFolderGlyph = true,
                                             ItemPropertiesInitialized = true,
-                                            Opacity = isHidden ? 0.4 : 1
+                                            Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                                         });
                                     }
                                 }
@@ -125,7 +125,7 @@ namespace Files.Filesystem.Search
             return returnedItems;
         }
 
-        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, int maxItemCount = 10, uint thumbnailSize = 24)
+        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, bool searchUnindexedItems, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             QueryOptions options = new QueryOptions()
             {
@@ -133,7 +133,7 @@ namespace Files.Filesystem.Search
                 UserSearchFilter = string.IsNullOrWhiteSpace(userText) ? null : userText,
             };
 
-            if (App.AppSettings.SearchUnindexedItems)
+            if (searchUnindexedItems)
             {
                 options.IndexerOption = IndexerOption.DoNotUseIndexer;
             }
