@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,8 +23,7 @@ namespace Files.Helpers
 
         public async Task LoadSelectedTheme()
         {
-            ThemeFolder = (await ApplicationData.Current.LocalFolder.TryGetItemAsync("Themes")) as StorageFolder;
-            ThemeFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes");
+            ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
             if (App.AppSettings.PathToThemeFile != "DefaultScheme".GetLocalized())
             {

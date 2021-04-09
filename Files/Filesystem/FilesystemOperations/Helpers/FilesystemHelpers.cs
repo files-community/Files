@@ -4,7 +4,7 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
@@ -117,9 +118,9 @@ namespace Files.Filesystem
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                    associatedInstance.SlimContentPage.SelectedItems.Count);
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                if (UIHelpers.IsAnyContentDialogOpen())
                 {
                     // Can show only one dialog at a time
                     banner.Remove();
@@ -221,9 +222,9 @@ namespace Files.Filesystem
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     permanently,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                    associatedInstance.SlimContentPage.SelectedItems.Count);
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                if (UIHelpers.IsAnyContentDialogOpen())
                 {
                     // Can show only one dialog at a time
                     banner.Remove();
@@ -299,9 +300,9 @@ namespace Files.Filesystem
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     permanently,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                    associatedInstance.SlimContentPage.SelectedItems.Count);
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                if (UIHelpers.IsAnyContentDialogOpen())
                 {
                     // Can show only one dialog at a time
                     banner.Remove();
@@ -424,7 +425,7 @@ namespace Files.Filesystem
             IStorageHistory history;
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
@@ -483,7 +484,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
@@ -596,7 +597,7 @@ namespace Files.Filesystem
             IStorageHistory history;
             var rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
@@ -655,7 +656,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.ContentPage.ClearSelection();
+            associatedInstance.SlimContentPage.ClearSelection();
             IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
 
@@ -923,6 +924,20 @@ namespace Files.Filesystem
             }
 
             return false;
+        }
+
+        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection serviceConnection)
+        {
+            Debug.WriteLine("Launching shell command in FullTrustProcess");
+            if (serviceConnection != null)
+            {
+                ValueSet value = new ValueSet()
+                {
+                    { "ShellCommand", shellCommand },
+                    { "Arguments", "ShellCommand" }
+                };
+                await serviceConnection.SendMessageAsync(value);
+            }
         }
 
         #endregion Public Helpers

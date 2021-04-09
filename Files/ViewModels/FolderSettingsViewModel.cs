@@ -94,17 +94,20 @@ namespace Files.ViewModels
             set => SetProperty(ref isLayoutModeChanging, value);
         }
 
-        public Type GetLayoutType(string folderPath)
+        public Type GetLayoutType(string folderPath, bool isPageNavigationInProgress = true)
         {
-            var oldLayoutMode = LayoutPreference.LayoutMode;
-            LayoutPreference = GetLayoutPreferencesForPath(folderPath);
-            if (oldLayoutMode != LayoutPreference.LayoutMode)
+            var prefsForPath = GetLayoutPreferencesForPath(folderPath);
+            if (isPageNavigationInProgress)
             {
-                IsLayoutModeChanging = true;
+                if (LayoutPreference.LayoutMode != prefsForPath.LayoutMode)
+                {
+                    IsLayoutModeChanging = true;
+                }
+                LayoutPreference = prefsForPath;
             }
 
             Type type = null;
-            switch (LayoutMode)
+            switch (prefsForPath.LayoutMode)
             {
                 case FolderLayoutModes.DetailsView:
                     type = typeof(GenericFileBrowser);
@@ -116,6 +119,9 @@ namespace Files.ViewModels
 
                 case FolderLayoutModes.GridView:
                     type = typeof(GridViewBrowser);
+                    break;
+                case FolderLayoutModes.ColumnView:
+                    type = typeof(ColumnViewBrowser);
                     break;
 
                 default:
@@ -168,6 +174,28 @@ namespace Files.ViewModels
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
             LastLayoutModeSelected = FolderLayout.GridViewLarge;
+
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+        });
+
+        public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
+        {
+            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            {
+                if (LastLayoutModeSelected == FolderLayout.ColumnView)
+                {
+                    return;
+                }
+                else if (manuallySet)
+                {
+                    // Override preferred layout mode
+                    SwitchAdaptiveLayout(false);
+                }
+            }
+
+            LayoutMode = FolderLayoutModes.ColumnView; // Column View
+
+            LastLayoutModeSelected = FolderLayout.ColumnView;
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
@@ -416,7 +444,7 @@ namespace Files.ViewModels
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
+                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
@@ -430,7 +458,7 @@ namespace Files.ViewModels
                 // include an '\\' at the end (unlike paths to folders)
                 if (!WriteLayoutPreferencesToAds(folderPath.TrimEnd('\\'), prefs))
                 {
-                    WriteLayoutPreferencesToSettings(folderPath.Replace('\\', '_'), prefs);
+                    WriteLayoutPreferencesToSettings(folderPath.TrimEnd('\\').Replace('\\', '_'), prefs);
                 }
             }
             else

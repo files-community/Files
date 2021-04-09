@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;ko-KR;lv-LV;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=en-US;ar;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;ko-KR;lv-LV;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -165,6 +165,7 @@
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
+    <Compile Include="Converters\NavigationViewCompactConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\WidthToRightMargin.cs" />
@@ -183,8 +184,10 @@
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
+    <Compile Include="Filesystem\LibraryLocationItem.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
     <Compile Include="Filesystem\WSLDistroManager.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
@@ -209,13 +212,23 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RestartDialog.xaml.cs">
-      <DependentUpon>RestartDialog.xaml</DependentUpon>
+    <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
+    <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
+    <Compile Include="Helpers\FilePropertiesHelpers.cs" />
+    <Compile Include="Helpers\ShellContextMenuHelper.cs" />
+    <Compile Include="Helpers\UIFilesystemHelpers.cs" />
+    <Compile Include="Helpers\NavigationHelpers.cs" />
+    <Compile Include="Helpers\UIHelpers.cs" />
+    <Compile Include="Helpers\WallpaperHelpers.cs" />
+    <Compile Include="Helpers\Win32Helpers.cs" />
+    <Compile Include="UserControls\RestartControl.xaml.cs">
+      <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\DeviceHelpers.cs" />
+    <Compile Include="Helpers\DriveHelpers.cs" />
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
     <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
+    <Compile Include="Helpers\LibraryHelper.cs" />
     <Compile Include="Helpers\MenuFlyoutHelper.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="Helpers\CollectionDebugView.cs" />
@@ -227,10 +240,18 @@
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
+    <Compile Include="Helpers\QuickLookHelpers.cs" />
+    <Compile Include="Helpers\MultitaskingTabsHelpers.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="IBaseLayout.cs" />
+    <Compile Include="Interacts\BaseLayoutCommandImplementationModel.cs" />
+    <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
+    <Compile Include="Interacts\IBaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\IStatusCenterActions.cs" />
+    <Compile Include="Helpers\SecondaryTileHelper.cs" />
     <Compile Include="UserControls\FilePreviews\BasicPreview.xaml.cs">
       <DependentUpon>BasicPreview.xaml</DependentUpon>
     </Compile>
@@ -269,12 +290,15 @@
     <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
       <DependentUpon>Bundles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />
     <Compile Include="ViewModels\PreviewPaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\BasicPreviewViewModel.cs" />
@@ -420,6 +444,7 @@
     <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
     <Compile Include="ViewModels\Properties\DriveProperties.cs" />
     <Compile Include="ViewModels\Properties\FileProperties.cs" />
+    <Compile Include="ViewModels\Properties\LibraryProperties.cs" />
     <Compile Include="ViewModels\Properties\FolderProperties.cs" />
     <Compile Include="ViewModels\Properties\PropertiesTab.cs" />
     <Compile Include="ViewModels\SettingsViewModels\AboutViewModel.cs" />
@@ -430,6 +455,19 @@
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
+    <Compile Include="Views\ColumnParam.cs" />
+    <Compile Include="Views\ColumnShellPage.xaml.cs">
+      <DependentUpon>ColumnShellPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutModes\ColumnViewBase.xaml.cs">
+      <DependentUpon>ColumnViewBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
+      <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
+      <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
     </Compile>
@@ -439,7 +477,6 @@
     <Compile Include="ViewModels\InteractionViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPropertiesViewModel.cs" />
     <Compile Include="ViewModels\SelectedItemsPropertiesViewModel.cs" />
-    <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
@@ -498,6 +535,16 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
+    <Content Include="Assets\FluentIcons\Desktop.svg" />
+    <Content Include="Assets\FluentIcons\Documents.svg" />
+    <Content Include="Assets\FluentIcons\Downloads.svg" />
+    <Content Include="Assets\FluentIcons\Drive.svg" />
+    <Content Include="Assets\FluentIcons\Drive_Network.svg" />
+    <Content Include="Assets\FluentIcons\Drive_USB.svg" />
+    <Content Include="Assets\FluentIcons\Folder.svg" />
+    <Content Include="Assets\FluentIcons\Music.svg" />
+    <Content Include="Assets\FluentIcons\Pictures.svg" />
+    <Content Include="Assets\FluentIcons\Videos.svg" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
@@ -611,6 +658,8 @@
     <Content Include="Assets\StoreLogo.scale-200_contrast-white.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-black.png" />
     <Content Include="Assets\StoreLogo.scale-400_contrast-white.png" />
+    <Content Include="Assets\tile-0-250x250.png" />
+    <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-black.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100_contrast-white.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125_contrast-black.png" />
@@ -623,6 +672,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-400_contrast-white.png" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
+    <PRIResource Include="Strings\pt-PT\Resources.resw" />
+    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -741,7 +792,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\RestartDialog.xaml">
+    <Page Include="UserControls\RestartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -865,6 +916,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ColumnShellPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\ColumnViewBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\ColumnViewBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PropertiesLibrary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\PaneHolderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -965,10 +1032,10 @@
       <Version>2020.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.1.0</Version>
+      <Version>4.2.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.1.0</Version>
+      <Version>4.2.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>5.0.4</Version>
@@ -980,46 +1047,49 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.0.0-preview4</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.DeveloperTools">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>6.1.1</Version>
+      <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Lottie">
-      <Version>6.1.0</Version>
+      <Version>7.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
+      <Version>2.6.0-prerelease.210315002</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>5.0.0</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>2.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.8</Version>
+      <Version>4.7.9</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.8</Version>
+      <Version>4.7.9</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

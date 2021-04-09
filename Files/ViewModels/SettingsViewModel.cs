@@ -7,7 +7,7 @@ using Files.Helpers;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -81,6 +81,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
@@ -95,10 +96,22 @@ namespace Files.ViewModels
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the width of the the sidebar pane when open.
+        /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the sidebar pane should be open or closed.
+        /// </summary>
+        public bool IsSidebarOpen
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         /// <summary>
@@ -232,14 +245,8 @@ namespace Files.ViewModels
 
         #region CommonPaths
 
-        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
-        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
-        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
-        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
-        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
@@ -263,14 +270,6 @@ namespace Files.ViewModels
         {
             get => homePath;
             set => SetProperty(ref homePath, value);
-        }
-
-        private string winDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-
-        public string WinDirPath
-        {
-            get => winDirPath;
-            set => SetProperty(ref winDirPath, value);
         }
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
@@ -532,24 +531,6 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
         public bool MoveOverflowMenuItemsToSubMenu
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationMenuItem
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowOpenInNewTabMenuItem
         {
             get => Get(true);
             set => Set(value);

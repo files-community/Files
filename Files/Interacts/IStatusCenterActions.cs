@@ -42,5 +42,11 @@ namespace Files.Interacts
         /// <param name="banner">The banner to close</param>
         /// <returns>true if operation completed successfully; otherwise false</returns>
         bool CloseBanner(StatusBanner banner);
+
+        /// <summary>
+        /// Communicates a banner's progress or status has changed
+        /// </summary>
+        /// <param name="banner"></param>
+        void UpdateBanner(StatusBanner banner);
     }
 }

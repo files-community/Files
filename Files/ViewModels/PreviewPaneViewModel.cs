@@ -3,12 +3,13 @@ using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
@@ -29,12 +30,16 @@ namespace Files.ViewModels
             get => selectedItems;
             set
             {
-                SetProperty(ref selectedItems, value);
-                SelectedItem = SelectedItems?.FirstOrDefault();
+                if (SetProperty(ref selectedItems, value))
+                {
+                    SelectedItem = SelectedItems?.FirstOrDefault();
+                }
             }
         }
 
         private ListedItem selectedItem;
+
+        private CancellationTokenSource loadCancellationTokenSource;
 
         public ListedItem SelectedItem
         {
@@ -83,7 +88,7 @@ namespace Files.ViewModels
         {
         }
 
-        private async Task LoadPreviewControlAsync()
+        private async Task LoadPreviewControlAsync(CancellationToken token)
         {
             DetailsErrorText = "";
             PreviewErrorText = "";
@@ -100,12 +105,23 @@ namespace Files.ViewModels
             {
                 if (extension.FileExtensions.Contains(SelectedItem.FileExtension))
                 {
-                    await LoadPreviewControlFromExtension(SelectedItem, extension);
+                    var extControl = await LoadPreviewControlFromExtension(SelectedItem, extension);
+                    if (!token.IsCancellationRequested && extControl != null)
+                    {
+                        PreviewPaneContent = extControl;
+                    }
+
                     return;
                 }
             }
 
             var control = await GetBuiltInPreviewControlAsync(SelectedItem);
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
             if (control != null)
             {
                 PreviewPaneContent = control;
@@ -117,6 +133,7 @@ namespace Files.ViewModels
             control = new BasicPreview(basicModel);
             PreviewPaneContent = control;
         }
+
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
         {
             if (item.IsShortcutItem)
@@ -197,17 +214,18 @@ namespace Files.ViewModels
             return null;
         }
 
-        private async Task LoadPreviewControlFromExtension(ListedItem item, Extension extension)
+        private async Task<UIElement> LoadPreviewControlFromExtension(ListedItem item, Extension extension)
         {
             try
             {
+                UIElement control = null;
                 var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
                 string sharingToken = SharedStorageAccessManager.AddFile(file);
                 var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
 
                 if (result.TryGetValue("preview", out object preview))
                 {
-                    PreviewPaneContent = XamlReader.Load(preview as string) as UIElement;
+                    control = XamlReader.Load(preview as string) as UIElement;
                 }
 
                 if (result.TryGetValue("details", out object details))
@@ -215,19 +233,24 @@ namespace Files.ViewModels
                     var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
                     await BasePreviewModel.LoadDetailsOnly(item, detailsList);
                 }
+
+                return control;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
+            return null;
         }
 
         private async void SelectedItemChanged()
         {
+            loadCancellationTokenSource?.Cancel();
             if (SelectedItem != null && SelectedItems.Count == 1)
             {
                 DetailsListVisibility = Visibility.Visible;
-                await LoadPreviewControlAsync();
+                loadCancellationTokenSource = new CancellationTokenSource();
+                await LoadPreviewControlAsync(loadCancellationTokenSource.Token);
             }
             else if (SelectedItem != null)
             {

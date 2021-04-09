@@ -2,12 +2,11 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,6 +31,9 @@ namespace Files.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        // TODO: Remove this MainPage reference when we work on new Vertical Tabs control in MainPage
+        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
+
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
@@ -73,6 +75,222 @@ namespace Files.UserControls
         public event EventHandler UpRequested;
 
         public event EventHandler RefreshRequested;
+
+        #region Selection Options
+
+        public static readonly DependencyProperty MultiselectEnabledProperty = DependencyProperty.Register(
+          "MultiselectEnabled",
+          typeof(bool),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public bool MultiselectEnabled
+        {
+            get
+            {
+                return (bool)GetValue(MultiselectEnabledProperty);
+            }
+            set
+            {
+                SetValue(MultiselectEnabledProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SelectAllInvokedCommandProperty = DependencyProperty.Register(
+          "SelectAllInvokedCommand",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand SelectAllInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(SelectAllInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(SelectAllInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty InvertSelectionInvokedCommandProperty = DependencyProperty.Register(
+          "InvertSelectionInvokedCommand",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand InvertSelectionInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(InvertSelectionInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(InvertSelectionInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ClearSelectionInvokedCommandProperty = DependencyProperty.Register(
+         "ClearSelectionInvokedCommand",
+         typeof(ICommand),
+         typeof(NavigationToolbar),
+         new PropertyMetadata(null)
+       );
+
+        public ICommand ClearSelectionInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(ClearSelectionInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(ClearSelectionInvokedCommandProperty, value);
+            }
+        }
+
+        #endregion Selection Options
+
+        #region Layout Options
+
+        public static readonly DependencyProperty LayoutModeInformationProperty = DependencyProperty.Register(
+          "LayoutModeInformation",
+          typeof(FolderLayoutInformation),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public FolderLayoutInformation LayoutModeInformation
+        {
+            get
+            {
+                return (FolderLayoutInformation)GetValue(LayoutModeInformationProperty);
+            }
+            set
+            {
+                SetValue(LayoutModeInformationProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ToggleLayoutModeDetailsViewProperty = DependencyProperty.Register(
+          "ToggleLayoutModeDetailsView",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand ToggleLayoutModeDetailsView
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeDetailsViewProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeDetailsViewProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ToggleLayoutModeTilesProperty = DependencyProperty.Register(
+          "ToggleLayoutModeTiles",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand ToggleLayoutModeTiles
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeTilesProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeTilesProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ToggleLayoutModeGridViewSmallProperty = DependencyProperty.Register(
+          "ToggleLayoutModeGridViewSmall",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand ToggleLayoutModeGridViewSmall
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeGridViewSmallProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeGridViewSmallProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ToggleLayoutModeGridViewMediumProperty = DependencyProperty.Register(
+          "ToggleLayoutModeGridViewMedium",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand ToggleLayoutModeGridViewMedium
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeGridViewMediumProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeGridViewMediumProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ToggleLayoutModeGridViewLargeProperty = DependencyProperty.Register(
+          "ToggleLayoutModeGridViewLarge",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand ToggleLayoutModeGridViewLarge
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeGridViewLargeProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeGridViewLargeProperty, value);
+            }
+        }
+        public static readonly DependencyProperty ToggleLayoutModeColumnViewProperty = DependencyProperty.Register(
+          "ToggleLayoutModeColumnView",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand ToggleLayoutModeColumnView
+        {
+            get
+            {
+                return (ICommand)GetValue(ToggleLayoutModeColumnViewProperty);
+            }
+            set
+            {
+                SetValue(ToggleLayoutModeColumnViewProperty, value);
+            }
+        }
+
+        #endregion
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
@@ -357,10 +575,14 @@ namespace Files.UserControls
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
+        private DispatcherQueueTimer dragOverTimer;
+
         public NavigationToolbar()
         {
             this.InitializeComponent();
             this.Loading += NavigationToolbar_Loading;
+
+            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         private async void NavigationToolbar_Loading(FrameworkElement sender, object args)
@@ -737,7 +959,6 @@ namespace Files.UserControls
         }
 
         private string dragOverPath = null;
-        private DispatcherTimer dragOverTimer = new DispatcherTimer();
 
         private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
@@ -901,9 +1122,15 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPage.MultitaskingControl is VerticalTabViewControl))
+            if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
             {
-                MainPage.MultitaskingControl = VerticalTabs;
+                // Set multitasking control if changed and subscribe it to event for sidebar items updating
+                if (MainPageViewModel.MultitaskingControl != null)
+                {
+                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                }
+                MainPageViewModel.MultitaskingControl = VerticalTabs;
+                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
 

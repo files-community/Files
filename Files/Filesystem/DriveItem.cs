@@ -2,7 +2,7 @@
 using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -195,6 +195,16 @@ namespace Files.Filesystem
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
+        }
+
+        public int CompareTo(INavigationControlItem other)
+        {
+            var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
+            if (result == 0)
+            {
+                return Text.CompareTo(other.Text);
+            }
+            return result;
         }
     }
 
