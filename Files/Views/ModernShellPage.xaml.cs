@@ -282,7 +282,7 @@ namespace Files.Views
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                ItemDisplayFrame.SafeNavigate(InstanceViewModel.FolderSettings.GetLayoutType(invokedItem.ItemPath), new NavigationArguments()
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(invokedItem.ItemPath), new NavigationArguments()
                 {
                     NavPathParam = invokedItem.ItemPath,
                     AssociatedTabInstance = this
@@ -546,7 +546,7 @@ namespace Files.Views
                 {
                     flyoutItem.Click += (sender, args) =>
                     {
-                        ItemDisplayFrame.SafeNavigate(InstanceViewModel.FolderSettings.GetLayoutType(childFolder.Path),
+                        ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(childFolder.Path),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = childFolder.Path,
@@ -561,7 +561,7 @@ namespace Files.Views
 
         private void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ItemDisplayFrame.SafeNavigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = this
@@ -615,7 +615,7 @@ namespace Files.Views
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
-                        ItemDisplayFrame.SafeNavigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
+                        ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = pathToNavigate,
@@ -767,7 +767,7 @@ namespace Files.Views
             }
             else
             {
-                ItemDisplayFrame.SafeNavigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -1140,7 +1140,7 @@ namespace Files.Views
             }
 
             SelectSidebarItemFromPath();
-            ItemDisplayFrame.SafeNavigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = parentDirectoryOfPath,
@@ -1403,7 +1403,7 @@ namespace Files.Views
         {
             if (navArgs != null && navArgs.AssociatedTabInstance != null)
             {
-                ItemDisplayFrame.SafeNavigate(
+                ItemDisplayFrame.Navigate(
                 sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
                 navArgs,
                 new SuppressNavigationTransitionInfo());
@@ -1426,7 +1426,7 @@ namespace Files.Views
                     transition = new DrillInNavigationTransitionInfo();
                 }
 
-                ItemDisplayFrame.SafeNavigate(
+                ItemDisplayFrame.Navigate(
                 sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
                 new NavigationArguments()
                 {
