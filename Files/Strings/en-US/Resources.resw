@@ -2034,14 +2034,11 @@
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be deleted</value>
   </data>
-  <data name="ConflictingItemsDialogCloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Generate new name</value>
+    <value>Confirm</value>
   </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Cancel</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>There are {0} conflicting file names, and {1} outgoing item(s)</value>
