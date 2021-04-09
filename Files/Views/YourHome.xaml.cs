@@ -29,6 +29,13 @@ namespace Files.Views
             this.Loaded += YourHome_Loaded;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            this.Dispose();
+
+            base.OnNavigatedFrom(e);
+        }
+
         private async void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, libraryCards);
