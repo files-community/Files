@@ -18,34 +18,6 @@ namespace Files.Helpers
 {
     public static class FilePropertiesHelpers
     {
-        public static async void ShowProperties(IShellPage associatedInstance)
-        {
-            if (associatedInstance.SlimContentPage.IsItemSelected)
-            {
-                if (associatedInstance.SlimContentPage.SelectedItems.Count > 1)
-                {
-                    await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItems, associatedInstance);
-                }
-                else
-                {
-                    await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItem, associatedInstance);
-                }
-            }
-            else
-            {
-                if (!System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)
-                    .Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    await OpenPropertiesWindowAsync(associatedInstance.FilesystemViewModel.CurrentFolder, associatedInstance);
-                }
-                else
-                {
-                    await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .SingleOrDefault(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
-                }
-            }
-        }
-
         public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
         {
             if (item == null)
@@ -94,6 +66,34 @@ namespace Files.Helpers
                     AppInstanceArgument = associatedInstance
                 }, new SuppressNavigationTransitionInfo());
                 await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+            }
+        }
+
+        public static async void ShowProperties(IShellPage associatedInstance)
+        {
+            if (associatedInstance.SlimContentPage.IsItemSelected)
+            {
+                if (associatedInstance.SlimContentPage.SelectedItems.Count > 1)
+                {
+                    await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItems, associatedInstance);
+                }
+                else
+                {
+                    await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItem, associatedInstance);
+                }
+            }
+            else
+            {
+                if (!System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)
+                    .Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    await OpenPropertiesWindowAsync(associatedInstance.FilesystemViewModel.CurrentFolder, associatedInstance);
+                }
+                else
+                {
+                    await OpenPropertiesWindowAsync(App.DrivesManager.Drives
+                        .SingleOrDefault(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
+                }
             }
         }
     }

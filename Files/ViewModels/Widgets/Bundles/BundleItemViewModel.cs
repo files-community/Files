@@ -5,7 +5,7 @@ using Files.SettingsInterfaces;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -20,32 +20,36 @@ namespace Files.ViewModels.Widgets.Bundles
 {
     public class BundleItemViewModel : ObservableObject, IDisposable
     {
-        #region Singleton
+        private ImageSource icon;
+
+        public BundleItemViewModel(string path, FilesystemItemType targetType)
+        {
+            this.Path = path;
+            this.TargetType = targetType;
+
+            // Create commands
+            OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+            OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
+            OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
+            RemoveItemCommand = new RelayCommand(RemoveItem);
+        }
 
         private IBundlesSettings BundlesSettings => App.BundlesSettings;
 
-        #endregion Singleton
+        public SvgImageSource FolderIcon { get; } = new SvgImageSource()
+        {
+            RasterizePixelHeight = 128,
+            RasterizePixelWidth = 128,
+            UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg"),
+        };
 
-        #region Private Members
+        public ImageSource Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
 
-        private IShellPage associatedInstance;
-
-        #endregion Private Members
-
-        #region Actions
-
-        public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
-
-        #endregion Actions
-
-        #region Public Properties
-
-        /// <summary>
-        /// The name of a bundle this item is contained within
-        /// </summary>
-        public string ParentBundleName { get; set; }
-
-        public string Path { get; set; }
+        public Func<string, uint, (byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlay { get; set; }
 
         public string Name
         {
@@ -62,88 +66,66 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
-
-        private ImageSource icon;
-
-        public ImageSource Icon
-        {
-            get => icon;
-            set => SetProperty(ref icon, value);
-        }
-
-        public SvgImageSource FolderIcon { get; } = new SvgImageSource()
-        {
-            RasterizePixelHeight = 128,
-            RasterizePixelWidth = 128,
-            UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg"),
-        };
-
-        public Visibility OpenInNewTabVisibility
-        {
-            get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
-        }
+        public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
+        public ICommand OpenInNewPaneCommand { get; private set; }
 
         public Visibility OpenInNewPaneVisibility
         {
             get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        #endregion Public Properties
-
-        #region Commands
-
         public ICommand OpenInNewTabCommand { get; private set; }
 
-        public ICommand OpenInNewPaneCommand { get; private set; }
+        public Visibility OpenInNewTabVisibility
+        {
+            get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         public ICommand OpenItemLocationCommand { get; private set; }
+        public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
 
+        public Action<string> OpenPathInNewPane { get; set; }
+
+        /// <summary>
+        /// The name of a bundle this item is contained within
+        /// </summary>
+        public string ParentBundleName { get; set; }
+
+        public string Path { get; set; }
         public ICommand RemoveItemCommand { get; private set; }
+        public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
-        #endregion Commands
-
-        #region Constructor
-
-        public BundleItemViewModel(IShellPage associatedInstance, string path, FilesystemItemType targetType)
+        public void Dispose()
         {
-            this.associatedInstance = associatedInstance;
-            this.Path = path;
-            this.TargetType = targetType;
+            Path = null;
+            Icon = null;
 
-            // Create commands
-            OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
-            OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
-            OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
-            RemoveItemCommand = new RelayCommand(RemoveItem);
+            OpenInNewTabCommand = null;
+            OpenItemLocationCommand = null;
+            RemoveItemCommand = null;
 
-            SetIcon();
+            OpenPath = null;
+            OpenPathInNewPane = null;
+            LoadIconOverlay = null;
         }
 
-        #endregion Constructor
-
-        #region Command Implementation
-
-        private async void OpenInNewTab()
+        public void OpenItem()
         {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+            OpenPath(Path, TargetType, false, false, null);
         }
 
-        private void OpenInNewPane()
+        public void RemoveItem()
         {
-            associatedInstance.PaneHolder.OpenPathInNewPane(Path);
+            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
+            {
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                allBundles[ParentBundleName].Remove(Path);
+                BundlesSettings.SavedBundles = allBundles;
+                NotifyItemRemoved(this);
+            }
         }
 
-        private async void OpenItemLocation()
-        {
-            await NavigationHelpers.OpenPath(System.IO.Path.GetDirectoryName(Path), associatedInstance, FilesystemItemType.Directory, selectItems: System.IO.Path.GetFileName(Path).CreateEnumerable());
-        }
-
-        #endregion Command Implementation
-
-        #region Private Helpers
-
-        private async void SetIcon()
+        public async void UpdateIcon()
         {
             if (TargetType == FilesystemItemType.Directory) // OpenDirectory
             {
@@ -155,9 +137,9 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     if (Path.EndsWith(".lnk"))
                     {
-                        var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, 24u);
+                        var (IconData, OverlayData, IsCustom) = LoadIconOverlay(Path, 24u);
 
-                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             Icon = await IconData.ToBitmapAsync();
                         });
@@ -165,7 +147,7 @@ namespace Files.ViewModels.Widgets.Bundles
                         return;
                     }
 
-                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
+                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path);
 
                     if (file == null) // No file found
                     {
@@ -191,42 +173,19 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        #endregion Private Helpers
-
-        #region Public Helpers
-
-        public async void OpenItem()
+        private void OpenInNewPane()
         {
-            await NavigationHelpers.OpenPath(Path, associatedInstance, TargetType);
+            OpenPathInNewPane(Path);
         }
 
-        public void RemoveItem()
+        private async void OpenInNewTab()
         {
-            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
-            {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
-                allBundles[ParentBundleName].Remove(Path);
-                BundlesSettings.SavedBundles = allBundles;
-                NotifyItemRemoved(this);
-            }
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
         }
 
-        #endregion Public Helpers
-
-        #region IDisposable
-
-        public void Dispose()
+        private void OpenItemLocation()
         {
-            Path = null;
-            Icon = null;
-
-            OpenInNewTabCommand = null;
-            OpenItemLocationCommand = null;
-            RemoveItemCommand = null;
-
-            associatedInstance = null;
+            OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, false, false, System.IO.Path.GetFileName(Path).CreateEnumerable());
         }
-
-        #endregion IDisposable
     }
 }

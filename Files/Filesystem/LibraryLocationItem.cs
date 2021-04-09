@@ -7,23 +7,32 @@ namespace Files.Filesystem
 {
     public class LibraryLocationItem : LocationItem
     {
+        public LibraryLocationItem(ShellLibraryItem shellLibrary)
+        {
+            Section = SectionType.Library;
+            Text = shellLibrary.DisplayName;
+            Path = shellLibrary.FullPath;
+            Icon = GlyphHelper.GetIconUri(shellLibrary.DefaultSaveFolder);
+            DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
+            Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
+            IsDefaultLocation = shellLibrary.IsPinned;
+        }
+
         public string DefaultSaveFolder { get; }
 
         public ReadOnlyCollection<string> Folders { get; }
 
         public bool IsEmpty => DefaultSaveFolder == null || Folders == null || Folders.Count == 0;
 
-        public LibraryLocationItem(ShellLibraryItem shellLibrary)
+        public async Task<bool> CheckDefaultSaveFolderAccess()
         {
-            Section = SectionType.Library;
-            Text = shellLibrary.DisplayName;
-            Path = shellLibrary.FullPath;
-            Glyph = GlyphHelper.GetItemIcon(shellLibrary.DefaultSaveFolder);
-            Icon = GlyphHelper.GetIconUri(shellLibrary.DefaultSaveFolder);
-
-            DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-            Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
-            IsDefaultLocation = shellLibrary.IsPinned;
+            if (IsEmpty)
+            {
+                return false;
+            }
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
+            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
+            return res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
         }
 
         public override bool Equals(object obj)
@@ -36,16 +45,5 @@ namespace Files.Filesystem
         }
 
         public override int GetHashCode() => Path.GetHashCode();
-
-        public async Task<bool> CheckDefaultSaveFolderAccess()
-        {
-            if (IsEmpty)
-            {
-                return false;
-            }
-            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
-            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
-            return res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
-        }
     }
 }

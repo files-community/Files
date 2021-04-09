@@ -10,10 +10,10 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class AboutViewModel : ObservableObject
     {
-        public RelayCommand OpenLogLocationCommand => new RelayCommand(() => SettingsViewModel.OpenLogLocation());
-
         public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand =>
             new RelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
+
+        public RelayCommand OpenLogLocationCommand => new RelayCommand(() => SettingsViewModel.OpenLogLocation());
 
         public string Version
         {

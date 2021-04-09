@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {
-        private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
+        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
+        private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
         private string selectedThemeName = App.AppSettings.PathToThemeFile;
         private bool showRestartControl = false;
 
@@ -33,37 +34,8 @@ namespace Files.ViewModels.SettingsViewModels
             };
         }
 
-        public List<string> Themes { get; set; }
         public List<string> ColorSchemes => App.ExternalResourcesHelper.Themes;
-
-        public int SelectedThemeIndex
-        {
-            get => selectedThemeIndex;
-            set
-            {
-                if (SetProperty(ref selectedThemeIndex, value))
-                {
-                    ThemeHelper.RootTheme = (ElementTheme)value;
-                }
-            }
-        }
-
         public List<string> DateFormats { get; set; }
-
-        public int SelectedDateFormatIndex
-        {
-            get
-            {
-                return selectedDateFormatIndex;
-            }
-            set
-            {
-                if (SetProperty(ref selectedDateFormatIndex, value))
-                {
-                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
-                }
-            }
-        }
 
         public bool IsAcrylicDisabled
         {
@@ -95,6 +67,35 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
+
+        public int SelectedDateFormatIndex
+        {
+            get
+            {
+                return selectedDateFormatIndex;
+            }
+            set
+            {
+                if (SetProperty(ref selectedDateFormatIndex, value))
+                {
+                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
+                }
+            }
+        }
+
+        public int SelectedThemeIndex
+        {
+            get => selectedThemeIndex;
+            set
+            {
+                if (SetProperty(ref selectedThemeIndex, value))
+                {
+                    ThemeHelper.RootTheme = (ElementTheme)value;
+                }
+            }
+        }
+
         public string SelectedThemeName
         {
             get
@@ -116,5 +117,7 @@ namespace Files.ViewModels.SettingsViewModels
             get => showRestartControl;
             set => SetProperty(ref showRestartControl, value);
         }
+
+        public List<string> Themes { get; set; }
     }
 }

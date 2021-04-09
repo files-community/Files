@@ -4,9 +4,8 @@ namespace Files.EventArguments
 {
     public class LayoutModeEventArgs
     {
-        public readonly FolderLayoutModes LayoutMode;
-
         public readonly int GridViewSize;
+        public readonly FolderLayoutModes LayoutMode;
 
         internal LayoutModeEventArgs(FolderLayoutModes layoutMode, int gridViewSize)
         {

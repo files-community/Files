@@ -6,6 +6,41 @@ namespace Files.Helpers
 {
     public class NativeFindStorageItemHelper
     {
+        public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
+
+        public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+
+        public enum FINDEX_INFO_LEVELS
+        {
+            FindExInfoStandard = 0,
+            FindExInfoBasic = 1
+        }
+
+        public enum FINDEX_SEARCH_OPS
+        {
+            FindExSearchNameMatch = 0,
+            FindExSearchLimitToDirectories = 1,
+            FindExSearchLimitToDevices = 2
+        }
+
+        [DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
+        public static extern bool FileTimeToSystemTime(ref FILETIME lpFileTime, out SYSTEMTIME lpSystemTime);
+
+        [DllImport("api-ms-win-core-file-l1-1-0.dll")]
+        public static extern bool FindClose(IntPtr hFindFile);
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindFirstFileExFromApp(
+            string lpFileName,
+            FINDEX_INFO_LEVELS fInfoLevelId,
+            out WIN32_FIND_DATA lpFindFileData,
+            FINDEX_SEARCH_OPS fSearchOp,
+            IntPtr lpSearchFilter,
+            int dwAdditionalFlags);
+
+        [DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
+        public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
+
         [StructLayout(LayoutKind.Sequential)]
         public struct SYSTEMTIME
         {
@@ -32,19 +67,6 @@ namespace Files.Helpers
             }
         }
 
-        public enum FINDEX_INFO_LEVELS
-        {
-            FindExInfoStandard = 0,
-            FindExInfoBasic = 1
-        }
-
-        public enum FINDEX_SEARCH_OPS
-        {
-            FindExSearchNameMatch = 0,
-            FindExSearchLimitToDirectories = 1,
-            FindExSearchLimitToDevices = 2
-        }
-
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct WIN32_FIND_DATA
         {
@@ -63,26 +85,5 @@ namespace Files.Helpers
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
             public string cAlternateFileName;
         }
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern IntPtr FindFirstFileExFromApp(
-            string lpFileName,
-            FINDEX_INFO_LEVELS fInfoLevelId,
-            out WIN32_FIND_DATA lpFindFileData,
-            FINDEX_SEARCH_OPS fSearchOp,
-            IntPtr lpSearchFilter,
-            int dwAdditionalFlags);
-
-        public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
-        public const int FIND_FIRST_EX_LARGE_FETCH = 2;
-
-        [DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
-        public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
-
-        [DllImport("api-ms-win-core-file-l1-1-0.dll")]
-        public static extern bool FindClose(IntPtr hFindFile);
-
-        [DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
-        public static extern bool FileTimeToSystemTime(ref FILETIME lpFileTime, out SYSTEMTIME lpSystemTime);
     }
 }

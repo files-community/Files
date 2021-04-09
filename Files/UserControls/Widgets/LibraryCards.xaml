@@ -199,7 +199,8 @@
                                     FontWeight="Medium"
                                     HorizontalTextAlignment="Center"
                                     Text="{x:Bind Text}"
-                                    TextWrapping="WrapWholeWords" />
+                                    TextTrimming="WordEllipsis"
+                                    TextWrapping="NoWrap" />
                             </Grid>
                         </Button>
                     </Grid>

@@ -56,6 +56,13 @@
                     ItemsSource="{Binding ColorSchemes}"
                     SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" />
 
+                <HyperlinkButton
+                    x:Name="OpenThemesFolderButton"
+                    x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    x:Load="{x:Bind ShowColorSchemeSelector}"
+                    Command="{Binding OpenThemesFolderCommand}"
+                    Content="Open themes folder" />
+
                 <StackPanel
                     Width="Auto"
                     Orientation="Horizontal"
