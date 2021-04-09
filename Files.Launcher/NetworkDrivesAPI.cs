@@ -10,6 +10,18 @@ namespace FilesFullTrust
 {
     public class NetworkDrivesAPI
     {
+        public static bool DisconnectNetworkDrive(string drive)
+        {
+            return !WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Failed;
+        }
+
+        public static bool OpenMapNetworkDriveDialog()
+        {
+            using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
+            ncd.HideRestoreConnectionCheckBox = false;
+            return ncd.ShowDialog() == DialogResult.OK;
+        }
+
         /// <summary>
         /// A dialog box that allows the user to browse and connect to network resources.
         /// </summary>
@@ -105,18 +117,6 @@ namespace FilesFullTrust
                     return true;
                 }
             }
-        }
-
-        public static bool OpenMapNetworkDriveDialog()
-        {
-            using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
-            ncd.HideRestoreConnectionCheckBox = false;
-            return ncd.ShowDialog() == DialogResult.OK;
-        }
-
-        public static bool DisconnectNetworkDrive(string drive)
-        {
-            return !WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Failed;
         }
     }
 }

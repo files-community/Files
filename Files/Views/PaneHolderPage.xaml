@@ -12,8 +12,8 @@
     xmlns:local="using:Files.Views"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 

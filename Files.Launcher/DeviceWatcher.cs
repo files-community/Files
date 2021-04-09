@@ -9,14 +9,23 @@ namespace FilesFullTrust
 {
     public class DeviceWatcher : IDisposable
     {
-        private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
-        private NamedPipeServerStream connection;
-
         private const string WpdGuid = "{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
+        private NamedPipeServerStream connection;
+        private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
 
         public DeviceWatcher(NamedPipeServerStream connection)
         {
             this.connection = connection;
+        }
+
+        public void Dispose()
+        {
+            insertWatcher?.Dispose();
+            removeWatcher?.Dispose();
+            modifyWatcher?.Dispose();
+            insertWatcher = null;
+            removeWatcher = null;
+            modifyWatcher = null;
         }
 
         public void Start()
@@ -35,6 +44,15 @@ namespace FilesFullTrust
             removeWatcher = new ManagementEventWatcher(removeQuery);
             removeWatcher.EventArrived += new EventArrivedEventHandler(DeviceRemovedEvent);
             removeWatcher.Start();
+        }
+
+        private async void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
+        {
+            ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            var deviceName = (string)obj.Properties["Name"].Value;
+            var deviceId = (string)obj.Properties["DeviceID"].Value;
+            System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
+            await SendEvent(deviceName, deviceId, DeviceEvent.Added);
         }
 
         private async void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
@@ -57,15 +75,6 @@ namespace FilesFullTrust
             await SendEvent(deviceName, deviceId, DeviceEvent.Removed);
         }
 
-        private async void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
-        {
-            ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            var deviceName = (string)obj.Properties["Name"].Value;
-            var deviceId = (string)obj.Properties["DeviceID"].Value;
-            System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
-            await SendEvent(deviceName, deviceId, DeviceEvent.Added);
-        }
-
         private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
         {
             if (connection?.IsConnected ?? false)
@@ -76,16 +85,6 @@ namespace FilesFullTrust
                     { "EventType", (int)eventType }
                 });
             }
-        }
-
-        public void Dispose()
-        {
-            insertWatcher?.Dispose();
-            removeWatcher?.Dispose();
-            modifyWatcher?.Dispose();
-            insertWatcher = null;
-            removeWatcher = null;
-            modifyWatcher = null;
         }
     }
 }

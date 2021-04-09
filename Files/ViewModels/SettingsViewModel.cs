@@ -21,6 +21,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels
 {
@@ -28,80 +29,65 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public CloudDrivesManager CloudDrivesManager { get; private set; }
-
-        public TerminalController TerminalController { get; set; }
-
-        private async Task<SettingsViewModel> Initialize()
-        {
-            DetectDateTimeFormat();
-            DetectQuickLook();
-
-            // Load the supported languages
-            var supportedLang = ApplicationLanguages.ManifestLanguages;
-            DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
-            foreach (var lang in supportedLang)
-            {
-                DefaultLanguages.Add(new DefaultLanguageModel(lang));
-            }
-
-            TerminalController = await TerminalController.CreateInstance();
-
-            // Send analytics to AppCenter
-            TrackAnalytics();
-
-            return this;
-        }
-
-        public static Task<SettingsViewModel> CreateInstance()
-        {
-            var settings = new SettingsViewModel();
-            return settings.Initialize();
-        }
+        private TimeStyle displayedTimeStyle = TimeStyle.Application;
 
         private SettingsViewModel()
         {
         }
 
-        private void TrackAnalytics()
+        public event EventHandler ThemeModeChanged;
+
+        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
+        public CloudDrivesManager CloudDrivesManager { get; private set; }
+
+        public SortDirection DefaultDirectorySortDirection
         {
-            Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
-            Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
-            Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
-            Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
-            Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
-            Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
-            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
-            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
-            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
-            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
-            Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
-            Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
-            Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
-            Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
-            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
-            Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
+            get => (SortDirection)Get((byte)SortDirection.Ascending);
+            set => Set((byte)value);
         }
 
-        public static async void OpenLogLocation()
+        public SortOption DefaultDirectorySortOption
         {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+            get => (SortOption)Get((byte)SortOption.Name);
+            set => Set((byte)value);
         }
 
-        public static async void ReportIssueOnGitHub()
+        public int DefaultGridViewSize
         {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
+            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
+            set => Set(value);
+        }
+
+        public FolderLayoutModes DefaultLayoutMode
+        {
+            get => (FolderLayoutModes)Get((byte)FolderLayoutModes.DetailsView); // Details View
+            set => Set((byte)value);
+        }
+
+        public TimeStyle DisplayedTimeStyle
+        {
+            get => displayedTimeStyle;
+            set
+            {
+                SetProperty(ref displayedTimeStyle, value);
+                if (value.Equals(TimeStyle.Application))
+                {
+                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
+                }
+                else if (value.Equals(TimeStyle.System))
+                {
+                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "System";
+                }
+            }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating the width of the the sidebar pane when open.
+        /// Gets or sets a value indicating whether or not to show the confirm elevation dialog.
         /// </summary>
-        public GridLength SidebarWidth
+        public bool HideConfirmElevateDialog
         {
-            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
-            set => Set(value.Value);
+            get => Get(false);
+            set => Set(value);
         }
 
         /// <summary>
@@ -110,6 +96,15 @@ namespace Files.ViewModels
         public bool IsSidebarOpen
         {
             get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should be open or closed.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -132,12 +127,64 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if the preview pane should be open or closed.
+        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
         /// </summary>
-        public bool PreviewPaneEnabled
+        public bool ResumeAfterRestart
         {
             get => Get(false);
             set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
+        /// </summary>
+        public bool ShowStatusCenterTeachingTip
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the width of the the sidebar pane when open.
+        /// </summary>
+        public GridLength SidebarWidth
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+
+        public TerminalController TerminalController { get; set; }
+
+        public RelayCommand UpdateThemeElements => new RelayCommand(() =>
+        {
+            ThemeModeChanged?.Invoke(this, EventArgs.Empty);
+        });
+
+        public static Task<SettingsViewModel> CreateInstance()
+        {
+            var settings = new SettingsViewModel();
+            return settings.Initialize();
+        }
+
+        public static async void OpenLogLocation()
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+
+        public static void OpenThemesFolder()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            // Go back to main page
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+            }
+            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+        }
+
+        public static async void ReportIssueOnGitHub()
+        {
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
         public async void DetectQuickLook()
@@ -183,23 +230,47 @@ namespace Files.ViewModels
             }
         }
 
-        private TimeStyle displayedTimeStyle = TimeStyle.Application;
-
-        public TimeStyle DisplayedTimeStyle
+        private async Task<SettingsViewModel> Initialize()
         {
-            get => displayedTimeStyle;
-            set
+            DetectDateTimeFormat();
+            DetectQuickLook();
+
+            // Load the supported languages
+            var supportedLang = ApplicationLanguages.ManifestLanguages;
+            DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
+            foreach (var lang in supportedLang)
             {
-                SetProperty(ref displayedTimeStyle, value);
-                if (value.Equals(TimeStyle.Application))
-                {
-                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
-                }
-                else if (value.Equals(TimeStyle.System))
-                {
-                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "System";
-                }
+                DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+
+            TerminalController = await TerminalController.CreateInstance();
+
+            // Send analytics to AppCenter
+            TrackAnalytics();
+
+            return this;
+        }
+
+        private void TrackAnalytics()
+        {
+            Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
+            Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
+            Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
+            Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
+            Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
+            Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
+            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
+            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
+            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
+            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
+            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
+            Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
+            Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
+            Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
+            Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
+            Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
         }
 
         #region DetailsView Column Settings
@@ -223,18 +294,18 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the type column should be visible.
+        /// Gets or sets a value indicating whether or not the size column should be visible.
         /// </summary>
-        public bool ShowTypeColumn
+        public bool ShowSizeColumn
         {
             get => Get(true);
             set => Set(value);
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the size column should be visible.
+        /// Gets or sets a value indicating whether or not the type column should be visible.
         /// </summary>
-        public bool ShowSizeColumn
+        public bool ShowTypeColumn
         {
             get => Get(true);
             set => Set(value);
@@ -244,26 +315,11 @@ namespace Files.ViewModels
 
         #region CommonPaths
 
+        private string homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        private string localAppDataPath = UserDataPaths.GetDefault().LocalAppData;
+        private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
-
-        private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
-
-        public string TempPath
-        {
-            get => tempPath;
-            set => SetProperty(ref tempPath, value);
-        }
-
-        private string localAppDataPath = UserDataPaths.GetDefault().LocalAppData;
-
-        public string LocalAppDataPath
-        {
-            get => localAppDataPath;
-            set => SetProperty(ref localAppDataPath, value);
-        }
-
-        private string homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
         public string HomePath
         {
@@ -271,18 +327,31 @@ namespace Files.ViewModels
             set => SetProperty(ref homePath, value);
         }
 
+        public string LocalAppDataPath
+        {
+            get => localAppDataPath;
+            set => SetProperty(ref localAppDataPath, value);
+        }
+
+        public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
+
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
-        public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
+
+        public string TempPath
+        {
+            get => tempPath;
+            set => SetProperty(ref tempPath, value);
+        }
 
         #endregion CommonPaths
 
         #region FilesAndFolder
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not file extensions should be visible.
+        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
         /// </summary>
-        public bool ShowFileExtensions
+        public bool AdaptiveLayoutEnabled
         {
             get => Get(true);
             set => Set(value);
@@ -294,6 +363,15 @@ namespace Files.ViewModels
         public bool AreHiddenItemsVisible
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// </summary>
+        public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
             set => Set(value);
         }
 
@@ -334,18 +412,9 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// Gets or sets a value indicating whether or not file extensions should be visible.
         /// </summary>
-        public bool AreLayoutPreferencesPerFolder
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
-        /// </summary>
-        public bool AdaptiveLayoutEnabled
+        public bool ShowFileExtensions
         {
             get => Get(true);
             set => Set(value);
@@ -354,6 +423,33 @@ namespace Files.ViewModels
         #endregion FilesAndFolder
 
         #region Multitasking
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
+        /// </summary>
+        public bool AlwaysOpenDualPaneInNewTab
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable dual pane feature.
+        /// </summary>
+        public bool IsDualPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
+        /// </summary>
+        public bool IsHorizontalTabStripOn
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to automatically switch between the horizontal and vertical tab layout.
@@ -373,36 +469,27 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
-        /// </summary>
-        public bool IsHorizontalTabStripOn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable dual pane feature.
-        /// </summary>
-        public bool IsDualPaneEnabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
-        /// </summary>
-        public bool AlwaysOpenDualPaneInNewTab
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
         #endregion Multitasking
 
         #region Widgets
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the Bundles widget should be visible.
+        /// </summary>
+        public bool ShowBundlesWidget
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the drives widget should be visible.
+        /// </summary>
+        public bool ShowDrivesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.
@@ -422,55 +509,14 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the drives widget should be visible.
-        /// </summary>
-        public bool ShowDrivesWidget
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the Bundles widget should be visible.
-        /// </summary>
-        public bool ShowBundlesWidget
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
         #endregion Widgets
 
         #region Preferences
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the confirm delete dialog should show when deleting items.
-        /// </summary>
-        public bool ShowConfirmDeleteDialog
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
-        /// </summary>
-        public bool ShowLibrarySection
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
-
-        /// <summary>
-        /// Gets or sets an ObservableCollection of the support languages.
-        /// </summary>
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating the default language.
@@ -488,6 +534,11 @@ namespace Files.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets an ObservableCollection of the support languages.
+        /// </summary>
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
+
         //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
         /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
@@ -502,6 +553,24 @@ namespace Files.ViewModels
                     _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the confirm delete dialog should show when deleting items.
+        /// </summary>
+        public bool ShowConfirmDeleteDialog
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// </summary>
+        public bool ShowLibrarySection
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         #endregion Preferences
@@ -534,14 +603,33 @@ namespace Files.ViewModels
             get => Get("DefaultScheme".GetLocalized());
             set => Set(value);
         }
+
         #endregion Appearance
 
         #region Experimental
 
         /// <summary>
+        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
+        /// </summary>
+        public int PreemptiveCacheParallelLimit
+        {
+            get => Get(2);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
         /// </summary>
         public bool ShowFileOwner
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// </summary>
+        public bool ShowMultiselectOption
         {
             get => Get(false);
             set => Set(value);
@@ -565,27 +653,33 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
-        /// </summary>
-        public int PreemptiveCacheParallelLimit
-        {
-            get => Get(2);
-            set => Set(value);
-        }
+        #endregion Experimental
+
+        #region Startup
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
         /// </summary>
-        public bool ShowMultiselectOption
+        public bool AlwaysOpenANewInstance
         {
             get => Get(false);
             set => Set(value);
         }
 
-        #endregion Experimental
+        /// <summary>
+        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
+        /// </summary>
+        public bool ContinueLastSessionOnStartUp
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
-        #region Startup
+        public string[] LastSessionPages
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
@@ -606,29 +700,11 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
-        /// </summary>
-        public bool ContinueLastSessionOnStartUp
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not to open a page when the app is launched.
         /// </summary>
         public bool OpenNewTabPageOnStartup
         {
             get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
-        /// </summary>
-        public bool AlwaysOpenANewInstance
-        {
-            get => Get(false);
             set => Set(value);
         }
 
@@ -638,101 +714,11 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        public string[] LastSessionPages
-        {
-            get => Get<string[]>(null);
-            set => Set(value);
-        }
-
         #endregion Startup
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
-        /// </summary>
-        public bool ShowStatusCenterTeachingTip
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
-        /// </summary>
-        public bool ResumeAfterRestart
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the confirm elevation dialog.
-        /// </summary>
-        public bool HideConfirmElevateDialog
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public event EventHandler ThemeModeChanged;
-
-        public RelayCommand UpdateThemeElements => new RelayCommand(() =>
-        {
-            ThemeModeChanged?.Invoke(this, EventArgs.Empty);
-        });
-
-        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
-
-        public FolderLayoutModes DefaultLayoutMode
-        {
-            get => (FolderLayoutModes)Get((byte)FolderLayoutModes.DetailsView); // Details View
-            set => Set((byte)value);
-        }
-
-        public int DefaultGridViewSize
-        {
-            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
-            set => Set(value);
-        }
-
-        public SortDirection DefaultDirectorySortDirection
-        {
-            get => (SortDirection)Get((byte)SortDirection.Ascending);
-            set => Set((byte)value);
-        }
-
-        public SortOption DefaultDirectorySortOption
-        {
-            get => (SortOption)Get((byte)SortOption.Name);
-            set => Set((byte)value);
-        }
 
         #region ReadAndSaveSettings
 
-        public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
-        {
-            propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.InvariantCultureIgnoreCase)
-                ? propertyName.Substring(4)
-                : propertyName;
-
-            TValue originalValue = default;
-
-            if (localSettings.Values.ContainsKey(propertyName))
-            {
-                originalValue = Get(originalValue, propertyName);
-
-                localSettings.Values[propertyName] = value;
-                if (!base.SetProperty(ref originalValue, value, propertyName))
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                localSettings.Values[propertyName] = value;
-            }
-
-            return true;
-        }
+        private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         public TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
         {
@@ -783,7 +769,31 @@ namespace Files.ViewModels
             return defaultValue;
         }
 
-        private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
+        public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
+        {
+            propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.InvariantCultureIgnoreCase)
+                ? propertyName.Substring(4)
+                : propertyName;
+
+            TValue originalValue = default;
+
+            if (localSettings.Values.ContainsKey(propertyName))
+            {
+                originalValue = Get(originalValue, propertyName);
+
+                localSettings.Values[propertyName] = value;
+                if (!base.SetProperty(ref originalValue, value, propertyName))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                localSettings.Values[propertyName] = value;
+            }
+
+            return true;
+        }
 
         #endregion ReadAndSaveSettings
     }

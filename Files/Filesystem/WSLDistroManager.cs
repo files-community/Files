@@ -57,7 +57,6 @@ namespace Files.Filesystem
                                 {
                                     Text = "WSL",
                                     Section = SectionType.WSL,
-                                    Glyph = "\uEC7A",
                                     SelectsOnInvoked = false,
                                     ChildItems = new ObservableCollection<INavigationControlItem>()
                                 };

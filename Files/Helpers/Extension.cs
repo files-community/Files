@@ -18,9 +18,9 @@ public class Extension : INotifyPropertyChanged
 {
     #region Member Vars
 
+    private readonly object sync = new object();
     private PropertySet properties;
     private string serviceName;
-    private readonly object sync = new object();
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,12 +63,7 @@ public class Extension : INotifyPropertyChanged
 
     #region Properties
 
-    public BitmapImage Logo { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the unique id of this extension which will be AppUserModel Id + Extension ID.
-    /// </summary>
-    public string UniqueId { get; private set; }
+    public AppExtension AppExtension { get; private set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the user has enabled the extension or not.
@@ -76,18 +71,23 @@ public class Extension : INotifyPropertyChanged
     public bool Enabled { get; private set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the package containing the extension is offline.
-    /// </summary>
-    public bool Offline { get; private set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether the package has been loaded or not.
     /// </summary>
     public bool Loaded { get; private set; }
 
+    public BitmapImage Logo { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the package containing the extension is offline.
+    /// </summary>
+    public bool Offline { get; private set; }
+
     public string PublicFolderPath { get; private set; }
 
-    public AppExtension AppExtension { get; private set; }
+    /// <summary>
+    /// Gets or sets the unique id of this extension which will be AppUserModel Id + Extension ID.
+    /// </summary>
+    public string UniqueId { get; private set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the extension should be visible in the list of extensions.
@@ -95,6 +95,27 @@ public class Extension : INotifyPropertyChanged
     public Visibility Visible { get; private set; }
 
     #endregion Properties
+
+    // user-facing action to disable the extension
+    public void Disable()
+    {
+        // only disable if it is enabled so that we don't Unload() more than once
+        if (Enabled)
+        {
+            Enabled = false;
+            Unload();
+        }
+    }
+
+    /// <summary>
+    /// Enable the extension for use
+    /// </summary>
+    /// <returns></returns>
+    public async Task Enable()
+    {
+        Enabled = true;
+        await MarkAsLoaded();
+    }
 
     /// <summary>
     /// Invoke the extension's app service
@@ -140,50 +161,6 @@ public class Extension : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Called when an extension that has already been loaded is updated
-    /// </summary>
-    /// <param name="ext">The updated extension as represented by the system</param>
-    /// <returns></returns>
-    public async Task Update(AppExtension ext)
-    {
-        // ensure this is the same uid
-        string identifier = ext.AppInfo.AppUserModelId + "!" + ext.Id;
-        if (identifier != this.UniqueId)
-        {
-            return;
-        }
-
-        var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
-
-        // get the logo for the extension
-        var filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
-        BitmapImage logo = new BitmapImage();
-        logo.SetSource(filestream);
-
-        // update the extension
-        this.AppExtension = ext;
-        this.properties = properties;
-        Logo = logo;
-
-        #region Update Properties
-
-        // update app service information
-        serviceName = null;
-        if (this.properties != null)
-        {
-            if (this.properties.ContainsKey("Service"))
-            {
-                PropertySet serviceProperty = this.properties["Service"] as PropertySet;
-                this.serviceName = serviceProperty["#text"].ToString();
-            }
-        }
-
-        #endregion Update Properties
-
-        await MarkAsLoaded();
-    }
-
-    /// <summary>
     /// Prepares the extension so that the ExtensionManager can present it as an available extension
     /// </summary>
     /// <returns></returns>
@@ -225,16 +202,6 @@ public class Extension : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Enable the extension for use
-    /// </summary>
-    /// <returns></returns>
-    public async Task Enable()
-    {
-        Enabled = true;
-        await MarkAsLoaded();
-    }
-
-    /// <summary>
     /// Indicates to the extension manager that the extension is unloaded
     /// </summary>
     public void Unload()
@@ -257,15 +224,48 @@ public class Extension : INotifyPropertyChanged
         }
     }
 
-    // user-facing action to disable the extension
-    public void Disable()
+    /// <summary>
+    /// Called when an extension that has already been loaded is updated
+    /// </summary>
+    /// <param name="ext">The updated extension as represented by the system</param>
+    /// <returns></returns>
+    public async Task Update(AppExtension ext)
     {
-        // only disable if it is enabled so that we don't Unload() more than once
-        if (Enabled)
+        // ensure this is the same uid
+        string identifier = ext.AppInfo.AppUserModelId + "!" + ext.Id;
+        if (identifier != this.UniqueId)
         {
-            Enabled = false;
-            Unload();
+            return;
         }
+
+        var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
+
+        // get the logo for the extension
+        var filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
+        BitmapImage logo = new BitmapImage();
+        logo.SetSource(filestream);
+
+        // update the extension
+        this.AppExtension = ext;
+        this.properties = properties;
+        Logo = logo;
+
+        #region Update Properties
+
+        // update app service information
+        serviceName = null;
+        if (this.properties != null)
+        {
+            if (this.properties.ContainsKey("Service"))
+            {
+                PropertySet serviceProperty = this.properties["Service"] as PropertySet;
+                this.serviceName = serviceProperty["#text"].ToString();
+            }
+        }
+
+        #endregion Update Properties
+
+        await MarkAsLoaded();
     }
 
     #region PropertyChanged
