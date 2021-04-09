@@ -106,6 +106,7 @@
                             VerticalContentAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind Text, Mode=OneWay}"
                             Click="Button_Click"
+                            PointerPressed="Button_PointerPressed"
                             CornerRadius="8"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
