@@ -4,12 +4,9 @@ using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.ViewModels.Dialogs
@@ -21,6 +18,7 @@ namespace Files.ViewModels.Dialogs
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
 
         private string title;
+
         public string Title
         {
             get => title;
@@ -28,6 +26,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string subtitle;
+
         public string Subtitle
         {
             get => subtitle;
@@ -35,6 +34,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string primaryButtonText;
+
         public string PrimaryButtonText
         {
             get => primaryButtonText;
@@ -42,6 +42,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string secondaryButtonText;
+
         public string SecondaryButtonText
         {
             get => secondaryButtonText;
@@ -49,6 +50,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string closeButtonText;
+
         public string CloseButtonText
         {
             get => closeButtonText;
@@ -56,6 +58,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool chevronUpLoad = false;
+
         public bool ChevronUpLoad
         {
             get => chevronUpLoad;
@@ -63,6 +66,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool chevronDownLoad = true;
+
         public bool ChevronDownLoad
         {
             get => chevronDownLoad;
@@ -70,6 +74,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool expandableDetailsLoad = false;
+
         public bool ExpandableDetailsLoad
         {
             get => expandableDetailsLoad;
@@ -77,6 +82,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool permanentlyDeleteLoad = false;
+
         public bool PermanentlyDeleteLoad
         {
             get => permanentlyDeleteLoad;
@@ -84,6 +90,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool permanentlyDelete = false;
+
         public bool PermanentlyDelete
         {
             get => permanentlyDelete;
@@ -91,6 +98,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool permanentlyDeleteEnabled = false;
+
         public bool PermanentlyDeleteEnabled
         {
             get => permanentlyDeleteEnabled;
@@ -98,13 +106,14 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool mustResolveConflicts = false;
+
         public bool MustResolveConflicts
         {
             get => mustResolveConflicts;
             set => SetProperty(ref mustResolveConflicts, value);
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Commands
 
@@ -116,7 +125,7 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand CloseButtonCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         public FilesystemOperationDialogViewModel()
         {
@@ -167,7 +176,7 @@ namespace Files.ViewModels.Dialogs
             }
         }
 
-        #endregion
+        #endregion Command Implementation
 
         public List<IFilesystemOperationItemModel> GetResult()
         {

@@ -1,17 +1,17 @@
-﻿using System;
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
-using Microsoft.Toolkit.Uwp;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using System.Collections.Generic;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using System.Linq;
 using Files.Interacts;
+using Microsoft.Toolkit.Uwp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace Files.Helpers
 {

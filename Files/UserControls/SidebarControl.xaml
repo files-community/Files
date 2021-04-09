@@ -217,8 +217,6 @@
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
 
-
-
             <muxc:NavigationView.PaneHeader>
                 <TextBlock
                     x:Uid="SidebarHeader"

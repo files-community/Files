@@ -4,7 +4,6 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -91,6 +90,7 @@ namespace Files.ViewModels
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
+
         public static void OpenThemesFolder()
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -285,6 +285,7 @@ namespace Files.ViewModels
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+
         public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
@@ -546,6 +547,7 @@ namespace Files.ViewModels
             get => Get("DefaultScheme".GetLocalized());
             set => Set(value);
         }
+
         #endregion Appearance
 
         #region Experimental

@@ -187,7 +187,6 @@
                                             <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DisabledStates">
@@ -202,7 +201,6 @@
                         To="{ThemeResource ListViewItemDisabledThemeOpacity}" />
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="MultiSelectStates">
@@ -254,7 +252,6 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DataVirtualizationStates">
@@ -271,7 +268,6 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="ReorderHintStates">
@@ -308,7 +304,6 @@
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition To="NoReorderHint" GeneratedDuration="0:0:0.2" />
                                     </VisualStateGroup.Transitions>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DragStates">
@@ -437,9 +432,7 @@
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition To="NotDragging" GeneratedDuration="0:0:0.2" />
                                     </VisualStateGroup.Transitions>
-
                                 </VisualStateGroup>
-
                             </VisualStateManager.VisualStateGroups>
                             <Rectangle x:Name="BorderBackground"
                             IsHitTestVisible="False"
@@ -457,7 +450,6 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Margin="0" />
-
                             </Grid>
                             <!-- The 'Xg' text simulates the amount of space one line of text will occupy.
                              In the DataPlaceholder state, the Content is not loaded yet so we
@@ -517,9 +509,7 @@
                   HorizontalAlignment="Center"
                   AutomationProperties.AccessibilityView="Raw" />
                             </Border>
-
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -691,7 +681,6 @@
                                             <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DisabledStates">
@@ -706,7 +695,6 @@
                         To="{ThemeResource ListViewItemDisabledThemeOpacity}" />
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="MultiSelectStates">
@@ -758,7 +746,6 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DataVirtualizationStates">
@@ -775,7 +762,6 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="ReorderHintStates">
@@ -812,7 +798,6 @@
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition To="NoReorderHint" GeneratedDuration="0:0:0.2" />
                                     </VisualStateGroup.Transitions>
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DragStates">
@@ -941,9 +926,7 @@
                                     <VisualStateGroup.Transitions>
                                         <VisualTransition To="NotDragging" GeneratedDuration="0:0:0.2" />
                                     </VisualStateGroup.Transitions>
-
                                 </VisualStateGroup>
-
                             </VisualStateManager.VisualStateGroups>
                             <Rectangle x:Name="BorderBackground"
                             IsHitTestVisible="False"
@@ -961,7 +944,6 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Margin="0" />
-
                             </Grid>
                             <!-- The 'Xg' text simulates the amount of space one line of text will occupy.
                              In the DataPlaceholder state, the Content is not loaded yet so we
@@ -1021,19 +1003,17 @@
                   HorizontalAlignment="Center"
                   AutomationProperties.AccessibilityView="Raw" />
                             </Border>
-
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
         <Style TargetType="controls:BladeItem">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="TitleBarVisibility" Value="Collapsed"></Setter>
             <Setter Property="BorderThickness" Value="0,0,1,0"></Setter>
-            <Setter Property="Width" Value="300"/>
+            <Setter Property="Width" Value="300" />
         </Style>
     </local:BaseLayout.Resources>
     <Grid
@@ -1063,7 +1043,7 @@
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
                         <ListView.ItemTemplate>
-                            
+
                             <DataTemplate x:DataType="local2:ListedItem">
                                 <Grid Margin="0,0" Padding="10,0" CornerRadius="4"
                 Height="32"
@@ -1089,7 +1069,7 @@
                         x:Name="Picture"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        
+
                                             Visibility="{x:Bind LoadFileIcon, Mode=OneWay}"
                         x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
@@ -1169,7 +1149,7 @@
                                     <TextBox
                     Grid.Column="1"
                         x:Name="ListViewTextBoxItemName"
-                        
+
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -1192,8 +1172,8 @@
                         </ListView.ItemTemplate>
                         <ListView.Footer>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
-                                <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel"/>
-                                <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton"/>
+                                <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel" />
+                                <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton" />
                             </StackPanel>
                         </ListView.Footer>
                     </ListView>

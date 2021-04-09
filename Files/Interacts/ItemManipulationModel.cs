@@ -1,5 +1,4 @@
-﻿using Files.EventArguments;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 
@@ -8,14 +7,23 @@ namespace Files.Interacts
     public class ItemManipulationModel
     {
         public event EventHandler FocusFileListInvoked;
+
         public event EventHandler SelectAllItemsInvoked;
+
         public event EventHandler ClearSelectionInvoked;
+
         public event EventHandler InvertSelectionInvoked;
+
         public event EventHandler<ListedItem> AddSelectedItemInvoked;
+
         public event EventHandler FocusSelectedItemsInvoked;
+
         public event EventHandler StartRenameItemInvoked;
+
         public event EventHandler<ListedItem> ScrollIntoViewInvoked;
+
         public event EventHandler SetDragModeForItemsInvoked;
+
         public event EventHandler RefreshItemsOpacityInvoked;
 
         public void FocusFileList()

@@ -4,27 +4,20 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
-using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -50,6 +43,7 @@ namespace Files.Views.LayoutModes
         private Grid gridindicatior;
         private ListViewItem listViewItem;
         public static ColumnViewBrowser ColumnViewBrowser1;
+
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
@@ -197,13 +191,11 @@ namespace Files.Views.LayoutModes
                     ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
                     if (listViewItem2 != null)
                     {
-
                         listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
                     }
                 }
                 catch
                 {
-
                 }
             }
         }
@@ -284,7 +276,6 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            
         }
 
         private async void ReloadItemIcons()
@@ -303,13 +294,13 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-
         }
 
         protected override IEnumerable GetAllItems()
         {
             return (IEnumerable)FileList.ItemsSource;
         }
+
         private static readonly MethodInfo SelectAllMethod = typeof(ListView)
            .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -443,7 +434,7 @@ namespace Files.Views.LayoutModes
                     return;
                 }
             }
-                // Check if RightTapped row is currently selected
+            // Check if RightTapped row is currently selected
             if (IsItemSelected)
             {
                 if (SelectedItems.Contains(objectPressed))
@@ -478,7 +469,6 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    
                     if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -509,10 +499,8 @@ namespace Files.Views.LayoutModes
             await Task.Delay(200);
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-
                 if (listViewItem != null)
                 {
-
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
@@ -533,11 +521,10 @@ namespace Files.Views.LayoutModes
                     }
                     catch
                     {
-
                     }
                     if (item.ContainsFilesOrFolders)
                     {
-                listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
                         var blade = new BladeItem();
                         blade.Content = frame;
@@ -592,7 +579,6 @@ namespace Files.Views.LayoutModes
 
         private void DismissOtherBlades(ListView listView)
         {
-
             var blade = listView.FindAscendant<BladeItem>();
             var index = ColumnHost.ActiveBlades.IndexOf(blade);
             if (index == 0)
@@ -607,7 +593,6 @@ namespace Files.Views.LayoutModes
                 }
                 catch
                 {
-
                 }
             }
             else
@@ -622,17 +607,16 @@ namespace Files.Views.LayoutModes
                 }
                 catch
                 {
-
                 }
             }
         }
+
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
             DismissOtherBlades(sender as ListView);
             await Task.Delay(200);
             if (listViewItem != null)
             {
-
                 listViewItem.Style = (Style)this.Resources["NormalStyle"];
             }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -659,7 +643,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-                    
+
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -700,7 +684,6 @@ namespace Files.Views.LayoutModes
             }
             catch
             {
-
             }
             var frame = new Frame();
             var blade = new BladeItem();
@@ -711,7 +694,7 @@ namespace Files.Views.LayoutModes
             //    NavPathParam = item.ItemPath,
             //    AssociatedTabInstance = ParentShellPageInstance
             //});
-            
+
             frame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
                 Column = ColumnHost.ActiveBlades.IndexOf(blade),
@@ -729,6 +712,7 @@ namespace Files.Views.LayoutModes
             // The following code is only reachable when a user RightTapped an unselected row
             ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
+
         private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
@@ -748,6 +732,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)

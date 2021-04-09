@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Helpers.ContextFlyouts
@@ -29,7 +26,7 @@ namespace Files.Helpers.ContextFlyouts
             var primaryModels = items.Where(i => i.IsPrimary).ToList();
             var secondaryModels = items.Except(primaryModels).ToList();
 
-            if(secondaryModels.Last().ItemType == ItemType.Separator)
+            if (secondaryModels.Last().ItemType == ItemType.Separator)
             {
                 secondaryModels.RemoveAt(secondaryModels.Count - 1);
             }
@@ -53,7 +50,7 @@ namespace Files.Helpers.ContextFlyouts
 
         private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item, bool isToggle = false)
         {
-            if(item.Items?.Count > 0)
+            if (item.Items?.Count > 0)
             {
                 var flyoutSubItem = new MenuFlyoutSubItem()
                 {
@@ -65,7 +62,8 @@ namespace Files.Helpers.ContextFlyouts
                     flyoutSubItem.Items.Add(GetMenuItem(i));
                 });
                 return flyoutSubItem;
-            } else 
+            }
+            else
             {
                 return GetItem(item);
             }
@@ -73,7 +71,6 @@ namespace Files.Helpers.ContextFlyouts
 
         private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
         {
-
             if (i.BitmapIcon != null)
             {
                 var item = new MenuFlyoutItemWithImage()
@@ -95,7 +92,7 @@ namespace Files.Helpers.ContextFlyouts
             }
             MenuFlyoutItemBase flyoutItem;
 
-            if(i.ItemType == ItemType.Toggle)
+            if (i.ItemType == ItemType.Toggle)
             {
                 flyoutItem = new ToggleMenuFlyoutItem()
                 {
@@ -105,14 +102,15 @@ namespace Files.Helpers.ContextFlyouts
                     CommandParameter = i.CommandParameter,
                     IsChecked = i.IsChecked,
                 };
-            } else
+            }
+            else
             {
                 var icon = new FontIcon
                 {
                     Glyph = !string.IsNullOrEmpty(i.Glyph) ? i.Glyph : "",
                 };
 
-                if(!string.IsNullOrEmpty(i.GlyphFontFamilyName))
+                if (!string.IsNullOrEmpty(i.GlyphFontFamilyName))
                 {
                     var fontFamily = App.Current.Resources[i.GlyphFontFamilyName] as FontFamily;
                     icon.FontFamily = fontFamily;
@@ -128,7 +126,7 @@ namespace Files.Helpers.ContextFlyouts
                 };
             }
 
-            if(i.KeyboardAccelerator != null)
+            if (i.KeyboardAccelerator != null)
             {
                 flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
             }
@@ -145,11 +143,12 @@ namespace Files.Helpers.ContextFlyouts
                 _ => GetCommandBarButton(item),
             };
         }
+
         private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
         {
             ICommandBarElement element;
             FontIcon icon = null;
-            if(!string.IsNullOrEmpty(item.Glyph))
+            if (!string.IsNullOrEmpty(item.Glyph))
             {
                 icon = new FontIcon
                 {
@@ -163,16 +162,17 @@ namespace Files.Helpers.ContextFlyouts
                 icon.FontFamily = fontFamily;
             }
             MenuFlyout ctxFlyout = null;
-            if(item.Items.Count > 0)
+            if (item.Items.Count > 0)
             {
                 ctxFlyout = new MenuFlyout();
                 GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => ctxFlyout.Items.Add(i));
             }
 
             Image content = null;
-            if(item.BitmapIcon != null)
+            if (item.BitmapIcon != null)
             {
-                content = new Image() {
+                content = new Image()
+                {
                     Source = item.BitmapIcon,
                 };
             }
@@ -194,11 +194,12 @@ namespace Files.Helpers.ContextFlyouts
                     (element as AppBarToggleButton).Icon = icon;
                 }
 
-                if(item.IsPrimary)
+                if (item.IsPrimary)
                 {
                     (element as AppBarToggleButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }
-            } else
+            }
+            else
             {
                 element = new AppBarButton()
                 {
@@ -210,7 +211,7 @@ namespace Files.Helpers.ContextFlyouts
                     Content = content,
                 };
 
-                if(icon != null)
+                if (icon != null)
                 {
                     (element as AppBarButton).Icon = icon;
                 }

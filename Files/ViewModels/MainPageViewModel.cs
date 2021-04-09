@@ -1,23 +1,23 @@
-﻿using Files.Helpers;
+﻿using Files.Common;
+using Files.Filesystem;
+using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Files.Common;
-using Windows.UI.Xaml;
-using System.Collections.Generic;
-using Files.Filesystem;
-using System.Collections.ObjectModel;
 
 namespace Files.ViewModels
 {
@@ -47,7 +47,7 @@ namespace Files.ViewModels
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         public MainPageViewModel()
         {
@@ -156,7 +156,7 @@ namespace Files.ViewModels
             e.Handled = true;
         }
 
-        #endregion
+        #endregion Command Implementation
 
         #region Public Helpers
 
@@ -259,6 +259,7 @@ namespace Files.ViewModels
                         // Show localized name
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized();
                         break;
+
                     default:
                         // Show original name
                         tabLocationHeader = library.Text;
@@ -490,6 +491,6 @@ namespace Files.ViewModels
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
 
-        #endregion
+        #endregion Public Helpers
     }
 }
