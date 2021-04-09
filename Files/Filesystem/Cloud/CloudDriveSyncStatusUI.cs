@@ -7,23 +7,7 @@ namespace Files.Filesystem.Cloud
 {
     public class CloudDriveSyncStatusUI : ObservableObject
     {
-        private SolidColorBrush foreground;
-        private string glyph;
         private bool loadSyncStatus;
-
-        private string syncStatusString = "CloudDriveSyncStatus_Unknown".GetLocalized();
-
-        public SolidColorBrush Foreground
-        {
-            get => foreground;
-            set => SetProperty(ref foreground, value);
-        }
-
-        public string Glyph
-        {
-            get => glyph;
-            set => SetProperty(ref glyph, value);
-        }
 
         public bool LoadSyncStatus
         {
@@ -31,10 +15,28 @@ namespace Files.Filesystem.Cloud
             set => SetProperty(ref loadSyncStatus, value);
         }
 
+        private string glyph;
+
+        public string Glyph
+        {
+            get => glyph;
+            set => SetProperty(ref glyph, value);
+        }
+
+        private string syncStatusString = "CloudDriveSyncStatus_Unknown".GetLocalized();
+
         public string SyncStatusString
         {
             get => syncStatusString;
             set => SetProperty(ref syncStatusString, value);
+        }
+
+        private SolidColorBrush foreground;
+
+        public SolidColorBrush Foreground
+        {
+            get => foreground;
+            set => SetProperty(ref foreground, value);
         }
 
         public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus)

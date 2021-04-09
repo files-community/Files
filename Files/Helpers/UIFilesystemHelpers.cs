@@ -17,125 +17,6 @@ namespace Files.Helpers
 {
     public static class UIFilesystemHelpers
     {
-        public static async void CopyItem(IShellPage associatedInstance)
-        {
-            DataPackage dataPackage = new DataPackage()
-            {
-                RequestedOperation = DataPackageOperation.Copy
-            };
-            List<IStorageItem> items = new List<IStorageItem>();
-
-            string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-            FilesystemResult result = (FilesystemResult)false;
-
-            if (associatedInstance.SlimContentPage.IsItemSelected)
-            {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-                {
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with fulltrust process
-                    if (associatedInstance.ServiceConnection != null)
-                    {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "Clipboard" },
-                            { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Copy }
-                        });
-                    }
-                    return;
-                }
-            }
-
-            if (items?.Count > 0)
-            {
-                dataPackage.SetStorageItems(items);
-                try
-                {
-                    Clipboard.SetContent(dataPackage);
-                    Clipboard.Flush();
-                }
-                catch
-                {
-                    dataPackage = null;
-                }
-            }
-        }
-
-        public static async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
-        {
-            string currentPath = null;
-            if (associatedInstance.SlimContentPage != null)
-            {
-                currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-            }
-
-            // Show rename dialog
-            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-            await dialog.ShowAsync();
-
-            if (dialog.DynamicResult != DynamicDialogResult.Primary)
-            {
-                return;
-            }
-
-            // Create file based on dialog result
-            string userInput = dialog.ViewModel.AdditionalData as string;
-            var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            FilesystemResult created = folderRes;
-            if (folderRes)
-            {
-                switch (itemType)
-                {
-                    case AddItemType.Folder:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
-                                true);
-                        });
-                        break;
-
-                    case AddItemType.File:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
-                                true);
-                        });
-                        break;
-                }
-            }
-            if (created == FileSystemStatusCode.Unauthorized)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
-            }
-        }
-
         public static async void CutItem(IShellPage associatedInstance)
         {
             DataPackage dataPackage = new DataPackage
@@ -218,6 +99,73 @@ namespace Files.Helpers
             }
         }
 
+        public static async void CopyItem(IShellPage associatedInstance)
+        {
+            DataPackage dataPackage = new DataPackage()
+            {
+                RequestedOperation = DataPackageOperation.Copy
+            };
+            List<IStorageItem> items = new List<IStorageItem>();
+
+            string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+            FilesystemResult result = (FilesystemResult)false;
+
+            if (associatedInstance.SlimContentPage.IsItemSelected)
+            {
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                            .OnSuccess(t => items.Add(t));
+                        if (!result)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                            .OnSuccess(t => items.Add(t));
+                        if (!result)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+                {
+                    // Try again with fulltrust process
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "Clipboard" },
+                            { "filepath", filePaths },
+                            { "operation", (int)DataPackageOperation.Copy }
+                        });
+                    }
+                    return;
+                }
+            }
+
+            if (items?.Count > 0)
+            {
+                dataPackage.SetStorageItems(items);
+                try
+                {
+                    Clipboard.SetContent(dataPackage);
+                    Clipboard.Flush();
+                }
+                catch
+                {
+                    dataPackage = null;
+                }
+            }
+        }
+
         public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
         {
             DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
@@ -258,6 +206,58 @@ namespace Files.Helpers
                 return true;
             }
             return false;
+        }
+
+        public static async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        {
+            string currentPath = null;
+            if (associatedInstance.SlimContentPage != null)
+            {
+                currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+            }
+
+            // Show rename dialog
+            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+            await dialog.ShowAsync();
+
+            if (dialog.DynamicResult != DynamicDialogResult.Primary)
+            {
+                return;
+            }
+
+            // Create file based on dialog result
+            string userInput = dialog.ViewModel.AdditionalData as string;
+            var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
+            FilesystemResult created = folderRes;
+            if (folderRes)
+            {
+                switch (itemType)
+                {
+                    case AddItemType.Folder:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
+                        created = await FilesystemTasks.Wrap(async () =>
+                        {
+                            return await associatedInstance.FilesystemHelpers.CreateAsync(
+                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                true);
+                        });
+                        break;
+
+                    case AddItemType.File:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
+                        created = await FilesystemTasks.Wrap(async () =>
+                        {
+                            return await associatedInstance.FilesystemHelpers.CreateAsync(
+                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                                true);
+                        });
+                        break;
+                }
+            }
+            if (created == FileSystemStatusCode.Unauthorized)
+            {
+                await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+            }
         }
 
         /// <summary>

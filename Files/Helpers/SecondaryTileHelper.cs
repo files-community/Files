@@ -14,6 +14,17 @@ namespace Files.Helpers
             return SecondaryTile.Exists(GetTileID(path));
         }
 
+        /// <summary>
+        /// Gets a tile-id to be used from a folder path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string GetTileID(string path)
+        {
+            // Remove symbols because windows doesn't like them in the ID, and will blow up
+            return $"folder-{new string(path.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
+        }
+
         public async Task<bool> TryPinFolderAsync(string path, string name)
         {
             var result = false;
@@ -45,17 +56,6 @@ namespace Files.Helpers
         public async Task<bool> UnpinFromStartAsync(string path)
         {
             return await StartScreenManager.GetDefault().TryRemoveSecondaryTileAsync(GetTileID(path));
-        }
-
-        /// <summary>
-        /// Gets a tile-id to be used from a folder path
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private string GetTileID(string path)
-        {
-            // Remove symbols because windows doesn't like them in the ID, and will blow up
-            return $"folder-{new string(path.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
         }
     }
 }

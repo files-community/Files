@@ -11,14 +11,16 @@ namespace Files.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {
+        private StorageFolder Folder { get; set; }
+
+        public ListedItem Item { get; set; }
+
+        public BitmapImage Thumbnail { get; set; } = new BitmapImage();
+
         public FolderPreviewViewModel(ListedItem item)
         {
             Item = item;
         }
-
-        public ListedItem Item { get; set; }
-        public BitmapImage Thumbnail { get; set; } = new BitmapImage();
-        private StorageFolder Folder { get; set; }
 
         public async Task LoadAsync()
         {

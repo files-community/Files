@@ -36,6 +36,7 @@ namespace Files.ViewModels
         }
 
         private string currentSearchQuery;
+
         public string CurrentSearchQuery
         {
             get => currentSearchQuery;
@@ -43,6 +44,7 @@ namespace Files.ViewModels
         }
 
         private bool searchedUnindexedItems;
+
         public bool SearchedUnindexedItems
         {
             get => searchedUnindexedItems;

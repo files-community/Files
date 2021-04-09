@@ -18,13 +18,34 @@ namespace Files.Helpers
     {
         public static Task<NamedPipeAsAppServiceConnection> Instance = BuildConnection(true);
 
+        public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
+
         static AppServiceConnectionHelper()
         {
             App.Current.Suspending += OnSuspending;
             App.Current.LeavingBackground += OnLeavingBackground;
         }
 
-        public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
+        private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            if (await Instance == null)
+            {
+                // Need to reinitialize AppService when app is resuming
+                Instance = BuildConnection(true);
+                ConnectionChanged?.Invoke(null, Instance);
+            }
+        }
+
+        private async static void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
+            ConnectionChanged?.Invoke(null, nullConn);
+            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
+            (await Instance)?.Dispose();
+            Instance = nullConn;
+            deferral.Complete();
+        }
 
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
         {
@@ -90,157 +111,22 @@ namespace Files.Helpers
             }
             return null;
         }
-
-        private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            if (await Instance == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                Instance = BuildConnection(true);
-                ConnectionChanged?.Invoke(null, Instance);
-            }
-        }
-
-        private async static void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
-            ConnectionChanged?.Invoke(null, nullConn);
-            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
-            (await Instance)?.Dispose();
-            Instance = nullConn;
-            deferral.Complete();
-        }
     }
 
     public class NamedPipeAsAppServiceConnection : IDisposable
     {
         private NamedPipeClientStream clientStream;
-        private bool isDisposed = false;
-        private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
         private SafePipeHandle pipeHandle;
-
-        public NamedPipeAsAppServiceConnection()
-        {
-            this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
-        }
 
         public event EventHandler<Dictionary<string, object>> RequestReceived;
 
         public event EventHandler ServiceClosed;
 
-        public void Cleanup()
+        private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
+
+        public NamedPipeAsAppServiceConnection()
         {
-            foreach (var m in messageList)
-            {
-                m.Value.TrySetCanceled();
-            }
-            messageList.Clear();
-            clientStream?.Dispose();
-            clientStream = null;
-            pipeHandle?.Dispose();
-            pipeHandle = null;
-        }
-
-        public async Task<bool> Connect(string pipeName, TimeSpan timeout = default)
-        {
-            SafePipeHandle safePipeHandle = null;
-
-            using var cts = new CancellationTokenSource();
-            cts.CancelAfter(timeout);
-            while (true)
-            {
-                IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(pipeName, NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
-
-                safePipeHandle = new SafePipeHandle(Handle, true);
-
-                if (!safePipeHandle.IsInvalid)
-                {
-                    break;
-                }
-                else if (cts.Token.IsCancellationRequested || isDisposed)
-                {
-                    return false;
-                }
-                await Task.Delay(200);
-            }
-
-            pipeHandle = safePipeHandle;
-            clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, safePipeHandle);
-            clientStream.ReadMode = PipeTransmissionMode.Message;
-
-            var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
-            BeginRead(info);
-
-            return true;
-        }
-
-        public void Dispose()
-        {
-            this.isDisposed = true;
-            this.Cleanup();
-        }
-
-        public async Task<AppServiceResponseStatus> SendMessageAsync(ValueSet valueSet)
-        {
-            if (clientStream == null)
-            {
-                return AppServiceResponseStatus.Failure;
-            }
-
-            try
-            {
-                var guid = Guid.NewGuid().ToString();
-                valueSet.Add("RequestID", guid);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                await clientStream.WriteAsync(serialized, 0, serialized.Length);
-                return AppServiceResponseStatus.Success;
-            }
-            catch (System.IO.IOException)
-            {
-                // Pipe is disconnected
-                ServiceClosed?.Invoke(this, null);
-                this.Cleanup();
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
-            }
-
-            return AppServiceResponseStatus.Failure;
-        }
-
-        public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
-        {
-            if (clientStream == null)
-            {
-                return (AppServiceResponseStatus.Failure, null);
-            }
-
-            try
-            {
-                var guid = Guid.NewGuid().ToString();
-                valueSet.Add("RequestID", guid);
-                var tcs = new TaskCompletionSource<Dictionary<string, object>>();
-                messageList.TryAdd(guid, tcs);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                await clientStream.WriteAsync(serialized, 0, serialized.Length);
-                var response = await tcs.Task;
-
-                return (AppServiceResponseStatus.Success, response);
-            }
-            catch (System.IO.IOException)
-            {
-                // Pipe is disconnected
-                ServiceClosed?.Invoke(this, null);
-                this.Cleanup();
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
-            }
-
-            return (AppServiceResponseStatus.Failure, null);
+            this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
         }
 
         private void BeginRead((byte[] Buffer, StringBuilder Message) info)
@@ -284,6 +170,122 @@ namespace Files.Helpers
                     BeginRead(nextInfo);
                 }
             }
+        }
+
+        public async Task<bool> Connect(string pipeName, TimeSpan timeout = default)
+        {
+            SafePipeHandle safePipeHandle = null;
+
+            using var cts = new CancellationTokenSource();
+            cts.CancelAfter(timeout);
+            while (true)
+            {
+                IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(pipeName, NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
+
+                safePipeHandle = new SafePipeHandle(Handle, true);
+
+                if (!safePipeHandle.IsInvalid)
+                {
+                    break;
+                }
+                else if (cts.Token.IsCancellationRequested || isDisposed)
+                {
+                    return false;
+                }
+                await Task.Delay(200);
+            }
+
+            pipeHandle = safePipeHandle;
+            clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, safePipeHandle);
+            clientStream.ReadMode = PipeTransmissionMode.Message;
+
+            var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+            BeginRead(info);
+
+            return true;
+        }
+
+        public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
+        {
+            if (clientStream == null)
+            {
+                return (AppServiceResponseStatus.Failure, null);
+            }
+
+            try
+            {
+                var guid = Guid.NewGuid().ToString();
+                valueSet.Add("RequestID", guid);
+                var tcs = new TaskCompletionSource<Dictionary<string, object>>();
+                messageList.TryAdd(guid, tcs);
+                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                var response = await tcs.Task;
+
+                return (AppServiceResponseStatus.Success, response);
+            }
+            catch (System.IO.IOException)
+            {
+                // Pipe is disconnected
+                ServiceClosed?.Invoke(this, null);
+                this.Cleanup();
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+            }
+
+            return (AppServiceResponseStatus.Failure, null);
+        }
+
+        public async Task<AppServiceResponseStatus> SendMessageAsync(ValueSet valueSet)
+        {
+            if (clientStream == null)
+            {
+                return AppServiceResponseStatus.Failure;
+            }
+
+            try
+            {
+                var guid = Guid.NewGuid().ToString();
+                valueSet.Add("RequestID", guid);
+                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                return AppServiceResponseStatus.Success;
+            }
+            catch (System.IO.IOException)
+            {
+                // Pipe is disconnected
+                ServiceClosed?.Invoke(this, null);
+                this.Cleanup();
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+            }
+
+            return AppServiceResponseStatus.Failure;
+        }
+
+        public void Cleanup()
+        {
+            foreach (var m in messageList)
+            {
+                m.Value.TrySetCanceled();
+            }
+            messageList.Clear();
+            clientStream?.Dispose();
+            clientStream = null;
+            pipeHandle?.Dispose();
+            pipeHandle = null;
+        }
+
+        private bool isDisposed = false;
+
+        public void Dispose()
+        {
+            this.isDisposed = true;
+            this.Cleanup();
         }
     }
 }

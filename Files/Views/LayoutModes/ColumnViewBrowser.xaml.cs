@@ -43,6 +43,7 @@ namespace Files.Views.LayoutModes
         private Grid gridindicatior;
         private ListViewItem listViewItem;
         public static ColumnViewBrowser ColumnViewBrowser1;
+
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
@@ -190,13 +191,11 @@ namespace Files.Views.LayoutModes
                     ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
                     if (listViewItem2 != null)
                     {
-
                         listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
                     }
                 }
                 catch
                 {
-
                 }
             }
         }
@@ -277,7 +276,6 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-
         }
 
         private async void ReloadItemIcons()
@@ -296,13 +294,13 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-
         }
 
         protected override IEnumerable GetAllItems()
         {
             return (IEnumerable)FileList.ItemsSource;
         }
+
         private static readonly MethodInfo SelectAllMethod = typeof(ListView)
            .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -471,7 +469,6 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-
                     if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -502,10 +499,8 @@ namespace Files.Views.LayoutModes
             await Task.Delay(200);
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-
                 if (listViewItem != null)
                 {
-
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
@@ -526,7 +521,6 @@ namespace Files.Views.LayoutModes
                     }
                     catch
                     {
-
                     }
                     if (item.ContainsFilesOrFolders)
                     {
@@ -585,7 +579,6 @@ namespace Files.Views.LayoutModes
 
         private void DismissOtherBlades(ListView listView)
         {
-
             var blade = listView.FindAscendant<BladeItem>();
             var index = ColumnHost.ActiveBlades.IndexOf(blade);
             if (index == 0)
@@ -600,7 +593,6 @@ namespace Files.Views.LayoutModes
                 }
                 catch
                 {
-
                 }
             }
             else
@@ -615,17 +607,16 @@ namespace Files.Views.LayoutModes
                 }
                 catch
                 {
-
                 }
             }
         }
+
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
             DismissOtherBlades(sender as ListView);
             await Task.Delay(200);
             if (listViewItem != null)
             {
-
                 listViewItem.Style = (Style)this.Resources["NormalStyle"];
             }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -693,7 +684,6 @@ namespace Files.Views.LayoutModes
             }
             catch
             {
-
             }
             var frame = new Frame();
             var blade = new BladeItem();
@@ -722,6 +712,7 @@ namespace Files.Views.LayoutModes
             // The following code is only reachable when a user RightTapped an unselected row
             ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
+
         private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
@@ -741,6 +732,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)

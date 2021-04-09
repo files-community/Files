@@ -12,18 +12,16 @@ namespace Files.Helpers
     [DebuggerDisplay("Count = {Count}")]
     public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
     {
-        private readonly List<T> collection = new List<T>();
-        private readonly object syncRoot = new object();
         private bool isBulkOperationStarted;
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly object syncRoot = new object();
+        private readonly List<T> collection = new List<T>();
 
         public int Count => collection.Count;
 
-        public bool IsFixedSize => false;
         public bool IsReadOnly => false;
+
+        public bool IsFixedSize => false;
+
         public bool IsSynchronized => true;
 
         public object SyncRoot => syncRoot;
@@ -51,6 +49,36 @@ namespace Files.Helpers
             }
         }
 
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void BeginBulkOperation()
+        {
+            isBulkOperationStarted = true;
+        }
+
+        protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
+        {
+            if (!isBulkOperationStarted)
+            {
+                CollectionChanged?.Invoke(this, e);
+                if (countChanged)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+            }
+        }
+
+        public void EndBulkOperation()
+        {
+            isBulkOperationStarted = false;
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+        }
+
         public void Add(T item)
         {
             lock (syncRoot)
@@ -59,39 +87,6 @@ namespace Files.Helpers
             }
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-        }
-
-        int IList.Add(object value)
-        {
-            int index;
-
-            lock (syncRoot)
-            {
-                index = ((IList)collection).Add((T)value);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
-            return index;
-        }
-
-        public void AddRange(IEnumerable<T> items)
-        {
-            if (items.Count() == 0)
-            {
-                return;
-            }
-
-            lock (syncRoot)
-            {
-                collection.AddRange(items);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
-        }
-
-        public void BeginBulkOperation()
-        {
-            isBulkOperationStarted = true;
         }
 
         public void Clear()
@@ -109,65 +104,9 @@ namespace Files.Helpers
             return collection.Contains(item);
         }
 
-        bool IList.Contains(object value) => Contains((T)value);
-
         public void CopyTo(T[] array, int arrayIndex)
         {
             collection.CopyTo(array, arrayIndex);
-        }
-
-        void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
-
-        public void EndBulkOperation()
-        {
-            isBulkOperationStarted = false;
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return collection.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public int IndexOf(T item)
-        {
-            return collection.IndexOf(item);
-        }
-
-        int IList.IndexOf(object value) => IndexOf((T)value);
-
-        public void Insert(int index, T item)
-        {
-            lock (syncRoot)
-            {
-                collection.Insert(index, item);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
-        }
-
-        void IList.Insert(int index, object value) => Insert(index, (T)value);
-
-        public void InsertRange(int index, IEnumerable<T> items)
-        {
-            if (items.Count() == 0)
-            {
-                return;
-            }
-
-            lock (syncRoot)
-            {
-                collection.InsertRange(index, items);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), index));
         }
 
         public bool Remove(T item)
@@ -190,7 +129,30 @@ namespace Files.Helpers
             return true;
         }
 
-        void IList.Remove(object value) => Remove((T)value);
+        public IEnumerator<T> GetEnumerator()
+        {
+            return collection.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public int IndexOf(T item)
+        {
+            return collection.IndexOf(item);
+        }
+
+        public void Insert(int index, T item)
+        {
+            lock (syncRoot)
+            {
+                collection.Insert(index, item);
+            }
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+        }
 
         public void RemoveAt(int index)
         {
@@ -203,6 +165,36 @@ namespace Files.Helpers
             }
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+        }
+
+        public void AddRange(IEnumerable<T> items)
+        {
+            if (items.Count() == 0)
+            {
+                return;
+            }
+
+            lock (syncRoot)
+            {
+                collection.AddRange(items);
+            }
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
+        }
+
+        public void InsertRange(int index, IEnumerable<T> items)
+        {
+            if (items.Count() == 0)
+            {
+                return;
+            }
+
+            lock (syncRoot)
+            {
+                collection.InsertRange(index, items);
+            }
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), index));
         }
 
         public void RemoveRange(int index, int count)
@@ -246,17 +238,27 @@ namespace Files.Helpers
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index));
         }
 
-        protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
+        int IList.Add(object value)
         {
-            if (!isBulkOperationStarted)
+            int index;
+
+            lock (syncRoot)
             {
-                CollectionChanged?.Invoke(this, e);
-                if (countChanged)
-                {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
-                }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+                index = ((IList)collection).Add((T)value);
             }
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
+            return index;
         }
+
+        bool IList.Contains(object value) => Contains((T)value);
+
+        int IList.IndexOf(object value) => IndexOf((T)value);
+
+        void IList.Insert(int index, object value) => Insert(index, (T)value);
+
+        void IList.Remove(object value) => Remove((T)value);
+
+        void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
     }
 }

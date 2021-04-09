@@ -6,23 +6,41 @@ using Windows.UI.Xaml;
 
 namespace Files.DataModels
 {
+    public struct FilesystemItemsOperationItemModel
+    {
+        public FilesystemOperationType OperationType;
+
+        public string SourcePath;
+
+        public string DestinationPath;
+
+        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath)
+        {
+            this.OperationType = operationType;
+            this.SourcePath = sourcePath;
+            this.DestinationPath = destinationPath;
+        }
+    }
+
     public struct FilesystemItemsOperationDataModel
     {
-        /// <summary>
-        /// The items that are conflicting between <see cref="IncomingItems"/> and the items that are in the destination directory
-        /// </summary>
-        public List<FilesystemItemsOperationItemModel> ConflictingItems;
+        public FilesystemOperationType OperationType;
+
+        public bool MustResolveConflicts;
+
+        public bool PermanentlyDelete;
+
+        public bool PermanentlyDeleteEnabled;
 
         /// <summary>
         /// The items that are copied/moved/deleted from the source directory (to destination)
         /// </summary>
         public List<FilesystemItemsOperationItemModel> IncomingItems;
 
-        public bool MustResolveConflicts;
-        public FilesystemOperationType OperationType;
-        public bool PermanentlyDelete;
-
-        public bool PermanentlyDeleteEnabled;
+        /// <summary>
+        /// The items that are conflicting between <see cref="IncomingItems"/> and the items that are in the destination directory
+        /// </summary>
+        public List<FilesystemItemsOperationItemModel> ConflictingItems;
 
         public FilesystemItemsOperationDataModel(FilesystemOperationType operationType, bool mustResolveConflicts, bool permanentlyDelete, bool permanentlyDeleteEnabled, List<FilesystemItemsOperationItemModel> incomingItems, List<FilesystemItemsOperationItemModel> conflictingItems)
         {
@@ -90,21 +108,6 @@ namespace Files.DataModels
                 default:
                     return "\uE8FB";
             }
-        }
-    }
-
-    public struct FilesystemItemsOperationItemModel
-    {
-        public string DestinationPath;
-        public FilesystemOperationType OperationType;
-
-        public string SourcePath;
-
-        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath)
-        {
-            this.OperationType = operationType;
-            this.SourcePath = sourcePath;
-            this.DestinationPath = destinationPath;
         }
     }
 }

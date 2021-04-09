@@ -12,12 +12,12 @@ namespace Files.Helpers
     /// </summary>
     public static class ThemeHelper
     {
-        // Keep reference so it does not get optimized/garbage collected
-        public static UISettings UiSettings;
-
         private const string selectedAppThemeKey = "theme";
         private static Window currentApplicationWindow;
         private static ApplicationViewTitleBar titleBar;
+
+        // Keep reference so it does not get optimized/garbage collected
+        public static UISettings UiSettings;
 
         /// <summary>
         /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
@@ -60,6 +60,19 @@ namespace Files.Helpers
             UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
         }
 
+        private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
+        {
+            // Make sure we have a reference to our window so we dispatch a UI change
+            if (currentApplicationWindow != null)
+            {
+                // Dispatch on UI thread so that we have a current appbar to access and change
+                await currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    ApplyTheme();
+                });
+            }
+        }
+
         private static void ApplyTheme()
         {
             var rootTheme = RootTheme;
@@ -93,19 +106,6 @@ namespace Files.Helpers
                     break;
             }
             App.AppSettings.UpdateThemeElements.Execute(null);
-        }
-
-        private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
-        {
-            // Make sure we have a reference to our window so we dispatch a UI change
-            if (currentApplicationWindow != null)
-            {
-                // Dispatch on UI thread so that we have a current appbar to access and change
-                await currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    ApplyTheme();
-                });
-            }
         }
     }
 }

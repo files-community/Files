@@ -6,25 +6,45 @@ namespace Files.Interacts
 {
     public class ItemManipulationModel
     {
-        public event EventHandler<ListedItem> AddSelectedItemInvoked;
-
-        public event EventHandler ClearSelectionInvoked;
-
         public event EventHandler FocusFileListInvoked;
-
-        public event EventHandler FocusSelectedItemsInvoked;
-
-        public event EventHandler InvertSelectionInvoked;
-
-        public event EventHandler RefreshItemsOpacityInvoked;
-
-        public event EventHandler<ListedItem> ScrollIntoViewInvoked;
 
         public event EventHandler SelectAllItemsInvoked;
 
-        public event EventHandler SetDragModeForItemsInvoked;
+        public event EventHandler ClearSelectionInvoked;
+
+        public event EventHandler InvertSelectionInvoked;
+
+        public event EventHandler<ListedItem> AddSelectedItemInvoked;
+
+        public event EventHandler FocusSelectedItemsInvoked;
 
         public event EventHandler StartRenameItemInvoked;
+
+        public event EventHandler<ListedItem> ScrollIntoViewInvoked;
+
+        public event EventHandler SetDragModeForItemsInvoked;
+
+        public event EventHandler RefreshItemsOpacityInvoked;
+
+        public void FocusFileList()
+        {
+            FocusFileListInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SelectAllItems()
+        {
+            SelectAllItemsInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ClearSelection()
+        {
+            ClearSelectionInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void InvertSelection()
+        {
+            InvertSelectionInvoked?.Invoke(this, EventArgs.Empty);
+        }
 
         public void AddSelectedItem(ListedItem item)
         {
@@ -39,46 +59,6 @@ namespace Files.Interacts
             }
         }
 
-        public void ClearSelection()
-        {
-            ClearSelectionInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void FocusFileList()
-        {
-            FocusFileListInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void FocusSelectedItems()
-        {
-            FocusSelectedItemsInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void InvertSelection()
-        {
-            InvertSelectionInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void RefreshItemsOpacity()
-        {
-            RefreshItemsOpacityInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void ScrollIntoView(ListedItem item)
-        {
-            ScrollIntoViewInvoked?.Invoke(this, item);
-        }
-
-        public void SelectAllItems()
-        {
-            SelectAllItemsInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void SetDragModeForItems()
-        {
-            SetDragModeForItemsInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
         public void SetSelectedItem(ListedItem item)
         {
             ClearSelection();
@@ -91,9 +71,29 @@ namespace Files.Interacts
             AddSelectedItems(items);
         }
 
+        public void FocusSelectedItems()
+        {
+            FocusSelectedItemsInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
         public void StartRenameItem()
         {
             StartRenameItemInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ScrollIntoView(ListedItem item)
+        {
+            ScrollIntoViewInvoked?.Invoke(this, item);
+        }
+
+        public void SetDragModeForItems()
+        {
+            SetDragModeForItemsInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RefreshItemsOpacity()
+        {
+            RefreshItemsOpacityInvoked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

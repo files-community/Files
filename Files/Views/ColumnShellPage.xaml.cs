@@ -258,6 +258,7 @@ namespace Files.Views
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
+
         public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
         {
             if (string.IsNullOrWhiteSpace(singleItemOverride))
@@ -1063,17 +1064,14 @@ namespace Files.Views
 
         public void Back_Click()
         {
-
         }
 
         public void Forward_Click()
         {
-
         }
 
         public void Up_Click()
         {
-
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
@@ -1137,10 +1135,12 @@ namespace Files.Views
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
                     NavigationToolbar.CanRefresh = false;
                     break;
+
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
                     NavigationToolbar.CanGoBack = ItemDisplayFrame.CanGoBack;
                     NavigationToolbar.CanGoForward = ItemDisplayFrame.CanGoForward;
                     break;
+
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavigationToolbar.CanRefresh = true;
                     // Select previous directory
@@ -1351,7 +1351,6 @@ namespace Files.Views
                 },
                 new SuppressNavigationTransitionInfo());
             }
-
 
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
         }

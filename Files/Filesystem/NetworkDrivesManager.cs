@@ -20,6 +20,17 @@ namespace Files.Filesystem
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
+        public IReadOnlyList<DriveItem> Drives
+        {
+            get
+            {
+                lock (drivesList)
+                {
+                    return drivesList.ToList().AsReadOnly();
+                }
+            }
+        }
+
         public NetworkDrivesManager()
         {
             var networkItem = new DriveItem()
@@ -33,17 +44,6 @@ namespace Files.Filesystem
             lock (drivesList)
             {
                 drivesList.Add(networkItem);
-            }
-        }
-
-        public IReadOnlyList<DriveItem> Drives
-        {
-            get
-            {
-                lock (drivesList)
-                {
-                    return drivesList.ToList().AsReadOnly();
-                }
             }
         }
 

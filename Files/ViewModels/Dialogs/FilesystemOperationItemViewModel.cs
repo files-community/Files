@@ -6,36 +6,15 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationItemViewModel : ObservableObject, IFilesystemOperationItemModel
     {
-        private Visibility arrowIconVisibility = Visibility.Visible;
-        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
-        private Visibility exclamationMarkVisibility = Visibility.Collapsed;
-        private bool isConflicting = false;
+        public string OperationIconGlyph { get; set; }
 
-        public Visibility ArrowIconVisibility
-        {
-            get => arrowIconVisibility;
-            set => SetProperty(ref arrowIconVisibility, value);
-        }
+        public string SourcePath { get; set; }
 
-        public FileNameConflictResolveOptionType ConflictResolveOption
-        {
-            get => conflictResolveOption;
-            set
-            {
-                if (conflictResolveOption != value && IsConflicting)
-                {
-                    conflictResolveOption = value;
-                }
-            }
-        }
+        public Visibility PlusIconVisibility { get; set; } // Item will be created - show plus icon
 
         public string DestinationPath { get; set; }
 
-        public Visibility ExclamationMarkVisibility
-        {
-            get => exclamationMarkVisibility;
-            set => SetProperty(ref exclamationMarkVisibility, value);
-        }
+        private bool isConflicting = false;
 
         /// <summary>
         /// Determines whether an item is or was a conflicting one
@@ -58,12 +37,36 @@ namespace Files.ViewModels.Dialogs
             }
         }
 
+        private Visibility arrowIconVisibility = Visibility.Visible;
+
+        public Visibility ArrowIconVisibility
+        {
+            get => arrowIconVisibility;
+            set => SetProperty(ref arrowIconVisibility, value);
+        }
+
+        private Visibility exclamationMarkVisibility = Visibility.Collapsed;
+
+        public Visibility ExclamationMarkVisibility
+        {
+            get => exclamationMarkVisibility;
+            set => SetProperty(ref exclamationMarkVisibility, value);
+        }
+
+        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
+
+        public FileNameConflictResolveOptionType ConflictResolveOption
+        {
+            get => conflictResolveOption;
+            set
+            {
+                if (conflictResolveOption != value && IsConflicting)
+                {
+                    conflictResolveOption = value;
+                }
+            }
+        }
+
         public FilesystemOperationType ItemOperation { get; set; }
-        public string OperationIconGlyph { get; set; }
-
-        public Visibility PlusIconVisibility { get; set; }
-        public string SourcePath { get; set; }
-
-        // Item will be created - show plus icon
     }
 }

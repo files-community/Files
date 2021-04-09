@@ -7,23 +7,14 @@ namespace Files.DataModels
 {
     public class TerminalFileModel
     {
+        [JsonProperty("version")]
+        public int Version { get; set; }
+
         [JsonProperty("DefaultTerminalName")]
         public string DefaultTerminalName { get; set; }
 
         [JsonProperty("terminals")]
         public List<Terminal> Terminals { get; set; } = new List<Terminal>();
-
-        [JsonProperty("version")]
-        public int Version { get; set; }
-
-        public void AddTerminal(Terminal terminal)
-        {
-            //Ensure terminal is not already in List
-            if (Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)) == null)
-            {
-                Terminals.Add(terminal);
-            }
-        }
 
         public Terminal GetDefaultTerminal()
         {
@@ -40,6 +31,20 @@ namespace Files.DataModels
             return Terminals.First();
         }
 
+        public void ResetToDefaultTerminal()
+        {
+            DefaultTerminalName = "cmd";
+        }
+
+        public void AddTerminal(Terminal terminal)
+        {
+            //Ensure terminal is not already in List
+            if (Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)) == null)
+            {
+                Terminals.Add(terminal);
+            }
+        }
+
         public void RemoveTerminal(Terminal terminal)
         {
             if (Terminals.Remove(Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))))
@@ -53,11 +58,6 @@ namespace Files.DataModels
                     ResetToDefaultTerminal();
                 }
             }
-        }
-
-        public void ResetToDefaultTerminal()
-        {
-            DefaultTerminalName = "cmd";
         }
     }
 }

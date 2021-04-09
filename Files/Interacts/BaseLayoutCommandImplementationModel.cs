@@ -29,10 +29,11 @@ namespace Files.Interacts
     {
         #region Singleton
 
-        private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
         private NamedPipeAsAppServiceConnection ServiceConnection => associatedInstance?.ServiceConnection;
 
         private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
+
+        private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
 
         #endregion Singleton
 
@@ -65,37 +66,9 @@ namespace Files.Interacts
 
         #region Command Implementation
 
-        public virtual void CopyItem(RoutedEventArgs e)
+        public virtual void RenameItem(RoutedEventArgs e)
         {
-            UIFilesystemHelpers.CopyItem(associatedInstance);
-        }
-
-        public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
-        {
-            try
-            {
-                if (SlimContentPage != null)
-                {
-                    DataPackage data = new DataPackage();
-                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
-                    Clipboard.SetContent(data);
-                    Clipboard.Flush();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debugger.Break();
-            }
-        }
-
-        public virtual void CreateNewFile(ShellNewEntry f)
-        {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, f, associatedInstance);
-        }
-
-        public virtual void CreateNewFolder(RoutedEventArgs e)
-        {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, associatedInstance);
+            itemManipulationModel.StartRenameItem();
         }
 
         public virtual async void CreateShortcut(RoutedEventArgs e)
@@ -123,9 +96,97 @@ namespace Files.Interacts
             }
         }
 
+        public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
+        {
+            WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+        }
+
+        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
+        {
+            WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+        }
+
+        public virtual async void RunAsAdmin(RoutedEventArgs e)
+        {
+            if (ServiceConnection != null)
+            {
+                await ServiceConnection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", SlimContentPage.SelectedItem.ItemPath },
+                    { "Verb", "runas" }
+                });
+            }
+        }
+
+        public virtual async void RunAsAnotherUser(RoutedEventArgs e)
+        {
+            if (ServiceConnection != null)
+            {
+                await ServiceConnection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", SlimContentPage.SelectedItem.ItemPath },
+                    { "Verb", "runasuser" }
+                });
+            }
+        }
+
+        public virtual void SidebarPinItem(RoutedEventArgs e)
+        {
+            SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
+        }
+
+        public virtual void SidebarUnpinItem(RoutedEventArgs e)
+        {
+            SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
+        }
+
+        public virtual void OpenItem(RoutedEventArgs e)
+        {
+            NavigationHelpers.OpenSelectedItems(associatedInstance, false);
+        }
+
+        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
+        {
+            App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        public virtual void EmptyRecycleBin(RoutedEventArgs e)
+        {
+            RecycleBinHelpers.EmptyRecycleBin(associatedInstance);
+        }
+
+        public virtual void QuickLook(RoutedEventArgs e)
+        {
+            QuickLookHelpers.ToggleQuickLook(associatedInstance);
+        }
+
+        public virtual void CopyItem(RoutedEventArgs e)
+        {
+            UIFilesystemHelpers.CopyItem(associatedInstance);
+        }
+
         public virtual void CutItem(RoutedEventArgs e)
         {
             UIFilesystemHelpers.CutItem(associatedInstance);
+        }
+
+        public virtual async void RestoreItem(RoutedEventArgs e)
+        {
+            if (SlimContentPage.IsItemSelected)
+            {
+                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
+                {
+                    if (listedItem is RecycleBinItem binItem)
+                    {
+                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
+                            (listedItem as RecycleBinItem).ItemPath,
+                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    }
+                }
+            }
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
@@ -137,142 +198,14 @@ namespace Files.Interacts
                 true, false, true);
         }
 
-        public virtual async void DragEnter(DragEventArgs e)
+        public virtual void ShowFolderProperties(RoutedEventArgs e)
         {
-            var deferral = e.GetDeferral();
-
-            itemManipulationModel.ClearSelection();
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                e.Handled = true;
-                e.DragUIOverride.IsCaptionVisible = true;
-                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
-                {
-                    if (associatedInstance.ServiceConnection != null)
-                    {
-                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
-                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                }
-                if (!draggedItems.Any())
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
-
-                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
-                // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                }
-                else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
-                {
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Move;
-                }
-                else
-                {
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Copy;
-                }
-            }
-
-            deferral.Complete();
+            FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
-        public virtual async void Drop(DragEventArgs e)
+        public virtual void ShowProperties(RoutedEventArgs e)
         {
-            var deferral = e.GetDeferral();
-
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
-                e.Handled = true;
-            }
-
-            deferral.Complete();
-        }
-
-        public virtual void EmptyRecycleBin(RoutedEventArgs e)
-        {
-            RecycleBinHelpers.EmptyRecycleBin(associatedInstance);
-        }
-
-        public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
-        {
-            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-
-            if (e != null)
-            {
-                e.Handled = true;
-            }
-        }
-
-        public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
-        {
-            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-
-            if (e != null)
-            {
-                e.Handled = true;
-            }
-        }
-
-        public virtual void ItemPointerPressed(PointerRoutedEventArgs e)
-        {
-            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
-            {
-                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    if (Item.IsShortcutItem)
-                    {
-                        NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                    }
-                    else
-                    {
-                        NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
-                    }
-                }
-            }
-        }
-
-        public virtual void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
-        {
-            NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
-        }
-
-        public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
-        {
-            ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
-            if (listedItem != null)
-            {
-                associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-            }
-        }
-
-        public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
-            {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
-                {
-                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-                });
-            }
+            FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
         public virtual async void OpenFileLocation(RoutedEventArgs e)
@@ -307,6 +240,31 @@ namespace Files.Interacts
             }
         }
 
+        public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
+        {
+            NavigationHelpers.OpenSelectedItems(associatedInstance, true);
+        }
+
+        public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
+            {
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+                {
+                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                });
+            }
+        }
+
+        public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
+        {
+            ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
+            if (listedItem != null)
+            {
+                associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+            }
+        }
+
         public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
         {
             List<ListedItem> items = SlimContentPage.SelectedItems;
@@ -318,14 +276,14 @@ namespace Files.Interacts
             }
         }
 
-        public virtual void OpenItem(RoutedEventArgs e)
+        public virtual void CreateNewFolder(RoutedEventArgs e)
         {
-            NavigationHelpers.OpenSelectedItems(associatedInstance, false);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, associatedInstance);
         }
 
-        public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
+        public virtual void CreateNewFile(ShellNewEntry f)
         {
-            NavigationHelpers.OpenSelectedItems(associatedInstance, true);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, f, associatedInstance);
         }
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
@@ -333,107 +291,27 @@ namespace Files.Interacts
             await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
         }
 
-        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
+        public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
         {
-            App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
-        }
-
-        public async void PinItemToStart(RoutedEventArgs e)
-        {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            try
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
-            }
-        }
-
-        public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+                if (SlimContentPage != null)
                 {
-                    GridViewSizeDecrease(null);
-                }
-                else // Mouse wheel up
-                {
-                    GridViewSizeIncrease(null);
-                }
-
-                e.Handled = true;
-            }
-        }
-
-        public virtual void QuickLook(RoutedEventArgs e)
-        {
-            QuickLookHelpers.ToggleQuickLook(associatedInstance);
-        }
-
-        public virtual void RefreshItems(RoutedEventArgs e)
-        {
-            associatedInstance.Refresh_Click();
-        }
-
-        public virtual void RenameItem(RoutedEventArgs e)
-        {
-            itemManipulationModel.StartRenameItem();
-        }
-
-        public virtual async void RestoreItem(RoutedEventArgs e)
-        {
-            if (SlimContentPage.IsItemSelected)
-            {
-                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
-                {
-                    if (listedItem is RecycleBinItem binItem)
-                    {
-                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
-                            (listedItem as RecycleBinItem).ItemPath,
-                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
-                    }
+                    DataPackage data = new DataPackage();
+                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
                 }
             }
-        }
-
-        public virtual async void RunAsAdmin(RoutedEventArgs e)
-        {
-            if (ServiceConnection != null)
+            catch (Exception ex)
             {
-                await ServiceConnection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", SlimContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runas" }
-                });
+                Debugger.Break();
             }
         }
 
-        public virtual async void RunAsAnotherUser(RoutedEventArgs e)
+        public virtual void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
         {
-            if (ServiceConnection != null)
-            {
-                await ServiceConnection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", SlimContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runasuser" }
-                });
-            }
-        }
-
-        public void SearchUnindexedItems(RoutedEventArgs e)
-        {
-            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
-        }
-
-        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
-        {
-            WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
-        }
-
-        public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
-        {
-            WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+            NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
         }
 
         public virtual void ShareItem(RoutedEventArgs e)
@@ -508,29 +386,27 @@ namespace Files.Interacts
             }
         }
 
-        public virtual void ShowFolderProperties(RoutedEventArgs e)
+        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
         {
-            FilePropertiesHelpers.ShowProperties(associatedInstance);
+            App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
-        public virtual void ShowProperties(RoutedEventArgs e)
+        public virtual void ItemPointerPressed(PointerRoutedEventArgs e)
         {
-            FilePropertiesHelpers.ShowProperties(associatedInstance);
-        }
-
-        public virtual void SidebarPinItem(RoutedEventArgs e)
-        {
-            SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
-        }
-
-        public virtual void SidebarUnpinItem(RoutedEventArgs e)
-        {
-            SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
-        }
-
-        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
-        {
-            App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    if (Item.IsShortcutItem)
+                    {
+                        NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                    }
+                    else
+                    {
+                        NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                    }
+                }
+            }
         }
 
         public virtual async void UnpinItemFromStart(RoutedEventArgs e)
@@ -539,6 +415,131 @@ namespace Files.Interacts
             {
                 await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
             }
+        }
+
+        public async void PinItemToStart(RoutedEventArgs e)
+        {
+            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+            }
+        }
+
+        public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+                {
+                    GridViewSizeDecrease(null);
+                }
+                else // Mouse wheel up
+                {
+                    GridViewSizeIncrease(null);
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+
+            if (e != null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+
+            if (e != null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        public virtual async void DragEnter(DragEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            itemManipulationModel.ClearSelection();
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.Handled = true;
+                e.DragUIOverride.IsCaptionVisible = true;
+                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                {
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
+                if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
+
+                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                // As long as one file doesn't already belong to this folder
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
+                else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
+                else
+                {
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                }
+            }
+
+            deferral.Complete();
+        }
+
+        public virtual async void Drop(DragEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+                e.Handled = true;
+            }
+
+            deferral.Complete();
+        }
+
+        public virtual void RefreshItems(RoutedEventArgs e)
+        {
+            associatedInstance.Refresh_Click();
+        }
+
+        public void SearchUnindexedItems(RoutedEventArgs e)
+        {
+            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
         #endregion Command Implementation

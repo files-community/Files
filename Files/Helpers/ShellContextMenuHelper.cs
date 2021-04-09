@@ -17,6 +17,45 @@ namespace Files.Helpers
 {
     public static class ShellContextmenuHelper
     {
+        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
+        {
+            bool IsItemSelected = selectedItems?.Count > 0;
+
+            var menuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
+
+            var currentBaseLayoutItemCount = baseItems.Count;
+            var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
+
+            if (connection != null)
+            {
+                var (status, response) = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "LoadContextMenu" },
+                    { "FilePath", IsItemSelected ?
+                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
+                        workingDirectory},
+                    { "ExtendedMenu", shiftPressed },
+                    { "ShowOpenMenu", showOpenMenu }
+                })).Result;
+                if (status == AppServiceResponseStatus.Success
+                    && response.ContainsKey("Handle"))
+                {
+                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
+                    if (contextMenu != null)
+                    {
+                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                    }
+                }
+            }
+            var totalFlyoutItems = baseItems.Count - currentBaseLayoutItemCount;
+            if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].ItemType == ItemType.Separator))
+            {
+                menuItemsList.Insert(totalFlyoutItems, new ContextMenuFlyoutItemViewModel() { ItemType = ItemType.Separator });
+            }
+
+            return menuItemsList;
+        }
+
         public static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
                                 IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
                                 string menuHandle,
@@ -129,45 +168,6 @@ namespace Files.Helpers
 
                 return (null, null);
             }
-        }
-
-        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
-        {
-            bool IsItemSelected = selectedItems?.Count > 0;
-
-            var menuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
-
-            var currentBaseLayoutItemCount = baseItems.Count;
-            var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
-
-            if (connection != null)
-            {
-                var (status, response) = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "LoadContextMenu" },
-                    { "FilePath", IsItemSelected ?
-                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        workingDirectory},
-                    { "ExtendedMenu", shiftPressed },
-                    { "ShowOpenMenu", showOpenMenu }
-                })).Result;
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Handle"))
-                {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                    if (contextMenu != null)
-                    {
-                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
-                    }
-                }
-            }
-            var totalFlyoutItems = baseItems.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].ItemType == ItemType.Separator))
-            {
-                menuItemsList.Insert(totalFlyoutItems, new ContextMenuFlyoutItemViewModel() { ItemType = ItemType.Separator });
-            }
-
-            return menuItemsList;
         }
     }
 }
