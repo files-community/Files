@@ -4,13 +4,11 @@ using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -19,6 +17,11 @@ namespace Files.ViewModels.Dialogs
         #region Public Properties
 
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
+
+        public ListViewSelectionMode ItemsSelectionMode
+        {
+            get => MustResolveConflicts ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+        }
 
         private string title;
         public string Title

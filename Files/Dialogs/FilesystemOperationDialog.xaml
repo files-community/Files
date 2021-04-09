@@ -50,7 +50,7 @@
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <Border MaxWidth="500">
+    <Border MinWidth="500">
         <Grid>
             <StackPanel Spacing="12">
                 <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
@@ -123,7 +123,7 @@
                             x:Name="DetailsGrid"
                             Grid.Row="1"
                             ItemsSource="{x:Bind ViewModel.Items}"
-                            SelectionMode="Multiple"
+                            SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}"
                             IsItemClickEnabled="False">
 
                             <ListView.ItemsPanel>
@@ -153,12 +153,12 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border>
-                                        <Grid ColumnSpacing="12" RowSpacing="15">
+                                        <Grid ColumnSpacing="12" RowSpacing="4" Padding="2 10 2 10">
                                             <Grid.ColumnDefinitions>
                                                 <!-- Operation type -->
                                                 <ColumnDefinition Width="Auto"/>
                                                 <!--  Item names  -->
-                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
                                                 <!--  Combobox with options  -->
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
@@ -174,6 +174,7 @@
                                             <FontIcon
                                                 Grid.Column="0"
                                                 Grid.RowSpan="2"
+                                                FontSize="24"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
@@ -195,15 +196,34 @@
                                                     Glyph="&#xE7BA;" />
                                             </Grid>
 
-                                            <!-- Filename -->
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Grid.Row="0"
-                                                FontSize="13"
-                                                FontWeight="Bold"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding DestinationFileNameDisplayName}"/>
+                                            <!-- Filenames -->
+                                            <StackPanel Orientation="Horizontal" Spacing="8" Grid.Column="1" Grid.Row="0">
+                                                <!-- Source Filename -->
+                                                <TextBlock 
+                                                    FontSize="13"
+                                                    FontWeight="Bold"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding SourceFileNameDisplayName}"/>
+
+                                                <!-- Arrow icon -->
+                                                <FontIcon
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="12"
+                                                    Visibility="{Binding DestinationLocationVisibility}"
+                                                    Glyph="&#xEA62;"/>
+
+                                                <!-- Destination Filename -->
+                                                <TextBlock 
+                                                    FontSize="13"
+                                                    FontWeight="Bold"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding DestinationLocationVisibility}"
+                                                    Text="{Binding DestinationFileNameDisplayName}"/>
+                                            </StackPanel>
+                                            
 
                                             <!-- Source folder and destination folder -->
                                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="8">
@@ -220,6 +240,7 @@
                                                     VerticalAlignment="Center"
                                                     Foreground="Gray"
                                                     FontSize="12"
+                                                    Visibility="{Binding DestinationLocationVisibility}"
                                                     Glyph="&#xEA62;"/>
 
                                                 <!--  Destination folder name  -->
@@ -227,11 +248,12 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Foreground="Gray"
+                                                    Visibility="{Binding DestinationLocationVisibility}"
                                                     Text="{Binding DestinationDirectoryDisplayName}" />
                                             </StackPanel>
                                             
                                             <!-- Combobox with options -->
-                                            <ComboBox Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding ConflictResolveOptionIndex, Mode=TwoWay}">
+                                            <ComboBox Visibility="{Binding DestinationLocationVisibility}" HorizontalAlignment="Right" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding ConflictResolveOptionIndex, Mode=TwoWay}">
                                                 <ComboBox.Items>
                                                     <ComboBoxItem Content="Generate new name"/>
                                                     <ComboBoxItem Content="Replace"/>

@@ -34,6 +34,11 @@ namespace Files.ViewModels.Dialogs
             get => System.IO.Path.GetFileName(DestinationPath);
         }
 
+        public Visibility DestinationLocationVisibility
+        {
+            get => string.IsNullOrEmpty(DestinationPath) ? Visibility.Collapsed : Visibility.Visible;
+        }
+
         private Visibility exclamationMarkVisibility = Visibility.Collapsed;
         public Visibility ExclamationMarkVisibility
         {
