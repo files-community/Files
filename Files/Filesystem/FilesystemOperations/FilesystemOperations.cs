@@ -582,6 +582,8 @@ namespace Files.Filesystem
                 if (elevateConfirmResult == ContentDialogResult.Primary)
                 {
                     //await associatedInstance.ServiceConnection?.Elevate();
+                    App.InteractionViewModel.IsFullTrustElevated = true;
+
                     if (associatedInstance.ServiceConnection != null)
                     {
                         var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
