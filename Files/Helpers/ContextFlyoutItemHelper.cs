@@ -448,6 +448,15 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    Glyph = "\uE16D",
+                    Command = commandsViewModel.PasteItemsFromClipboardCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
+                    SingleItemOnly = true,
+                    IsEnabled = App.InteractionViewModel.IsPasteEnabled && selectedItems.All(x => !x.IsRecycleBinItem),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalized(),
                     Glyph = "\uF10A",
                     GlyphFontFamilyName = "CustomGlyph",

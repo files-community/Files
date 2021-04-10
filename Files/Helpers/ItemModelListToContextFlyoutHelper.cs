@@ -186,7 +186,8 @@ namespace Files.Helpers.ContextFlyouts
                     Command = item.Command,
                     CommandParameter = item.CommandParameter,
                     IsChecked = item.IsChecked,
-                    Content = content
+                    Content = content,
+                    IsEnabled = item.IsEnabled
                 };
 
                 if (icon != null)
@@ -209,6 +210,7 @@ namespace Files.Helpers.ContextFlyouts
                     CommandParameter = item.CommandParameter,
                     Flyout = ctxFlyout,
                     Content = content,
+                    IsEnabled = item.IsEnabled
                 };
 
                 if (icon != null)
