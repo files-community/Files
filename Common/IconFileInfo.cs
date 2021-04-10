@@ -11,7 +11,19 @@ namespace Files.Common
         public string IconData { get; }
         public int Index { get; }
 
-        public object ImageSource { get; set; } = null;
+        private object imageSource = null;
+        public object ImageSource
+        {
+            get => imageSource;
+            set
+            {
+                if (value != imageSource)
+                {
+                    imageSource = value;
+                    RaisePropertyChanged("ImageSource");
+                }
+            }
+        }
 
         public IconFileInfo(string iconData, int index)
         {

@@ -9,18 +9,28 @@
     xmlns:common="using:Files.Common"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Margin="12">
         <StackPanel Orientation="Vertical">
             <TextBlock FontWeight="SemiBold" Text="Pick a custom folder icon"/>
-            <GridView>
+            <GridView Width="400" SelectionMode="Single" x:Name="IconSelectionGrid">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="common:IconFileInfo">
-                        <Grid>
-                            <Image />
+                        <Grid Width="16" Height="16">
+                            <Image Source="{x:Bind ((BitmapImage)ImageSource), Mode=OneWay}" />
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
+            <StackPanel Spacing="8" Orientation="Horizontal">
+                <Button Content="Restore default"/>
+                <Button Content="OK"/>
+                <Button Content="Cancel"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

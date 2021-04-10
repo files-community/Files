@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Extensions;
 using Files.Helpers;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,12 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            var iconInfoCollection = e.Parameter as List<IconFileInfo>;
+            foreach (IconFileInfo iFInfo in iconInfoCollection)
+            {
+                iFInfo.LoadImageFromModelString();
+            }
+            IconSelectionGrid.ItemsSource = iconInfoCollection;
         }
     }
 }

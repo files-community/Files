@@ -540,7 +540,7 @@ namespace FilesFullTrust
                     var iconInfos = Win32API.ExtractIconsFromDLL((string)message["iconFile"]);
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "IconInfos", iconInfos },
+                        { "IconInfos", JsonConvert.SerializeObject(iconInfos) },
                     }, message.Get("RequestID", (string)null));
                     break;
 
