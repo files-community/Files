@@ -105,14 +105,17 @@
 
                         <StackPanel x:Name="OptionsPanel" Orientation="Horizontal" Spacing="8" x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}">
                             <Button 
+                                x:Uid="ConflictingItemsDialogOptionGenerateNewName"
                                 HorizontalAlignment="Center"
                                 Content="Generate new name"
                                 Command="{x:Bind ViewModel.OptionGenerateNewNameCommand, Mode=OneWay}"/>
                             <Button 
+                                x:Uid="ConflictingItemsDialogOptionReplaceExisting"
                                 HorizontalAlignment="Center"
                                 Content="Replace existing"
                                 Command="{x:Bind ViewModel.OptionReplaceExistingCommand, Mode=OneWay}"/>
                             <Button 
+                                x:Uid="ConflictingItemsDialogOptionSkip"
                                 HorizontalAlignment="Center"
                                 Content="Skip"
                                 Command="{x:Bind ViewModel.OptionSkipCommand, Mode=OneWay}"/>
@@ -152,7 +155,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border>
-                                        <Grid ColumnSpacing="12" RowSpacing="4" Padding="2 10 2 10">
+                                        <Grid ColumnSpacing="12" RowSpacing="4" Padding="2, 10, 2, 10">
                                             <Grid.ColumnDefinitions>
                                                 <!-- Operation type -->
                                                 <ColumnDefinition Width="Auto"/>
@@ -199,7 +202,7 @@
                                             <StackPanel Orientation="Horizontal" Spacing="8" Grid.Column="1" Grid.Row="0">
                                                 <!-- Source Filename -->
                                                 <TextBlock 
-                                                    FontSize="13"
+                                                    FontSize="12"
                                                     FontWeight="Bold"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center"
@@ -215,7 +218,7 @@
 
                                                 <!-- Destination Filename -->
                                                 <TextBlock 
-                                                    FontSize="13"
+                                                    FontSize="12"
                                                     FontWeight="Bold"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center"
@@ -254,9 +257,9 @@
                                             <!-- Combobox with options -->
                                             <ComboBox Visibility="{Binding DestinationLocationVisibility}" HorizontalAlignment="Right" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding ConflictResolveOptionIndex, Mode=TwoWay}">
                                                 <ComboBox.Items>
-                                                    <ComboBoxItem Content="Generate new name"/>
-                                                    <ComboBoxItem Content="Replace"/>
-                                                    <ComboBoxItem Content="Skip"/>
+                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionGenerateNewName" Content="Generate new name"/>
+                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionReplaceExisting" Content="Replace"/>
+                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionSkip" Content="Skip"/>
                                                 </ComboBox.Items>
                                             </ComboBox>
                                         </Grid>
