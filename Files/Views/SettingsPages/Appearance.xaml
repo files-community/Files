@@ -2,6 +2,7 @@
     x:Class="Files.SettingsPages.Appearance"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UserControls="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -43,6 +44,25 @@
                     ItemsSource="{Binding Themes}"
                     SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
+                <ComboBox
+                    x:Name="ColorSchemeChooser"
+                    x:Uid="SettingsAppearanceColorScheme"
+                    Width="Auto"
+                    MinWidth="200"
+                    MaxWidth="250"
+                    Header="Color scheme"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    ItemsSource="{Binding ColorSchemes}"
+                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}"
+                    x:Load="{x:Bind ShowColorSchemeSelector}" />
+
+                <HyperlinkButton
+                    x:Name="OpenThemesFolderButton"
+                    x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    Command="{Binding OpenThemesFolderCommand}"
+                    Content="Open themes folder"
+                    x:Load="{x:Bind ShowColorSchemeSelector}" />
+
                 <StackPanel
                     Width="Auto"
                     Orientation="Horizontal"
@@ -62,11 +82,11 @@
                         x:Uid="SettingsAppearanceDateFormatsTip"
                         VerticalAlignment="Bottom"
                         AutomationProperties.Name="Learn more about date formats"
-                        Content="&#xE946;"
-                        FontFamily="{StaticResource FluentGlyphs}"
                         NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
                         Style="{ThemeResource TextBlockButtonStyle}"
-                        ToolTipService.ToolTip="Learn more about date formats" />
+                        ToolTipService.ToolTip="Learn more about date formats">
+                        <FontIcon FontSize="14" Glyph="&#xE946;" />
+                    </HyperlinkButton>
                 </StackPanel>
 
                 <ToggleSwitch
@@ -88,27 +108,12 @@
                     Header="Move overflow items into a sub menu"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="SettingsContextMenuAnimationsSwitch"
-                    Header="Enable animations when opening and closing the context menu"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding AreRightClickContentMenuAnimationsEnabled, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="ShowOpenInNewTabToggleSwitch"
-                    x:Uid="SettingsOpenInNewTabSwitch"
-                    Header="Show open in new tab menu item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowOpenInNewTabMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <ToggleSwitch
-                    x:Name="ShowCopyLocationToggleSwitch"
-                    x:Uid="SettingsCopyLocationSwitch"
-                    Header="Show copy location menu item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowCopyLocationMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
+
+        <UserControls:RestartControl
+            x:Name="RestartControl"
+            VerticalAlignment="Bottom"
+            ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
     </Grid>
 </Page>

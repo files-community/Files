@@ -4,11 +4,10 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -16,14 +15,13 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels
 {
@@ -84,8 +82,8 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
             Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
-            Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
 
         public static async void OpenLogLocation()
@@ -93,15 +91,38 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
+        public static void OpenThemesFolder()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            // Go back to main page
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+            }
+            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+        }
+
         public static async void ReportIssueOnGitHub()
         {
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the width of the the sidebar pane when open.
+        /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(250d), 250d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the sidebar pane should be open or closed.
+        /// </summary>
+        public bool IsSidebarOpen
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         /// <summary>
@@ -122,6 +143,15 @@ namespace Files.ViewModels
             set => Set(value.Value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should be open or closed.
+        /// </summary>
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook
@@ -130,13 +160,13 @@ namespace Files.ViewModels
                 var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "DetectQuickLook" }
-                    }, TimeSpan.FromSeconds(10));
+                    });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        localSettings.Values["quicklook_enabled"] = response.Message.Get("IsAvailable", false);
+                        localSettings.Values["quicklook_enabled"] = response.Get("IsAvailable", false);
                     }
                 }
             }
@@ -226,14 +256,8 @@ namespace Files.ViewModels
 
         #region CommonPaths
 
-        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
-        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
-        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
-        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
-        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
@@ -259,16 +283,9 @@ namespace Files.ViewModels
             set => SetProperty(ref homePath, value);
         }
 
-        private string winDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-
-        public string WinDirPath
-        {
-            get => winDirPath;
-            set => SetProperty(ref winDirPath, value);
-        }
-
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+
         public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
@@ -333,6 +350,15 @@ namespace Files.ViewModels
         /// Enables saving a unique layout mode, gridview size and sort direction per folder
         /// </summary>
         public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
+        /// </summary>
+        public bool AdaptiveLayoutEnabled
         {
             get => Get(true);
             set => Set(value);
@@ -500,15 +526,6 @@ namespace Files.ViewModels
         /// </summary>
         public bool IsAcrylicDisabled
         {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
-        /// </summary>
-        public bool AreRightClickContentMenuAnimationsEnabled
-        {
             get => Get(false);
             set => Set(value);
         }
@@ -523,20 +540,11 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
+        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
         /// </summary>
-        public bool ShowCopyLocationMenuItem
+        public string PathToThemeFile
         {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
-        /// </summary>
-        public bool ShowOpenInNewTabMenuItem
-        {
-            get => Get(true);
+            get => Get("DefaultScheme".GetLocalized());
             set => Set(value);
         }
 
@@ -665,6 +673,15 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
         /// </summary>
         public bool ResumeAfterRestart
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the confirm elevation dialog.
+        /// </summary>
+        public bool HideConfirmElevateDialog
         {
             get => Get(false);
             set => Set(value);

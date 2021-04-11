@@ -13,9 +13,9 @@ namespace Files.ViewModels
 
         public FolderSettingsViewModel FolderSettings { get; }
 
-        public CurrentInstanceViewModel(IShellPage associatedInstance)
+        public CurrentInstanceViewModel()
         {
-            FolderSettings = new FolderSettingsViewModel(associatedInstance);
+            FolderSettings = new FolderSettingsViewModel();
         }
 
         private bool isPageTypeSearchResults = false;
@@ -31,7 +31,35 @@ namespace Files.ViewModels
                 OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
             }
+        }
+
+        private string currentSearchQuery;
+
+        public string CurrentSearchQuery
+        {
+            get => currentSearchQuery;
+            set => SetProperty(ref currentSearchQuery, value);
+        }
+
+        private bool searchedUnindexedItems;
+
+        public bool SearchedUnindexedItems
+        {
+            get => searchedUnindexedItems;
+            set
+            {
+                if (SetProperty(ref searchedUnindexedItems, value))
+                {
+                    OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                }
+            }
+        }
+
+        public bool ShowSearchUnindexedItemsMessage
+        {
+            get => !SearchedUnindexedItems && IsPageTypeSearchResults;
         }
 
         private bool isPageTypeNotHome = false;

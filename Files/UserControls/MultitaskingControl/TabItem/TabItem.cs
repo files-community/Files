@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using System;
@@ -55,6 +56,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public void Unload()
         {
+            Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
             tabItemArguments = Control?.NavigationArguments;
             Dispose();
         }

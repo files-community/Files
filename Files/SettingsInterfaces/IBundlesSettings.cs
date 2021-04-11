@@ -9,5 +9,7 @@ namespace Files.SettingsInterfaces
         object ExportSettings();
 
         void ImportSettings(object import);
+
+        bool NotifyOnValueUpdated<TValue>(TValue value, string propertyName);
     }
 }

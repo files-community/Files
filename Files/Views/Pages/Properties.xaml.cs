@@ -1,6 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
+using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -15,7 +15,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
@@ -51,17 +51,16 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             listedItem = args.Item as ListedItem;
-            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            SetBackground();
+            TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
+            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
@@ -74,56 +73,14 @@ namespace Files.Views
             }
             else
             {
-                propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
-        }
-
-        private void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "IsAcrylicDisabled":
-                case "FallbackColor":
-                case "TintColor":
-                case "TintOpacity":
-                    SetBackground();
-                    break;
-            }
-        }
-
-        private async void SetBackground()
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var backgroundBrush = new AcrylicBrush()
-                {
-                    AlwaysUseFallback = AppSettings.IsAcrylicDisabled,
-                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-                    FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
-                    TintColor = AppSettings.AcrylicTheme.TintColor,
-                    TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
-                };
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 9))
-                {
-                    backgroundBrush.TintLuminosityOpacity = 0.9;
-                }
-
-                if (!(new AccessibilitySettings()).HighContrast)
-                {
-                    Background = backgroundBrush;
-                }
-                else
-                {
-                    Background = Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] as SolidColorBrush;
-                }
-            });
         }
 
         private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
@@ -135,7 +92,6 @@ namespace Files.Views
         private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             sender.Closed -= PropertiesDialog_Closed;
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
@@ -176,7 +132,6 @@ namespace Files.Views
                             break;
                     }
                 }
-                SetBackground();
             });
         }
 
@@ -185,6 +140,13 @@ namespace Files.Views
             if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
             {
                 await propertiesGeneral.SaveChangesAsync(listedItem);
+            }
+            else if (contentFrame.Content is PropertiesLibrary propertiesLibrary)
+            {
+                if (!await propertiesLibrary.SaveChangesAsync())
+                {
+                    return;
+                }
             }
             else if (contentFrame.Content is PropertiesDetails propertiesDetails)
             {
@@ -250,6 +212,10 @@ namespace Files.Views
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
 
+                case "Library":
+                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
                 case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
@@ -271,6 +237,20 @@ namespace Files.Views
             public CancellationTokenSource tokenSource;
             public object navParameter;
             public IShellPage AppInstanceArgument { get; set; }
+        }
+
+        private void Page_Loading(FrameworkElement sender, object args)
+        {
+            // This manually adds the user's theme resources to the page
+            // I was unable to get this to work any other way
+            try
+            {
+                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
+                App.Current.Resources.MergedDictionaries.Add(xaml);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

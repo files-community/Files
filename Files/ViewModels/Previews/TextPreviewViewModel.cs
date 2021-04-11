@@ -4,7 +4,6 @@ using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -38,7 +37,7 @@ namespace Files.ViewModels.Previews
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
-            if (ExcludedExtensions.Contains(item.FileExtension?.ToLower()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit)
+            if (ExcludedExtensions.Contains(item.FileExtension?.ToLower()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit || item.FileSizeBytes == 0)
             {
                 return null;
             }

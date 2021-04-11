@@ -1,11 +1,11 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
@@ -28,7 +28,6 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
-        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -87,18 +86,154 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private DispatcherQueueTimer tapDebounceTimer;
+
         public GenericFileBrowser()
+            : base()
         {
             InitializeComponent();
-            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
-            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
-
-            tapDebounceTimer = new DispatcherTimer();
 
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
+
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+        }
+
+        protected override void HookEvents()
+        {
+            UnhookEvents();
+            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
+            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
+            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
+            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
+            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
+            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
+            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
+            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
+        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
+        {
+            foreach (ListedItem listedItem in (IEnumerable)AllView.ItemsSource)
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
+            }
+        }
+
+        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
+        {
+            if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
+            {
+                var rows = new List<DataGridRow>();
+                DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
+
+                foreach (DataGridRow row in rows)
+                {
+                    row.CanDrag = SelectedItems.Contains(row.DataContext);
+                }
+            }
+        }
+
+        private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
+        {
+            try
+            {
+                AllView.ScrollIntoView(e, null);
+            }
+            catch (Exception)
+            {
+                // Catch error where row index could not be found
+            }
+        }
+
+        private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (IsItemSelected)
+                {
+                    AllView.CurrentColumn = AllView.Columns[1];
+                    AllView.BeginEdit();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
+            }
+        }
+
+        private void ItemManipulationModel_FocusSelectedItemsInvoked(object sender, EventArgs e)
+        {
+            if (SelectedItems.Any())
+            {
+                AllView.ScrollIntoView(SelectedItems.Last(), null);
+            }
+        }
+
+        private void ItemManipulationModel_AddSelectedItemInvoked(object sender, ListedItem e)
+        {
+            if (((IList<ListedItem>)AllView?.ItemsSource)?.Contains(e) ?? false)
+            {
+                AllView.SelectedItems.Add(e);
+            }
+        }
+
+        private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
+        {
+            List<ListedItem> newSelectedItems = GetAllItems()
+                .Cast<ListedItem>()
+                .Except(SelectedItems)
+                .ToList();
+
+            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+        }
+
+        private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
+        {
+            AllView.SelectedItems.Clear();
+        }
+
+        private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
+        {
+            SelectAllMethod.Invoke(AllView, null);
+        }
+
+        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
+        {
+            AllView.Focus(FocusState.Programmatic);
+        }
+
+        protected override void UnhookEvents()
+        {
+            if (ItemManipulationModel != null)
+            {
+                ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
+                ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
+                ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
+                ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
+                ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
+                ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
+                ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
+                ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+            }
+        }
+
+        protected override void InitializeCommandsViewModel()
+        {
+            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -140,7 +275,7 @@ namespace Files.Views.LayoutModes
         private async void ReloadItemIcons()
         {
             var rows = new List<DataGridRow>();
-            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            DependencyObjectHelpers.FindChildren<DataGridRow>(rows, AllView);
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
@@ -171,66 +306,9 @@ namespace Files.Views.LayoutModes
             RequestedTheme = ThemeHelper.RootTheme;
         }
 
-        protected override void AddSelectedItem(ListedItem item)
-        {
-            AllView.SelectedItems.Add(item);
-        }
-
         protected override IEnumerable GetAllItems()
         {
             return AllView.ItemsSource;
-        }
-
-        public override void SelectAllItems()
-        {
-            SelectAllMethod.Invoke(AllView, null);
-        }
-
-        public override void ClearSelection()
-        {
-            AllView.SelectedItems.Clear();
-        }
-
-        public override void SetDragModeForItems()
-        {
-            if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
-            {
-                var rows = new List<DataGridRow>();
-                Interaction.FindChildren<DataGridRow>(rows, AllView);
-
-                foreach (DataGridRow row in rows)
-                {
-                    row.CanDrag = SelectedItems.Contains(row.DataContext);
-                }
-            }
-        }
-
-        public override void ScrollIntoView(ListedItem item)
-        {
-            AllView.ScrollIntoView(item, null);
-        }
-
-        public override void FocusFileList()
-        {
-            AllView.Focus(FocusState.Programmatic);
-        }
-
-        public override void FocusSelectedItems()
-        {
-            AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
-        }
-
-        public override void StartRenameItem()
-        {
-            try
-            {
-                AllView.CurrentColumn = AllView.Columns[1];
-                AllView.BeginEdit();
-            }
-            catch (InvalidOperationException)
-            {
-                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
-            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -291,7 +369,7 @@ namespace Files.Views.LayoutModes
                 // A tap should never trigger an immediate edit
                 e.Cancel = true;
 
-                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsRunning)
                 {
                     // If we handle a tap in one-click mode or handling a second tap within a timer duration,
                     // just stop the timer (to avoid extra edits).
@@ -302,11 +380,11 @@ namespace Files.Views.LayoutModes
                 {
                     // We have an edit due to the first tap in the double-click mode
                     // Let's wait to see if there is another tap (double click).
+
                     tapDebounceTimer.Debounce(() =>
                     {
                         tapDebounceTimer.Stop();
 
-                        // EditingEventArgs will be null allowing us to know this edit is not originated by tap
                         AllView.BeginEdit();
                     }, TimeSpan.FromMilliseconds(700), false);
                 }
@@ -380,7 +458,7 @@ namespace Files.Views.LayoutModes
             var selectedItem = e.Row.DataContext as ListedItem;
             string newItemName = renamingTextBox.Text;
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(selectedItem, oldItemName, newItemName);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(selectedItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
                 selectedItem.ItemName = oldItemName;
@@ -421,7 +499,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
 
@@ -464,13 +542,13 @@ namespace Files.Views.LayoutModes
                 }
                 else
                 {
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
+                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
                 e.Handled = true;
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -505,26 +583,18 @@ namespace Files.Views.LayoutModes
 
         private void HandleRightClick(object sender, RoutedEventArgs e)
         {
-            var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            if (rowPressed != null)
+            var rowPressed = DependencyObjectHelpers.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var objectPressed = rowPressed == null ? null : ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
+
+            if (rowPressed == null || objectPressed == null)
             {
-                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
-                if (objectPressed == null)
-                {
-                    return;
-                }
-
-                // Check if RightTapped row is currently selected
-                if (IsItemSelected)
-                {
-                    if (SelectedItems.Contains(objectPressed))
-                    {
-                        return;
-                    }
-                }
-
-                // The following code is only reachable when a user RightTapped an unselected row
-                SetSelectedItemOnUi(objectPressed);
+                // Clear the selection if no item was clicked
+                ItemManipulationModel.ClearSelection();
+            }
+            else if (!IsItemSelected || !SelectedItems.Contains(objectPressed))
+            {
+                // Select item if it is not already selected
+                ItemManipulationModel.SetSelectedItem(objectPressed);
             }
         }
 
@@ -537,7 +607,7 @@ namespace Files.Views.LayoutModes
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
                     if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
-                        Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                        DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }
@@ -558,6 +628,7 @@ namespace Files.Views.LayoutModes
                 item.ItemPropertiesInitialized = true;
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
             }
+            e.Row.ContextFlyout = ItemContextMenuFlyout;
         }
 
         protected override ListedItem GetItemFromElement(object element)
@@ -595,6 +666,7 @@ namespace Files.Views.LayoutModes
                 case "dateDeletedColumn":
                     args = new DataGridColumnEventArgs(dateDeletedColumn);
                     break;
+
                 case "dateCreatedColumn":
                     args = new DataGridColumnEventArgs(dateCreatedColumn);
                     break;
@@ -621,7 +693,17 @@ namespace Files.Views.LayoutModes
         private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+            NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            UnhookEvents();
+            CommandsViewModel?.Dispose();
+        }
+
+        #endregion IDisposable
     }
 }

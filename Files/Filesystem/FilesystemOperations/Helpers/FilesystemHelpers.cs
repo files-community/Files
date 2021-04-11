@@ -1,10 +1,13 @@
-﻿using Files.Dialogs;
+﻿using Files.DataModels;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Interacts;
 using Files.UserControls;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +17,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -27,6 +32,8 @@ namespace Files.Filesystem
         private IShellPage associatedInstance;
 
         private IFilesystemOperations filesystemOperations;
+
+        private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
         private RecycleBinHelpers recycleBinHelpers;
 
@@ -55,8 +62,8 @@ namespace Files.Filesystem
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            filesystemOperations = new FilesystemOperations(this.associatedInstance);
-            recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            this.filesystemOperations = new FilesystemOperations(this.associatedInstance);
+            this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
         #endregion Constructor
@@ -90,7 +97,7 @@ namespace Files.Filesystem
             PostedStatusBanner banner;
             if (permanently)
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -98,7 +105,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -114,26 +121,31 @@ namespace Files.Filesystem
             {
                 var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
 
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                for (int i = 0; i < source.Count(); i++)
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
+                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null));
                 }
-                await dialog.ShowAsync();
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected items if the result is Yes
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
+
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (result != ContentDialogResult.Primary)
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                // Delete selected items if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
 
             var sw = new Stopwatch();
@@ -198,7 +210,7 @@ namespace Files.Filesystem
 
             if (permanently)
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -206,7 +218,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -218,26 +230,29 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    permanently,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
-
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
+                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
+                };
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
+
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (result != ContentDialogResult.Primary)
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                // Delete selected item if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
 
             var sw = new Stopwatch();
@@ -276,7 +291,7 @@ namespace Files.Filesystem
 
             if (permanently)
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -284,7 +299,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -296,26 +311,29 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    permanently,
-                    associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
-
-                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
+                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
+                };
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
+
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (result != ContentDialogResult.Primary)
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                // Delete selected item if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
 
             var sw = new Stopwatch();
@@ -358,6 +376,7 @@ namespace Files.Filesystem
         public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
                                                                   DataPackageView packageView,
                                                                   string destination,
+                                                                  bool showDialog,
                                                                   bool registerHistory)
         {
             try
@@ -368,11 +387,11 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.Copy))
                 {
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                    return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Move))
                 {
-                    return await MoveItemsFromClipboard(packageView, destination, registerHistory);
+                    return await MoveItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Link))
                 {
@@ -381,7 +400,7 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.None))
                 {
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                    return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else
                 {
@@ -396,19 +415,19 @@ namespace Files.Filesystem
 
         #region Copy
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory);
+            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
         {
-            return await CopyItemAsync(source.FromStorageItem(), destination, registerHistory);
+            return await CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -418,22 +437,34 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.ContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await filesystemOperations.CopyAsync(
-                    source.ElementAt(i),
-                    destination.ElementAt(i),
-                    null,
-                    banner.ErrorCode,
-                    cancellationToken));
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await filesystemOperations.CopyAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        banner.ErrorCode,
+                        cancellationToken));
+                }
 
                 progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
@@ -457,9 +488,9 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                    "Copy Complete",
-                    "The operation has completed.",
+                associatedInstance.StatusCenterActions.PostBanner(
+                    "StatusCopyComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Copy);
@@ -468,9 +499,9 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -480,12 +511,30 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
+            itemManipulationModel.ClearSelection();
+
+            IStorageHistory history = null;
+            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
+            {
+                history = await filesystemOperations.CopyAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+            }
+            else
+            {
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+                return ReturnResult.Cancelled;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -497,9 +546,9 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                    "Copy Complete",
-                    "The operation has completed.",
+                associatedInstance.StatusCenterActions.PostBanner(
+                    "StatusCopyComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Copy);
@@ -508,7 +557,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -534,7 +583,7 @@ namespace Files.Filesystem
                     destinations.Add(Path.Combine(destination, item.Name));
                 }
 
-                returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+                returnStatus = await CopyItemsAsync(source, destinations, showDialog, registerHistory);
 
                 return returnStatus;
             }
@@ -568,19 +617,19 @@ namespace Files.Filesystem
 
         #region Move
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory);
+            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
         {
-            return await MoveItemAsync(source.FromStorageItem(), destination, registerHistory);
+            return await MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -590,22 +639,34 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
             var rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.ContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await filesystemOperations.MoveAsync(
-                    source.ElementAt(i),
-                    destination.ElementAt(i),
-                    null,
-                    banner.ErrorCode,
-                    cancellationToken));
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await filesystemOperations.MoveAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        banner.ErrorCode,
+                        cancellationToken));
+                }
 
                 progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
@@ -629,9 +690,9 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                    "Move Complete",
-                    "The operation has completed.",
+                associatedInstance.StatusCenterActions.PostBanner(
+                    "StatusMoveComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Move);
@@ -640,9 +701,9 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -652,12 +713,37 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
+            itemManipulationModel.ClearSelection();
+
+            IStorageHistory history = null;
+
+            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
+            {
+                history = await filesystemOperations.MoveAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+            }
+            else
+            {
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+                return ReturnResult.Cancelled;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -669,9 +755,9 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                    "Move Complete",
-                    "The operation has completed.",
+                associatedInstance.StatusCenterActions.PostBanner(
+                    "StatusMoveComplete".GetLocalized(),
+                    "StatusOperationCompleted".GetLocalized(),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Move);
@@ -680,7 +766,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -711,7 +797,7 @@ namespace Files.Filesystem
                 destinations.Add(Path.Combine(destination, item.Name));
             }
 
-            returnStatus = await MoveItemsAsync(source, destinations, registerHistory);
+            returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
 
             return returnStatus;
         }
@@ -793,6 +879,71 @@ namespace Files.Filesystem
         #endregion Rename
 
         #endregion IFilesystemHelpers
+
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        {
+            List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
+            List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
+
+            Dictionary<string, FileNameConflictResolveOptionType> collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
+                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.None);
+
+                if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
+                {
+                    conflictingItems.Add(incomingItems.ElementAt(i));
+                }
+            }
+
+            bool mustResolveConflicts = conflictingItems.Count > 0;
+
+            if (mustResolveConflicts || forceDialog)
+            {
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    operationType,
+                    mustResolveConflicts,
+                    false,
+                    false,
+                    incomingItems,
+                    conflictingItems));
+
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (mustResolveConflicts) // If there were conflicts, result buttons are different
+                {
+                    if (result != ContentDialogResult.Primary && result != ContentDialogResult.Secondary) // Operation was cancelled
+                    {
+                        return (new List<FileNameConflictResolveOptionType>(), true);
+                    }
+                }
+
+                collisions.Clear();
+                List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
+                foreach (var item in itemsResult)
+                {
+                    collisions.Add(item.SourcePath, item.ConflictResolveOption);
+                }
+            }
+
+            // Since collisions are scrambled, we need to sort them PATH--PATH
+            List<FileNameConflictResolveOptionType> newCollisions = new List<FileNameConflictResolveOptionType>();
+
+            for (int i = 0; i < collisions.Count; i++)
+            {
+                for (int j = 0; j < source.Count(); j++)
+                {
+                    if (collisions.ElementAt(i).Key == (source.ElementAt(j).Path ?? source.ElementAt(j).Item.Path))
+                    {
+                        newCollisions.Add(collisions.ElementAt(j).Value);
+                    }
+                }
+            }
+
+            return (newCollisions, false);
+        }
 
         #region Public Helpers
 
@@ -923,6 +1074,20 @@ namespace Files.Filesystem
             }
 
             return false;
+        }
+
+        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection serviceConnection)
+        {
+            Debug.WriteLine("Launching shell command in FullTrustProcess");
+            if (serviceConnection != null)
+            {
+                ValueSet value = new ValueSet()
+                {
+                    { "ShellCommand", shellCommand },
+                    { "Arguments", "ShellCommand" }
+                };
+                await serviceConnection.SendMessageAsync(value);
+            }
         }
 
         #endregion Public Helpers

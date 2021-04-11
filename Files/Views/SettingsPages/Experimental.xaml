@@ -37,7 +37,7 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsShowFileOwnerInProperties"
-                    Header="Show Owner in properties"
+                    Header="Show item owner in properties"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowFileOwner, Mode=TwoWay}" />
 

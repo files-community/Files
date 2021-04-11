@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Files.Views
 {
@@ -48,7 +47,7 @@ namespace Files.Views
                 {
                     // Attempting to open more than one ContentDialog
                     // at a time will throw an error)
-                    if (Interacts.Interaction.IsAnyContentDialogOpen())
+                    if (UIHelpers.IsAnyContentDialogOpen())
                     {
                         return false;
                     }

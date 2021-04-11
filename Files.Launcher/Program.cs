@@ -7,15 +7,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -41,14 +43,6 @@ namespace FilesFullTrust
                 return;
             }
 
-            // Only one instance of the fulltrust process allowed
-            // This happens if multiple instances of the UWP app are launched
-            using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
-            if (!isNew)
-            {
-                return;
-            }
-
             try
             {
                 // Create handle table to store e.g. context menu references
@@ -61,7 +55,7 @@ namespace FilesFullTrust
                 // Create filesystem watcher to monitor recycle bin folder(s)
                 // SHChangeNotifyRegister only works if recycle bin is open in explorer :(
                 binWatchers = new List<FileSystemWatcher>();
-                var sid = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
+                var sid = WindowsIdentity.GetCurrent().User.ToString();
                 foreach (var drive in DriveInfo.GetDrives())
                 {
                     var recyclePath = Path.Combine(drive.Name, "$Recycle.Bin", sid);
@@ -75,11 +69,25 @@ namespace FilesFullTrust
                         Filter = "*.*",
                         NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
                     };
-                    watcher.Created += Watcher_Changed;
-                    watcher.Deleted += Watcher_Changed;
+                    watcher.Created += RecycleBinWatcher_Changed;
+                    watcher.Deleted += RecycleBinWatcher_Changed;
                     watcher.EnableRaisingEvents = true;
                     binWatchers.Add(watcher);
                 }
+
+                librariesWatcher = new FileSystemWatcher
+                {
+                    Path = librariesPath,
+                    Filter = "*" + ShellLibraryItem.EXTENSION,
+                    NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
+                    IncludeSubdirectories = false,
+                };
+
+                librariesWatcher.Created += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
+                librariesWatcher.Changed += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, e.FullPath);
+                librariesWatcher.Deleted += (object _, FileSystemEventArgs e) => OnLibraryChanged(e.ChangeType, e.FullPath, null);
+                librariesWatcher.Renamed += (object _, RenamedEventArgs e) => OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
+                librariesWatcher.EnableRaisingEvents = true;
 
                 // Preload context menu for better performance
                 // We query the context menu for the app's local folder
@@ -109,10 +117,10 @@ namespace FilesFullTrust
                 }
                 handleTable?.Dispose();
                 deviceWatcher?.Dispose();
+                librariesWatcher?.Dispose();
                 cancellation?.Cancel();
                 cancellation?.Dispose();
                 appServiceExit?.Dispose();
-                mutex?.ReleaseMutex();
             }
         }
 
@@ -122,7 +130,7 @@ namespace FilesFullTrust
             Logger.Error(exception, exception.Message);
         }
 
-        private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
+        private static async void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
             if (e.Name.StartsWith("$I"))
@@ -130,7 +138,7 @@ namespace FilesFullTrust
                 // Recycle bin also stores a file starting with $I for each item
                 return;
             }
-            if (connection != null)
+            if (connection?.IsConnected ?? false)
             {
                 var response = new ValueSet()
                 {
@@ -145,121 +153,198 @@ namespace FilesFullTrust
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
                 // Send message to UWP app to refresh items
-                await connection.SendMessageAsync(response);
+                await Win32API.SendMessageAsync(connection, response);
             }
         }
 
-        private static AppServiceConnection connection;
+        private static NamedPipeServerStream connection;
         private static AutoResetEvent appServiceExit;
         private static CancellationTokenSource cancellation;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
+        private static FileSystemWatcher librariesWatcher;
+        private static readonly string librariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         private static async void InitializeAppServiceConnection()
         {
-            connection = new AppServiceConnection();
-            connection.AppServiceName = "FilesInteropService";
-            connection.PackageFamilyName = Package.Current.Id.FamilyName;
-            connection.RequestReceived += Connection_RequestReceived;
-            connection.ServiceClosed += Connection_ServiceClosed;
+            connection = new NamedPipeServerStream($@"FilesInteropService_ServerPipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Message, PipeOptions.Asynchronous, 2048, 2048, null, HandleInheritability.None, PipeAccessRights.ChangePermissions);
 
-            AppServiceConnectionStatus status = await connection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
+            PipeSecurity Security = connection.GetAccessControl();
+            PipeAccessRule ClientRule = new PipeAccessRule(new SecurityIdentifier("S-1-15-2-1"), PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance, AccessControlType.Allow);
+            PipeAccessRule OwnerRule = new PipeAccessRule(WindowsIdentity.GetCurrent().Owner, PipeAccessRights.FullControl, AccessControlType.Allow);
+            Security.AddAccessRule(ClientRule);
+            Security.AddAccessRule(OwnerRule);
+            if (IsAdministrator())
             {
-                // TODO: error handling
-                connection?.Dispose();
-                connection = null;
+                PipeAccessRule EveryoneRule = new PipeAccessRule(new SecurityIdentifier("S-1-1-0"), PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance, AccessControlType.Allow);
+                Security.AddAccessRule(EveryoneRule); // TODO: find the minimum permission to allow connection when admin
+            }
+            connection.SetAccessControl(Security);
+
+            await connection.WaitForConnectionAsync();
+
+            if (connection.IsConnected)
+            {
+                var info = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
+                BeginRead(info);
             }
         }
 
-        private static async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        private static void BeginRead((byte[] Buffer, StringBuilder Message) info)
+        {
+            var isConnected = connection.IsConnected;
+            if (isConnected)
+            {
+                try
+                {
+                    connection.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
+                }
+                catch
+                {
+                    isConnected = false;
+                }
+            }
+            if (!isConnected)
+            {
+                appServiceExit.Set();
+            }
+        }
+
+        private static void EndReadCallBack(IAsyncResult result)
+        {
+            var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
+            var readBytes = connection.EndRead(result);
+            if (readBytes > 0)
+            {
+                // Get the read bytes and append them
+                info.Message.Append(Encoding.UTF8.GetString(info.Buffer, 0, readBytes));
+
+                if (connection.IsMessageComplete) // Message is completed
+                {
+                    var message = info.Message.ToString().TrimEnd('\0');
+
+                    Connection_RequestReceived(connection, JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+
+                    // Begin a new reading operation
+                    var nextInfo = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
+                    BeginRead(nextInfo);
+
+                    return;
+                }
+            }
+            BeginRead(info);
+        }
+
+        private static async void Connection_RequestReceived(NamedPipeServerStream conn, Dictionary<string, object> message)
         {
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
-            var messageDeferral = args.GetDeferral();
-            if (args.Request.Message == null)
+            if (message == null)
             {
-                messageDeferral.Complete();
                 return;
             }
 
-            try
+            if (message.ContainsKey("Arguments"))
             {
-                if (args.Request.Message.ContainsKey("Arguments"))
-                {
-                    // This replaces launching the fulltrust process with arguments
-                    // Instead a single instance of the process is running
-                    // Requests from UWP app are sent via AppService connection
-                    var arguments = (string)args.Request.Message["Arguments"];
-                    var localSettings = ApplicationData.Current.LocalSettings;
-                    Logger.Info($"Argument: {arguments}");
+                // This replaces launching the fulltrust process with arguments
+                // Instead a single instance of the process is running
+                // Requests from UWP app are sent via AppService connection
+                var arguments = (string)message["Arguments"];
+                var localSettings = ApplicationData.Current.LocalSettings;
+                Logger.Info($"Argument: {arguments}");
 
-                    await ParseArgumentsAsync(args, messageDeferral, arguments, localSettings);
-                }
-                else if (args.Request.Message.ContainsKey("Application"))
-                {
-                    var application = (string)args.Request.Message["Application"];
-                    HandleApplicationLaunch(application, args);
-                }
-                else if (args.Request.Message.ContainsKey("ApplicationList"))
-                {
-                    var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)args.Request.Message["ApplicationList"]);
-                    HandleApplicationsLaunch(applicationList, args);
-                }
+                await ParseArgumentsAsync(message, arguments, localSettings);
             }
-            finally
+            else if (message.ContainsKey("Application"))
             {
-                // Complete the deferral so that the platform knows that we're done responding to the app service call.
-                // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-                messageDeferral.Complete();
+                var application = (string)message["Application"];
+                HandleApplicationLaunch(application, message);
+            }
+            else if (message.ContainsKey("ApplicationList"))
+            {
+                var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
+                HandleApplicationsLaunch(applicationList, message);
             }
         }
 
-        private static async Task ParseArgumentsAsync(AppServiceRequestReceivedEventArgs args, AppServiceDeferral messageDeferral, string arguments, ApplicationDataContainer localSettings)
+        private static bool IsAdministrator()
+        {
+            using var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        private static async Task ParseArgumentsAsync(Dictionary<string, object> message, string arguments, ApplicationDataContainer localSettings)
         {
             switch (arguments)
             {
                 case "Terminate":
                     // Exit fulltrust process (UWP is closed or suspended)
                     appServiceExit.Set();
-                    messageDeferral.Complete();
+                    break;
+
+                case "Elevate":
+                    // Relaunch fulltrust process as admin
+                    if (!IsAdministrator())
+                    {
+                        try
+                        {
+                            using (Process elevatedProcess = new Process())
+                            {
+                                elevatedProcess.StartInfo.Verb = "runas";
+                                elevatedProcess.StartInfo.UseShellExecute = true;
+                                elevatedProcess.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+                                elevatedProcess.StartInfo.Arguments = "elevate";
+                                elevatedProcess.Start();
+                            }
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 0 } }, message.Get("RequestID", (string)null));
+                            appServiceExit.Set();
+                        }
+                        catch (Win32Exception)
+                        {
+                            // If user cancels UAC
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 1 } }, message.Get("RequestID", (string)null));
+                        }
+                    }
+                    else
+                    {
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", -1 } }, message.Get("RequestID", (string)null));
+                    }
                     break;
 
                 case "RecycleBin":
-                    var binAction = (string)args.Request.Message["action"];
-                    await ParseRecycleBinActionAsync(args, binAction);
+                    var binAction = (string)message["action"];
+                    await ParseRecycleBinActionAsync(message, binAction);
                     break;
 
                 case "DetectQuickLook":
                     // Check QuickLook Availability
                     var available = QuickLook.CheckQuickLookAvailability();
-                    await args.Request.SendResponseAsync(new ValueSet()
-                    {
-                        { "IsAvailable", available }
-                    });
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "IsAvailable", available } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "ToggleQuickLook":
-                    var path = (string)args.Request.Message["path"];
+                    var path = (string)message["path"];
                     QuickLook.ToggleQuickLook(path);
                     break;
 
                 case "LoadContextMenu":
                     var contextMenuResponse = new ValueSet();
-                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
-                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<Win32API.ContextMenu>(args.Request.Message);
+                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<Dictionary<string, object>>(HandleMenuMessage);
+                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<Win32API.ContextMenu>(message);
                     contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
                     contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
-                    await args.Request.SendResponseAsync(contextMenuResponse);
+                    var serializedCm = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(contextMenuResponse));
+                    await Win32API.SendMessageAsync(connection, contextMenuResponse, message.Get("RequestID", (string)null));
                     break;
 
                 case "ExecAndCloseContextMenu":
-                    var menuKey = (string)args.Request.Message["Handle"];
-                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<ValueSet>>(menuKey);
+                    var menuKey = (string)message["Handle"];
+                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<Dictionary<string, object>>>(menuKey);
                     if (execThreadWithMessageQueue != null)
                     {
-                        await execThreadWithMessageQueue.PostMessage(args.Request.Message);
+                        await execThreadWithMessageQueue.PostMessage(message);
                     }
                     // The following line is needed to cleanup resources when menu is closed.
                     // Unfortunately if you uncomment it some menu items will randomly stop working.
@@ -269,49 +354,49 @@ namespace FilesFullTrust
                     break;
 
                 case "InvokeVerb":
-                    var filePath = (string)args.Request.Message["FilePath"];
+                    var filePath = (string)message["FilePath"];
                     var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
                     using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
                     {
-                        cMenu?.InvokeVerb((string)args.Request.Message["Verb"]);
+                        cMenu?.InvokeVerb((string)message["Verb"]);
                     }
                     break;
 
                 case "Bitlocker":
-                    var bitlockerAction = (string)args.Request.Message["action"];
+                    var bitlockerAction = (string)message["action"];
                     if (bitlockerAction == "Unlock")
                     {
-                        var drive = (string)args.Request.Message["drive"];
-                        var password = (string)args.Request.Message["password"];
+                        var drive = (string)message["drive"];
+                        var password = (string)message["password"];
                         Win32API.UnlockBitlockerDrive(drive, password);
-                        await args.Request.SendResponseAsync(new ValueSet() { { "Bitlocker", "Unlock" } });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Bitlocker", "Unlock" } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
                 case "SetVolumeLabel":
-                    var driveName = (string)args.Request.Message["drivename"];
-                    var newLabel = (string)args.Request.Message["newlabel"];
+                    var driveName = (string)message["drivename"];
+                    var newLabel = (string)message["newlabel"];
                     Win32API.SetVolumeLabel(driveName, newLabel);
                     break;
 
                 case "FileOperation":
-                    await ParseFileOperationAsync(args);
+                    await ParseFileOperationAsync(message);
                     break;
 
                 case "GetIconOverlay":
-                    var fileIconPath = (string)args.Request.Message["filePath"];
-                    var thumbnailSize = (int)args.Request.Message["thumbnailSize"];
+                    var fileIconPath = (string)message["filePath"];
+                    var thumbnailSize = (int)(long)message["thumbnailSize"];
                     var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize)).Result;
-                    await args.Request.SendResponseAsync(new ValueSet()
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },
                         { "Overlay", iconOverlay.overlay },
                         { "HasCustomIcon", iconOverlay.isCustom }
-                    });
+                    }, message.Get("RequestID", (string)null));
                     break;
 
                 case "NetworkDriveOperation":
-                    await ParseNetworkDriveOperationAsync(args);
+                    await ParseNetworkDriveOperationAsync(message);
                     break;
 
                 case "GetOneDriveAccounts":
@@ -321,7 +406,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Count", 0 } }, message.Get("RequestID", (string)null));
                             return;
                         }
 
@@ -338,11 +423,11 @@ namespace FilesFullTrust
                             }
                         }
                         oneDriveAccounts.Add("Count", oneDriveAccounts.Count);
-                        await args.Request.SendResponseAsync(oneDriveAccounts);
+                        await Win32API.SendMessageAsync(connection, oneDriveAccounts, message.Get("RequestID", (string)null));
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Count", 0 } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
@@ -353,7 +438,7 @@ namespace FilesFullTrust
 
                         if (oneDriveAccountsKey == null)
                         {
-                            await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Count", 0 } }, message.Get("RequestID", (string)null));
                             return;
                         }
 
@@ -388,7 +473,7 @@ namespace FilesFullTrust
 
                             foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
                             {
-                                var parentFolder = System.IO.Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
+                                var parentFolder = Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
                                 if (!sharepointAccounts.Any(acc => string.Equals(acc.Key, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
                                 {
                                     sharepointAccounts.Add(accountName, parentFolder);
@@ -397,17 +482,17 @@ namespace FilesFullTrust
                         }
 
                         sharepointAccounts.Add("Count", sharepointAccounts.Count);
-                        await args.Request.SendResponseAsync(sharepointAccounts);
+                        await Win32API.SendMessageAsync(connection, sharepointAccounts, message.Get("RequestID", (string)null));
                     }
                     catch
                     {
-                        await args.Request.SendResponseAsync(new ValueSet() { { "Count", 0 } });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Count", 0 } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
                 case "ShellFolder":
                     // Enumerate shell folder contents and send response to UWP
-                    var folderPath = (string)args.Request.Message["folder"];
+                    var folderPath = (string)message["folder"];
                     var responseEnum = new ValueSet();
                     var folderContentsList = await Win32API.StartSTATask(() =>
                     {
@@ -440,27 +525,187 @@ namespace FilesFullTrust
                         return flc;
                     });
                     responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
-                    await args.Request.SendResponseAsync(responseEnum);
+                    await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
+                    break;
+
+                case "ShellLibrary":
+                    await HandleShellLibraryMessage(message);
                     break;
 
                 default:
-                    if (args.Request.Message.ContainsKey("Application"))
+                    if (message.ContainsKey("Application"))
                     {
-                        var application = (string)args.Request.Message["Application"];
-                        HandleApplicationLaunch(application, args);
+                        var application = (string)message["Application"];
+                        HandleApplicationLaunch(application, message);
                     }
-                    else if (args.Request.Message.ContainsKey("ApplicationList"))
+                    else if (message.ContainsKey("ApplicationList"))
                     {
-                        var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)args.Request.Message["ApplicationList"]);
-                        HandleApplicationsLaunch(applicationList, args);
+                        var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
+                        HandleApplicationsLaunch(applicationList, message);
                     }
                     break;
             }
         }
 
-        private static async Task ParseNetworkDriveOperationAsync(AppServiceRequestReceivedEventArgs args)
+        private static async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
         {
-            switch (args.Request.Message.Get("netdriveop", ""))
+            if (newPath != null && (!newPath.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || !File.Exists(newPath)))
+            {
+                Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
+                return;
+            }
+
+            Debug.WriteLine($"Library event: {changeType}, {oldPath} -> {newPath}");
+
+            if (connection?.IsConnected ?? false)
+            {
+                var response = new ValueSet { { "Library", newPath ?? oldPath } };
+                switch (changeType)
+                {
+                    case WatcherChangeTypes.Deleted:
+                    case WatcherChangeTypes.Renamed:
+                        response["OldPath"] = oldPath;
+                        break;
+
+                    default:
+                        break;
+                }
+                if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
+                {
+                    var library = ShellItem.Open(newPath) as ShellLibrary;
+                    if (library == null)
+                    {
+                        Logger.Error($"Failed to open library after {changeType}: {newPath}");
+                        return;
+                    }
+                    response["Item"] = JsonConvert.SerializeObject(GetShellLibraryItem(library, newPath));
+                    library.Dispose();
+                }
+                // Send message to UWP app to refresh items
+                await Win32API.SendMessageAsync(connection, response);
+            }
+        }
+
+        private static async Task HandleShellLibraryMessage(Dictionary<string, object> message)
+        {
+            switch ((string)message["action"])
+            {
+                case "Enumerate":
+                    // Read library information and send response to UWP
+                    var enumerateResponse = await Win32API.StartSTATask(() =>
+                    {
+                        var response = new ValueSet();
+                        try
+                        {
+                            var libraryItems = new List<ShellLibraryItem>();
+                            // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+                            var libFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
+                            foreach (var libFile in libFiles)
+                            {
+                                using var shellItem = ShellItem.Open(libFile);
+                                if (shellItem is ShellLibrary library)
+                                {
+                                    libraryItems.Add(GetShellLibraryItem(library, libFile));
+                                }
+                            }
+                            response.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e);
+                        }
+                        return response;
+                    });
+                    await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", (string)null));
+                    break;
+
+                case "Create":
+                    // Try create new library with the specified name and send response to UWP
+                    var createResponse = await Win32API.StartSTATask(() =>
+                    {
+                        var response = new ValueSet();
+                        try
+                        {
+                            using var library = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                            response.Add("Create", JsonConvert.SerializeObject(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e);
+                        }
+                        return response;
+                    });
+                    await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
+                    break;
+
+                case "Update":
+                    // Update details of the specified library and send response to UWP
+                    var updateResponse = await Win32API.StartSTATask(() =>
+                    {
+                        var response = new ValueSet();
+                        try
+                        {
+                            var folders = message.ContainsKey("folders") ? JsonConvert.DeserializeObject<string[]>((string)message["folders"]) : null;
+                            var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
+                            var isPinned = message.Get("isPinned", (bool?)null);
+
+                            bool updated = false;
+                            var libPath = (string)message["library"];
+                            using var library = ShellItem.Open(libPath) as ShellLibrary;
+                            if (folders != null)
+                            {
+                                if (folders.Length > 0)
+                                {
+                                    var foldersToRemove = library.Folders.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)));
+                                    foreach (var toRemove in foldersToRemove)
+                                    {
+                                        library.Folders.Remove(toRemove);
+                                        updated = true;
+                                    }
+                                    var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
+                                                              .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+                                                              .Select(ShellItem.Open);
+                                    foreach (var toAdd in foldersToAdd)
+                                    {
+                                        library.Folders.Add(toAdd);
+                                        updated = true;
+                                    }
+                                    foreach (var toAdd in foldersToAdd)
+                                    {
+                                        toAdd.Dispose();
+                                    }
+                                }
+                            }
+                            if (defaultSaveFolder != null)
+                            {
+                                library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
+                                updated = true;
+                            }
+                            if (isPinned != null)
+                            {
+                                library.PinnedToNavigationPane = isPinned == true;
+                                updated = true;
+                            }
+                            if (updated)
+                            {
+                                library.Commit();
+                                response.Add("Update", JsonConvert.SerializeObject(GetShellLibraryItem(library, libPath)));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e);
+                        }
+                        return response;
+                    });
+                    await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
+                    break;
+            }
+        }
+
+        private static async Task ParseNetworkDriveOperationAsync(Dictionary<string, object> message)
+        {
+            switch (message.Get("netdriveop", ""))
             {
                 case "GetNetworkLocations":
                     var networkLocations = await Win32API.StartSTATask(() =>
@@ -480,7 +725,7 @@ namespace FilesFullTrust
                         return netl;
                     });
                     networkLocations.Add("Count", networkLocations.Count);
-                    await args.Request.SendResponseAsync(networkLocations);
+                    await Win32API.SendMessageAsync(connection, networkLocations, message.Get("RequestID", (string)null));
                     break;
 
                 case "OpenMapNetworkDriveDialog":
@@ -488,13 +733,13 @@ namespace FilesFullTrust
                     break;
 
                 case "DisconnectNetworkDrive":
-                    var drivePath = (string)args.Request.Message["drive"];
+                    var drivePath = (string)message["drive"];
                     NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }
         }
 
-        private static object HandleMenuMessage(ValueSet message, Win32API.DisposableDictionary table)
+        private static object HandleMenuMessage(Dictionary<string, object> message, Win32API.DisposableDictionary table)
         {
             switch (message.Get("Arguments", ""))
             {
@@ -521,7 +766,7 @@ namespace FilesFullTrust
                                 break;
 
                             default:
-                                cMenuExec?.InvokeItem((int)menuId);
+                                cMenuExec?.InvokeItem((int)(long)menuId);
                                 break;
                         }
                     }
@@ -559,16 +804,16 @@ namespace FilesFullTrust
             return filterMenuItemsImpl;
         }
 
-        private static async Task ParseFileOperationAsync(AppServiceRequestReceivedEventArgs args)
+        private static async Task ParseFileOperationAsync(Dictionary<string, object> message)
         {
-            switch (args.Request.Message.Get("fileop", ""))
+            switch (message.Get("fileop", ""))
             {
                 case "Clipboard":
                     await Win32API.StartSTATask(() =>
                     {
                         System.Windows.Forms.Clipboard.Clear();
-                        var fileToCopy = (string)args.Request.Message["filepath"];
-                        var operation = (DataPackageOperation)(int)args.Request.Message["operation"];
+                        var fileToCopy = (string)message["filepath"];
+                        var operation = (DataPackageOperation)(long)message["operation"];
                         var fileList = new System.Collections.Specialized.StringCollection();
                         fileList.AddRange(fileToCopy.Split('|'));
                         if (operation == DataPackageOperation.Copy)
@@ -593,8 +838,8 @@ namespace FilesFullTrust
                     cancellation.Cancel();
                     cancellation.Dispose();
                     cancellation = new CancellationTokenSource();
-                    var dropPath = (string)args.Request.Message["droppath"];
-                    var dropText = (string)args.Request.Message["droptext"];
+                    var dropPath = (string)message["droppath"];
+                    var dropText = (string)message["droptext"];
                     var drops = Win32API.StartSTATask<List<string>>(() =>
                     {
                         var form = new DragDropForm(dropPath, dropText, cancellation.Token);
@@ -604,8 +849,8 @@ namespace FilesFullTrust
                     break;
 
                 case "DeleteItem":
-                    var fileToDeletePath = (string)args.Request.Message["filepath"];
-                    var permanently = (bool)args.Request.Message["permanently"];
+                    var fileToDeletePath = (string)message["filepath"];
+                    var permanently = (bool)message["permanently"];
                     using (var op = new ShellFileOperations())
                     {
                         op.Options = ShellFileOperations.OperationFlags.NoUI;
@@ -619,26 +864,25 @@ namespace FilesFullTrust
                         op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
                         op.PerformOperations();
                         var result = await deleteTcs.Task;
-                        await args.Request.SendResponseAsync(new ValueSet() {
-                            { "Success", result } });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
                 case "ParseLink":
-                    var linkPath = (string)args.Request.Message["filepath"];
+                    var linkPath = (string)message["filepath"];
                     try
                     {
                         if (linkPath.EndsWith(".lnk"))
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                            await args.Request.SendResponseAsync(new ValueSet()
-                                {
-                                    { "TargetPath", link.TargetPath },
-                                    { "Arguments", link.Arguments },
-                                    { "WorkingDirectory", link.WorkingDirectory },
-                                    { "RunAsAdmin", link.RunAsAdministrator },
-                                    { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
-                                });
+                            await Win32API.SendMessageAsync(connection, new ValueSet()
+                            {
+                                { "TargetPath", link.TargetPath },
+                                { "Arguments", link.Arguments },
+                                { "WorkingDirectory", link.WorkingDirectory },
+                                { "RunAsAdmin", link.RunAsAdministrator },
+                                { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
+                            }, message.Get("RequestID", (string)null));
                         }
                         else if (linkPath.EndsWith(".url"))
                         {
@@ -649,40 +893,40 @@ namespace FilesFullTrust
                                 ipf.GetUrl(out var retVal);
                                 return retVal;
                             });
-                            await args.Request.SendResponseAsync(new ValueSet()
-                                {
-                                    { "TargetPath", linkUrl },
-                                    { "Arguments", null },
-                                    { "WorkingDirectory", null },
-                                    { "RunAsAdmin", false },
-                                    { "IsFolder", false }
-                                });
+                            await Win32API.SendMessageAsync(connection, new ValueSet()
+                            {
+                                { "TargetPath", linkUrl },
+                                { "Arguments", null },
+                                { "WorkingDirectory", null },
+                                { "RunAsAdmin", false },
+                                { "IsFolder", false }
+                            }, message.Get("RequestID", (string)null));
                         }
                     }
                     catch (Exception ex)
                     {
                         // Could not parse shortcut
                         Logger.Warn(ex, ex.Message);
-                        await args.Request.SendResponseAsync(new ValueSet()
+                        await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
                                 { "TargetPath", null },
                                 { "Arguments", null },
                                 { "WorkingDirectory", null },
                                 { "RunAsAdmin", false },
                                 { "IsFolder", false }
-                            });
+                            }, message.Get("RequestID", (string)null));
                     }
                     break;
 
                 case "CreateLink":
                 case "UpdateLink":
-                    var linkSavePath = (string)args.Request.Message["filepath"];
-                    var targetPath = (string)args.Request.Message["targetpath"];
+                    var linkSavePath = (string)message["filepath"];
+                    var targetPath = (string)message["targetpath"];
                     if (linkSavePath.EndsWith(".lnk"))
                     {
-                        var arguments = (string)args.Request.Message["arguments"];
-                        var workingDirectory = (string)args.Request.Message["workingdir"];
-                        var runAsAdmin = (bool)args.Request.Message["runasadmin"];
+                        var arguments = (string)message["arguments"];
+                        var workingDirectory = (string)message["workingdir"];
+                        var runAsAdmin = (bool)message["runasadmin"];
                         using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
                         newLink.RunAsAdministrator = runAsAdmin;
                         newLink.SaveAs(linkSavePath); // Overwrite if exists
@@ -701,7 +945,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static async Task ParseRecycleBinActionAsync(AppServiceRequestReceivedEventArgs args, string action)
+        private static async Task ParseRecycleBinActionAsync(Dictionary<string, object> message, string action)
         {
             switch (action)
             {
@@ -721,13 +965,32 @@ namespace FilesFullTrust
                         var binSize = queryBinInfo.i64Size;
                         responseQuery.Add("NumItems", numItems);
                         responseQuery.Add("BinSize", binSize);
-                        await args.Request.SendResponseAsync(responseQuery);
+                        await Win32API.SendMessageAsync(connection, responseQuery, message.Get("RequestID", (string)null));
                     }
                     break;
 
                 default:
                     break;
             }
+        }
+
+        private static ShellLibraryItem GetShellLibraryItem(ShellLibrary library, string filePath)
+        {
+            var libraryItem = new ShellLibraryItem
+            {
+                FullPath = filePath,
+                AbsolutePath = library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing),
+                RelativePath = library.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing),
+                DisplayName = library.GetDisplayName(ShellItemDisplayString.NormalDisplay),
+                IsPinned = library.PinnedToNavigationPane,
+            };
+            var folders = library.Folders;
+            if (folders.Count > 0)
+            {
+                libraryItem.DefaultSaveFolder = library.DefaultSaveFolder.FileSystemPath;
+                libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+            }
+            return libraryItem;
         }
 
         private static ShellFileItem GetShellFileItem(ShellItem folderItem)
@@ -761,22 +1024,22 @@ namespace FilesFullTrust
             return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
-        private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)
+        private static void HandleApplicationsLaunch(IEnumerable<string> applications, Dictionary<string, object> message)
         {
             foreach (var application in applications)
             {
-                HandleApplicationLaunch(application, args);
+                HandleApplicationLaunch(application, message);
             }
         }
 
-        private static async void HandleApplicationLaunch(string application, AppServiceRequestReceivedEventArgs args)
+        private static async void HandleApplicationLaunch(string application, Dictionary<string, object> message)
         {
-            var arguments = args.Request.Message.Get("Arguments", "");
-            var workingDirectory = args.Request.Message.Get("WorkingDirectory", "");
+            var arguments = message.Get("Arguments", "");
+            var workingDirectory = message.Get("WorkingDirectory", "");
 
             try
             {
-                Process process = new Process();
+                using Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = application;
                 // Show window if workingDirectory (opening terminal)
@@ -810,9 +1073,8 @@ namespace FilesFullTrust
             }
             catch (Win32Exception)
             {
-                Process process = new Process();
+                using Process process = new Process();
                 process.StartInfo.UseShellExecute = true;
-                process.StartInfo.Verb = "runas";
                 process.StartInfo.FileName = application;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.Arguments = arguments;
@@ -886,7 +1148,7 @@ namespace FilesFullTrust
                     Process.GetProcessById(pid).Kill();
 #endif
 
-                    Process process = new Process();
+                    using Process process = new Process();
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.FileName = "explorer.exe";
                     process.StartInfo.CreateNoWindow = false;
@@ -910,12 +1172,6 @@ namespace FilesFullTrust
                 return deviceId != null ? Path.Combine(deviceId, itemPath) : executable;
             }
             return executable;
-        }
-
-        private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            // Signal the event so the process can shut down
-            appServiceExit.Set();
         }
     }
 }

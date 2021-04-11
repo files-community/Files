@@ -1,14 +1,16 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
-using System.Collections.Generic;
+﻿using Files.Common;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public string Glyph { get; set; }
+        public SvgImageSource Icon { get; set; }
+
         public string Text { get; set; }
 
         private string path;
@@ -19,7 +21,7 @@ namespace Files.Filesystem
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?") || Path.StartsWith("Shell:") || Path == "Home" ? Text : Path;
+                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home" ? Text : Path;
             }
         }
 
@@ -40,5 +42,9 @@ namespace Files.Filesystem
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
+
+        public SectionType Section { get; set; }
+
+        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

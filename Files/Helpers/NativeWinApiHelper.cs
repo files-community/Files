@@ -232,5 +232,16 @@ namespace Files.Helpers
                     nativeMachine == 0x01c2 ||
                     nativeMachine == 0x01c4);
         }
+
+        // https://www.travelneil.com/wndproc-in-uwp.html
+        [ComImport, Guid("45D64A29-A63E-4CB6-B498-5781D298CB4F")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        internal interface ICoreWindowInterop
+        {
+            IntPtr WindowHandle { get; }
+            bool MessageHandled { get; }
+        }
+
+        public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
     }
 }

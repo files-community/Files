@@ -26,6 +26,10 @@ namespace Files.Views
             base.Properties_Loaded(sender, e);
         }
 
+        /// <summary>
+        /// Tries to save changed properties to file.
+        /// </summary>
+        /// <returns>Returns true if properties have been saved successfully.</returns>
         public async Task<bool> SaveChangesAsync()
         {
             while (true)
@@ -40,7 +44,7 @@ namespace Files.Views
                 {
                     // Attempting to open more than one ContentDialog
                     // at a time will throw an error)
-                    if (Interacts.Interaction.IsAnyContentDialogOpen())
+                    if (UIHelpers.IsAnyContentDialogOpen())
                     {
                         return false;
                     }

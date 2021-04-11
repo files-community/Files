@@ -12,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>حذف عنصر</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>حذف</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>حذف دائم</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>فتح في علامة تبويب جديدة</value>
   </data>
@@ -483,7 +471,7 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>موافق</value>
   </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>وضع التخطيط</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
@@ -852,12 +840,6 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>إلغاء الأمر</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>هل أنت متأكد أنك تريد حذف هذه {0} العناصر؟</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>هل تريد بالتأكيد حذف هذا العنصر؟</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>إضافة علامة تبويب</value>
   </data>
@@ -933,12 +915,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>شريط علامة تبويب عمودي</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>لغة التطبيق</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>تطبيقات المحطة الطرفية</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>تعديل التطبيقات الطرفية</value>
   </data>
@@ -953,9 +929,6 @@
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>تطبيقات المحطة الطرفية</value>
-  </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>إظهار عنصر قائمة نسخ الموقع</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>نقل العناصر الفائضة إلى قائمة فرعية</value>
@@ -1290,30 +1263,6 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>نقل إلى هنا</value>
   </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>الحاجيات</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>عرض محركات الأقراص على الصفحة الرئيسية</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>عرض محركات الأقراص على الصفحة الرئيسية</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار بطاقات المكتبة على الصفحة الرئيسية</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>إظهار بطاقات المكتبة على الصفحة الرئيسية</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار الملفات الأخيرة على الصفحة الرئيسية</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>إظهار بطاقات المكتبة على الصفحة الرئيسية</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>الحاجيات</value>
-  </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>آمنة لإزالة الأجهزة</value>
   </data>
@@ -1470,22 +1419,16 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>جزء مزدوج</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>إظهار عنصر القائمة فتح في علامة تبويب جديدة</value>
-  </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>المجلدات</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>تمكين الرسوم المتحركة عند فتح وإغلاق قائمة السياق</value>
-  </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
   </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
   </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>خيارات العرض</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
@@ -1494,34 +1437,34 @@
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>‏‏خيارات العرض</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>عرض الشبكة (كبير)</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض الشبكة (كبير)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>عرض الشبكة (متوسط)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض الشبكة (متوسط)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>عرض الشبكة (صغير)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض الشبكة (صغير)</value>
   </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>عرض البلاط</value>
   </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض البلاط</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>إظهار ملحقات الملفات</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
     <value>إظهار العناصر المخفية</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1622,5 +1565,113 @@
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>الاسم المطلوب</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>مسار العنصر</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>اسم الصنف</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>الشبكة</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>خصائص</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
+    <value>التوفر عند الاتصال</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
+    <value>‏‏متوفر دون اتصال</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
+    <value>‏‏مزامنة</value>
+  </data>
+  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+    <value>غير محسوب</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>تفاصيل الملف</value>
+  </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>الوثائق</value>
+  </data>
+  <data name="DriveTypeFloppyDisk" xml:space="preserve">
+    <value>محرك الأقراص المرنة</value>
+  </data>
+  <data name="DriveTypeNetwork" xml:space="preserve">
+    <value>محرك أقراص الشبكة</value>
+  </data>
+  <data name="DriveTypeUnknown" xml:space="preserve">
+    <value>غير معروف</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="DateCreatedColumn.Header" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>خيارات إضافية</value>
+  </data>
+  <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
+    <value>تعيين محرك أقراص الشبكة</value>
+  </data>
+  <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
+    <value>قطع الاتصال</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>المفضلة</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>تصفح</value>
+  </data>
+  <data name="RecentLocations" xml:space="preserve">
+    <value>المواقع التي تمت زيارتها حديثاً</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>المعاينة غير متوفرة</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>لا تتوفر تفاصيل.</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>لم يتم تحديد أي صنف</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>الهدف</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>‏‏الوسيطات</value>
+  </data>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>المكتبات</value>
+  </data>
+  <data name="DefaultScheme" xml:space="preserve">
+    <value>افتراضي</value>
+  </data>
+  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
+    <value>نظام الألوان</value>
+  </data>
+  <data name="PropertyItemCount" xml:space="preserve">
+    <value>عدد العناصر</value>
+  </data>
+  <data name="StatusUnknownError" xml:space="preserve">
+    <value>An unknown error has occurred.</value>
+  </data>
+  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>إغلاق علامات التبويب على اليسار</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
+    <value>المسؤول</value>
   </data>
 </root>

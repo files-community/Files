@@ -1,7 +1,8 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -14,9 +15,9 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private bool showCopyLocationMenuItem = App.AppSettings.ShowCopyLocationMenuItem;
-        private bool showOpenInNewTabMenuItem = App.AppSettings.ShowOpenInNewTabMenuItem;
-        private bool areRightClickContentMenuAnimationsEnabled = App.AppSettings.AreRightClickContentMenuAnimationsEnabled;
+        private string selectedThemeName = App.AppSettings.PathToThemeFile;
+        private bool showRestartControl = false;
+        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
 
         public AppearanceViewModel()
         {
@@ -35,6 +36,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         public List<string> Themes { get; set; }
+        public List<string> ColorSchemes => App.ExternalResourcesHelper.Themes;
 
         public int SelectedThemeIndex
         {
@@ -95,49 +97,26 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ShowCopyLocationMenuItem
+        public string SelectedThemeName
         {
             get
             {
-                return showCopyLocationMenuItem;
+                return selectedThemeName;
             }
             set
             {
-                if (SetProperty(ref showCopyLocationMenuItem, value))
+                if (SetProperty(ref selectedThemeName, value))
                 {
-                    App.AppSettings.ShowCopyLocationMenuItem = value;
+                    App.AppSettings.PathToThemeFile = selectedThemeName;
+                    ShowRestartControl = true;
                 }
             }
         }
 
-        public bool ShowOpenInNewTabMenuItem
+        public bool ShowRestartControl
         {
-            get
-            {
-                return showOpenInNewTabMenuItem;
-            }
-            set
-            {
-                if (SetProperty(ref showOpenInNewTabMenuItem, value))
-                {
-                    App.AppSettings.ShowOpenInNewTabMenuItem = value;
-                }
-            }
-        }
-
-        public bool AreRightClickContentMenuAnimationsEnabled
-        {
-            get
-            {
-                return areRightClickContentMenuAnimationsEnabled;
-            }
-            set
-            {
-                if (SetProperty(ref areRightClickContentMenuAnimationsEnabled, value))
-                {
-                    App.AppSettings.AreRightClickContentMenuAnimationsEnabled = value;
-                }
-            }
+            get => showRestartControl;
+            set => SetProperty(ref showRestartControl, value);
         }
     }
 }

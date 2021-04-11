@@ -12,18 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Excluir item(ns)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Excluir</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Excluir permanentemente</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Abrir em uma nova guia</value>
   </data>
@@ -544,7 +532,7 @@
     <value>Fixar diretório na barra lateral</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ok</value>
+    <value>Sim</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Cancelar</value>
@@ -801,12 +789,6 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Tem certeza de que deseja excluir este item?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Tem certeza de que deseja excluir estes {0} itens?</value>
-  </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptável (recomendado)</value>
   </data>
@@ -884,12 +866,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Faixa de tabulação vertical</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>Idioma do aplicativo</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplicativos de Terminal</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar aplicativos de terminal</value>
@@ -969,35 +945,11 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Unidades</value>
   </data>
-  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar cartões da biblioteca na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Mostrar cartões da biblioteca na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar as unidades na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Mostrar as unidades na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar arquivos recentes na página inicial</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Mostrar arquivos recentes na página inicial</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Mostrar arquivos e pastas ocultos</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar arquivos e pastas ocultos</value>
+    <value>Argumentos</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Seguro para remover hardware</value>
@@ -1039,7 +991,7 @@
     <value>Tipo de Item</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>Cargo</value>
+    <value>Título</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
     <value>Assunto</value>
@@ -1123,13 +1075,13 @@
     <value>Taxa de Bits de Codificação</value>
   </data>
   <data name="PropertyCompression" xml:space="preserve">
-    <value>Compactação</value>
+    <value>Compreção</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Formatar</value>
+    <value>Formato</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Taxa de Amostra</value>
+    <value>Taxa de Amostragem</value>
   </data>
   <data name="PropertyDisplayArtist" xml:space="preserve">
     <value>Artista</value>
@@ -1138,7 +1090,7 @@
     <value>Artista do Álbum</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>Título do Álbum</value>
+    <value>Nome do Álbum</value>
   </data>
   <data name="PropertyArtist" xml:space="preserve">
     <value>Artista</value>
@@ -1156,7 +1108,7 @@
     <value>Número do Disco</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Gênero:</value>
+    <value>Gênero</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
     <value>Número da Faixa</value>
@@ -1177,7 +1129,7 @@
     <value>Distribuidor de conteúdo</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Data de lançamento</value>
+    <value>Data do lançamento</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
     <value>Nome da Série</value>
@@ -1198,7 +1150,7 @@
     <value>Estilo do Provedor</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
-    <value>Editor</value>
+    <value>Distribuidora</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
     <value>Caminho da Miniatura Grande</value>
@@ -1258,7 +1210,7 @@
     <value>Último autor</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Número de revisão</value>
+    <value>Número de Revisão</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Versão</value>
@@ -1315,7 +1267,7 @@
     <value>Erro</value>
   </data>
   <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tentar Novamente</value>
+    <value>Tentar novamente</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Fechar mesmo assim</value>
@@ -1470,71 +1422,20 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Painel Duplo</value>
   </data>
-  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar localização da cópia do item do menu</value>
-  </data>
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Mova sobra de itens para um submenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
   </data>
-  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
-    <value>Mostrar item do menu aberto em uma nova guia</value>
-  </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>
-  </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Ativar animações ao abrir e fechar o menu de contexto</value>
-  </data>
-  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visualizador de detalhes</value>
-  </data>
-  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visualização em grade (Grande)</value>
-  </data>
-  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visualização em grade (Médio)</value>
-  </data>
-  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visualização em grade (Pequeno)</value>
-  </data>
-  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vizualização em Blocos</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
-    <value>Modo de Layout</value>
-  </data>
-  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
-    <value>Opções de Exibição</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Opções de Exibição</value>
   </data>
   <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de exibição</value>
-  </data>
-  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
-    <value>Visualização em grade (Grande)</value>
-  </data>
-  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
-    <value>Visualização em grade (Médio)</value>
-  </data>
-  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
-    <value>Visualização em grade (Pequeno)</value>
-  </data>
-  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
-    <value>Visualização em Blocos</value>
-  </data>
-  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
-    <value>Mostrar extensões de arquivos</value>
-  </data>
-  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
-    <value>Mostrar arquivos e pastas escondidos</value>
-  </data>
-  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
-    <value>Visualizador de Detalhes</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Informações excluída</value>
@@ -1647,9 +1548,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades em Nuvem</value>
   </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Mostrar Pacotes na página inicial</value>
-  </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Desafixar diretório da barra lateral</value>
   </data>
@@ -1675,7 +1573,7 @@
     <value>Documentação</value>
   </data>
   <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Find tips &amp; tricks and learn more about Files</value>
+    <value>Ache dicas e truques e aprenda mais sobre o Files. </value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Visite o site de documentação do Files</value>
@@ -1705,7 +1603,7 @@
     <value>Desconhecido</value>
   </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
-    <value>Seleção múltipla</value>
+    <value>Multisseleção</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
     <value>Ativar opções de multisseleção (atualmente disponível apenas nos modos de layout de visualização em grade e blocos)</value>
@@ -1784,5 +1682,14 @@
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
     <value>Nenhum detalhe disponível</value>
+  </data>
+  <data name="NoItemSelected" xml:space="preserve">
+    <value>Nenhum item selecionado</value>
+  </data>
+  <data name="PropertyItemTarget" xml:space="preserve">
+    <value>Alvo</value>
+  </data>
+  <data name="PropertyItemArguments" xml:space="preserve">
+    <value>Argumentos</value>
   </data>
 </root>
