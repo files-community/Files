@@ -27,7 +27,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="/ResourceDictionaries/CustomHeaderStyle.xaml" />
-                <controls:XamlControlsResources ControlsResourcesVersion="Version2" />
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
