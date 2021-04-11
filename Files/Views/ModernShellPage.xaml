@@ -246,12 +246,12 @@
                 x:Name="NavToolbar"
                 HorizontalAlignment="Stretch"
                 x:FieldModifier="public"
-                
+
                 MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
                 InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
                 ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
-                
+
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
                 ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                 ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
@@ -259,7 +259,7 @@
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                 ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
-                
+
                 AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                 CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                 CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"

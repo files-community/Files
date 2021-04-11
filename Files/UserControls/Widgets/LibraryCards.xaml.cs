@@ -2,9 +2,9 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
+using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class LibraryCards : UserControl, INotifyPropertyChanged
+    public sealed partial class LibraryCards : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -41,9 +41,15 @@ namespace Files.UserControls.Widgets
 
         public event LibraryCardDeleteInvokedEventHandler LibraryCardDeleteInvoked;
 
+        public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
+
+        public string WidgetName => nameof(LibraryCards);
+
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
         {
@@ -154,7 +160,12 @@ namespace Files.UserControls.Widgets
 
         public bool ShowMultiPaneControls
         {
-            get => showMultiPaneControls;
+            get
+            {
+                LibraryCardShowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
+
+                return showMultiPaneControls;
+            }
             set
             {
                 if (value != showMultiPaneControls)
@@ -295,6 +306,10 @@ namespace Files.UserControls.Widgets
                 });
                 await dialog.ShowAsync();
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 

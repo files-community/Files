@@ -11,7 +11,7 @@
         /// C:\Users\[username]\AppData\Roaming\Microsoft\Windows\Libraries\Custom library.library-ms
         /// </summary>
         public string FullPath;
-        
+
         /// <summary>
         /// ShellItemDisplayString.DesktopAbsoluteParsing<br/>
         /// <br/>
@@ -40,6 +40,8 @@
         public string DefaultSaveFolder;
         public string[] Folders;
 
-        public ShellLibraryItem() { }
+        public ShellLibraryItem()
+        {
+        }
     }
 }

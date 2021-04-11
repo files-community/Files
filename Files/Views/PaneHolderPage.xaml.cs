@@ -3,13 +3,9 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
@@ -24,9 +20,13 @@ namespace Files.Views
     {
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
+
         public event EventHandler<TabItemArguments> ContentChanged;
+
         public event EventHandler ActivePaneChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
@@ -138,7 +138,6 @@ namespace Files.Views
             }
         }
 
-
         private bool isRightPaneVisible;
 
         public bool IsRightPaneVisible
@@ -186,7 +185,7 @@ namespace Files.Views
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
-            
+
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 

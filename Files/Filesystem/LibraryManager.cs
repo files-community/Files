@@ -54,6 +54,7 @@ namespace Files.Filesystem
                                 goto case NotifyCollectionChangedAction.Add;
                             }
                             break;
+
                         case NotifyCollectionChangedAction.Reset:
                             librarySection.ChildItems.Clear();
                             foreach (var lib in Libraries.Where(IsLibraryOnSidebar))
@@ -65,6 +66,7 @@ namespace Files.Filesystem
                                 }
                             }
                             break;
+
                         case NotifyCollectionChangedAction.Add:
                             foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(IsLibraryOnSidebar))
                             {
@@ -185,7 +187,6 @@ namespace Files.Filesystem
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
-                            Glyph = "\uEC13",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };

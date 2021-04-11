@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private string selectedThemeName = App.AppSettings.PathToThemeFile;
         private bool showRestartControl = false;
+        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
 
         public AppearanceViewModel()
         {

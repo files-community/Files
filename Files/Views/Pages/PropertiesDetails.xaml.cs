@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Files.Views
 {
