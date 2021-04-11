@@ -453,7 +453,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
                     SingleItemOnly = true,
-                    IsEnabled = App.InteractionViewModel.IsPasteEnabled && selectedItems.All(x => !x.IsRecycleBinItem),
+                    IsEnabled = App.InteractionViewModel.IsPasteEnabled,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
