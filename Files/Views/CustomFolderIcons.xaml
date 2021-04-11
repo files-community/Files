@@ -7,16 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:common="using:Files.Common"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent"
+    MaxWidth="372">
 
-    <Grid Margin="12">
+    <Grid >
         <StackPanel Orientation="Vertical">
-            <TextBlock FontWeight="SemiBold" Text="Pick a custom folder icon"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="ItemDisplayedPath" IsReadOnly="True" />
-                <Button x:Name="PickDllButton" Click="PickDllButton_Click" Width="100" Content="Browse..."/>
-            </StackPanel>
-            <GridView Width="400" SelectionMode="Single" x:Name="IconSelectionGrid">
+            <TextBlock Padding="0,12" FontWeight="SemiBold" Text="Pick a custom folder icon"/>
+            <Grid ColumnSpacing="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="ItemDisplayedPath" IsReadOnly="True" />
+                <Button Grid.Column="1" x:Name="PickDllButton" Click="PickDllButton_Click" Content="Browse..."/>
+            </Grid>
+            <GridView HorizontalAlignment="Stretch" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollMode="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="Single" x:Name="IconSelectionGrid">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Vertical"/>

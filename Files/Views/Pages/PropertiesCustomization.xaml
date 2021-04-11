@@ -26,11 +26,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Custom folder icon"/>
+            
             <Frame x:Name="CustomIconsSelectorFrame" Loaded="CustomIconsSelectorFrame_Loaded"/>
         </Grid>
     </StackPanel>
