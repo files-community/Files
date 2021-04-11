@@ -99,12 +99,10 @@ namespace Files.Views
 
         private void ItemPermissionsDescriptionButton_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void ItemAdvanPermissionsDescriptionButton_Click(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

@@ -110,9 +110,6 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemPermissionsDescriptionButton = "ItemPermissionsDescriptionButton".GetLocalized();
             ViewModel.ItemAdvanPermissionsDescription = "ItemAdvanPermissionsDescription".GetLocalized();
             ViewModel.ItemAdvanPermissionsDescriptionButton = "ItemAdvanPermissionsDescriptionButton".GetLocalized();
-
-
-
         }
 
         public override async void GetSpecialProperties()

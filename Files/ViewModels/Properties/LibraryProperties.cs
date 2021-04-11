@@ -154,8 +154,7 @@ namespace Files.ViewModels.Properties
         }
 
         public override void GetSecurityProperties()
-        {
-            
+        {   
         }
     }
 }
