@@ -21,6 +21,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels
 {
@@ -88,6 +89,17 @@ namespace Files.ViewModels
         public static async void OpenLogLocation()
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+
+        public static void OpenThemesFolder()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            // Go back to main page
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+            }
+            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()
@@ -273,6 +285,7 @@ namespace Files.ViewModels
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+
         public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
@@ -534,6 +547,7 @@ namespace Files.ViewModels
             get => Get("DefaultScheme".GetLocalized());
             set => Set(value);
         }
+
         #endregion Appearance
 
         #region Experimental

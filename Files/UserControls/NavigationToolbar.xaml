@@ -917,6 +917,46 @@
 
             <CommandBar VerticalAlignment="Center" Background="Transparent">
                 <AppBarButton
+                    x:Name="WidgetsManager"
+                    x:Uid="NavToolbarWidgets"
+                    Width="36"
+                    Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    AutomationProperties.Name="Manage widgets"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Manage widgets">
+                    <FontIcon FontSize="14" Glyph="&#xF246;" />
+                    <AppBarButton.Flyout>
+                        <Flyout Placement="Bottom">
+                            <StackPanel Spacing="12">
+                                <TextBlock
+                                    x:Uid="NavToolbarManageWidgetsFlyoutHeader"
+                                    FontWeight="Medium"
+                                    Text="Manage Widgets" />
+                                <StackPanel Spacing="4">
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowLibraryWidget"
+                                        Header="Show Library widget"
+                                        IsOn="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowDrivesWidget"
+                                        Header="Show Drives widget"
+                                        IsOn="{x:Bind ShowDrivesWidget, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowBundlesWidget"
+                                        Header="Show Bundles widget"
+                                        IsOn="{x:Bind ShowBundlesWidget, Mode=TwoWay}" />
+                                    <ToggleSwitch
+                                        x:Uid="NavToolbarShowRecentFilesWidget"
+                                        Header="Show Recent Files widget"
+                                        IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
                     x:Name="SelectionOptions"
                     x:Uid="NavToolbarSelectionOptions"
                     Width="36"

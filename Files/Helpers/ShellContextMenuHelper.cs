@@ -13,8 +13,10 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers {
-    public static class ShellContextmenuHelper {
+namespace Files.Helpers
+{
+    public static class ShellContextmenuHelper
+    {
         public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
@@ -77,7 +79,8 @@ namespace Files.Helpers {
                     };
                     LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
-                } else
+                }
+                else
                 {
                     LoadMenuFlyoutItem(moreItem.Items, overflowItems, menuHandle, false);
                 }
@@ -166,7 +169,5 @@ namespace Files.Helpers {
                 return (null, null);
             }
         }
-
-
     }
 }

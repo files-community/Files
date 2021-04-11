@@ -1,24 +1,23 @@
-﻿using Files.Enums;
+﻿using Files.DataModels;
+using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.ApplicationModel.AppService;
-using Files.Views;
-using System;
-using Windows.UI.Core;
-using Windows.System;
-using Files.Dialogs;
-using System.Diagnostics;
-using Windows.Foundation;
-using Windows.UI.Xaml.Input;
 using Files.ViewModels;
-using Files.DataModels;
+using Files.Views;
+using Microsoft.Toolkit.Uwp;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -42,13 +41,16 @@ namespace Files.Interacts
 
         private readonly IShellPage associatedInstance;
 
+        private readonly ItemManipulationModel itemManipulationModel;
+
         #endregion Private Members
 
         #region Constructor
 
-        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance)
+        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
         {
             this.associatedInstance = associatedInstance;
+            this.itemManipulationModel = itemManipulationModel;
         }
 
         #endregion Constructor
@@ -66,7 +68,7 @@ namespace Files.Interacts
 
         public virtual void RenameItem(RoutedEventArgs e)
         {
-            SlimContentPage.StartRenameItem();
+            itemManipulationModel.StartRenameItem();
         }
 
         public virtual async void CreateShortcut(RoutedEventArgs e)
@@ -464,7 +466,7 @@ namespace Files.Interacts
         {
             var deferral = e.GetDeferral();
 
-            SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
@@ -523,7 +525,7 @@ namespace Files.Interacts
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, true);
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
             }
 
@@ -532,7 +534,12 @@ namespace Files.Interacts
 
         public virtual void RefreshItems(RoutedEventArgs e)
         {
-            SlimContentPage.RefreshItems();
+            associatedInstance.Refresh_Click();
+        }
+
+        public void SearchUnindexedItems(RoutedEventArgs e)
+        {
+            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
         #endregion Command Implementation

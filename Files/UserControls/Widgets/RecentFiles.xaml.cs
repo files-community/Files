@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
 using Files.ViewModels;
+using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class RecentFiles : UserControl
+    public sealed partial class RecentFiles : UserControl, IWidgetItemModel
     {
         public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -28,6 +29,10 @@ namespace Files.UserControls.Widgets
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
         public SettingsViewModel AppSettings => App.AppSettings;
+
+        public string WidgetName => nameof(RecentFiles);
+
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
 
         public RecentFiles()
         {
@@ -205,6 +210,10 @@ namespace Files.UserControls.Widgets
             var mru = StorageApplicationPermissions.MostRecentlyUsedList;
             mru.Clear();
             Empty.Visibility = Visibility.Visible;
+        }
+
+        public void Dispose()
+        {
         }
     }
 

@@ -36,6 +36,7 @@ namespace Files.Filesystem
         /// </summary>
         /// <param name="source">The source item to be copied</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="collision">The item naming collision</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
@@ -47,6 +48,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItem source,
                                         string destination,
+                                        NameCollisionOption collision,
                                         IProgress<float> progress,
                                         IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
@@ -56,6 +58,7 @@ namespace Files.Filesystem
         /// </summary>
         /// <param name="source">The source item to be copied</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="collision">The item naming collision</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
@@ -67,6 +70,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                         string destination,
+                                        NameCollisionOption collision,
                                         IProgress<float> progress,
                                         IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
@@ -76,6 +80,7 @@ namespace Files.Filesystem
         /// </summary>
         /// <param name="source">The source item to be moved</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="collision">The item naming collision</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
@@ -87,6 +92,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItem source,
                                         string destination,
+                                        NameCollisionOption collision,
                                         IProgress<float> progress,
                                         IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
@@ -96,6 +102,7 @@ namespace Files.Filesystem
         /// </summary>
         /// <param name="source">The source item to be moved</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="collision">The item naming collision</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
@@ -107,6 +114,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
                                         string destination,
+                                        NameCollisionOption collision,
                                         IProgress<float> progress,
                                         IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);

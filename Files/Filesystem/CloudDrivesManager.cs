@@ -96,7 +96,6 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
-                            Glyph = "\uE753",
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
