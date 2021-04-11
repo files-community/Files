@@ -40,32 +40,6 @@ namespace Files.Filesystem.FilesystemHistory
             }
         }
 
-        public bool CanRedo() =>
-            (this.storageHistoryIndex + 1) < this.storageHistory.Count;
-
-        public bool CanUndo() =>
-            this.storageHistoryIndex >= 0 && this.storageHistory.Count > 0;
-
-        public void DecreaseIndex()
-        {
-            this.storageHistoryIndex--;
-        }
-
-        public IStorageHistory GetCurrentHistory()
-        {
-            return this.storageHistory.ElementAt(this.storageHistoryIndex);
-        }
-
-        public void IncreaseIndex()
-        {
-            this.storageHistoryIndex++;
-        }
-
-        public void ModifyCurrentHistory(IStorageHistory newHistory)
-        {
-            this.storageHistory[this.storageHistoryIndex].Modify(newHistory);
-        }
-
         public void RemoveHistory(IStorageHistory history, bool decreaseIndex)
         {
             if (history != null)
@@ -82,6 +56,32 @@ namespace Files.Filesystem.FilesystemHistory
                 this.storageHistory.Remove(history);
             }
         }
+
+        public void ModifyCurrentHistory(IStorageHistory newHistory)
+        {
+            this.storageHistory[this.storageHistoryIndex].Modify(newHistory);
+        }
+
+        public IStorageHistory GetCurrentHistory()
+        {
+            return this.storageHistory.ElementAt(this.storageHistoryIndex);
+        }
+
+        public void IncreaseIndex()
+        {
+            this.storageHistoryIndex++;
+        }
+
+        public void DecreaseIndex()
+        {
+            this.storageHistoryIndex--;
+        }
+
+        public bool CanUndo() =>
+            this.storageHistoryIndex >= 0 && this.storageHistory.Count > 0;
+
+        public bool CanRedo() =>
+            (this.storageHistoryIndex + 1) < this.storageHistory.Count;
 
         #endregion Helpers
 

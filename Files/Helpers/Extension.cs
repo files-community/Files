@@ -18,9 +18,9 @@ public class Extension : INotifyPropertyChanged
 {
     #region Member Vars
 
-    private readonly object sync = new object();
     private PropertySet properties;
     private string serviceName;
+    private readonly object sync = new object();
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,26 +63,7 @@ public class Extension : INotifyPropertyChanged
 
     #region Properties
 
-    public AppExtension AppExtension { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the user has enabled the extension or not.
-    /// </summary>
-    public bool Enabled { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the package has been loaded or not.
-    /// </summary>
-    public bool Loaded { get; private set; }
-
     public BitmapImage Logo { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the package containing the extension is offline.
-    /// </summary>
-    public bool Offline { get; private set; }
-
-    public string PublicFolderPath { get; private set; }
 
     /// <summary>
     /// Gets or sets the unique id of this extension which will be AppUserModel Id + Extension ID.
@@ -90,32 +71,30 @@ public class Extension : INotifyPropertyChanged
     public string UniqueId { get; private set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the user has enabled the extension or not.
+    /// </summary>
+    public bool Enabled { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the package containing the extension is offline.
+    /// </summary>
+    public bool Offline { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the package has been loaded or not.
+    /// </summary>
+    public bool Loaded { get; private set; }
+
+    public string PublicFolderPath { get; private set; }
+
+    public AppExtension AppExtension { get; private set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the extension should be visible in the list of extensions.
     /// </summary>
     public Visibility Visible { get; private set; }
 
     #endregion Properties
-
-    // user-facing action to disable the extension
-    public void Disable()
-    {
-        // only disable if it is enabled so that we don't Unload() more than once
-        if (Enabled)
-        {
-            Enabled = false;
-            Unload();
-        }
-    }
-
-    /// <summary>
-    /// Enable the extension for use
-    /// </summary>
-    /// <returns></returns>
-    public async Task Enable()
-    {
-        Enabled = true;
-        await MarkAsLoaded();
-    }
 
     /// <summary>
     /// Invoke the extension's app service
@@ -161,70 +140,6 @@ public class Extension : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Prepares the extension so that the ExtensionManager can present it as an available extension
-    /// </summary>
-    /// <returns></returns>
-    public async Task MarkAsLoaded()
-    {
-        // make sure package is OK to load
-        if (!AppExtension.Package.Status.VerifyIsOK())
-        {
-            return;
-        }
-
-        Enabled = true;
-
-        // Don't reload
-        if (Loaded)
-        {
-            return;
-        }
-
-        // The public folder is shared between the extension and the host.
-        // We don't use it in this sample but you can see https://github.com/Microsoft/Build2016-B808-AppExtensibilitySample for an example of it can be used.
-        StorageFolder folder = await AppExtension.GetPublicFolderAsync();
-        PublicFolderPath = folder.Path;
-        try
-        {
-            var file = await folder.GetFileAsync("FileExtensions.json");
-            var text = await FileIO.ReadTextAsync(file);
-            FileExtensions = JsonConvert.DeserializeObject<List<string>>(text);
-        }
-        catch
-        {
-            Debug.WriteLine("Unable to get extensions");
-        }
-
-        Loaded = true;
-        Visible = Visibility.Visible;
-        RaisePropertyChanged(nameof(Visible));
-        Offline = false;
-    }
-
-    /// <summary>
-    /// Indicates to the extension manager that the extension is unloaded
-    /// </summary>
-    public void Unload()
-    {
-        // unload it
-        lock (sync) // Calls to this functioned are queued on an await call so lock to handle one at a time
-        {
-            if (Loaded)
-            {
-                // see if the package is offline
-                if (!AppExtension.Package.Status.VerifyIsOK() && !AppExtension.Package.Status.PackageOffline)
-                {
-                    Offline = true;
-                }
-
-                Loaded = false;
-                Visible = Visibility.Collapsed;
-                RaisePropertyChanged(nameof(Visible));
-            }
-        }
-    }
-
-    /// <summary>
     /// Called when an extension that has already been loaded is updated
     /// </summary>
     /// <param name="ext">The updated extension as represented by the system</param>
@@ -266,6 +181,91 @@ public class Extension : INotifyPropertyChanged
         #endregion Update Properties
 
         await MarkAsLoaded();
+    }
+
+    /// <summary>
+    /// Prepares the extension so that the ExtensionManager can present it as an available extension
+    /// </summary>
+    /// <returns></returns>
+    public async Task MarkAsLoaded()
+    {
+        // make sure package is OK to load
+        if (!AppExtension.Package.Status.VerifyIsOK())
+        {
+            return;
+        }
+
+        Enabled = true;
+
+        // Don't reload
+        if (Loaded)
+        {
+            return;
+        }
+
+        // The public folder is shared between the extension and the host.
+        // We don't use it in this sample but you can see https://github.com/Microsoft/Build2016-B808-AppExtensibilitySample for an example of it can be used.
+        StorageFolder folder = await AppExtension.GetPublicFolderAsync();
+        PublicFolderPath = folder.Path;
+        try
+        {
+            var file = await folder.GetFileAsync("FileExtensions.json");
+            var text = await FileIO.ReadTextAsync(file);
+            FileExtensions = JsonConvert.DeserializeObject<List<string>>(text);
+        }
+        catch
+        {
+            Debug.WriteLine("Unable to get extensions");
+        }
+
+        Loaded = true;
+        Visible = Visibility.Visible;
+        RaisePropertyChanged(nameof(Visible));
+        Offline = false;
+    }
+
+    /// <summary>
+    /// Enable the extension for use
+    /// </summary>
+    /// <returns></returns>
+    public async Task Enable()
+    {
+        Enabled = true;
+        await MarkAsLoaded();
+    }
+
+    /// <summary>
+    /// Indicates to the extension manager that the extension is unloaded
+    /// </summary>
+    public void Unload()
+    {
+        // unload it
+        lock (sync) // Calls to this functioned are queued on an await call so lock to handle one at a time
+        {
+            if (Loaded)
+            {
+                // see if the package is offline
+                if (!AppExtension.Package.Status.VerifyIsOK() && !AppExtension.Package.Status.PackageOffline)
+                {
+                    Offline = true;
+                }
+
+                Loaded = false;
+                Visible = Visibility.Collapsed;
+                RaisePropertyChanged(nameof(Visible));
+            }
+        }
+    }
+
+    // user-facing action to disable the extension
+    public void Disable()
+    {
+        // only disable if it is enabled so that we don't Unload() more than once
+        if (Enabled)
+        {
+            Enabled = false;
+            Unload();
+        }
     }
 
     #region PropertyChanged

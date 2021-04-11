@@ -8,14 +8,7 @@ namespace Files.Helpers
     public class AcrylicTheme : INotifyPropertyChanged
     {
         private Color fallbackColor;
-        private Color tintColor;
         private double tintOpacity;
-
-        public AcrylicTheme()
-        {
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Color FallbackColor
         {
@@ -24,16 +17,6 @@ namespace Files.Helpers
             {
                 fallbackColor = value;
                 NotifyPropertyChanged(nameof(FallbackColor));
-            }
-        }
-
-        public Color TintColor
-        {
-            get { return tintColor; }
-            set
-            {
-                tintColor = value;
-                NotifyPropertyChanged(nameof(TintColor));
             }
         }
 
@@ -47,10 +30,16 @@ namespace Files.Helpers
             }
         }
 
-        public void SetDarkTheme()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public AcrylicTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintColor = Color.FromArgb(255, 44, 44, 44);
             TintOpacity = 0.15;
         }
 
@@ -69,13 +58,13 @@ namespace Files.Helpers
         public void SetLightTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintColor = Color.FromArgb(255, 252, 252, 252);
             TintOpacity = 0.0;
         }
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        public void SetDarkTheme()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
+            TintOpacity = 0.15;
         }
     }
 }

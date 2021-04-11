@@ -13,13 +13,32 @@ namespace Files.Helpers
     public sealed class JumpListManager
     {
         private JumpList instance = null;
+        private List<string> JumpListItemPaths { get; set; }
 
         public JumpListManager()
         {
             Initialize();
         }
 
-        private List<string> JumpListItemPaths { get; set; }
+        private async void Initialize()
+        {
+            try
+            {
+                if (JumpList.IsSupported())
+                {
+                    instance = await JumpList.LoadCurrentAsync();
+
+                    // Disable automatic jumplist. It doesn't work with Files UWP.
+                    instance.SystemGroupKind = JumpListSystemGroupKind.None;
+                    JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                instance = null;
+            }
+        }
 
         public async void AddFolderToJumpList(string path)
         {
@@ -29,21 +48,6 @@ namespace Files.Helpers
             {
                 await AddFolder(path);
                 await instance?.SaveAsync();
-            }
-            catch { }
-        }
-
-        public async void RemoveFolder(string path)
-        {
-            // Updating the jumplist may fail randomly with error: FileLoadException: File in use
-            // In that case app should just catch the error and proceed as usual
-            try
-            {
-                if (JumpListItemPaths.Contains(path))
-                {
-                    JumpListItemPaths.Remove(path);
-                    await UpdateAsync();
-                }
             }
             catch { }
         }
@@ -99,24 +103,19 @@ namespace Files.Helpers
             }
         }
 
-        private async void Initialize()
+        public async void RemoveFolder(string path)
         {
+            // Updating the jumplist may fail randomly with error: FileLoadException: File in use
+            // In that case app should just catch the error and proceed as usual
             try
             {
-                if (JumpList.IsSupported())
+                if (JumpListItemPaths.Contains(path))
                 {
-                    instance = await JumpList.LoadCurrentAsync();
-
-                    // Disable automatic jumplist. It doesn't work with Files UWP.
-                    instance.SystemGroupKind = JumpListSystemGroupKind.None;
-                    JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
+                    JumpListItemPaths.Remove(path);
+                    await UpdateAsync();
                 }
             }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                instance = null;
-            }
+            catch { }
         }
 
         private async Task UpdateAsync()

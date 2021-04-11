@@ -21,34 +21,45 @@ namespace FilesFullTrust
 {
     internal partial class Win32API
     {
-        public static string[] CommandLineToArgs(string commandLine)
+        public static Task<T> StartSTATask<T>(Func<T> func)
         {
-            if (string.IsNullOrEmpty(commandLine))
+            var tcs = new TaskCompletionSource<T>();
+            Thread thread = new Thread(() =>
             {
-                return Array.Empty<string>();
-            }
-
-            var argv = Shell32.CommandLineToArgvW(commandLine, out int argc);
-            if (argv == IntPtr.Zero)
-            {
-                throw new Win32Exception();
-            }
-
-            try
-            {
-                var args = new string[argc];
-                for (var i = 0; i < args.Length; i++)
+                try
                 {
-                    var p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
-                    args[i] = Marshal.PtrToStringUni(p);
+                    tcs.SetResult(func());
                 }
+                catch (Exception ex)
+                {
+                    tcs.SetResult(default);
+                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
+                    //tcs.SetException(e);
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return tcs.Task;
+        }
 
-                return args;
-            }
-            finally
+        public static async Task<string> GetFileAssociationAsync(string filename)
+        {
+            // Find UWP apps
+            var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+            if (uwpApps.Any())
             {
-                Marshal.FreeHGlobal(argv);
+                return uwpApps.First().PackageFamilyName;
             }
+
+            // Find desktop apps
+            var lpResult = new StringBuilder(2048);
+            var hResult = Shell32.FindExecutable(filename, null, lpResult);
+            if (hResult.ToInt64() > 32)
+            {
+                return lpResult.ToString();
+            }
+
+            return null;
         }
 
         public static string ExtractStringFromDLL(string file, int number)
@@ -103,22 +114,32 @@ namespace FilesFullTrust
 
         public static async Task<string> GetFileAssociationAsync(string filename)
         {
-            // Find UWP apps
-            var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-            if (uwpApps.Any())
+            if (string.IsNullOrEmpty(commandLine))
             {
-                return uwpApps.First().PackageFamilyName;
+                return Array.Empty<string>();
             }
 
-            // Find desktop apps
-            var lpResult = new StringBuilder(2048);
-            var hResult = Shell32.FindExecutable(filename, null, lpResult);
-            if (hResult.ToInt64() > 32)
+            var argv = Shell32.CommandLineToArgvW(commandLine, out int argc);
+            if (argv == IntPtr.Zero)
             {
-                return lpResult.ToString();
+                throw new Win32Exception();
             }
 
-            return null;
+            try
+            {
+                var args = new string[argc];
+                for (var i = 0; i < args.Length; i++)
+                {
+                    var p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
+                    args[i] = Marshal.PtrToStringUni(p);
+                }
+
+                return args;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(argv);
+            }
         }
 
         public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
@@ -180,51 +201,27 @@ namespace FilesFullTrust
             return (iconStr, overlayStr, isCustom);
         }
 
-        public static void OpenFormatDriveDialog(string drive)
+        private static void RunPowershellCommand(string command, bool runAsAdmin)
         {
-            // format requires elevation
-            int driveIndex = drive.ToUpperInvariant()[0] - 'A';
-            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
-        }
-
-        public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
-        {
-            var message = new Dictionary<string, object>(valueSet);
-            message.Add("RequestID", requestID);
-            var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-            await pipe.WriteAsync(serialized, 0, serialized.Length);
-        }
-
-        public static void SetVolumeLabel(string driveName, string newLabel)
-        {
-            // rename requires elevation
-            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
-        }
-
-        // Get information from recycle bin.
-        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
-        public static extern int SHQueryRecycleBin(string pszRootPath,
-            ref SHQUERYRBINFO pSHQueryRBInfo);
-
-        public static Task<T> StartSTATask<T>(Func<T> func)
-        {
-            var tcs = new TaskCompletionSource<T>();
-            Thread thread = new Thread(() =>
+            try
             {
-                try
+                using Process process = new Process();
+                if (runAsAdmin)
                 {
-                    tcs.SetResult(func());
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
                 }
-                catch (Exception ex)
-                {
-                    tcs.SetResult(default);
-                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
-                    //tcs.SetException(e);
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            return tcs.Task;
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.Arguments = command;
+                process.Start();
+                process.WaitForExit(30 * 1000);
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+            }
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)
@@ -232,14 +229,17 @@ namespace FilesFullTrust
             RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
         }
 
-        private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
+        public static void OpenFormatDriveDialog(string drive)
         {
-            return new Bitmap(
-                    bmpData.Width,
-                    bmpData.Height,
-                    bmpData.Stride,
-                    PixelFormat.Format32bppArgb,
-                    bmpData.Scan0);
+            // format requires elevation
+            int driveIndex = drive.ToUpperInvariant()[0] - 'A';
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+        }
+
+        public static void SetVolumeLabel(string driveName, string newLabel)
+        {
+            // rename requires elevation
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
         }
 
         private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -261,6 +261,16 @@ namespace FilesFullTrust
             {
                 return null;
             }
+        }
+
+        private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
+        {
+            return new Bitmap(
+                    bmpData.Width,
+                    bmpData.Height,
+                    bmpData.Stride,
+                    PixelFormat.Format32bppArgb,
+                    bmpData.Scan0);
         }
 
         private static bool IsAlphaBitmap(Bitmap bmp, out BitmapData bmpData)
@@ -293,27 +303,12 @@ namespace FilesFullTrust
             return false;
         }
 
-        private static void RunPowershellCommand(string command, bool runAsAdmin)
+        public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
         {
-            try
-            {
-                using Process process = new Process();
-                if (runAsAdmin)
-                {
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.Verb = "runas";
-                }
-                process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = command;
-                process.Start();
-                process.WaitForExit(30 * 1000);
-            }
-            catch (Win32Exception)
-            {
-                // If user cancels UAC
-            }
+            var message = new Dictionary<string, object>(valueSet);
+            message.Add("RequestID", requestID);
+            var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            await pipe.WriteAsync(serialized, 0, serialized.Length);
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
@@ -327,5 +322,10 @@ namespace FilesFullTrust
             public long i64Size;
             public long i64NumItems;
         }
+
+        // Get information from recycle bin.
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
+        public static extern int SHQueryRecycleBin(string pszRootPath,
+            ref SHQUERYRBINFO pSHQueryRBInfo);
     }
 }

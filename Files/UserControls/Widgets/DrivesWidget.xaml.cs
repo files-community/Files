@@ -1,20 +1,20 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls.Widgets
 {
@@ -94,10 +94,26 @@ namespace Files.UserControls.Widgets
 
             NavigationPath = ClickedCard;
 
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed)
+            {
+                NavigationHelpers.OpenPathInNewTab(NavigationPath);
+                return;
+            }
+
             DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
             {
                 Path = NavigationPath
             });
+        }
+
+        private void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+            {
+                string navigationPath = (sender as Button).Tag.ToString();
+                NavigationHelpers.OpenPathInNewTab(navigationPath);
+            }
         }
 
         public class DrivesWidgetInvokedEventArgs : EventArgs

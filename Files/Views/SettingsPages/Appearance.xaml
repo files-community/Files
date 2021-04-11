@@ -53,15 +53,15 @@
                     Header="Color scheme"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}" 
-                    x:Load="{x:Bind ShowColorSchemeSelector}"/>
+                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}"
+                    x:Load="{x:Bind ShowColorSchemeSelector}" />
 
                 <HyperlinkButton
                     x:Name="OpenThemesFolderButton"
                     x:Uid="SettingsAppearanceOpenThemesFolderButton"
                     Command="{Binding OpenThemesFolderCommand}"
-                    Content="Open themes folder" 
-                    x:Load="{x:Bind ShowColorSchemeSelector}"/>
+                    Content="Open themes folder"
+                    x:Load="{x:Bind ShowColorSchemeSelector}" />
 
                 <StackPanel
                     Width="Auto"

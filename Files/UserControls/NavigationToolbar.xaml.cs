@@ -136,7 +136,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion YourHome Widgets
 
         #region Selection Options
 
@@ -333,6 +333,7 @@ namespace Files.UserControls
                 SetValue(ToggleLayoutModeGridViewLargeProperty, value);
             }
         }
+
         public static readonly DependencyProperty ToggleLayoutModeColumnViewProperty = DependencyProperty.Register(
           "ToggleLayoutModeColumnView",
           typeof(ICommand),
@@ -352,7 +353,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Layout Options
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",

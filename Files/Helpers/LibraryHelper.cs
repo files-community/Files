@@ -20,36 +20,6 @@ namespace Files.Helpers
         // TODO: move everything to LibraryManager from here?
         // TODO: do Rename and Delete like in case of normal files
 
-        /// <summary>
-        /// Create new library with the specified name.
-        /// </summary>
-        /// <param name="name">The name of the new library (must be unique)</param>
-        /// <returns>The new library if successfully created</returns>
-        public static async Task<LibraryLocationItem> CreateLibrary(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return null;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
-            {
-                return null;
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Create" },
-                { "library", name }
-            });
-            LibraryLocationItem library = null;
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
-            {
-                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Create"]));
-            }
-            return library;
-        }
-
         public static bool IsDefaultLibrary(string libraryFilePath)
         {
             // TODO: try to find a better way for this
@@ -90,6 +60,36 @@ namespace Files.Helpers
                 libraries = JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
             }
             return libraries;
+        }
+
+        /// <summary>
+        /// Create new library with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the new library (must be unique)</param>
+        /// <returns>The new library if successfully created</returns>
+        public static async Task<LibraryLocationItem> CreateLibrary(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
+            {
+                return null;
+            }
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+            {
+                { "Arguments", "ShellLibrary" },
+                { "action", "Create" },
+                { "library", name }
+            });
+            LibraryLocationItem library = null;
+            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
+            {
+                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Create"]));
+            }
+            return library;
         }
 
         /// <summary>

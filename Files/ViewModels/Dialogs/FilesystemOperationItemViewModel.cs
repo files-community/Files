@@ -1,8 +1,6 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -17,6 +15,7 @@ namespace Files.ViewModels.Dialogs
         public string DestinationPath { get; set; }
 
         private bool isConflicting = false;
+
         /// <summary>
         /// Determines whether an item is or was a conflicting one
         /// <br/>
@@ -39,6 +38,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Visibility arrowIconVisibility = Visibility.Visible;
+
         public Visibility ArrowIconVisibility
         {
             get => arrowIconVisibility;
@@ -46,6 +46,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Visibility exclamationMarkVisibility = Visibility.Collapsed;
+
         public Visibility ExclamationMarkVisibility
         {
             get => exclamationMarkVisibility;
@@ -53,6 +54,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.None;
+
         public FileNameConflictResolveOptionType ConflictResolveOption
         {
             get => conflictResolveOption;

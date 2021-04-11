@@ -30,14 +30,7 @@ namespace Files.ViewModels.Previews
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            try
-            {
-                TextValue = await FileIO.ReadTextAsync(Item.ItemFile);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
+            TextValue = await FileIO.ReadTextAsync(Item.ItemFile);
             return new List<FileProperty>();
         }
     }

@@ -40,7 +40,7 @@
     "Property": "System.Image.HorizontalResolution",
     "IsReadOnly": true,
     "ID": null,
-    "DisplayFunctionName":  "RoundDouble"
+    "DisplayFunctionName": "RoundDouble"
   },
   {
     "NameResource": "PropertyVerticalResolution",

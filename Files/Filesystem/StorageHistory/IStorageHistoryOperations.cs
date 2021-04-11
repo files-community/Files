@@ -11,13 +11,13 @@ namespace Files.Filesystem.FilesystemHistory
         /// </summary>
         /// <param name="history"></param>
         /// <returns></returns>
-        Task<ReturnResult> Redo(IStorageHistory history);
+        Task<ReturnResult> Undo(IStorageHistory history);
 
         /// <summary>
         /// Redo an action with given <paramref name="history"/>
         /// </summary>
         /// <param name="history"></param>
         /// <returns></returns>
-        Task<ReturnResult> Undo(IStorageHistory history);
+        Task<ReturnResult> Redo(IStorageHistory history);
     }
 }

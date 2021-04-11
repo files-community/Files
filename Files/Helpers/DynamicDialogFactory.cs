@@ -11,19 +11,6 @@ namespace Files.Helpers
 {
     public static class DynamicDialogFactory
     {
-        public static DynamicDialog GetFor_ConsentDialog()
-        {
-            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-            {
-                TitleText = "WelcomeDialog/Title".GetLocalized(),
-                SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalized(), // We can use subtitle here as our content
-                PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalized(),
-                PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
-                DynamicButtons = DynamicDialogButtons.Primary
-            });
-            return dialog;
-        }
-
         public static DynamicDialog GetFor_PropertySaveErrorDialog()
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -34,6 +21,19 @@ namespace Files.Helpers
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
                 CloseButtonText = "PropertySaveErrorDialog/CloseButtonText".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
+            });
+            return dialog;
+        }
+
+        public static DynamicDialog GetFor_ConsentDialog()
+        {
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                TitleText = "WelcomeDialog/Title".GetLocalized(),
+                SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalized(), // We can use subtitle here as our content
+                PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalized(),
+                PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
+                DynamicButtons = DynamicDialogButtons.Primary
             });
             return dialog;
         }

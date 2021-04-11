@@ -24,13 +24,7 @@ namespace Files.ViewModels.Previews
 
         public async Task LoadAsync()
         {
-            try
-            {
-                await LoadPreviewAndDetailsAsync();
-            }
-            catch (Exception)
-            {
-            }
+            await LoadPreviewAndDetailsAsync();
         }
 
         private async Task LoadPreviewAndDetailsAsync()

@@ -65,18 +65,6 @@ namespace Files.Helpers
             return null;
         }
 
-        private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
-        {
-            try
-            {
-                return root.OpenSubKey(keyName);
-            }
-            catch (SecurityException)
-            {
-                return null;
-            }
-        }
-
         private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
         {
             if (!key.GetValueNames().Contains("NullFile") &&
@@ -128,6 +116,18 @@ namespace Files.Helpers
             };
 
             return entry;
+        }
+
+        private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
+        {
+            try
+            {
+                return root.OpenSubKey(keyName);
+            }
+            catch (SecurityException)
+            {
+                return null;
+            }
         }
     }
 }

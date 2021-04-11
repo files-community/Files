@@ -8,15 +8,10 @@ namespace Files.Helpers.FileListCache
     {
         private static FileListCacheController instance;
 
-        private readonly IMemoryCache fileNamesCache = new MemoryCache(new MemoryCacheOptions
+        public static FileListCacheController GetInstance()
         {
-            SizeLimit = 1_000_000
-        });
-
-        private readonly IMemoryCache filesCache = new MemoryCache(new MemoryCacheOptions
-        {
-            SizeLimit = 1_000_000
-        });
+            return instance ??= new FileListCacheController();
+        }
 
         private readonly IFileListCache persistentAdapter;
 
@@ -25,26 +20,35 @@ namespace Files.Helpers.FileListCache
             persistentAdapter = new PersistentSQLiteCacheAdapter();
         }
 
-        public static FileListCacheController GetInstance()
+        private readonly IMemoryCache filesCache = new MemoryCache(new MemoryCacheOptions
         {
-            return instance ??= new FileListCacheController();
-        }
+            SizeLimit = 1_000_000
+        });
 
-        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        private readonly IMemoryCache fileNamesCache = new MemoryCache(new MemoryCacheOptions
         {
-            var displayName = fileNamesCache.Get<string>(path);
-            if (displayName == null)
+            SizeLimit = 1_000_000
+        });
+
+        public Task SaveFileListToCache(string path, CacheEntry cacheEntry)
+        {
+            if (!App.AppSettings.UseFileListCache)
             {
-                displayName = await persistentAdapter.ReadFileDisplayNameFromCache(path, cancellationToken);
-                if (displayName != null)
-                {
-                    fileNamesCache.Set(path, displayName, new MemoryCacheEntryOptions
-                    {
-                        Size = 1
-                    });
-                }
+                return Task.CompletedTask;
             }
-            return displayName;
+
+            if (cacheEntry == null)
+            {
+                filesCache.Remove(path);
+                return persistentAdapter.SaveFileListToCache(path, cacheEntry);
+            }
+            filesCache.Set(path, cacheEntry, new MemoryCacheEntryOptions
+            {
+                Size = cacheEntry.FileList.Count
+            });
+
+            // save entry to persistent cache in background
+            return persistentAdapter.SaveFileListToCache(path, cacheEntry);
         }
 
         public async Task<CacheEntry> ReadFileListFromCache(string path, CancellationToken cancellationToken)
@@ -69,6 +73,23 @@ namespace Files.Helpers.FileListCache
             return entry;
         }
 
+        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        {
+            var displayName = fileNamesCache.Get<string>(path);
+            if (displayName == null)
+            {
+                displayName = await persistentAdapter.ReadFileDisplayNameFromCache(path, cancellationToken);
+                if (displayName != null)
+                {
+                    fileNamesCache.Set(path, displayName, new MemoryCacheEntryOptions
+                    {
+                        Size = 1
+                    });
+                }
+            }
+            return displayName;
+        }
+
         public Task SaveFileDisplayNameToCache(string path, string displayName)
         {
             if (displayName == null)
@@ -83,27 +104,6 @@ namespace Files.Helpers.FileListCache
 
             // save entry to persistent cache in background
             return persistentAdapter.SaveFileDisplayNameToCache(path, displayName);
-        }
-
-        public Task SaveFileListToCache(string path, CacheEntry cacheEntry)
-        {
-            if (!App.AppSettings.UseFileListCache)
-            {
-                return Task.CompletedTask;
-            }
-
-            if (cacheEntry == null)
-            {
-                filesCache.Remove(path);
-                return persistentAdapter.SaveFileListToCache(path, cacheEntry);
-            }
-            filesCache.Set(path, cacheEntry, new MemoryCacheEntryOptions
-            {
-                Size = cacheEntry.FileList.Count
-            });
-
-            // save entry to persistent cache in background
-            return persistentAdapter.SaveFileListToCache(path, cacheEntry);
         }
     }
 }

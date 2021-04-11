@@ -19,7 +19,7 @@
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <icore:EventTriggerBehavior EventName="PointerWheelChanged">
-            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}"/>
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
@@ -50,7 +50,7 @@
                 Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
@@ -59,14 +59,14 @@
                 Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <muxc:ProgressBar
             x:Name="progBar"
@@ -214,13 +214,13 @@
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     x:Phase="1"
-                                    
+
                                     Glyph="&#xE7C3;" />
                                 <FontIcon
                                     x:Name="WebShortcutGlyph"
                                     x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                     x:Phase="1"
-                                    
+
                                     Glyph="&#xE71B;" />
                                 <Image
                                     x:Name="FileImageElement"
@@ -290,7 +290,7 @@
                                 Margin="12,0,0,0"
                                 HorizontalAlignment="Left"
                                 AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"
-                                
+
                                 FontSize="14"
                                 Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                                 Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
@@ -422,8 +422,8 @@
         </controls:DataGrid>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
-            <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel"/>
-            <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton"/>
+            <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel" />
+            <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton" />
         </StackPanel>
 
         <Canvas Grid.RowSpan="2" Margin="12,12,12,0">

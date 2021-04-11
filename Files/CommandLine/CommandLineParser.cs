@@ -8,48 +8,6 @@ namespace Files.CommandLine
 {
     internal class CommandLineParser
     {
-        public static List<KeyValuePair<string, string>> Parse(string[] args = null)
-        {
-            var parsedArgs = new List<KeyValuePair<string, string>>();
-            //Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
-
-            if (args != null)
-            {
-                //if - or / are not used then add the command as-is
-
-                if (args.Length > 2)
-                {
-                    for (int i = 0; i < args.Length; i++)
-                    {
-                        if (args[i].StartsWith("-") || args[i].StartsWith("/"))
-                        {
-                            var data = ParseData(args, i);
-
-                            if (data.Key != null)
-                            {
-                                for (int j = 0; j < parsedArgs.Count; j++)
-                                {
-                                    if (parsedArgs[j].Key == data.Key)
-                                    {
-                                        parsedArgs.RemoveAt(j);
-                                    }
-                                }
-
-                                parsedArgs.Add(data);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (parsedArgs.Count == 0 && args.Length >= 2)
-            {
-                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1)).TrimStart()));
-            }
-
-            return parsedArgs;
-        }
-
         public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
         {
             var parsedArgs = Parse(SplitArguments(cmdLineString));
@@ -60,39 +18,6 @@ namespace Files.CommandLine
         {
             var parsedArgs = Parse(cmdLineStrings);
             return ParseSplitArguments(parsedArgs);
-        }
-
-        private static KeyValuePair<string, string> ParseData(string[] args, int index)
-        {
-            string key = null;
-            string val = null;
-            if (args[index].StartsWith("-") || args[index].StartsWith("/"))
-            {
-                if (args[index].Contains(":"))
-                {
-                    string argument = args[index];
-                    int endIndex = argument.IndexOf(':');
-                    key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
-                    int valueStart = endIndex + 1;
-                    val = valueStart < argument.Length ? argument.Substring(
-                        valueStart, argument.Length - valueStart) : null;
-                }
-                else
-                {
-                    key = args[index];
-                    int argIndex = 1 + index;
-                    if (argIndex < args.Length && !(args[argIndex].StartsWith("-") || args[argIndex].StartsWith("/")))
-                    {
-                        val = args[argIndex];
-                    }
-                    else
-                    {
-                        val = null;
-                    }
-                }
-            }
-
-            return key != null ? new KeyValuePair<string, string>(key, val) : default;
         }
 
         private static ParsedCommands ParseSplitArguments(List<KeyValuePair<string, string>> parsedArgs)
@@ -162,6 +87,81 @@ namespace Files.CommandLine
             }
 
             return new string(commandLineCharArray).Replace("\"", "").Split('\n');
+        }
+
+        public static List<KeyValuePair<string, string>> Parse(string[] args = null)
+        {
+            var parsedArgs = new List<KeyValuePair<string, string>>();
+            //Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
+
+            if (args != null)
+            {
+                //if - or / are not used then add the command as-is
+
+                if (args.Length > 2)
+                {
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (args[i].StartsWith("-") || args[i].StartsWith("/"))
+                        {
+                            var data = ParseData(args, i);
+
+                            if (data.Key != null)
+                            {
+                                for (int j = 0; j < parsedArgs.Count; j++)
+                                {
+                                    if (parsedArgs[j].Key == data.Key)
+                                    {
+                                        parsedArgs.RemoveAt(j);
+                                    }
+                                }
+
+                                parsedArgs.Add(data);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (parsedArgs.Count == 0 && args.Length >= 2)
+            {
+                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1)).TrimStart()));
+            }
+
+            return parsedArgs;
+        }
+
+        private static KeyValuePair<string, string> ParseData(string[] args, int index)
+        {
+            string key = null;
+            string val = null;
+            if (args[index].StartsWith("-") || args[index].StartsWith("/"))
+            {
+                if (args[index].Contains(":"))
+                {
+                    string argument = args[index];
+                    int endIndex = argument.IndexOf(':');
+                    key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
+                    int valueStart = endIndex + 1;
+                    val = valueStart < argument.Length ? argument.Substring(
+                        valueStart, argument.Length - valueStart) : null;
+                }
+                else
+                {
+                    key = args[index];
+                    int argIndex = 1 + index;
+                    if (argIndex < args.Length && !(args[argIndex].StartsWith("-") || args[argIndex].StartsWith("/")))
+                    {
+                        val = args[argIndex];
+                    }
+                    else
+                    {
+                        val = null;
+                    }
+                }
+            }
+
+            return key != null ? new KeyValuePair<string, string>(key, val) : default;
         }
     }
 }

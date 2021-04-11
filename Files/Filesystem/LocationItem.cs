@@ -9,25 +9,11 @@ namespace Files.Filesystem
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        private string path;
-        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
-        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
-        public string HoverDisplayText { get; private set; }
         public SvgImageSource Icon { get; set; }
 
-        public bool IsDefaultLocation { get; set; }
+        public string Text { get; set; }
 
-        public bool IsExpanded
-        {
-            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
-            set
-            {
-                App.AppSettings.Set(value, $"section:{Text}");
-                OnPropertyChanged(nameof(IsExpanded));
-            }
-        }
-
-        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+        private string path;
 
         public string Path
         {
@@ -39,9 +25,25 @@ namespace Files.Filesystem
             }
         }
 
-        public SectionType Section { get; set; }
+        public string HoverDisplayText { get; private set; }
+        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
+        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+        public bool IsDefaultLocation { get; set; }
+        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
+
         public bool SelectsOnInvoked { get; set; } = true;
-        public string Text { get; set; }
+
+        public bool IsExpanded
+        {
+            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
+            set
+            {
+                App.AppSettings.Set(value, $"section:{Text}");
+                OnPropertyChanged(nameof(IsExpanded));
+            }
+        }
+
+        public SectionType Section { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
