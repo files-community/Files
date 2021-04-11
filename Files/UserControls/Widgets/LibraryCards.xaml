@@ -109,6 +109,8 @@
                             AutomationProperties.Name="{x:Bind AutomationProperties}"
                             Command="{x:Bind SelectCommand}"
                             CommandParameter="{x:Bind}"
+                            Tag="{x:Bind Path}"
+                            PointerPressed="Button_PointerPressed"
                             CornerRadius="8">
                             <Button.ContextFlyout>
                                 <MenuFlyout Opening="MenuFlyout_Opening">
