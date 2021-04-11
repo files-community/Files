@@ -129,5 +129,10 @@ namespace Files.ViewModels.Properties
                     break;
             }
         }
+
+        public override void GetSecurityProperties()
+        {
+            
+        }
     }
 }

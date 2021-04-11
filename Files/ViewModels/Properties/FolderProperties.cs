@@ -231,5 +231,19 @@ namespace Files.ViewModels.Properties
                     break;
             }
         }
+
+        public override void GetSecurityProperties()
+        {
+            ViewModel.ItemObjectNameDescription = "ItemObjectNameDescription".GetLocalized();
+            ViewModel.ItemObjectNameValue = "ItemObjectNameValue".GetLocalized();
+            ViewModel.ItemGroupUserNamesDescription = "ItemGroupUserNamesDescription".GetLocalized();
+            ViewModel.ItemPermissionsDescription = "ItemPermissionsDescription".GetLocalized();
+            ViewModel.ItemPermissionsDescriptionButton = "ItemPermissionsDescriptionButton".GetLocalized();
+            ViewModel.ItemAdvanPermissionsDescription = "ItemAdvanPermissionsDescription".GetLocalized();
+            ViewModel.ItemAdvanPermissionsDescriptionButton = "ItemAdvanPermissionsDescriptionButton".GetLocalized();
+
+
+
+        }
     }
 }

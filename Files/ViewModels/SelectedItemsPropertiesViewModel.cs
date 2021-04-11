@@ -687,5 +687,54 @@ namespace Files.ViewModels
             get => isHidden;
             set => SetProperty(ref isHidden, value);
         }
+
+        private string itemObjectNameDescription;
+        public string ItemObjectNameDescription
+        {
+            get => itemObjectNameDescription;
+            set => SetProperty(ref itemObjectNameDescription, value);
+        }
+
+        private string itemObjectNameValue;
+        public string ItemObjectNameValue
+        {
+            get => itemObjectNameValue;
+            set => SetProperty(ref itemObjectNameValue, value);
+        }
+
+        private string itemGroupUserNamesDescription;
+        public string ItemGroupUserNamesDescription
+        {
+            get => itemGroupUserNamesDescription;
+            set => SetProperty(ref itemGroupUserNamesDescription, value);
+        }
+
+        private string itemPermissionsDescription;
+        public string ItemPermissionsDescription
+        {
+            get => itemPermissionsDescription;
+            set => SetProperty(ref itemPermissionsDescription, value);
+        }
+
+        private string itemPermissionsDescriptionButton;
+        public string ItemPermissionsDescriptionButton
+        {
+            get => itemPermissionsDescriptionButton;
+            set => SetProperty(ref itemPermissionsDescriptionButton, value);
+        }
+
+        private string itemAdvanPermissionsDescription;
+        public string ItemAdvanPermissionsDescription
+        {
+            get => itemAdvanPermissionsDescription;
+            set => SetProperty(ref itemAdvanPermissionsDescription, value);
+        }
+
+        private string itemAdvanPermissionsDescriptionButton;
+        public string ItemAdvanPermissionsDescriptionButton
+        {
+            get => itemAdvanPermissionsDescriptionButton;
+            set => SetProperty(ref itemAdvanPermissionsDescriptionButton, value);
+        }
     }
 }

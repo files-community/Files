@@ -2663,6 +2663,30 @@
           <source>Open themes folder</source>
           <target state="needs-review-translation">Ouvrir l'emplacement des thèmes</target>
         </trans-unit>
+        <trans-unit id="ItemObjectNameDescription" translate="yes" xml:space="preserve">
+          <source>Object name:</source>
+          <target state="new">Object name:</target>
+        </trans-unit>
+        <trans-unit id="ItemGroupUserNamesDescription" translate="yes" xml:space="preserve">
+          <source>Group or user names:</source>
+          <target state="new">Group or user names:</target>
+        </trans-unit>
+        <trans-unit id="ItemPermissionsDescription" translate="yes" xml:space="preserve">
+          <source>To change permissions, click Edit:</source>
+          <target state="new">To change permissions, click Edit:</target>
+        </trans-unit>
+        <trans-unit id="ItemPermissionsDescriptionButton" translate="yes" xml:space="preserve">
+          <source>Edit</source>
+          <target state="new">Edit</target>
+        </trans-unit>
+        <trans-unit id="ItemAdvanPermissionsDescription" translate="yes" xml:space="preserve">
+          <source>For special permissions or advanced settings, click Advanced:</source>
+          <target state="new">For special permissions or advanced settings, click Advanced:</target>
+        </trans-unit>
+        <trans-unit id="ItemAdvanPermissionsDescriptionButton" translate="yes" xml:space="preserve">
+          <source>Advanced</source>
+          <target state="new">Advanced</target>
+        </trans-unit>
       </group>
     </body>
   </file>

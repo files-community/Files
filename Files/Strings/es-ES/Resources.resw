@@ -1884,4 +1884,22 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocidad ISO</value>
   </data>
+  <data name="ItemObjectNameDescription" xml:space="preserve">
+    <value>Object name:</value>
+  </data>
+  <data name="ItemGroupUserNamesDescription" xml:space="preserve">
+    <value>Group or user names:</value>
+  </data>
+  <data name="ItemPermissionsDescription" xml:space="preserve">
+    <value>To change permissions, click Edit:</value>
+  </data>
+  <data name="ItemPermissionsDescriptionButton" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ItemAdvanPermissionsDescription" xml:space="preserve">
+    <value>For special permissions or advanced settings, click Advanced:</value>
+  </data>
+  <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
 </root>

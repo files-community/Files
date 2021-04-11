@@ -22,6 +22,7 @@ namespace Files.ViewModels.Properties
             if (BaseProperties != null)
             {
                 BaseProperties.GetSpecialProperties();
+                BaseProperties.GetSecurityProperties();
             }
         }
 

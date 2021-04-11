@@ -29,6 +29,7 @@ namespace Files.ViewModels.Properties
 
         public abstract void GetSpecialProperties();
 
+        public abstract void GetSecurityProperties();
         public async void GetOtherProperties(StorageItemContentProperties properties)
         {
             string dateAccessedProperty = "System.DateAccessed";

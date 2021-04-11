@@ -40,32 +40,128 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                x:Uid="ItemObjectNameDescription"
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource PropertyName}"
+                Visibility="Visible"
+                Text="{x:Bind ViewModel.ItemObjectNameDescription}"/>
+            <TextBlock
+                x:Uid="ItemObjectNameValue"
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource PropertyName}"
+                Visibility="Visible"
+                Text="{x:Bind ViewModel.ItemObjectNameValue}"/>
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
                 <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="ItemGroupUserNamesDescription"
+                x:Uid="ItemGroupUserNamesDescription"
+                Grid.Row="1"
+                Grid.Column="0"
+                Visibility="Visible"
+                Style="{StaticResource PropertyName}"
+                Text="{x:Bind ViewModel.ItemGroupUserNamesDescription}" />
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition />
+            </Grid.RowDefinitions>
+            <ListView HorizontalAlignment="Left" 
+                      Name="lvGroupsOrUsers" 
+                      Margin="10,10,0,0" 
+                      Height="130" 
+                      Width="350" 
+                      ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"/>            
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Uid="ItemPermissionsDescription"
+                Grid.Row="1"
+                Grid.Column="0"
+                Visibility="Visible"
+                Style="{StaticResource PropertyName}"
+                Text="{x:Bind ViewModel.ItemPermissionsDescription}"/>
+            <Button
+                    x:Name="ItemPermissionsDescriptionButton"
+                    x:Uid="ItemPermissionsDescriptionButton"
+                    Margin="10,0,0,0"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Visibility="Visible"
+                    Content="{x:Bind ViewModel.ItemPermissionsDescriptionButton}"
+                    Click="ItemPermissionsDescriptionButton_Click"
+                    HorizontalAlignment="Left">
+            </Button>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+            </Grid.RowDefinitions>
+            <ListView HorizontalAlignment="Left" 
+                      Name="lvPermissions" 
+                      Margin="10,10,0,0" 
+                      Height="130" 
+                      Width="350" 
+                      ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"/>            
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-
-            <MenuFlyoutSeparator
-                Grid.Row="1"
+            <TextBlock
+                x:Uid="ItemAdvanPermissionsDescription"
+                Grid.Row="0"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="-12,0"
-                HorizontalAlignment="Stretch" />
+                Visibility="Visible"
+                Style="{StaticResource PropertyName}"
+                Text="{x:Bind ViewModel.ItemAdvanPermissionsDescription}"/>
+            <Button
+                    x:Name="ItemAdvanPermissionsDescriptionButton"
+                    x:Uid="ItemAdvanPermissionsDescriptionButton"
+                    Margin="0,10,0,0"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Visibility="Visible"
+                    Content="{x:Bind ViewModel.ItemAdvanPermissionsDescriptionButton}"
+                    Click="ItemAdvanPermissionsDescriptionButton_Click"
+                    HorizontalAlignment="Left">
+            </Button>
         </Grid>
+
     </StackPanel>
 </local:PropertiesTab>

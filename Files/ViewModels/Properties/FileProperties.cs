@@ -41,6 +41,8 @@ namespace Files.ViewModels.Properties
             AppInstance = instance;
 
             GetBaseProperties();
+            GetSecurityProperties();
+
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
@@ -97,6 +99,20 @@ namespace Files.ViewModels.Properties
                     });
                 }
             }
+        }
+
+        public override async void GetSecurityProperties()
+        {
+            ViewModel.ItemObjectNameDescription = "ItemObjectNameDescription".GetLocalized();
+            ViewModel.ItemObjectNameValue = Item.ItemName;
+            ViewModel.ItemGroupUserNamesDescription = "ItemGroupUserNamesDescription".GetLocalized();
+            ViewModel.ItemPermissionsDescription = "ItemPermissionsDescription".GetLocalized();
+            ViewModel.ItemPermissionsDescriptionButton = "ItemPermissionsDescriptionButton".GetLocalized();
+            ViewModel.ItemAdvanPermissionsDescription = "ItemAdvanPermissionsDescription".GetLocalized();
+            ViewModel.ItemAdvanPermissionsDescriptionButton = "ItemAdvanPermissionsDescriptionButton".GetLocalized();
+
+
+
         }
 
         public override async void GetSpecialProperties()

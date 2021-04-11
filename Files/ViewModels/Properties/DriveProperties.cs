@@ -59,5 +59,10 @@ namespace Files.ViewModels.Properties
                 NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
             }
         }
+
+        public override void GetSecurityProperties()
+        {
+            
+        }
     }
 }
