@@ -112,7 +112,7 @@ namespace FilesFullTrust
             return iconsList;
         }
 
-        public static async Task<string> GetFileAssociationAsync(string filename)
+        public static string[] CommandLineToArgs(string commandLine)
         {
             if (string.IsNullOrEmpty(commandLine))
             {
