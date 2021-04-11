@@ -534,8 +534,15 @@ namespace Files.Views.LayoutModes
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !AppSettings.OpenItemsWithOneclick)
             {
+                var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                if (ctrlPressed)
+                {
+                    NavigationHelpers.OpenPathInNewTab(item.ItemPath);
+                    return;
+                }
+
                 if (!InteractionViewModel.MultiselectEnabled)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);

@@ -504,6 +504,14 @@ namespace Files.Views.LayoutModes
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
+
+                var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                if (ctrlPressed && item?.ItemPath != null)
+                {
+                    NavigationHelpers.OpenPathInNewTab(item.ItemPath);
+                    return;
+                }
+
                 if (item.ItemType == "File folder")
                 {
                     //var pane = new ModernShellPage();

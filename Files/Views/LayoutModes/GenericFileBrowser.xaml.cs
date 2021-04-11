@@ -692,6 +692,13 @@ namespace Files.Views.LayoutModes
 
         private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && SelectedItem?.ItemPath != null)
+            {
+                NavigationHelpers.OpenPathInNewTab(SelectedItem.ItemPath);
+                return;
+            }
+
             tapDebounceTimer.Stop();
             NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
         }
