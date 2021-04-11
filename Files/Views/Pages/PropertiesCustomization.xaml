@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:local1="using:Files.ViewModels.Properties"
+    xmlns:local1="using:Files.ViewModels.Properties" xmlns:views="using:Files.Views"
     Name="Page"
     mc:Ignorable="d">
 
@@ -31,12 +31,7 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Custom folder icon"/>
-            <Button
-                x:Name="PropertiesChangeFolderIconButton"
-                Grid.Row="0"
-                Grid.Column="1"
-                Click="PropertiesChangeFolderIconButton_Click"
-                Content="Change icon"/>
+            <Frame x:Name="CustomIconsSelectorFrame" Loaded="CustomIconsSelectorFrame_Loaded"/>
         </Grid>
     </StackPanel>
 </local1:PropertiesTab>

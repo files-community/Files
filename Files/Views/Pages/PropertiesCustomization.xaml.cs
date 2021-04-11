@@ -34,41 +34,25 @@ namespace Files.Views
             this.InitializeComponent();
         }
 
-        private async void PropertiesChangeFolderIconButton_Click(object sender, RoutedEventArgs e)
+        private async void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            CoreApplicationView newWindow = CoreApplication.CreateNewView();
-            ApplicationView newView = null;
+            string initialPath = @"C:\Windows\System32\SHELL32.dll";
 
             var response = await AppInstance?.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "GetFolderIconsFromDLL" },
-                { "iconFile", @"C:\Windows\System32\SHELL32.dll" }
+                { "iconFile", initialPath }
             });
 
             var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
+            (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath }, new SuppressNavigationTransitionInfo());
+        }
 
-            await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                Frame frame = new Frame();
-                frame.Navigate(typeof(CustomFolderIcons), icons, new SuppressNavigationTransitionInfo());
-                Window.Current.Content = frame;
-                Window.Current.Activate();
-
-                newView = ApplicationView.GetForCurrentView();
-                newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                // TODO: Localize this title
-                newView.Title = "Selecting custom icon for " + ViewModel.ItemName;
-                newView.PersistedStateId = "CustomIcon";
-                newView.SetPreferredMinSize(new Size(400, 550));
-                newView.Consolidated += delegate
-                {
-                    Window.Current.Close();
-                };
-            });
-
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
-            // Set window size again here as sometimes it's not resized in the page Loaded event
-            newView.TryResizeView(new Size(400, 550));
+        public class IconSelectorInfo
+        {
+            public IList<IconFileInfo> Icons;
+            public string InitialPath;
+            public Helpers.NamedPipeAsAppServiceConnection Connection;
         }
     }
 }
