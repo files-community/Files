@@ -63,6 +63,10 @@ namespace Files.ViewModels
                     {
                         SetProperty(ref tabStripSelectedIndex, value);
                     }
+                    if (MainPageViewModel.MultitaskingControl is null)
+                    {
+                        return;
+                    }
                     if (value < MainPageViewModel.MultitaskingControl.Items.Count)
                     {
                         Frame rootFrame = Window.Current.Content as Frame;

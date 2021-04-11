@@ -140,7 +140,7 @@ namespace Files.ViewModels
 
             if (!shift)
             {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+                await AddNewTabAsync();
             }
             else // ctrl + shift + t, restore recently closed tab
             {
@@ -427,11 +427,12 @@ namespace Files.ViewModels
         public static async Task AddNewTabAsync()
         {
             await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            App.InteractionViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            await AddNewTabAsync();
         }
 
         public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
