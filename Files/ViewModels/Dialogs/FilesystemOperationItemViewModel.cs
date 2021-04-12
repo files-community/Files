@@ -22,12 +22,7 @@ namespace Files.ViewModels.Dialogs
             get => System.IO.Path.GetDirectoryName(DestinationPath);
         }
 
-        public string SourceFileNameDisplayName
-        {
-            get => System.IO.Path.GetFileName(SourcePath);
-        }
-
-        public string DestinationFileNameDisplayName
+        public string DisplayFileName
         {
             get => System.IO.Path.GetFileName(DestinationPath);
         }

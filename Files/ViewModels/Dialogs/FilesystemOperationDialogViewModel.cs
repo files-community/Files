@@ -20,7 +20,7 @@ namespace Files.ViewModels.Dialogs
 
         public ListViewSelectionMode ItemsSelectionMode
         {
-            get => MustResolveConflicts ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+            get => MustResolveConflicts ? ListViewSelectionMode.Extended : ListViewSelectionMode.None;
         }
 
         private string title;
