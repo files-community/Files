@@ -39,6 +39,14 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref subtitle, value);
         }
 
+        private bool primaryButtonEnabled = false;
+
+        public bool PrimaryButtonEnabled
+        {
+            get => primaryButtonEnabled;
+            set => SetProperty(ref primaryButtonEnabled, value);
+        }
+
         private string primaryButtonText;
 
         public string PrimaryButtonText
@@ -148,6 +156,7 @@ namespace Files.ViewModels.Dialogs
                 // Any conflicting items?
                 if (MustResolveConflicts)
                 {
+                    UpdatePrimaryButtonEnabled();
                     ExpandOrCollapseDetails();
                 }
             });
@@ -161,7 +170,7 @@ namespace Files.ViewModels.Dialogs
             {
                 var detailItem = (FilesystemOperationItemViewModel)item;
 
-                detailItem.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
+                detailItem.TakeAction(FileNameConflictResolveOptionType.Skip);
             }
         }
 
@@ -171,7 +180,7 @@ namespace Files.ViewModels.Dialogs
             {
                 var detailItem = (FilesystemOperationItemViewModel)item;
 
-                detailItem.ConflictResolveOption = FileNameConflictResolveOptionType.ReplaceExisting;
+                detailItem.TakeAction(FileNameConflictResolveOptionType.ReplaceExisting);
             }
         }
 
@@ -181,7 +190,7 @@ namespace Files.ViewModels.Dialogs
             {
                 var detailItem = (FilesystemOperationItemViewModel)item;
 
-                detailItem.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
+                detailItem.TakeAction(FileNameConflictResolveOptionType.GenerateNewName);
             }
         }
 
@@ -215,6 +224,11 @@ namespace Files.ViewModels.Dialogs
 
         #endregion Command Implementation
 
+        public void UpdatePrimaryButtonEnabled()
+        {
+            PrimaryButtonEnabled = !Items.Any((item) => !item.ActionTaken);
+        }
+
         public List<IFilesystemOperationItemModel> GetResult()
         {
             return Items.Cast<IFilesystemOperationItemModel>().ToList();
@@ -226,7 +240,6 @@ namespace Files.ViewModels.Dialogs
             string subtitleText = null;
             string primaryButtonText = null;
             string secondaryButtonText = null;
-            string closeButtonText = null;
             bool permanentlyDeleteLoad = false;
 
             if (itemsData.MustResolveConflicts)
@@ -272,7 +285,8 @@ namespace Files.ViewModels.Dialogs
                 }
             }
 
-            FilesystemOperationDialogViewModel viewModel = new FilesystemOperationDialogViewModel()
+            FilesystemOperationDialogViewModel viewModel = null;
+            viewModel = new FilesystemOperationDialogViewModel()
             {
                 Title = titleText,
                 Subtitle = subtitleText,
@@ -282,7 +296,7 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDelete = itemsData.PermanentlyDelete,
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
                 MustResolveConflicts = itemsData.MustResolveConflicts,
-                Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems())
+                Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(() => viewModel.PrimaryButtonEnabled = !viewModel.Items.Any((item) => !item.ActionTaken)))
             };
 
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);

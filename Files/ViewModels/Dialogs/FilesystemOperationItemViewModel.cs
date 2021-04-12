@@ -1,11 +1,16 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationItemViewModel : ObservableObject, IFilesystemOperationItemModel
     {
+        private Action updatePrimaryButtonEnabled;
+
         public string OperationIconGlyph { get; set; }
 
         public string SourcePath { get; set; }
@@ -40,33 +45,54 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref exclamationMarkVisibility, value);
         }
 
-        private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.NotAConflict;
+        public FileNameConflictResolveOptionType ConflictResolveOption { get; set; }
 
-        public FileNameConflictResolveOptionType ConflictResolveOption
+        private bool actionTaken = false;
+        public bool ActionTaken
         {
-            get => conflictResolveOption;
-            set
-            {
-                if (SetProperty(ref conflictResolveOption, value))
-                {
-                    ConflictResolveOptionIndex = (int)(uint)conflictResolveOption;
-                }
-            }
+            get => actionTaken;
+            set => SetProperty(ref actionTaken, value);
         }
 
-        private int conflictResolveOptionIndex = 0;
-        public int ConflictResolveOptionIndex
+        public Visibility ShowUndoButton
         {
-            get => conflictResolveOptionIndex;
-            set
-            {
-                if (SetProperty(ref conflictResolveOptionIndex, value))
-                {
-                    ConflictResolveOption = (FileNameConflictResolveOptionType)(uint)conflictResolveOptionIndex;
-                }
-            }
+            get => ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public FilesystemOperationType ItemOperation { get; set; }
+
+        public ICommand GenerateNewNameCommand { get; private set; }
+
+        public ICommand ReplaceExistingCommand { get; private set; }
+
+        public ICommand SkipCommand { get; private set; }
+
+        public ICommand SplitButtonDefaultActionCommand { get; private set; }
+
+        public ICommand UndoTakenActionCommand { get; private set; }
+
+        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled)
+        {
+            this.updatePrimaryButtonEnabled = updatePrimaryButtonEnabled;
+
+            GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
+            ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
+            SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));
+            SplitButtonDefaultActionCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName)); // GenerateNewName is the default action
+            UndoTakenActionCommand = new RelayCommand<RoutedEventArgs>((e) =>
+            {
+                ActionTaken = false;
+                updatePrimaryButtonEnabled?.Invoke();
+                OnPropertyChanged(nameof(ShowUndoButton));
+            });
+        }
+
+        public void TakeAction(FileNameConflictResolveOptionType action)
+        {
+            ConflictResolveOption = action;
+            ActionTaken = true;
+            OnPropertyChanged(nameof(ShowUndoButton));
+            updatePrimaryButtonEnabled?.Invoke();
+        }
     }
 }

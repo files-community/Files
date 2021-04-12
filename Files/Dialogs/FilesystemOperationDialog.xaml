@@ -12,6 +12,7 @@
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
     CornerRadius="4"
     DefaultButton="Primary"
+    IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
     PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
     PrimaryButtonStyle="{StaticResource DefaultButtonStyle}"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
@@ -42,6 +43,9 @@
                             <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -210,7 +214,6 @@
                                                 FontWeight="Bold"
                                                 Text="{Binding DisplayFileName}" />
 
-
                                             <!--  Source folder and destination folder  -->
                                             <StackPanel
                                                 Grid.Row="1"
@@ -242,19 +245,47 @@
                                                     Visibility="{Binding DestinationLocationVisibility}" />
                                             </StackPanel>
 
-                                            <!--  Combobox with options  -->
-                                            <ComboBox
+                                            <!--  Split with options  -->
+                                            <muxc:SplitButton
+                                                x:Name="Split"
                                                 Grid.RowSpan="2"
                                                 Grid.Column="2"
                                                 HorizontalAlignment="Right"
-                                                SelectedIndex="{Binding ConflictResolveOptionIndex, Mode=TwoWay}"
-                                                Visibility="{Binding DestinationLocationVisibility}">
-                                                <ComboBox.Items>
-                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionGenerateNewName" Content="Generate new name" />
-                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionReplaceExisting" Content="Replace" />
-                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionSkip" Content="Skip" />
-                                                </ComboBox.Items>
-                                            </ComboBox>
+                                                Command="{Binding SplitButtonDefaultActionCommand}"
+                                                Content="Generate new name"
+                                                Visibility="{Binding ShowUndoButton, Converter={StaticResource VisiblityInvertConverter}}">
+                                                <muxc:SplitButton.Flyout>
+                                                    <MenuFlyout>
+                                                        <MenuFlyoutItem
+                                                            x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
+                                                            Command="{Binding GenerateNewNameCommand}"
+                                                            Text="Generate new name" />
+                                                        <MenuFlyoutItem
+                                                            x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
+                                                            Command="{Binding ReplaceExistingCommand}"
+                                                            Text="Replace" />
+                                                        <MenuFlyoutItem
+                                                            x:Uid="ConflictingItemsDialogItemOptionSkip"
+                                                            Command="{Binding SkipCommand}"
+                                                            Text="Skip" />
+                                                    </MenuFlyout>
+                                                </muxc:SplitButton.Flyout>
+                                            </muxc:SplitButton>
+
+                                            <!--  Undo button  -->
+                                            <HyperlinkButton
+                                                Grid.RowSpan="2"
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Center"
+                                                Content="Undo"
+                                                Visibility="{Binding ShowUndoButton}">
+                                                <i:Interaction.Behaviors>
+                                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                                    <icore:EventTriggerBehavior EventName="Click">
+                                                        <icore:InvokeCommandAction Command="{Binding UndoTakenActionCommand}" />
+                                                    </icore:EventTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </HyperlinkButton>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
