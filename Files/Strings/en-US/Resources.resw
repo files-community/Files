@@ -2094,13 +2094,13 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Content" xml:space="preserve">
+  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Content" xml:space="preserve">
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Content" xml:space="preserve">
+  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
   </data>
   <data name="ConflictingItemsDialogOptionGenerateNewName.Content" xml:space="preserve">
