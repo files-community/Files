@@ -42,10 +42,6 @@
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
-                <ResourceDictionary>
-                    <vc:MiddleTextEllipsisConverter x:Key="MiddleTextEllipsisConverter" />
-                    <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentDialog.Resources>
@@ -87,93 +83,97 @@
                     </Button.Content>
                 </Button>
 
-                <ScrollViewer
-                    x:Name="ExpandableDetails"
-                    MaxHeight="300"
-                    HorizontalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.ExpandableDetailsLoad, Mode=OneWay}"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Auto">
-                    <Grid>
+                <StackPanel x:Name="DetailsPanel" Spacing="12" x:Load="{x:Bind ViewModel.ExpandableDetailsLoad, Mode=OneWay}">
+                    <StackPanel 
+                        x:Name="OptionsPanel"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}">
+                        <Button 
+                            x:Uid="ConflictingItemsDialogOptionGenerateNewName"
+                            HorizontalAlignment="Center"
+                            Content="Generate new name"
+                            Command="{x:Bind ViewModel.OptionGenerateNewNameCommand, Mode=OneWay}"/>
+                        <Button 
+                            x:Uid="ConflictingItemsDialogOptionReplaceExisting"
+                            HorizontalAlignment="Center"
+                            Content="Replace existing"
+                            Command="{x:Bind ViewModel.OptionReplaceExistingCommand, Mode=OneWay}"/>
+                        <Button 
+                            x:Uid="ConflictingItemsDialogOptionSkip"
+                            HorizontalAlignment="Center"
+                            Content="Skip"
+                            Command="{x:Bind ViewModel.OptionSkipCommand, Mode=OneWay}"/>
+                    </StackPanel>
 
-                        <Grid.RowDefinitions>
-                            
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            
-                        </Grid.RowDefinitions>
+                    <ScrollViewer
+                        MaxHeight="300"
+                        HorizontalAlignment="Stretch"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto">
+                        <Grid>
 
-                        <StackPanel x:Name="OptionsPanel" Orientation="Horizontal" Spacing="8" x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}">
-                            <Button 
-                                x:Uid="ConflictingItemsDialogOptionGenerateNewName"
-                                HorizontalAlignment="Center"
-                                Content="Generate new name"
-                                Command="{x:Bind ViewModel.OptionGenerateNewNameCommand, Mode=OneWay}"/>
-                            <Button 
-                                x:Uid="ConflictingItemsDialogOptionReplaceExisting"
-                                HorizontalAlignment="Center"
-                                Content="Replace existing"
-                                Command="{x:Bind ViewModel.OptionReplaceExistingCommand, Mode=OneWay}"/>
-                            <Button 
-                                x:Uid="ConflictingItemsDialogOptionSkip"
-                                HorizontalAlignment="Center"
-                                Content="Skip"
-                                Command="{x:Bind ViewModel.OptionSkipCommand, Mode=OneWay}"/>
-                        </StackPanel>
-                        
-                        <ListView
-                            x:Name="DetailsGrid"
-                            Grid.Row="1"
-                            ItemsSource="{x:Bind ViewModel.Items}"
-                            SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}"
-                            IsItemClickEnabled="False">
+                            <Grid.RowDefinitions>
 
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
+                                <RowDefinition/>
+                                <RowDefinition/>
 
-                            <!--  Remove Reveal Highlight Effect  -->
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem">
-                                    <!--  Spacing  -->
-                                    <Setter Property="Margin" Value="0" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="GridViewItem">
-                                                <ListViewItemPresenter
+                            </Grid.RowDefinitions>
+
+                            <ListView
+                                x:Name="DetailsGrid"
+                                Grid.Row="1"
+                                ItemsSource="{x:Bind ViewModel.Items}"
+                                SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}"
+                                IsItemClickEnabled="False">
+
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsStackPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+
+                                <!--  Remove Reveal Highlight Effect  -->
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <!--  Spacing  -->
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewItem">
+                                                    <ListViewItemPresenter
                                                     x:Name="Root"
                                                     RevealBackground="{ThemeResource GridViewItemRevealBackground}"
                                                     RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
                                                     RevealBorderThickness="0" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border>
-                                        <Grid ColumnSpacing="12" RowSpacing="4" Padding="2, 10, 2, 10">
-                                            <Grid.ColumnDefinitions>
-                                                <!-- Operation type -->
-                                                <ColumnDefinition Width="Auto"/>
-                                                <!--  Item names  -->
-                                                <ColumnDefinition Width="*" />
-                                                <!--  Combobox with options  -->
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border>
+                                            <Grid ColumnSpacing="12" RowSpacing="4" Padding="2, 10, 2, 10">
+                                                <Grid.ColumnDefinitions>
+                                                    <!-- Operation type -->
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <!--  Item names  -->
+                                                    <ColumnDefinition Width="*" />
+                                                    <!--  Combobox with options  -->
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
 
-                                            <Grid.RowDefinitions>
-                                                <!-- File name -->
-                                                <RowDefinition/>
-                                                <!-- Source folder and destination folder -->
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <!-- File name -->
+                                                    <RowDefinition/>
+                                                    <!-- Source folder and destination folder -->
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
 
-                                            <!--  Operation type icon  -->
-                                            <FontIcon
+                                                <!--  Operation type icon  -->
+                                                <FontIcon
                                                 Grid.Column="0"
                                                 Grid.RowSpan="2"
                                                 FontSize="24"
@@ -181,63 +181,63 @@
                                                 VerticalAlignment="Center"
                                                 Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
 
-                                            <!--  Exclamation mark icon for conflicts  -->
-                                            <Grid
+                                                <!--  Exclamation mark icon for conflicts  -->
+                                                <Grid
                                                 Grid.Column="0"
                                                 Grid.RowSpan="2"
                                                 Margin="0,0,-2,8"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Bottom"
                                                 Visibility="{Binding ExclamationMarkVisibility}">
-                                                <!--  Background  -->
-                                                <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
-                                                <!--  Exclamation mark  -->
-                                                <FontIcon
+                                                    <!--  Background  -->
+                                                    <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
+                                                    <!--  Exclamation mark  -->
+                                                    <FontIcon
                                                     FontSize="12"
                                                     Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
                                                     Glyph="&#xE7BA;" />
-                                            </Grid>
+                                                </Grid>
 
-                                            <!-- Filenames -->
-                                            <StackPanel Orientation="Horizontal" Spacing="8" Grid.Column="1" Grid.Row="0">
-                                                <!-- Source Filename -->
-                                                <TextBlock 
+                                                <!-- Filenames -->
+                                                <StackPanel Orientation="Horizontal" Spacing="8" Grid.Column="1" Grid.Row="0">
+                                                    <!-- Source Filename -->
+                                                    <TextBlock 
                                                     FontSize="12"
                                                     FontWeight="Bold"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center"
                                                     Text="{Binding SourceFileNameDisplayName}"/>
 
-                                                <!-- Arrow icon -->
-                                                <FontIcon
+                                                    <!-- Arrow icon -->
+                                                    <FontIcon
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     FontSize="12"
                                                     Visibility="{Binding DestinationLocationVisibility}"
                                                     Glyph="&#xEA62;"/>
 
-                                                <!-- Destination Filename -->
-                                                <TextBlock 
+                                                    <!-- Destination Filename -->
+                                                    <TextBlock 
                                                     FontSize="12"
                                                     FontWeight="Bold"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center"
                                                     Visibility="{Binding DestinationLocationVisibility}"
                                                     Text="{Binding DestinationFileNameDisplayName}"/>
-                                            </StackPanel>
-                                            
+                                                </StackPanel>
 
-                                            <!-- Source folder and destination folder -->
-                                            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="8">
-                                                <!--  Source folder name -->
-                                                <TextBlock
+
+                                                <!-- Source folder and destination folder -->
+                                                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="8">
+                                                    <!--  Source folder name -->
+                                                    <TextBlock
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Foreground="Gray"
                                                     Text="{Binding SourceDirectoryDisplayName}" />
 
-                                                <!-- Arrow icon -->
-                                                <FontIcon
+                                                    <!-- Arrow icon -->
+                                                    <FontIcon
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Foreground="Gray"
@@ -245,30 +245,31 @@
                                                     Visibility="{Binding DestinationLocationVisibility}"
                                                     Glyph="&#xEA62;"/>
 
-                                                <!--  Destination folder name  -->
-                                                <TextBlock
+                                                    <!--  Destination folder name  -->
+                                                    <TextBlock
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Foreground="Gray"
                                                     Visibility="{Binding DestinationLocationVisibility}"
                                                     Text="{Binding DestinationDirectoryDisplayName}" />
-                                            </StackPanel>
-                                            
-                                            <!-- Combobox with options -->
-                                            <ComboBox Visibility="{Binding DestinationLocationVisibility}" HorizontalAlignment="Right" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding ConflictResolveOptionIndex, Mode=TwoWay}">
-                                                <ComboBox.Items>
-                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionGenerateNewName" Content="Generate new name"/>
-                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionReplaceExisting" Content="Replace"/>
-                                                    <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionSkip" Content="Skip"/>
-                                                </ComboBox.Items>
-                                            </ComboBox>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                </ScrollViewer>
+                                                </StackPanel>
+
+                                                <!-- Combobox with options -->
+                                                <ComboBox Visibility="{Binding DestinationLocationVisibility}" HorizontalAlignment="Right" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding ConflictResolveOptionIndex, Mode=TwoWay}">
+                                                    <ComboBox.Items>
+                                                        <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionGenerateNewName" Content="Generate new name"/>
+                                                        <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionReplaceExisting" Content="Replace"/>
+                                                        <ComboBoxItem x:Uid="ConflictingItemsDialogItemOptionSkip" Content="Skip"/>
+                                                    </ComboBox.Items>
+                                                </ComboBox>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </ScrollViewer>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Border>
