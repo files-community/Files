@@ -597,6 +597,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value whether or not to enable the new list view based details view.
+        /// </summary>
+        public bool UseNewDetailsView
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion Experimental
 
         #region Startup

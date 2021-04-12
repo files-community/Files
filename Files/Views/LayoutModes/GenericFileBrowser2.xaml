@@ -1,0 +1,306 @@
+<local:BaseLayout
+    x:Class="Files.Views.LayoutModes.GenericFileBrowser2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Files"
+    xmlns:converters1="using:Files.Converters"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.Filesystem.Cloud"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    x:Name="PageRoot"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerWheelChanged">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+        </icore:EventTriggerBehavior>
+        <icore:EventTriggerBehavior EventName="PointerPressed">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <local:BaseLayout.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="NegatedBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+
+        <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+
+    </local:BaseLayout.Resources>
+
+    <Grid
+        x:Name="RootGrid"
+        Padding="0,0,0,0"
+        VerticalAlignment="Stretch"
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator
+                Key="{x:Bind PlusKey}"
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+            <KeyboardAccelerator
+                Key="{x:Bind MinusKey}"
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+            <KeyboardAccelerator
+                Key="Add"
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+            <KeyboardAccelerator
+                Key="Subtract"
+                Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+        </Grid.KeyboardAccelerators>
+        <muxc:ProgressBar
+            x:Name="progBar"
+            VerticalAlignment="Top"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingIndicatorActive, Mode=OneWay}"
+            Background="Transparent"
+            IsIndeterminate="True" />
+        <TextBlock
+            x:Name="EmptyText"
+            x:Uid="EmptyFolder"
+            Grid.Row="3"
+            Margin="0,125,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
+            Canvas.ZIndex="0"
+            Text="This folder is empty."
+            TextWrapping="Wrap" />
+
+        <muxc:TeachingTip
+            x:Name="FileNameTeachingTip"
+            x:Uid="FileNameTeachingTip"
+            CloseButtonContent="OK"
+            PreferredPlacement="Auto"
+            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
+            Visibility="Collapsed" />
+
+        <ListView
+            x:Name="FileList"
+            Padding="12,4,4,0"
+            VerticalContentAlignment="Stretch"
+            animations:ItemsReorderAnimation.Duration="0:0:0.350"
+            x:FieldModifier="public"
+            AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            DoubleTapped="FileList_DoubleTapped"
+            IsDoubleTapEnabled="True"
+            IsItemClickEnabled="True"
+            ItemClick="FileList_ItemClick"
+            PreviewKeyDown="FileList_PreviewKeyDown"
+            SelectionChanged="FileList_SelectionChanged"
+            SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+            <ListView.Header>
+                <Grid Padding="0" Margin="0" BorderBrush="{ThemeResource SystemChromeHighColor}" BorderThickness="0, 0, 0, 1" PointerPressed="Grid_PointerPressed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row1Width, Mode=TwoWay}" x:Name="Column1" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row2Width, Mode=TwoWay}" x:Name="Column2"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row3Width, Mode=TwoWay}" x:Name="Column3"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row4Width, Mode=TwoWay}" x:Name="Column4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row5Width, Mode=TwoWay}" x:Name="Column5" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button HorizontalAlignment="Stretch" Grid.Column="2" Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}" CommandParameter="Name">
+                        <TextBlock Text="Name" TextWrapping="Wrap" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" TextAlignment="Center" x:Uid="FileBrowserSortOption_Name"/>
+                    </Button>
+
+                    <controls:GridSplitter Grid.Column="3" Background="Transparent" Width="1"/>
+
+                    <TextBlock Text="Status" TextWrapping="Wrap" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" TextAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" VerticalAlignment="Center"/>
+
+                    <controls:GridSplitter Grid.Column="5" Background="Transparent" Width="1"/>
+
+                    <Button HorizontalAlignment="Stretch" Grid.Column="6"  Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}" CommandParameter="DateModified">
+                        <TextBlock Text="Date modified" TextWrapping="Wrap" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" TextAlignment="Center" x:Uid="FileBrowserSortOption_DateModified"/>
+                    </Button>
+
+                    <controls:GridSplitter Grid.Column="7" Background="Transparent" Width="1"/>
+                    <Button HorizontalAlignment="Stretch" Grid.Column="8"  Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}" CommandParameter="FileType">
+                        <TextBlock Text="Type" TextWrapping="Wrap" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" TextAlignment="Center" x:Uid="FileBrowserSortOption_FileType"/>
+                    </Button>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local2:ListedItem">
+                    <Grid HorizontalAlignment="Stretch" IsRightTapEnabled="True"
+                        RightTapped="StackPanel_RightTapped"
+                        ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
+                        Loaded="Grid_Loaded">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row1Width, Mode=OneWay}"/>
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row2Width, Mode=OneWay}"/>
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row3Width, Mode=OneWay}"/>
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row4Width, Mode=OneWay}"/>
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row5Width, Mode=OneWay}"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid
+                            Grid.Column="0"
+                            Height="Auto"
+                            Opacity="{x:Bind Opacity, Mode=OneWay}"
+                            Tag="ItemImage">
+                            <Image
+                                x:Name="Picture"
+                                Width="25"
+                                Margin="0,12,0,12"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                                x:Phase="1"
+                                Source="{x:Bind FileImage, Mode=OneWay}"
+                                Stretch="Uniform" />
+                            <Image
+                                x:Name="FolderGlyph"
+                                Width="25"
+                                Height="25"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                                x:Phase="1"
+                                Stretch="Uniform">
+                                <Image.Source>
+                                    <SvgImageSource
+                                RasterizePixelHeight="128"
+                                RasterizePixelWidth="128"
+                                UriSource="{x:Bind FolderIconSource}" />
+                                </Image.Source>
+                            </Image>
+                            <FontIcon
+                                x:Name="TypeUnknownGlyph"
+                                Width="25"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                                x:Phase="1"
+                        
+                                FontSize="25"
+                                Glyph="&#xE7C3;" />
+                            <Image
+                                x:Name="IconOverlay"
+                                Width="5"
+                                Height="5"
+                                Margin="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                x:Load="True"
+                                x:Phase="1"
+                                Source="{x:Bind IconOverlay, Mode=OneWay}"
+                                Stretch="Uniform" />
+                            <Viewbox
+                                x:Name="WebShortcutGlyph"
+                                MaxWidth="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+                                x:Phase="1">
+                                <FontIcon
+                            
+                                    FontSize="28"
+                                    Glyph="&#xE71B;" />
+                            </Viewbox>
+                            <Border
+                                x:Name="ShortcutGlyphElement"
+                                Margin="1"
+                                Padding="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                x:Load="{x:Bind IsShortcutItem}"
+                                x:Phase="1"
+                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                                BorderThickness="1">
+                                <FontIcon
+                                            FontFamily="{StaticResource CustomGlyph}"
+                                            FontSize="7"
+                                            Glyph="&#xF10A;" />
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Column="1" DoubleTapped="ItemNameGrid_DoubleTapped">
+                            <TextBlock Text="{x:Bind ItemName, Mode=OneWay}" x:Name="ItemName"/>
+                            <TextBox x:Name="ItemNameTextBox" Visibility="Collapsed"/>
+                        </Grid>
+                        <FontIcon
+                            x:Name="CloudDriveSyncStatusGlyph"
+                            Grid.Column="2"
+                            Margin="10,0,0,0"
+                            x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                            x:Phase="2"
+                            Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                            Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                            HorizontalAlignment="Stretch"/>
+
+                        <TextBlock Text="{x:Bind ItemDateModified, Mode=OneWay}" Grid.Column="3"/>
+                        <TextBlock Text="{x:Bind ItemType, Mode=OneWay}" Grid.Column="4"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ListView.Resources>
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Footer>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
+                    <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel" />
+                    <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton" />
+                </StackPanel>
+            </ListView.Footer>
+        </ListView>
+
+        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Rectangle
+                Name="SelectionRectangle"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0"
+                Fill="{ThemeResource SystemAccentColor}"
+                Opacity=".5"
+                Stroke="{ThemeResource SystemAccentColorLight1}"
+                StrokeThickness="1" />
+        </Canvas>
+    </Grid>
+</local:BaseLayout>

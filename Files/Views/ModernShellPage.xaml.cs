@@ -902,7 +902,7 @@ namespace Files.Views
         {
             ContentPage = await GetContentOrNullAsync();
             NavigationToolbar.ClearSearchBoxQueryText(true);
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
+            if (ItemDisplayFrame.CurrentSourcePageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
