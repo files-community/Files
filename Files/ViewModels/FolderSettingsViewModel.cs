@@ -110,7 +110,7 @@ namespace Files.ViewModels
             switch (prefsForPath.LayoutMode)
             {
                 case FolderLayoutModes.DetailsView:
-                    type = typeof(GenericFileBrowser);
+                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
                     break;
 
                 case FolderLayoutModes.TilesView:
@@ -126,7 +126,7 @@ namespace Files.ViewModels
                     break;
 
                 default:
-                    type = typeof(GenericFileBrowser);
+                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
                     break;
             }
             return type;
