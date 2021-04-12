@@ -43,9 +43,11 @@ namespace Files.Views
                 { "Arguments", "GetFolderIconsFromDLL" },
                 { "iconFile", initialPath }
             });
-
-            var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
-            (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath }, new SuppressNavigationTransitionInfo());
+            if (AppInstance?.ServiceConnection != null && response.Data != null)
+            {
+                var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
+                (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath }, new SuppressNavigationTransitionInfo());
+            }
         }
 
         public class IconSelectorInfo

@@ -41,7 +41,7 @@ namespace Files.Filesystem
 
         public bool LoadFolderGlyph
         {
-            get => loadFolderGlyph;
+            get => false;
             set => SetProperty(ref loadFolderGlyph, value);
         }
 
