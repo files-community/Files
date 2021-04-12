@@ -120,6 +120,7 @@ namespace Files.ViewModels
                 case FolderLayoutModes.GridView:
                     type = typeof(GridViewBrowser);
                     break;
+
                 case FolderLayoutModes.ColumnView:
                     type = typeof(ColumnViewBrowser);
                     break;

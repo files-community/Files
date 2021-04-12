@@ -1,8 +1,6 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -40,6 +38,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Visibility exclamationMarkVisibility = Visibility.Collapsed;
+
         public Visibility ExclamationMarkVisibility
         {
             get => exclamationMarkVisibility;
@@ -47,6 +46,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private FileNameConflictResolveOptionType conflictResolveOption = FileNameConflictResolveOptionType.NotAConflict;
+
         public FileNameConflictResolveOptionType ConflictResolveOption
         {
             get => conflictResolveOption;

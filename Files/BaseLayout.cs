@@ -371,7 +371,7 @@ namespace Files
             {
             }
 
-            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening; 
+            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
         }
 
@@ -402,6 +402,7 @@ namespace Files
                 Debug.WriteLine(error);
             }
         }
+
         public void BaseContextFlyout_Opening(object sender, object e)
         {
             try

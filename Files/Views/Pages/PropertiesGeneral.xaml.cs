@@ -3,7 +3,6 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;

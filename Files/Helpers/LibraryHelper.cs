@@ -32,6 +32,7 @@ namespace Files.Helpers
                 case "SavedPictures":
                 case "Videos":
                     return true;
+
                 default:
                     return false;
             }

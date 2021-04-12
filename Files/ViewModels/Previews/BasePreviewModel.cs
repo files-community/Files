@@ -4,7 +4,6 @@ using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,13 +24,28 @@ namespace Files.ViewModels.Previews
 
         public List<FileProperty> DetailsFromPreview { get; set; }
 
+        /// <summary>
+        /// This is cancelled when the user has selected another file or closed the pane.
+        /// </summary>
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
+        /// <summary>
+        /// Override this if the preview control needs to handle the unloaded event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
         {
             LoadCancelledTokenSource.Cancel();
         }
 
+        /// <summary>
+        /// Override this and place the code to load the file preview here.
+        /// You can return details that may have been obtained while loading the preview (eg. word count).
+        /// This details will be displayed *before* the system file properties.
+        /// If there are none, return an empty list.
+        /// </summary>
+        /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
@@ -64,26 +78,24 @@ namespace Files.ViewModels.Previews
             return list.Where(i => i.Value != null).ToList();
         }
 
+        /// <summary>
+        /// Call this function when you are ready to load the preview and details.
+        /// Override if you need custom loading code.
+        /// </summary>
+        /// <returns>The task to run</returns>
         public virtual async Task LoadAsync()
         {
-            // Files can be corrupt, in use, and stuff
-            try
-            {
-                var detailsFull = new List<FileProperty>();
-                Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-                DetailsFromPreview = await LoadPreviewAndDetails();
-                RaiseLoadedEvent();
-                var props = await GetSystemFileProperties();
+            var detailsFull = new List<FileProperty>();
+            Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            DetailsFromPreview = await LoadPreviewAndDetails();
+            RaiseLoadedEvent();
+            var props = await GetSystemFileProperties();
 
-                DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
-                props?.ForEach(i => detailsFull.Add(i));
+            // Add the details from the preview function, then the system file properties
+            DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
+            props?.ForEach(i => detailsFull.Add(i));
 
-                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
+            Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
         }
 
         public event LoadedEventHandler LoadedEvent;

@@ -3,7 +3,6 @@ using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -96,8 +95,8 @@ namespace Files.Filesystem
 
         public SectionType Section { get; set; }
 
-
         private float percentageUsed = 0.0f;
+
         public float PercentageUsed
         {
             get => percentageUsed;
@@ -121,6 +120,7 @@ namespace Files.Filesystem
         }
 
         private bool showStorageSense = false;
+
         public bool ShowStorageSense
         {
             get => showStorageSense;

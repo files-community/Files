@@ -1,19 +1,19 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Enums;
+using Files.Filesystem;
+using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.System;
-using Files.Common;
-using Windows.Storage.Search;
-using Windows.Storage;
-using Files.Enums;
-using Microsoft.Toolkit.Uwp;
-using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
-using Files.ViewModels;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Search;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.Helpers
 {

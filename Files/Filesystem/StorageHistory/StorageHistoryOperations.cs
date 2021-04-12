@@ -1,6 +1,5 @@
 ﻿using Files.Enums;
 using Files.Helpers;
-using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

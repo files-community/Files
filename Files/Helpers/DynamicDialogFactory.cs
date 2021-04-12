@@ -5,10 +5,7 @@ using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.System;
-using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Files.Helpers
 {

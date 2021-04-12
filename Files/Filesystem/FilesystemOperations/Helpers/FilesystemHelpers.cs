@@ -138,7 +138,7 @@ namespace Files.Filesystem
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                if (result != ContentDialogResult.Primary) 
+                if (result != ContentDialogResult.Primary)
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
@@ -242,10 +242,10 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin,
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
-                
+
                 ContentDialogResult result = await dialog.ShowAsync();
 
-                if (result != ContentDialogResult.Primary) 
+                if (result != ContentDialogResult.Primary)
                 {
                     banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
@@ -323,7 +323,7 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin,
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
-                
+
                 ContentDialogResult result = await dialog.ShowAsync();
 
                 if (result != ContentDialogResult.Primary)

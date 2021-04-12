@@ -24,6 +24,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string title;
+
         public string Title
         {
             get => title;
@@ -31,6 +32,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string subtitle;
+
         public string Subtitle
         {
             get => subtitle;
@@ -38,6 +40,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string primaryButtonText;
+
         public string PrimaryButtonText
         {
             get => primaryButtonText;
@@ -45,6 +48,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string secondaryButtonText;
+
         public string SecondaryButtonText
         {
             get => secondaryButtonText;
@@ -52,6 +56,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool chevronUpLoad = false;
+
         public bool ChevronUpLoad
         {
             get => chevronUpLoad;
@@ -59,6 +64,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool chevronDownLoad = true;
+
         public bool ChevronDownLoad
         {
             get => chevronDownLoad;
@@ -66,6 +72,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool expandableDetailsLoad = false;
+
         public bool ExpandableDetailsLoad
         {
             get => expandableDetailsLoad;
@@ -73,6 +80,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool permanentlyDeleteLoad = false;
+
         public bool PermanentlyDeleteLoad
         {
             get => permanentlyDeleteLoad;
@@ -80,6 +88,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool permanentlyDelete = false;
+
         public bool PermanentlyDelete
         {
             get => permanentlyDelete;
@@ -87,6 +96,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool permanentlyDeleteEnabled = false;
+
         public bool PermanentlyDeleteEnabled
         {
             get => permanentlyDeleteEnabled;
@@ -94,6 +104,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool mustResolveConflicts = false;
+
         public bool MustResolveConflicts
         {
             get => mustResolveConflicts;
@@ -102,7 +113,7 @@ namespace Files.ViewModels.Dialogs
 
         public IFilesystemOperationDialogView View { get; set; }
 
-        #endregion
+        #endregion Public Properties
 
         #region Commands
 
@@ -120,7 +131,7 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand LoadedCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         public FilesystemOperationDialogViewModel()
         {
@@ -202,7 +213,7 @@ namespace Files.ViewModels.Dialogs
             ChevronUpLoad = detailsShown;
         }
 
-        #endregion
+        #endregion Command Implementation
 
         public List<IFilesystemOperationItemModel> GetResult()
         {

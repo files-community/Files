@@ -2,7 +2,6 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.ViewModels.Widgets;
@@ -11,14 +10,15 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
@@ -64,6 +64,14 @@ namespace Files.UserControls.Widgets
                 // TODO: show message?
                 return;
             }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed)
+            {
+                NavigationHelpers.OpenPathInNewTab(item.Path);
+                return;
+            }
+
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         });
 
@@ -307,6 +315,15 @@ namespace Files.UserControls.Widgets
                     DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
                 });
                 await dialog.ShowAsync();
+            }
+        }
+
+        private void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+            {
+                string navigationPath = (sender as Button).Tag.ToString();
+                NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
 

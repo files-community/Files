@@ -2091,6 +2091,9 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Manage Widgets</value>
   </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Open themes folder</value>
+  </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Content" xml:space="preserve">
     <value>Generate new name</value>
   </data>

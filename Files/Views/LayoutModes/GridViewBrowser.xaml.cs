@@ -2,7 +2,6 @@
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
@@ -10,7 +9,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
@@ -553,7 +551,7 @@ namespace Files.Views.LayoutModes
             CommandsViewModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {

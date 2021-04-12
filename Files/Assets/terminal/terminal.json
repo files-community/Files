@@ -13,6 +13,6 @@
       "path": "powershell.exe",
       "arguments": "-noexit -command \"cd '{0}'\"",
       "icon": ""
-      }
+    }
   ]
 }

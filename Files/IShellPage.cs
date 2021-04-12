@@ -49,9 +49,11 @@ namespace Files
     public interface IPaneHolder : IDisposable
     {
         public event EventHandler ActivePaneChanged;
+
         public IShellPage ActivePane { get; set; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
+
         public void OpenPathInNewPane(string path);
     }
 

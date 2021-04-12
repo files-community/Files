@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Files.Filesystem;
+﻿using Files.Filesystem;
+using System.Collections.Generic;
 
 namespace Files.EventArguments.Bundles
 {

@@ -20,7 +20,7 @@
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
@@ -30,7 +30,7 @@
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
