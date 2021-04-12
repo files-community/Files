@@ -914,7 +914,7 @@ namespace Files.Filesystem
 
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
-                    if (result != ContentDialogResult.Primary && result != ContentDialogResult.Secondary) // Operation was cancelled
+                    if (result != ContentDialogResult.Primary) // Operation was cancelled
                     {
                         return (new List<FileNameConflictResolveOptionType>(), true);
                     }
