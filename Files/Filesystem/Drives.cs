@@ -135,8 +135,12 @@ namespace Files.Filesystem
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
                             SelectsOnInvoked = false,
+                            IsExpanded = App.AppSettings.IsDrivesItemExpanded,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
+
+                        section.PropertyChanging += Section_PropertyChanging;
+
                         SidebarControl.SideBarItems.Add(section);
                     }
 
@@ -169,6 +173,13 @@ namespace Files.Filesystem
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void Section_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
+        {
+            var section = SidebarControl.SideBarItems.Where(x => x.Section == SectionType.Drives).FirstOrDefault();
+            if (section != null)
+                App.AppSettings.IsDrivesItemExpanded = !section.IsExpanded;
         }
 
         private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)

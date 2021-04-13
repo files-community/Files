@@ -58,8 +58,12 @@ namespace Files.Filesystem
                                     Text = "WSL",
                                     Section = SectionType.WSL,
                                     SelectsOnInvoked = false,
+                                    IsExpanded = App.AppSettings.IsWSLItemExpanded,
                                     ChildItems = new ObservableCollection<INavigationControlItem>()
                                 };
+
+                                section.PropertyChanging += Section_PropertyChanging;
+
                                 SidebarControl.SideBarItems.Add(section);
                             }
 
@@ -115,6 +119,13 @@ namespace Files.Filesystem
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void Section_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
+        {
+            var section = SidebarControl.SideBarItems.Where(x => x.Section == SectionType.WSL).FirstOrDefault();
+            if (section != null)
+                App.AppSettings.IsWSLItemExpanded = !section.IsExpanded;
         }
     }
 }

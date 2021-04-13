@@ -15,6 +15,8 @@ namespace Files.Filesystem
 
         public string HoverDisplayText { get; }
 
+        public bool IsExpanded { get; set; }
+
         public NavigationControlItemType ItemType { get; }
     }
 

@@ -33,14 +33,11 @@ namespace Files.Filesystem
 
         public bool SelectsOnInvoked { get; set; } = true;
 
+        private bool isExpanded;
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
-            set
-            {
-                App.AppSettings.Set(value, $"section:{Text}");
-                OnPropertyChanged(nameof(IsExpanded));
-            }
+            get => isExpanded;
+            set => SetProperty(ref isExpanded, value);
         }
 
         public SectionType Section { get; set; }

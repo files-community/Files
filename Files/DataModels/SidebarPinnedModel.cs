@@ -56,8 +56,18 @@ namespace Files.DataModels
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
                 Font = InteractionViewModel.FontName,
+                IsExpanded = App.AppSettings.IsFavoritesItemExpanded,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
+
+            favoriteSection.PropertyChanging += FavoriteSection_PropertyChanging;
+        }
+
+        private void FavoriteSection_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
+        {
+            var section = SidebarControl.SideBarItems.Where(x => x.Section == SectionType.Favorites).FirstOrDefault();
+            if (section != null)
+                App.AppSettings.IsFavoritesItemExpanded = !section.IsExpanded;
         }
 
         /// <summary>

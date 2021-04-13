@@ -126,6 +126,12 @@ namespace Files.Filesystem
             get => showStorageSense;
             set => SetProperty(ref showStorageSense, value);
         }
+        private bool isExpanded;
+        public bool IsExpanded 
+        {
+            get => isExpanded;
+            set => SetProperty(ref isExpanded, value);
+        }
 
         public DriveItem()
         {

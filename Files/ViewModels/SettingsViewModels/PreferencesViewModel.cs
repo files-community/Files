@@ -17,8 +17,8 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
-
+        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;        
+        private bool rememberSidebarState = App.AppSettings.ShowLibrarySection;
         public static LibraryManager LibraryManager { get; private set; }
 
         public PreferencesViewModel()
@@ -122,6 +122,20 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool RememberSidebarState
+        {
+            get
+            {
+                return rememberSidebarState;
+            }
+            set
+            {
+                if (SetProperty(ref rememberSidebarState, value))
+                {
+                    App.AppSettings.RememberSidebarState = value;
+                }
+            }
+        }
         public async void LibraryVisibility(bool visible)
         {
             if (visible)

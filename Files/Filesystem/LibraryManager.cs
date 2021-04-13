@@ -188,8 +188,12 @@ namespace Files.Filesystem
                             Section = SectionType.Library,
                             Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                             SelectsOnInvoked = false,
+                            IsExpanded = App.AppSettings.IsLibraryItemExpanded,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
+
+                        librarySection.PropertyChanging += LibrarySection_PropertyChanging;
+
                         SidebarControl.SideBarItems.Insert(1, librarySection);
                     }
                     finally
@@ -208,6 +212,13 @@ namespace Files.Filesystem
                 }
                 Libraries.EndBulkOperation();
             });
+        }
+
+        private void LibrarySection_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
+        {
+            var section = SidebarControl.SideBarItems.Where(x => x.Section == SectionType.Library).FirstOrDefault();
+            if (section != null)
+                App.AppSettings.IsLibraryItemExpanded = !section.IsExpanded;
         }
 
         public bool TryGetLibrary(string path, out LibraryLocationItem library)

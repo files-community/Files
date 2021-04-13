@@ -521,6 +521,7 @@ namespace Files
         public Uri Logo { get; set; }
 
         public SectionType Section { get; private set; }
+        public bool IsExpanded { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }

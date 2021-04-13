@@ -38,7 +38,7 @@ namespace Files.Filesystem
                 DeviceID = "network-folder",
                 Text = "Network".GetLocalized(),
                 Path = App.AppSettings.NetworkFolderPath,
-                Type = DriveType.Network,
+                Type = DriveType.Network,                
                 ItemType = NavigationControlItemType.Drive
             };
             lock (drivesList)
@@ -120,8 +120,12 @@ namespace Files.Filesystem
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
+                            IsExpanded = App.AppSettings.IsNetworkItemExpanded,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
+
+                        section.PropertyChanging += Section_PropertyChanging;
+
                         SidebarControl.SideBarItems.Add(section);
                     }
 
@@ -145,6 +149,13 @@ namespace Files.Filesystem
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void Section_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
+        {
+            var section = SidebarControl.SideBarItems.Where(x => x.Section == SectionType.Network).FirstOrDefault();
+            if (section != null)
+                App.AppSettings.IsNetworkItemExpanded = !section.IsExpanded;
         }
     }
 }

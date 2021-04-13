@@ -112,6 +112,13 @@
                     Header="Show library section on the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="RememberSidebarState"
+                    x:Uid="SettingsPreferencesRememberSidebarState"
+                    Header="Remember sidebar items state"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding RememberSidebarState, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 
