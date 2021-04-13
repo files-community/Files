@@ -16,6 +16,8 @@ namespace Files.ViewModels.Properties
 {
     internal class LibraryProperties : BaseProperties
     {
+        public LibraryItem Library { get; private set; }
+
         public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
         {
             ViewModel = viewModel;
@@ -28,7 +30,12 @@ namespace Files.ViewModels.Properties
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        public LibraryItem Library { get; private set; }
+        public void UpdateLibrary(LibraryItem library)
+        {
+            Library = library;
+            GetBaseProperties();
+            GetSpecialProperties();
+        }
 
         public override void GetBaseProperties()
         {
@@ -91,13 +98,6 @@ namespace Files.ViewModels.Properties
             {
                 ViewModel.FilesAndFoldersCountString = "LibraryNoLocations/Text".GetLocalized();
             }
-        }
-
-        public void UpdateLibrary(LibraryItem library)
-        {
-            Library = library;
-            GetBaseProperties();
-            GetSpecialProperties();
         }
 
         private async void GetLibrarySize(List<StorageFolder> storageFolders, CancellationToken token)

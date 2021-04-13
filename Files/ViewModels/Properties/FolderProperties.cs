@@ -18,6 +18,8 @@ namespace Files.ViewModels.Properties
 {
     internal class FolderProperties : BaseProperties
     {
+        public ListedItem Item { get; }
+
         public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
@@ -29,8 +31,6 @@ namespace Files.ViewModels.Properties
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
-
-        public ListedItem Item { get; }
 
         public override void GetBaseProperties()
         {

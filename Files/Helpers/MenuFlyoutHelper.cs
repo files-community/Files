@@ -12,50 +12,71 @@ namespace Files.Helpers
 
         public interface IMenuFlyoutItem { }
 
+        public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItem { }
+
         public abstract class MenuFlyoutItemBaseViewModel : IMenuFlyoutItem
         {
-            internal MenuFlyoutItemBaseViewModel(string text) => Text = text;
+            public string Text { get; }
 
             public bool IsEnabled { get; set; } = true;
-            public string Text { get; }
+
+            internal MenuFlyoutItemBaseViewModel(string text) => Text = text;
         }
 
         public class MenuFlyoutItemViewModel : MenuFlyoutItemBaseViewModel
         {
+            public string Path { get; }
+
+            public RelayCommand<string> OnSelect { get; }
+
             internal MenuFlyoutItemViewModel(string text, string path, RelayCommand<string> onSelect) : base(text)
             {
                 Path = path;
                 OnSelect = onSelect;
             }
-
-            public RelayCommand<string> OnSelect { get; }
-            public string Path { get; }
         }
-
-        public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItem { }
 
         public class MenuFlyoutSubItemViewModel : MenuFlyoutItemBaseViewModel
         {
+            public IList<IMenuFlyoutItem> Items { get; } = new List<IMenuFlyoutItem>();
+
             internal MenuFlyoutSubItemViewModel(string text) : base(text)
             {
             }
-
-            public IList<IMenuFlyoutItem> Items { get; } = new List<IMenuFlyoutItem>();
         }
 
         #endregion View Models
 
         #region ItemsSource
 
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItem>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
-
         public static IEnumerable<IMenuFlyoutItem> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItem>;
 
         public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItem> value) => obj.SetValue(ItemsSourceProperty, value);
 
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItem>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
+
         private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
 
         #endregion ItemsSource
+
+        private static async void SetupItems(MenuFlyout menu)
+        {
+            if (menu == null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
+            var itemSource = GetItemsSource(menu);
+            if (itemSource == null)
+            {
+                return;
+            }
+
+            await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                menu.Items.Clear();
+                AddItems(menu.Items, itemSource);
+            });
+        }
 
         private static void AddItems(IList<MenuFlyoutItemBase> menu, IEnumerable<IMenuFlyoutItem> items)
         {
@@ -91,25 +112,6 @@ namespace Files.Helpers
                     menu.Add(mfsi);
                 }
             }
-        }
-
-        private static async void SetupItems(MenuFlyout menu)
-        {
-            if (menu == null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            {
-                return;
-            }
-            var itemSource = GetItemsSource(menu);
-            if (itemSource == null)
-            {
-                return;
-            }
-
-            await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                menu.Items.Clear();
-                AddItems(menu.Items, itemSource);
-            });
         }
     }
 }

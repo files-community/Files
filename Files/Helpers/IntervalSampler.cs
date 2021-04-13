@@ -19,6 +19,11 @@ namespace Files.Helpers
             recordPoint = DateTime.Now;
         }
 
+        public void Reset()
+        {
+            recordPoint = DateTime.Now;
+        }
+
         public bool CheckNow()
         {
             var now = DateTime.Now;
@@ -28,11 +33,6 @@ namespace Files.Helpers
                 return true;
             }
             return false;
-        }
-
-        public void Reset()
-        {
-            recordPoint = DateTime.Now;
         }
     }
 }

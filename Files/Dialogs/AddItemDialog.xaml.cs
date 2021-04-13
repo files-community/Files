@@ -8,16 +8,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Dialogs
 {
-    public enum AddItemType
-    {
-        Folder,
-        File,
-        Cancel
-    }
-
     public sealed partial class AddItemDialog : ContentDialog
     {
-        public ObservableCollection<AddListItem> AddItemsList = new ObservableCollection<AddListItem>();
+        public AddItemResult ResultType { get; private set; } = new AddItemResult() { ItemType = AddItemType.Cancel };
 
         public AddItemDialog()
         {
@@ -25,7 +18,7 @@ namespace Files.Dialogs
             AddItemsToList();
         }
 
-        public AddItemResult ResultType { get; private set; } = new AddItemResult() { ItemType = AddItemType.Cancel };
+        public ObservableCollection<AddListItem> AddItemsList = new ObservableCollection<AddListItem>();
 
         public async void AddItemsToList()
         {
@@ -87,19 +80,26 @@ namespace Files.Dialogs
         }
     }
 
+    public enum AddItemType
+    {
+        Folder,
+        File,
+        Cancel
+    }
+
     public class AddItemResult
     {
-        public ShellNewEntry ItemInfo { get; set; }
         public AddItemType ItemType { get; set; }
+        public ShellNewEntry ItemInfo { get; set; }
     }
 
     public class AddListItem
     {
-        public string Glyph { get; set; }
         public string Header { get; set; }
+        public string SubHeader { get; set; }
+        public string Glyph { get; set; }
         public BitmapImage Icon { get; set; }
         public bool IsItemEnabled { get; set; }
         public AddItemResult ItemType { get; set; }
-        public string SubHeader { get; set; }
     }
 }

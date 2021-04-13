@@ -1,6 +1,5 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,19 +10,6 @@ namespace Files.ViewModels.Previews
     {
         public ShortcutPreviewViewModel(ListedItem item) : base(item)
         {
-        }
-
-        public override async Task LoadAsync()
-        {
-            try
-            {
-                var details = await LoadPreviewAndDetails();
-                Item.FileDetails?.Clear();
-                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
-            }
-            catch (Exception)
-            {
-            }
         }
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
@@ -61,6 +47,13 @@ namespace Files.ViewModels.Previews
             _ = await base.LoadPreviewAndDetails();
 
             return details;
+        }
+
+        public override async Task LoadAsync()
+        {
+            var details = await LoadPreviewAndDetails();
+            Item.FileDetails?.Clear();
+            Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
         }
     }
 }

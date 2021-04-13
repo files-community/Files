@@ -18,13 +18,13 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class OnStartupViewModel : ObservableObject
     {
-        private readonly ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
-        private bool alwaysOpenANewInstance = App.AppSettings.AlwaysOpenANewInstance;
-        private bool continueLastSessionOnStartUp = App.AppSettings.ContinueLastSessionOnStartUp;
-        private bool isPageListEditEnabled;
-        private bool openASpecificPageOnStartup = App.AppSettings.OpenASpecificPageOnStartup;
         private bool openNewTabPageOnStartup = App.AppSettings.OpenNewTabPageOnStartup;
+        private bool continueLastSessionOnStartUp = App.AppSettings.ContinueLastSessionOnStartUp;
+        private bool openASpecificPageOnStartup = App.AppSettings.OpenASpecificPageOnStartup;
         private int selectedPageIndex = -1;
+        private bool isPageListEditEnabled;
+        private bool alwaysOpenANewInstance = App.AppSettings.AlwaysOpenANewInstance;
+        private readonly ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
 
         public OnStartupViewModel()
         {
@@ -47,132 +47,6 @@ namespace Files.ViewModels.SettingsViewModels
                 new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
                 recentsItem,
             });
-        }
-
-        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
-        {
-            get => addFlyoutItemsSource;
-        }
-
-        public RelayCommand<string> AddPageCommand => new RelayCommand<string>(AddPage);
-
-        public bool AlwaysOpenANewInstance
-        {
-            get => alwaysOpenANewInstance;
-            set
-            {
-                if (SetProperty(ref alwaysOpenANewInstance, value))
-                {
-                    App.AppSettings.AlwaysOpenANewInstance = alwaysOpenANewInstance;
-                }
-            }
-        }
-
-        public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
-
-        public bool ContinueLastSessionOnStartUp
-        {
-            get => continueLastSessionOnStartUp;
-            set
-            {
-                if (SetProperty(ref continueLastSessionOnStartUp, value))
-                {
-                    App.AppSettings.ContinueLastSessionOnStartUp = value;
-                }
-            }
-        }
-
-        public bool IsPageListEditEnabled
-        {
-            get => isPageListEditEnabled;
-            set => SetProperty(ref isPageListEditEnabled, value);
-        }
-
-        public bool OpenASpecificPageOnStartup
-        {
-            get => openASpecificPageOnStartup;
-            set
-            {
-                if (SetProperty(ref openASpecificPageOnStartup, value))
-                {
-                    App.AppSettings.OpenASpecificPageOnStartup = value;
-                }
-            }
-        }
-
-        public bool OpenNewTabPageOnStartup
-        {
-            get => openNewTabPageOnStartup;
-            set
-            {
-                if (SetProperty(ref openNewTabPageOnStartup, value))
-                {
-                    App.AppSettings.OpenNewTabPageOnStartup = value;
-                }
-            }
-        }
-
-        public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
-
-        public RelayCommand RemovePageCommand => new RelayCommand(RemovePage);
-
-        public int SelectedPageIndex
-        {
-            get => selectedPageIndex;
-            set
-            {
-                if (SetProperty(ref selectedPageIndex, value))
-                {
-                    IsPageListEditEnabled = value >= 0;
-                }
-            }
-        }
-
-        private async void AddPage(string path = null)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                var folderPicker = new FolderPicker();
-                folderPicker.FileTypeFilter.Add("*");
-
-                var folder = await folderPicker.PickSingleFolderAsync();
-                if (folder != null)
-                {
-                    path = folder.Path;
-                }
-            }
-
-            if (path != null && PagesOnStartupList != null)
-            {
-                PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-            }
-        }
-
-        private async void ChangePage()
-        {
-            var folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add("*");
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-
-            if (folder != null)
-            {
-                if (SelectedPageIndex >= 0)
-                {
-                    PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
-                }
-            }
-        }
-
-        private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (PagesOnStartupList.Count() > 0)
-            {
-                App.AppSettings.PagesOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToArray();
-            }
-            else
-            {
-                App.AppSettings.PagesOnStartupList = null;
-            }
         }
 
         private async void PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
@@ -227,6 +101,110 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (PagesOnStartupList.Count() > 0)
+            {
+                App.AppSettings.PagesOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToArray();
+            }
+            else
+            {
+                App.AppSettings.PagesOnStartupList = null;
+            }
+        }
+
+        public bool OpenNewTabPageOnStartup
+        {
+            get => openNewTabPageOnStartup;
+            set
+            {
+                if (SetProperty(ref openNewTabPageOnStartup, value))
+                {
+                    App.AppSettings.OpenNewTabPageOnStartup = value;
+                }
+            }
+        }
+
+        public bool ContinueLastSessionOnStartUp
+        {
+            get => continueLastSessionOnStartUp;
+            set
+            {
+                if (SetProperty(ref continueLastSessionOnStartUp, value))
+                {
+                    App.AppSettings.ContinueLastSessionOnStartUp = value;
+                }
+            }
+        }
+
+        public bool OpenASpecificPageOnStartup
+        {
+            get => openASpecificPageOnStartup;
+            set
+            {
+                if (SetProperty(ref openASpecificPageOnStartup, value))
+                {
+                    App.AppSettings.OpenASpecificPageOnStartup = value;
+                }
+            }
+        }
+
+        public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
+
+        public int SelectedPageIndex
+        {
+            get => selectedPageIndex;
+            set
+            {
+                if (SetProperty(ref selectedPageIndex, value))
+                {
+                    IsPageListEditEnabled = value >= 0;
+                }
+            }
+        }
+
+        public bool IsPageListEditEnabled
+        {
+            get => isPageListEditEnabled;
+            set => SetProperty(ref isPageListEditEnabled, value);
+        }
+
+        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
+        {
+            get => addFlyoutItemsSource;
+        }
+
+        public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
+        public RelayCommand RemovePageCommand => new RelayCommand(RemovePage);
+        public RelayCommand<string> AddPageCommand => new RelayCommand<string>(AddPage);
+
+        public bool AlwaysOpenANewInstance
+        {
+            get => alwaysOpenANewInstance;
+            set
+            {
+                if (SetProperty(ref alwaysOpenANewInstance, value))
+                {
+                    App.AppSettings.AlwaysOpenANewInstance = alwaysOpenANewInstance;
+                }
+            }
+        }
+
+        private async void ChangePage()
+        {
+            var folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+            if (folder != null)
+            {
+                if (SelectedPageIndex >= 0)
+                {
+                    PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
+                }
+            }
+        }
+
         private void RemovePage()
         {
             int index = SelectedPageIndex;
@@ -244,12 +222,28 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        private async void AddPage(string path = null)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                var folderPicker = new FolderPicker();
+                folderPicker.FileTypeFilter.Add("*");
+
+                var folder = await folderPicker.PickSingleFolderAsync();
+                if (folder != null)
+                {
+                    path = folder.Path;
+                }
+            }
+
+            if (path != null && PagesOnStartupList != null)
+            {
+                PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+            }
+        }
+
         public class PageOnStartupViewModel
         {
-            internal PageOnStartupViewModel(string path) => Path = path;
-
-            public string Path { get; }
-
             public string Text
             {
                 get
@@ -265,6 +259,10 @@ namespace Files.ViewModels.SettingsViewModels
                     return Path;
                 }
             }
+
+            public string Path { get; }
+
+            internal PageOnStartupViewModel(string path) => Path = path;
         }
     }
 }

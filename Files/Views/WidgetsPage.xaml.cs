@@ -21,10 +21,10 @@ namespace Files.Views
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
-        LibraryCards libraryCards;
-        DrivesWidget drivesWidget;
-        Bundles bundles;
-        RecentFiles recentFiles;
+        private LibraryCards libraryCards;
+        private DrivesWidget drivesWidget;
+        private Bundles bundles;
+        private RecentFiles recentFiles;
 
         public YourHomeViewModel ViewModel
         {

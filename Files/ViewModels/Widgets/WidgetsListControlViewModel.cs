@@ -11,25 +11,22 @@ namespace Files.ViewModels.Widgets
 
         public ObservableCollection<object> Widgets { get; private set; } = new ObservableCollection<object>();
 
-        public bool AddWidget(object widgetModel)
-        {
-            return InsertWidget(widgetModel, Widgets.Count + 1);
-        }
-
-        public bool CanAddWidget(string widgetName)
-        {
-            return !(Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetName));
-        }
-
-        public void Dispose()
+        public void RefreshWidgetList()
         {
             for (int i = 0; i < Widgets.Count; i++)
             {
-                (Widgets[i] as IDisposable)?.Dispose();
+                if (!(Widgets[i] as IWidgetItemModel).IsWidgetSettingEnabled)
+                {
+                    RemoveWidgetAt(i);
+                }
             }
 
-            Widgets.Clear();
-            Widgets = null;
+            WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool AddWidget(object widgetModel)
+        {
+            return InsertWidget(widgetModel, Widgets.Count + 1);
         }
 
         public bool InsertWidget(object widgetModel, int atIndex)
@@ -58,17 +55,20 @@ namespace Files.ViewModels.Widgets
             return true;
         }
 
-        public void RefreshWidgetList()
+        public bool CanAddWidget(string widgetName)
         {
-            for (int i = 0; i < Widgets.Count; i++)
+            return !(Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetName));
+        }
+
+        public void RemoveWidgetAt(int index)
+        {
+            if (index < 0)
             {
-                if (!(Widgets[i] as IWidgetItemModel).IsWidgetSettingEnabled)
-                {
-                    RemoveWidgetAt(i);
-                }
+                return;
             }
 
-            WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
+            (Widgets[index] as IDisposable)?.Dispose();
+            Widgets.RemoveAt(index);
         }
 
         public void RemoveWidget<TWidget>() where TWidget : IWidgetItemModel
@@ -88,21 +88,21 @@ namespace Files.ViewModels.Widgets
             RemoveWidgetAt(indexToRemove);
         }
 
-        public void RemoveWidgetAt(int index)
-        {
-            if (index < 0)
-            {
-                return;
-            }
-
-            (Widgets[index] as IDisposable)?.Dispose();
-            Widgets.RemoveAt(index);
-        }
-
         public void ReorderWidget(object widgetModel, int place)
         {
             int widgetIndex = Widgets.IndexOf(widgetModel);
             Widgets.Move(widgetIndex, place);
+        }
+
+        public void Dispose()
+        {
+            for (int i = 0; i < Widgets.Count; i++)
+            {
+                (Widgets[i] as IDisposable)?.Dispose();
+            }
+
+            Widgets.Clear();
+            Widgets = null;
         }
     }
 }

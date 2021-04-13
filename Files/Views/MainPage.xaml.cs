@@ -31,6 +31,7 @@ namespace Files.Views
         }
 
         public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
+
         public MainPage()
         {
             this.InitializeComponent();

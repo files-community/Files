@@ -5,7 +5,7 @@ namespace Files.Helpers.FileListCache
 {
     internal class CacheEntry
     {
-        public ListedItem CurrentFolder { get; set; }
         public List<ListedItem> FileList { get; set; }
+        public ListedItem CurrentFolder { get; set; }
     }
 }

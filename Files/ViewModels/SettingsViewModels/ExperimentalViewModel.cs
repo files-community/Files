@@ -4,29 +4,7 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class ExperimentalViewModel : ObservableObject
     {
-        private int preemptiveCacheParallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
         private bool showFileOwner = App.AppSettings.ShowFileOwner;
-
-        private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
-
-        private bool useFileListCache = App.AppSettings.UseFileListCache;
-
-        private bool usePreemptiveCache = App.AppSettings.UsePreemptiveCache;
-
-        public int PreemptiveCacheParallelLimit
-        {
-            get
-            {
-                return preemptiveCacheParallelLimit;
-            }
-            set
-            {
-                if (SetProperty(ref preemptiveCacheParallelLimit, value))
-                {
-                    App.AppSettings.PreemptiveCacheParallelLimit = value;
-                }
-            }
-        }
 
         public bool ShowFileOwner
         {
@@ -43,20 +21,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ShowMultiselectOption
-        {
-            get
-            {
-                return showMultiselectOption;
-            }
-            set
-            {
-                if (SetProperty(ref showMultiselectOption, value))
-                {
-                    App.AppSettings.ShowMultiselectOption = value;
-                }
-            }
-        }
+        private bool useFileListCache = App.AppSettings.UseFileListCache;
 
         public bool UseFileListCache
         {
@@ -73,6 +38,8 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        private bool usePreemptiveCache = App.AppSettings.UsePreemptiveCache;
+
         public bool UsePreemptiveCache
         {
             get
@@ -84,6 +51,57 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref usePreemptiveCache, value))
                 {
                     App.AppSettings.UsePreemptiveCache = value;
+                }
+            }
+        }
+
+        private int preemptiveCacheParallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
+
+        public int PreemptiveCacheParallelLimit
+        {
+            get
+            {
+                return preemptiveCacheParallelLimit;
+            }
+            set
+            {
+                if (SetProperty(ref preemptiveCacheParallelLimit, value))
+                {
+                    App.AppSettings.PreemptiveCacheParallelLimit = value;
+                }
+            }
+        }
+
+        private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
+
+        public bool ShowMultiselectOption
+        {
+            get
+            {
+                return showMultiselectOption;
+            }
+            set
+            {
+                if (SetProperty(ref showMultiselectOption, value))
+                {
+                    App.AppSettings.ShowMultiselectOption = value;
+                }
+            }
+        }
+
+        private bool useNewDetailsView = App.AppSettings.UseNewDetailsView;
+
+        public bool UseNewDetailsView
+        {
+            get
+            {
+                return useNewDetailsView;
+            }
+            set
+            {
+                if (SetProperty(ref useNewDetailsView, value))
+                {
+                    App.AppSettings.UseNewDetailsView = value;
                 }
             }
         }

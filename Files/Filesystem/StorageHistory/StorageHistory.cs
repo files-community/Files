@@ -8,10 +8,11 @@ namespace Files.Filesystem.FilesystemHistory
     {
         #region Public Properties
 
-        public IEnumerable<IStorageItemWithPath> Destination { get; private set; }
         public FileOperationType OperationType { get; private set; }
 
         public IEnumerable<IStorageItemWithPath> Source { get; private set; }
+
+        public IEnumerable<IStorageItemWithPath> Destination { get; private set; }
 
         #endregion Public Properties
 

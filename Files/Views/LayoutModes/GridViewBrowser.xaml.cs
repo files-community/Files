@@ -551,7 +551,7 @@ namespace Files.Views.LayoutModes
             CommandsViewModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {

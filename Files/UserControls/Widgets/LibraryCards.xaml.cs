@@ -17,9 +17,11 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
@@ -97,6 +99,14 @@ namespace Files.UserControls.Widgets
                 // TODO: show message?
                 return;
             }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed)
+            {
+                NavigationHelpers.OpenPathInNewTab(item.Path);
+                return;
+            }
+
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         });
 
@@ -320,6 +330,15 @@ namespace Files.UserControls.Widgets
             NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
+        private void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+            {
+                string navigationPath = (sender as Button).Tag.ToString();
+                NavigationHelpers.OpenPathInNewTab(navigationPath);
+            }
+        }
+
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
@@ -356,6 +375,11 @@ namespace Files.UserControls.Widgets
                 });
             }
             ItemsAdded.EndBulkOperation();
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

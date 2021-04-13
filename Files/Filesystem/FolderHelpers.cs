@@ -10,20 +10,6 @@ namespace Files.Filesystem
 {
     public static class FolderHelpers
     {
-        public static async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder, string path)
-        {
-            if (rootFolder == null || rootFolder.Properties == null)
-            {
-                return false;
-            }
-            if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
-            {
-                IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
-                return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
-            }
-            return false;
-        }
-
         public static bool CheckFolderAccessWithWin32(string path)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
@@ -55,6 +41,20 @@ namespace Files.Filesystem
             var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
             FindClose(hFileTsk);
             return isHidden;
+        }
+
+        public static async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder, string path)
+        {
+            if (rootFolder == null || rootFolder.Properties == null)
+            {
+                return false;
+            }
+            if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
+            {
+                IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
+                return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
+            }
+            return false;
         }
 
         /// <summary>

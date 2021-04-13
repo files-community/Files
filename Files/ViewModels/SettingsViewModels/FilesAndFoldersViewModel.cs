@@ -5,12 +5,12 @@ namespace Files.ViewModels.SettingsViewModels
     public class FilesAndFoldersViewModel : ObservableObject
     {
         private bool areHiddenItemsVisible = App.AppSettings.AreHiddenItemsVisible;
-        private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
         private bool areSystemItemsHidden = App.AppSettings.AreSystemItemsHidden;
-        private bool listAndSortDirectoriesAlongsideFiles = App.AppSettings.ListAndSortDirectoriesAlongsideFiles;
-        private bool openItemsWithOneclick = App.AppSettings.OpenItemsWithOneclick;
-        private bool searchUnindexedItems = App.AppSettings.SearchUnindexedItems;
         private bool showFileExtensions = App.AppSettings.ShowFileExtensions;
+        private bool openItemsWithOneclick = App.AppSettings.OpenItemsWithOneclick;
+        private bool listAndSortDirectoriesAlongsideFiles = App.AppSettings.ListAndSortDirectoriesAlongsideFiles;
+        private bool searchUnindexedItems = App.AppSettings.SearchUnindexedItems;
+        private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
 
         public bool AreHiddenItemsVisible
         {
@@ -23,21 +23,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref areHiddenItemsVisible, value))
                 {
                     App.AppSettings.AreHiddenItemsVisible = value;
-                }
-            }
-        }
-
-        public bool AreLayoutPreferencesPerFolder
-        {
-            get
-            {
-                return areLayoutPreferencesPerFolder;
-            }
-            set
-            {
-                if (SetProperty(ref areLayoutPreferencesPerFolder, value))
-                {
-                    App.AppSettings.AreLayoutPreferencesPerFolder = value;
                 }
             }
         }
@@ -57,17 +42,17 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ListAndSortDirectoriesAlongsideFiles
+        public bool ShowFileExtensions
         {
             get
             {
-                return listAndSortDirectoriesAlongsideFiles;
+                return showFileExtensions;
             }
             set
             {
-                if (SetProperty(ref listAndSortDirectoriesAlongsideFiles, value))
+                if (SetProperty(ref showFileExtensions, value))
                 {
-                    App.AppSettings.ListAndSortDirectoriesAlongsideFiles = value;
+                    App.AppSettings.ShowFileExtensions = value;
                 }
             }
         }
@@ -87,6 +72,21 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool ListAndSortDirectoriesAlongsideFiles
+        {
+            get
+            {
+                return listAndSortDirectoriesAlongsideFiles;
+            }
+            set
+            {
+                if (SetProperty(ref listAndSortDirectoriesAlongsideFiles, value))
+                {
+                    App.AppSettings.ListAndSortDirectoriesAlongsideFiles = value;
+                }
+            }
+        }
+
         public bool SearchUnindexedItems
         {
             get
@@ -102,17 +102,17 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ShowFileExtensions
+        public bool AreLayoutPreferencesPerFolder
         {
             get
             {
-                return showFileExtensions;
+                return areLayoutPreferencesPerFolder;
             }
             set
             {
-                if (SetProperty(ref showFileExtensions, value))
+                if (SetProperty(ref areLayoutPreferencesPerFolder, value))
                 {
-                    App.AppSettings.ShowFileExtensions = value;
+                    App.AppSettings.AreLayoutPreferencesPerFolder = value;
                 }
             }
         }

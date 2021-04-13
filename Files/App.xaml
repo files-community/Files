@@ -27,7 +27,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="/ResourceDictionaries/CustomHeaderStyle.xaml" />
-                <controls:XamlControlsResources ControlsResourcesVersion="Version2" />
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
@@ -40,6 +39,7 @@
                             <Color x:Key="SolidBackgroundFillColorSecondary">#EEEEEE</Color>
                             <Color x:Key="SolidBackgroundFillColorTertiary">#F9F9F9</Color>
                             <Color x:Key="SolidBackgroundFillColorQuarternary">#FFFFFF</Color>
+                            <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
                             <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
                             <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
@@ -69,6 +69,7 @@
                             <Color x:Key="SolidBackgroundFillColorSecondary">#1C1C1C</Color>
                             <Color x:Key="SolidBackgroundFillColorTertiary">#282828</Color>
                             <Color x:Key="SolidBackgroundFillColorQuarternary">#2C2C2C</Color>
+                            <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
                             <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SolidBackgroundFillColorTertiary}" />

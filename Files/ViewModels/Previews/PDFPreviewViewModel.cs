@@ -3,6 +3,7 @@ using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Storage.Streams;
@@ -13,16 +14,16 @@ namespace Files.ViewModels.Previews
 {
     public class PDFPreviewViewModel : BasePreviewModel
     {
-        public static List<string> Extensions = new List<string>()
-        {
-            ".pdf",
-        };
-
         private Visibility loadingBarVisibility;
 
         public PDFPreviewViewModel(ListedItem item) : base(item)
         {
         }
+
+        public static List<string> Extensions = new List<string>()
+        {
+            ".pdf",
+        };
 
         public Visibility LoadingBarVisibility
         {
@@ -35,20 +36,34 @@ namespace Files.ViewModels.Previews
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var pdf = await PdfDocument.LoadFromFileAsync(Item.ItemFile);
-            var details = new List<FileProperty>();
-
-            LoadPagesAsync(pdf);
-            // Add the number of pages to the details
-            details.Add(new FileProperty()
+            TryLoadPagesAsync(pdf);
+            var details = new List<FileProperty>
             {
-                NameResource = "PropertyPageCount",
-                Value = pdf.PageCount,
-            });
+
+                // Add the number of pages to the details
+                new FileProperty()
+                {
+                    NameResource = "PropertyPageCount",
+                    Value = pdf.PageCount,
+                }
+            };
 
             return details;
         }
 
-        private async void LoadPagesAsync(PdfDocument pdf)
+        public async void TryLoadPagesAsync(PdfDocument pdf)
+        {
+            try
+            {
+                await LoadPagesAsync(pdf);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+
+        private async Task LoadPagesAsync(PdfDocument pdf)
         {
             // This fixes an issue where loading an absurdly large PDF would take to much RAM
             // and eventually cause a crash
@@ -81,8 +96,8 @@ namespace Files.ViewModels.Previews
 
         public struct PageViewModel
         {
-            public BitmapImage PageImage { get; set; }
             public int PageNumber { get; set; }
+            public BitmapImage PageImage { get; set; }
         }
     }
 }

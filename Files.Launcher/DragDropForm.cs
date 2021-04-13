@@ -10,6 +10,8 @@ namespace FilesFullTrust
     {
         private string dropPath;
 
+        public List<string> DropTargets { get; private set; } = new List<string>();
+
         public DragDropForm(string dropPath, string dropText, System.Threading.CancellationToken token)
         {
             this.FormBorderStyle = FormBorderStyle.None;
@@ -53,18 +55,25 @@ namespace FilesFullTrust
 
         public delegate void InvokeDelegate();
 
-        public List<string> DropTargets { get; private set; } = new List<string>();
-
-        protected override CreateParams CreateParams
+        private void DragDropForm_HandleCreated(object sender, EventArgs e)
         {
-            get
+            var timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += (s, e) =>
             {
-                // Turn on WS_EX_TOOLWINDOW style bit
-                // Window won't show in alt-tab
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x80;
-                return cp;
-            }
+                if (!this.DesktopBounds.Contains(Cursor.Position))
+                {
+                    // After some time check whether the mouse is still inside the drop window
+                    this.Close();
+                    (s as Timer).Dispose();
+                }
+            };
+            timer.Start();
+        }
+
+        private void DragDropForm_DragLeave(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void DragDropForm_DragDrop(object sender, DragEventArgs e)
@@ -91,11 +100,6 @@ namespace FilesFullTrust
             this.Close();
         }
 
-        private void DragDropForm_DragLeave(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void DragDropForm_DragOver(object sender, DragEventArgs e)
         {
             // Should handle "Shell ID List" as well
@@ -109,20 +113,16 @@ namespace FilesFullTrust
             }
         }
 
-        private void DragDropForm_HandleCreated(object sender, EventArgs e)
+        protected override CreateParams CreateParams
         {
-            var timer = new Timer();
-            timer.Interval = 1000;
-            timer.Tick += (s, e) =>
+            get
             {
-                if (!this.DesktopBounds.Contains(Cursor.Position))
-                {
-                    // After some time check whether the mouse is still inside the drop window
-                    this.Close();
-                    (s as Timer).Dispose();
-                }
-            };
-            timer.Start();
+                // Turn on WS_EX_TOOLWINDOW style bit
+                // Window won't show in alt-tab
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x80;
+                return cp;
+            }
         }
     }
 }
