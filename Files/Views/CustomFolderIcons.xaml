@@ -38,6 +38,7 @@
 				ScrollViewer.HorizontalScrollMode="Auto"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
 				ScrollViewer.VerticalScrollMode="Disabled"
+				SelectionChanged="IconSelectionGrid_SelectionChanged"
 				SelectionMode="Single">
 				<GridView.ItemsPanel>
 					<ItemsPanelTemplate>

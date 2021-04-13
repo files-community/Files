@@ -533,7 +533,14 @@ namespace FilesFullTrust
                     break;
 
                 case "SetCustomFolderIcon":
-                    SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"]);
+                    if (((string)message["iconFile"]).EndsWith(".ico", StringComparison.OrdinalIgnoreCase))
+                    {
+                        SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"]);
+                    }
+                    else
+                    {
+                        SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"], (int)message["iconIndex"]);
+                    }
                     break;
 
                 case "GetFolderIconsFromDLL":

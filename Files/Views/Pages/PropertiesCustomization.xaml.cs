@@ -46,12 +46,13 @@ namespace Files.Views
             if (AppInstance?.ServiceConnection != null && response.Data != null)
             {
                 var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
-                (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath }, new SuppressNavigationTransitionInfo());
+                (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath, SelectedDirectory = BaseProperties.ViewModel.ItemPath }, new SuppressNavigationTransitionInfo());
             }
         }
 
         public class IconSelectorInfo
         {
+            public string SelectedDirectory;
             public IList<IconFileInfo> Icons;
             public string InitialPath;
             public Helpers.NamedPipeAsAppServiceConnection Connection;

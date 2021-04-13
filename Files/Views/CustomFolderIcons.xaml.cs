@@ -29,6 +29,8 @@ namespace Files.Views
     public sealed partial class CustomFolderIcons : Page
     {
         private NamedPipeAsAppServiceConnection serviceConnection = null;
+        private string selectedFolderPath = null;
+        private string iconResourceItemPath = null;
 
         public CustomFolderIcons()
         {
@@ -38,7 +40,9 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ItemDisplayedPath.Text = (e.Parameter as IconSelectorInfo).InitialPath;
+            selectedFolderPath = (e.Parameter as IconSelectorInfo).SelectedDirectory;
+            iconResourceItemPath = (e.Parameter as IconSelectorInfo).InitialPath;
+            ItemDisplayedPath.Text = iconResourceItemPath;
             serviceConnection = (e.Parameter as IconSelectorInfo).Connection;
             var iconInfoCollection = (e.Parameter as IconSelectorInfo).Icons as List<IconFileInfo>;
             foreach (IconFileInfo iFInfo in iconInfoCollection)
@@ -56,7 +60,8 @@ namespace Files.Views
             picker.FileTypeFilter.Add(".dll");
             picker.FileTypeFilter.Add(".ico");
             var file = await picker.PickSingleFileAsync();
-            ItemDisplayedPath.Text = file.Path;
+            iconResourceItemPath = file.Path;
+            ItemDisplayedPath.Text = iconResourceItemPath;
 
             LoadIconsForPath(file.Path);
         }
@@ -75,6 +80,18 @@ namespace Files.Views
                 iFInfo.LoadImageFromModelString();
             }
             IconSelectionGrid.ItemsSource = icons;
+        }
+
+        private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedIconInfo = (sender as GridView).SelectedItem as IconFileInfo;
+            await serviceConnection?.SendMessageAsync(new ValueSet()
+            {
+                {"Arguments", "SetCustomFolderIcon" },
+                {"iconIndex", selectedIconInfo.Index },
+                {"folder", selectedFolderPath },
+                {"iconFile", iconResourceItemPath }
+            });
         }
     }
 }
