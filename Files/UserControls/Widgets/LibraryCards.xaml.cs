@@ -376,10 +376,5 @@ namespace Files.UserControls.Widgets
             }
             ItemsAdded.EndBulkOperation();
         }
-
-        public void Dispose()
-        {
-
-        }
     }
 }
