@@ -14,6 +14,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -55,20 +56,6 @@ namespace Files.UserControls.Widgets
         {
             InitializeComponent();
 
-            ItemsAdded.BeginBulkOperation();
-            ItemsAdded.Add(new LibraryCardItem
-            {
-                Text = "SidebarDesktop".GetLocalized(),
-                Path = AppSettings.DesktopPath,
-            });
-            ItemsAdded.Add(new LibraryCardItem
-            {
-                Text = "SidebarDownloads".GetLocalized(),
-                Path = AppSettings.DownloadsPath,
-            });
-            GetItemsAddedIcon();
-            ItemsAdded.EndBulkOperation();
-
             Loaded += LibraryCards_Loaded;
             Unloaded += LibraryCards_Unloaded;
         }
@@ -92,6 +79,8 @@ namespace Files.UserControls.Widgets
         public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -169,16 +158,19 @@ namespace Files.UserControls.Widgets
 
         private async System.Threading.Tasks.Task<BitmapImage> GetIcon(string path)
         {
-            StorageFolder folder = await StorageItemHelpers.ToStorageItem<StorageFolder>(path);
-            var thumbnail = await folder.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 40, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
-
             BitmapImage icon = new BitmapImage();
-            await icon.SetSourceAsync(thumbnail);
+
+            var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
+
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                icon = await IconData.ToBitmapAsync();
+            });
 
             return icon;
         }
 
-        private async void GetItemsAddedIcon()
+        private async Task GetItemsAddedIcon()
         {
             foreach (var item in ItemsAdded)
             {
@@ -206,8 +198,22 @@ namespace Files.UserControls.Widgets
 
         private void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => ReloadLibraryItems();
 
-        private void LibraryCards_Loaded(object sender, RoutedEventArgs e)
+        private async void LibraryCards_Loaded(object sender, RoutedEventArgs e)
         {
+            ItemsAdded.BeginBulkOperation();
+            ItemsAdded.Add(new LibraryCardItem
+            {
+                Text = "SidebarDesktop".GetLocalized(),
+                Path = AppSettings.DesktopPath,
+            });
+            ItemsAdded.Add(new LibraryCardItem
+            {
+                Text = "SidebarDownloads".GetLocalized(),
+                Path = AppSettings.DownloadsPath,
+            });
+            await GetItemsAddedIcon();
+            ItemsAdded.EndBulkOperation();
+
             if (App.LibraryManager.Libraries.Count > 0)
             {
                 ReloadLibraryItems();
