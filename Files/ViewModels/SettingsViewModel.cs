@@ -540,12 +540,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// Gets or sets the user's current selected theme
         /// </summary>
-        public string PathToThemeFile
+        public AppTheme SelectedTheme
         {
-            get => Get("DefaultScheme".GetLocalized());
-            set => Set(value);
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            {
+                Name = "DefaultScheme".GetLocalized()
+            })));
+            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
 
         #endregion Appearance

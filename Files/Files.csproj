@@ -223,6 +223,7 @@
     <Compile Include="Helpers\Fractions.cs" />
     <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
+    <Compile Include="Helpers\OptionalPackageManager.cs" />
     <Compile Include="Helpers\ShellContextMenuHelper.cs" />
     <Compile Include="Helpers\UIFilesystemHelpers.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />

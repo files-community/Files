@@ -56,6 +56,7 @@ namespace Files
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
