@@ -36,6 +36,18 @@ namespace Files.Helpers
 
             ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
+            // This is used to migrate to the new theme setting
+            // It can be removed in a future update
+            if(ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path)) {
+                var pathStr = path as string;
+                App.AppSettings.SelectedTheme = new AppTheme()
+                {
+                    Name = pathStr.Replace(".xaml", ""),
+                    Path = pathStr,
+                };
+                ApplicationData.Current.LocalSettings.Values.Remove("PathToThemeFile");
+            }
+
             if (App.AppSettings.SelectedTheme.Path != null)
             {
                 await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
