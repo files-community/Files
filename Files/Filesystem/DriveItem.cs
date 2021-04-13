@@ -126,11 +126,14 @@ namespace Files.Filesystem
             get => showStorageSense;
             set => SetProperty(ref showStorageSense, value);
         }
-        private bool isExpanded;
-        public bool IsExpanded 
+        public bool IsExpanded
         {
-            get => isExpanded;
-            set => SetProperty(ref isExpanded, value);
+            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
+            set
+            {
+                App.AppSettings.Set(value, $"section:{Text}");
+                OnPropertyChanged(nameof(IsExpanded));
+            }
         }
 
         public DriveItem()

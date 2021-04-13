@@ -33,11 +33,30 @@ namespace Files.Filesystem
 
         public bool SelectsOnInvoked { get; set; } = true;
 
-        private bool isExpanded;
         public bool IsExpanded
         {
-            get => isExpanded;
-            set => SetProperty(ref isExpanded, value);
+            get
+            {
+                if (Text.Equals("SidebarCloudDrives".GetLocalized()))
+                    return App.AppSettings.Get(Text == "SidebarCloudDrives".GetLocalized(), $"section:{Text}");
+                else if (Text.Equals("SidebarDrives".GetLocalized()))
+                    return App.AppSettings.Get(Text == "SidebarDrives".GetLocalized(), $"section:{Text}");
+                else if (Text.Equals("SidebarFavorites".GetLocalized()))
+                    return App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
+                else if (Text.Equals("SidebarLibraries".GetLocalized()))
+                    return App.AppSettings.Get(Text == "SidebarLibraries".GetLocalized(), $"section:{Text}");
+                else if (Text.Equals("Network".GetLocalized()))
+                    return App.AppSettings.Get(Text == "Network".GetLocalized(), $"section:{Text}");
+                else if (Text.Equals("WSL"))
+                    return App.AppSettings.Get(Text == "WSL", $"section:{Text}");
+                else
+                    return false;
+            }
+            set
+            {
+                App.AppSettings.Set(value, $"section:{Text}");
+                OnPropertyChanged(nameof(IsExpanded));
+            }
         }
 
         public SectionType Section { get; set; }

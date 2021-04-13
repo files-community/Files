@@ -122,20 +122,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool RememberSidebarState
-        {
-            get
-            {
-                return rememberSidebarState;
-            }
-            set
-            {
-                if (SetProperty(ref rememberSidebarState, value))
-                {
-                    App.AppSettings.RememberSidebarState = value;
-                }
-            }
-        }
         public async void LibraryVisibility(bool visible)
         {
             if (visible)
