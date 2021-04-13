@@ -548,6 +548,18 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets the user's current selected theme
+        /// </summary>
+        public AppTheme SelectedTheme
+        {
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            {
+                Name = "DefaultScheme".GetLocalized()
+            })));
+            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
+        }
+
         #endregion Appearance
 
         #region Experimental

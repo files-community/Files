@@ -88,5 +88,10 @@
             /// </summary>
             public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
         }
+
+        public static class OptionalPackages
+        {
+            public const string ThemesOptionalPackagesName = "4bc376ea-12d1-4a4b-81ac-7e56f6576b8b";
+        }
     }
 }

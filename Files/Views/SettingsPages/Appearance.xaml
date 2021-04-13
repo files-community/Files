@@ -6,7 +6,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:helpers="using:Files.Helpers"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -53,8 +53,16 @@
                     Header="Color scheme"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedThemeName, Mode=TwoWay}"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" />
+                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                    x:Load="{x:Bind ShowColorSchemeSelector}" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="helpers:AppTheme">
+                            <Grid>
+                                <TextBlock Text="{x:Bind Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <HyperlinkButton
                     x:Name="OpenThemesFolderButton"
