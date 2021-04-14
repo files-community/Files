@@ -41,6 +41,11 @@
         Padding="0,0,0,0"
         VerticalAlignment="Stretch"
         ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
                 <i:Interaction.Behaviors>
@@ -97,13 +102,96 @@
             Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
             Visibility="Collapsed" />
 
+        <Grid
+            Margin="0"
+            Padding="0"
+            BorderBrush="{ThemeResource SystemChromeHighColor}"
+            BorderThickness="0,0,0,1"
+            PointerPressed="Grid_PointerPressed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.Row1Width, Mode=TwoWay}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.Row2Width, Mode=TwoWay}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.Row3Width, Mode=TwoWay}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.Row4Width, Mode=TwoWay}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.Row5Width, Mode=TwoWay}" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                CommandParameter="Name">
+                <TextBlock
+                    x:Uid="FileBrowserSortOption_Name"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="Name"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Button>
+
+            <controls:GridSplitter
+                Grid.Column="3"
+                Width="1"
+                Background="Transparent" />
+
+            <TextBlock
+                Grid.Column="4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                Text="Status"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+
+            <controls:GridSplitter
+                Grid.Column="5"
+                Width="1"
+                Background="Transparent" />
+
+            <Button
+                Grid.Column="6"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                CommandParameter="DateModified">
+                <TextBlock
+                    x:Uid="FileBrowserSortOption_DateModified"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="Date modified"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Button>
+
+            <controls:GridSplitter
+                Grid.Column="7"
+                Width="1"
+                Background="Transparent" />
+            <Button
+                Grid.Column="8"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                CommandParameter="FileType">
+                <TextBlock
+                    x:Uid="FileBrowserSortOption_FileType"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="Type"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Button>
+        </Grid>
+
         <ListView
             x:Name="FileList"
+            Grid.Row="1"
             Padding="12,4,4,0"
             VerticalContentAlignment="Stretch"
             animations:ItemsReorderAnimation.Duration="0:0:0.350"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
@@ -112,94 +200,13 @@
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
             Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-            <ListView.Header>
-                <Grid
-                    Margin="0"
-                    Padding="0"
-                    BorderBrush="{ThemeResource SystemChromeHighColor}"
-                    BorderThickness="0,0,0,1"
-                    PointerPressed="Grid_PointerPressed">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.Row1Width, Mode=TwoWay}" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.Row2Width, Mode=TwoWay}" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.Row3Width, Mode=TwoWay}" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.Row4Width, Mode=TwoWay}" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.Row5Width, Mode=TwoWay}" />
-                    </Grid.ColumnDefinitions>
-
-                    <Button
-                        Grid.Column="2"
-                        HorizontalAlignment="Stretch"
-                        Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
-                        CommandParameter="Name">
-                        <TextBlock
-                            x:Uid="FileBrowserSortOption_Name"
-                            Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                            Text="Name"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Button>
-
-                    <controls:GridSplitter
-                        Grid.Column="3"
-                        Width="1"
-                        Background="Transparent" />
-
-                    <TextBlock
-                        Grid.Column="4"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                        Text="Status"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-
-                    <controls:GridSplitter
-                        Grid.Column="5"
-                        Width="1"
-                        Background="Transparent" />
-
-                    <Button
-                        Grid.Column="6"
-                        HorizontalAlignment="Stretch"
-                        Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
-                        CommandParameter="DateModified">
-                        <TextBlock
-                            x:Uid="FileBrowserSortOption_DateModified"
-                            Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                            Text="Date modified"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Button>
-
-                    <controls:GridSplitter
-                        Grid.Column="7"
-                        Width="1"
-                        Background="Transparent" />
-                    <Button
-                        Grid.Column="8"
-                        HorizontalAlignment="Stretch"
-                        Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
-                        CommandParameter="FileType">
-                        <TextBlock
-                            x:Uid="FileBrowserSortOption_FileType"
-                            Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                            Text="Type"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Button>
-                </Grid>
-            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
                     <Grid
                         HorizontalAlignment="Stretch"
+                        ColumnSpacing="4"
                         IsRightTapEnabled="True"
-                        Loaded="Grid_Loaded" ColumnSpacing="4"
+                        Loaded="Grid_Loaded"
                         RightTapped="StackPanel_RightTapped"
                         ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                         <Grid.ColumnDefinitions>
@@ -290,11 +297,12 @@
                         <Grid
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DoubleTapped="ItemNameGrid_DoubleTapped">
+                            DoubleTapped="ItemNameGrid_DoubleTapped"
+                            Tapped="ItemNameGrid_Tapped">
                             <TextBlock x:Name="ItemName" Text="{x:Bind ItemName, Mode=OneWay}" />
                             <TextBox x:Name="ItemNameTextBox" Visibility="Collapsed" />
                         </Grid>
-                        
+
                         <FontIcon
                             x:Name="CloudDriveSyncStatusGlyph"
                             Grid.Column="2"
@@ -305,8 +313,14 @@
                             Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                             Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
 
-                        <TextBlock Grid.Column="3" Text="{x:Bind ItemDateModified, Mode=OneWay}" />
-                        <TextBlock Grid.Column="4" Text="{x:Bind ItemType, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind ItemDateModified, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Column="4"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind ItemType, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
