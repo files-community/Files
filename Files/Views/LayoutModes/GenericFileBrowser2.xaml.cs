@@ -579,7 +579,6 @@ namespace Files.Views.LayoutModes
                     {
                         renameDoubleClickTimer.Stop();
                         CheckDoubleClickToRename(true);
-
                     }, TimeSpan.FromMilliseconds(700));
                 }
             } else
