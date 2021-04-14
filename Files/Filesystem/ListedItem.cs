@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
+using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -326,6 +327,20 @@ namespace Files.Filesystem
         {
             get => itemFile;
             set => SetProperty(ref itemFile, value);
+        }
+
+        [JsonIgnore]
+        private ColumnsViewModel columnsViewModel;
+        public ColumnsViewModel ColumnsViewModel
+        {
+            get => columnsViewModel;
+            set
+            {
+                if (value != columnsViewModel)
+                {
+                    SetProperty(ref columnsViewModel, value);
+                }
+            }
         }
     }
 

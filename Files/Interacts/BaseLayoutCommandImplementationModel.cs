@@ -411,17 +411,30 @@ namespace Files.Interacts
 
         public virtual async void UnpinItemFromStart(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            if(associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
-                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                }
+            } else
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
             }
         }
 
         public async void PinItemToStart(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                }
+            }
+            else
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
             }
         }
 

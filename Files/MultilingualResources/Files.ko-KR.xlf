@@ -1100,8 +1100,9 @@
           <target state="translated">예</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
-          <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
-          <target state="translated">언어 설정을 적용하려면 프로그램을 다시 시작해야합니다. 프로그램을 다시 시작할까요?</target>
+          <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
+          <target state="needs-review-translation">언어 설정을 적용하려면 프로그램을 다시 시작해야합니다. 프로그램을 다시 시작할까요?</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -2642,6 +2643,26 @@
         <trans-unit id="NavToolbarShowLibraryWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Library widget</source>
           <target state="new">Show Library widget</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open themes folder</source>
+          <target state="new">Open themes folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsUseNewDetailsView.Header" translate="yes" xml:space="preserve">
+          <source>Use new details view</source>
+          <target state="new">Use new details view</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_DateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_FileType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
         </trans-unit>
       </group>
     </body>
