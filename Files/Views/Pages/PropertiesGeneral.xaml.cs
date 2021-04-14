@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -15,10 +16,17 @@ namespace Files.Views
         public PropertiesGeneral()
         {
             this.InitializeComponent();
-            base.ItemMD5HashProgress = ItemMD5HashProgress;
+            base.hashProgress = new Progress<float>();
+
+            (base.hashProgress as Progress<float>).ProgressChanged += PropertiesGeneral_ProgressChanged;
         }
 
-        public async Task SaveChangesAsync(ListedItem item)
+        private void PropertiesGeneral_ProgressChanged(object sender, float e)
+        {
+            ItemMD5HashProgress.Value = (double)e;
+        }
+
+        public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties driveProps)
             {
@@ -38,6 +46,7 @@ namespace Files.Views
                             await drive.UpdateLabelAsync();
                             await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
                         });
+                        return true;
                     }
                 }
             }
@@ -58,6 +67,7 @@ namespace Files.Views
                             {
                                 await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(newPath);
                             });
+                            return true;
                         }
                     }
                 }
@@ -66,7 +76,7 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
+                    return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
                           ViewModel.OriginalItemName,
                           ViewModel.ItemName,
                           AppInstance));
@@ -80,13 +90,23 @@ namespace Files.Views
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
                     }
+                    return true;
                 }
                 else
                 {
                     // Handle the visibility attribute for a single file
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+
+                    return true;
                 }
             }
+
+            return false;
+        }
+
+        public override void Dispose()
+        {
+            (base.hashProgress as Progress<float>).ProgressChanged -= PropertiesGeneral_ProgressChanged;
         }
     }
 }
