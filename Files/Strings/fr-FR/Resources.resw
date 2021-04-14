@@ -1179,6 +1179,9 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Vidéo</value>
   </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Date Sauvegardée</value>
+  </data>
   <data name="PropertyDatePrinted" xml:space="preserve">
     <value>Date imprimée</value>
   </data>
@@ -1551,6 +1554,9 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Détacher le dossier de la barre latérale</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Disques réseaux</value>
+  </data>
   <data name="Network" xml:space="preserve">
     <value>RESEAU</value>
   </data>
@@ -1604,6 +1610,9 @@
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Lecteur CD</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Emplacement Cloud</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Disque local</value>
@@ -1721,5 +1730,26 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrateur</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Épingler au menu Démarrer</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Détacher du menu Démarrer</value>
+  </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue Colonne</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue Colonne</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Vue Colonne</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Plus d'options...</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Ouvrir l'emplacement des thèmes</value>
   </data>
 </root>
