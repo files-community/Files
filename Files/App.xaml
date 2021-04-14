@@ -7,9 +7,7 @@
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
-    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:fsvm="using:Files.ViewModels">
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals">
 
     <Application.Resources>
         <ResourceDictionary>
