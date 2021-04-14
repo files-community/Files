@@ -297,7 +297,6 @@
                         <Grid
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DoubleTapped="ItemNameGrid_DoubleTapped"
                             Tapped="ItemNameGrid_Tapped">
                             <TextBlock x:Name="ItemName" Text="{x:Bind ItemName, Mode=OneWay}" />
                             <TextBox x:Name="ItemNameTextBox" Visibility="Collapsed" />
