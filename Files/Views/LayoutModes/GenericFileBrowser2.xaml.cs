@@ -31,6 +31,8 @@ namespace Files.Views.LayoutModes
 
         RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
+        private DispatcherQueueTimer renameDoubleClickTimer;
+
         public GenericFileBrowser2()
             : base()
         {
@@ -39,6 +41,7 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            renameDoubleClickTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -185,6 +188,7 @@ namespace Files.Views.LayoutModes
             if (parameters.IsLayoutSwitch)
             {
                 ReloadItemIcons();
+                UpdateItemColumnViewModels();
             }
 
             UpdateSortOptionsCommand = new RelayCommand<string>(x => {
@@ -426,7 +430,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as GridViewItem).DataContext as ListedItem;
+            return (element as ListViewItem).DataContext as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -498,10 +502,9 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            if (args.ItemContainer == null)
+            if(args.ItemContainer == null)
             {
-                GridViewItem gvi = new GridViewItem();
-                args.ItemContainer = gvi;
+                args.ItemContainer = new ListViewItem();
             }
             args.ItemContainer.DataContext = args.Item;
 
@@ -526,6 +529,8 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+
+            renameDoubleClickTimer.Stop();
         }
 
         #region IDisposable
@@ -555,10 +560,42 @@ namespace Files.Views.LayoutModes
             e.Handled = true;
         }
 
-        private void ItemNameGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private void ItemNameGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            StartRenameItem();
-            e.Handled = true;
+            CheckDoubleClickToRename();
+        }
+
+        private void CheckDoubleClickToRename(bool isSecond = false)
+        {
+            if(!isSecond)
+            {
+                if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
+                {
+                    renameDoubleClickTimer.Stop();
+                }
+                else
+                {
+                    renameDoubleClickTimer.Debounce(() =>
+                    {
+                        renameDoubleClickTimer.Stop();
+                        CheckDoubleClickToRename(true);
+                    }, TimeSpan.FromMilliseconds(700));
+                }
+            } else
+            {
+                renameDoubleClickTimer.Stop();
+                StartRenameItem();
+            }
+        }
+
+        private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            // TODO: More effecient way to do this
+            ColumnsViewModel.Row1Width = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row2Width = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row3Width = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row4Width = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row5Width = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
         }
     }
 }
