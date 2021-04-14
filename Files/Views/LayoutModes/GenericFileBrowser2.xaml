@@ -109,15 +109,15 @@
             BorderThickness="0,0,0,1"
             PointerPressed="Grid_PointerPressed">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.Row1Width, Mode=TwoWay}" />
+                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.Row1Width, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.Row2Width, Mode=TwoWay}" />
+                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.Row2Width, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.Row3Width, Mode=TwoWay}" />
+                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.Row3Width, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.Row4Width, Mode=TwoWay}" />
+                <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.Row4Width, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.Row5Width, Mode=TwoWay}" />
+                <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.Row5Width, Mode=OneWay}" />
             </Grid.ColumnDefinitions>
 
             <Button
@@ -136,7 +136,8 @@
             <controls:GridSplitter
                 Grid.Column="3"
                 Width="1"
-                Background="Transparent" />
+                Background="Transparent"
+                ManipulationDelta="GridSplitter_ManipulationDelta" />
 
             <TextBlock
                 Grid.Column="4"
@@ -150,7 +151,8 @@
             <controls:GridSplitter
                 Grid.Column="5"
                 Width="1"
-                Background="Transparent" />
+                Background="Transparent"
+                ManipulationDelta="GridSplitter_ManipulationDelta" />
 
             <Button
                 Grid.Column="6"
@@ -168,7 +170,8 @@
             <controls:GridSplitter
                 Grid.Column="7"
                 Width="1"
-                Background="Transparent" />
+                Background="Transparent"
+                ManipulationDelta="GridSplitter_ManipulationDelta" />
             <Button
                 Grid.Column="8"
                 HorizontalAlignment="Stretch"

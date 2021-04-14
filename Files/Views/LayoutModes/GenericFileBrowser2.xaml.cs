@@ -588,5 +588,15 @@ namespace Files.Views.LayoutModes
                 StartRenameItem();
             }
         }
+
+        private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            // TODO: More effecient way to do this
+            ColumnsViewModel.Row1Width = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row2Width = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row3Width = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row4Width = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row5Width = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+        }
     }
 }
