@@ -17,6 +17,8 @@ namespace Files.ViewModels.Properties
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
+        protected IProgress<float> hashProgress;
+
         protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             if (BaseProperties != null)
