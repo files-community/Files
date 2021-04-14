@@ -4,9 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:fsvm="using:Files.ViewModels"
     xmlns:local="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals">
     <Application.Resources>
@@ -135,25 +133,25 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="primitives:NavigationViewItemPresenter">
                                     <Grid
-                        x:Name="LayoutRoot"
-                        MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
-                        Background="{TemplateBinding Background}"
-                        contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
-                        contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"
-                        Margin="4,2,4,2"
-                        Control.IsTemplateFocusTarget="True">
+                                        x:Name="LayoutRoot"
+                                        MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
+                                        Background="{TemplateBinding Background}"
+                                        contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+                                        contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"
+                                        Margin="4,2,4,2"
+                                        Control.IsTemplateFocusTarget="True">
                                         <Grid.Resources>
                                             <contract7NotPresent:Storyboard x:Name="ExpandCollapseRotateExpandedStoryboard">
                                                 <DoubleAnimation
-                                    Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
-                                    Storyboard.TargetProperty="Angle"
-                                    From="0.0" To="180.0" Duration="0:0:0.1"/>
+                                                    Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
+                                                    Storyboard.TargetProperty="Angle"
+                                                    From="0.0" To="180.0" Duration="0:0:0.1"/>
                                             </contract7NotPresent:Storyboard>
                                             <contract7NotPresent:Storyboard x:Name="ExpandCollapseRotateCollapsedStoryboard">
                                                 <DoubleAnimation
-                                    Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
-                                    Storyboard.TargetProperty="Angle"
-                                    From="180.0" To="0.0" Duration="0:0:0.1"/>
+                                                    Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
+                                                    Storyboard.TargetProperty="Angle"
+                                                    From="180.0" To="0.0" Duration="0:0:0.1"/>
                                             </contract7NotPresent:Storyboard>
                                         </Grid.Resources>
 
@@ -291,23 +289,23 @@
                                         <Grid x:Name="PresenterContentRootGrid">
                                             <!-- Wrap SelectionIndicator in a grid so that its offset is 0,0 - this enables the offset animation. -->
                                             <Grid
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
 
                                                 <Rectangle
-                                    x:Name="SelectionIndicator"
-                                    Width="3"
-                                    Height="16"
-                                    Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
-                                    Opacity="0.0"
-                                    contract7Present:RadiusX="2"
-                                    contract7Present:RadiusY="2"/>
+                                                    x:Name="SelectionIndicator"
+                                                    Width="3"
+                                                    Height="16"
+                                                    Fill="{ThemeResource NavigationViewSelectionIndicatorForeground}"
+                                                    Opacity="0.0"
+                                                    contract7Present:RadiusX="2"
+                                                    contract7Present:RadiusY="2"/>
                                             </Grid>
 
                                             <Grid
-                                x:Name="ContentGrid"
-                                MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
-                                HorizontalAlignment="Stretch">
+                                                x:Name="ContentGrid"
+                                                MinHeight="{ThemeResource NavigationViewItemOnLeftMinHeight}"
+                                                HorizontalAlignment="Stretch">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
@@ -316,52 +314,52 @@
 
                                                 <Border x:Name="IconColumn" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerIconWidth}">
                                                     <Viewbox x:Name="IconBox"
-                                        Height="16"
-                                        Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}">
+                                                        Height="16"
+                                                        Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}">
                                                         <ContentPresenter 
-                                            x:Name="Icon" 
-                                            Content="{TemplateBinding Icon}"
-                                            local:AnimatedIcon.State="Normal"/>
+                                                            x:Name="Icon" 
+                                                            Content="{TemplateBinding Icon}"
+                                                            local:AnimatedIcon.State="Normal"/>
                                                     </Viewbox>
                                                 </Border>
 
                                                 <ContentPresenter
-                                    x:Name="ContentPresenter"
-                                    Grid.Column="1"
-                                    Margin="{ThemeResource NavigationViewItemContentPresenterMargin}"
-                                    ContentTransitions="{TemplateBinding ContentTransitions}"
-                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    Content="{TemplateBinding Content}"
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                    Padding="{TemplateBinding Padding}"
-                                    AutomationProperties.AccessibilityView="Raw"/>
+                                                    x:Name="ContentPresenter"
+                                                    Grid.Column="1"
+                                                    Margin="{ThemeResource NavigationViewItemContentPresenterMargin}"
+                                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    Content="{TemplateBinding Content}"
+                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    AutomationProperties.AccessibilityView="Raw"/>
 
                                                 <Grid
-                                    x:Name="ExpandCollapseChevron"
-                                    Grid.Column="2"
-                                    Visibility="Collapsed"
-                                    HorizontalAlignment="Right"
-                                    Width="40"
-                                    Margin="{ThemeResource NavigationViewItemExpandChevronMargin}"
-                                    Background="Transparent">
+                                                    x:Name="ExpandCollapseChevron"
+                                                    Grid.Column="2"
+                                                    Visibility="Collapsed"
+                                                    HorizontalAlignment="Right"
+                                                    Width="40"
+                                                    Margin="{ThemeResource NavigationViewItemExpandChevronMargin}"
+                                                    Background="Transparent">
                                                     <local:AnimatedIcon
-                                        Width="12"
-                                        Height="12"
-                                        RenderTransformOrigin="0.5, 0.5"
-                                        x:Name="ExpandCollapseChevronIcon"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        AutomationProperties.AccessibilityView="Raw"
-                                        local:AnimatedIcon.State="NormalOff">
+                                                        Width="12"
+                                                        Height="12"
+                                                        RenderTransformOrigin="0.5, 0.5"
+                                                        x:Name="ExpandCollapseChevronIcon"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        AutomationProperties.AccessibilityView="Raw"
+                                                        local:AnimatedIcon.State="NormalOff">
                                                         <animatedvisuals:AnimatedChevronUpDownSmallVisualSource/>
                                                         <local:AnimatedIcon.FallbackIconSource>
                                                             <local:FontIconSource
-                                                Foreground="{ThemeResource NavigationViewItemForeground}"
-                                                FontSize="{ThemeResource NavigationViewItemExpandedGlyphFontSize}"
-                                                Glyph="{StaticResource NavigationViewItemExpandedGlyph}"
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                                                                Foreground="{ThemeResource NavigationViewItemForeground}"
+                                                                FontSize="{ThemeResource NavigationViewItemExpandedGlyphFontSize}"
+                                                                Glyph="{StaticResource NavigationViewItemExpandedGlyph}"
+                                                                FontFamily="{StaticResource SymbolThemeFontFamily}"/>
                                                         </local:AnimatedIcon.FallbackIconSource>
                                                         <local:AnimatedIcon.RenderTransform>
                                                             <contract7NotPresent:RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0"/>
