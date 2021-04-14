@@ -122,6 +122,7 @@
 
             <Button
                 Grid.Column="2"
+                BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="Name"
@@ -160,6 +161,7 @@
 
             <Button
                 Grid.Column="6"
+                BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="DateModified"
@@ -182,6 +184,7 @@
                 ManipulationDelta="GridSplitter_ManipulationDelta" />
             <Button
                 Grid.Column="8"
+                BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="FileType"
