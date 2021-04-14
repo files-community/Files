@@ -175,8 +175,11 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         public static event EventHandler ItemInvoked;
+
         public static event EventHandler DismissColumn;
+
         public static event EventHandler UnFocusPreviousListView;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -211,7 +214,6 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-
         }
 
         private async void ReloadItemIcons()
@@ -230,13 +232,13 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-
         }
 
         protected override IEnumerable GetAllItems()
         {
             return (IEnumerable)FileList.ItemsSource;
         }
+
         private static readonly MethodInfo SelectAllMethod = typeof(ListView)
            .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -342,12 +344,12 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion IDisposable
+
         public static ColumnViewBase CurrentColumn;
         private ListViewItem listViewItem;
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (e != null)
             {
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
@@ -357,7 +359,6 @@ namespace Files.Views.LayoutModes
             tapDebounceTimer.Stop();
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
-
 
         private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
@@ -441,14 +442,12 @@ namespace Files.Views.LayoutModes
             await Task.Delay(200);
             if (listViewItem != null)
             {
-
                 listViewItem.Style = (Style)this.Resources["NormalStyle"];
             }
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 if (listViewItem != null)
                 {
-
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
@@ -502,7 +501,6 @@ namespace Files.Views.LayoutModes
             await Task.Delay(200);
             if (listViewItem != null)
             {
-
                 listViewItem.Style = (Style)this.Resources["NormalStyle"];
             }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -537,6 +535,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = DependencyObjectHelpers.FindParent<ListViewItem>(e.OriginalSource as DependencyObject);
@@ -547,6 +546,7 @@ namespace Files.Views.LayoutModes
             // The following code is only reachable when a user RightTapped an unselected row
             ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
+
         private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
@@ -566,6 +566,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
@@ -576,6 +577,7 @@ namespace Files.Views.LayoutModes
             var itemContainer = item as ListViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
+
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)

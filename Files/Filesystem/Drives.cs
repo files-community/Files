@@ -25,17 +25,6 @@ namespace Files.Filesystem
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
-        private DeviceWatcher deviceWatcher;
-
-        private bool driveEnumInProgress;
-
-        private bool showUserConsentOnInit = false;
-
-        public DrivesManager()
-        {
-            SetupDeviceWatcher();
-        }
-
         public IReadOnlyList<DriveItem> Drives
         {
             get
@@ -47,68 +36,20 @@ namespace Files.Filesystem
             }
         }
 
+        private bool showUserConsentOnInit = false;
+
         public bool ShowUserConsentOnInit
         {
             get => showUserConsentOnInit;
             set => SetProperty(ref showUserConsentOnInit, value);
         }
 
-        public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
-        {
-            if (!Path.IsPathRooted(devicePath))
-            {
-                return null;
-            }
-            var rootPath = Path.GetPathRoot(devicePath);
-            if (devicePath.StartsWith("\\\\?\\")) // USB device
-            {
-                // Check among already discovered drives
-                StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
-                    Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
-                if (matchingDrive == null)
-                {
-                    // Check on all removable drives
-                    var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-                    foreach (var item in remDevices)
-                    {
-                        try
-                        {
-                            var root = StorageDevice.FromId(item.Id);
-                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
-                            {
-                                matchingDrive = root;
-                                break;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            // Ignore this..
-                        }
-                    }
-                }
-                if (matchingDrive != null)
-                {
-                    return new StorageFolderWithPath(matchingDrive, rootPath);
-                }
-            }
-            else if (devicePath.StartsWith("\\\\")) // Network share
-            {
-                rootPath = rootPath.LastIndexOf("\\") > 1 ? rootPath.Substring(0, rootPath.LastIndexOf("\\")) : rootPath; // Remove share name
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
-            }
-            // It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
-            return null;
-        }
+        private DeviceWatcher deviceWatcher;
+        private bool driveEnumInProgress;
 
-        public void Dispose()
+        public DrivesManager()
         {
-            if (deviceWatcher != null)
-            {
-                if (deviceWatcher.Status == DeviceWatcherStatus.Started || deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted)
-                {
-                    deviceWatcher.Stop();
-                }
-            }
+            SetupDeviceWatcher();
         }
 
         public async Task EnumerateDrivesAsync()
@@ -133,68 +74,107 @@ namespace Files.Filesystem
             driveEnumInProgress = false;
         }
 
-        public async Task HandleWin32DriveEvent(DeviceEvent eventType, string deviceId)
+        private void SetupDeviceWatcher()
         {
-            switch (eventType)
+            deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+            deviceWatcher.Added += DeviceAdded;
+            deviceWatcher.Removed += DeviceRemoved;
+            deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
+        }
+
+        private void StartDeviceWatcher()
+        {
+            if (deviceWatcher.Status == DeviceWatcherStatus.Created
+                || deviceWatcher.Status == DeviceWatcherStatus.Stopped
+                || deviceWatcher.Status == DeviceWatcherStatus.Aborted)
             {
-                case DeviceEvent.Added:
-                    var driveAdded = new DriveInfo(deviceId);
-                    var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
-                    if (!rootAdded)
-                    {
-                        Logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {deviceId}, failed at the StorageFolder initialization step. This device will be ignored.");
-                        return;
-                    }
-                    lock (drivesList)
-                    {
-                        // If drive already in list, skip.
-                        var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
-                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
-                        if (matchingDrive != null)
-                        {
-                            // Update device id to match drive letter
-                            matchingDrive.DeviceID = deviceId;
-                            return;
-                        }
-                        var type = GetDriveType(driveAdded);
-                        var driveItem = new DriveItem(rootAdded, deviceId, type);
-                        Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
-                        drivesList.Add(driveItem);
-                    }
-                    DeviceWatcher_EnumerationCompleted(null, null);
-                    break;
-
-                case DeviceEvent.Removed:
-                    lock (drivesList)
-                    {
-                        drivesList.RemoveAll(x => x.DeviceID == deviceId);
-                    }
-                    DeviceWatcher_EnumerationCompleted(null, null);
-                    break;
-
-                case DeviceEvent.Inserted:
-                case DeviceEvent.Ejected:
-                    var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
-                    DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
-                    if (rootModified && matchingDriveEjected != null)
-                    {
-                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
-                        {
-                            matchingDriveEjected.Root = rootModified.Result;
-                            matchingDriveEjected.Text = rootModified.Result.DisplayName;
-                            await matchingDriveEjected.UpdatePropertiesAsync();
-                        });
-                    }
-                    break;
+                deviceWatcher?.Start();
             }
         }
 
-        public void ResumeDeviceWatcher()
+        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            if (!driveEnumInProgress)
+            System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
+            await RefreshUI();
+        }
+
+        private async Task RefreshUI()
+        {
+            try
             {
-                this.StartDeviceWatcher();
+                await SyncSideBarItemsUI();
             }
+            catch (Exception) // UI Thread not ready yet, so we defer the previous operation until it is.
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += RefreshUI;
+            }
+        }
+
+        private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await SyncSideBarItemsUI();
+            CoreApplication.MainView.Activated -= RefreshUI;
+        }
+
+        private async Task SyncSideBarItemsUI()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                try
+                {
+                    SidebarControl.SideBarItems.BeginBulkOperation();
+
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                    if (section == null)
+                    {
+                        section = new LocationItem()
+                        {
+                            Text = "SidebarDrives".GetLocalized(),
+                            Section = SectionType.Drives,
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        SidebarControl.SideBarItems.Add(section);
+                    }
+
+                    foreach (DriveItem drive in Drives.ToList())
+                    {
+                        if (!section.ChildItems.Contains(drive))
+                        {
+                            section.ChildItems.Add(drive);
+
+                            if (drive.Type != DriveType.VirtualDrive)
+                            {
+                                DrivesWidget.ItemsAdded.Add(drive);
+                            }
+                        }
+                    }
+
+                    foreach (DriveItem drive in section.ChildItems.ToList())
+                    {
+                        if (!Drives.Contains(drive))
+                        {
+                            section.ChildItems.Remove(drive);
+                            DrivesWidget.ItemsAdded.Remove(drive);
+                        }
+                    }
+
+                    SidebarControl.SideBarItems.EndBulkOperation();
+                }
+                finally
+                {
+                    SidebarControl.SideBarItemsSemaphore.Release();
+                }
+            });
+        }
+
+        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await SyncSideBarItemsUI();
+            CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
         private void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -253,12 +233,6 @@ namespace Files.Filesystem
             }
             // Update the collection on the ui-thread.
             DeviceWatcher_EnumerationCompleted(null, null);
-        }
-
-        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
-        {
-            System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
-            await RefreshUI();
         }
 
         private async Task<bool> GetDrivesAsync()
@@ -375,101 +349,126 @@ namespace Files.Filesystem
             return type;
         }
 
-        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
         {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= MainView_Activated;
-        }
-
-        private async Task RefreshUI()
-        {
-            try
+            if (!Path.IsPathRooted(devicePath))
             {
-                await SyncSideBarItemsUI();
+                return null;
             }
-            catch (Exception) // UI Thread not ready yet, so we defer the previous operation until it is.
+            var rootPath = Path.GetPathRoot(devicePath);
+            if (devicePath.StartsWith("\\\\?\\")) // USB device
             {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += RefreshUI;
-            }
-        }
-
-        private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= RefreshUI;
-        }
-
-        private void SetupDeviceWatcher()
-        {
-            deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-            deviceWatcher.Added += DeviceAdded;
-            deviceWatcher.Removed += DeviceRemoved;
-            deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
-        }
-
-        private void StartDeviceWatcher()
-        {
-            if (deviceWatcher.Status == DeviceWatcherStatus.Created
-                || deviceWatcher.Status == DeviceWatcherStatus.Stopped
-                || deviceWatcher.Status == DeviceWatcherStatus.Aborted)
-            {
-                deviceWatcher?.Start();
-            }
-        }
-
-        private async Task SyncSideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
+                // Check among already discovered drives
+                StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
+                    Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
+                if (matchingDrive == null)
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    // Check on all removable drives
+                    var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
+                    foreach (var item in remDevices)
                     {
-                        section = new LocationItem()
+                        try
                         {
-                            Text = "SidebarDrives".GetLocalized(),
-                            Section = SectionType.Drives,
-                            SelectsOnInvoked = false,
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
-                        };
-                        SidebarControl.SideBarItems.Add(section);
-                    }
-
-                    foreach (DriveItem drive in Drives.ToList())
-                    {
-                        if (!section.ChildItems.Contains(drive))
-                        {
-                            section.ChildItems.Add(drive);
-
-                            if (drive.Type != DriveType.VirtualDrive)
+                            var root = StorageDevice.FromId(item.Id);
+                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
                             {
-                                DrivesWidget.ItemsAdded.Add(drive);
+                                matchingDrive = root;
+                                break;
                             }
                         }
-                    }
-
-                    foreach (DriveItem drive in section.ChildItems.ToList())
-                    {
-                        if (!Drives.Contains(drive))
+                        catch (Exception)
                         {
-                            section.ChildItems.Remove(drive);
-                            DrivesWidget.ItemsAdded.Remove(drive);
+                            // Ignore this..
                         }
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
-                finally
+                if (matchingDrive != null)
                 {
-                    SidebarControl.SideBarItemsSemaphore.Release();
+                    return new StorageFolderWithPath(matchingDrive, rootPath);
                 }
-            });
+            }
+            else if (devicePath.StartsWith("\\\\")) // Network share
+            {
+                rootPath = rootPath.LastIndexOf("\\") > 1 ? rootPath.Substring(0, rootPath.LastIndexOf("\\")) : rootPath; // Remove share name
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
+            }
+            // It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
+            return null;
+        }
+
+        public async Task HandleWin32DriveEvent(DeviceEvent eventType, string deviceId)
+        {
+            switch (eventType)
+            {
+                case DeviceEvent.Added:
+                    var driveAdded = new DriveInfo(deviceId);
+                    var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
+                    if (!rootAdded)
+                    {
+                        Logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {deviceId}, failed at the StorageFolder initialization step. This device will be ignored.");
+                        return;
+                    }
+                    lock (drivesList)
+                    {
+                        // If drive already in list, skip.
+                        var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
+                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
+                        if (matchingDrive != null)
+                        {
+                            // Update device id to match drive letter
+                            matchingDrive.DeviceID = deviceId;
+                            return;
+                        }
+                        var type = GetDriveType(driveAdded);
+                        var driveItem = new DriveItem(rootAdded, deviceId, type);
+                        Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+                        drivesList.Add(driveItem);
+                    }
+                    DeviceWatcher_EnumerationCompleted(null, null);
+                    break;
+
+                case DeviceEvent.Removed:
+                    lock (drivesList)
+                    {
+                        drivesList.RemoveAll(x => x.DeviceID == deviceId);
+                    }
+                    DeviceWatcher_EnumerationCompleted(null, null);
+                    break;
+
+                case DeviceEvent.Inserted:
+                case DeviceEvent.Ejected:
+                    var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
+                    DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
+                    if (rootModified && matchingDriveEjected != null)
+                    {
+                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            matchingDriveEjected.Root = rootModified.Result;
+                            matchingDriveEjected.Text = rootModified.Result.DisplayName;
+                            await matchingDriveEjected.UpdatePropertiesAsync();
+                        });
+                    }
+                    break;
+            }
+        }
+
+        public void Dispose()
+        {
+            if (deviceWatcher != null)
+            {
+                if (deviceWatcher.Status == DeviceWatcherStatus.Started || deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted)
+                {
+                    deviceWatcher.Stop();
+                }
+            }
+        }
+
+        public void ResumeDeviceWatcher()
+        {
+            if (!driveEnumInProgress)
+            {
+                this.StartDeviceWatcher();
+            }
         }
     }
 }

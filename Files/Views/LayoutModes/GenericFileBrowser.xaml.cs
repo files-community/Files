@@ -584,22 +584,17 @@ namespace Files.Views.LayoutModes
         private void HandleRightClick(object sender, RoutedEventArgs e)
         {
             var rowPressed = DependencyObjectHelpers.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            if (rowPressed != null)
-            {
-                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
-                if (objectPressed == null)
-                {
-                    return;
-                }
+            var objectPressed = rowPressed == null ? null : ((IList<ListedItem>)AllView.ItemsSource).ElementAtOrDefault(rowPressed.GetIndex());
 
-                // Check if RightTapped row is currently selected
-                if (!IsItemSelected)
-                {
-                    if (!SelectedItems.Contains(objectPressed))
-                    {
-                        ItemManipulationModel.SetSelectedItem(objectPressed);
-                    }
-                }
+            if (rowPressed == null || objectPressed == null)
+            {
+                // Clear the selection if no item was clicked
+                ItemManipulationModel.ClearSelection();
+            }
+            else if (!IsItemSelected || !SelectedItems.Contains(objectPressed))
+            {
+                // Select item if it is not already selected
+                ItemManipulationModel.SetSelectedItem(objectPressed);
             }
         }
 

@@ -943,7 +943,7 @@
     <value>Yes</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</value>
+    <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Support us</value>
@@ -2096,5 +2096,17 @@
   </data>
     <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>
+  </data>
+  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
+    <value>Use new details view</value>
+  </data>
+  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
+    <value>Date modified</value>
+  </data>
+  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

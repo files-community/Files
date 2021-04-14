@@ -22,15 +22,7 @@ namespace Files.ViewModels.Previews
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            try
-            {
-                Stream = await Item.ItemFile.OpenReadAsync();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-
+            Stream = await Item.ItemFile.OpenReadAsync();
             return new List<FileProperty>();
         }
     }

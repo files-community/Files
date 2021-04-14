@@ -230,7 +230,8 @@
             x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
             DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
             SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
+            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
+            StatusCenterViewModel="{x:Bind StatusCenterViewModel}"/>
 
         <Custom:DropShadowPanel
             Grid.Row="1"
@@ -246,20 +247,30 @@
                 x:Name="NavToolbar"
                 HorizontalAlignment="Stretch"
                 x:FieldModifier="public"
+
+                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
+                SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
+                InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
+                ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
+
+                LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
+                ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
+                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
+                ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
+                ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
+                ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
+                ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
+
                 AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                 CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                 CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                 CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                 CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
-                ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
                 CopyPathInvokedCommand="{x:Bind CopyPathOfWorkingDirectoryCommand}"
-                InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
                 IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                 IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
                 IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
-                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
                 NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
                 NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand, Mode=OneWay}"
                 NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand, Mode=OneWay}"
@@ -268,14 +279,7 @@
                 OpenInTerminalInvokedCommand="{x:Bind OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
                 PasteInvokedCommand="{x:Bind PasteItemsFromClipboardCommand, Mode=OneWay}"
                 PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
-                SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
-                ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
-                ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
-                ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
-                ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
-                ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
-                ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}" />
+                ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
         </Custom:DropShadowPanel>
     </Grid>
 </Page>

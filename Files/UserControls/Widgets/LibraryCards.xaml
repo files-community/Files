@@ -10,16 +10,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <StaticResource x:Key="ButtonBackground" ResourceKey="ControlFillColorDefaultBrush" />
-        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-        <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="ControlFillColorDisabledBrush" />
-        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="ControlElevationBorderBrush" />
-        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
-        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
-        <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
-    </UserControl.Resources>
     <StackPanel Spacing="12">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -109,6 +99,8 @@
                             AutomationProperties.Name="{x:Bind AutomationProperties}"
                             Command="{x:Bind SelectCommand}"
                             CommandParameter="{x:Bind}"
+                            Tag="{x:Bind Path}"
+                            PointerPressed="Button_PointerPressed"
                             CornerRadius="8">
                             <Button.ContextFlyout>
                                 <MenuFlyout Opening="MenuFlyout_Opening">
@@ -199,7 +191,8 @@
                                     FontWeight="Medium"
                                     HorizontalTextAlignment="Center"
                                     Text="{x:Bind Text}"
-                                    TextWrapping="WrapWholeWords" />
+                                    TextTrimming="WordEllipsis"
+                                    TextWrapping="NoWrap" />
                             </Grid>
                         </Button>
                     </Grid>

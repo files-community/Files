@@ -7,17 +7,17 @@ namespace Files.Dialogs
 {
     public sealed partial class FilesystemOperationDialog : ContentDialog
     {
+        public FilesystemOperationDialogViewModel ViewModel
+        {
+            get => (FilesystemOperationDialogViewModel)DataContext;
+            set => DataContext = value;
+        }
+
         public FilesystemOperationDialog(FilesystemOperationDialogViewModel viewModel)
         {
             this.InitializeComponent();
 
             ViewModel = viewModel;
-        }
-
-        public FilesystemOperationDialogViewModel ViewModel
-        {
-            get => (FilesystemOperationDialogViewModel)DataContext;
-            set => DataContext = value;
         }
     }
 }

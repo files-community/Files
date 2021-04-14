@@ -10,6 +10,25 @@ namespace FilesFullTrust
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static void ToggleQuickLook(string path)
+        {
+            Logger.Info("Toggle QuickLook");
+
+            string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
+            string Toggle = "QuickLook.App.PipeMessages.Toggle";
+
+            using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
+            {
+                client.Connect();
+
+                using (var writer = new StreamWriter(client))
+                {
+                    writer.WriteLine($"{Toggle}|{path}");
+                    writer.Flush();
+                }
+            }
+        }
+
         public static bool CheckQuickLookAvailability()
         {
             static int QuickLookServerAvailable()
@@ -48,25 +67,6 @@ namespace FilesFullTrust
             {
                 Logger.Info(ex, ex.Message);
                 return false;
-            }
-        }
-
-        public static void ToggleQuickLook(string path)
-        {
-            Logger.Info("Toggle QuickLook");
-
-            string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-            string Toggle = "QuickLook.App.PipeMessages.Toggle";
-
-            using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
-            {
-                client.Connect();
-
-                using (var writer = new StreamWriter(client))
-                {
-                    writer.WriteLine($"{Toggle}|{path}");
-                    writer.Flush();
-                }
             }
         }
     }

@@ -122,6 +122,65 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
+        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(StorageFolder rootFolder, uint startFrom, uint itemsToIterate)
+        {
+            var tempList = new List<IStorageItem>();
+            for (var i = startFrom; i < startFrom + itemsToIterate; i++)
+            {
+                IStorageItem item;
+                try
+                {
+                    var results = await rootFolder.GetItemsAsync(i, 1);
+                    item = results?.FirstOrDefault();
+                    if (item == null)
+                    {
+                        break;
+                    }
+                }
+                catch (NotImplementedException)
+                {
+                    break;
+                }
+                catch (Exception ex) when (
+                    ex is UnauthorizedAccessException
+                    || ex is FileNotFoundException
+                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
+                {
+                    continue;
+                }
+                tempList.Add(item);
+            }
+            return tempList;
+        }
+
+        private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        {
+            var basicProperties = await folder.GetBasicPropertiesAsync();
+            var extraProps = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
+            DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated);
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = folder.DisplayName,
+                    ItemDateModifiedReal = basicProperties.DateModified,
+                    ItemDateCreatedReal = dateCreated,
+                    ItemType = folder.DisplayType,
+                    IsHiddenItem = false,
+                    Opacity = 1,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
+            }
+            return null;
+        }
+
         private static async Task<ListedItem> AddFileAsync(
             StorageFile file,
             StorageFolderWithPath currentStorageFolder,
@@ -243,65 +302,6 @@ namespace Files.Filesystem.StorageEnumerators
                 };
             }
             return null;
-        }
-
-        private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
-        {
-            var basicProperties = await folder.GetBasicPropertiesAsync();
-            var extraProps = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-            DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated);
-            if (!cancellationToken.IsCancellationRequested)
-            {
-                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.DisplayName,
-                    ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemDateCreatedReal = dateCreated,
-                    ItemType = folder.DisplayType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    LoadFolderGlyph = true,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-                    LoadUnknownTypeGlyph = false,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                };
-            }
-            return null;
-        }
-
-        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(StorageFolder rootFolder, uint startFrom, uint itemsToIterate)
-        {
-            var tempList = new List<IStorageItem>();
-            for (var i = startFrom; i < startFrom + itemsToIterate; i++)
-            {
-                IStorageItem item;
-                try
-                {
-                    var results = await rootFolder.GetItemsAsync(i, 1);
-                    item = results?.FirstOrDefault();
-                    if (item == null)
-                    {
-                        break;
-                    }
-                }
-                catch (NotImplementedException)
-                {
-                    break;
-                }
-                catch (Exception ex) when (
-                    ex is UnauthorizedAccessException
-                    || ex is FileNotFoundException
-                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
-                {
-                    continue;
-                }
-                tempList.Add(item);
-            }
-            return tempList;
         }
     }
 }

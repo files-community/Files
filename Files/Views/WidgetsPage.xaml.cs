@@ -21,10 +21,10 @@ namespace Files.Views
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
-        LibraryCards libraryCards;
-        DrivesWidget drivesWidget;
-        Bundles bundles;
-        RecentFiles recentFiles;
+        private LibraryCards libraryCards;
+        private DrivesWidget drivesWidget;
+        private Bundles bundles;
+        private RecentFiles recentFiles;
 
         public YourHomeViewModel ViewModel
         {
@@ -58,6 +58,7 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
+                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconOverlayAsync;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;

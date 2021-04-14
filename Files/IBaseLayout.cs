@@ -7,10 +7,14 @@ namespace Files
 {
     public interface IBaseLayout : IDisposable
     {
-        bool IsItemSelected { get; }
         bool IsRenamingItem { get; }
-        ItemManipulationModel ItemManipulationModel { get; }
-        public ListedItem SelectedItem { get; }
+
+        bool IsItemSelected { get; }
+
         public List<ListedItem> SelectedItems { get; }
+
+        public ListedItem SelectedItem { get; }
+
+        ItemManipulationModel ItemManipulationModel { get; }
     }
 }
