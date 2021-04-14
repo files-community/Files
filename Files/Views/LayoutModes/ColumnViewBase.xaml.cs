@@ -582,7 +582,7 @@ namespace Files.Views.LayoutModes
         {
             if (args.ItemContainer == null)
             {
-                ListViewItem gvi = new ListViewItem();
+                ListViewItem gvi = new();
                 args.ItemContainer = gvi;
             }
             args.ItemContainer.DataContext = args.Item;

@@ -1,4 +1,6 @@
-﻿namespace Files
+﻿using System;
+
+namespace Files
 {
     public static class Constants
     {
@@ -92,6 +94,13 @@
         public static class OptionalPackages
         {
             public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
+        }
+
+        public static class JumpListConstants
+        {
+            public const string RecentsGroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
+
+            public static readonly Uri RecentsItemIcon = new("ms-appx:///Assets/FolderIcon.png");
         }
     }
 }

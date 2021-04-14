@@ -145,7 +145,7 @@ namespace Files.Filesystem
                 {
                     var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                    ContentDialog dialog = new ContentDialog()
+                    ContentDialog dialog = new()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
@@ -330,7 +330,7 @@ namespace Files.Filesystem
                 {
                     var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                    ContentDialog dialog = new ContentDialog()
+                    ContentDialog dialog = new()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
@@ -562,7 +562,7 @@ namespace Files.Filesystem
                 {
                     // Enumerate Recycle Bin
                     List<ShellFileItem> items = await recycleBinHelpers.EnumerateRecycleBin();
-                    List<ShellFileItem> nameMatchItems = new List<ShellFileItem>();
+                    List<ShellFileItem> nameMatchItems = new();
 
                     // Get name matching files
                     if (items != null)

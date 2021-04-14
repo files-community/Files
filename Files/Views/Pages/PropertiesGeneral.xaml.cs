@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -14,11 +15,12 @@ namespace Files.Views
     {
         public PropertiesGeneral()
         {
-            this.InitializeComponent();
-            base.ItemMD5HashProgress = ItemMD5HashProgress;
+            InitializeComponent();
         }
 
-        public async Task SaveChangesAsync(ListedItem item)
+        protected override ProgressBar ItemMD5HashProgress => MD5HashProgress;
+
+		public async Task SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties driveProps)
             {

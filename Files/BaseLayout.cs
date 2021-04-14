@@ -367,7 +367,7 @@ namespace Files
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 

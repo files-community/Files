@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

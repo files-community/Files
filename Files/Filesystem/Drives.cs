@@ -4,7 +4,6 @@ using Files.UserControls;
 using Files.UserControls.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,7 @@ namespace Files.Filesystem
     public class DrivesManager : ObservableObject
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly List<DriveItem> drivesList = new();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -127,20 +126,19 @@ namespace Files.Filesystem
                 {
                     SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
-                    {
-                        section = new LocationItem()
-                        {
-                            Text = "SidebarDrives".GetLocalized(),
-                            Section = SectionType.Drives,
-                            SelectsOnInvoked = false,
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
-                        };
-                        SidebarControl.SideBarItems.Add(section);
-                    }
+					if (SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) is not LocationItem section)
+					{
+						section = new LocationItem()
+						{
+							Text = "SidebarDrives".GetLocalized(),
+							Section = SectionType.Drives,
+							SelectsOnInvoked = false,
+							ChildItems = new ObservableCollection<INavigationControlItem>()
+						};
+						SidebarControl.SideBarItems.Add(section);
+					}
 
-                    foreach (DriveItem drive in Drives.ToList())
+					foreach (DriveItem drive in Drives.ToList())
                     {
                         if (!section.ChildItems.Contains(drive))
                         {
@@ -243,7 +241,7 @@ namespace Files.Filesystem
             var drives = DriveInfo.GetDrives().ToList();
 
             var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-            List<string> supportedDevicesNames = new List<string>();
+            List<string> supportedDevicesNames = new();
             foreach (var item in remDevices)
             {
                 try
@@ -441,7 +439,7 @@ namespace Files.Filesystem
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected != null)
                     {
-                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             matchingDriveEjected.Root = rootModified.Result;
                             matchingDriveEjected.Text = rootModified.Result.DisplayName;

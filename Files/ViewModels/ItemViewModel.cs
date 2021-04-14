@@ -37,10 +37,10 @@ namespace Files.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
-        private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
-        private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
-        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
-        private readonly SemaphoreSlim operationSemaphore = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim enumFolderSemaphore = new(1, 1);
+        private readonly SemaphoreSlim loadExtendedPropsSemaphore = new(Environment.ProcessorCount, Environment.ProcessorCount);
+        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new();
+        private readonly SemaphoreSlim operationSemaphore = new(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
 
@@ -696,18 +696,18 @@ namespace Files.ViewModels
                 {
                     if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var (IconData, OverlayData, IsCustom) = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
-                            if (fileIconInfo.IconData != null)
+                            if (IconData != null)
                             {
-                                item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.FileImage = await IconData.ToBitmapAsync();
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
                                 item.LoadFileIcon = true;
                             }
-                            item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
+                            item.IconOverlay = await OverlayData.ToBitmapAsync();
                         }, Windows.System.DispatcherQueuePriority.Low);
                         if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
@@ -716,20 +716,18 @@ namespace Files.ViewModels
                             {
                                 if (!item.LoadFileIcon) // Loading icon from fulltrust process failed
                                 {
-                                    using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
-                                    {
-                                        if (Thumbnail != null)
-                                        {
-                                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                            {
-                                                item.FileImage = new BitmapImage();
-                                                await item.FileImage.SetSourceAsync(Thumbnail);
-                                                item.LoadUnknownTypeGlyph = false;
-                                                item.LoadFileIcon = true;
-                                            });
-                                        }
-                                    }
-                                }
+									using var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+									if (Thumbnail != null)
+									{
+										await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+										{
+											item.FileImage = new BitmapImage();
+											await item.FileImage.SetSourceAsync(Thumbnail);
+											item.LoadUnknownTypeGlyph = false;
+											item.LoadFileIcon = true;
+										});
+									}
+								}
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -744,18 +742,18 @@ namespace Files.ViewModels
                     }
                     else
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var (IconData, OverlayData, IsCustom) = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
-                            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
+                            if (IconData != null && IsCustom) // Only set folder icon if it's a custom icon
                             {
-                                item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.FileImage = await IconData.ToBitmapAsync();
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadFolderGlyph = false;
                                 item.LoadFileIcon = true;
                             }
-                            item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
+                            item.IconOverlay = await OverlayData.ToBitmapAsync();
                         }, Windows.System.DispatcherQueuePriority.Low);
                         if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
@@ -808,11 +806,14 @@ namespace Files.ViewModels
         {
             if (Connection != null)
             {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetIconOverlay");
-                value.Add("filePath", filePath);
-                value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+				var value = new ValueSet
+				{
+					{ "Arguments", "GetIconOverlay" },
+					{ "filePath", filePath },
+					{ "thumbnailSize", (int)thumbnailSize }
+				};
+
+				var (status, response) = await Connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)
                 {
                     var hasCustomIcon = response.Get("HasCustomIcon", false);
@@ -905,7 +906,7 @@ namespace Files.ViewModels
                 return;
             }
 
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             stopwatch.Start();
 
             List<string> cacheResult = null;
@@ -1081,12 +1082,15 @@ namespace Files.ViewModels
                 await Task.Run(async () =>
                 {
                     var sampler = new IntervalSampler(500);
-                    var value = new ValueSet();
-                    value.Add("Arguments", "ShellFolder");
-                    value.Add("action", "Enumerate");
-                    value.Add("folder", path);
-                    // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
+					var value = new ValueSet
+					{
+						{ "Arguments", "ShellFolder" },
+						{ "action", "Enumerate" },
+						{ "folder", path }
+					};
+
+					// Send request to fulltrust process to enumerate recyclebin items
+					var (status, response) = await Connection.SendMessageForResponseAsync(value);
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
@@ -1176,12 +1180,15 @@ namespace Files.ViewModels
                     var userInput = bitlockerDialog.storedPasswordInput;
                     if (Connection != null)
                     {
-                        var value = new ValueSet();
-                        value.Add("Arguments", "Bitlocker");
-                        value.Add("action", "Unlock");
-                        value.Add("drive", Path.GetPathRoot(path));
-                        value.Add("password", userInput);
-                        await Connection.SendMessageAsync(value);
+						var value = new ValueSet
+						{
+							{ "Arguments", "Bitlocker" },
+							{ "action", "Unlock" },
+							{ "drive", Path.GetPathRoot(path) },
+							{ "password", userInput }
+						};
+
+						await Connection.SendMessageAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {
@@ -1348,7 +1355,7 @@ namespace Files.ViewModels
 
         private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, List<string> skipItems, bool cacheOnly)
         {
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             stopwatch.Start();
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -1416,17 +1423,17 @@ namespace Files.ViewModels
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
         {
             int? syncStatus = null;
-            if (item is StorageFile)
+            if (item is StorageFile file)
             {
-                IDictionary<string, object> extraProperties = await ((StorageFile)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" });
+                IDictionary<string, object> extraProperties = await file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" });
                 syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
             }
-            else if (item is StorageFolder)
+            else if (item is StorageFolder folder)
             {
-                IDictionary<string, object> extraProperties = await ((StorageFolder)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
+                var extraProperties = await folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
                 syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
                 // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
-                syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+                syncStatus ??= (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
             }
             if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
             {
@@ -1460,7 +1467,7 @@ namespace Files.ViewModels
                     notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
                 }
 
-                OVERLAPPED overlapped = new OVERLAPPED();
+                OVERLAPPED overlapped = new();
                 overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
                 const uint INFINITE = 0xFFFFFFFF;
 

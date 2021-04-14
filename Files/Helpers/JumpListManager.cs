@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.StartScreen;
@@ -46,13 +47,19 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                await AddFolder(path);
-                await instance?.SaveAsync();
+                AddFolder(path);
+                await instance.SaveAsync();
             }
-            catch { }
+            catch (COMException ex)
+			{
+                if (ex.ErrorCode != 80070497)
+				{
+                    throw ex;
+				}
+            }
         }
 
-        private async Task AddFolder(string path)
+        private void AddFolder(string path)
         {
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
@@ -73,33 +80,26 @@ namespace Files.Helpers
                 else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
                 {
                     var libName = Path.GetFileNameWithoutExtension(library.Path);
-                    switch (libName)
-                    {
-                        case "Documents":
-                        case "Pictures":
-                        case "Music":
-                        case "Videos":
-                            // Use localized name
-                            displayName = $"ms-resource:///Resources/Sidebar{libName}";
-                            break;
-
-                        default:
-                            // Use original name
-                            displayName = library.Text;
-                            break;
-                    }
-                }
+					displayName = libName switch
+					{
+						"Documents" or "Pictures" or "Music" or "Videos" => $"ms-resource:///Resources/Sidebar{libName}", // Use localized name
+						_ => library.Text, // Use original name
+					};
+				}
                 else
                 {
                     displayName = Path.GetFileName(path);
                 }
 
                 var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
-                jumplistItem.Description = jumplistItem.Arguments;
-                jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
-                jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
+                jumplistItem.Description = path;
+                jumplistItem.GroupName = Constants.JumpListConstants.RecentsGroupName;
+                jumplistItem.Logo = Constants.JumpListConstants.RecentsItemIcon;
                 instance.Items.Add(jumplistItem);
-                JumpListItemPaths.Add(path);
+                if (!JumpListItemPaths.Contains(path))
+                {
+                    JumpListItemPaths.Add(path);
+                }
             }
         }
 
@@ -115,7 +115,9 @@ namespace Files.Helpers
                     await UpdateAsync();
                 }
             }
-            catch { }
+            catch (FileLoadException)
+            {
+            }
         }
 
         private async Task UpdateAsync()
@@ -127,7 +129,7 @@ namespace Files.Helpers
 
                 foreach (string path in JumpListItemPaths)
                 {
-                    await AddFolder(path);
+                    AddFolder(path);
                 }
 
                 await instance.SaveAsync();

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -125,9 +126,9 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="sender">The catalog that the extensions belong to</param>
         /// <param name="args">Contains the package that is updating</param>
-        private async void Catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
+        private void Catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
         {
-            await UnloadExtensions(args.Package);
+            UnloadExtensions(args.Package);
         }
 
         /// <summary>
@@ -135,9 +136,9 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="sender">The catalog that the extensions belong to</param>
         /// <param name="args">Contains the package that is uninstalling</param>
-        private async void Catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
+        private void Catalog_PackageUninstalling(AppExtensionCatalog sender, AppExtensionPackageUninstallingEventArgs args)
         {
-            await RemoveExtensions(args.Package);
+            RemoveExtensions(args.Package);
         }
 
         /// <summary>
@@ -146,14 +147,14 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="sender">The catalog that the extensions belong to</param>
         /// <param name="args">Contains the package that has changed status</param>
-        private async void Catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
+        private void Catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
         {
             if (!args.Package.Status.VerifyIsOK()) // If the package isn't ok, unload its extensions
             {
                 // if it's offline, unload its extensions
                 if (args.Package.Status.PackageOffline)
                 {
-                    await UnloadExtensions(args.Package);
+                    UnloadExtensions(args.Package);
                 }
                 else if (args.Package.Status.Servicing || args.Package.Status.DeploymentInProgress)
                 {
@@ -163,12 +164,12 @@ namespace Files.Helpers
                 {
                     // Deal with an invalid or tampered with package, or other issue, by removing the extensions
                     // Adding a UI glyph to the affected extensions could be a good user experience if you wish
-                    await RemoveExtensions(args.Package);
+                    RemoveExtensions(args.Package);
                 }
             }
             else // The package is now OK--attempt to load its extensions
             {
-                await LoadExtensions(args.Package);
+                LoadExtensions(args.Package);
             }
         }
 
@@ -201,11 +202,11 @@ namespace Files.Helpers
             {
                 // get the extension's properties, such as its logo
                 var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
-                var filestream = await ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync();
-                BitmapImage logo = new BitmapImage();
-                logo.SetSource(filestream);
+                var filestream = await ext.AppInfo.DisplayInfo.GetLogo(new Size(1, 1)).OpenReadAsync();
+                BitmapImage logo = new();
+                await logo.SetSourceAsync(filestream);
 
-                Extension newExtension = new Extension(ext, properties, logo);
+                Extension newExtension = new(ext, properties, logo);
                 Extensions.Add(newExtension);
 
                 await newExtension.MarkAsLoaded();
@@ -225,7 +226,7 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="package">Package containing the extensions to load</param>
         /// <returns></returns>
-        public async Task LoadExtensions(Package package)
+        public void LoadExtensions(Package package)
         {
             Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(async e => { await e.MarkAsLoaded(); });
         }
@@ -235,7 +236,7 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="package">Package containing the extensions to unload</param>
         /// <returns></returns>
-        public async Task UnloadExtensions(Package package)
+        public void UnloadExtensions(Package package)
         {
             Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); });
             //// Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
@@ -249,7 +250,7 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="package">The package containing the extensions to remove</param>
         /// <returns></returns>
-        public async Task RemoveExtensions(Package package)
+        public void RemoveExtensions(Package package)
         {
             Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); Extensions.Remove(e); });
         }

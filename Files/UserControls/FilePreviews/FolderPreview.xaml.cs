@@ -12,7 +12,7 @@ namespace Files.UserControls.FilePreviews
         public FolderPreview(FolderPreviewViewModel model)
         {
             Model = model;
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

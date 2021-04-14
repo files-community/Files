@@ -15,7 +15,7 @@ namespace Files.ViewModels.Properties
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
-        protected Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress = null;
+        protected virtual Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress { get; } = null;
 
         protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {

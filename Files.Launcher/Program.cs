@@ -24,12 +24,12 @@ using Windows.Storage;
 
 namespace FilesFullTrust
 {
-    internal class Program
+    internal static class Program
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         [STAThread]
-        private static void Main(string[] args)
+        private static void Main()
         {
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
@@ -386,12 +386,12 @@ namespace FilesFullTrust
                 case "GetIconOverlay":
                     var fileIconPath = (string)message["filePath"];
                     var thumbnailSize = (int)(long)message["thumbnailSize"];
-                    var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize)).Result;
+                    var (icon, overlay, isCustom) = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize)).Result;
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Icon", iconOverlay.icon },
-                        { "Overlay", iconOverlay.overlay },
-                        { "HasCustomIcon", iconOverlay.isCustom }
+                        { "Icon", icon },
+                        { "Overlay", overlay },
+                        { "HasCustomIcon", isCustom }
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -499,26 +499,24 @@ namespace FilesFullTrust
                         var flc = new List<ShellFileItem>();
                         try
                         {
-                            using (var shellFolder = new ShellFolder(folderPath))
-                            {
-                                foreach (var folderItem in shellFolder)
-                                {
-                                    try
-                                    {
-                                        var shellFileItem = GetShellFileItem(folderItem);
-                                        flc.Add(shellFileItem);
-                                    }
-                                    catch (FileNotFoundException)
-                                    {
-                                        // Happens if files are being deleted
-                                    }
-                                    finally
-                                    {
-                                        folderItem.Dispose();
-                                    }
-                                }
-                            }
-                        }
+							using var shellFolder = new ShellFolder(folderPath);
+							foreach (var folderItem in shellFolder)
+							{
+								try
+								{
+									var shellFileItem = GetShellFileItem(folderItem);
+									flc.Add(shellFileItem);
+								}
+								catch (FileNotFoundException)
+								{
+									// Happens if files are being deleted
+								}
+								finally
+								{
+									folderItem.Dispose();
+								}
+							}
+						}
                         catch
                         {
                         }
@@ -797,8 +795,8 @@ namespace FilesFullTrust
 
             bool filterMenuItemsImpl(string menuItem)
             {
-                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
-                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
+                return !string.IsNullOrEmpty(menuItem) && (knownItems.Contains(menuItem)
+                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
             }
 
             return filterMenuItemsImpl;

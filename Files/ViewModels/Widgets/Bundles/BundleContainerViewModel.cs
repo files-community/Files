@@ -131,18 +131,18 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private async void RenameBundle()
         {
-            TextBox inputText = new TextBox()
+            TextBox inputText = new()
             {
                 PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
             };
 
-            TextBlock tipText = new TextBlock()
+            TextBlock tipText = new()
             {
                 Text = string.Empty,
                 Visibility = Visibility.Collapsed
             };
 
-            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            DynamicDialog dialog = new(new DynamicDialogViewModel()
             {
                 DisplayControl = new Grid()
                 {
@@ -217,7 +217,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
                 {
                     Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
-                    Dictionary<string, List<string>> newBundles = new Dictionary<string, List<string>>();
+                    Dictionary<string, List<string>> newBundles = new();
 
                     foreach (var item in allBundles)
                     {
@@ -355,7 +355,7 @@ namespace Files.ViewModels.Widgets.Bundles
                     SaveBundle();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             finally

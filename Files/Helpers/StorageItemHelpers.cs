@@ -30,11 +30,13 @@ namespace Files.Helpers
 
                 return default(TOut);
 
-                if (false) // Prevent unnecessary exceptions
-                {
+#pragma warning disable CS0162 // Unreachable code detected
+				if (false) // Prevent unnecessary exceptions
+				{
                     Debugger.Break();
                     throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
                 }
+#pragma warning restore CS0162 // Unreachable code detected
             }
 
             if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))

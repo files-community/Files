@@ -43,8 +43,8 @@ namespace Files
     {
         private static bool ShowErrorNotification = false;
 
-        public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
-        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
+        public static SemaphoreSlim SemaphoreSlim = new(1, 1);
+        public static StorageHistoryWrapper HistoryWrapper = new();
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static InteractionViewModel InteractionViewModel { get; private set; }
@@ -139,7 +139,7 @@ namespace Files
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
-        public static List<string> pathsToDeleteAfterPaste = new List<string>();
+        public static List<string> pathsToDeleteAfterPaste = new();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -159,12 +159,15 @@ namespace Files
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
+            if (Window.Current.Content is not Frame rootFrame)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                rootFrame.NavigationFailed += OnNavigationFailed;
+				// Create a Frame to act as the navigation context and navigate to the first page
+				rootFrame = new Frame
+				{
+					CacheSize = 1
+				};
+
+				rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -248,11 +251,14 @@ namespace Files
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
             // Window management
-            if (!(Window.Current.Content is Frame rootFrame))
+            if (Window.Current.Content is not Frame rootFrame)
             {
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                Window.Current.Content = rootFrame;
+				rootFrame = new Frame
+				{
+					CacheSize = 1
+				};
+
+				Window.Current.Content = rootFrame;
             }
 
             var currentView = SystemNavigationManager.GetForCurrentView();
