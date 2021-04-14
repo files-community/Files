@@ -60,6 +60,7 @@
                     MenuItemsSource="{x:Bind ChildItems}"
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
+                    PointerPressed="Sidebar_PointerPressed"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
@@ -81,6 +82,7 @@
                     Drop="NavigationViewDriveItem_Drop"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
+                    PointerPressed="Sidebar_PointerPressed"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
@@ -99,6 +101,7 @@
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     RightTapped="NavigationViewWSLItem_RightTapped"
+                    PointerPressed="Sidebar_PointerPressed"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
                     <muxc:NavigationViewItem.Icon>
