@@ -20,9 +20,13 @@ namespace Files.Views
     {
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
+
         public event EventHandler<TabItemArguments> ContentChanged;
+
         public event EventHandler ActivePaneChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
@@ -133,7 +137,6 @@ namespace Files.Views
                 }
             }
         }
-
 
         private bool isRightPaneVisible;
 

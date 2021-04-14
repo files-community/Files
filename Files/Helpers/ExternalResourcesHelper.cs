@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -12,31 +13,98 @@ namespace Files.Helpers
 {
     public class ExternalResourcesHelper
     {
-        public List<string> Themes = new List<string>()
+        public List<AppTheme> Themes = new List<AppTheme>()
         {
-            "DefaultScheme".GetLocalized()
+            new AppTheme
+            {
+                Name = "DefaultScheme".GetLocalized(),
+            },
         };
 
-        public string CurrentThemeResources { get; set; }
         public StorageFolder ThemeFolder { get; set; }
+        public StorageFolder OptionalPackageThemeFolder { get; set; }
+
+        public string CurrentThemeResources { get; set; }
 
         public async Task LoadSelectedTheme()
         {
+            if(App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
+            {
+                Debug.WriteLine(package.InstalledLocation.Path);
+                OptionalPackageThemeFolder = package.InstalledLocation;
+            }
+
             ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
-            if (App.AppSettings.PathToThemeFile != "DefaultScheme".GetLocalized())
+            // This is used to migrate to the new theme setting
+            // It can be removed in a future update
+            if(ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path)) {
+                var pathStr = path as string;
+                App.AppSettings.SelectedTheme = new AppTheme()
+                {
+                    Name = pathStr.Replace(".xaml", ""),
+                    Path = pathStr,
+                };
+                ApplicationData.Current.LocalSettings.Values.Remove("PathToThemeFile");
+            }
+
+            if (App.AppSettings.SelectedTheme.Path != null)
             {
-                await TryLoadThemeAsync(App.AppSettings.PathToThemeFile);
+                await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
             }
 
             LoadOtherThemesAsync();
         }
 
-        public async Task<bool> TryLoadThemeAsync(string name)
+        private async void LoadOtherThemesAsync()
         {
             try
             {
-                var file = await ThemeFolder.GetFileAsync(name);
+                await AddThemesAsync(ThemeFolder);
+
+                if(OptionalPackageThemeFolder != null)
+                {
+                    await AddThemesAsync(OptionalPackageThemeFolder, true);
+                }
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine($"Error loading themes");
+            }
+        }
+
+        private async Task AddThemesAsync(StorageFolder folder, bool isOptionalPackage = false)
+        {
+            foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
+            {
+                Themes.Add(new AppTheme()
+                {
+                    Name = file.Name.Replace(".xaml", ""),
+                    Path = file.Name,
+                    IsFromOptionalPackage = isOptionalPackage
+                });
+            }
+
+        }
+
+        public async Task<bool> TryLoadThemeAsync(AppTheme theme)
+        {
+            try
+            {
+                StorageFile file;
+                if(theme.IsFromOptionalPackage)
+                {
+                    if(OptionalPackageThemeFolder != null)
+                    {
+                        file = await OptionalPackageThemeFolder.GetFileAsync(theme.Path);
+                    } else
+                    {
+                        return false;
+                    }
+                } else
+                {
+                    file = await ThemeFolder.GetFileAsync(theme.Path);
+                }
                 CurrentThemeResources = await FileIO.ReadTextAsync(file);
                 var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
                 App.Current.Resources.MergedDictionaries.Add(xaml);
@@ -48,26 +116,12 @@ namespace Files.Helpers
                 return false;
             }
         }
+    }
 
-        private async void LoadOtherThemesAsync()
-        {
-            try
-            {
-                foreach (var file in (await ThemeFolder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
-                {
-                    Themes.Add(file.Name);
-                }
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine($"Error loading themes");
-            }
-        }
-
-        public struct AppTheme
-        {
-            public string Name { get; set; }
-            public ResourceDictionary ResourceDictionary { get; set; }
-        }
+    public struct AppTheme
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public bool IsFromOptionalPackage { get; set; }
     }
 }

@@ -21,6 +21,151 @@ namespace Files.Filesystem.StorageEnumerators
     {
         private static IFileListCache fileListCache = FileListCacheController.GetInstance();
 
+        public static async Task<List<ListedItem>> ListEntries(
+            string path,
+            string returnformat,
+            IntPtr hFile,
+            WIN32_FIND_DATA findData,
+            NamedPipeAsAppServiceConnection connection,
+            CancellationToken cancellationToken,
+            List<string> skipItems,
+            int countLimit,
+            Func<List<ListedItem>, Task> intermediateAction
+        )
+        {
+            var sampler = new IntervalSampler(500);
+            var tempList = new List<ListedItem>();
+            var hasNextFile = false;
+            var count = 0;
+
+            do
+            {
+                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
+                {
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || App.AppSettings.AreHiddenItemsVisible)
+                    {
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
+                            if (file != null)
+                            {
+                                if (skipItems?.Contains(file.ItemPath) ?? false)
+                                {
+                                    skipItems.Remove(file.ItemPath);
+                                }
+                                else
+                                {
+                                    tempList.Add(file);
+                                }
+                                ++count;
+                            }
+                        }
+                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            {
+                                var folder = await GetFolder(findData, path, returnformat, cancellationToken);
+                                if (folder != null)
+                                {
+                                    if (skipItems?.Contains(folder.ItemPath) ?? false)
+                                    {
+                                        skipItems.Remove(folder.ItemPath);
+                                    }
+                                    else
+                                    {
+                                        tempList.Add(folder);
+                                    }
+                                    ++count;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (cancellationToken.IsCancellationRequested || count == countLimit)
+                {
+                    break;
+                }
+
+                hasNextFile = FindNextFile(hFile, out findData);
+                if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
+                {
+                    await intermediateAction(tempList);
+                    // clear the temporary list every time we do an intermediate action
+                    tempList.Clear();
+                }
+            } while (hasNextFile);
+
+            FindClose(hFile);
+            return tempList;
+        }
+
+        public static async Task<ListedItem> GetFolder(
+            WIN32_FIND_DATA findData,
+            string pathRoot,
+            string dateReturnFormat,
+            CancellationToken cancellationToken
+        )
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return null;
+            }
+
+            DateTime itemModifiedDate;
+            DateTime itemCreatedDate;
+            try
+            {
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
+                itemModifiedDate = new DateTime(
+                    systemModifiedTimeOutput.Year, systemModifiedTimeOutput.Month, systemModifiedTimeOutput.Day,
+                    systemModifiedTimeOutput.Hour, systemModifiedTimeOutput.Minute, systemModifiedTimeOutput.Second, systemModifiedTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
+
+                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+                itemCreatedDate = new DateTime(
+                    systemCreatedTimeOutput.Year, systemCreatedTimeOutput.Month, systemCreatedTimeOutput.Day,
+                    systemCreatedTimeOutput.Hour, systemCreatedTimeOutput.Minute, systemCreatedTimeOutput.Second, systemCreatedTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
+            }
+            catch (ArgumentException)
+            {
+                // Invalid date means invalid findData, do not add to list
+                return null;
+            }
+            var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+            if (string.IsNullOrEmpty(itemName))
+            {
+                itemName = findData.cFileName;
+            }
+            bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+            double opacity = 1;
+
+            if (isHidden)
+            {
+                opacity = Constants.UI.DimItemOpacity;
+            }
+
+            return new ListedItem(null, dateReturnFormat)
+            {
+                PrimaryItemAttribute = StorageItemTypes.Folder,
+                ItemName = itemName,
+                ItemDateModifiedReal = itemModifiedDate,
+                ItemDateCreatedReal = itemCreatedDate,
+                ItemType = "FileFolderListItem".GetLocalized(),
+                LoadFolderGlyph = true,
+                FileImage = null,
+                IsHiddenItem = isHidden,
+                Opacity = opacity,
+                LoadFileIcon = false,
+                ItemPath = itemPath,
+                LoadUnknownTypeGlyph = false,
+                FileSize = null,
+                FileSizeBytes = 0,
+                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
+            };
+        }
+
         public static async Task<ListedItem> GetFile(
             WIN32_FIND_DATA findData,
             string pathRoot,
@@ -198,151 +343,6 @@ namespace Files.Filesystem.StorageEnumerators
                 };
             }
             return null;
-        }
-
-        public static async Task<ListedItem> GetFolder(
-            WIN32_FIND_DATA findData,
-            string pathRoot,
-            string dateReturnFormat,
-            CancellationToken cancellationToken
-        )
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return null;
-            }
-
-            DateTime itemModifiedDate;
-            DateTime itemCreatedDate;
-            try
-            {
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
-                itemModifiedDate = new DateTime(
-                    systemModifiedTimeOutput.Year, systemModifiedTimeOutput.Month, systemModifiedTimeOutput.Day,
-                    systemModifiedTimeOutput.Hour, systemModifiedTimeOutput.Minute, systemModifiedTimeOutput.Second, systemModifiedTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
-
-                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
-                itemCreatedDate = new DateTime(
-                    systemCreatedTimeOutput.Year, systemCreatedTimeOutput.Month, systemCreatedTimeOutput.Day,
-                    systemCreatedTimeOutput.Hour, systemCreatedTimeOutput.Minute, systemCreatedTimeOutput.Second, systemCreatedTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
-            }
-            catch (ArgumentException)
-            {
-                // Invalid date means invalid findData, do not add to list
-                return null;
-            }
-            var itemPath = Path.Combine(pathRoot, findData.cFileName);
-            string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
-            if (string.IsNullOrEmpty(itemName))
-            {
-                itemName = findData.cFileName;
-            }
-            bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-            double opacity = 1;
-
-            if (isHidden)
-            {
-                opacity = Constants.UI.DimItemOpacity;
-            }
-
-            return new ListedItem(null, dateReturnFormat)
-            {
-                PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = itemName,
-                ItemDateModifiedReal = itemModifiedDate,
-                ItemDateCreatedReal = itemCreatedDate,
-                ItemType = "FileFolderListItem".GetLocalized(),
-                LoadFolderGlyph = true,
-                FileImage = null,
-                IsHiddenItem = isHidden,
-                Opacity = opacity,
-                LoadFileIcon = false,
-                ItemPath = itemPath,
-                LoadUnknownTypeGlyph = false,
-                FileSize = null,
-                FileSizeBytes = 0,
-                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
-            };
-        }
-
-        public static async Task<List<ListedItem>> ListEntries(
-                            string path,
-            string returnformat,
-            IntPtr hFile,
-            WIN32_FIND_DATA findData,
-            NamedPipeAsAppServiceConnection connection,
-            CancellationToken cancellationToken,
-            List<string> skipItems,
-            int countLimit,
-            Func<List<ListedItem>, Task> intermediateAction
-        )
-        {
-            var sampler = new IntervalSampler(500);
-            var tempList = new List<ListedItem>();
-            var hasNextFile = false;
-            var count = 0;
-
-            do
-            {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
-                {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || App.AppSettings.AreHiddenItemsVisible)
-                    {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                        {
-                            var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
-                            if (file != null)
-                            {
-                                if (skipItems?.Contains(file.ItemPath) ?? false)
-                                {
-                                    skipItems.Remove(file.ItemPath);
-                                }
-                                else
-                                {
-                                    tempList.Add(file);
-                                }
-                                ++count;
-                            }
-                        }
-                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                        {
-                            if (findData.cFileName != "." && findData.cFileName != "..")
-                            {
-                                var folder = await GetFolder(findData, path, returnformat, cancellationToken);
-                                if (folder != null)
-                                {
-                                    if (skipItems?.Contains(folder.ItemPath) ?? false)
-                                    {
-                                        skipItems.Remove(folder.ItemPath);
-                                    }
-                                    else
-                                    {
-                                        tempList.Add(folder);
-                                    }
-                                    ++count;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (cancellationToken.IsCancellationRequested || count == countLimit)
-                {
-                    break;
-                }
-
-                hasNextFile = FindNextFile(hFile, out findData);
-                if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
-                {
-                    await intermediateAction(tempList);
-                    // clear the temporary list every time we do an intermediate action
-                    tempList.Clear();
-                }
-            } while (hasNextFile);
-
-            FindClose(hFile);
-            return tempList;
         }
     }
 }

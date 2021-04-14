@@ -17,6 +17,8 @@ namespace Files.ViewModels.Properties
 {
     internal class CombinedProperties : BaseProperties
     {
+        public List<ListedItem> List { get; }
+
         public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
             CoreDispatcher coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
         {
@@ -28,8 +30,6 @@ namespace Files.ViewModels.Properties
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
-
-        public List<ListedItem> List { get; }
 
         public override void GetBaseProperties()
         {

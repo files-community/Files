@@ -23,29 +23,6 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Undo, Redo
 
-        public async Task<ReturnResult> TryRedo()
-        {
-            if (App.HistoryWrapper.CanRedo())
-            {
-                if (!(await App.SemaphoreSlim.WaitAsync(0)))
-                {
-                    return ReturnResult.InProgress;
-                }
-
-                try
-                {
-                    App.HistoryWrapper.IncreaseIndex();
-                    return await storageHistoryOperations.Redo(App.HistoryWrapper.GetCurrentHistory());
-                }
-                finally
-                {
-                    App.SemaphoreSlim.Release();
-                }
-            }
-
-            return ReturnResult.Cancelled;
-        }
-
         public async Task<ReturnResult> TryUndo()
         {
             if (App.HistoryWrapper.CanUndo())
@@ -62,6 +39,29 @@ namespace Files.Filesystem.FilesystemHistory
                 finally
                 {
                     App.HistoryWrapper.DecreaseIndex();
+                    App.SemaphoreSlim.Release();
+                }
+            }
+
+            return ReturnResult.Cancelled;
+        }
+
+        public async Task<ReturnResult> TryRedo()
+        {
+            if (App.HistoryWrapper.CanRedo())
+            {
+                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                {
+                    return ReturnResult.InProgress;
+                }
+
+                try
+                {
+                    App.HistoryWrapper.IncreaseIndex();
+                    return await storageHistoryOperations.Redo(App.HistoryWrapper.GetCurrentHistory());
+                }
+                finally
+                {
                     App.SemaphoreSlim.Release();
                 }
             }

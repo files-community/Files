@@ -30,12 +30,76 @@ namespace Files.ViewModels.Widgets.Bundles
     /// </summary>
     public class BundlesViewModel : ObservableObject, IDisposable
     {
-        public bool noBundlesAddItemLoad = false;
-        private string addBundleErrorText = string.Empty;
-        private string bundleNameTextInput = string.Empty;
-        private int internalCollectionCount;
+        #region Singleton
+
+        private IBundlesSettings BundlesSettings => App.BundlesSettings;
+
+        #endregion Singleton
+
+        #region Private Members
+
         private bool isInitialized;
+
         private bool itemAddedInternally;
+
+        private int internalCollectionCount;
+
+        #endregion Private Members
+
+        public event EventHandler<BundlesOpenPathEventArgs> OpenPathEvent;
+
+        public event EventHandler<string> OpenPathInNewPaneEvent;
+
+        public event EventHandler<BundlesLoadIconOverlayEventArgs> LoadIconOverlayEvent;
+
+        #region Public Properties
+
+        /// <summary>
+        /// Collection of all bundles
+        /// </summary>
+        public ObservableCollection<BundleContainerViewModel> Items { get; private set; } = new ObservableCollection<BundleContainerViewModel>();
+
+        private string bundleNameTextInput = string.Empty;
+
+        public string BundleNameTextInput
+        {
+            get => bundleNameTextInput;
+            set => SetProperty(ref bundleNameTextInput, value);
+        }
+
+        private string addBundleErrorText = string.Empty;
+
+        public string AddBundleErrorText
+        {
+            get => addBundleErrorText;
+            set => SetProperty(ref addBundleErrorText, value);
+        }
+
+        public bool noBundlesAddItemLoad = false;
+
+        public bool NoBundlesAddItemLoad
+        {
+            get => noBundlesAddItemLoad;
+            set => SetProperty(ref noBundlesAddItemLoad, value);
+        }
+
+        #endregion Public Properties
+
+        #region Commands
+
+        public ICommand InputTextKeyDownCommand { get; private set; }
+
+        public ICommand OpenAddBundleDialogCommand { get; private set; }
+
+        public ICommand AddBundleCommand { get; private set; }
+
+        public ICommand ImportBundlesCommand { get; private set; }
+
+        public ICommand ExportBundlesCommand { get; private set; }
+
+        #endregion Commands
+
+        #region Constructor
 
         public BundlesViewModel()
         {
@@ -49,239 +113,9 @@ namespace Files.ViewModels.Widgets.Bundles
             Items.CollectionChanged += Items_CollectionChanged;
         }
 
-        public event EventHandler<BundlesLoadIconOverlayEventArgs> LoadIconOverlayEvent;
+        #endregion Constructor
 
-        public event EventHandler<BundlesOpenPathEventArgs> OpenPathEvent;
-
-        public event EventHandler<string> OpenPathInNewPaneEvent;
-
-        public ICommand AddBundleCommand { get; private set; }
-
-        public string AddBundleErrorText
-        {
-            get => addBundleErrorText;
-            set => SetProperty(ref addBundleErrorText, value);
-        }
-
-        public string BundleNameTextInput
-        {
-            get => bundleNameTextInput;
-            set => SetProperty(ref bundleNameTextInput, value);
-        }
-
-        private IBundlesSettings BundlesSettings => App.BundlesSettings;
-        public ICommand ExportBundlesCommand { get; private set; }
-
-        public ICommand ImportBundlesCommand { get; private set; }
-
-        public ICommand InputTextKeyDownCommand { get; private set; }
-
-        /// <summary>
-        /// Collection of all bundles
-        /// </summary>
-        public ObservableCollection<BundleContainerViewModel> Items { get; private set; } = new ObservableCollection<BundleContainerViewModel>();
-
-        public bool NoBundlesAddItemLoad
-        {
-            get => noBundlesAddItemLoad;
-            set => SetProperty(ref noBundlesAddItemLoad, value);
-        }
-
-        public ICommand OpenAddBundleDialogCommand { get; private set; }
-
-        public (bool result, string reason) CanAddBundle(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized();
-                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
-            }
-
-            if (!Items.Any((item) => item.BundleName == name))
-            {
-                AddBundleErrorText = string.Empty;
-                return (true, string.Empty);
-            }
-            else
-            {
-                AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized();
-                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (var item in Items)
-            {
-                item?.Dispose();
-            }
-
-            Items.CollectionChanged -= Items_CollectionChanged;
-            Items = null;
-        }
-
-        public async Task Initialize()
-        {
-            await Load();
-            isInitialized = true;
-        }
-
-        public async Task Load()
-        {
-            if (BundlesSettings.SavedBundles != null)
-            {
-                Items.Clear();
-
-                // For every bundle in saved bundle collection:
-                foreach (var bundle in BundlesSettings.SavedBundles)
-                {
-                    List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
-
-                    // For every bundleItem in current bundle
-                    foreach (var bundleItem in bundle.Value)
-                    {
-                        if (bundleItems.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
-                        {
-                            if (bundleItem != null)
-                            {
-                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem))
-                                {
-                                    ParentBundleName = bundle.Key,
-                                    NotifyItemRemoved = NotifyBundleItemRemovedHandle,
-                                    OpenPath = OpenPathHandle,
-                                    OpenPathInNewPane = OpenPathInNewPaneHandle,
-                                    LoadIconOverlay = LoadIconOverlayHandle
-                                });
-                                bundleItems.Last().UpdateIcon();
-                            }
-                        }
-                    }
-
-                    // Fill current bundle with collected bundle items
-                    itemAddedInternally = true;
-                    Items.Add(new BundleContainerViewModel()
-                    {
-                        BundleName = bundle.Key,
-                        NotifyItemRemoved = NotifyItemRemovedHandle,
-                        NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
-                        OpenPath = OpenPathHandle,
-                        OpenPathInNewPane = OpenPathInNewPaneHandle,
-                        LoadIconOverlay = LoadIconOverlayHandle
-                    }.SetBundleItems(bundleItems));
-                    itemAddedInternally = false;
-                }
-
-                if (Items.Count == 0)
-                {
-                    NoBundlesAddItemLoad = true;
-                }
-                else
-                {
-                    NoBundlesAddItemLoad = false;
-                }
-            }
-            else // Null, therefore no items :)
-            {
-                NoBundlesAddItemLoad = true;
-            }
-        }
-
-        public void Save()
-        {
-            if (BundlesSettings.SavedBundles != null)
-            {
-                Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
-
-                // For every bundle in items bundle collection:
-                foreach (var bundle in Items)
-                {
-                    List<string> bundleItems = new List<string>();
-
-                    // For every bundleItem in current bundle
-                    foreach (var bundleItem in bundle.Contents)
-                    {
-                        if (bundleItem != null)
-                        {
-                            bundleItems.Add(bundleItem.Path);
-                        }
-                    }
-
-                    bundles.Add(bundle.BundleName, bundleItems);
-                }
-
-                BundlesSettings.SavedBundles = bundles; // Calls Set()
-            }
-        }
-
-        private void AddBundle(string name)
-        {
-            if (!CanAddBundle(name).result)
-            {
-                return;
-            }
-
-            string savedBundleNameTextInput = name;
-            BundleNameTextInput = string.Empty;
-
-            if (BundlesSettings.SavedBundles == null || (BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
-            {
-                BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
-                {
-                    { savedBundleNameTextInput, new List<string>() { null } }
-                };
-            }
-
-            itemAddedInternally = true;
-            Items.Add(new BundleContainerViewModel()
-            {
-                BundleName = savedBundleNameTextInput,
-                NotifyItemRemoved = NotifyItemRemovedHandle,
-                NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
-                OpenPath = OpenPathHandle,
-                OpenPathInNewPane = OpenPathInNewPaneHandle,
-                LoadIconOverlay = LoadIconOverlayHandle
-            });
-            NoBundlesAddItemLoad = false;
-            itemAddedInternally = false;
-
-            // Save bundles
-            Save();
-        }
-
-        private async void ExportBundles()
-        {
-            FileSavePicker filePicker = new FileSavePicker();
-            filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
-
-            StorageFile file = await filePicker.PickSaveFileAsync();
-
-            if (file != null)
-            {
-                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettings.ExportSettings());
-            }
-        }
-
-        private async void ImportBundles()
-        {
-            FileOpenPicker filePicker = new FileOpenPicker();
-            filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
-
-            StorageFile file = await filePicker.PickSingleFileAsync();
-
-            if (file != null)
-            {
-                try
-                {
-                    string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
-                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
-                    BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
-                    await Load(); // Update the collection
-                }
-                catch // Couldn't deserialize, data is corrupted
-                {
-                }
-            }
-        }
+        #region Command Implementation
 
         private void InputTextKeyDown(KeyRoutedEventArgs e)
         {
@@ -289,71 +123,6 @@ namespace Files.ViewModels.Widgets.Bundles
             {
                 AddBundle(BundleNameTextInput);
                 e.Handled = true;
-            }
-        }
-
-        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (internalCollectionCount < Items.Count && !itemAddedInternally)
-            {
-                Save();
-            }
-
-            internalCollectionCount = Items.Count;
-        }
-
-        private (byte[] IconData, byte[] OverlayData, bool IsCustom) LoadIconOverlayHandle(string path, uint thumbnailSize)
-        {
-            BundlesLoadIconOverlayEventArgs eventArgs = new BundlesLoadIconOverlayEventArgs(path, thumbnailSize);
-            LoadIconOverlayEvent?.Invoke(this, eventArgs);
-
-            return eventArgs.outData;
-        }
-
-        /// <summary>
-        /// This function gets called when an item is removed to update the collection
-        /// </summary>
-        /// <param name="bundleContainer"></param>
-        /// <param name="bundleItemPath"></param>
-        private void NotifyBundleItemRemovedHandle(string bundleContainer, string bundleItemPath)
-        {
-            BundleItemViewModel itemToRemove = this.Items.Where((item) => item.BundleName == bundleContainer).First().Contents.Where((item) => item.Path == bundleItemPath).First();
-            itemToRemove.RemoveItem();
-        }
-
-        /// <summary>
-        /// This function gets called when an item is renamed to update the collection
-        /// </summary>
-        /// <param name="item"></param>
-        private void NotifyBundleItemRemovedHandle(BundleItemViewModel item)
-        {
-            foreach (var bundle in Items)
-            {
-                if (bundle.BundleName == item.ParentBundleName)
-                {
-                    bundle.Contents.Remove(item);
-                    item?.Dispose();
-
-                    if (bundle.Contents.Count == 0)
-                    {
-                        bundle.NoBundleContentsTextVisibility = Visibility.Visible;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// This function gets called when an item is removed to update the collection
-        /// </summary>
-        /// <param name="item"></param>
-        private void NotifyItemRemovedHandle(BundleContainerViewModel item)
-        {
-            Items.Remove(item);
-            item?.Dispose();
-
-            if (Items.Count == 0)
-            {
-                NoBundlesAddItemLoad = true;
             }
         }
 
@@ -426,6 +195,80 @@ namespace Files.ViewModels.Widgets.Bundles
             await dialog.ShowAsync();
         }
 
+        private void AddBundle(string name)
+        {
+            if (!CanAddBundle(name).result)
+            {
+                return;
+            }
+
+            string savedBundleNameTextInput = name;
+            BundleNameTextInput = string.Empty;
+
+            if (BundlesSettings.SavedBundles == null || (BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            {
+                BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
+                {
+                    { savedBundleNameTextInput, new List<string>() { null } }
+                };
+            }
+
+            itemAddedInternally = true;
+            Items.Add(new BundleContainerViewModel()
+            {
+                BundleName = savedBundleNameTextInput,
+                NotifyItemRemoved = NotifyItemRemovedHandle,
+                NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
+                OpenPath = OpenPathHandle,
+                OpenPathInNewPane = OpenPathInNewPaneHandle,
+                LoadIconOverlay = LoadIconOverlayHandle
+            });
+            NoBundlesAddItemLoad = false;
+            itemAddedInternally = false;
+
+            // Save bundles
+            Save();
+        }
+
+        private async void ImportBundles()
+        {
+            FileOpenPicker filePicker = new FileOpenPicker();
+            filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
+
+            StorageFile file = await filePicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                try
+                {
+                    string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
+                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
+                    BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                    await Load(); // Update the collection
+                }
+                catch // Couldn't deserialize, data is corrupted
+                {
+                }
+            }
+        }
+
+        private async void ExportBundles()
+        {
+            FileSavePicker filePicker = new FileSavePicker();
+            filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
+
+            StorageFile file = await filePicker.PickSaveFileAsync();
+
+            if (file != null)
+            {
+                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettings.ExportSettings());
+            }
+        }
+
+        #endregion Command Implementation
+
+        #region Handlers
+
         private void OpenPathHandle(string path, FilesystemItemType itemType, bool openSilent, bool openViaApplicationPicker, IEnumerable<string> selectItems)
         {
             OpenPathEvent?.Invoke(this, new BundlesOpenPathEventArgs(path, itemType, openSilent, openViaApplicationPicker, selectItems));
@@ -435,5 +278,204 @@ namespace Files.ViewModels.Widgets.Bundles
         {
             OpenPathInNewPaneEvent?.Invoke(this, path);
         }
+
+        private (byte[] IconData, byte[] OverlayData, bool IsCustom) LoadIconOverlayHandle(string path, uint thumbnailSize)
+        {
+            BundlesLoadIconOverlayEventArgs eventArgs = new BundlesLoadIconOverlayEventArgs(path, thumbnailSize);
+            LoadIconOverlayEvent?.Invoke(this, eventArgs);
+
+            return eventArgs.outData;
+        }
+
+        /// <summary>
+        /// This function gets called when an item is removed to update the collection
+        /// </summary>
+        /// <param name="item"></param>
+        private void NotifyItemRemovedHandle(BundleContainerViewModel item)
+        {
+            Items.Remove(item);
+            item?.Dispose();
+
+            if (Items.Count == 0)
+            {
+                NoBundlesAddItemLoad = true;
+            }
+        }
+
+        /// <summary>
+        /// This function gets called when an item is removed to update the collection
+        /// </summary>
+        /// <param name="bundleContainer"></param>
+        /// <param name="bundleItemPath"></param>
+        private void NotifyBundleItemRemovedHandle(string bundleContainer, string bundleItemPath)
+        {
+            BundleItemViewModel itemToRemove = this.Items.Where((item) => item.BundleName == bundleContainer).First().Contents.Where((item) => item.Path == bundleItemPath).First();
+            itemToRemove.RemoveItem();
+        }
+
+        /// <summary>
+        /// This function gets called when an item is renamed to update the collection
+        /// </summary>
+        /// <param name="item"></param>
+        private void NotifyBundleItemRemovedHandle(BundleItemViewModel item)
+        {
+            foreach (var bundle in Items)
+            {
+                if (bundle.BundleName == item.ParentBundleName)
+                {
+                    bundle.Contents.Remove(item);
+                    item?.Dispose();
+
+                    if (bundle.Contents.Count == 0)
+                    {
+                        bundle.NoBundleContentsTextVisibility = Visibility.Visible;
+                    }
+                }
+            }
+        }
+
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (internalCollectionCount < Items.Count && !itemAddedInternally)
+            {
+                Save();
+            }
+
+            internalCollectionCount = Items.Count;
+        }
+
+        #endregion Handlers
+
+        #region Public Helpers
+
+        public void Save()
+        {
+            if (BundlesSettings.SavedBundles != null)
+            {
+                Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
+
+                // For every bundle in items bundle collection:
+                foreach (var bundle in Items)
+                {
+                    List<string> bundleItems = new List<string>();
+
+                    // For every bundleItem in current bundle
+                    foreach (var bundleItem in bundle.Contents)
+                    {
+                        if (bundleItem != null)
+                        {
+                            bundleItems.Add(bundleItem.Path);
+                        }
+                    }
+
+                    bundles.Add(bundle.BundleName, bundleItems);
+                }
+
+                BundlesSettings.SavedBundles = bundles; // Calls Set()
+            }
+        }
+
+        public async Task Load()
+        {
+            if (BundlesSettings.SavedBundles != null)
+            {
+                Items.Clear();
+
+                // For every bundle in saved bundle collection:
+                foreach (var bundle in BundlesSettings.SavedBundles)
+                {
+                    List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
+
+                    // For every bundleItem in current bundle
+                    foreach (var bundleItem in bundle.Value)
+                    {
+                        if (bundleItems.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                        {
+                            if (bundleItem != null)
+                            {
+                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem))
+                                {
+                                    ParentBundleName = bundle.Key,
+                                    NotifyItemRemoved = NotifyBundleItemRemovedHandle,
+                                    OpenPath = OpenPathHandle,
+                                    OpenPathInNewPane = OpenPathInNewPaneHandle,
+                                    LoadIconOverlay = LoadIconOverlayHandle
+                                });
+                                bundleItems.Last().UpdateIcon();
+                            }
+                        }
+                    }
+
+                    // Fill current bundle with collected bundle items
+                    itemAddedInternally = true;
+                    Items.Add(new BundleContainerViewModel()
+                    {
+                        BundleName = bundle.Key,
+                        NotifyItemRemoved = NotifyItemRemovedHandle,
+                        NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
+                        OpenPath = OpenPathHandle,
+                        OpenPathInNewPane = OpenPathInNewPaneHandle,
+                        LoadIconOverlay = LoadIconOverlayHandle
+                    }.SetBundleItems(bundleItems));
+                    itemAddedInternally = false;
+                }
+
+                if (Items.Count == 0)
+                {
+                    NoBundlesAddItemLoad = true;
+                }
+                else
+                {
+                    NoBundlesAddItemLoad = false;
+                }
+            }
+            else // Null, therefore no items :)
+            {
+                NoBundlesAddItemLoad = true;
+            }
+        }
+
+        public async Task Initialize()
+        {
+            await Load();
+            isInitialized = true;
+        }
+
+        public (bool result, string reason) CanAddBundle(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized();
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
+            }
+
+            if (!Items.Any((item) => item.BundleName == name))
+            {
+                AddBundleErrorText = string.Empty;
+                return (true, string.Empty);
+            }
+            else
+            {
+                AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized();
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
+            }
+        }
+
+        #endregion Public Helpers
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            foreach (var item in Items)
+            {
+                item?.Dispose();
+            }
+
+            Items.CollectionChanged -= Items_CollectionChanged;
+            Items = null;
+        }
+
+        #endregion IDisposable
     }
 }

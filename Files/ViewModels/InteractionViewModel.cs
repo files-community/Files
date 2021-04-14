@@ -10,17 +10,7 @@ namespace Files.ViewModels
 {
     public class InteractionViewModel : ObservableObject
     {
-        // TODO Add xml comments for the properties
-
-        private FontFamily fontName;
-
-        private bool isFullTrustElevated = false;
-        private bool isHorizontalTabStripVisible = false;
-        private bool isPasteEnabled = false;
-        private bool isVerticalTabFlyoutVisible = false;
-        private bool isWindowCompactSize = IsWindowResizedToCompactWidth();
-        private bool multiselectEnabled;
-        private int tabStripSelectedIndex = 0;
+        public SettingsViewModel AppSettings => App.AppSettings;
 
         public InteractionViewModel()
         {
@@ -30,79 +20,12 @@ namespace Files.ViewModels
             SetMultitaskingControl();
         }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-
-        public FontFamily FontName
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
-            get => fontName;
-            set => SetProperty(ref fontName, value);
-        }
+            IsWindowCompactSize = IsWindowResizedToCompactWidth();
 
-        public bool IsFullTrustElevated
-        {
-            get => isFullTrustElevated;
-            set => SetProperty(ref isFullTrustElevated, value);
-        }
-
-        public bool IsHorizontalTabStripVisible
-        {
-            get => isHorizontalTabStripVisible;
-            set => SetProperty(ref isHorizontalTabStripVisible, value);
-        }
-
-        public bool IsPasteEnabled
-        {
-            get => isPasteEnabled;
-            set => SetProperty(ref isPasteEnabled, value);
-        }
-
-        public bool IsQuickLookEnabled { get; set; }
-
-        public bool IsVerticalTabFlyoutVisible
-        {
-            get => isVerticalTabFlyoutVisible;
-            set => SetProperty(ref isVerticalTabFlyoutVisible, value);
-        }
-
-        public bool IsWindowCompactSize
-        {
-            get => isWindowCompactSize;
-            set
-            {
-                SetProperty(ref isWindowCompactSize, value);
-            }
-        }
-
-        public bool MultiselectEnabled
-        {
-            get => multiselectEnabled;
-            set => SetProperty(ref multiselectEnabled, value);
-        }
-
-        public int TabStripSelectedIndex
-        {
-            get => tabStripSelectedIndex;
-            set
-            {
-                if (value >= 0)
-                {
-                    if (tabStripSelectedIndex != value)
-                    {
-                        SetProperty(ref tabStripSelectedIndex, value);
-                    }
-                    if (value < MainPageViewModel.MultitaskingControl.Items.Count)
-                    {
-                        Frame rootFrame = Window.Current.Content as Frame;
-                        var mainView = rootFrame.Content as MainPage;
-                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.MultitaskingControl.Items[value];
-                    }
-                }
-            }
-        }
-
-        public static bool IsWindowResizedToCompactWidth()
-        {
-            return Window.Current.Bounds.Width <= 750;
+            // Setup the correct multitasking control
+            SetMultitaskingControl();
         }
 
         public void SetMultitaskingControl()
@@ -127,12 +50,97 @@ namespace Files.ViewModels
             }
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            IsWindowCompactSize = IsWindowResizedToCompactWidth();
+        private int tabStripSelectedIndex = 0;
 
-            // Setup the correct multitasking control
-            SetMultitaskingControl();
+        public int TabStripSelectedIndex
+        {
+            get => tabStripSelectedIndex;
+            set
+            {
+                if (value >= 0)
+                {
+                    if (tabStripSelectedIndex != value)
+                    {
+                        SetProperty(ref tabStripSelectedIndex, value);
+                    }
+                    if (MainPageViewModel.MultitaskingControl is null)
+                    {
+                        return;
+                    }
+                    if (value < MainPageViewModel.MultitaskingControl.Items.Count)
+                    {
+                        Frame rootFrame = Window.Current.Content as Frame;
+                        var mainView = rootFrame.Content as MainPage;
+                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.MultitaskingControl.Items[value];
+                    }
+                }
+            }
+        }
+
+        private bool isFullTrustElevated = false;
+
+        public bool IsFullTrustElevated
+        {
+            get => isFullTrustElevated;
+            set => SetProperty(ref isFullTrustElevated, value);
+        }
+
+        private bool isPasteEnabled = false;
+
+        public bool IsPasteEnabled
+        {
+            get => isPasteEnabled;
+            set => SetProperty(ref isPasteEnabled, value);
+        }
+
+        private bool isHorizontalTabStripVisible = false;
+
+        public bool IsHorizontalTabStripVisible
+        {
+            get => isHorizontalTabStripVisible;
+            set => SetProperty(ref isHorizontalTabStripVisible, value);
+        }
+
+        private bool isVerticalTabFlyoutVisible = false;
+
+        public bool IsVerticalTabFlyoutVisible
+        {
+            get => isVerticalTabFlyoutVisible;
+            set => SetProperty(ref isVerticalTabFlyoutVisible, value);
+        }
+
+        private bool isWindowCompactSize = IsWindowResizedToCompactWidth();
+
+        public static bool IsWindowResizedToCompactWidth()
+        {
+            return Window.Current.Bounds.Width <= 750;
+        }
+
+        public bool IsWindowCompactSize
+        {
+            get => isWindowCompactSize;
+            set
+            {
+                SetProperty(ref isWindowCompactSize, value);
+            }
+        }
+
+        private bool multiselectEnabled;
+
+        public bool MultiselectEnabled
+        {
+            get => multiselectEnabled;
+            set => SetProperty(ref multiselectEnabled, value);
+        }
+
+        public bool IsQuickLookEnabled { get; set; }
+
+        private FontFamily fontName;
+
+        public FontFamily FontName
+        {
+            get => fontName;
+            set => SetProperty(ref fontName, value);
         }
 
         private void DetectFontName()

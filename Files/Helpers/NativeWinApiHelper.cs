@@ -6,9 +6,47 @@ namespace Files.Helpers
 {
     public class NativeWinApiHelper
     {
-        // https://stackoverflow.com/questions/54456140/how-to-detect-were-running-under-the-arm64-version-of-windows-10-in-net
-        // https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants
-        private static bool? isRunningOnArm = null;
+        [DllImport("api-ms-win-core-processthreads-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, TokenAccess DesiredAccess, out IntPtr TokenHandle);
+
+        [DllImport("api-ms-win-core-processthreads-l1-1-2.dll", SetLastError = true, ExactSpelling = true)]
+        public static extern IntPtr GetCurrentProcess();
+
+        [DllImport("api-ms-win-security-base-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetTokenInformation(IntPtr hObject, TOKEN_INFORMATION_CLASS tokenInfoClass, IntPtr pTokenInfo, int tokenInfoLength, out int returnLength);
+
+        [DllImport("api-ms-win-core-handle-l1-1-0.dll")]
+        public static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("api-ms-win-security-base-l1-1-0.dll", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetLengthSid(IntPtr pSid);
+
+        [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CryptUnprotectData(
+            in CRYPTOAPI_BLOB pDataIn,
+            StringBuilder szDataDescr,
+            in CRYPTOAPI_BLOB pOptionalEntropy,
+            IntPtr pvReserved,
+            IntPtr pPromptStruct,
+            CryptProtectFlags dwFlags,
+            out CRYPTOAPI_BLOB pDataOut);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct TOKEN_USER
+        {
+            public SID_AND_ATTRIBUTES User;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SID_AND_ATTRIBUTES
+        {
+            public IntPtr Sid;
+
+            public uint Attributes;
+        }
 
         [Flags]
         public enum CryptProtectFlags
@@ -26,6 +64,14 @@ namespace Files.Helpers
             CRYPTPROTECT_VERIFY_PROTECTION = 0x40,
 
             CRYPTPROTECT_CRED_REGENERATE = 0x80
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CRYPTOAPI_BLOB
+        {
+            public uint cbData;
+
+            public IntPtr pbData;
         }
 
         public enum TOKEN_INFORMATION_CLASS
@@ -151,16 +197,15 @@ namespace Files.Helpers
             TOKEN_EXECUTE = 0x00020000
         }
 
-        // https://www.travelneil.com/wndproc-in-uwp.html
-        [ComImport, Guid("45D64A29-A63E-4CB6-B498-5781D298CB4F")]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        internal interface ICoreWindowInterop
-        {
-            IntPtr WindowHandle { get; }
-            bool MessageHandled { get; }
-        }
+        [DllImport("api-ms-win-core-wow64-l1-1-1.dll", SetLastError = true)]
+        private static extern bool IsWow64Process2(
+                IntPtr process,
+                out ushort processMachine,
+                out ushort nativeMachine);
 
-        public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
+        // https://stackoverflow.com/questions/54456140/how-to-detect-were-running-under-the-arm64-version-of-windows-10-in-net
+        // https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants
+        private static bool? isRunningOnArm = null;
 
         public static bool IsRunningOnArm
         {
@@ -175,34 +220,6 @@ namespace Files.Helpers
             }
         }
 
-        [DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-        public static extern bool CloseHandle(IntPtr hObject);
-
-        [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CryptUnprotectData(
-            in CRYPTOAPI_BLOB pDataIn,
-            StringBuilder szDataDescr,
-            in CRYPTOAPI_BLOB pOptionalEntropy,
-            IntPtr pvReserved,
-            IntPtr pPromptStruct,
-            CryptProtectFlags dwFlags,
-            out CRYPTOAPI_BLOB pDataOut);
-
-        [DllImport("api-ms-win-core-processthreads-l1-1-2.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern IntPtr GetCurrentProcess();
-
-        [DllImport("api-ms-win-security-base-l1-1-0.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetLengthSid(IntPtr pSid);
-
-        [DllImport("api-ms-win-security-base-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTokenInformation(IntPtr hObject, TOKEN_INFORMATION_CLASS tokenInfoClass, IntPtr pTokenInfo, int tokenInfoLength, out int returnLength);
-
-        [DllImport("api-ms-win-core-processthreads-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, TokenAccess DesiredAccess, out IntPtr TokenHandle);
-
         private static bool IsArmProcessor()
         {
             var handle = System.Diagnostics.Process.GetCurrentProcess().Handle;
@@ -216,32 +233,15 @@ namespace Files.Helpers
                     nativeMachine == 0x01c4);
         }
 
-        [DllImport("api-ms-win-core-wow64-l1-1-1.dll", SetLastError = true)]
-        private static extern bool IsWow64Process2(
-                IntPtr process,
-                out ushort processMachine,
-                out ushort nativeMachine);
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct CRYPTOAPI_BLOB
+        // https://www.travelneil.com/wndproc-in-uwp.html
+        [ComImport, Guid("45D64A29-A63E-4CB6-B498-5781D298CB4F")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        internal interface ICoreWindowInterop
         {
-            public uint cbData;
-
-            public IntPtr pbData;
+            IntPtr WindowHandle { get; }
+            bool MessageHandled { get; }
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct SID_AND_ATTRIBUTES
-        {
-            public IntPtr Sid;
-
-            public uint Attributes;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct TOKEN_USER
-        {
-            public SID_AND_ATTRIBUTES User;
-        }
+        public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
     }
 }

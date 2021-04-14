@@ -76,47 +76,84 @@ namespace Files.Interacts
 
         #region Commands
 
-        public ICommand CopyItemCommand { get; private set; }
-        public ICommand CopyPathOfSelectedItemCommand { get; private set; }
-        public ICommand CreateNewFileCommand { get; private set; }
-        public ICommand CreateNewFolderCommand { get; private set; }
-        public ICommand CreateShortcutCommand { get; private set; }
-        public ICommand CutItemCommand { get; private set; }
-        public ICommand DeleteItemCommand { get; private set; }
-        public ICommand DragEnterCommand { get; private set; }
-        public ICommand DropCommand { get; private set; }
-        public ICommand EmptyRecycleBinCommand { get; private set; }
-        public ICommand GridViewSizeDecreaseCommand { get; private set; }
-        public ICommand GridViewSizeIncreaseCommand { get; private set; }
-        public ICommand ItemPointerPressedCommand { get; private set; }
-        public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
-        public ICommand OpenDirectoryInNewPaneCommand { get; private set; }
-        public ICommand OpenDirectoryInNewTabCommand { get; private set; }
-        public ICommand OpenFileLocationCommand { get; private set; }
-        public ICommand OpenInNewWindowItemCommand { get; private set; }
-        public ICommand OpenItemCommand { get; private set; }
-        public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
-        public ICommand PasteItemsFromClipboardCommand { get; private set; }
-        public ICommand PinDirectoryToSidebarCommand { get; private set; }
-        public ICommand PinItemToStartCommand { get; private set; }
-        public ICommand PointerWheelChangedCommand { get; private set; }
-        public ICommand QuickLookCommand { get; private set; }
-        public ICommand RefreshCommand { get; private set; }
         public ICommand RenameItemCommand { get; private set; }
-        public ICommand RestoreItemCommand { get; private set; }
-        public ICommand RunAsAdminCommand { get; private set; }
-        public ICommand RunAsAnotherUserCommand { get; private set; }
-        public ICommand SearchUnindexedItems { get; private set; }
-        public ICommand SetAsDesktopBackgroundItemCommand { get; private set; }
+
+        public ICommand CreateShortcutCommand { get; private set; }
+
         public ICommand SetAsLockscreenBackgroundItemCommand { get; private set; }
-        public ICommand ShareItemCommand { get; private set; }
-        public ICommand ShowFolderPropertiesCommand { get; private set; }
-        public ICommand ShowPropertiesCommand { get; private set; }
+
+        public ICommand SetAsDesktopBackgroundItemCommand { get; private set; }
+
+        public ICommand RunAsAdminCommand { get; private set; }
+
+        public ICommand RunAsAnotherUserCommand { get; private set; }
+
         public ICommand SidebarPinItemCommand { get; private set; }
 
         public ICommand SidebarUnpinItemCommand { get; private set; }
+
+        public ICommand OpenItemCommand { get; private set; }
+
         public ICommand UnpinDirectoryFromSidebarCommand { get; private set; }
+
+        public ICommand EmptyRecycleBinCommand { get; private set; }
+
+        public ICommand QuickLookCommand { get; private set; }
+
+        public ICommand CopyItemCommand { get; private set; }
+
+        public ICommand CutItemCommand { get; private set; }
+
+        public ICommand RestoreItemCommand { get; private set; }
+
+        public ICommand DeleteItemCommand { get; private set; }
+
+        public ICommand ShowFolderPropertiesCommand { get; private set; }
+
+        public ICommand ShowPropertiesCommand { get; private set; }
+
+        public ICommand OpenFileLocationCommand { get; private set; }
+
+        public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
+
+        public ICommand OpenDirectoryInNewTabCommand { get; private set; }
+
+        public ICommand OpenDirectoryInNewPaneCommand { get; private set; }
+
+        public ICommand OpenInNewWindowItemCommand { get; private set; }
+
+        public ICommand CreateNewFolderCommand { get; private set; }
+
+        public ICommand CreateNewFileCommand { get; private set; }
+
+        public ICommand PasteItemsFromClipboardCommand { get; private set; }
+
+        public ICommand CopyPathOfSelectedItemCommand { get; private set; }
+
+        public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
+
+        public ICommand ShareItemCommand { get; private set; }
+
+        public ICommand PinDirectoryToSidebarCommand { get; private set; }
+
+        public ICommand ItemPointerPressedCommand { get; private set; }
+
         public ICommand UnpinItemFromStartCommand { get; private set; }
+
+        public ICommand PinItemToStartCommand { get; private set; }
+
+        public ICommand PointerWheelChangedCommand { get; private set; }
+
+        public ICommand GridViewSizeDecreaseCommand { get; private set; }
+
+        public ICommand GridViewSizeIncreaseCommand { get; private set; }
+
+        public ICommand DragEnterCommand { get; private set; }
+
+        public ICommand DropCommand { get; private set; }
+
+        public ICommand RefreshCommand { get; private set; }
+        public ICommand SearchUnindexedItems { get; private set; }
 
         #endregion Commands
 

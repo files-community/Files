@@ -4,7 +4,8 @@ namespace Files.ViewModels.Widgets
 {
     public interface IWidgetItemModel : IDisposable
     {
-        bool IsWidgetSettingEnabled { get; }
         string WidgetName { get; }
+
+        bool IsWidgetSettingEnabled { get; }
     }
 }
