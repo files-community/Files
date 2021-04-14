@@ -288,7 +288,14 @@ namespace Files.Interacts
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
         {
-            await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
+            }
+            else
+            {
+                await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            }
         }
 
         public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
