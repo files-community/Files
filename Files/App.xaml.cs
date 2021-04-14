@@ -442,6 +442,7 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
+            SaveSessionTabs();
             Logger.Error(ex, ex.Message);
             if (ShowErrorNotification)
             {
