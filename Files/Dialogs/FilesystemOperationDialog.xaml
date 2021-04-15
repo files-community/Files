@@ -68,7 +68,6 @@
                     x:Name="DetailsExpander"
                     x:Uid="FileOperationsDialogDetailsExpander"
                     HorizontalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Header="Details">
@@ -231,7 +230,7 @@
                                                     HorizontalAlignment="Right"
                                                     Command="{Binding SplitButtonDefaultActionCommand}"
                                                     Content="Generate new name"
-                                                    Visibility="{Binding ShowUndoButton, Converter={StaticResource VisiblityInvertConverter}}">
+                                                    Visibility="{Binding ShowSplitButton}">
                                                     <muxc:SplitButton.Flyout>
                                                         <MenuFlyout>
                                                             <MenuFlyoutItem

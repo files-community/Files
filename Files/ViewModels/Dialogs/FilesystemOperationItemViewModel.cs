@@ -9,7 +9,7 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationItemViewModel : ObservableObject, IFilesystemOperationItemModel
     {
-        private Action updatePrimaryButtonEnabled;
+        private readonly Action updatePrimaryButtonEnabled;
 
         public string OperationIconGlyph { get; set; }
 
@@ -29,7 +29,7 @@ namespace Files.ViewModels.Dialogs
 
         public string DisplayFileName
         {
-            get => System.IO.Path.GetFileName(DestinationPath);
+            get => System.IO.Path.GetFileName(SourcePath);
         }
 
         public Visibility DestinationLocationVisibility
@@ -59,6 +59,11 @@ namespace Files.ViewModels.Dialogs
             get => ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        public Visibility ShowSplitButton
+        {
+            get => !ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         public FilesystemOperationType ItemOperation { get; set; }
 
         public ICommand GenerateNewNameCommand { get; private set; }
@@ -84,6 +89,7 @@ namespace Files.ViewModels.Dialogs
                 ActionTaken = false;
                 updatePrimaryButtonEnabled?.Invoke();
                 OnPropertyChanged(nameof(ShowUndoButton));
+                OnPropertyChanged(nameof(ShowSplitButton));
             });
         }
 
@@ -92,6 +98,7 @@ namespace Files.ViewModels.Dialogs
             ConflictResolveOption = action;
             ActionTaken = true;
             OnPropertyChanged(nameof(ShowUndoButton));
+            OnPropertyChanged(nameof(ShowSplitButton));
             updatePrimaryButtonEnabled?.Invoke();
         }
     }
