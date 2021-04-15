@@ -20,17 +20,17 @@ namespace Files.ViewModels.Dialogs
 
         public string SourceDirectoryDisplayName
         {
-            get => System.IO.Path.GetDirectoryName(SourcePath);
+            get => System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(SourcePath));
         }
 
         public string DestinationDirectoryDisplayName
         {
-            get => System.IO.Path.GetDirectoryName(DestinationPath);
+            get => System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(DestinationPath));
         }
 
         public string DisplayFileName
         {
-            get => string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetDirectoryName(SourcePath) : System.IO.Path.GetDirectoryName(DestinationPath);
+            get => string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetFileName(SourcePath) : System.IO.Path.GetFileName(DestinationPath);
         }
 
         public string TakenActionText
