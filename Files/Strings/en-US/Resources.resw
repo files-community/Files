@@ -2097,10 +2097,10 @@
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Content" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
+  <data name="ConflictingItemsDialogItemOptionSkip.Content" xml:space="preserve">
     <value>Skip</value>
   </data>
   <data name="ConflictingItemsDialogOptionGenerateNewName.Content" xml:space="preserve">
