@@ -4,6 +4,7 @@ using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -238,8 +239,7 @@ namespace Files.ViewModels.Dialogs
                 }
             }
 
-            FilesystemOperationDialogViewModel viewModel = null;
-            viewModel = new FilesystemOperationDialogViewModel()
+            FilesystemOperationDialogViewModel viewModel = new FilesystemOperationDialogViewModel()
             {
                 Title = titleText,
                 Subtitle = subtitleText,
@@ -248,12 +248,12 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDeleteLoad = permanentlyDeleteLoad,
                 PermanentlyDelete = itemsData.PermanentlyDelete,
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
-                MustResolveConflicts = itemsData.MustResolveConflicts,
-                Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
-                    () => viewModel.PrimaryButtonEnabled = !viewModel.Items.Any((item) => !item.ActionTaken),
-                    viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip))
+                MustResolveConflicts = itemsData.MustResolveConflicts
             };
-
+            viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
+                () => viewModel.PrimaryButtonEnabled = !viewModel.Items.Any((item) => !item.ActionTaken),
+                viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
+            
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
             return dialog;
