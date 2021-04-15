@@ -169,7 +169,7 @@
                                     <Grid Grid.Row="1" Grid.Column="1">
 
                                         <TextBlock
-                                            HorizontalAlignment="Center"
+                                            HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
                                             FontSize="12"
                                             Foreground="Gray"
