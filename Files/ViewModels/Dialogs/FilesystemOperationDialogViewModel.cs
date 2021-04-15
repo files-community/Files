@@ -117,11 +117,7 @@ namespace Files.ViewModels.Dialogs
             SecondaryButtonCommand = new RelayCommand(SecondaryButton);
             LoadedCommand = new RelayCommand(() =>
             {
-                // Any conflicting items?
-                if (MustResolveConflicts)
-                {
-                    UpdatePrimaryButtonEnabled();
-                }
+                UpdatePrimaryButtonEnabled();
             });
         }
 
