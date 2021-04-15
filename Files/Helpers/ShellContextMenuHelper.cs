@@ -37,15 +37,19 @@ namespace Files.Helpers
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
                 }));
-                task.Wait(10000);
-                var (status, response) = task.Result;
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Handle"))
+                var completed = task.Wait(10000);
+
+                if(completed)
                 {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                    if (contextMenu != null)
+                    var (status, response) = task.Result;
+                    if (status == AppServiceResponseStatus.Success
+                        && response.ContainsKey("Handle"))
                     {
-                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
+                        if (contextMenu != null)
+                        {
+                            LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        }
                     }
                 }
             }
