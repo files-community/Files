@@ -7,6 +7,7 @@ namespace Files.Filesystem
 {
     public class LibraryLocationItem : LocationItem
     {
+        public int DesiredIconIndex { get; set; }
         public string DefaultSaveFolder { get; }
 
         public ReadOnlyCollection<string> Folders { get; }
@@ -18,7 +19,7 @@ namespace Files.Filesystem
             Section = SectionType.Library;
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
-            Icon = GlyphHelper.GetIconUri(shellLibrary.DefaultSaveFolder);
+            DesiredIconIndex = GlyphHelper.GetIconIndex(shellLibrary.DefaultSaveFolder);
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;

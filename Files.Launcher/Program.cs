@@ -550,7 +550,20 @@ namespace FilesFullTrust
                         { "IconInfos", JsonConvert.SerializeObject(iconInfos) },
                     }, message.Get("RequestID", (string)null));
                     break;
-
+                case "GetIconFromDLL":
+                    var iconInfo = Win32API.ExtractIconFromDLL((string)message["iconFile"], (int)message["iconIndex"]);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "IconInfo", JsonConvert.SerializeObject(iconInfo) },
+                    }, message.Get("RequestID", (string)null));
+                    break;
+                case "GetSelectedIconsFromDLL":
+                    var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonConvert.DeserializeObject<IList<int>>((string)message["iconIndexes"]));
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "IconInfos", JsonConvert.SerializeObject(selectedIconInfos) },
+                    }, message.Get("RequestID", (string)null));
+                    break;
                 default:
                     if (message.ContainsKey("Application"))
                     {

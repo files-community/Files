@@ -1,14 +1,21 @@
-﻿using Files.Dialogs;
+﻿using Files.Common;
+using Files.Dialogs;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Pages;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -58,7 +65,8 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
-                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconOverlayAsync;
+                Func<string, IList<int>, bool, Task<IList<IconFileInfo>>> IconFunc = LoadSelectedIconsAsync;
+                libraryCards.LoadIconsFunction = IconFunc;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
@@ -95,6 +103,33 @@ namespace Files.Views
                 recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
+        }
+
+        public async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, IList<int> indexes, bool rawDataOnly = true)
+        {
+            if (Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "GetSelectedIconsFromDLL");
+                value.Add("iconFile", filePath);
+                value.Add("iconIndexes", JsonConvert.SerializeObject(indexes));
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>((string)response["IconInfos"]);
+
+                    if (icons != null && !rawDataOnly)
+                    {
+                        foreach (IconFileInfo iFInfo in icons)
+                        {
+                            await iFInfo.LoadImageFromModelString();
+                        }
+                    }
+
+                    return icons;
+                }
+            }
+            return null;
         }
 
         private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)

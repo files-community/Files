@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Filesystem;
 using Files.ViewModels.Properties;
 using Newtonsoft.Json;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -48,6 +50,15 @@ namespace Files.Views
                 var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
                 (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath, SelectedDirectory = BaseProperties.ViewModel.ItemPath }, new SuppressNavigationTransitionInfo());
             }
+        }
+
+        public override async Task<bool> SaveChangesAsync(ListedItem item)
+        {
+            return true;
+        }
+
+        public override void Dispose()
+        {
         }
 
         public class IconSelectorInfo

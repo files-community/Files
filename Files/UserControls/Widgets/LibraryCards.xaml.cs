@@ -1,4 +1,5 @@
-﻿using Files.Dialogs;
+﻿using Files.Common;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
@@ -8,6 +9,7 @@ using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -36,17 +38,36 @@ namespace Files.UserControls.Widgets
         public string Path { get; set; }
     }
 
-    public class LibraryCardItem
+    public class LibraryCardItem : INotifyPropertyChanged
     {
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
-        public BitmapImage Icon { get; set; }
+        public int IconIndex { get; set; } = 3; // Generic folder icon index
+        private BitmapImage icon = null;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set
+            {
+                if (value != icon)
+                {
+                    icon = value;
+                    RaisePropertyChanged("Icon");
+                }
+            }
+        }
         public bool IsLibrary => Library != null;
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
         public LibraryLocationItem Library { get; set; }
         public string Path { get; set; }
         public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
         public string Text { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public sealed partial class LibraryCards : UserControl, IWidgetItemModel, INotifyPropertyChanged
@@ -82,8 +103,7 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay;
-
+        public Func<string, IList<int>, bool, Task<IList<IconFileInfo>>> LoadIconsFunction;
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
@@ -166,25 +186,40 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async System.Threading.Tasks.Task<BitmapImage> GetIcon(string path)
+        private async Task<IList<IconFileInfo>> AssociateExtractedIcons()
         {
-            BitmapImage icon = new BitmapImage();
-
-            var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
-
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                icon = await IconData.ToBitmapAsync();
-            });
-
-            return icon;
+            const string imageres = @"C:\Windows\System32\imageres.dll";
+            return await LoadIconsFunction(imageres, new List<int>() { 
+                Constants.IconIndexes.QuickAccess,
+                Constants.IconIndexes.Desktop,
+                Constants.IconIndexes.Downloads,
+                Constants.IconIndexes.Documents,
+                Constants.IconIndexes.Pictures,
+                Constants.IconIndexes.Music,
+                Constants.IconIndexes.Videos,
+                Constants.IconIndexes.GenericDiskDrive,
+                Constants.IconIndexes.WindowsDrive,
+                Constants.IconIndexes.ThisPC,
+                Constants.IconIndexes.CloudDrives,
+                Constants.IconIndexes.OneDrive,
+                Constants.IconIndexes.Folder 
+            }, false);
         }
+
 
         private async Task GetItemsAddedIcon()
         {
+            var icons = await AssociateExtractedIcons();
             foreach (var item in ItemsAdded)
             {
-                item.Icon = await GetIcon(item.Path);
+                item.Icon = icons.First(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
+            }
+        }
+
+        private void GetPropertiesForItemsAdded()
+        {
+            foreach (var item in ItemsAdded)
+            {
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
@@ -213,21 +248,26 @@ namespace Files.UserControls.Widgets
             ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
             {
+                IconIndex = Constants.IconIndexes.Desktop,
                 Text = "SidebarDesktop".GetLocalized(),
                 Path = AppSettings.DesktopPath,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
+                IconIndex = Constants.IconIndexes.Downloads,
                 Text = "SidebarDownloads".GetLocalized(),
                 Path = AppSettings.DownloadsPath,
             });
-            await GetItemsAddedIcon();
+
+            GetPropertiesForItemsAdded();
             ItemsAdded.EndBulkOperation();
 
             if (App.LibraryManager.Libraries.Count > 0)
             {
                 ReloadLibraryItems();
+                await GetItemsAddedIcon();
             }
+
             App.LibraryManager.Libraries.CollectionChanged += Libraries_CollectionChanged;
             Loaded -= LibraryCards_Loaded;
         }
@@ -366,7 +406,7 @@ namespace Files.UserControls.Widgets
             {
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = await GetIcon(lib.Path),
+                    IconIndex = lib.DesiredIconIndex,
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,
@@ -374,7 +414,9 @@ namespace Files.UserControls.Widgets
                     Library = lib,
                 });
             }
+
             ItemsAdded.EndBulkOperation();
+
         }
     }
 }

@@ -100,5 +100,48 @@ namespace Files.Helpers
             }
             return iconCode;
         }
+
+        public static int GetIconIndex(string path)
+        {
+            int iconCode = 3;
+            if (path != null)
+            {
+                // TODO: do library check based on the library file path?
+                var udp = UserDataPaths.GetDefault();
+                if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.Desktop;
+                }
+                else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.Downloads;
+                }
+                else if (path.Equals(udp.Documents, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.Documents;
+                }
+                else if (path.Equals(udp.Pictures, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.Pictures;
+                }
+                else if (path.Equals(udp.Music, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.Music;
+                }
+                else if (path.Equals(udp.Videos, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.Videos;
+                }
+                else if (path.Equals(AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = 3;
+                }
+                else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
+                {
+                    iconCode = Constants.IconIndexes.GenericDiskDrive;
+                }
+            }
+            return iconCode;
+        }
     }
 }

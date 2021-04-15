@@ -10,7 +10,7 @@ namespace Files.Extensions
 {
     public static class FileIconInfoExtensions
     {
-        public static async void LoadImageFromModelString(this IconFileInfo info)
+        public static async Task LoadImageFromModelString(this IconFileInfo info)
         {
             var dataBytes = Convert.FromBase64String(info.IconData);
             info.ImageSource = await dataBytes.ToBitmapAsync();

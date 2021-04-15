@@ -112,6 +112,35 @@ namespace FilesFullTrust
             return iconsList;
         }
 
+        public static IconFileInfo ExtractIconFromDLL(string file, int index)
+        {
+            Process currentProc = Process.GetCurrentProcess();
+            using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, index))
+            {
+                using var image = icon.ToBitmap();
+                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                return new IconFileInfo(icoStr, index);
+            }
+        }
+
+        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes)
+        {
+            var iconsList = new List<IconFileInfo>();
+            Process currentProc = Process.GetCurrentProcess();
+            foreach(int index in indexes)
+            {
+                using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, index * -1))
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, index));
+                }
+            }
+            return iconsList;
+        }
+
         public static string[] CommandLineToArgs(string commandLine)
         {
             if (string.IsNullOrEmpty(commandLine))

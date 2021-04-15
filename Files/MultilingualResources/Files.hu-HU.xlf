@@ -2676,10 +2676,6 @@
           <source>Type</source>
           <target state="translated">Típus</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
-          <source>Open themes folder</source>
-          <target state="new">Open themes folder</target>
-        </trans-unit>
       </group>
     </body>
   </file>
