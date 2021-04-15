@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -26,32 +27,71 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
-    public class LibraryCardEventArgs : EventArgs
+    public sealed class LibraryCardEventArgs : EventArgs
     {
         public LibraryLocationItem Library { get; set; }
     }
 
-    public class LibraryCardInvokedEventArgs : EventArgs
+    public sealed class LibraryCardInvokedEventArgs : EventArgs
     {
         public string Path { get; set; }
     }
 
-    public class LibraryCardItem
+    public sealed class LibraryCardItem : ObservableObject
     {
-        public string AutomationProperties { get; set; }
+        private string _AutomationProperties;
+
+        public string AutomationProperties
+        {
+            get => _AutomationProperties;
+            set => SetProperty(ref _AutomationProperties, value);
+        }
+
         public bool HasPath => !string.IsNullOrEmpty(Path);
+
         public BitmapImage Icon { get; set; }
+
         public bool IsLibrary => Library != null;
+
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
-        public LibraryLocationItem Library { get; set; }
-        public string Path { get; set; }
+
+        private LibraryLocationItem _Library;
+
+        public LibraryLocationItem Library
+        {
+            get => _Library;
+            set
+            {
+                if (SetProperty(ref _Library, value))
+                {
+                    OnPropertyChanged(nameof(IsLibrary));
+                    OnPropertyChanged(nameof(IsUserCreatedLibrary));
+                }
+            }
+        }
+
+        private string _Path;
+
+        public string Path
+		{
+            get => _Path;
+            set
+			{
+                if (SetProperty(ref _Path, value))
+				{
+                    OnPropertyChanged(nameof(HasPath));
+				}
+			}
+		}
+
         public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
+
         public string Text { get; set; }
     }
 
     public sealed partial class LibraryCards : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
-        public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
+        public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new();
         private bool showMultiPaneControls;
 
         public LibraryCards()
@@ -88,7 +128,7 @@ namespace Files.UserControls.Widgets
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 
-        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
+        public RelayCommand<LibraryCardItem> LibraryCardClicked => new(item =>
         {
             if (string.IsNullOrEmpty(item.Path))
             {
@@ -110,7 +150,7 @@ namespace Files.UserControls.Widgets
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         });
 
-        public RelayCommand OpenCreateNewLibraryDialogCommand => new RelayCommand(OpenCreateNewLibraryDialog);
+        public RelayCommand OpenCreateNewLibraryDialogCommand => new(OpenCreateNewLibraryDialog);
 
         public bool ShowMultiPaneControls
         {
@@ -168,7 +208,7 @@ namespace Files.UserControls.Widgets
 
         private async System.Threading.Tasks.Task<BitmapImage> GetIcon(string path)
         {
-            BitmapImage icon = new BitmapImage();
+            BitmapImage icon = new();
 
             var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
 
