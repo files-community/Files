@@ -28,7 +28,7 @@ namespace Files.Helpers
 
             if (connection != null)
             {
-                var (status, response) = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
+                var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -36,7 +36,9 @@ namespace Files.Helpers
                         workingDirectory},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
-                })).Result;
+                }));
+                task.Wait(10000);
+                var (status, response) = task.Result;
                 if (status == AppServiceResponseStatus.Success
                     && response.ContainsKey("Handle"))
                 {
