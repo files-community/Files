@@ -270,8 +270,8 @@
                                             <!--  Undo button  -->
                                             <HyperlinkButton>
                                                 <HyperlinkButton.Content>
-                                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                                        <FontIcon FontSize="8" Glyph="&#xE10E;" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                                        <FontIcon FontSize="12" Glyph="&#xE10E;" />
                                                         <TextBlock Text="Undo" />
                                                     </StackPanel>
                                                 </HyperlinkButton.Content>
