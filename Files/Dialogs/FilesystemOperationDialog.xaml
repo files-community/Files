@@ -149,9 +149,9 @@
 
                                         <Grid.RowDefinitions>
                                             <!--  File name  -->
-                                            <RowDefinition />
+                                            <RowDefinition Height="16" />
                                             <!--  Source folder and destination folder  -->
-                                            <RowDefinition />
+                                            <RowDefinition Height="20" />
                                         </Grid.RowDefinitions>
 
                                         <!--  Operation type icon  -->
@@ -237,6 +237,7 @@
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
                                             HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
                                             Command="{Binding SplitButtonDefaultActionCommand}"
                                             Content="Generate new name"
                                             Visibility="{Binding ShowSplitButton}">
@@ -261,12 +262,19 @@
                                         <StackPanel
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
+                                            HorizontalAlignment="Right"
                                             Orientation="Horizontal"
                                             Spacing="8"
                                             Visibility="{Binding ShowUndoButton}">
 
                                             <!--  Undo button  -->
-                                            <HyperlinkButton HorizontalAlignment="Center" Content="Undo">
+                                            <HyperlinkButton>
+                                                <HyperlinkButton.Content>
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <FontIcon FontSize="8" Glyph="&#xE10E;" />
+                                                        <TextBlock Text="Undo" />
+                                                    </StackPanel>
+                                                </HyperlinkButton.Content>
                                                 <i:Interaction.Behaviors>
                                                     <!--  No need to specify CommandParameter - `e` is passed by default  -->
                                                     <icore:EventTriggerBehavior EventName="Click">
