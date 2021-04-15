@@ -64,235 +64,215 @@
                     IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
                     IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled, Mode=OneWay}" />
 
-                <Button
-                    x:Name="ExpandButton"
-                    Padding="0,4,0,0"
+                <muxc:Expander
+                    x:Name="DetailsExpander"
+                    x:Uid="FileOperationsDialogDetailsExpander"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    BorderThickness="0"
-                    Command="{x:Bind ViewModel.ExpandDetailsCommand}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="4">
-                            <FontIcon
-                                x:Name="Expand"
-                                x:Load="{x:Bind ViewModel.ChevronDownLoad, Mode=OneWay}"
-                                FontSize="14"
-                                Glyph="&#xE70D;" />
-                            <FontIcon
-                                x:Name="Collapse"
-                                x:Load="{x:Bind ViewModel.ChevronUpLoad, Mode=OneWay}"
-                                FontSize="14"
-                                Glyph="&#xE70E;" />
-                            <TextBlock FontWeight="Bold" Text="Details" />
+                    Header="Details">
+                    <StackPanel x:Name="DetailsPanel" Spacing="12">
+                        <StackPanel
+                            x:Name="OptionsPanel"
+                            HorizontalAlignment="Center"
+                            x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <Button
+                                x:Uid="ConflictingItemsDialogOptionGenerateNewName"
+                                HorizontalAlignment="Center"
+                                Command="{x:Bind ViewModel.OptionGenerateNewNameCommand, Mode=OneWay}"
+                                Content="Generate new name" />
+                            <Button
+                                x:Uid="ConflictingItemsDialogOptionReplaceExisting"
+                                HorizontalAlignment="Center"
+                                Command="{x:Bind ViewModel.OptionReplaceExistingCommand, Mode=OneWay}"
+                                Content="Replace existing" />
+                            <Button
+                                x:Uid="ConflictingItemsDialogOptionSkip"
+                                HorizontalAlignment="Center"
+                                Command="{x:Bind ViewModel.OptionSkipCommand, Mode=OneWay}"
+                                Content="Skip" />
                         </StackPanel>
-                    </Button.Content>
-                </Button>
 
-                <StackPanel
-                    x:Name="DetailsPanel"
-                    x:Load="{x:Bind ViewModel.ExpandableDetailsLoad, Mode=OneWay}"
-                    Spacing="12">
-                    <StackPanel
-                        x:Name="OptionsPanel"
-                        HorizontalAlignment="Center"
-                        x:Load="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}"
-                        Orientation="Horizontal"
-                        Spacing="8">
-                        <Button
-                            x:Uid="ConflictingItemsDialogOptionGenerateNewName"
-                            HorizontalAlignment="Center"
-                            Command="{x:Bind ViewModel.OptionGenerateNewNameCommand, Mode=OneWay}"
-                            Content="Generate new name" />
-                        <Button
-                            x:Uid="ConflictingItemsDialogOptionReplaceExisting"
-                            HorizontalAlignment="Center"
-                            Command="{x:Bind ViewModel.OptionReplaceExistingCommand, Mode=OneWay}"
-                            Content="Replace existing" />
-                        <Button
-                            x:Uid="ConflictingItemsDialogOptionSkip"
-                            HorizontalAlignment="Center"
-                            Command="{x:Bind ViewModel.OptionSkipCommand, Mode=OneWay}"
-                            Content="Skip" />
-                    </StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
 
-                    <Grid>
+                            <ListView
+                                x:Name="DetailsGrid"
+                                Grid.Row="1"
+                                IsItemClickEnabled="False"
+                                ItemsSource="{x:Bind ViewModel.Items}"
+                                SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">
 
-                        <Grid.RowDefinitions>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsStackPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
 
-                            <RowDefinition />
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-
-                        <ListView
-                            x:Name="DetailsGrid"
-                            Grid.Row="1"
-                            IsItemClickEnabled="False"
-                            ItemsSource="{x:Bind ViewModel.Items}"
-                            SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">
-
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-
-                            <!--  Remove Reveal Highlight Effect  -->
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem">
-                                    <!--  Spacing  -->
-                                    <Setter Property="Margin" Value="0" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="GridViewItem">
-                                                <ListViewItemPresenter
-                                                    x:Name="Root"
-                                                    RevealBackground="{ThemeResource GridViewItemRevealBackground}"
-                                                    RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
-                                                    RevealBorderThickness="0" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border>
-                                        <Grid
-                                            Padding="2,10,2,10"
-                                            ColumnSpacing="12"
-                                            RowSpacing="4">
-                                            <Grid.ColumnDefinitions>
-                                                <!--  Operation type  -->
-                                                <ColumnDefinition Width="Auto" />
-                                                <!--  Item names  -->
-                                                <ColumnDefinition Width="*" />
-                                                <!--  ComboBox with options  -->
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <Grid.RowDefinitions>
-                                                <!--  File name  -->
-                                                <RowDefinition />
-                                                <!--  Source folder and destination folder  -->
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-
-                                            <!--  Operation type icon  -->
-                                            <FontIcon
-                                                Grid.RowSpan="2"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="24"
-                                                Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
-
-                                            <!--  Exclamation mark icon for conflicts  -->
+                                <!--  Remove Reveal Highlight Effect  -->
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <!--  Spacing  -->
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewItem">
+                                                    <ListViewItemPresenter
+                                                        x:Name="Root"
+                                                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                                        RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                                        RevealBorderThickness="0" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border>
                                             <Grid
-                                                Grid.RowSpan="2"
-                                                Grid.Column="0"
-                                                Margin="0,0,-2,8"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Bottom"
-                                                Visibility="{Binding ExclamationMarkVisibility}">
-                                                <!--  Background  -->
-                                                <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
-                                                <!--  Exclamation mark  -->
+                                                Padding="2,10,2,10"
+                                                ColumnSpacing="12"
+                                                RowSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <!--  Operation type  -->
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <!--  Item names  -->
+                                                    <ColumnDefinition Width="*" />
+                                                    <!--  ComboBox with options  -->
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <!--  File name  -->
+                                                    <RowDefinition />
+                                                    <!--  Source folder and destination folder  -->
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+
+                                                <!--  Operation type icon  -->
                                                 <FontIcon
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="24"
+                                                    Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
+
+                                                <!--  Exclamation mark icon for conflicts  -->
+                                                <Grid
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,-2,8"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Visibility="{Binding ExclamationMarkVisibility}">
+                                                    <!--  Background  -->
+                                                    <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
+                                                    <!--  Exclamation mark  -->
+                                                    <FontIcon
+                                                        FontSize="12"
+                                                        Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
+                                                        Glyph="&#xE7BA;" />
+                                                </Grid>
+
+                                                <!--  Destination Filename  -->
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
                                                     FontSize="12"
-                                                    Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
-                                                    Glyph="&#xE7BA;" />
+                                                    FontWeight="Bold"
+                                                    Text="{Binding DisplayFileName}" />
+
+                                                <!--  Source folder and destination folder  -->
+                                                <StackPanel
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Orientation="Horizontal"
+                                                    Spacing="8">
+                                                    <!--  Source folder name  -->
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="Gray"
+                                                        Text="{Binding SourceDirectoryDisplayName}" />
+
+                                                    <!--  Arrow icon  -->
+                                                    <FontIcon
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="12"
+                                                        Foreground="Gray"
+                                                        Glyph="&#xEA62;"
+                                                        Visibility="{Binding DestinationLocationVisibility}" />
+
+                                                    <!--  Destination folder name  -->
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="Gray"
+                                                        Text="{Binding DestinationDirectoryDisplayName}"
+                                                        Visibility="{Binding DestinationLocationVisibility}" />
+                                                </StackPanel>
+
+                                                <!--  Split with options  -->
+                                                <muxc:SplitButton
+                                                    x:Name="Split"
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    Command="{Binding SplitButtonDefaultActionCommand}"
+                                                    Content="Generate new name"
+                                                    Visibility="{Binding ShowUndoButton, Converter={StaticResource VisiblityInvertConverter}}">
+                                                    <muxc:SplitButton.Flyout>
+                                                        <MenuFlyout>
+                                                            <MenuFlyoutItem
+                                                                x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
+                                                                Command="{Binding GenerateNewNameCommand}"
+                                                                Text="Generate new name" />
+                                                            <MenuFlyoutItem
+                                                                x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
+                                                                Command="{Binding ReplaceExistingCommand}"
+                                                                Text="Replace" />
+                                                            <MenuFlyoutItem
+                                                                x:Uid="ConflictingItemsDialogItemOptionSkip"
+                                                                Command="{Binding SkipCommand}"
+                                                                Text="Skip" />
+                                                        </MenuFlyout>
+                                                    </muxc:SplitButton.Flyout>
+                                                </muxc:SplitButton>
+
+                                                <!--  Undo button  -->
+                                                <HyperlinkButton
+                                                    Grid.RowSpan="2"
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Center"
+                                                    Content="Undo"
+                                                    Visibility="{Binding ShowUndoButton}">
+                                                    <i:Interaction.Behaviors>
+                                                        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                                        <icore:EventTriggerBehavior EventName="Click">
+                                                            <icore:InvokeCommandAction Command="{Binding UndoTakenActionCommand}" />
+                                                        </icore:EventTriggerBehavior>
+                                                    </i:Interaction.Behaviors>
+                                                </HyperlinkButton>
                                             </Grid>
-
-                                            <!--  Destination Filename  -->
-                                            <TextBlock
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                FontWeight="Bold"
-                                                Text="{Binding DisplayFileName}" />
-
-                                            <!--  Source folder and destination folder  -->
-                                            <StackPanel
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Orientation="Horizontal"
-                                                Spacing="8">
-                                                <!--  Source folder name  -->
-                                                <TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Foreground="Gray"
-                                                    Text="{Binding SourceDirectoryDisplayName}" />
-
-                                                <!--  Arrow icon  -->
-                                                <FontIcon
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="12"
-                                                    Foreground="Gray"
-                                                    Glyph="&#xEA62;"
-                                                    Visibility="{Binding DestinationLocationVisibility}" />
-
-                                                <!--  Destination folder name  -->
-                                                <TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Foreground="Gray"
-                                                    Text="{Binding DestinationDirectoryDisplayName}"
-                                                    Visibility="{Binding DestinationLocationVisibility}" />
-                                            </StackPanel>
-
-                                            <!--  Split with options  -->
-                                            <muxc:SplitButton
-                                                x:Name="Split"
-                                                Grid.RowSpan="2"
-                                                Grid.Column="2"
-                                                HorizontalAlignment="Right"
-                                                Command="{Binding SplitButtonDefaultActionCommand}"
-                                                Content="Generate new name"
-                                                Visibility="{Binding ShowUndoButton, Converter={StaticResource VisiblityInvertConverter}}">
-                                                <muxc:SplitButton.Flyout>
-                                                    <MenuFlyout>
-                                                        <MenuFlyoutItem
-                                                            x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
-                                                            Command="{Binding GenerateNewNameCommand}"
-                                                            Text="Generate new name" />
-                                                        <MenuFlyoutItem
-                                                            x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
-                                                            Command="{Binding ReplaceExistingCommand}"
-                                                            Text="Replace" />
-                                                        <MenuFlyoutItem
-                                                            x:Uid="ConflictingItemsDialogItemOptionSkip"
-                                                            Command="{Binding SkipCommand}"
-                                                            Text="Skip" />
-                                                    </MenuFlyout>
-                                                </muxc:SplitButton.Flyout>
-                                            </muxc:SplitButton>
-
-                                            <!--  Undo button  -->
-                                            <HyperlinkButton
-                                                Grid.RowSpan="2"
-                                                Grid.Column="2"
-                                                HorizontalAlignment="Center"
-                                                Content="Undo"
-                                                Visibility="{Binding ShowUndoButton}">
-                                                <i:Interaction.Behaviors>
-                                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                                    <icore:EventTriggerBehavior EventName="Click">
-                                                        <icore:InvokeCommandAction Command="{Binding UndoTakenActionCommand}" />
-                                                    </icore:EventTriggerBehavior>
-                                                </i:Interaction.Behaviors>
-                                            </HyperlinkButton>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </StackPanel>
+                </muxc:Expander>
             </StackPanel>
         </Grid>
     </Border>

@@ -63,30 +63,6 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref secondaryButtonText, value);
         }
 
-        private bool chevronUpLoad = false;
-
-        public bool ChevronUpLoad
-        {
-            get => chevronUpLoad;
-            set => SetProperty(ref chevronUpLoad, value);
-        }
-
-        private bool chevronDownLoad = true;
-
-        public bool ChevronDownLoad
-        {
-            get => chevronDownLoad;
-            set => SetProperty(ref chevronDownLoad, value);
-        }
-
-        private bool expandableDetailsLoad = false;
-
-        public bool ExpandableDetailsLoad
-        {
-            get => expandableDetailsLoad;
-            set => SetProperty(ref expandableDetailsLoad, value);
-        }
-
         private bool permanentlyDeleteLoad = false;
 
         public bool PermanentlyDeleteLoad
@@ -125,8 +101,6 @@ namespace Files.ViewModels.Dialogs
 
         #region Commands
 
-        public ICommand ExpandDetailsCommand { get; private set; }
-
         public ICommand OptionGenerateNewNameCommand { get; private set; }
 
         public ICommand OptionReplaceExistingCommand { get; private set; }
@@ -144,20 +118,18 @@ namespace Files.ViewModels.Dialogs
         public FilesystemOperationDialogViewModel()
         {
             // Create commands
-            ExpandDetailsCommand = new RelayCommand(ExpandOrCollapseDetails);
             OptionGenerateNewNameCommand = new RelayCommand(OptionGenerateNewName);
             OptionReplaceExistingCommand = new RelayCommand(OptionReplaceExisting);
             OptionSkipCommand = new RelayCommand(OptionSkip);
 
             PrimaryButtonCommand = new RelayCommand(PrimaryButton);
             SecondaryButtonCommand = new RelayCommand(SecondaryButton);
-            LoadedCommand = new RelayCommand(() => 
+            LoadedCommand = new RelayCommand(() =>
             {
                 // Any conflicting items?
                 if (MustResolveConflicts)
                 {
                     UpdatePrimaryButtonEnabled();
-                    ExpandOrCollapseDetails();
                 }
             });
         }
@@ -211,15 +183,6 @@ namespace Files.ViewModels.Dialogs
                     item.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
                 }
             }
-        }
-
-        private void ExpandOrCollapseDetails()
-        {
-            bool detailsShown = !ExpandableDetailsLoad; // Inverted
-
-            ExpandableDetailsLoad = detailsShown;
-            ChevronDownLoad = !detailsShown;
-            ChevronUpLoad = detailsShown;
         }
 
         #endregion Command Implementation

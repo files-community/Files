@@ -2124,4 +2124,7 @@
   <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>
