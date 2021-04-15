@@ -249,20 +249,35 @@
                                                     </muxc:SplitButton.Flyout>
                                                 </muxc:SplitButton>
 
-                                                <!--  Undo button  -->
-                                                <HyperlinkButton
+                                                <StackPanel
                                                     Grid.RowSpan="2"
                                                     Grid.Column="2"
-                                                    HorizontalAlignment="Center"
-                                                    Content="Undo"
+                                                    Orientation="Horizontal"
+                                                    Spacing="8"
                                                     Visibility="{Binding ShowUndoButton}">
-                                                    <i:Interaction.Behaviors>
-                                                        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                                        <icore:EventTriggerBehavior EventName="Click">
-                                                            <icore:InvokeCommandAction Command="{Binding UndoTakenActionCommand}" />
-                                                        </icore:EventTriggerBehavior>
-                                                    </i:Interaction.Behaviors>
-                                                </HyperlinkButton>
+
+                                                    <!--  Undo button  -->
+                                                    <HyperlinkButton HorizontalAlignment="Center" Content="Undo">
+                                                        <i:Interaction.Behaviors>
+                                                            <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                                            <icore:EventTriggerBehavior EventName="Click">
+                                                                <icore:InvokeCommandAction Command="{Binding UndoTakenActionCommand}" />
+                                                            </icore:EventTriggerBehavior>
+                                                        </i:Interaction.Behaviors>
+                                                    </HyperlinkButton>
+
+                                                    <!--  Check  -->
+                                                    <Grid>
+                                                        <Ellipse
+                                                            Width="28"
+                                                            Height="28"
+                                                            Fill="LimeGreen" />
+                                                        <FontIcon
+                                                            FontSize="12"
+                                                            Foreground="White"
+                                                            Glyph="&#xE8FB;" />
+                                                    </Grid>
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>

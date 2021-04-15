@@ -86,10 +86,12 @@ namespace Files.ViewModels.Dialogs
             SplitButtonDefaultActionCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName)); // GenerateNewName is the default action
             UndoTakenActionCommand = new RelayCommand<RoutedEventArgs>((e) =>
             {
+                ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
                 ActionTaken = false;
-                updatePrimaryButtonEnabled?.Invoke();
+                ExclamationMarkVisibility = Visibility.Visible;
                 OnPropertyChanged(nameof(ShowUndoButton));
                 OnPropertyChanged(nameof(ShowSplitButton));
+                this.updatePrimaryButtonEnabled?.Invoke();
             });
         }
 
@@ -97,9 +99,10 @@ namespace Files.ViewModels.Dialogs
         {
             ConflictResolveOption = action;
             ActionTaken = true;
+            ExclamationMarkVisibility = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShowUndoButton));
             OnPropertyChanged(nameof(ShowSplitButton));
-            updatePrimaryButtonEnabled?.Invoke();
+            this.updatePrimaryButtonEnabled?.Invoke();
         }
     }
 }
