@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -40,17 +41,17 @@ namespace Files.ViewModels.Dialogs
                 {
                     case FileNameConflictResolveOptionType.GenerateNewName:
                         {
-                            return "Generate new name";
+                            return "ConflictingItemsDialogTakenActionGenerateNewName".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.ReplaceExisting:
                         {
-                            return "Replace existing";
+                            return "ConflictingItemsDialogTakenActionReplaceExisting".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.Skip:
                         {
-                            return "Skip";
+                            return "ConflictingItemsDialogTakenActionSkip".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.NotAConflict:

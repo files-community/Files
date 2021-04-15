@@ -2127,4 +2127,13 @@
   <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+    <value>Replace existing</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
 </root>
