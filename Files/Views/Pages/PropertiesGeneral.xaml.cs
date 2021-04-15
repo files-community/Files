@@ -20,7 +20,7 @@ namespace Files.Views
 
         protected override ProgressBar ItemMD5HashProgress => MD5HashProgress;
 
-		public async Task SaveChangesAsync(ListedItem item)
+        public async Task SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties driveProps)
             {

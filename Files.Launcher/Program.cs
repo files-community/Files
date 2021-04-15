@@ -499,24 +499,24 @@ namespace FilesFullTrust
                         var flc = new List<ShellFileItem>();
                         try
                         {
-							using var shellFolder = new ShellFolder(folderPath);
-							foreach (var folderItem in shellFolder)
-							{
-								try
-								{
-									var shellFileItem = GetShellFileItem(folderItem);
-									flc.Add(shellFileItem);
-								}
-								catch (FileNotFoundException)
-								{
-									// Happens if files are being deleted
-								}
-								finally
-								{
-									folderItem.Dispose();
-								}
-							}
-						}
+                            using var shellFolder = new ShellFolder(folderPath);
+                            foreach (var folderItem in shellFolder)
+                            {
+                                try
+                                {
+                                    var shellFileItem = GetShellFileItem(folderItem);
+                                    flc.Add(shellFileItem);
+                                }
+                                catch (FileNotFoundException)
+                                {
+                                    // Happens if files are being deleted
+                                }
+                                finally
+                                {
+                                    folderItem.Dispose();
+                                }
+                            }
+                        }
                         catch
                         {
                         }

@@ -115,7 +115,7 @@ namespace Files.ViewModels
         private async void OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
             e.Handled = true;
-            Uri filesUWPUri = new Uri("files-uwp:");
+            var filesUWPUri = new Uri("files-uwp:");
             await Launcher.LaunchUriAsync(filesUWPUri);
         }
 
@@ -162,7 +162,7 @@ namespace Files.ViewModels
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new();
             fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             if (string.IsNullOrEmpty(path))
@@ -170,17 +170,19 @@ namespace Files.ViewModels
                 path = "NewTab".GetLocalized();
             }
 
-            TabItem tabItem = new TabItem()
+            TabItem tabItem = new()
             {
                 Header = null,
                 IconSource = fontIconSource,
                 Description = null
             };
+
             tabItem.Control.NavigationArguments = new TabItemArguments()
             {
                 InitialPageType = type,
                 NavigationArg = path
             };
+
             tabItem.Control.ContentChanged += Control_ContentChanged;
             await UpdateTabInfo(tabItem, path);
             AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
@@ -193,10 +195,10 @@ namespace Files.ViewModels
             {
                 if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
                 {
-                    var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                    var (tabLocationHeader, tabIcon) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
                     var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-                    tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
-                    tabItem.IconSource = leftTabInfo.tabIcon;
+                    tabItem.Header = $"{tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+                    tabItem.IconSource = tabIcon;
                 }
                 else
                 {
@@ -212,7 +214,7 @@ namespace Files.ViewModels
         public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon)> GetSelectedTabInfoAsync(string currentPath)
         {
             string tabLocationHeader;
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new();
             fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
@@ -250,22 +252,12 @@ namespace Files.ViewModels
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
                 var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
-                switch (libName)
-                {
-                    case "Documents":
-                    case "Pictures":
-                    case "Music":
-                    case "Videos":
-                        // Show localized name
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized();
-                        break;
-
-                    default:
-                        // Show original name
-                        tabLocationHeader = library.Text;
-                        break;
-                }
-            }
+				tabLocationHeader = libName switch
+				{
+					"Documents" or "Pictures" or "Music" or "Videos" => $"Sidebar{libName}".GetLocalized(), // Show localized name
+					_ => library.Text, // Show original name
+				};
+			}
             else
             {
                 var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
@@ -416,7 +408,7 @@ namespace Files.ViewModels
                 }
 
                 // Check for required updates
-                AppUpdater updater = new AppUpdater();
+                AppUpdater updater = new();
                 updater.CheckForUpdatesAsync();
 
                 // Initial setting of SelectedTabItem
@@ -463,10 +455,10 @@ namespace Files.ViewModels
 
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new();
             fontIconSource.FontFamily = App.InteractionViewModel.FontName;
 
-            TabItem tabItem = new TabItem()
+            TabItem tabItem = new()
             {
                 Header = null,
                 IconSource = fontIconSource,

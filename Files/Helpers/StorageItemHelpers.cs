@@ -28,11 +28,11 @@ namespace Files.Helpers
                 //      we could implement this code here for getting .lnk files
                 //      for now, we can't
 
-                return default(TOut);
+                return default;
 
 #pragma warning disable CS0162 // Unreachable code detected
-				if (false) // Prevent unnecessary exceptions
-				{
+                if (false) // Prevent unnecessary exceptions
+                {
                     Debugger.Break();
                     throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
                 }
@@ -74,7 +74,7 @@ namespace Files.Helpers
                 return (TOut)(IStorageItem)folder.Result;
             }
 
-            return default(TOut);
+            return default;
 
             // Extensions
 

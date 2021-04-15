@@ -161,13 +161,13 @@ namespace Files
             // just ensure that the window is active
             if (Window.Current.Content is not Frame rootFrame)
             {
-				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new Frame
-				{
-					CacheSize = 1
-				};
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame
+                {
+                    CacheSize = 1
+                };
 
-				rootFrame.NavigationFailed += OnNavigationFailed;
+                rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -253,12 +253,12 @@ namespace Files
             // Window management
             if (Window.Current.Content is not Frame rootFrame)
             {
-				rootFrame = new Frame
-				{
-					CacheSize = 1
-				};
+                rootFrame = new Frame
+                {
+                    CacheSize = 1
+                };
 
-				Window.Current.Content = rootFrame;
+                Window.Current.Content = rootFrame;
             }
 
             var currentView = SystemNavigationManager.GetForCurrentView();

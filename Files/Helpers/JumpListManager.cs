@@ -51,11 +51,11 @@ namespace Files.Helpers
                 await instance.SaveAsync();
             }
             catch (COMException ex)
-			{
+            {
                 if (ex.ErrorCode != 80070497)
-				{
+                {
                     throw ex;
-				}
+                }
             }
         }
 
@@ -80,12 +80,12 @@ namespace Files.Helpers
                 else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
                 {
                     var libName = Path.GetFileNameWithoutExtension(library.Path);
-					displayName = libName switch
-					{
-						"Documents" or "Pictures" or "Music" or "Videos" => $"ms-resource:///Resources/Sidebar{libName}", // Use localized name
-						_ => library.Text, // Use original name
-					};
-				}
+                    displayName = libName switch
+                    {
+                        "Documents" or "Pictures" or "Music" or "Videos" => $"ms-resource:///Resources/Sidebar{libName}", // Use localized name
+                        _ => library.Text, // Use original name
+                    };
+                }
                 else
                 {
                     displayName = Path.GetFileName(path);

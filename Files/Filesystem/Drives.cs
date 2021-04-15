@@ -126,19 +126,19 @@ namespace Files.Filesystem
                 {
                     SidebarControl.SideBarItems.BeginBulkOperation();
 
-					if (SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) is not LocationItem section)
-					{
-						section = new LocationItem()
-						{
-							Text = "SidebarDrives".GetLocalized(),
-							Section = SectionType.Drives,
-							SelectsOnInvoked = false,
-							ChildItems = new ObservableCollection<INavigationControlItem>()
-						};
-						SidebarControl.SideBarItems.Add(section);
-					}
+                    if (SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) is not LocationItem section)
+                    {
+                        section = new LocationItem()
+                        {
+                            Text = "SidebarDrives".GetLocalized(),
+                            Section = SectionType.Drives,
+                            SelectsOnInvoked = false,
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        SidebarControl.SideBarItems.Add(section);
+                    }
 
-					foreach (DriveItem drive in Drives.ToList())
+                    foreach (DriveItem drive in Drives.ToList())
                     {
                         if (!section.ChildItems.Contains(drive))
                         {

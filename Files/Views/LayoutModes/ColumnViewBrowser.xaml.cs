@@ -188,11 +188,11 @@ namespace Files.Views.LayoutModes
                 try
                 {
                     var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
-					if (listview.ContainerFromItem(listview.SelectedItem as ListedItem) is ListViewItem listViewItem2)
-					{
-						listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
-					}
-				}
+                    if (listview.ContainerFromItem(listview.SelectedItem as ListedItem) is ListViewItem listViewItem2)
+                    {
+                        listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
+                    }
+                }
                 catch
                 {
                 }
@@ -209,12 +209,12 @@ namespace Files.Views.LayoutModes
             var column = sender as ColumnParam;
 
             var frame = new Frame();
-			var newblade = new BladeItem
-			{
-				Content = frame
-			};
+            var newblade = new BladeItem
+            {
+                Content = frame
+            };
 
-			ColumnHost.Items.Add(newblade);
+            ColumnHost.Items.Add(newblade);
             //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
             //{
             //    NavPathParam = item.ItemPath,
@@ -528,12 +528,12 @@ namespace Files.Views.LayoutModes
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
-						var blade = new BladeItem
-						{
-							Content = frame
-						};
+                        var blade = new BladeItem
+                        {
+                            Content = frame
+                        };
 
-						ColumnHost.Items.Add(blade);
+                        ColumnHost.Items.Add(blade);
                         //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
                         //{
                         //    NavPathParam = item.ItemPath,
@@ -653,12 +653,12 @@ namespace Files.Views.LayoutModes
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
-						var blade = new BladeItem
-						{
-							Content = frame
-						};
+                        var blade = new BladeItem
+                        {
+                            Content = frame
+                        };
 
-						ColumnHost.Items.Add(blade);
+                        ColumnHost.Items.Add(blade);
                         //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
                         //{
                         //    NavPathParam = item.ItemPath,
@@ -694,12 +694,12 @@ namespace Files.Views.LayoutModes
             {
             }
             var frame = new Frame();
-			var blade = new BladeItem
-			{
-				Content = frame
-			};
+            var blade = new BladeItem
+            {
+                Content = frame
+            };
 
-			ColumnHost.Items.Add(blade);
+            ColumnHost.Items.Add(blade);
             //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
             //{
             //    NavPathParam = item.ItemPath,

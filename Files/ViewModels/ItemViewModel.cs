@@ -716,18 +716,18 @@ namespace Files.ViewModels
                             {
                                 if (!item.LoadFileIcon) // Loading icon from fulltrust process failed
                                 {
-									using var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-									if (Thumbnail != null)
-									{
-										await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-										{
-											item.FileImage = new BitmapImage();
-											await item.FileImage.SetSourceAsync(Thumbnail);
-											item.LoadUnknownTypeGlyph = false;
-											item.LoadFileIcon = true;
-										});
-									}
-								}
+                                    using var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                                    if (Thumbnail != null)
+                                    {
+                                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                        {
+                                            item.FileImage = new BitmapImage();
+                                            await item.FileImage.SetSourceAsync(Thumbnail);
+                                            item.LoadUnknownTypeGlyph = false;
+                                            item.LoadFileIcon = true;
+                                        });
+                                    }
+                                }
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -806,14 +806,14 @@ namespace Files.ViewModels
         {
             if (Connection != null)
             {
-				var value = new ValueSet
-				{
-					{ "Arguments", "GetIconOverlay" },
-					{ "filePath", filePath },
-					{ "thumbnailSize", (int)thumbnailSize }
-				};
+                var value = new ValueSet
+                {
+                    { "Arguments", "GetIconOverlay" },
+                    { "filePath", filePath },
+                    { "thumbnailSize", (int)thumbnailSize }
+                };
 
-				var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)
                 {
                     var hasCustomIcon = response.Get("HasCustomIcon", false);
@@ -1082,15 +1082,15 @@ namespace Files.ViewModels
                 await Task.Run(async () =>
                 {
                     var sampler = new IntervalSampler(500);
-					var value = new ValueSet
-					{
-						{ "Arguments", "ShellFolder" },
-						{ "action", "Enumerate" },
-						{ "folder", path }
-					};
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "ShellFolder" },
+                        { "action", "Enumerate" },
+                        { "folder", path }
+                    };
 
-					// Send request to fulltrust process to enumerate recyclebin items
-					var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                    // Send request to fulltrust process to enumerate recyclebin items
+                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
@@ -1180,15 +1180,15 @@ namespace Files.ViewModels
                     var userInput = bitlockerDialog.storedPasswordInput;
                     if (Connection != null)
                     {
-						var value = new ValueSet
-						{
-							{ "Arguments", "Bitlocker" },
-							{ "action", "Unlock" },
-							{ "drive", Path.GetPathRoot(path) },
-							{ "password", userInput }
-						};
+                        var value = new ValueSet
+                        {
+                            { "Arguments", "Bitlocker" },
+                            { "action", "Unlock" },
+                            { "drive", Path.GetPathRoot(path) },
+                            { "password", userInput }
+                        };
 
-						await Connection.SendMessageAsync(value);
+                        await Connection.SendMessageAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {
