@@ -2070,9 +2070,6 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
     <value>Open folders in new tab</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles Widget</value>
-  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Show Bundles widget</value>
   </data>
