@@ -84,24 +84,6 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
 
-                        <!--  Remove Reveal Highlight Effect  -->
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <!--  Spacing  -->
-                                <Setter Property="Margin" Value="0" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <ListViewItemPresenter
-                                                x:Name="Root"
-                                                RevealBackground="{ThemeResource ListViewItemRevealBackground}"
-                                                RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
-                                                RevealBorderThickness="0" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border>
