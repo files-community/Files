@@ -194,7 +194,7 @@
                                                 <Grid Grid.Row="1" Grid.Column="1">
 
                                                     <TextBlock
-                                                        HorizontalAlignment="Left"
+                                                        HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         FontSize="12"
                                                         Foreground="Gray"
