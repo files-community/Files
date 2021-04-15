@@ -180,7 +180,14 @@ namespace Files.ViewModels.Dialogs
 
         public void UpdatePrimaryButtonEnabled()
         {
-            PrimaryButtonEnabled = !Items.Any((item) => !item.ActionTaken);
+            if (MustResolveConflicts)
+            {
+                PrimaryButtonEnabled = !Items.Any((item) => !item.ActionTaken);
+            }
+            else if (PermanentlyDeleteLoad) // PermanentlyDeleteLoad - is only loaded (`true`) when deleting items
+            {
+                PrimaryButtonEnabled = true;
+            }
         }
 
         public List<IFilesystemOperationItemModel> GetResult()
@@ -251,8 +258,7 @@ namespace Files.ViewModels.Dialogs
                 MustResolveConflicts = itemsData.MustResolveConflicts
             };
             viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
-                () => viewModel.PrimaryButtonEnabled = !viewModel.Items.Any((item) => !item.ActionTaken),
-                viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
+                viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
             
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 

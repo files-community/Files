@@ -71,11 +71,6 @@
                 BorderBrush="Transparent"
                 Header="Details">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
                     <ListView
                         x:Name="DetailsGrid"
                         Grid.Row="1"
@@ -109,19 +104,20 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid
-                                    Width="440"
-                                    Padding="2,10,2,10"
-                                    ColumnSpacing="12"
-                                    RowSpacing="4">
-                                    <Grid.ColumnDefinitions>
-                                        <!--  Operation type  -->
-                                        <ColumnDefinition Width="Auto" />
-                                        <!--  Item names  -->
-                                        <ColumnDefinition Width="Auto" />
-                                        <!--  ComboBox with options  -->
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+                                <Border>
+                                    <Grid
+                                        Width="440"
+                                        Padding="2,10,2,10"
+                                        ColumnSpacing="12"
+                                        RowSpacing="4">
+                                        <Grid.ColumnDefinitions>
+                                            <!--  Operation type  -->
+                                            <ColumnDefinition Width="Auto" />
+                                            <!--  Item names  -->
+                                            <ColumnDefinition Width="Auto" />
+                                            <!--  ComboBox with options  -->
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
                                             <!--  File name  -->
@@ -130,82 +126,84 @@
                                             <RowDefinition Height="20" />
                                         </Grid.RowDefinitions>
 
-                                    <!--  Operation type icon  -->
-                                    <FontIcon
-                                        Grid.RowSpan="2"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="24"
-                                        Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
-
-                                    <!--  Exclamation mark icon for conflicts  -->
-                                    <Grid
-                                        Grid.RowSpan="2"
-                                        Grid.Column="0"
-                                        Margin="0,0,-2,8"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Visibility="{Binding ExclamationMarkVisibility}">
-                                        <!--  Background  -->
-                                        <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
-                                        <!--  Exclamation mark  -->
+                                        <!--  Operation type icon  -->
                                         <FontIcon
-                                            FontSize="12"
-                                            Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
-                                            Glyph="&#xE7BA;" />
-                                    </Grid>
-
-                                    <!--  Destination Filename  -->
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        FontSize="12"
-                                        FontWeight="Bold"
-                                        Text="{Binding DisplayFileName}" />
-
-                                    <Grid Grid.Row="1" Grid.Column="1">
-
-                                        <TextBlock
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            FontSize="12"
-                                            Foreground="Gray"
-                                            Text="{Binding TakenActionText}"
-                                            Visibility="{Binding ShowResolveOption}" />
+                                            FontSize="24"
+                                            Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
 
-                                        <!--  Source folder and destination folder  -->
-                                        <StackPanel
-                                            Orientation="Horizontal"
-                                            Spacing="8"
-                                            Visibility="{Binding ShowSubFolders}">
-                                            <!--  Source folder name  -->
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Foreground="Gray"
-                                                Text="{Binding SourceDirectoryDisplayName}" />
-
-                                            <!--  Arrow icon  -->
+                                        <!--  Exclamation mark icon for conflicts  -->
+                                        <Grid
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Margin="0,0,-2,8"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Visibility="{Binding ExclamationMarkVisibility}">
+                                            <!--  Background  -->
+                                            <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
+                                            <!--  Exclamation mark  -->
                                             <FontIcon
-                                                HorizontalAlignment="Center"
+                                                FontSize="12"
+                                                Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
+                                                Glyph="&#xE7BA;" />
+                                        </Grid>
+
+                                        <!--  Destination Filename  -->
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Text="{Binding DisplayFileName}" />
+
+                                        <Grid Grid.Row="1" Grid.Column="1">
+
+                                            <!--  Taken action text  -->
+                                            <TextBlock
+                                                HorizontalAlignment="Left"
                                                 VerticalAlignment="Center"
                                                 FontSize="12"
                                                 Foreground="Gray"
-                                                Glyph="&#xEA62;"
-                                                Visibility="{Binding DestinationLocationVisibility}" />
+                                                Text="{Binding TakenActionText}"
+                                                Visibility="{Binding ShowResolveOption}" />
 
-                                            <!--  Destination folder name  -->
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Foreground="Gray"
-                                                Text="{Binding DestinationDirectoryDisplayName}"
-                                                Visibility="{Binding DestinationLocationVisibility}" />
-                                        </StackPanel>
-                                    </Grid>
+                                            <!--  Source folder and destination folder  -->
+                                            <StackPanel
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal"
+                                                Spacing="8"
+                                                Visibility="{Binding ShowSubFolders}">
+                                                <!--  Source folder name  -->
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="Gray"
+                                                    Text="{Binding SourceDirectoryDisplayName}" />
+
+                                                <!--  Arrow icon  -->
+                                                <FontIcon
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="12"
+                                                    Foreground="Gray"
+                                                    Glyph="&#xEA62;"
+                                                    Visibility="{Binding DestinationLocationVisibility}" />
+
+                                                <!--  Destination folder name  -->
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="Gray"
+                                                    Text="{Binding DestinationDirectoryDisplayName}"
+                                                    Visibility="{Binding DestinationLocationVisibility}" />
+                                            </StackPanel>
+                                        </Grid>
 
                                         <!--  Split with options  -->
                                         <muxc:SplitButton
@@ -259,19 +257,44 @@
                                                 </i:Interaction.Behaviors>
                                             </HyperlinkButton>
 
-                                        <!--  Check  -->
-                                        <Grid>
-                                            <Ellipse
-                                                Width="28"
-                                                Height="28"
-                                                Fill="LimeGreen" />
-                                            <FontIcon
-                                                FontSize="12"
-                                                Foreground="White"
-                                                Glyph="&#xE8FB;" />
-                                        </Grid>
-                                    </StackPanel>
-                                    <Grid.ContextFlyout>
+                                            <!--  Check  -->
+                                            <Grid>
+                                                <Ellipse
+                                                    Width="28"
+                                                    Height="28"
+                                                    Fill="LimeGreen" />
+                                                <FontIcon
+                                                    FontSize="12"
+                                                    Foreground="White"
+                                                    Glyph="&#xE8FB;" />
+                                            </Grid>
+                                        </StackPanel>
+                                        <ToolTipService.ToolTip>
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <!--  Source folder name  -->
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding SourcePath}" />
+
+                                                <!--  Arrow icon  -->
+                                                <FontIcon
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="12"
+                                                    Glyph="&#xEA62;"
+                                                    Visibility="{Binding DestinationLocationVisibility}" />
+
+                                                <!--  Destination folder name  -->
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding DestinationPath}"
+                                                    Visibility="{Binding DestinationLocationVisibility}" />
+                                            </StackPanel>
+                                        </ToolTipService.ToolTip>
+                                    </Grid>
+                                    <Border.ContextFlyout>
                                         <MenuFlyout Placement="Bottom">
                                             <MenuFlyoutItem
                                                 x:Uid="ConflictingItemsDialogOptionGenerateNewName"
@@ -286,35 +309,8 @@
                                                 Command="{Binding OptionSkipCommand}"
                                                 Text="Skip" />
                                         </MenuFlyout>
-                                    </Grid.ContextFlyout>
-                                    <ToolTipService.ToolTip>
-                                        <StackPanel
-                                            Orientation="Horizontal"
-                                            Spacing="8"
-                                            Visibility="{Binding ShowSubFolders}">
-                                            <!--  Source folder name  -->
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding SourcePath}" />
-
-                                            <!--  Arrow icon  -->
-                                            <FontIcon
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                Glyph="&#xEA62;"
-                                                Visibility="{Binding DestinationLocationVisibility}" />
-
-                                            <!--  Destination folder name  -->
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding DestinationPath}"
-                                                Visibility="{Binding DestinationLocationVisibility}" />
-                                        </StackPanel>
-                                    </ToolTipService.ToolTip>
-                                </Grid>
+                                    </Border.ContextFlyout>
+                                </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
