@@ -101,12 +101,6 @@ namespace Files.ViewModels.Dialogs
 
         #region Commands
 
-        public ICommand OptionGenerateNewNameCommand { get; private set; }
-
-        public ICommand OptionReplaceExistingCommand { get; private set; }
-
-        public ICommand OptionSkipCommand { get; private set; }
-
         public ICommand PrimaryButtonCommand { get; private set; }
 
         public ICommand SecondaryButtonCommand { get; private set; }
@@ -118,10 +112,6 @@ namespace Files.ViewModels.Dialogs
         public FilesystemOperationDialogViewModel()
         {
             // Create commands
-            OptionGenerateNewNameCommand = new RelayCommand(OptionGenerateNewName);
-            OptionReplaceExistingCommand = new RelayCommand(OptionReplaceExisting);
-            OptionSkipCommand = new RelayCommand(OptionSkip);
-
             PrimaryButtonCommand = new RelayCommand(PrimaryButton);
             SecondaryButtonCommand = new RelayCommand(SecondaryButton);
             LoadedCommand = new RelayCommand(() =>
@@ -135,36 +125,6 @@ namespace Files.ViewModels.Dialogs
         }
 
         #region Command Implementation
-
-        private void OptionSkip()
-        {
-            foreach (var item in View.SelectedItems)
-            {
-                var detailItem = (FilesystemOperationItemViewModel)item;
-
-                detailItem.TakeAction(FileNameConflictResolveOptionType.Skip);
-            }
-        }
-
-        private void OptionReplaceExisting()
-        {
-            foreach (var item in View.SelectedItems)
-            {
-                var detailItem = (FilesystemOperationItemViewModel)item;
-
-                detailItem.TakeAction(FileNameConflictResolveOptionType.ReplaceExisting);
-            }
-        }
-
-        private void OptionGenerateNewName()
-        {
-            foreach (var item in View.SelectedItems)
-            {
-                var detailItem = (FilesystemOperationItemViewModel)item;
-
-                detailItem.TakeAction(FileNameConflictResolveOptionType.GenerateNewName);
-            }
-        }
 
         private void PrimaryButton()
         {
@@ -186,6 +146,36 @@ namespace Files.ViewModels.Dialogs
         }
 
         #endregion Command Implementation
+
+        public void OptionSkip()
+        {
+            foreach (var item in View.SelectedItems)
+            {
+                var detailItem = (FilesystemOperationItemViewModel)item;
+
+                detailItem.TakeAction(FileNameConflictResolveOptionType.Skip);
+            }
+        }
+
+        public void OptionReplaceExisting()
+        {
+            foreach (var item in View.SelectedItems)
+            {
+                var detailItem = (FilesystemOperationItemViewModel)item;
+
+                detailItem.TakeAction(FileNameConflictResolveOptionType.ReplaceExisting);
+            }
+        }
+
+        public void OptionGenerateNewName()
+        {
+            foreach (var item in View.SelectedItems)
+            {
+                var detailItem = (FilesystemOperationItemViewModel)item;
+
+                detailItem.TakeAction(FileNameConflictResolveOptionType.GenerateNewName);
+            }
+        }
 
         public void UpdatePrimaryButtonEnabled()
         {
@@ -259,7 +249,9 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDelete = itemsData.PermanentlyDelete,
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
                 MustResolveConflicts = itemsData.MustResolveConflicts,
-                Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(() => viewModel.PrimaryButtonEnabled = !viewModel.Items.Any((item) => !item.ActionTaken)))
+                Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
+                    () => viewModel.PrimaryButtonEnabled = !viewModel.Items.Any((item) => !item.ActionTaken),
+                    viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip))
             };
 
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);

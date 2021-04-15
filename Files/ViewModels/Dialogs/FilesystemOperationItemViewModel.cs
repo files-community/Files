@@ -117,7 +117,13 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand UndoTakenActionCommand { get; private set; }
 
-        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled)
+        public ICommand OptionGenerateNewNameCommand { get; private set; }
+
+        public ICommand OptionReplaceExistingCommand { get; private set; }
+
+        public ICommand OptionSkipCommand { get; private set; }
+
+        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             this.updatePrimaryButtonEnabled = updatePrimaryButtonEnabled;
 
@@ -125,10 +131,11 @@ namespace Files.ViewModels.Dialogs
             ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
             SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));
             SplitButtonDefaultActionCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName)); // GenerateNewName is the default action
-            UndoTakenActionCommand = new RelayCommand<RoutedEventArgs>((e) =>
-            {
-                TakeAction(FileNameConflictResolveOptionType.GenerateNewName, false);
-            });
+            UndoTakenActionCommand = new RelayCommand<RoutedEventArgs>((e) => TakeAction(FileNameConflictResolveOptionType.GenerateNewName, false));
+
+            OptionGenerateNewNameCommand = new RelayCommand(optionGenerateNewName);
+            OptionReplaceExistingCommand = new RelayCommand(optionReplaceExisting);
+            OptionSkipCommand = new RelayCommand(optionSkip);
         }
 
         public void TakeAction(FileNameConflictResolveOptionType action, bool actionTaken = true)

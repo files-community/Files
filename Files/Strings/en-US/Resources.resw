@@ -2103,13 +2103,13 @@
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
   </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Content" xml:space="preserve">
+  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Content" xml:space="preserve">
+  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Content" xml:space="preserve">
+  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
   </data>
   <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">

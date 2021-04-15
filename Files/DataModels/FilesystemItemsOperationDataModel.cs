@@ -53,7 +53,7 @@ namespace Files.DataModels
             this.ConflictingItems = conflictingItems;
         }
 
-        public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled)
+        public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
 
@@ -62,7 +62,7 @@ namespace Files.DataModels
             // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled)
+                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
@@ -77,7 +77,7 @@ namespace Files.DataModels
             // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled)
+                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
