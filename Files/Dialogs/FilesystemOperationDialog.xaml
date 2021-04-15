@@ -72,7 +72,7 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Header="Details">
-                    <StackPanel x:Name="DetailsPanel" Spacing="12" Margin="-40,0,-40,0">
+                    <StackPanel x:Name="DetailsPanel" Spacing="12">
                         <StackPanel
                             x:Name="OptionsPanel"
                             HorizontalAlignment="Center"
