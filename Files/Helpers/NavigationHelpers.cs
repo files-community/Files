@@ -14,6 +14,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -74,7 +75,15 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+
+                if (Window.Current.CoreWindow.GetKeyState((VirtualKey)18).HasFlag(CoreVirtualKeyStates.Down))
+                {
+                    await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance.PaneHolder.ActivePane);                    
+                }
+                else
+                {
+                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                }
             }
         }
 

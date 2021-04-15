@@ -18,7 +18,7 @@ namespace Files.UserControls
 
         #region Private Members
 
-        private IStatusCenterActions statusCenterActions => OngoingTasksControl;
+        public StatusCenterViewModel StatusCenterViewModel { get; set; }
 
         #endregion Private Members
 
@@ -76,7 +76,6 @@ namespace Files.UserControls
         public StatusBarControl()
         {
             this.InitializeComponent();
-            statusCenterActions.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
 
         #endregion Constructor
@@ -115,5 +114,10 @@ namespace Files.UserControls
         }
 
         #endregion INotifyPropertyChanged
+
+        private void UserControl_Loading(Windows.UI.Xaml.FrameworkElement sender, object args)
+        {
+            StatusCenterViewModel.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
+        }
     }
 }
