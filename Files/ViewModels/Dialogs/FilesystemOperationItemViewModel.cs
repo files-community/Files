@@ -29,7 +29,37 @@ namespace Files.ViewModels.Dialogs
 
         public string DisplayFileName
         {
-            get => System.IO.Path.GetFileName(SourcePath);
+            get => string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetDirectoryName(SourcePath) : System.IO.Path.GetDirectoryName(DestinationPath);
+        }
+
+        public string TakenActionText
+        {
+            get
+            {
+                switch (ConflictResolveOption)
+                {
+                    case FileNameConflictResolveOptionType.GenerateNewName:
+                        {
+                            return "Generate new name";
+                        }
+
+                    case FileNameConflictResolveOptionType.ReplaceExisting:
+                        {
+                            return "Replace existing";
+                        }
+
+                    case FileNameConflictResolveOptionType.Skip:
+                        {
+                            return "Skip";
+                        }
+
+                    case FileNameConflictResolveOptionType.NotAConflict:
+                    default:
+                        {
+                            return "Not a conflict";
+                        }
+                }
+            }
         }
 
         public Visibility DestinationLocationVisibility
@@ -52,6 +82,16 @@ namespace Files.ViewModels.Dialogs
         {
             get => actionTaken;
             set => SetProperty(ref actionTaken, value);
+        }
+
+        public Visibility ShowSubFolders
+        {
+            get => !ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public Visibility ShowResolveOption
+        {
+            get => ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public Visibility ShowUndoButton
@@ -86,22 +126,20 @@ namespace Files.ViewModels.Dialogs
             SplitButtonDefaultActionCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName)); // GenerateNewName is the default action
             UndoTakenActionCommand = new RelayCommand<RoutedEventArgs>((e) =>
             {
-                ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
-                ActionTaken = false;
-                ExclamationMarkVisibility = Visibility.Visible;
-                OnPropertyChanged(nameof(ShowUndoButton));
-                OnPropertyChanged(nameof(ShowSplitButton));
-                this.updatePrimaryButtonEnabled?.Invoke();
+                TakeAction(FileNameConflictResolveOptionType.GenerateNewName, false);
             });
         }
 
-        public void TakeAction(FileNameConflictResolveOptionType action)
+        public void TakeAction(FileNameConflictResolveOptionType action, bool actionTaken = true)
         {
             ConflictResolveOption = action;
-            ActionTaken = true;
-            ExclamationMarkVisibility = Visibility.Collapsed;
+            ActionTaken = actionTaken;
+            ExclamationMarkVisibility = actionTaken ? Visibility.Collapsed : Visibility.Visible;
+            OnPropertyChanged(nameof(ShowSubFolders));
+            OnPropertyChanged(nameof(ShowResolveOption));
             OnPropertyChanged(nameof(ShowUndoButton));
             OnPropertyChanged(nameof(ShowSplitButton));
+            OnPropertyChanged(nameof(TakenActionText));
             this.updatePrimaryButtonEnabled?.Invoke();
         }
     }

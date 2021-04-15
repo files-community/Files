@@ -191,36 +191,46 @@
                                                     FontWeight="Bold"
                                                     Text="{Binding DisplayFileName}" />
 
-                                                <!--  Source folder and destination folder  -->
-                                                <StackPanel
-                                                    Grid.Row="1"
-                                                    Grid.Column="1"
-                                                    Orientation="Horizontal"
-                                                    Spacing="8">
-                                                    <!--  Source folder name  -->
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Foreground="Gray"
-                                                        Text="{Binding SourceDirectoryDisplayName}" />
+                                                <Grid Grid.Row="1" Grid.Column="1">
 
-                                                    <!--  Arrow icon  -->
-                                                    <FontIcon
-                                                        HorizontalAlignment="Center"
+                                                    <TextBlock
+                                                        HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
                                                         FontSize="12"
                                                         Foreground="Gray"
-                                                        Glyph="&#xEA62;"
-                                                        Visibility="{Binding DestinationLocationVisibility}" />
+                                                        Text="{Binding TakenActionText}"
+                                                        Visibility="{Binding ShowResolveOption}" />
 
-                                                    <!--  Destination folder name  -->
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Foreground="Gray"
-                                                        Text="{Binding DestinationDirectoryDisplayName}"
-                                                        Visibility="{Binding DestinationLocationVisibility}" />
-                                                </StackPanel>
+                                                    <!--  Source folder and destination folder  -->
+                                                    <StackPanel
+                                                        Orientation="Horizontal"
+                                                        Spacing="8"
+                                                        Visibility="{Binding ShowSubFolders}">
+                                                        <!--  Source folder name  -->
+                                                        <TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Foreground="Gray"
+                                                            Text="{Binding SourceDirectoryDisplayName}" />
+
+                                                        <!--  Arrow icon  -->
+                                                        <FontIcon
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="12"
+                                                            Foreground="Gray"
+                                                            Glyph="&#xEA62;"
+                                                            Visibility="{Binding DestinationLocationVisibility}" />
+
+                                                        <!--  Destination folder name  -->
+                                                        <TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Foreground="Gray"
+                                                            Text="{Binding DestinationDirectoryDisplayName}"
+                                                            Visibility="{Binding DestinationLocationVisibility}" />
+                                                    </StackPanel>
+                                                </Grid>
 
                                                 <!--  Split with options  -->
                                                 <muxc:SplitButton
