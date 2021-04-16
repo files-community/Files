@@ -70,15 +70,15 @@ namespace Files.ViewModels
             set => SetProperty(ref fileIconSource, value);
         }
 
-        private string itemName;
+        private string itemFileIconLabel;
 
-        public string ItemName
+        public string ItemFileIconLabel
         {
-            get => itemName;
+            get => itemFileIconLabel;
             set
             {
-                ItemNameVisibility = Visibility.Visible;
-                SetProperty(ref itemName, value);
+                ItemFileIconLabelVisibility = Visibility.Visible;
+                SetProperty(ref itemFileIconLabel, value);
             }
         }
 
@@ -89,17 +89,17 @@ namespace Files.ViewModels
             get => originalItemName;
             set
             {
-                ItemNameVisibility = Visibility.Visible;
+                ItemFileIconLabelVisibility = Visibility.Visible;
                 SetProperty(ref originalItemName, value);
             }
         }
 
-        private Visibility itemNameVisibility = Visibility.Collapsed;
+        private Visibility itemFileIconLabelVisibility = Visibility.Collapsed;
 
-        public Visibility ItemNameVisibility
+        public Visibility ItemFileIconLabelVisibility
         {
-            get => itemNameVisibility;
-            set => SetProperty(ref itemNameVisibility, value);
+            get => itemFileIconLabelVisibility;
+            set => SetProperty(ref itemFileIconLabelVisibility, value);
         }
 
         private string itemType;

@@ -31,7 +31,7 @@ namespace Files.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemFileIconLabel) && ViewModel.OriginalItemName != ViewModel.ItemFileIconLabel)
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
@@ -39,7 +39,7 @@ namespace Files.Views
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
-                            { "newlabel", ViewModel.ItemName }
+                            { "newlabel", ViewModel.ItemFileIconLabel }
                         });
                         _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -53,7 +53,7 @@ namespace Files.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
-                var newName = ViewModel.ItemName;
+                var newName = ViewModel.ItemFileIconLabel;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
                     if (AppInstance.FilesystemViewModel != null && App.LibraryManager.CanCreateLibrary(newName).result)
@@ -74,11 +74,11 @@ namespace Files.Views
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemFileIconLabel) && ViewModel.OriginalItemName != ViewModel.ItemFileIconLabel)
                 {
                     return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
                           ViewModel.OriginalItemName,
-                          ViewModel.ItemName,
+                          ViewModel.ItemFileIconLabel,
                           AppInstance));
                 }
 

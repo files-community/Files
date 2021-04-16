@@ -122,7 +122,8 @@ namespace Files.ViewModels.Properties
             }
             else
             {
-                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+                //ViewModel.ItemFileIconDescriptionVisibility = Windows.UI.Xaml.Visibility.Visible;
+                ViewModel.ItemFileIconLabel = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
             }
         }
     }

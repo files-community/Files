@@ -25,7 +25,7 @@ namespace Files.ViewModels.Properties
             {
                 ViewModel.CustomIcon = Drive.Icon;
                 ViewModel.LoadCustomIcon = true;
-                ViewModel.ItemName = Drive.Text;
+                ViewModel.ItemFileIconLabel = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;
                 // Note: if DriveType enum changes, the corresponding resource keys should change too
                 ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalized();

@@ -51,8 +51,8 @@
                 Grid.Column="1"
                 IsReadOnly="True"
                 Style="{StaticResource PropertyValueTextBox}"
-                Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.ItemFileIconLabel, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ItemFileIconLabelVisibility, Mode=OneWay}" />
 
             <MenuFlyoutSeparator
                 Grid.Row="1"
