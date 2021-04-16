@@ -161,8 +161,7 @@
                                             <StackPanel
                                                 HorizontalAlignment="Left"
                                                 Orientation="Horizontal"
-                                                Spacing="8"
-                                                Visibility="{Binding ShowSubFolders}">
+                                                Spacing="8">
                                                 <!--  Source folder name  -->
                                                 <TextBlock
                                                     HorizontalAlignment="Center"

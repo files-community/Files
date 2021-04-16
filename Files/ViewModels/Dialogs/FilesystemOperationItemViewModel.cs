@@ -85,11 +85,6 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref actionTaken, value);
         }
 
-        public Visibility ShowSubFolders
-        {
-            get => !ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         public Visibility ShowResolveOption
         {
             get => ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
@@ -143,7 +138,6 @@ namespace Files.ViewModels.Dialogs
             ConflictResolveOption = action;
             ActionTaken = actionTaken;
             ExclamationMarkVisibility = actionTaken ? Visibility.Collapsed : Visibility.Visible;
-            OnPropertyChanged(nameof(ShowSubFolders));
             OnPropertyChanged(nameof(ShowResolveOption));
             OnPropertyChanged(nameof(ShowUndoButton));
             OnPropertyChanged(nameof(ShowSplitButton));
