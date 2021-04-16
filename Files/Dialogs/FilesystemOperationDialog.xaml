@@ -66,6 +66,7 @@
             <muxc:Expander
                 x:Name="DetailsExpander"
                 x:Uid="FileOperationsDialogDetailsExpander"
+                Padding="0"
                 HorizontalAlignment="Stretch"
                 Background="Transparent"
                 BorderBrush="Transparent"
@@ -74,6 +75,7 @@
                     <ListView
                         x:Name="DetailsGrid"
                         Grid.Row="1"
+                        MaxHeight="200"
                         IsItemClickEnabled="False"
                         ItemsSource="{x:Bind ViewModel.Items}"
                         SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">
@@ -88,8 +90,8 @@
                             <DataTemplate>
                                 <Border>
                                     <Grid
-                                        Width="440"
-                                        Padding="2,10,2,10"
+                                        Width="472"
+                                        Padding="8"
                                         ColumnSpacing="12"
                                         RowSpacing="4">
                                         <Grid.ColumnDefinitions>
