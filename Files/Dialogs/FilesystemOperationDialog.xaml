@@ -217,6 +217,7 @@
                                         <!--  Split with options  -->
                                         <muxc:SplitButton
                                             x:Name="Split"
+                                            x:Uid="ConflictingItemsDialogDefaultOption"
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
                                             HorizontalAlignment="Right"
@@ -255,7 +256,7 @@
                                                 <HyperlinkButton.Content>
                                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                                         <FontIcon FontSize="12" Glyph="&#xE10E;" />
-                                                        <TextBlock Text="Undo" />
+                                                        <TextBlock x:Uid="ConflictingItemsDialogUndoOption" Text="Undo" />
                                                     </StackPanel>
                                                 </HyperlinkButton.Content>
                                                 <i:Interaction.Behaviors>
