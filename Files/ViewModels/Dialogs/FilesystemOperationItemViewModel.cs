@@ -21,7 +21,7 @@ namespace Files.ViewModels.Dialogs
         public string SourceDirectoryDisplayName
         {
             // If the destination path is empty, then show full source path instead
-            get => !string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(SourcePath)) : System.IO.Path.GetDirectoryName(DestinationPath);
+            get => !string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(SourcePath)) : System.IO.Path.GetDirectoryName(SourcePath);
         }
 
         public string DestinationDirectoryDisplayName
