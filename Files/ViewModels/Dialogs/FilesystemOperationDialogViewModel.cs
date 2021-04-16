@@ -15,7 +15,6 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
-        #region Public Properties
 
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
 
@@ -98,17 +97,11 @@ namespace Files.ViewModels.Dialogs
 
         public IFilesystemOperationDialogView View { get; set; }
 
-        #endregion Public Properties
-
-        #region Commands
-
         public ICommand PrimaryButtonCommand { get; private set; }
 
         public ICommand SecondaryButtonCommand { get; private set; }
 
         public ICommand LoadedCommand { get; private set; }
-
-        #endregion Commands
 
         public FilesystemOperationDialogViewModel()
         {
@@ -120,8 +113,6 @@ namespace Files.ViewModels.Dialogs
                 UpdatePrimaryButtonEnabled();
             });
         }
-
-        #region Command Implementation
 
         private void PrimaryButton()
         {
@@ -141,8 +132,6 @@ namespace Files.ViewModels.Dialogs
                 }
             }
         }
-
-        #endregion Command Implementation
 
         public void OptionSkip()
         {
@@ -255,7 +244,7 @@ namespace Files.ViewModels.Dialogs
             };
             viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
                 viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
-            
+
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
             return dialog;
