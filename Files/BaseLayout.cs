@@ -445,24 +445,12 @@ namespace Files
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
 
-            object senderContext = null;
-
-            // Select the sender
-            if (sender is GridViewItem gridViewItem)
+            if (sender is DataGridRow dataGridRow)
             {
-                senderContext = gridViewItem.DataContext;
-            } else if (sender is ListViewItem listViewItem)
-            {
-                senderContext = listViewItem.DataContext;
-            }
-            else if (sender is DataGridRow dataGridRow)
-            {
-                senderContext = dataGridRow.DataContext;
-            }
-
-            if(senderContext is ListedItem senderItem)
-            {
-                ParentShellPageInstance.SlimContentPage.SelectedItems.Add(senderItem);
+                if(dataGridRow.DataContext is ListedItem item)
+                {
+                    ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
+                }
             }
 
             foreach (ListedItem item in ParentShellPageInstance.SlimContentPage.SelectedItems)
