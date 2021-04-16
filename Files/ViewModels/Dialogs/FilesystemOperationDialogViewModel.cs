@@ -192,10 +192,37 @@ namespace Files.ViewModels.Dialogs
             {
                 List<FilesystemItemsOperationItemModel> nonConflictingItems = itemsData.IncomingItems.Except(itemsData.ConflictingItems).ToList();
 
-                titleText = "ConflictingItemsDialogTitle".GetLocalized();
-                subtitleText = itemsData.ConflictingItems.Count == 1 ? string.Format("ConflictingItemsDialogSubtitleSingle".GetLocalized(), nonConflictingItems.Count) : string.Format("ConflictingItemsDialogSubtitleMultiple".GetLocalized(), itemsData.ConflictingItems.Count, nonConflictingItems.Count);
-                primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
-                secondaryButtonText = "ConflictingItemsDialogSecondaryButtonText".GetLocalized();
+                // Subtitle text
+                if (itemsData.ConflictingItems.Count > 1)
+                {
+                    if (nonConflictingItems.Count > 0)
+                    {
+                        // There are {0} conflicting file names, and {1} outgoing item(s)
+                        subtitleText = string.Format("FilesystemOperationDialogSubtitleMultipleConflictsMultipleNonConflicts".GetLocalized(), itemsData.ConflictingItems.Count, nonConflictingItems.Count);
+                    }
+                    else
+                    {
+                        // There are {0} conflicting file names
+                        subtitleText = string.Format("FilesystemOperationDialogSubtitleMultipleConflictsNoNonConflicts".GetLocalized(), itemsData.ConflictingItems.Count);
+                    }
+                }    
+                else
+                {
+                    if (nonConflictingItems.Count > 0)
+                    {
+                        // There is one conflicting file name, and {0} outgoing item(s)
+                        subtitleText = string.Format("FilesystemOperationDialogSubtitleSingleConflictMultipleNonConflicts".GetLocalized(), nonConflictingItems.Count);
+                    }
+                    else
+                    {
+                        // There is one conflicting file name
+                        subtitleText = string.Format("FilesystemOperationDialogSubtitleSingleConflictNoNonConflicts".GetLocalized(), itemsData.ConflictingItems.Count);
+                    }
+                }
+
+                titleText = "FilesystemOperationDialogTitle".GetLocalized();
+                primaryButtonText = "FilesystemOperationDialogPrimaryButtonText".GetLocalized();
+                secondaryButtonText = "FilesystemOperationDialogSecondaryButtonText".GetLocalized();
             }
             else
             {

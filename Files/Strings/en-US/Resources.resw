@@ -2034,20 +2034,20 @@
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be deleted</value>
   </data>
-  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="FilesystemOperationDialogPrimaryButtonText" xml:space="preserve">
     <value>Continue</value>
   </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
+  <data name="FilesystemOperationDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>There are {0} conflicting file names, and {1} outgoing item(s)</value>
+  <data name="FilesystemOperationDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
   </data>
-  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+  <data name="FilesystemOperationDialogDialogTitle" xml:space="preserve">
     <value>Conflicting file name(s)</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>There is one conflicting file name, and {0} outgoing item(s)</value>
+  <data name="FilesystemOperationDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>One item will be copied</value>
@@ -2094,22 +2094,22 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
   </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
   </data>
   <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
@@ -2127,19 +2127,25 @@
   <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
+  <data name="FilesystemOperationDialogTakenActionGenerateNewName" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+  <data name="FilesystemOperationDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
+  <data name="FilesystemOperationDialogTakenActionSkip" xml:space="preserve">
     <value>Skip</value>
   </data>
-  <data name="ConflictingItemsDialogDefaultOption.Content" xml:space="preserve">
+  <data name="FilesystemOperationDialogItemDefaultOption.Content" xml:space="preserve">
     <value>Generate new name</value>
   </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
+  <data name="FilesystemOperationDialogUndoOption.Text" xml:space="preserve">
     <value>Undo</value>
+  </data>
+  <data name="FilesystemOperationDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
+    <value>There are {0} conflicting file names.</value>
+  </data>
+  <data name="FilesystemOperationDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
+    <value>There is one conflicting file name.</value>
   </data>
 </root>

@@ -49,17 +49,17 @@ namespace Files.ViewModels.Dialogs
                 {
                     case FileNameConflictResolveOptionType.GenerateNewName:
                         {
-                            return "ConflictingItemsDialogTakenActionGenerateNewName".GetLocalized();
+                            return "FilesystemOperationDialogTakenActionGenerateNewName".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.ReplaceExisting:
                         {
-                            return "ConflictingItemsDialogTakenActionReplaceExisting".GetLocalized();
+                            return "FilesystemOperationDialogTakenActionReplaceExisting".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.Skip:
                         {
-                            return "ConflictingItemsDialogTakenActionSkip".GetLocalized();
+                            return "FilesystemOperationDialogTakenActionSkip".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.NotAConflict:

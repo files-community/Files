@@ -217,7 +217,7 @@
                                         <!--  Split with options  -->
                                         <muxc:SplitButton
                                             x:Name="Split"
-                                            x:Uid="ConflictingItemsDialogDefaultOption"
+                                            x:Uid="FilesystemOperationDialogItemDefaultOption"
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
                                             HorizontalAlignment="Right"
@@ -228,15 +228,15 @@
                                             <muxc:SplitButton.Flyout>
                                                 <MenuFlyout>
                                                     <MenuFlyoutItem
-                                                        x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
+                                                        x:Uid="FilesystemOperationDialogItemOptionGenerateNewName"
                                                         Command="{Binding GenerateNewNameCommand}"
                                                         Text="Generate new name" />
                                                     <MenuFlyoutItem
-                                                        x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
+                                                        x:Uid="FilesystemOperationDialogItemOptionReplaceExisting"
                                                         Command="{Binding ReplaceExistingCommand}"
                                                         Text="Replace" />
                                                     <MenuFlyoutItem
-                                                        x:Uid="ConflictingItemsDialogItemOptionSkip"
+                                                        x:Uid="FilesystemOperationDialogItemOptionSkip"
                                                         Command="{Binding SkipCommand}"
                                                         Text="Skip" />
                                                 </MenuFlyout>
@@ -256,7 +256,7 @@
                                                 <HyperlinkButton.Content>
                                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                                         <FontIcon FontSize="12" Glyph="&#xE10E;" />
-                                                        <TextBlock x:Uid="ConflictingItemsDialogUndoOption" Text="Undo" />
+                                                        <TextBlock x:Uid="FilesystemOperationDialogUndoOption" Text="Undo" />
                                                     </StackPanel>
                                                 </HyperlinkButton.Content>
                                                 <i:Interaction.Behaviors>
@@ -283,15 +283,15 @@
                                     <Border.ContextFlyout>
                                         <MenuFlyout Placement="Bottom">
                                             <MenuFlyoutItem
-                                                x:Uid="ConflictingItemsDialogOptionGenerateNewName"
+                                                x:Uid="FilesystemOperationDialogOptionGenerateNewName"
                                                 Command="{Binding OptionGenerateNewNameCommand}"
                                                 Text="Generate new name" />
                                             <MenuFlyoutItem
-                                                x:Uid="ConflictingItemsDialogOptionReplaceExisting"
+                                                x:Uid="FilesystemOperationDialogOptionReplaceExisting"
                                                 Command="{Binding OptionReplaceExistingCommand}"
                                                 Text="Replace existing" />
                                             <MenuFlyoutItem
-                                                x:Uid="ConflictingItemsDialogOptionSkip"
+                                                x:Uid="FilesystemOperationDialogOptionSkip"
                                                 Command="{Binding OptionSkipCommand}"
                                                 Text="Skip" />
                                         </MenuFlyout>
