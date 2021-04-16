@@ -122,8 +122,8 @@
 
             <Button
                 Grid.Column="2"
-                BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
+                BorderBrush="Transparent"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="Name"
                 CornerRadius="0">
@@ -161,8 +161,8 @@
 
             <Button
                 Grid.Column="6"
-                BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
+                BorderBrush="Transparent"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="DateModified"
                 CornerRadius="0">
@@ -184,8 +184,8 @@
                 ManipulationDelta="GridSplitter_ManipulationDelta" />
             <Button
                 Grid.Column="8"
-                BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
+                BorderBrush="Transparent"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="FileType"
                 CornerRadius="0">
@@ -209,8 +209,10 @@
             animations:ItemsReorderAnimation.Duration="0:0:0.350"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            CanDragItems="True"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
+            DragItemsStarting="FileList_DragItemsStarting"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"
