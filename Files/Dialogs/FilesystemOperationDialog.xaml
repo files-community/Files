@@ -98,9 +98,9 @@
                                             <!--  Operation type  -->
                                             <ColumnDefinition Width="Auto" />
                                             <!--  Item names  -->
-                                            <ColumnDefinition Width="Auto" />
-                                            <!--  ComboBox with options  -->
                                             <ColumnDefinition Width="*" />
+                                            <!--  ComboBox with options  -->
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
@@ -144,7 +144,8 @@
                                             VerticalAlignment="Center"
                                             FontSize="12"
                                             FontWeight="Bold"
-                                            Text="{Binding DisplayFileName}" />
+                                            Text="{Binding DisplayFileName}"
+                                            TextTrimming="CharacterEllipsis" />
 
                                         <Grid Grid.Row="1" Grid.Column="1">
 
