@@ -28,7 +28,7 @@ namespace Files.Helpers
 
             if (connection != null)
             {
-                var (status, response) = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
+                var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -36,14 +36,20 @@ namespace Files.Helpers
                         workingDirectory},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
-                })).Result;
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Handle"))
+                }));
+                var completed = task.Wait(10000);
+
+                if(completed)
                 {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                    if (contextMenu != null)
+                    var (status, response) = task.Result;
+                    if (status == AppServiceResponseStatus.Success
+                        && response.ContainsKey("Handle"))
                     {
-                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
+                        if (contextMenu != null)
+                        {
+                            LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        }
                     }
                 }
             }
