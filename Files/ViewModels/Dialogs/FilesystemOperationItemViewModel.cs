@@ -18,6 +18,13 @@ namespace Files.ViewModels.Dialogs
 
         public string DestinationPath { get; set; }
 
+        private bool isConflict;
+        public bool IsConflict
+        {
+            get => isConflict;
+            set => SetProperty(ref isConflict, value);
+        }
+
         public string SourceDirectoryDisplayName
         {
             // If the destination path is empty, then show full source path instead
@@ -86,6 +93,11 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref actionTaken, value);
         }
 
+        public Visibility ShowSubFolders
+        {
+            get => string.IsNullOrEmpty(DestinationPath) || !IsConflict || (!ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         public Visibility ShowResolveOption
         {
             get => ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict ? Visibility.Visible : Visibility.Collapsed;
@@ -136,14 +148,18 @@ namespace Files.ViewModels.Dialogs
 
         public void TakeAction(FileNameConflictResolveOptionType action, bool actionTaken = true)
         {
-            ConflictResolveOption = action;
-            ActionTaken = actionTaken;
-            ExclamationMarkVisibility = actionTaken ? Visibility.Collapsed : Visibility.Visible;
-            OnPropertyChanged(nameof(ShowResolveOption));
-            OnPropertyChanged(nameof(ShowUndoButton));
-            OnPropertyChanged(nameof(ShowSplitButton));
-            OnPropertyChanged(nameof(TakenActionText));
-            this.updatePrimaryButtonEnabled?.Invoke();
+            if (IsConflict)
+            {
+                ConflictResolveOption = action;
+                ActionTaken = actionTaken;
+                ExclamationMarkVisibility = actionTaken ? Visibility.Collapsed : Visibility.Visible;
+                OnPropertyChanged(nameof(ShowSubFolders));
+                OnPropertyChanged(nameof(ShowResolveOption));
+                OnPropertyChanged(nameof(ShowUndoButton));
+                OnPropertyChanged(nameof(ShowSplitButton));
+                OnPropertyChanged(nameof(TakenActionText));
+                this.updatePrimaryButtonEnabled?.Invoke();
+            }
         }
     }
 }

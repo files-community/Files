@@ -64,6 +64,7 @@ namespace Files.DataModels
             {
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
+                    IsConflict = true,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
@@ -79,6 +80,7 @@ namespace Files.DataModels
             {
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
+                    IsConflict = false,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
