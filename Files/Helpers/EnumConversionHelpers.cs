@@ -27,9 +27,6 @@ namespace Files.Helpers
         {
             switch (option)
             {
-                case FileNameConflictResolveOptionType.None:
-                    return NameCollisionOption.GenerateUniqueName;
-
                 case FileNameConflictResolveOptionType.GenerateNewName:
                     return NameCollisionOption.GenerateUniqueName;
 
