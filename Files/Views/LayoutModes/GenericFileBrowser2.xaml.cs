@@ -180,6 +180,16 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged += FilesAndFolders_CollectionChanged;
 
+            if(!ParentShellPageInstance.InstanceViewModel.IsPageTypeCloudDrive)
+            {
+                ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
+            } else
+            {
+                ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
+            }
+
             if (FileList.ItemsSource == null)
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
@@ -590,12 +600,16 @@ namespace Files.Views.LayoutModes
 
         private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            // TODO: More effecient way to do this
-            ColumnsViewModel.Row1Width = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.Row2Width = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.Row3Width = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.Row4Width = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.Row5Width = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            UpdateColumnLayout();
+        }
+
+        private void UpdateColumnLayout()
+        {
+            ColumnsViewModel.IconColumnLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.NameColumnLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumnLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateModifiedColumnLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumnLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
         }
     }
 }

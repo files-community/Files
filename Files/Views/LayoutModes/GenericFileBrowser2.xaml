@@ -33,7 +33,6 @@
             TrueValue="Collapsed" />
 
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
-
     </local:BaseLayout.Resources>
 
     <Grid
@@ -46,36 +45,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Add" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Subtract" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-        </Grid.KeyboardAccelerators>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -109,15 +78,15 @@
             BorderThickness="0,0,0,1"
             PointerPressed="Grid_PointerPressed">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.Row1Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.IconColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.Row2Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.NameColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.Row3Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.StatusColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.Row4Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.Row5Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength, Mode=OneWay}" />
             </Grid.ColumnDefinitions>
 
             <Button
@@ -142,7 +111,8 @@
                 Grid.Column="3"
                 Width="1"
                 Background="Transparent"
-                ManipulationDelta="GridSplitter_ManipulationDelta" />
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Visibility="{x:Bind ColumnsViewModel.StatusColumnVisibility, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Column="4"
@@ -151,7 +121,8 @@
                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                 Text="Status"
                 TextAlignment="Center"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                Visibility="{x:Bind ColumnsViewModel.StatusColumnVisibility, Mode=OneWay}" />
 
             <controls:GridSplitter
                 Grid.Column="5"
@@ -228,11 +199,11 @@
                         RightTapped="StackPanel_RightTapped"
                         ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row1Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row2Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row3Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row4Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row5Width, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.IconColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.NameColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.StatusColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength, Mode=OneWay}" />
                         </Grid.ColumnDefinitions>
                         <Grid
                             Grid.Column="0"

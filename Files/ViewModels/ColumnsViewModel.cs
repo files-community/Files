@@ -12,36 +12,43 @@ namespace Files.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {
-        private GridLength row1Width = new GridLength(30, GridUnitType.Pixel);
-        public GridLength Row1Width
+        private GridLength iconColumnLength = new GridLength(30, GridUnitType.Pixel);
+        public GridLength IconColumnLength
         {
-            get => row1Width;
-            set => SetProperty(ref row1Width, value);
+            get => iconColumnLength;
+            set => SetProperty(ref iconColumnLength, value);
         }
-        private GridLength row2Width = new GridLength(1, GridUnitType.Star);
-        public GridLength Row2Width
+        private GridLength nameColumnLength = new GridLength(1, GridUnitType.Star);
+        public GridLength NameColumnLength
         {
-            get => row2Width;
-            set => SetProperty(ref row2Width, value);
+            get => nameColumnLength;
+            set => SetProperty(ref nameColumnLength, value);
         }
-        private GridLength row3Width = new GridLength(40, GridUnitType.Pixel);
-        public GridLength Row3Width
+        private GridLength statusColumnLength = new GridLength(40, GridUnitType.Pixel);
+        public GridLength StatusColumnLength
         {
-            get => row3Width;
-            set => SetProperty(ref row3Width, value);
+            get => statusColumnLength;
+            set => SetProperty(ref statusColumnLength, value);
         }
 
-        private GridLength row4Width = new GridLength(1, GridUnitType.Star);
-        public GridLength Row4Width
+        private Visibility statusColumnVisibility = Visibility.Visible;
+        public Visibility StatusColumnVisibility
         {
-            get => row4Width;
-            set => SetProperty(ref row4Width, value);
+            get => statusColumnVisibility;
+            set => SetProperty(ref statusColumnVisibility, value);
         }
-        private GridLength row5Width = new GridLength(1, GridUnitType.Star);
-        public GridLength Row5Width
+
+        private GridLength dateModifiedColumnLength = new GridLength(1, GridUnitType.Star);
+        public GridLength DateModifiedColumnLength
         {
-            get => row5Width;
-            set => SetProperty(ref row5Width, value);
+            get => dateModifiedColumnLength;
+            set => SetProperty(ref dateModifiedColumnLength, value);
+        }
+        private GridLength itemTypeColumnLength = new GridLength(1, GridUnitType.Star);
+        public GridLength ItemTypeColumnLength
+        {
+            get => itemTypeColumnLength;
+            set => SetProperty(ref itemTypeColumnLength, value);
         }
     }
 }
