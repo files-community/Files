@@ -179,16 +179,7 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged += FilesAndFolders_CollectionChanged;
-
-            if(!ParentShellPageInstance.InstanceViewModel.IsPageTypeCloudDrive)
-            {
-                ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
-                ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
-            } else
-            {
-                ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
-                ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
-            }
+            InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
 
             if (FileList.ItemsSource == null)
             {
@@ -215,6 +206,25 @@ namespace Files.Views.LayoutModes
             });
         }
 
+        private void InstanceViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(InstanceViewModel.IsPageTypeCloudDrive))
+            {
+                if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeCloudDrive)
+                {
+                    ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
+                    ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
+                    ColumnsViewModel.StatusColumnMaxLength = 0;
+                }
+                else
+                {
+                    ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
+                    ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
+                    ColumnsViewModel.StatusColumnMaxLength = 100;
+                }
+            }
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             var selectorItems = new List<SelectorItem>();
@@ -228,6 +238,8 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged -= FilesAndFolders_CollectionChanged;
+            InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
             if (e.SourcePageType != typeof(GridViewBrowser))
             {
                 FileList.ItemsSource = null;

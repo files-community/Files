@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels
@@ -29,6 +30,12 @@ namespace Files.ViewModels
         {
             get => statusColumnLength;
             set => SetProperty(ref statusColumnLength, value);
+        }
+        private double statusColumnMaxLength = 100;
+        public double StatusColumnMaxLength
+        {
+            get => statusColumnMaxLength;
+            set => SetProperty(ref statusColumnMaxLength, value);
         }
 
         private Visibility statusColumnVisibility = Visibility.Visible;

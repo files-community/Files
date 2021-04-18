@@ -72,6 +72,7 @@
             Visibility="Collapsed" />
 
         <Grid
+            x:Name="HeaderGrid"
             Margin="0"
             Padding="0"
             BorderBrush="{ThemeResource SystemChromeHighColor}"
@@ -82,7 +83,10 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.NameColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.StatusColumnLength, Mode=OneWay}" />
+                <ColumnDefinition
+                    x:Name="Column3"
+                    Width="{x:Bind ColumnsViewModel.StatusColumnLength, Mode=OneWay}"
+                    MaxWidth="{x:Bind ColumnsViewModel.StatusColumnMaxLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
@@ -111,8 +115,7 @@
                 Grid.Column="3"
                 Width="1"
                 Background="Transparent"
-                ManipulationDelta="GridSplitter_ManipulationDelta"
-                Visibility="{x:Bind ColumnsViewModel.StatusColumnVisibility, Mode=OneWay}" />
+                ManipulationDelta="GridSplitter_ManipulationDelta" />
 
             <TextBlock
                 Grid.Column="4"
@@ -128,7 +131,8 @@
                 Grid.Column="5"
                 Width="1"
                 Background="Transparent"
-                ManipulationDelta="GridSplitter_ManipulationDelta" />
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Visibility="{x:Bind ColumnsViewModel.StatusColumnVisibility, Mode=OneWay}" />
 
             <Button
                 Grid.Column="6"
@@ -296,8 +300,7 @@
                         <FontIcon
                             x:Name="CloudDriveSyncStatusGlyph"
                             Grid.Column="2"
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Stretch"
+                            HorizontalAlignment="Left"
                             x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                             x:Phase="2"
                             Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
