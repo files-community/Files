@@ -584,7 +584,7 @@ namespace Files.Views
                                               NavPathParam = "NewTab".GetLocalized(),
                                               AssociatedTabInstance = this
                                           },
-                                          new DrillInNavigationTransitionInfo());
+                                          new EntranceNavigationTransitionInfo());
                 }
                 else
                 {
@@ -748,7 +748,7 @@ namespace Files.Views
                     {
                         NavPathParam = NavParams,
                         AssociatedTabInstance = this
-                    }, new DrillInNavigationTransitionInfo());
+                    }, new EntranceNavigationTransitionInfo());
             }
             else
             {
@@ -1073,7 +1073,7 @@ namespace Files.Views
 
                 if (previousPageContent.SourcePageType == typeof(YourHome))
                 {
-                    ItemDisplayFrame.GoBack(new DrillInNavigationTransitionInfo());
+                    ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
                 }
                 else
                 {
@@ -1404,7 +1404,7 @@ namespace Files.Views
                 if (sourcePageType == typeof(YourHome) 
                     || ItemDisplayFrame.Content.GetType() == typeof(YourHome) && (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
-                    transition = new DrillInNavigationTransitionInfo();
+                    transition = new EntranceNavigationTransitionInfo();
                 }
 
                 ItemDisplayFrame.Navigate(
