@@ -51,6 +51,5 @@ namespace Files.Helpers
                 await encoder.FlushAsync();
             }
         }
-
     }
 }
