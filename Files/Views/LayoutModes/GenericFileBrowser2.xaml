@@ -34,6 +34,20 @@
 
         <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
 
+        <Style x:Name="HeaderGridSplitterStyle" TargetType="controls:GridSplitter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Width" Value="1" />
+        </Style>
+        <Style x:Name="HeaderButtonStyle" TargetType="Button">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </local:BaseLayout.Resources>
 
     <Grid
@@ -46,36 +60,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Add" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Subtract" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-        </Grid.KeyboardAccelerators>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -103,101 +87,137 @@
             Visibility="Collapsed" />
 
         <Grid
+            x:Name="HeaderGrid"
             Margin="0"
             Padding="0"
             BorderBrush="{ThemeResource SystemChromeHighColor}"
             BorderThickness="0,0,0,1"
             PointerPressed="Grid_PointerPressed">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.Row1Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column1" Width="{x:Bind ColumnsViewModel.IconColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.Row2Width, Mode=OneWay}" />
+                <ColumnDefinition x:Name="Column2" Width="{x:Bind ColumnsViewModel.NameColumnLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.Row3Width, Mode=OneWay}" />
+                <ColumnDefinition
+                    x:Name="Column3"
+                    Width="{x:Bind ColumnsViewModel.OriginalPathColumnLength, Mode=OneWay}"
+                    MaxWidth="{x:Bind ColumnsViewModel.OriginalPathMaxLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column4" Width="{x:Bind ColumnsViewModel.Row4Width, Mode=OneWay}" />
+                <ColumnDefinition
+                    x:Name="Column4"
+                    Width="{x:Bind ColumnsViewModel.DateDeletedColumnLength, Mode=OneWay}"
+                    MaxWidth="{x:Bind ColumnsViewModel.DateDeletedMaxLength, Mode=OneWay}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="Column5" Width="{x:Bind ColumnsViewModel.Row5Width, Mode=OneWay}" />
+                <ColumnDefinition
+                    x:Name="Column5"
+                    Width="{x:Bind ColumnsViewModel.StatusColumnLength, Mode=OneWay}"
+                    MaxWidth="{x:Bind ColumnsViewModel.StatusColumnMaxLength, Mode=OneWay}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="Column6" Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength, Mode=OneWay}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="Column7" Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength, Mode=OneWay}" />
             </Grid.ColumnDefinitions>
 
             <Button
                 Grid.Column="2"
-                HorizontalAlignment="Stretch"
-                BorderBrush="Transparent"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="Name"
-                CornerRadius="0">
+                Style="{StaticResource HeaderButtonStyle}">
                 <TextBlock
                     x:Uid="FileBrowserSortOption_Name"
                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                     Text="Name"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
-                <Button.Background>
-                    <SolidColorBrush Opacity="0" />
-                </Button.Background>
             </Button>
 
             <controls:GridSplitter
                 Grid.Column="3"
-                Width="1"
-                Background="Transparent"
-                ManipulationDelta="GridSplitter_ManipulationDelta" />
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Style="{StaticResource HeaderGridSplitterStyle}" />
+
+            <Button
+                Grid.Column="4"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                CommandParameter="OriginalPath"
+                Style="{StaticResource HeaderButtonStyle}"
+                Visibility="{x:Bind ColumnsViewModel.OriginalPathColumnVisibility, Mode=OneWay}">
+                <TextBlock
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="Original path"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Button>
+            <controls:GridSplitter
+                Grid.Column="5"
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Style="{StaticResource HeaderGridSplitterStyle}"
+                Visibility="{x:Bind ColumnsViewModel.DateDeletedColumnVisibility, Mode=OneWay}" />
+
+            <Button
+                Grid.Column="6"
+                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                CommandParameter="DateDeleted"
+                Style="{StaticResource HeaderButtonStyle}"
+                Visibility="{x:Bind ColumnsViewModel.DateDeletedColumnVisibility, Mode=OneWay}">
+                <TextBlock
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="Date deleted"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Button>
+            <controls:GridSplitter
+                Grid.Column="7"
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Style="{StaticResource HeaderGridSplitterStyle}"
+                Visibility="{x:Bind ColumnsViewModel.DateDeletedColumnVisibility, Mode=OneWay}" />
 
             <TextBlock
-                Grid.Column="4"
+                Grid.Column="8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                 Text="Status"
                 TextAlignment="Center"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                Visibility="{x:Bind ColumnsViewModel.StatusColumnVisibility, Mode=OneWay}" />
 
             <controls:GridSplitter
-                Grid.Column="5"
-                Width="1"
-                Background="Transparent"
-                ManipulationDelta="GridSplitter_ManipulationDelta" />
+                Grid.Column="9"
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Style="{StaticResource HeaderGridSplitterStyle}"
+                Visibility="{x:Bind ColumnsViewModel.StatusColumnVisibility, Mode=OneWay}" />
 
             <Button
-                Grid.Column="6"
+                Grid.Column="10"
                 HorizontalAlignment="Stretch"
-                BorderBrush="Transparent"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="DateModified"
-                CornerRadius="0">
+                Style="{StaticResource HeaderButtonStyle}">
                 <TextBlock
                     x:Uid="FileBrowserSortOption_DateModified"
                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                     Text="Date modified"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
-                <Button.Background>
-                    <SolidColorBrush Opacity="0" />
-                </Button.Background>
             </Button>
 
             <controls:GridSplitter
-                Grid.Column="7"
-                Width="1"
-                Background="Transparent"
-                ManipulationDelta="GridSplitter_ManipulationDelta" />
+                Grid.Column="11"
+                ManipulationDelta="GridSplitter_ManipulationDelta"
+                Style="{StaticResource HeaderGridSplitterStyle}" />
             <Button
-                Grid.Column="8"
-                HorizontalAlignment="Stretch"
-                BorderBrush="Transparent"
+                Grid.Column="12"
                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                 CommandParameter="FileType"
-                CornerRadius="0">
+                Style="{StaticResource HeaderButtonStyle}">
                 <TextBlock
                     x:Uid="FileBrowserSortOption_FileType"
                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                     Text="Type"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
-                <Button.Background>
-                    <SolidColorBrush Opacity="0" />
-                </Button.Background>
             </Button>
         </Grid>
 
@@ -230,11 +250,13 @@
                         RightTapped="StackPanel_RightTapped"
                         ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row1Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row2Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row3Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row4Width, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.Row5Width, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.IconColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.NameColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.OriginalPathColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.DateDeletedColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.StatusColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength, Mode=OneWay}" />
                         </Grid.ColumnDefinitions>
                         <Grid
                             Grid.Column="0"
@@ -322,22 +344,38 @@
                             <TextBox x:Name="ItemNameTextBox" Visibility="Collapsed" />
                         </Grid>
 
+                        <Grid
+                            x:Name="ItemOriginalPathGrid"
+                            Grid.Column="2"
+                            x:Load="{x:Bind IsRecycleBinItem}">
+                            <TextBlock
+                                x:Name="ItemOriginalPathText"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
+                        </Grid>
+
+                        <Grid
+                            x:Name="ItemDateDeletedGrid"
+                            Grid.Column="3"
+                            x:Load="{x:Bind IsRecycleBinItem}">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
+                        </Grid>
+
                         <FontIcon
                             x:Name="CloudDriveSyncStatusGlyph"
-                            Grid.Column="2"
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Stretch"
+                            Grid.Column="4"
+                            HorizontalAlignment="Left"
                             x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                             x:Phase="2"
                             Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                             Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
 
                         <TextBlock
-                            Grid.Column="3"
+                            Grid.Column="5"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemDateModified, Mode=OneWay}" />
                         <TextBlock
-                            Grid.Column="4"
+                            Grid.Column="6"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemType, Mode=OneWay}" />
                     </Grid>

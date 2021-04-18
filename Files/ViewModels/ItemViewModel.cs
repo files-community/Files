@@ -953,12 +953,13 @@ namespace Files.ViewModels
                 }
             }
 
-            if (path.StartsWith(AppSettings.RecycleBinPath) ||
+            var isRecycleBin = path.StartsWith(AppSettings.RecycleBinPath);
+            if (isRecycleBin ||
                 path.StartsWith(AppSettings.NetworkFolderPath) ||
                 path.StartsWith("ftp:"))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
-                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
                 await EnumerateItemsFromSpecialFolderAsync(path);
             }
             else
@@ -1876,6 +1877,7 @@ namespace Files.ViewModels
     public class PageTypeUpdatedEventArgs
     {
         public bool IsTypeCloudDrive { get; set; }
+        public bool IsTypeRecycleBin { get; set; }
     }
 
     public class WorkingDirectoryModifiedEventArgs : EventArgs
