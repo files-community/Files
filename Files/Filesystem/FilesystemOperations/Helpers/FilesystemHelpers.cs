@@ -6,6 +6,7 @@ using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
+using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;

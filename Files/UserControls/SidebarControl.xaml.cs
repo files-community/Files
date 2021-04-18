@@ -86,6 +86,8 @@ namespace Files.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
+        private bool IsInPointerPressed = false;
+
         private DispatcherQueueTimer dragOverTimer;
 
         public SidebarControl()
@@ -241,11 +243,25 @@ namespace Files.UserControls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem == null || args.InvokedItemContainer == null)
+            if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
+                IsInPointerPressed = false;
                 return;
             }
+
             SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
+        }
+
+        private void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var properties = e.GetCurrentPoint(null).Properties;
+            var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
+            {
+                IsInPointerPressed = true;
+                NavigationHelpers.OpenPathInNewTab(item.Path);
+                e.Handled = true;
+            }
         }
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)

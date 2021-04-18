@@ -15,14 +15,20 @@ namespace Files.Helpers
         }
 
         /// <summary>
-        /// Gets a tile-id to be used from a folder path
+        /// Gets a unique tile-id to be used from a folder path
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         private string GetTileID(string path)
         {
             // Remove symbols because windows doesn't like them in the ID, and will blow up
-            return $"folder-{new string(path.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
+            var str = $"folder-{new string(path.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
+            if(str.Length > 64)
+            {
+                // if the id string is too long, Windows will throw an error, so remove every other character
+                str = new string(str.Where((x, i) => i % 2 == 0).ToArray());
+            }
+            return str;
         }
 
         public async Task<bool> TryPinFolderAsync(string path, string name)
