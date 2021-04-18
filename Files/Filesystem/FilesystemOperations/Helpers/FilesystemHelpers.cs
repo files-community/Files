@@ -5,7 +5,6 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
-using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
@@ -19,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using static Files.Helpers.NativeFindStorageItemHelper;
@@ -625,8 +625,15 @@ namespace Files.Filesystem
                     // Set the name of the file to be the current time and date
                     var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
-                    using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-                    await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
+                    SoftwareBitmap softwareBitmap;
+
+                    // Create the decoder from the stream
+                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+
+                    // Get the SoftwareBitmap representation of the file
+                    softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+
+                    await Helpers.SaveImageToFile.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)
