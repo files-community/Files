@@ -1588,7 +1588,7 @@
         </trans-unit>
         <trans-unit id="PropertyPeopleNames" translate="yes" xml:space="preserve">
           <source>People Names</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Noms de personne</target>
+          <target state="translated" state-qualifier="tm-suggestion">Noms de personne</target>
         </trans-unit>
         <trans-unit id="PropertyContributor" translate="yes" xml:space="preserve">
           <source>Contributor</source>
@@ -2566,29 +2566,17 @@
           <source>{0} items will be deleted</source>
           <target state="translated">{0} éléments seront supprimés</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Annuler</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Générer un nouveau nom</target>
+          <source>Continue</source>
+          <target state="translated">Continuer</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Replace existing</source>
-          <target state="translated">Remplacer l'existant</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
-          <source>There are {0} conflicting file names, and {1} outgoing item(s)</source>
-          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s)</target>
+          <source>Cancel</source>
+          <target state="translated">Annuler</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
           <target state="translated">Conflit de noms de fichier</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
-          <source>There is one conflicting file name, and {0} outgoing item(s)</source>
-          <target state="new">There is one conflicting file name, and {0} outgoing item(s)</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be copied</source>
@@ -2660,7 +2648,71 @@
         </trans-unit>
         <trans-unit id="FileBrowserSortOption_FileType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
-          <target state="new">Type</target>
+          <target state="translated">Type</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
+          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s).</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name, and {0} outgoing item(s).</source>
+          <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="translated">Générer un nouveau nom</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="translated">Remplacer l’existant</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="translated">Ignorer</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="translated">Générer un nouveau nom</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="translated">Remplacer l’existant</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionSkip.Text" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="translated">Ignorer</target>
+        </trans-unit>
+        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="translated">Détails</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="translated">Générer un nouveau nom</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="translated">Remplacer l’existant</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionSkip" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="translated">Ignorer</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="translated">Générer un nouveau nom</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogUndoOption.Text" translate="yes" xml:space="preserve">
+          <source>Undo</source>
+          <target state="translated">Défaire</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names.</source>
+          <target state="translated">Il y a {0} conflits de nom de fichiers.</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name.</source>
+          <target state="translated">Il y a un conflit de nom de fichiers.</target>
         </trans-unit>
       </group>
     </body>

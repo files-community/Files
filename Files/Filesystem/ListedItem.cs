@@ -76,6 +76,8 @@ namespace Files.Filesystem
             set => SetProperty(ref loadCustomIcon, value);
         }
 
+        // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
+        // TODO: eventually we should remove this b/c it's not thread safe
         private SvgImageSource customIcon;
 
         public SvgImageSource CustomIcon
@@ -86,6 +88,21 @@ namespace Files.Filesystem
                 LoadCustomIcon = true;
                 SetProperty(ref customIcon, value);
             }
+        }
+
+        private Uri customIconSource;
+        public Uri CustomIconSource
+        {
+            get => customIconSource;
+            set => SetProperty(ref customIconSource, value);
+        }
+
+        [JsonIgnore]
+        private byte[] customIconData;
+        public byte[] CustomIconData
+        {
+            get => customIconData;
+            set => SetProperty(ref customIconData, value);
         }
 
         private double opacity;
@@ -404,6 +421,9 @@ namespace Files.Filesystem
             ItemType = "ItemTypeLibrary".GetLocalized();
             LoadCustomIcon = true;
             CustomIcon = lib.Icon;
+            //CustomIconSource = lib.IconSource;
+            CustomIconData = lib.IconData;
+            LoadFileIcon = CustomIconData != null;
 
             IsEmpty = lib.IsEmpty;
             DefaultSaveFolder = lib.DefaultSaveFolder;

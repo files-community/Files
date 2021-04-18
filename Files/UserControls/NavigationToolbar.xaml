@@ -21,6 +21,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
+            <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <ResourceDictionary.MergedDictionaries>
@@ -781,7 +782,8 @@
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 Text="{x:Bind PathText, Mode=OneWay}"
                 TextChanged="VisiblePath_TextChanged"
-                TextMemberPath="ItemPath" />
+                TextMemberPath="ItemPath"
+                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -795,7 +797,8 @@
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4"
-                PointerPressed="ManualPathEntryItem_Click">
+                PointerPressed="ManualPathEntryItem_Click"
+                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
 
                 <ListView
                     x:Name="PathViewInteract"

@@ -600,7 +600,7 @@ namespace Files.Views
                                               NavPathParam = "NewTab".GetLocalized(),
                                               AssociatedTabInstance = this
                                           },
-                                          new DrillInNavigationTransitionInfo());
+                                          new EntranceNavigationTransitionInfo());
                 }
                 else
                 {
@@ -764,7 +764,7 @@ namespace Files.Views
                     {
                         NavPathParam = NavParams,
                         AssociatedTabInstance = this
-                    }, new DrillInNavigationTransitionInfo());
+                    }, new EntranceNavigationTransitionInfo());
             }
             else
             {
@@ -1095,7 +1095,7 @@ namespace Files.Views
 
                 if (previousPageContent.SourcePageType == typeof(WidgetsPage))
                 {
-                    ItemDisplayFrame.GoBack(new DrillInNavigationTransitionInfo());
+                    ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
                 }
                 else
                 {
@@ -1402,33 +1402,39 @@ namespace Files.Views
 
         public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
+            if (sourcePageType == null)
+            {
+                sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
+            }
+
             if (navArgs != null && navArgs.AssociatedTabInstance != null)
             {
                 ItemDisplayFrame.Navigate(
-                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
+                sourcePageType,
                 navArgs,
                 new SuppressNavigationTransitionInfo());
             }
             else
             {
-                if (string.IsNullOrEmpty(navigationPath) ||
-                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
-                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase)) // return if already selected
+                if (string.IsNullOrEmpty(navigationPath) 
+                    || string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
+                    || navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                        FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                        StringComparison.OrdinalIgnoreCase)) // return if already selected
                 {
                     return;
                 }
 
                 NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
-                if (sourcePageType == typeof(WidgetsPage))
+                if (sourcePageType == typeof(WidgetsPage) 
+                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) && (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
-                    transition = new DrillInNavigationTransitionInfo();
+                    transition = new EntranceNavigationTransitionInfo();
                 }
 
                 ItemDisplayFrame.Navigate(
-                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
+                sourcePageType,
                 new NavigationArguments()
                 {
                     NavPathParam = navigationPath,

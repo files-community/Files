@@ -194,6 +194,7 @@
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
