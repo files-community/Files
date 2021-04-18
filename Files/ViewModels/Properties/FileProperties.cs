@@ -57,6 +57,7 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.IconData = Item.CustomIconData;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIcon = Item.CustomIcon;

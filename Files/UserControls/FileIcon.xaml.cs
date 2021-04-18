@@ -28,7 +28,6 @@ namespace Files.UserControls
                 {
                     CustomIconImageSource = new SvgImageSource(ViewModel.CustomIconSource);
                 }
-                InitStuff();
             }
         }
 
@@ -52,6 +51,19 @@ namespace Files.UserControls
             get => GetValue(FileIconImageSourceProperty) as BitmapImage;
             set => SetValue(FileIconImageSourceProperty, value);
         }
+        public static DependencyProperty FileIconImageDataProperty { get; } = DependencyProperty.Register(nameof(FileIconImageData), typeof(byte[]), typeof(FileIcon), null);
+        public byte[] FileIconImageData
+        {
+            get => GetValue(FileIconImageDataProperty) as byte[];
+            set 
+            { 
+                SetValue(FileIconImageDataProperty, value);
+                if(value != null)
+                {
+                    UpdateImageSourceAsync();
+                }
+            }
+        }
         private SvgImageSource CustomIconImageSource { get; set; }
 
         public FileIcon()
@@ -59,13 +71,13 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        public async void InitStuff()
+        public async void UpdateImageSourceAsync()
         {
-            if(ViewModel.IconData != null)
+            if(FileIconImageData != null)
             {
                 FileIconImageSource = new BitmapImage();
                 using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
-                await stream.WriteAsync(ViewModel.IconData.AsBuffer());
+                await stream.WriteAsync(FileIconImageData.AsBuffer());
                 stream.Seek(0);
                 await FileIconImageSource.SetSourceAsync(stream);
             }

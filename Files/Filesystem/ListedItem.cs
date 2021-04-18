@@ -97,6 +97,7 @@ namespace Files.Filesystem
             set => SetProperty(ref customIconSource, value);
         }
 
+        [JsonIgnore]
         private byte[] customIconData;
         public byte[] CustomIconData
         {
