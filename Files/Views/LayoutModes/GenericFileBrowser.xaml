@@ -7,13 +7,13 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -43,20 +43,19 @@
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
-    <Grid x:Name="RootGrid" Background="Transparent" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+    <Grid
+        x:Name="RootGrid"
+        Background="Transparent"
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator
-                Key="{x:Bind PlusKey}"
-                Modifiers="Control">
+            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
                         <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
-            <KeyboardAccelerator
-                Key="Add"
-                Modifiers="Control">
+            <KeyboardAccelerator Key="Add" Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
                         <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
@@ -214,13 +213,11 @@
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     x:Phase="1"
-
                                     Glyph="&#xE7C3;" />
                                 <FontIcon
                                     x:Name="WebShortcutGlyph"
                                     x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                     x:Phase="1"
-
                                     Glyph="&#xE71B;" />
                                 <Image
                                     x:Name="FileImageElement"
@@ -290,7 +287,6 @@
                                 Margin="12,0,0,0"
                                 HorizontalAlignment="Left"
                                 AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"
-
                                 FontSize="14"
                                 Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                                 Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
@@ -421,9 +417,22 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
-            <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel" />
-            <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton" />
+        <StackPanel
+            x:Name="SearchUnindexedItemsPanel"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+            Orientation="Vertical">
+            <TextBlock
+                x:Uid="SearchUnindexedItemsLabel"
+                HorizontalTextAlignment="Center"
+                Text="Didn't find what you're looking for?" />
+            <HyperlinkButton
+                x:Name="SearchUnindexedItemsButton"
+                x:Uid="SearchUnindexedItemsButton"
+                HorizontalAlignment="Center"
+                Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+                Content="Search unindexed items." />
         </StackPanel>
 
         <Canvas Grid.RowSpan="2" Margin="12,12,12,0">

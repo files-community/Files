@@ -1246,9 +1246,8 @@ namespace Files.UserControls
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase ||
-                FocusManager.GetFocusedElement() is AppBarButton ||
-                FocusManager.GetFocusedElement() is Popup)
+            var focusedElement = FocusManager.GetFocusedElement();
+            if (focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }

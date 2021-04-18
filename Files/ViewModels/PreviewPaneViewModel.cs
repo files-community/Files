@@ -251,21 +251,26 @@ namespace Files.ViewModels
                     Debug.WriteLine(e);
                     loadCancellationTokenSource?.Cancel();
                     // If initial loading fails, attempt to load a basic preivew (thumbnail and details only)
-                    // If that fails, revert to no preview/details available
-                    try
+                    // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
+                    if(!SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
-                        var basicModel = new BasicPreviewViewModel(SelectedItem);
-                        await basicModel.LoadAsync();
-                        PreviewPaneContent = new BasicPreview(basicModel);
+                        try
+                        {
+                            var basicModel = new BasicPreviewViewModel(SelectedItem);
+                            await basicModel.LoadAsync();
+                            PreviewPaneContent = new BasicPreview(basicModel);
+                            return;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex);
-                        PreviewPaneContent = null;
-                        DetailsListVisibility = Visibility.Collapsed;
-                        DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                        PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
-                    }
+
+                    PreviewPaneContent = null;
+                    DetailsListVisibility = Visibility.Collapsed;
+                    DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
+                    PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
                 }
             }
             else if (SelectedItem != null)

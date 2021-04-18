@@ -42,7 +42,10 @@
                 Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
+                <usercontrols:FileIcon
+                    FileIconImageData="{x:Bind ViewModel.IconData, Mode=OneWay}"
+                    ItemSize="70"
+                    ViewModel="{x:Bind ViewModel}" />
             </Grid>
             <TextBox
                 x:Name="itemFileName2"

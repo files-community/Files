@@ -5,13 +5,14 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
+using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -23,11 +24,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
 {
-    public sealed partial class GridViewBrowser : BaseLayout
+    public sealed partial class GenericFileBrowser2 : BaseLayout
     {
         public string oldItemName;
+        public ColumnsViewModel ColumnsViewModel { get; set; } = new ColumnsViewModel();
 
-        public GridViewBrowser()
+        RelayCommand<string> UpdateSortOptionsCommand { get; set; }
+
+        private DispatcherQueueTimer renameDoubleClickTimer;
+
+        public GenericFileBrowser2()
             : base()
         {
             InitializeComponent();
@@ -35,6 +41,7 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            renameDoubleClickTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -79,6 +86,17 @@ namespace Files.Views.LayoutModes
                     }
                 }
             }
+        }
+
+        private void FilesAndFolders_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UpdateItemColumnViewModels();
+        }
+
+        private void UpdateItemColumnViewModels()
+        {
+            // Make sure every new item has the column view model
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders?.ToList().ForEach(x => x.ColumnsViewModel = ColumnsViewModel);
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -160,7 +178,8 @@ namespace Files.Views.LayoutModes
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            SetItemTemplate(); // Set ItemTemplate
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged += FilesAndFolders_CollectionChanged;
+
             if (FileList.ItemsSource == null)
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
@@ -169,7 +188,21 @@ namespace Files.Views.LayoutModes
             if (parameters.IsLayoutSwitch)
             {
                 ReloadItemIcons();
+                UpdateItemColumnViewModels();
             }
+
+            UpdateSortOptionsCommand = new RelayCommand<string>(x => {
+                var val = Enum.Parse<SortOption>(x);
+                if (ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortOption == val)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection = (SortDirection)(((int)ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection + 1) % 2);
+                }
+                else
+                {
+                    ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortOption = val;
+                    ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection = SortDirection.Ascending;
+                }
+            });
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -199,32 +232,7 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
-            {
-                SetItemTemplate(); // Set ItemTemplate
-                var requestedIconSize = FolderSettings.GetIconSize();
-                if (requestedIconSize != currentIconSize)
-                {
-                    currentIconSize = requestedIconSize;
-                    ReloadItemIcons();
-                }
-            }
-        }
 
-        private void SetItemTemplate()
-        {
-            FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
-
-            // Set GridViewSize event handlers
-            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
-            {
-                FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-            }
-            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-            {
-                FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-                FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
-            }
         }
 
         protected override IEnumerable GetAllItems()
@@ -234,7 +242,7 @@ namespace Files.Views.LayoutModes
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            var parentContainer = DependencyObjectHelpers.FindParent<ListViewItem>(e.OriginalSource as DependencyObject);
             if (!parentContainer.IsSelected)
             {
                 ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
@@ -252,32 +260,17 @@ namespace Files.Views.LayoutModes
         {
             renamingItem = SelectedItem;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
+            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
 
-            // Handle layout differences between tiles browser and photo album
-            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-            {
-                Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-                //Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-                textBox = popup.Child as TextBox;
-                textBox.Text = textBlock.Text;
-                popup.IsOpen = true;
-                oldItemName = textBlock.Text;
-            }
-            else
-            {
-                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-                textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-                //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
-                textBox.Text = textBlock.Text;
-                oldItemName = textBlock.Text;
-                textBlock.Visibility = Visibility.Collapsed;
-                textBox.Visibility = Visibility.Visible;
-            }
+            TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+            textBox = gridViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+            //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
+            //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
+            textBox.Text = textBlock.Text;
+            oldItemName = textBlock.Text;
+            textBlock.Visibility = Visibility.Collapsed;
+            textBox.Visibility = Visibility.Visible;
 
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
@@ -351,16 +344,11 @@ namespace Files.Views.LayoutModes
             {
                 // Navigating away, do nothing
             }
-            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-            {
-                Popup popup = textBox.Parent as Popup;
-                TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
-                popup.IsOpen = false;
-            }
             else
             {
-                StackPanel parentPanel = textBox.Parent as StackPanel;
-                TextBlock textBlock = parentPanel.Children[0] as TextBlock;
+                ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
@@ -442,7 +430,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as GridViewItem).DataContext as ListedItem;
+            return (element as ListViewItem).DataContext as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -514,10 +502,9 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            if (args.ItemContainer == null)
+            if(args.ItemContainer == null)
             {
-                GridViewItem gvi = new GridViewItem();
-                args.ItemContainer = gvi;
+                args.ItemContainer = new ListViewItem();
             }
             args.ItemContainer.DataContext = args.Item;
 
@@ -542,6 +529,8 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+
+            renameDoubleClickTimer.Stop();
         }
 
         #region IDisposable
@@ -559,10 +548,54 @@ namespace Files.Views.LayoutModes
             // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
             // because you can't use bindings in the setters
             DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
-            while (!(item is GridViewItem))
+            while (!(item is ListViewItem))
                 item = VisualTreeHelper.GetParent(item);
-            var itemContainer = item as GridViewItem;
+            var itemContainer = item as ListViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
+
+        private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            // This prevents the drag selection rectangle from appearing when resizing the columns
+            e.Handled = true;
+        }
+
+        private void ItemNameGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            CheckDoubleClickToRename();
+        }
+
+        private void CheckDoubleClickToRename(bool isSecond = false)
+        {
+            if(!isSecond)
+            {
+                if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
+                {
+                    renameDoubleClickTimer.Stop();
+                }
+                else
+                {
+                    renameDoubleClickTimer.Debounce(() =>
+                    {
+                        renameDoubleClickTimer.Stop();
+                        CheckDoubleClickToRename(true);
+                    }, TimeSpan.FromMilliseconds(700));
+                }
+            } else
+            {
+                renameDoubleClickTimer.Stop();
+                StartRenameItem();
+            }
+        }
+
+        private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            // TODO: More effecient way to do this
+            ColumnsViewModel.Row1Width = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row2Width = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row3Width = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row4Width = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.Row5Width = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
         }
     }
 }

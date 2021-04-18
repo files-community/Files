@@ -50,7 +50,8 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusBarControl.OngoingTasksControl;
+        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
+        public StatusCenterViewModel StatusCenterViewModel { get; set; } = new StatusCenterViewModel();
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -136,7 +137,7 @@ namespace Files.Views
 
         public ICommand OpenDirectoryInDefaultTerminalCommand => new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
 
-        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
+        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
 
         public ICommand CreateNewFileCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
 
@@ -916,7 +917,7 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
+            var tabInstance = CurrentPageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
                 || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -1040,7 +1041,7 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
+                    if (CurrentPageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser)) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
 
                     {
                         if (ContentPage.IsItemSelected)

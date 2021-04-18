@@ -304,6 +304,22 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "PinItemToStart/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = commandsViewModel.PinItemToStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = !itemViewModel.CurrentFolder.IsItemPinnedToStart,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "UnpinItemFromStart/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = commandsViewModel.UnpinItemFromStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowFolderPropertiesCommand,
@@ -445,6 +461,15 @@ namespace Files.Helpers
                     Command = commandsViewModel.CopyPathOfSelectedItemCommand,
                     SingleItemOnly = true,
                     IsPrimary = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    Glyph = "\uE16D",
+                    Command = commandsViewModel.PasteItemsFromClipboardCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
+                    SingleItemOnly = true,
+                    IsEnabled = App.InteractionViewModel.IsPasteEnabled,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

@@ -14,6 +14,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -74,7 +75,23 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+
+                if (Window.Current.CoreWindow.GetKeyState((VirtualKey)18).HasFlag(CoreVirtualKeyStates.Down))
+                {
+                    await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance.PaneHolder.ActivePane);                    
+                }
+                else
+                {
+                    try
+                    {
+                        await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                    }
+                    catch (Exception e)
+                    {
+                        // This is to try and figure out the root cause of AppCenter error #985932119u
+                        NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                    }
+                }
             }
         }
 
@@ -106,7 +123,7 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

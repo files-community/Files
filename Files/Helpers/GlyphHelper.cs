@@ -58,44 +58,44 @@ namespace Files.Helpers
             return iconCode;
         }
 
-        public static SvgImageSource GetIconUri(string path)
+        public static Uri GetIconUri(string path)
         {
-            SvgImageSource iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"));
+            Uri iconCode = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
             if (path != null)
             {
                 // TODO: do library check based on the library file path?
                 var udp = UserDataPaths.GetDefault();
                 if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Desktop.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Desktop.svg");
                 }
                 else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Downloads.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Downloads.svg");
                 }
                 else if (path.Equals(udp.Documents, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Documents.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Documents.svg");
                 }
                 else if (path.Equals(udp.Pictures, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Pictures.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Pictures.svg");
                 }
                 else if (path.Equals(udp.Music, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Music.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Music.svg");
                 }
                 else if (path.Equals(udp.Videos, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Videos.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Videos.svg");
                 }
                 else if (path.Equals(AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg");
                 }
                 else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
                 {
-                    iconCode = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive_USB.svg"));
+                    iconCode = new Uri("ms-appx:///Assets/FluentIcons/Drive_USB.svg");
                 }
             }
             return iconCode;

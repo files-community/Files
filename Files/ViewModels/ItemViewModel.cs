@@ -51,7 +51,7 @@ namespace Files.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-        private FolderSettingsViewModel folderSettings = null;
+        public FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -703,8 +703,10 @@ namespace Files.ViewModels
                             if (fileIconInfo.IconData != null)
                             {
                                 item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
+                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadFileIcon = true;
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
@@ -723,6 +725,7 @@ namespace Files.ViewModels
                                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                                             {
                                                 item.FileImage = new BitmapImage();
+                                                item.CustomIconData = await Thumbnail.ToByteArrayAsync();
                                                 await item.FileImage.SetSourceAsync(Thumbnail);
                                                 item.LoadUnknownTypeGlyph = false;
                                                 item.LoadFileIcon = true;
@@ -751,6 +754,7 @@ namespace Files.ViewModels
                             if (fileIconInfo.IconData != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
                             {
                                 item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadFolderGlyph = false;
                                 item.LoadFileIcon = true;

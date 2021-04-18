@@ -58,6 +58,7 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
+                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconOverlayAsync;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
