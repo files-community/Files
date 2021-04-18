@@ -41,6 +41,7 @@ namespace Files.UserControls.Widgets
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
         public BitmapImage Icon { get; set; }
+        public byte[] IconData { get; set; }
         public bool IsLibrary => Library != null;
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
         public LibraryLocationItem Library { get; set; }
@@ -166,25 +167,28 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async System.Threading.Tasks.Task<BitmapImage> GetIcon(string path)
+        private async System.Threading.Tasks.Task<byte[]> GetIcon(string path)
         {
             BitmapImage icon = new BitmapImage();
 
             var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
 
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                icon = await IconData.ToBitmapAsync();
-            });
-
-            return icon;
+            return IconData;
         }
 
         private async Task GetItemsAddedIcon()
         {
             foreach (var item in ItemsAdded)
             {
-                item.Icon = await GetIcon(item.Path);
+                var iconData = await GetIcon(item.Path);
+                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    return await iconData.ToBitmapAsync();
+                });
+                if(item.Library != null)
+                {
+                    item.Library.IconData = iconData;
+                }
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
@@ -364,15 +368,20 @@ namespace Files.UserControls.Widgets
             }
             foreach (var lib in App.LibraryManager.Libraries)
             {
+                var iconData = await GetIcon(lib.Path);
+                lib.IconData = iconData;
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = await GetIcon(lib.Path),
+                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        return await iconData.ToBitmapAsync();
+                    }),
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,
                     AutomationProperties = lib.Text,
                     Library = lib,
-                });
+                }) ;
             }
             ItemsAdded.EndBulkOperation();
         }

@@ -18,7 +18,8 @@ namespace Files.Filesystem
             Section = SectionType.Library;
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
-            Icon = GlyphHelper.GetIconUri(shellLibrary.DefaultSaveFolder);
+            Icon = new Windows.UI.Xaml.Media.Imaging.SvgImageSource(GlyphHelper.GetIconUri(shellLibrary.DefaultSaveFolder));
+            IconSource = GlyphHelper.GetIconUri(shellLibrary.DefaultSaveFolder);
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
