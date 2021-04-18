@@ -562,6 +562,10 @@ namespace Files.Interacts
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
+        public virtual async void MoveItem(RoutedEventArgs e)
+        {
+            await UIFilesystemHelpers.MoveItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+        }
         #endregion Command Implementation
     }
 }

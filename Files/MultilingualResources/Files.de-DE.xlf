@@ -233,6 +233,10 @@
           <source>Share</source>
           <target state="translated">Teilen</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
+          <source>Move...</source>
+          <target state="translated" state-qualifier="tm-suggestion">Move</target>
+        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated">Ausschneiden</target>

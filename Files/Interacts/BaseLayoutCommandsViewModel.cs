@@ -44,6 +44,7 @@ namespace Files.Interacts
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(commandsModel.QuickLook);
             CopyItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyItem);
             CutItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CutItem);
+            MoveItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.MoveItem);
             RestoreItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RestoreItem);
             DeleteItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.DeleteItem);
             ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowFolderProperties);
@@ -103,6 +104,8 @@ namespace Files.Interacts
         public ICommand CopyItemCommand { get; private set; }
 
         public ICommand CutItemCommand { get; private set; }
+
+        public ICommand MoveItemCommand { get; private set; }
 
         public ICommand RestoreItemCommand { get; private set; }
 

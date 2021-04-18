@@ -35,6 +35,8 @@ namespace Files.Interacts
 
         void CutItem(RoutedEventArgs e);
 
+        void MoveItem(RoutedEventArgs e);
+
         void RestoreItem(RoutedEventArgs e);
 
         void DeleteItem(RoutedEventArgs e);
