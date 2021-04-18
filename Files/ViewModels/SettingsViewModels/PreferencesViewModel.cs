@@ -18,7 +18,6 @@ namespace Files.ViewModels.SettingsViewModels
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;        
-        private bool rememberSidebarState = App.AppSettings.ShowLibrarySection;
         public static LibraryManager LibraryManager { get; private set; }
 
         public PreferencesViewModel()
