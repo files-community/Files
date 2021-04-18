@@ -23,8 +23,8 @@ namespace Files.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.DriveItemGlyphSource = Drive.Glyph;
-                ViewModel.LoadDriveItemGlyph = true;
+                ViewModel.CustomIconSource = Drive.IconSource;
+                ViewModel.LoadCustomIcon = true;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;
                 // Note: if DriveType enum changes, the corresponding resource keys should change too

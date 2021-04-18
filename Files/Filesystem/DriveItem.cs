@@ -3,18 +3,20 @@ using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public string Glyph { get; set; }
+        public SvgImageSource Icon { get; set; }
+        public Uri IconSource { get; set; }
 
         private string path;
 
@@ -94,6 +96,38 @@ namespace Files.Filesystem
 
         public SectionType Section { get; set; }
 
+        private float percentageUsed = 0.0f;
+
+        public float PercentageUsed
+        {
+            get => percentageUsed;
+            set
+            {
+                if (SetProperty(ref percentageUsed, value))
+                {
+                    if (Type == DriveType.Fixed)
+                    {
+                        if (percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold)
+                        {
+                            ShowStorageSense = true;
+                        }
+                        else
+                        {
+                            ShowStorageSense = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool showStorageSense = false;
+
+        public bool ShowStorageSense
+        {
+            get => showStorageSense;
+            set => SetProperty(ref showStorageSense, value);
+        }
+
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
@@ -107,7 +141,7 @@ namespace Files.Filesystem
             DeviceID = deviceId;
             Root = root;
 
-            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
+            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
         }
 
         public async Task UpdateLabelAsync()
@@ -140,6 +174,11 @@ namespace Files.Filesystem
                         "DriveFreeSpaceAndCapacity".GetLocalized(),
                         FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
                         MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+
+                    if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
+                    {
+                        PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
+                    }
                 }
             }
             catch (Exception)
@@ -149,52 +188,66 @@ namespace Files.Filesystem
             }
         }
 
-        private void SetGlyph(DriveType type)
+        private async void SetGlyph(DriveType type)
         {
-            switch (type)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case DriveType.Fixed:
-                    Glyph = "\xEDA2";
-                    break;
+                switch (type)
+                {
+                    case DriveType.Fixed:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive.svg");
+                        break;
 
-                case DriveType.Removable:
-                    Glyph = "\xE88E";
-                    break;
+                    case DriveType.Removable:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                        break;
 
-                case DriveType.Network:
-                    Glyph = "\xE8CE";
-                    break;
+                    case DriveType.Network:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg");
+                        break;
 
-                case DriveType.Ram:
-                    Glyph = "\xE950";
-                    break;
+                    case DriveType.Ram:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                        break;
 
-                case DriveType.CDRom:
-                    Glyph = "\uE958";
-                    break;
+                    case DriveType.CDRom:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                        break;
 
-                case DriveType.Unknown:
-                    break;
+                    case DriveType.Unknown:
+                        break;
 
-                case DriveType.NoRootDirectory:
-                    Glyph = "\xED25";
-                    break;
+                    case DriveType.NoRootDirectory:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
+                        break;
 
-                case DriveType.VirtualDrive:
-                    Glyph = "\uE753";
-                    break;
+                    case DriveType.VirtualDrive:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
+                        break;
 
-                case DriveType.CloudDrive:
-                    Glyph = "\uE753";
-                    break;
+                    case DriveType.CloudDrive:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
+                        break;
 
-                case DriveType.FloppyDisk:
-                    Glyph = "\xE74E";
-                    break;
+                    case DriveType.FloppyDisk:
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                }
+                Icon = new SvgImageSource(IconSource);
+            });
+        }
+
+        public int CompareTo(INavigationControlItem other)
+        {
+            var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
+            if (result == 0)
+            {
+                return Text.CompareTo(other.Text);
             }
+            return result;
         }
     }
 

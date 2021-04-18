@@ -1,23 +1,23 @@
-﻿using Files.Enums;
+﻿using Files.DataModels;
+using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.ApplicationModel.AppService;
-using Files.Views;
-using System;
-using Windows.UI.Core;
-using Windows.System;
-using Files.Dialogs;
-using System.Diagnostics;
-using Windows.Foundation;
-using Windows.UI.Xaml.Input;
 using Files.ViewModels;
+using Files.Views;
+using Microsoft.Toolkit.Uwp;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -41,13 +41,16 @@ namespace Files.Interacts
 
         private readonly IShellPage associatedInstance;
 
+        private readonly ItemManipulationModel itemManipulationModel;
+
         #endregion Private Members
 
         #region Constructor
 
-        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance)
+        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
         {
             this.associatedInstance = associatedInstance;
+            this.itemManipulationModel = itemManipulationModel;
         }
 
         #endregion Constructor
@@ -65,7 +68,7 @@ namespace Files.Interacts
 
         public virtual void RenameItem(RoutedEventArgs e)
         {
-            SlimContentPage.StartRenameItem();
+            itemManipulationModel.StartRenameItem();
         }
 
         public virtual async void CreateShortcut(RoutedEventArgs e)
@@ -278,14 +281,21 @@ namespace Files.Interacts
             UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, associatedInstance);
         }
 
-        public virtual void CreateNewFile(RoutedEventArgs e)
+        public virtual void CreateNewFile(ShellNewEntry f)
         {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, associatedInstance);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, f, associatedInstance);
         }
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
         {
-            await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
+            }
+            else
+            {
+                await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            }
         }
 
         public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
@@ -315,7 +325,10 @@ namespace Files.Interacts
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
-            DataTransferManager.ShowShareUI();
+            DataTransferManager.ShowShareUI(new ShareUIOptions
+            {
+                Theme = Enum.IsDefined(typeof(ShareUITheme), ThemeHelper.RootTheme.ToString()) ? (ShareUITheme)ThemeHelper.RootTheme : ShareUITheme.Default
+            });
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {
@@ -401,6 +414,152 @@ namespace Files.Interacts
                     }
                 }
             }
+        }
+
+        public virtual async void UnpinItemFromStart(RoutedEventArgs e)
+        {
+            if(associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            {
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                }
+            } else
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            }
+        }
+
+        public async void PinItemToStart(RoutedEventArgs e)
+        {
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            {
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                }
+            }
+            else
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
+            }
+        }
+
+        public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+                {
+                    GridViewSizeDecrease(null);
+                }
+                else // Mouse wheel up
+                {
+                    GridViewSizeIncrease(null);
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+
+            if (e != null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+
+            if (e != null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        public virtual async void DragEnter(DragEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            itemManipulationModel.ClearSelection();
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.Handled = true;
+                e.DragUIOverride.IsCaptionVisible = true;
+                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                {
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                }
+                if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
+
+                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                // As long as one file doesn't already belong to this folder
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
+                else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
+                else
+                {
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                }
+            }
+
+            deferral.Complete();
+        }
+
+        public virtual async void Drop(DragEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+                e.Handled = true;
+            }
+
+            deferral.Complete();
+        }
+
+        public virtual void RefreshItems(RoutedEventArgs e)
+        {
+            associatedInstance.Refresh_Click();
+        }
+
+        public void SearchUnindexedItems(RoutedEventArgs e)
+        {
+            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
         #endregion Command Implementation

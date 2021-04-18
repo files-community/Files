@@ -1,23 +1,23 @@
-﻿using Files.Helpers;
+﻿using Files.Common;
+using Files.Filesystem;
+using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Files.Common;
-using Windows.UI.Xaml;
-using System.Collections.Generic;
-using Files.Filesystem;
-using System.Collections.ObjectModel;
 
 namespace Files.ViewModels
 {
@@ -47,7 +47,7 @@ namespace Files.ViewModels
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         public MainPageViewModel()
         {
@@ -140,7 +140,7 @@ namespace Files.ViewModels
 
             if (!shift)
             {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+                await AddNewTabAsync();
             }
             else // ctrl + shift + t, restore recently closed tab
             {
@@ -156,7 +156,7 @@ namespace Files.ViewModels
             e.Handled = true;
         }
 
-        #endregion
+        #endregion Command Implementation
 
         #region Public Helpers
 
@@ -235,26 +235,6 @@ namespace Files.ViewModels
                 tabLocationHeader = "SidebarDownloads".GetLocalized();
                 fontIconSource.Glyph = "\xE896";
             }
-            else if (currentPath.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarDocuments".GetLocalized();
-                fontIconSource.Glyph = "\xE8A5";
-            }
-            else if (currentPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarPictures".GetLocalized();
-                fontIconSource.Glyph = "\xEB9F";
-            }
-            else if (currentPath.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarMusic".GetLocalized();
-                fontIconSource.Glyph = "\xEC4F";
-            }
-            else if (currentPath.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-            {
-                tabLocationHeader = "SidebarVideos".GetLocalized();
-                fontIconSource.Glyph = "\xE8B2";
-            }
             else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
@@ -266,6 +246,25 @@ namespace Files.ViewModels
             {
                 tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
                 fontIconSource.Glyph = "\uE8CE";
+            }
+            else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
+            {
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
+                switch (libName)
+                {
+                    case "Documents":
+                    case "Pictures":
+                    case "Music":
+                    case "Videos":
+                        // Show localized name
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized();
+                        break;
+
+                    default:
+                        // Show original name
+                        tabLocationHeader = library.Text;
+                        break;
+                }
             }
             else
             {
@@ -428,11 +427,12 @@ namespace Files.ViewModels
         public static async Task AddNewTabAsync()
         {
             await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            App.InteractionViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            await AddNewTabAsync();
         }
 
         public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
@@ -492,6 +492,6 @@ namespace Files.ViewModels
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
 
-        #endregion
+        #endregion Public Helpers
     }
 }

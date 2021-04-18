@@ -126,11 +126,11 @@ namespace Files.ViewModels.SettingsViewModels
         {
             if (visible)
             {
-                await LibraryManager.EnumerateDrivesAsync();
+                await LibraryManager.EnumerateLibrariesAsync();
             }
             else
             {
-                await LibraryManager.RemoveEnumerateDrivesAsync();
+                LibraryManager.RemoveLibrariesSideBarSection();
             }
         }
 

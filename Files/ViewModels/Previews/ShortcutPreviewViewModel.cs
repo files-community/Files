@@ -1,6 +1,6 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,26 +40,30 @@ namespace Files.ViewModels.Previews
                 },
                 new FileProperty()
                 {
-                    NameResource = "PropertyItemName",
+                    NameResource = "PropertyItemArguments",
                     Value = item.Arguments,
                 }
             };
 
-            _ = await base.LoadPreviewAndDetails();
+            await LoadItemThumbnail();
 
             return details;
         }
 
         public override async Task LoadAsync()
         {
-            try
+            var details = await LoadPreviewAndDetails();
+            Item.FileDetails?.Clear();
+            Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
+        }
+
+        private async Task LoadItemThumbnail()
+        {
+            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+
+            if (IconData != null)
             {
-                var details = await LoadPreviewAndDetails();
-                Item.FileDetails?.Clear();
-                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
-            }
-            catch (Exception)
-            {
+                Item.FileImage = await IconData.ToBitmapAsync();
             }
         }
     }

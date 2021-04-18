@@ -110,7 +110,7 @@ namespace Files.ViewModels
             switch (prefsForPath.LayoutMode)
             {
                 case FolderLayoutModes.DetailsView:
-                    type = typeof(GenericFileBrowser);
+                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
                     break;
 
                 case FolderLayoutModes.TilesView:
@@ -121,8 +121,12 @@ namespace Files.ViewModels
                     type = typeof(GridViewBrowser);
                     break;
 
+                case FolderLayoutModes.ColumnView:
+                    type = typeof(ColumnViewBrowser);
+                    break;
+
                 default:
-                    type = typeof(GenericFileBrowser);
+                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
                     break;
             }
             return type;
@@ -171,6 +175,28 @@ namespace Files.ViewModels
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
             LastLayoutModeSelected = FolderLayout.GridViewLarge;
+
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+        });
+
+        public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
+        {
+            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            {
+                if (LastLayoutModeSelected == FolderLayout.ColumnView)
+                {
+                    return;
+                }
+                else if (manuallySet)
+                {
+                    // Override preferred layout mode
+                    SwitchAdaptiveLayout(false);
+                }
+            }
+
+            LayoutMode = FolderLayoutModes.ColumnView; // Column View
+
+            LastLayoutModeSelected = FolderLayout.ColumnView;
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         });
@@ -453,7 +479,14 @@ namespace Files.ViewModels
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
         {
             var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
-            return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
+            try
+            {
+                return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)

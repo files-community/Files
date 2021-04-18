@@ -143,7 +143,7 @@ namespace Files.Filesystem.StorageEnumerators
 
             if (isHidden)
             {
-                opacity = 0.4;
+                opacity = Constants.UI.DimItemOpacity;
             }
 
             return new ListedItem(null, dateReturnFormat)
@@ -272,7 +272,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                         if (isHidden)
                         {
-                            opacity = 0.4;
+                            opacity = Constants.UI.DimItemOpacity;
                         }
 
                         return new ShortcutItem(null, dateReturnFormat)
@@ -304,6 +304,14 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                 }
             }
+            else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+            {
+                return new LibraryItem(library)
+                {
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                };
+            }
             else
             {
                 bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
@@ -311,7 +319,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                 if (isHidden)
                 {
-                    opacity = 0.4;
+                    opacity = Constants.UI.DimItemOpacity;
                 }
 
                 return new ListedItem(null, dateReturnFormat)

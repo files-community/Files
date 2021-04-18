@@ -34,6 +34,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -55,6 +56,7 @@ namespace Files
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -105,11 +107,7 @@ namespace Files
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
-                if (App.AppSettings.ShowLibrarySection)
-                {
-                    await LibraryManager.EnumerateDrivesAsync();
-                }
-
+                await LibraryManager.EnumerateLibrariesAsync();
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
@@ -411,6 +409,7 @@ namespace Files
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
 
+            LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
         }
@@ -443,6 +442,7 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
+            SaveSessionTabs();
             Logger.Error(ex, ex.Message);
             if (ShowErrorNotification)
             {
@@ -500,7 +500,7 @@ namespace Files
 
     public class WSLDistroItem : INavigationControlItem
     {
-        public string Glyph { get; set; } = null;
+        public SvgImageSource Icon { get; set; } = null;
 
         public string Text { get; set; }
 
@@ -523,5 +523,7 @@ namespace Files
         public Uri Logo { get; set; }
 
         public SectionType Section { get; private set; }
+
+        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

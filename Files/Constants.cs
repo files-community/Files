@@ -2,6 +2,11 @@
 {
     public static class Constants
     {
+        public static class UI
+        {
+            public const float DimItemOpacity = 0.4f;
+        }
+
         public static class Browser
         {
             public static class GridViewBrowser
@@ -28,6 +33,11 @@
             public static class Bundles
             {
                 public const int MaxAmountOfItemsPerBundle = 8;
+            }
+
+            public static class Drives
+            {
+                public const float LowStorageSpacePercentageThreshold = 90.0f;
             }
         }
 
@@ -77,6 +87,11 @@
             /// The path to the json file containing a list of file properties to be loaded in the preview pane.
             /// </summary>
             public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
+        }
+
+        public static class OptionalPackages
+        {
+            public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
         }
     }
 }

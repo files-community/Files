@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using Files.DataModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -53,13 +54,22 @@ namespace Files.Interacts
             OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewPane);
             OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenInNewWindowItem);
             CreateNewFolderCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFolder);
-            CreateNewFileCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFile);
+            CreateNewFileCommand = new RelayCommand<ShellNewEntry>(commandsModel.CreateNewFile);
             PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PasteItemsFromClipboard);
             CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyPathOfSelectedItem);
             OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInDefaultTerminal);
             ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
             PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
             ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
+            UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinItemFromStart);
+            PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinItemToStart);
+            PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.PointerWheelChanged);
+            GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeDecrease);
+            GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeIncrease);
+            DragEnterCommand = new RelayCommand<DragEventArgs>(commandsModel.DragEnter);
+            DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
+            RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
+            SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(commandsModel.SearchUnindexedItems);
         }
 
         #endregion Command Initialization
@@ -89,7 +99,7 @@ namespace Files.Interacts
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }
-        
+
         public ICommand CopyItemCommand { get; private set; }
 
         public ICommand CutItemCommand { get; private set; }
@@ -127,6 +137,23 @@ namespace Files.Interacts
         public ICommand PinDirectoryToSidebarCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
+
+        public ICommand UnpinItemFromStartCommand { get; private set; }
+
+        public ICommand PinItemToStartCommand { get; private set; }
+
+        public ICommand PointerWheelChangedCommand { get; private set; }
+
+        public ICommand GridViewSizeDecreaseCommand { get; private set; }
+
+        public ICommand GridViewSizeIncreaseCommand { get; private set; }
+
+        public ICommand DragEnterCommand { get; private set; }
+
+        public ICommand DropCommand { get; private set; }
+
+        public ICommand RefreshCommand { get; private set; }
+        public ICommand SearchUnindexedItems { get; private set; }
 
         #endregion Commands
 

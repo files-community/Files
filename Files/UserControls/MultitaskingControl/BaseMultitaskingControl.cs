@@ -1,5 +1,4 @@
 ﻿using Files.ViewModels;
-using Files.Views;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -61,6 +60,11 @@ namespace Files.UserControls.MultitaskingControl
                     });
                 }
             }
+        }
+
+        protected void OnCurrentInstanceChanged(CurrentInstanceChangedEventArgs args)
+        {
+            CurrentInstanceChanged?.Invoke(this, args);
         }
 
         protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)

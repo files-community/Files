@@ -63,6 +63,10 @@ namespace Files.ViewModels
                     {
                         SetProperty(ref tabStripSelectedIndex, value);
                     }
+                    if (MainPageViewModel.MultitaskingControl is null)
+                    {
+                        return;
+                    }
                     if (value < MainPageViewModel.MultitaskingControl.Items.Count)
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
@@ -128,6 +132,8 @@ namespace Files.ViewModels
             get => multiselectEnabled;
             set => SetProperty(ref multiselectEnabled, value);
         }
+
+        public bool IsQuickLookEnabled { get; set; }
 
         private FontFamily fontName;
 

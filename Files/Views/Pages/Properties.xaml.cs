@@ -1,8 +1,8 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Files.ViewModels;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -17,7 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
@@ -53,9 +52,10 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             listedItem = args.Item as ListedItem;
-            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
+            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
@@ -142,14 +142,15 @@ namespace Files.Views
             {
                 await propertiesGeneral.SaveChangesAsync(listedItem);
             }
-            else if (contentFrame.Content is PropertiesDetails propertiesDetails)
+            else
             {
-                if (!await propertiesDetails.SaveChangesAsync())
+                if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
                 {
                     return;
                 }
             }
 
+            (contentFrame.Content as PropertiesTab).Dispose();
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
@@ -204,6 +205,10 @@ namespace Files.Views
 
                 case "Shortcut":
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Library":
+                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
 
                 case "Details":

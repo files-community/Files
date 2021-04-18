@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
+using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -65,6 +66,43 @@ namespace Files.Filesystem
         {
             get => loadWebShortcutGlyph;
             set => SetProperty(ref loadWebShortcutGlyph, value);
+        }
+
+        private bool loadCustomIcon;
+
+        public bool LoadCustomIcon
+        {
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
+        }
+
+        // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
+        // TODO: eventually we should remove this b/c it's not thread safe
+        private SvgImageSource customIcon;
+
+        public SvgImageSource CustomIcon
+        {
+            get => customIcon;
+            set
+            {
+                LoadCustomIcon = true;
+                SetProperty(ref customIcon, value);
+            }
+        }
+
+        private Uri customIconSource;
+        public Uri CustomIconSource
+        {
+            get => customIconSource;
+            set => SetProperty(ref customIconSource, value);
+        }
+
+        [JsonIgnore]
+        private byte[] customIconData;
+        public byte[] CustomIconData
+        {
+            get => customIconData;
+            set => SetProperty(ref customIconData, value);
         }
 
         private double opacity;
@@ -282,6 +320,10 @@ namespace Files.Filesystem
             {
                 suffix = "ShortcutItemAutomation".GetLocalized();
             }
+            else if (IsLibraryItem)
+            {
+                suffix = "LibraryItemAutomation".GetLocalized();
+            }
             else
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
@@ -291,6 +333,7 @@ namespace Files.Filesystem
 
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
+        public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
@@ -301,6 +344,20 @@ namespace Files.Filesystem
         {
             get => itemFile;
             set => SetProperty(ref itemFile, value);
+        }
+
+        [JsonIgnore]
+        private ColumnsViewModel columnsViewModel;
+        public ColumnsViewModel ColumnsViewModel
+        {
+            get => columnsViewModel;
+            set
+            {
+                if (value != columnsViewModel)
+                {
+                    SetProperty(ref columnsViewModel, value);
+                }
+            }
         }
     }
 
@@ -352,5 +409,31 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+    }
+
+    public class LibraryItem : ListedItem
+    {
+        public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
+        {
+            ItemPath = lib.Path;
+            ItemName = lib.Text;
+            PrimaryItemAttribute = StorageItemTypes.Folder;
+            ItemType = "ItemTypeLibrary".GetLocalized();
+            LoadCustomIcon = true;
+            CustomIcon = lib.Icon;
+            //CustomIconSource = lib.IconSource;
+            CustomIconData = lib.IconData;
+            LoadFileIcon = CustomIconData != null;
+
+            IsEmpty = lib.IsEmpty;
+            DefaultSaveFolder = lib.DefaultSaveFolder;
+            Folders = lib.Folders;
+        }
+
+        public bool IsEmpty { get; }
+
+        public string DefaultSaveFolder { get; }
+
+        public ReadOnlyCollection<string> Folders { get; }
     }
 }
