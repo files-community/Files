@@ -57,5 +57,46 @@ namespace Files.ViewModels
             get => itemTypeColumnLength;
             set => SetProperty(ref itemTypeColumnLength, value);
         }
+
+        private GridLength originalPathColumnLength = new GridLength(1, GridUnitType.Star);
+        public GridLength OriginalPathColumnLength
+        {
+            get => originalPathColumnLength;
+            set => SetProperty(ref originalPathColumnLength, value);
+        }
+
+        private Visibility originalPathColumnVisibility = Visibility.Visible;
+        public Visibility OriginalPathColumnVisibility
+        {
+            get => originalPathColumnVisibility;
+            set => SetProperty(ref originalPathColumnVisibility, value);
+        }
+
+        private double originalPathColumnMaxLength = 500;
+        public double OriginalPathMaxLength
+        {
+            get => originalPathColumnMaxLength;
+            set => SetProperty(ref originalPathColumnMaxLength, value);
+        }
+
+        private GridLength dateDeletedColumnLength = new GridLength(1, GridUnitType.Star);
+        public GridLength DateDeletedColumnLength
+        {
+            get => dateDeletedColumnLength;
+            set => SetProperty(ref dateDeletedColumnLength, value);
+        }
+        private Visibility dateDeletedColumnVisibility = Visibility.Visible;
+        public Visibility DateDeletedColumnVisibility
+        {
+            get => dateDeletedColumnVisibility;
+            set => SetProperty(ref dateDeletedColumnVisibility, value);
+        }
+
+        private double dateDeletedColumnMaxLength = 200;
+        public double DateDeletedMaxLength
+        {
+            get => dateDeletedColumnMaxLength;
+            set => SetProperty(ref dateDeletedColumnMaxLength, value);
+        }
     }
 }

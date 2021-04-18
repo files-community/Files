@@ -179,7 +179,7 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged += FilesAndFolders_CollectionChanged;
-            InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
             if (FileList.ItemsSource == null)
             {
@@ -206,22 +206,41 @@ namespace Files.Views.LayoutModes
             });
         }
 
-        private void InstanceViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
-            if(e.PropertyName == nameof(InstanceViewModel.IsPageTypeCloudDrive))
+            // This code updates which colulmns are hidden and which ones are shwn
+            if (!e.IsTypeRecycleBin)
             {
-                if (!ParentShellPageInstance.InstanceViewModel.IsPageTypeCloudDrive)
-                {
-                    ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
-                    ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
-                    ColumnsViewModel.StatusColumnMaxLength = 0;
-                }
-                else
-                {
-                    ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
-                    ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
-                    ColumnsViewModel.StatusColumnMaxLength = 100;
-                }
+                ColumnsViewModel.OriginalPathColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.OriginalPathColumnLength = new GridLength(0, GridUnitType.Pixel);
+                ColumnsViewModel.OriginalPathMaxLength = 0;
+
+                ColumnsViewModel.DateDeletedColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.DateDeletedColumnLength = new GridLength(0, GridUnitType.Pixel);
+                ColumnsViewModel.DateDeletedMaxLength = 0;
+            }
+            else
+            {
+                ColumnsViewModel.OriginalPathColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.OriginalPathColumnLength = new GridLength(150, GridUnitType.Pixel);
+                ColumnsViewModel.OriginalPathMaxLength = 200;
+
+                ColumnsViewModel.DateDeletedColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.DateDeletedColumnLength = new GridLength(80, GridUnitType.Pixel);
+                ColumnsViewModel.DateDeletedMaxLength = 150;
+            }
+
+            if (!e.IsTypeCloudDrive)
+            {
+                ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
+                ColumnsViewModel.StatusColumnMaxLength = 0;
+            }
+            else
+            {
+                ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
+                ColumnsViewModel.StatusColumnMaxLength = 100;
             }
         }
 
@@ -239,7 +258,8 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged -= FilesAndFolders_CollectionChanged;
-            InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+
             if (e.SourcePageType != typeof(GridViewBrowser))
             {
                 FileList.ItemsSource = null;
@@ -619,9 +639,11 @@ namespace Files.Views.LayoutModes
         {
             ColumnsViewModel.IconColumnLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.NameColumnLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.StatusColumnLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateModifiedColumnLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.ItemTypeColumnLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.OriginalPathColumnLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateDeletedColumnLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumnLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateModifiedColumnLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumnLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
         }
     }
 }
