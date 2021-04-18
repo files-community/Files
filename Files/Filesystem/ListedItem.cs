@@ -21,7 +21,7 @@ namespace Files.Filesystem
         { 
             get 
             {
-                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName} {Environment.NewLine} {"ToolTipDescriptionType".GetLocalized()} {itemType} {Environment.NewLine} {"ToolTipDescriptionDate".GetLocalized()} {itemModifiedDate}";
+                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}{"ToolTipDescriptionDate".GetLocalized()} {itemModifiedDate}";
             }
         }
         public string FolderRelativeId { get; set; }
