@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.ViewModels.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -52,7 +53,7 @@ namespace Files.DataModels
             this.ConflictingItems = conflictingItems;
         }
 
-        public List<FilesystemOperationItemViewModel> ToItems()
+        public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
 
@@ -61,31 +62,32 @@ namespace Files.DataModels
             // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                items.Add(new FilesystemOperationItemViewModel()
+                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
+                    IsConflict = true,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
-                    PlusIconVisibility = Visibility.Collapsed,
                     DestinationPath = item.DestinationPath,
-                    IsConflicting = true,
+                    ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName,
                     ExclamationMarkVisibility = Visibility.Visible,
-                    ItemOperation = item.OperationType
+                    ItemOperation = item.OperationType,
+                    ActionTaken = false
                 });
             }
 
             // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                items.Add(new FilesystemOperationItemViewModel()
+                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
+                    IsConflict = false,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
-                    ArrowIconVisibility = item.OperationType == FilesystemOperationType.Delete ? Visibility.Collapsed : Visibility.Visible,
-                    PlusIconVisibility = item.OperationType == FilesystemOperationType.Delete ? Visibility.Collapsed : Visibility.Visible,
                     DestinationPath = item.DestinationPath,
-                    IsConflicting = false,
+                    ConflictResolveOption = FileNameConflictResolveOptionType.NotAConflict,
                     ExclamationMarkVisibility = Visibility.Collapsed,
-                    ItemOperation = item.OperationType
+                    ItemOperation = item.OperationType,
+                    ActionTaken = true
                 });
             }
 

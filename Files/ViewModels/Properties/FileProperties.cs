@@ -57,9 +57,11 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.IconData = Item.CustomIconData;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIcon = Item.CustomIcon;
+                ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
 
                 if (Item.IsShortcutItem)
@@ -112,7 +114,7 @@ namespace Files.ViewModels.Properties
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
             if (fileIconInfo.IconData != null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
+                ViewModel.IconData = fileIconInfo.IconData;
             }
 
             if (Item.IsShortcutItem)
