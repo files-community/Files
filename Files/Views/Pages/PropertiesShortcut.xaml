@@ -44,12 +44,12 @@
                 VerticalAlignment="Stretch">
                 <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
             </Grid>
-            <TextBox
+            <TextBlock
                 x:Name="itemFileName2"
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
-                IsReadOnly="True"
+                VerticalAlignment="Center"
                 Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ItemFileIconLabel, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemFileIconLabelVisibility, Mode=OneWay}" />

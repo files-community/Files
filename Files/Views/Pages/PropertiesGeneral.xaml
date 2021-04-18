@@ -73,12 +73,13 @@
                     ItemSize="80"
                     ViewModel="{x:Bind ViewModel}" />
             </Grid>
-            
-            <TextBox
+
+            <TextBlock
                 x:Name="ItemFileIconLabel"
                 x:Uid="PropertiesItemFileIconLabel"
                 Grid.Row="0"
                 Grid.Column="1"
+                VerticalAlignment="Center"
                 Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ItemFileIconLabel, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ItemFileIconLabelVisibility, Mode=OneWay}" />
