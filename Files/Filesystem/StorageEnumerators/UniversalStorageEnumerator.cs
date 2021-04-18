@@ -205,6 +205,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemFileExtension = file.FileType;
 
             BitmapImage icon = new BitmapImage();
+            byte[] iconData = null;
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
 
@@ -221,6 +222,7 @@ namespace Files.Filesystem.StorageEnumerators
                         icon.DecodePixelWidth = 40;
                         icon.DecodePixelHeight = 40;
                         await icon.SetSourceAsync(itemThumbnailImg);
+                        iconData = await itemThumbnailImg.ToByteArrayAsync();
                     }
                     else
                     {
@@ -248,6 +250,7 @@ namespace Files.Filesystem.StorageEnumerators
                         icon.DecodePixelWidth = 80;
                         icon.DecodePixelHeight = 80;
                         await icon.SetSourceAsync(itemThumbnailImg);
+                        iconData = await itemThumbnailImg.ToByteArrayAsync();
                     }
                     else
                     {
@@ -290,6 +293,7 @@ namespace Files.Filesystem.StorageEnumerators
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
                     FileImage = icon,
+                    CustomIconData = iconData,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,

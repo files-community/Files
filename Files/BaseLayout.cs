@@ -8,6 +8,7 @@ using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -439,9 +441,17 @@ namespace Files
             }
         }
 
-        protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
+        async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
+            if (sender is DataGridRow dataGridRow)
+            {
+                if(dataGridRow.DataContext is ListedItem item)
+                {
+                    ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
+                }
+            }
 
             foreach (ListedItem item in ParentShellPageInstance.SlimContentPage.SelectedItems)
             {
@@ -462,7 +472,7 @@ namespace Files
                 }
             }
 
-            if (selectedStorageItems.Count == 0)
+            if(selectedStorageItems.Count == 0)
             {
                 e.Cancel = true;
                 return;
@@ -470,6 +480,35 @@ namespace Files
 
             e.Data.SetStorageItems(selectedStorageItems, false);
             e.DragUI.SetContentFromDataPackage();
+        }
+
+        protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
+            foreach (var itemObj in e.Items)
+            {
+                var item = itemObj as ListedItem;
+                if (item == null || item is ShortcutItem)
+                {
+                    // Can't drag shortcut items
+                    continue;
+                }
+
+                SelectedItems.Add(item);
+                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                }
+            }
+
+            e.Data.SetStorageItems(selectedStorageItems, false);
         }
 
         private ListedItem dragOverItem = null;
@@ -578,7 +617,6 @@ namespace Files
             {
                 element.AllowDrop = false;
                 element.DragStarting -= Item_DragStarting;
-                element.DragStarting += Item_DragStarting;
                 element.DragOver -= Item_DragOver;
                 element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
