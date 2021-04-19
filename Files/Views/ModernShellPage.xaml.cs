@@ -1402,7 +1402,7 @@ namespace Files.Views
 
         public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
-            if (sourcePageType == null)
+            if (sourcePageType == null && !string.IsNullOrEmpty(navigationPath))
             {
                 sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
             }
