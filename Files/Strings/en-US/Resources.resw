@@ -2148,4 +2148,13 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>There is one conflicting file name.</value>
   </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>Date modified:</value>
+  </data>
 </root>

@@ -261,8 +261,8 @@ namespace Files.Filesystem
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                DateReturnFormat = returnformat;                
-            }            
+                DateReturnFormat = returnformat;
+            }
         }
 
         // Parameterless constructor for JsonConvert
