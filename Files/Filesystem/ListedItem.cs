@@ -22,7 +22,7 @@ namespace Files.Filesystem
         { 
             get 
             {
-                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}{"ToolTipDescriptionDate".GetLocalized()} {itemModifiedDate}";
+                return $"{"Name:"} {itemName}{Environment.NewLine}{"Type:"} {itemType}{Environment.NewLine}{"Date:"} {itemModifiedDate}";
             }
         }
         public string FolderRelativeId { get; set; }
