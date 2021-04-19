@@ -2567,18 +2567,6 @@
           <source>{0} items will be deleted</source>
           <target state="new">{0} items will be deleted</target>
         </trans-unit>
-        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
-          <source>Name:</source>
-          <target state="new">Name:</target>
-        </trans-unit>
-        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
-          <source>Type:</source>
-          <target state="new">Type:</target>
-        </trans-unit>
-        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
-          <source>Date modified:</source>
-          <target state="new">Date modified:</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
           <target state="new">Continue</target>
