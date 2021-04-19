@@ -105,13 +105,5 @@ namespace Files.ViewModels
             get => totalWidth;
             set => SetProperty(ref totalWidth, value);
         }
-        
-        
-        private double scrollViewerWidth = 800;
-        public double ScrollViewerWidth
-        {
-            get => scrollViewerWidth;
-            set => SetProperty(ref scrollViewerWidth, value);
-        }
     }
 }

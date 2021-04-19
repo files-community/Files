@@ -186,7 +186,6 @@ namespace Files.Views.LayoutModes
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             }
 
-            ColumnsViewModel.ScrollViewerWidth = RootGrid.Width;
             ColumnsViewModel.TotalWidth = Math.Max(800, RootGrid.Width);
 
             var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -648,14 +647,8 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.StatusColumnLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateModifiedColumnLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumnLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.TotalWidth = Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth;
-            ColumnsViewModel.ScrollViewerWidth = RootGrid.ActualWidth;
-        }
-
-        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ColumnsViewModel.ScrollViewerWidth = RootGrid.Width;
+            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
+                    + Column6.ActualWidth + Column7.ActualWidth);
         }
     }
 }
