@@ -73,20 +73,20 @@ namespace Files.Filesystem
 
         #region Create
 
-        public async Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory)
+        public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            IStorageHistory history = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+            var result = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.HistoryWrapper.AddHistory(history);
+                App.HistoryWrapper.AddHistory(result.Item1);
             }
 
-            return returnCode.ToStatus();
+            return (returnCode.ToStatus(), result.Item2);
         }
 
         #endregion Create
