@@ -54,7 +54,8 @@
         x:Name="RootGrid"
         Padding="0,0,0,0"
         VerticalAlignment="Stretch"
-        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}"
+        SizeChanged="RootGrid_SizeChanged">
 
         <muxc:ProgressBar
             x:Name="progBar"
@@ -87,7 +88,7 @@
             HorizontalScrollBarVisibility="Auto"
             HorizontalScrollMode="Auto"
             VerticalScrollMode="Disabled">
-            <Grid Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}">
+            <Grid Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -97,7 +98,6 @@
                     Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
                     Margin="0"
                     Padding="0"
-                    HorizontalAlignment="Stretch"
                     BorderBrush="{ThemeResource SystemChromeHighColor}"
                     BorderThickness="0,0,0,1"
                     PointerPressed="Grid_PointerPressed">

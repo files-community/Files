@@ -652,5 +652,10 @@ namespace Files.Views.LayoutModes
                     + Column6.ActualWidth + Column7.ActualWidth;
             ColumnsViewModel.ScrollViewerWidth = RootGrid.ActualWidth;
         }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ColumnsViewModel.ScrollViewerWidth = RootGrid.Width;
+        }
     }
 }
