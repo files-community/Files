@@ -359,7 +359,7 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
-                    Glyph = "\uE8E5",
+                    Glyph = "\uE1DA",
                     Command = commandsViewModel.CreateFolderWithSelection,
                 },
                 new ContextMenuFlyoutItemViewModel()
