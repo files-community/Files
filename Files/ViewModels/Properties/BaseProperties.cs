@@ -122,7 +122,7 @@ namespace Files.ViewModels.Properties
             }
             else
             {
-                //ViewModel.ItemFileIconDescriptionVisibility = Windows.UI.Xaml.Visibility.Visible;
+                ViewModel.ItemFileIconLabelVisibility = Windows.UI.Xaml.Visibility.Visible;
                 ViewModel.ItemFileIconLabel = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
             }
         }

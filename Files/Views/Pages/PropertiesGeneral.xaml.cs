@@ -39,7 +39,7 @@ namespace Files.Views
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
-                            { "newlabel", ViewModel.ItemFileIconLabel }
+                            { "newlabel", ViewModel.ItemName }
                         });
                         _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -53,7 +53,7 @@ namespace Files.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
-                var newName = ViewModel.ItemFileIconLabel;
+                var newName = ViewModel.ItemName;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
                     if (AppInstance.FilesystemViewModel != null && App.LibraryManager.CanCreateLibrary(newName).result)
@@ -74,11 +74,11 @@ namespace Files.Views
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(ViewModel.ItemFileIconLabel) && ViewModel.OriginalItemName != ViewModel.ItemFileIconLabel)
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
                           ViewModel.OriginalItemName,
-                          ViewModel.ItemFileIconLabel,
+                          ViewModel.ItemName,
                           AppInstance));
                 }
 

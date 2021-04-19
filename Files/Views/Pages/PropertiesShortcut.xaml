@@ -45,8 +45,8 @@
                 <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
             </Grid>
             <TextBlock
-                x:Name="itemFileName2"
-                x:Uid="PropertiesItemFileName"
+                x:Name="itemItemFileIconLabel"
+                x:Uid="PropertiesItemFileIconLabel"
                 Grid.Row="0"
                 Grid.Column="1"
                 VerticalAlignment="Center"

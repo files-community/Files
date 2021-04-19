@@ -48,7 +48,7 @@ namespace Files.ViewModels.Properties
         {
             if (Item != null)
             {
-                ViewModel.ItemFileIconLabel = Item.ItemName;
+                ViewModel.ItemName = Item.ItemName;
                 ViewModel.OriginalItemName = Item.ItemName;
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??

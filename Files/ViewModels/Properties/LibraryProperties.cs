@@ -41,6 +41,7 @@ namespace Files.ViewModels.Properties
         {
             if (Library != null)
             {
+                ViewModel.ItemName = Library.ItemName;
                 ViewModel.ItemFileIconLabel = Library.ItemName;
                 ViewModel.OriginalItemName = Library.ItemName;
                 ViewModel.ItemType = Library.ItemType;
