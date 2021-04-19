@@ -124,18 +124,22 @@ namespace FilesFullTrust
             }
         }
 
-        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes)
+        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, uint iconSize = 48)
         {
             var iconsList = new List<IconFileInfo>();
-            Process currentProc = Process.GetCurrentProcess();
-            foreach(int index in indexes)
+
+            foreach (int index in indexes)
             {
-                using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, index * -1))
+                User32.SafeHICON icon;
+                User32.SafeHICON hIcon2;    // This is merely to pass into the function and is unneeded otherwise
+                if(Shell32.SHDefExtractIcon(file, -1 * index, 0, out icon, out hIcon2, iconSize) == HRESULT.S_OK)
                 {
                     using var image = icon.ToBitmap();
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                     var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                     iconsList.Add(new IconFileInfo(icoStr, index));
+                    User32.DestroyIcon(icon);
+                    User32.DestroyIcon(hIcon2);
                 }
             }
             return iconsList;
