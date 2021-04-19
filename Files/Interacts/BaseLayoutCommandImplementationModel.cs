@@ -562,6 +562,11 @@ namespace Files.Interacts
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
+        public async void CreateFolderWithSelection(RoutedEventArgs e)
+        {
+            UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+        }
+
         #endregion Command Implementation
     }
 }
