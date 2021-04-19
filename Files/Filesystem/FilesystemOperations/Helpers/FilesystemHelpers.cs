@@ -5,7 +5,6 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
-using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
@@ -19,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using static Files.Helpers.NativeFindStorageItemHelper;
@@ -73,20 +73,20 @@ namespace Files.Filesystem
 
         #region Create
 
-        public async Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory)
+        public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            IStorageHistory history = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+            var result = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.HistoryWrapper.AddHistory(history);
+                App.HistoryWrapper.AddHistory(result.Item1);
             }
 
-            return returnCode.ToStatus();
+            return (returnCode.ToStatus(), result.Item2);
         }
 
         #endregion Create
@@ -625,8 +625,15 @@ namespace Files.Filesystem
                     // Set the name of the file to be the current time and date
                     var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
-                    using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-                    await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
+                    SoftwareBitmap softwareBitmap;
+
+                    // Create the decoder from the stream
+                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+
+                    // Get the SoftwareBitmap representation of the file
+                    softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+
+                    await Helpers.SaveImageToFile.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)

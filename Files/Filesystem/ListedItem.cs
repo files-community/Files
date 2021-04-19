@@ -368,6 +368,9 @@ namespace Files.Filesystem
                 }
             }
         }
+        // This is a hack used because x:Bind casting did not work properly
+        [JsonIgnore]
+        public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
     }
 
     public class RecycleBinItem : ListedItem

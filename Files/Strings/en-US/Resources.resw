@@ -2148,6 +2148,9 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>There is one conflicting file name.</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>Create folder with selection</value>
+  </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
   </data>

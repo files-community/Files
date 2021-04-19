@@ -50,8 +50,9 @@ namespace Files.Filesystem
 
         #region IFilesystemOperations
 
-        public async Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
+            IStorageItem item = null;
             try
             {
                 switch (source.ItemType)
@@ -62,11 +63,11 @@ namespace Files.Filesystem
                             if (newEntryInfo == null)
                             {
                                 StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
-                                await folder.CreateFileAsync(Path.GetFileName(source.Path));
+                                item = await folder.CreateFileAsync(Path.GetFileName(source.Path));
                             }
                             else
                             {
-                                await newEntryInfo.Create(source.Path, associatedInstance);
+                                item = (await newEntryInfo.Create(source.Path, associatedInstance)).Result;
                             }
 
                             break;
@@ -75,7 +76,7 @@ namespace Files.Filesystem
                     case FilesystemItemType.Directory:
                         {
                             StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
-                            await folder.CreateFolderAsync(Path.GetFileName(source.Path));
+                            item = await folder.CreateFolderAsync(Path.GetFileName(source.Path));
 
                             break;
                         }
@@ -92,12 +93,12 @@ namespace Files.Filesystem
                 }
 
                 errorCode?.Report(FileSystemStatusCode.Success);
-                return new StorageHistory(FileOperationType.CreateNew, source.CreateEnumerable(), null);
+                return (new StorageHistory(FileOperationType.CreateNew, source.CreateEnumerable(), null), item);
             }
             catch (Exception e)
             {
                 errorCode?.Report(FilesystemTasks.GetErrorCode(e));
-                return null;
+                return (null, null);
             }
         }
 
