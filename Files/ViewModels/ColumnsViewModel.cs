@@ -98,5 +98,20 @@ namespace Files.ViewModels
             get => dateDeletedColumnMaxLength;
             set => SetProperty(ref dateDeletedColumnMaxLength, value);
         }
+        
+        private double totalWidth = 600;
+        public double TotalWidth
+        {
+            get => totalWidth;
+            set => SetProperty(ref totalWidth, value);
+        }
+        
+        
+        private double scrollViewerWidth = 800;
+        public double ScrollViewerWidth
+        {
+            get => scrollViewerWidth;
+            set => SetProperty(ref scrollViewerWidth, value);
+        }
     }
 }
