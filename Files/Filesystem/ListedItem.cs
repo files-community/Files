@@ -18,7 +18,15 @@ namespace Files.Filesystem
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
-        public string FolderTooltipText { get; set; }
+        public string ItemTooltipText 
+        { 
+            get 
+            {
+                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
+            }
+        }
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
         private bool loadFolderGlyph;
@@ -187,7 +195,6 @@ namespace Files.Filesystem
         public string FileExtension { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
-
         public string ItemDateModified { get; private set; }
         public string ItemDateCreated { get; private set; }
         public string ItemDateAccessed { get; private set; }

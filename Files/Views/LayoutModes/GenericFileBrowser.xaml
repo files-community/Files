@@ -190,7 +190,7 @@
                                 x:Name="Icon"
                                 AutomationProperties.Name="Thumbnail column"
                                 Opacity="{x:Bind Opacity, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
+                                ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
@@ -268,7 +268,7 @@
                     Header="Name"
                     Tag="Name">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTemplateColumn
@@ -310,7 +310,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
@@ -330,7 +330,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
@@ -350,7 +350,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
@@ -370,7 +370,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
@@ -390,7 +390,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
@@ -411,7 +411,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding ItemTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
