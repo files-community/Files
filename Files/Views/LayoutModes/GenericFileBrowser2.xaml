@@ -87,6 +87,7 @@
             Width="{x:Bind ColumnsViewModel.ScrollViewerWidth, Mode=OneWay}"
             HorizontalScrollBarVisibility="Auto"
             HorizontalScrollMode="Auto"
+            VerticalScrollBarVisibility="Disabled"
             VerticalScrollMode="Disabled">
             <Grid Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
