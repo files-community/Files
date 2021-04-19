@@ -151,6 +151,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
