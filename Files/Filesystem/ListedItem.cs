@@ -24,7 +24,7 @@ namespace Files.Filesystem
             {
                 return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
-                    $"{"ToolTipDescriptionDate".GetLocalized()} {itemModifiedDate}";
+                    $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
             }
         }
         public string FolderRelativeId { get; set; }
@@ -195,9 +195,7 @@ namespace Files.Filesystem
         public string FileExtension { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
-
-        private string itemModifiedDate;
-        public string ItemDateModified { get { return itemModifiedDate; } set { itemModifiedDate = value; } }
+        public string ItemDateModified { get; set; }
         public string ItemDateCreated { get; private set; }
         public string ItemDateAccessed { get; private set; }
 
