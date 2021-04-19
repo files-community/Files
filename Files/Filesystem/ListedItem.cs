@@ -195,7 +195,7 @@ namespace Files.Filesystem
         public string FileExtension { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
-        public string ItemDateModified { get; set; }
+        public string ItemDateModified { get; private set; }
         public string ItemDateCreated { get; private set; }
         public string ItemDateAccessed { get; private set; }
 
