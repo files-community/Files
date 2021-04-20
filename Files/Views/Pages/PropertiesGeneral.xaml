@@ -78,7 +78,6 @@
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="-10,25,0,0"
                 Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
@@ -89,7 +88,6 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Margin="0,-25,0,0"
                 Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ItemFileIconLabel, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemFileIconLabelVisibility, Mode=OneWay}" />

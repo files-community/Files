@@ -49,7 +49,7 @@ namespace Files.ViewModels.Properties
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
-                ViewModel.OriginalItemName = Item.ItemName;
+                ViewModel.ItemNameVisibility = Visibility.Visible;
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);

@@ -36,8 +36,6 @@ namespace Files.ViewModels.Properties
         {
             if (Item != null)
             {
-                ViewModel.ItemName = Item.ItemName;
-                ViewModel.ItemFileIconLabel = Item.ItemName;
                 ViewModel.OriginalItemName = Item.ItemName;
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
@@ -53,6 +51,8 @@ namespace Files.ViewModels.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
+                    ViewModel.ItemShortcutFileName = Item.ItemName;
+                    ViewModel.ItemNameShortcutFileNameVisibility = Visibility.Visible;
                     ViewModel.ShortcutItemType = "PropertiesShortcutTypeFolder".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
@@ -67,6 +67,10 @@ namespace Files.ViewModels.Properties
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
                     });
+                }
+                else
+                {
+                    ViewModel.ItemFileIconLabel = Item.ItemName;
                 }
             }
         }

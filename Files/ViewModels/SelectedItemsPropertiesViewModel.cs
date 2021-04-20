@@ -606,6 +606,21 @@ namespace Files.ViewModels
             set => SetProperty(ref shortcutItemWorkingDir, value);
         }
 
+        private string itemShortcutFileName;
+
+        public string ItemShortcutFileName
+        {
+            get => itemShortcutFileName;
+            set => SetProperty(ref itemShortcutFileName, value);
+        }
+
+        private Visibility itemNameShortcutFileNameVisibility = Visibility.Collapsed;
+
+        public Visibility ItemNameShortcutFileNameVisibility
+        {
+            get => itemNameShortcutFileNameVisibility;
+            set => SetProperty(ref itemNameShortcutFileNameVisibility, value);
+        }
         private Visibility shortcutItemWorkingDirVisibility = Visibility.Collapsed;
 
         public Visibility ShortcutItemWorkingDirVisibility

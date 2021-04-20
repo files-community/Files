@@ -44,16 +44,15 @@
                 VerticalAlignment="Stretch">
                 <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
             </Grid>
-            <TextBlock
-                x:Name="itemItemFileIconLabel"
-                x:Uid="PropertiesItemFileIconLabel"
+            <TextBox
+                x:Name="ItemShortcutFileName"
+                x:Uid="PropertiesItemShortcutFileName"
                 Grid.Row="0"
                 Grid.Column="1"
-                VerticalAlignment="Center"
                 Style="{StaticResource PropertyValueTextBox}"
-                Text="{x:Bind ViewModel.ItemFileIconLabel, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemFileIconLabelVisibility, Mode=OneWay}" />
-
+                Text="{x:Bind ViewModel.ItemShortcutFileName, Mode=TwoWay}"
+                Visibility="{x:Bind ViewModel.ItemNameShortcutFileNameVisibility, Mode=OneWay}" />
+            
             <MenuFlyoutSeparator
                 Grid.Row="1"
                 Grid.Column="0"
