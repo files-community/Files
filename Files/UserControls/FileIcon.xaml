@@ -45,7 +45,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadCustomIcon, Mode=OneWay}"
-            Source="{x:Bind ViewModel.CustomIcon, Mode=OneWay}" />
+            Source="{x:Bind CustomIconImageSource, Mode=OneWay}" />
         <FontIcon
             x:Name="WebShortcutGlyph"
             HorizontalAlignment="Left"
@@ -59,6 +59,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
-            Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
+            Source="{x:Bind FileIconImageSource, Mode=OneWay}" />
     </StackPanel>
 </UserControl>

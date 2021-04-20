@@ -210,6 +210,11 @@ namespace Files.Helpers
 
         public static async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
+            _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
+        }
+
+        public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        {
             string currentPath = null;
             if (associatedInstance.SlimContentPage != null)
             {
@@ -222,13 +227,13 @@ namespace Files.Helpers
 
             if (dialog.DynamicResult != DynamicDialogResult.Primary)
             {
-                return;
+                return null;
             }
 
             // Create file based on dialog result
             string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            FilesystemResult created = folderRes;
+            FilesystemResult<(ReturnResult, IStorageItem)> created = null;
             if (folderRes)
             {
                 switch (itemType)
@@ -254,9 +259,30 @@ namespace Files.Helpers
                         break;
                 }
             }
+
             if (created == FileSystemStatusCode.Unauthorized)
             {
                 await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+            }
+
+            return created.Result.Item2;
+        }
+
+        public static async void CreateFolderWithSelectionAsync(IShellPage associatedInstance)
+        {
+            try
+            {
+                CopyItem(associatedInstance);
+                var folder = await CreateFileFromDialogResultTypeForResult(AddItemType.Folder, null, associatedInstance);
+                if (folder == null)
+                {
+                    return;
+                }
+                await associatedInstance.FilesystemHelpers.MoveItemsFromClipboard(Clipboard.GetContent(), folder.Path, false, true);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex);
             }
         }
 

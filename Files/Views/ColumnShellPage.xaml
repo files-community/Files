@@ -230,7 +230,8 @@
             x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
             DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
             SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
+            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
+            StatusCenterViewModel="{x:Bind StatusCenterViewModel}"/>
 
         <Custom:DropShadowPanel
             Grid.Row="1"

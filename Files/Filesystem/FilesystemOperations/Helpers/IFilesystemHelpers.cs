@@ -16,7 +16,7 @@ namespace Files.Filesystem
         /// <param name="source">FullPath to the item</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory);
+        Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory);
 
         #region Delete
 

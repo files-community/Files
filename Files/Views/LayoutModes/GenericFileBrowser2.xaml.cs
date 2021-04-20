@@ -31,6 +31,8 @@ namespace Files.Views.LayoutModes
 
         RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
+        private DispatcherQueueTimer renameDoubleClickTimer;
+
         public GenericFileBrowser2()
             : base()
         {
@@ -39,6 +41,7 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            renameDoubleClickTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -176,15 +179,20 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged += FilesAndFolders_CollectionChanged;
+            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
             if (FileList.ItemsSource == null)
             {
                 FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             }
+
+            ColumnsViewModel.TotalWidth = Math.Max(800, RootGrid.Width);
+
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
                 ReloadItemIcons();
+                UpdateItemColumnViewModels();
             }
 
             UpdateSortOptionsCommand = new RelayCommand<string>(x => {
@@ -201,6 +209,44 @@ namespace Files.Views.LayoutModes
             });
         }
 
+        private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
+        {
+            // This code updates which colulmns are hidden and which ones are shwn
+            if (!e.IsTypeRecycleBin)
+            {
+                ColumnsViewModel.OriginalPathColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.OriginalPathColumnLength = new GridLength(0, GridUnitType.Pixel);
+                ColumnsViewModel.OriginalPathMaxLength = 0;
+
+                ColumnsViewModel.DateDeletedColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.DateDeletedColumnLength = new GridLength(0, GridUnitType.Pixel);
+                ColumnsViewModel.DateDeletedMaxLength = 0;
+            }
+            else
+            {
+                ColumnsViewModel.OriginalPathColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.OriginalPathColumnLength = new GridLength(150, GridUnitType.Pixel);
+                ColumnsViewModel.OriginalPathMaxLength = 200;
+
+                ColumnsViewModel.DateDeletedColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.DateDeletedColumnLength = new GridLength(80, GridUnitType.Pixel);
+                ColumnsViewModel.DateDeletedMaxLength = 150;
+            }
+
+            if (!e.IsTypeCloudDrive)
+            {
+                ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
+                ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
+                ColumnsViewModel.StatusColumnMaxLength = 0;
+            }
+            else
+            {
+                ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
+                ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
+                ColumnsViewModel.StatusColumnMaxLength = 100;
+            }
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             var selectorItems = new List<SelectorItem>();
@@ -214,6 +260,9 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged -= FilesAndFolders_CollectionChanged;
+            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+
             if (e.SourcePageType != typeof(GridViewBrowser))
             {
                 FileList.ItemsSource = null;
@@ -426,7 +475,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as GridViewItem).DataContext as ListedItem;
+            return (element as ListViewItem).DataContext as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -498,10 +547,9 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            if (args.ItemContainer == null)
+            if(args.ItemContainer == null)
             {
-                GridViewItem gvi = new GridViewItem();
-                args.ItemContainer = gvi;
+                args.ItemContainer = new ListViewItem();
             }
             args.ItemContainer.DataContext = args.Item;
 
@@ -526,6 +574,8 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+
+            renameDoubleClickTimer.Stop();
         }
 
         #region IDisposable
@@ -555,10 +605,50 @@ namespace Files.Views.LayoutModes
             e.Handled = true;
         }
 
-        private void ItemNameGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private void ItemNameGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            StartRenameItem();
-            e.Handled = true;
+            CheckDoubleClickToRename();
+        }
+
+        private void CheckDoubleClickToRename(bool isSecond = false)
+        {
+            if(!isSecond)
+            {
+                if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
+                {
+                    renameDoubleClickTimer.Stop();
+                }
+                else
+                {
+                    renameDoubleClickTimer.Debounce(() =>
+                    {
+                        renameDoubleClickTimer.Stop();
+                        CheckDoubleClickToRename(true);
+                    }, TimeSpan.FromMilliseconds(700));
+                }
+            } else
+            {
+                renameDoubleClickTimer.Stop();
+                StartRenameItem();
+            }
+        }
+
+        private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            UpdateColumnLayout();
+        }
+
+        private void UpdateColumnLayout()
+        {
+            ColumnsViewModel.IconColumnLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.NameColumnLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.OriginalPathColumnLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateDeletedColumnLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumnLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateModifiedColumnLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumnLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
+                    + Column6.ActualWidth + Column7.ActualWidth);
         }
     }
 }

@@ -265,7 +265,8 @@ namespace Files.DataModels
                     Font = InteractionViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Icon = GlyphHelper.GetIconUri(path),
+                    Icon = new Windows.UI.Xaml.Media.Imaging.SvgImageSource(GlyphHelper.GetIconUri(path)),
+                    IconSource = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };

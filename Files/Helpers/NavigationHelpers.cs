@@ -82,7 +82,15 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                    try
+                    {
+                        await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                    }
+                    catch (Exception e)
+                    {
+                        // This is to try and figure out the root cause of AppCenter error #985932119u
+                        NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                    }
                 }
             }
         }
@@ -115,7 +123,7 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
