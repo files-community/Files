@@ -85,7 +85,8 @@
 
         <ListView
             x:Name="FileList"
-            Padding="12,4,4,0"
+            Margin="0,4,0,0"
+            Padding="12,0,4,0"
             HorizontalAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
@@ -111,7 +112,7 @@
                     x:Name="HeaderGrid"
                     Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
                     Padding="0"
-                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                     BorderBrush="{ThemeResource SystemChromeHighColor}"
                     BorderThickness="0,0,0,1"
                     PointerPressed="Grid_PointerPressed">
