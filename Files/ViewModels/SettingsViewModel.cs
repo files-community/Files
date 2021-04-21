@@ -592,15 +592,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the multiselect option.
-        /// </summary>
-        public bool ShowMultiselectOption
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value whether or not to enable the new list view based details view.
         /// </summary>
         public bool UseNewDetailsView
