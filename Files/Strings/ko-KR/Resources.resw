@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>다중 선택</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>다중 선택 옵션 활성화 (현재는 타일, 격자 레이아웃에서만 사용할 수 있습니다)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>파일 확장명을 변경하면 파일을 사용할 수 없게 될 수도 있습니다. 변경하시겠습니까?</value>
   </data>

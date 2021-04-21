@@ -1635,9 +1635,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Multiselección</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Habilitar opción de selección múltiple (No disponible en el modo de vista "Detalles") </value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Si cambia la extensión de un archivo, el archivo puede quedar inutilizable. ¿Estás seguro de que quieres cambiarlo? </value>
   </data>

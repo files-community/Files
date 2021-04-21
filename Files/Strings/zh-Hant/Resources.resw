@@ -1617,9 +1617,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>多重選取</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>啟用多重選取（目前僅可在磁磚（並排）、縮略圖顯示模式中使用）</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>假如您變更副檔名，檔案可能變得無法使用。您確定要變更？</value>
   </data>

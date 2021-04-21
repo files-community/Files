@@ -1146,6 +1146,9 @@
   <data name="PropertyPromotionUrl" xml:space="preserve">
     <value>Angebots-Url</value>
   </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Anbietertyp</value>
+  </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Herausgeber</value>
   </data>
@@ -1644,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Mehrfachauswahl</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Mehrfachauswahl aktivieren (derzeitig nur für Kachel- und Gridansicht)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Wenn du die Dateierweitung veränderts, wird die Datei möglicherweise unbrauchbar. Bist du sicher das du sie ändern möchtest?</value>
   </data>
@@ -1883,5 +1883,113 @@
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Löschen</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Speicherplatzverwaltung öffnen</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Speicherplatzverwaltung öffnen</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} Objekte werden kopiert</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>Objekt(e) kopieren</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>Objekt(e) löschen</value>
+  </data>
+  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Verschieben</value>
+  </data>
+  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} Objekte werden verschoben</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>Objekt(e) verschieben</value>
+  </data>
+  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} Objekte werden gelöscht</value>
+  </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Neuen Namen generieren</value>
+  </data>
+  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Vorhandene ersetzen</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>Problematische Dateinamen</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Ein Objekt wird kopiert</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Ein Objekt wird gelöscht</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Ein Objekt wird verschoben</value>
+  </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Permanent löschen</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>Nicht gefunden was du suchst?</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>Nicht indizierte Objekte durchsuchen</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Widgets verwalten</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>Widgets verwalten</value>
+  </data>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>Sammlungswidget anzeigen</value>
+  </data>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>Laufwerkswidget anzeigen</value>
+  </data>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>Zuletzt verwendete Dateien Widget anzeigen</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>Widgets verwalten</value>
+  </data>
+  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+    <value>Bibiliothekswidget anzeigen</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Themenordner öffnen</value>
+  </data>
+  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
+    <value>Neue Detailsansicht verwenden</value>
+  </data>
+  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
+    <value>Änderungsdatum</value>
+  </data>
+  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
+    <value>Typ</value>
   </data>
 </root>

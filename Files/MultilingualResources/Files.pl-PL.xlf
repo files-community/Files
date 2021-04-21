@@ -2202,10 +2202,6 @@
           <source>Multiselect</source>
           <target state="translated">Wielokrotne zaznaczanie</target>
         </trans-unit>
-        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="translated">Włacz opcję wielokrotnego zaznaczania (obecnie dostępne tylko w trybach układu kafelek i siatki)</target>
-        </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
           <target state="translated">Jeżeli zmienisz rozszerzenie, plik może zostać nieużywalny. Czy na pewno chcesz to zmienić?</target>
@@ -2729,6 +2725,22 @@
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name.</source>
           <target state="new">There is one conflicting file name.</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
+          <source>Create folder with selection</source>
+          <target state="new">Create folder with selection</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
+          <source>Name:</source>
+          <target state="new">Name:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="new">Type:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
+          <source>Date modified:</source>
+          <target state="new">Date modified:</target>
         </trans-unit>
       </group>
     </body>
