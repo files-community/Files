@@ -282,11 +282,11 @@
           <source>Search</source>
           <target state="translated">搜索</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">全部选择</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">取消选择</target>
         </trans-unit>
@@ -446,7 +446,7 @@
           <source>Settings</source>
           <target state="translated">设置</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">反选</target>
         </trans-unit>
@@ -2184,7 +2184,7 @@
           <source>Unknown</source>
           <target state="translated">未知</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">多选</target>
         </trans-unit>

@@ -286,11 +286,11 @@
           <source>Search</source>
           <target state="translated">Suchen</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Alles auswählen</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">Auswahl aufheben</target>
         </trans-unit>
@@ -450,7 +450,7 @@
           <source>Settings</source>
           <target state="translated">Einstellungen</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Auswahl umkehren</target>
         </trans-unit>
@@ -2197,7 +2197,7 @@
           <source>Unknown</source>
           <target state="translated">Unbekannt</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Mehrfachauswahl</target>
         </trans-unit>

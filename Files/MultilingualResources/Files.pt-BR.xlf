@@ -108,15 +108,15 @@
           <source>Item type:</source>
           <target state="translated">Tipo de arquivo:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Selecionar Tudo</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Inverter seleção</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">Limpar Seleção</target>
         </trans-unit>
@@ -2142,7 +2142,7 @@
           <source>Unknown</source>
           <target state="translated">Desconhecido</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Multisseleção</target>
         </trans-unit>

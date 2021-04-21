@@ -108,15 +108,15 @@
           <source>Item type:</source>
           <target state="translated">Typ položky:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Vybrat vše</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Obrátit výběr</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">Vymazat výběr</target>
         </trans-unit>
@@ -2214,7 +2214,7 @@
           <source>Unknown</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Neznámý</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Vícenásobný výběr</target>
         </trans-unit>

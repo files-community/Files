@@ -109,15 +109,15 @@
           <source>Item type:</source>
           <target state="translated">वस्तु प्रकार:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">सभी चयन करें</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">उलटा चयन</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">चयन खाली करें</target>
         </trans-unit>
@@ -2201,7 +2201,7 @@
           <source>Unknown</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">अज्ञात</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="new">Multiselect</target>
         </trans-unit>

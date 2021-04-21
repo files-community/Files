@@ -32,7 +32,7 @@
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
-          <target state="translated">Effacer tous les éléments</target>
+          <target state="translated">Créé le :</target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
@@ -282,11 +282,11 @@
           <source>Search</source>
           <target state="translated" state-qualifier="tm-suggestion">Rechercher</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated" state-qualifier="tm-suggestion">Sélectionner tout</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated" state-qualifier="tm-suggestion">Effacer la sélection</target>
         </trans-unit>
@@ -446,7 +446,7 @@
           <source>Settings</source>
           <target state="translated" state-qualifier="tm-suggestion">Paramètres</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated" state-qualifier="tm-suggestion">Inverser la sélection</target>
         </trans-unit>
@@ -2182,7 +2182,7 @@
           <source>Unknown</source>
           <target state="translated">Inconnu</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Sélection Multiple</target>
         </trans-unit>
@@ -2712,19 +2712,19 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
           <source>Create folder with selection</source>
-          <target state="new">Create folder with selection</target>
+          <target state="translated">Créer un dossier avec la sélection</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
           <source>Name:</source>
-          <target state="new">Name:</target>
+          <target state="translated">Nom :</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Type:</target>
+          <target state="translated">Type :</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
-          <target state="new">Date modified:</target>
+          <target state="translated">Date de modification :</target>
         </trans-unit>
       </group>
     </body>
