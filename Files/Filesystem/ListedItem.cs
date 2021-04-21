@@ -430,7 +430,6 @@ namespace Files.Filesystem
             LoadCustomIcon = true;
             CustomIcon = lib.Icon;
             //CustomIconSource = lib.IconSource;
-            CustomIconData = lib.IconData;
             LoadFileIcon = CustomIconData != null;
 
             IsEmpty = lib.IsEmpty;

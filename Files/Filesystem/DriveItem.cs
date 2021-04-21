@@ -250,7 +250,6 @@ namespace Files.Filesystem
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
-                Icon = new SvgImageSource(IconSource);
             });
         }
 
