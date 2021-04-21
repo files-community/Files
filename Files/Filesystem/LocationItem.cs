@@ -9,8 +9,20 @@ namespace Files.Filesystem
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
-
+        public int IconIndex { get; set; } = 3;
+        private BitmapImage icon = null;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set
+            {
+                if (value != icon)
+                {
+                    icon = value;
+                    OnPropertyChanged("Icon");
+                }
+            }
+        }
         public string Text { get; set; }
 
         private string path;

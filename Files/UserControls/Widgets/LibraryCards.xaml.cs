@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.ViewModels.Widgets;
+using Files.Views;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -102,8 +103,6 @@ namespace Files.UserControls.Widgets
         public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public Func<string, IList<int>, bool, Task<IList<IconFileInfo>>> LoadIconsFunction;
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
@@ -186,33 +185,17 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task<IList<IconFileInfo>> AssociateExtractedIcons()
+        private async void GetItemsAddedIcon()
         {
-            const string imageres = @"C:\Windows\System32\imageres.dll";
-            return await LoadIconsFunction(imageres, new List<int>() { 
-                Constants.IconIndexes.QuickAccess,
-                Constants.IconIndexes.Desktop,
-                Constants.IconIndexes.Downloads,
-                Constants.IconIndexes.Documents,
-                Constants.IconIndexes.Pictures,
-                Constants.IconIndexes.Music,
-                Constants.IconIndexes.Videos,
-                Constants.IconIndexes.GenericDiskDrive,
-                Constants.IconIndexes.WindowsDrive,
-                Constants.IconIndexes.ThisPC,
-                Constants.IconIndexes.CloudDrives,
-                Constants.IconIndexes.OneDrive,
-                Constants.IconIndexes.Folder 
-            }, false);
-        }
+            if (MainPage.WidgetIconResources == null)
+            {
+                MainPage.WidgetIconResources = await MainPage.LoadWidgetIconResources();
+            }
 
-
-        private async Task GetItemsAddedIcon()
-        {
-            var icons = await AssociateExtractedIcons();
+            var icons = MainPage.WidgetIconResources;
             foreach (var item in ItemsAdded)
             {
-                item.Icon = icons.First(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
+                item.Icon = icons.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
             }
         }
 
@@ -243,7 +226,7 @@ namespace Files.UserControls.Widgets
 
         private void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => ReloadLibraryItems();
 
-        private async void LibraryCards_Loaded(object sender, RoutedEventArgs e)
+        private void LibraryCards_Loaded(object sender, RoutedEventArgs e)
         {
             ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
@@ -265,7 +248,7 @@ namespace Files.UserControls.Widgets
             if (App.LibraryManager.Libraries.Count > 0)
             {
                 ReloadLibraryItems();
-                await GetItemsAddedIcon();
+                GetItemsAddedIcon();
             }
 
             App.LibraryManager.Libraries.CollectionChanged += Libraries_CollectionChanged;
@@ -394,7 +377,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async void ReloadLibraryItems()
+        private void ReloadLibraryItems()
         {
             ItemsAdded.BeginBulkOperation();
             var toRemove = ItemsAdded.Where(i => i.IsLibrary).ToList();

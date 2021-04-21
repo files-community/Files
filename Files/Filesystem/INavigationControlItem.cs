@@ -5,7 +5,7 @@ namespace Files.Filesystem
 {
     public interface INavigationControlItem : IComparable<INavigationControlItem>
     {
-        public SvgImageSource Icon { get; }
+        public int IconIndex { get; set; }
 
         public string Text { get; }
 

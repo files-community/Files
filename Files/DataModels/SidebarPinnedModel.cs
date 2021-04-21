@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.ViewModels;
+using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.DataModels
 {
@@ -45,6 +47,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarHome".GetLocalized(),
                 Section = SectionType.Home,
+                IconIndex = Constants.IconIndexes.QuickAccess,
                 Font = InteractionViewModel.FontName,
                 IsDefaultLocation = true,
                 Path = "Home",
@@ -54,6 +57,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
+                IconIndex = Constants.IconIndexes.QuickAccess,
                 SelectsOnInvoked = false,
                 Font = InteractionViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -265,7 +269,7 @@ namespace Files.DataModels
                     Font = InteractionViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Icon = GlyphHelper.GetIconUri(path),
+                    IconIndex = GlyphHelper.GetIconIndex(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
@@ -324,6 +328,28 @@ namespace Files.DataModels
                 }
 
                 SidebarControl.SideBarItems.EndBulkOperation();
+
+                foreach(var item in SidebarControl.SideBarItems)
+                {
+                    if (item.ItemType != NavigationControlItemType.LinuxDistro)
+                    {
+                        if (item.ItemType == NavigationControlItemType.Header || item.ItemType == NavigationControlItemType.Location)
+                        {
+                            (item as LocationItem).Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
+                            if (item.ItemType == NavigationControlItemType.Location)
+                            {
+                                foreach(var childItem in (item as LocationItem).ChildItems)
+                                {
+                                    (childItem as LocationItem).Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == childItem.IconIndex).ImageSource as BitmapImage;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            (item as DriveItem).Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
+                        }
+                    }
+                }
             }
             finally
             {

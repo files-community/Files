@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Views;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -21,10 +22,15 @@ namespace Files.Controllers
             Model.SetController(this);
         }
 
-        public static Task<SidebarPinnedController> CreateInstance()
+        public static async Task<SidebarPinnedController> CreateInstance()
         {
+            if (MainPage.SidebarIconResources == null)
+            {
+                MainPage.SidebarIconResources = await MainPage.LoadSidebarIconResources();
+            }
+
             var instance = new SidebarPinnedController();
-            return instance.InitializeAsync();
+            return await instance.InitializeAsync();
         }
 
         private async Task<SidebarPinnedController> InitializeAsync()

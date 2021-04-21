@@ -65,8 +65,6 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
-                Func<string, IList<int>, bool, Task<IList<IconFileInfo>>> IconFunc = LoadSelectedIconsAsync;
-                libraryCards.LoadIconsFunction = IconFunc;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
@@ -103,33 +101,6 @@ namespace Files.Views
                 recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
-        }
-
-        public async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, IList<int> indexes, bool rawDataOnly = true)
-        {
-            if (Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetSelectedIconsFromDLL");
-                value.Add("iconFile", filePath);
-                value.Add("iconIndexes", JsonConvert.SerializeObject(indexes));
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>((string)response["IconInfos"]);
-
-                    if (icons != null && !rawDataOnly)
-                    {
-                        foreach (IconFileInfo iFInfo in icons)
-                        {
-                            await iFInfo.LoadImageFromModelString();
-                        }
-                    }
-
-                    return icons;
-                }
-            }
-            return null;
         }
 
         private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)

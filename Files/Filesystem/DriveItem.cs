@@ -1,9 +1,11 @@
 ﻿using ByteSizeLib;
 using Files.Common;
 using Files.Extensions;
+using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -15,7 +17,19 @@ namespace Files.Filesystem
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
+        private BitmapImage icon = null;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set
+            {
+                if (value != icon)
+                {
+                    icon = value;
+                    OnPropertyChanged("Icon");
+                }
+            }
+        }
 
         private string path;
 
@@ -126,6 +140,7 @@ namespace Files.Filesystem
             get => showStorageSense;
             set => SetProperty(ref showStorageSense, value);
         }
+        public int IconIndex { get; set; } = Constants.IconIndexes.GenericDiskDrive;
 
         public DriveItem()
         {
@@ -194,42 +209,42 @@ namespace Files.Filesystem
                 switch (type)
                 {
                     case DriveType.Fixed:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive.svg"));
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage;
                         break;
 
                     case DriveType.Removable:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.Network:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg"));
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.Ram:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.CDRom:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.Unknown:
                         break;
 
                     case DriveType.NoRootDirectory:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.VirtualDrive:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.CloudDrive:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.CloudDrives).ImageSource as BitmapImage; // TODO
                         break;
 
                     case DriveType.FloppyDisk:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
                         break;
 
                     default:

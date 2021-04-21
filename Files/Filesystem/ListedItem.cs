@@ -76,9 +76,9 @@ namespace Files.Filesystem
             set => SetProperty(ref loadCustomIcon, value);
         }
 
-        private SvgImageSource customIcon;
+        private BitmapImage customIcon;
 
-        public SvgImageSource CustomIcon
+        public BitmapImage CustomIcon
         {
             get => customIcon;
             set

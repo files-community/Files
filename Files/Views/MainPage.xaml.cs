@@ -1,10 +1,12 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
@@ -23,6 +25,8 @@ namespace Files.Views
     public sealed partial class MainPage : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public static IList<IconFileInfo> WidgetIconResources = null;
+        public static IList<IconFileInfo> SidebarIconResources = null;
 
         public MainPageViewModel ViewModel
         {
@@ -47,6 +51,62 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
             AllowDrop = true;
+        }
+
+        public static async System.Threading.Tasks.Task<IList<IconFileInfo>> LoadWidgetIconResources()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                const string imageres = @"C:\Windows\System32\imageres.dll";
+                return await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+                    Constants.IconIndexes.QuickAccess,
+                    Constants.IconIndexes.Desktop,
+                    Constants.IconIndexes.Downloads,
+                    Constants.IconIndexes.Documents,
+                    Constants.IconIndexes.Pictures,
+                    Constants.IconIndexes.Music,
+                    Constants.IconIndexes.Videos,
+                    Constants.IconIndexes.GenericDiskDrive,
+                    Constants.IconIndexes.WindowsDrive,
+                    Constants.IconIndexes.ThisPC,
+                    Constants.IconIndexes.CloudDrives,
+                    Constants.IconIndexes.OneDrive,
+                    Constants.IconIndexes.Folder 
+                }, connection, 48, false);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static async System.Threading.Tasks.Task<IList<IconFileInfo>> LoadSidebarIconResources()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                const string imageres = @"C:\Windows\System32\imageres.dll";
+                return await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+                    Constants.IconIndexes.QuickAccess,
+                    Constants.IconIndexes.Desktop,
+                    Constants.IconIndexes.Downloads,
+                    Constants.IconIndexes.Documents,
+                    Constants.IconIndexes.Pictures,
+                    Constants.IconIndexes.Music,
+                    Constants.IconIndexes.Videos,
+                    Constants.IconIndexes.GenericDiskDrive,
+                    Constants.IconIndexes.WindowsDrive,
+                    Constants.IconIndexes.ThisPC,
+                    Constants.IconIndexes.CloudDrives,
+                    Constants.IconIndexes.OneDrive,
+                    Constants.IconIndexes.Folder
+                }, connection, 32, false);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
