@@ -976,8 +976,7 @@
                                 x:Name="MultiselectMFI"
                                 x:Uid="NavToolbarMultiselect"
                                 IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
-                                Text="Multiselect"
-                                Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
+                                Text="Multiselect">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE762;" />
                                 </MenuFlyoutItem.Icon>
