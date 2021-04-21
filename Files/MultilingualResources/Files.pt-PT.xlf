@@ -2203,10 +2203,6 @@
           <source>Multiselect</source>
           <target state="needs-review-translation">Seleção múltipla</target>
         </trans-unit>
-        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="needs-review-translation">Ativar opções de multisseleção (atualmente disponível apenas nos modos de layout de visualização em grade e blocos)</target>
-        </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
           <target state="translated">Se alterar uma extensão do ficheiro, o ficheiro pode tornar-se inutilizável. Tem certeza de que deseja alterar?</target>
@@ -2732,6 +2728,22 @@
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name.</source>
           <target state="new">There is one conflicting file name.</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
+          <source>Create folder with selection</source>
+          <target state="new">Create folder with selection</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
+          <source>Name:</source>
+          <target state="new">Name:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="new">Type:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
+          <source>Date modified:</source>
+          <target state="new">Date modified:</target>
         </trans-unit>
       </group>
     </body>

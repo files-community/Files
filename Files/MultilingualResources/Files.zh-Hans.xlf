@@ -2188,10 +2188,6 @@
           <source>Multiselect</source>
           <target state="translated">多选</target>
         </trans-unit>
-        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="translated">启用多选选项（当前仅在平铺和网格视图模式下可用）</target>
-        </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
           <target state="translated">如果您改变文件扩展名，文件可能会变得不可用。您确定您想要改变它吗？</target>
@@ -2715,6 +2711,22 @@
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name.</source>
           <target state="new">There is one conflicting file name.</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
+          <source>Create folder with selection</source>
+          <target state="new">Create folder with selection</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
+          <source>Name:</source>
+          <target state="new">Name:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="new">Type:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
+          <source>Date modified:</source>
+          <target state="new">Date modified:</target>
         </trans-unit>
       </group>
     </body>
