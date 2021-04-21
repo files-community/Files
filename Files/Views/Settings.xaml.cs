@@ -46,6 +46,8 @@ namespace Files.Views
         {
             var currentView = SystemNavigationManager.GetForCurrentView();
             currentView.BackRequested -= OnBackRequested;
+
+            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated -= CoreDispatcher_AcceleratorKeyActivated;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
