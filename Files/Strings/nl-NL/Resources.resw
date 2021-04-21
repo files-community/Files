@@ -1479,9 +1479,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Multiselect</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Adaptive (Recommended)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Als je de bestandsextensie wijzigt, zou het bestand onbruikbaar kunnen worden. Weet je zeker dat je het wilt veranderen?</value>
   </data>

@@ -65,12 +65,6 @@
                     Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsShowMultiselectOption"
-                    Header="Enable multiselect options (currently only available in the tiles and grid view layout modes)"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowMultiselectOption, Mode=TwoWay}" />
-                
-                <ToggleSwitch
                     x:Uid="SettingsUseNewDetailsView"
                     Header="Use new details view"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"

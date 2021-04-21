@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;

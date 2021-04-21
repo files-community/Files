@@ -387,6 +387,8 @@ namespace Files.UserControls.Widgets
             }
             foreach (var lib in App.LibraryManager.Libraries)
             {
+                var iconData = await GetIcon(lib.Path);
+                lib.IconData = iconData;
                 ItemsAdded.Add(new LibraryCardItem
                 {
                     IconIndex = lib.DesiredIconIndex,
@@ -395,7 +397,7 @@ namespace Files.UserControls.Widgets
                     SelectCommand = LibraryCardClicked,
                     AutomationProperties = lib.Text,
                     Library = lib,
-                });
+                }) ;
             }
 
             ItemsAdded.EndBulkOperation();

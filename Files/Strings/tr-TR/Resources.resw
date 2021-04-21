@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Çoklu seçim</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Çoklu seçim yapılabilsin (şu anda yalnız döşeme ve tablo görünümünde kullanılabilir) </value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Uzantısı değiştirilen dosyalar kullanılamaz hale gelebilir. Değiştirmek istediğinden emin misin?</value>
   </data>

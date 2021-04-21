@@ -1602,9 +1602,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Множинний вибір</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Включити параметри множинного вибору (в даний час є тільки в режимах плитки і сітки)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Якщо ви зміните розширення файлу, файл може стати непридатним для використання. Ви впевнені, що хочете його змінити?</value>
   </data>

@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Seleção múltipla</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Ativar opções de multisseleção (atualmente disponível apenas nos modos de layout de visualização em grade e blocos)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se alterar uma extensão do ficheiro, o ficheiro pode tornar-se inutilizável. Tem certeza de que deseja alterar?</value>
   </data>
@@ -1929,23 +1926,14 @@
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} itens serão eliminados</value>
   </data>
-  <data name="ConflictingItemsDialogCloseButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Gerar novo nome</value>
   </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Substituir existente</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Existe {0} nomes de ficheiro em conflito e {1} item(s) de saída</value>
-  </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Nome(s) de ficheiros em conflito</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Existe um nome de ficheiro em conflito e {0} item(s) de saída</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Um item irá ser copiado</value>

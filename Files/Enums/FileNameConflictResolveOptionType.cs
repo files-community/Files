@@ -1,10 +1,10 @@
 ﻿namespace Files.Enums
 {
-    public enum FileNameConflictResolveOptionType
+    public enum FileNameConflictResolveOptionType : uint
     {
-        None = 0,
-        GenerateNewName = 1,
-        ReplaceExisting = 2,
-        Skip = 4
+        GenerateNewName = 0,
+        ReplaceExisting = 1,
+        Skip = 2,
+        NotAConflict = 4
     }
 }

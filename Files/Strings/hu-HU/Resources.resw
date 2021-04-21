@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Több elem kijelölése</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Többszörös kijelölés (jelenleg lista és ikon nézetekben elérhető)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
   </data>
@@ -1926,23 +1923,14 @@
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} elem törölve lesz</value>
   </data>
-  <data name="ConflictingItemsDialogCloseButtonText" xml:space="preserve">
-    <value>Mégse</value>
-  </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Átnevezés</value>
   </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Felülírás/összefésülés</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} ütköző fájlnév, {1} kimenő elem</value>
-  </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Ütköző fájlnevek</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Egy ütköző fájlnév, {0} kimenő elem</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Egy elem másolva lesz</value>
