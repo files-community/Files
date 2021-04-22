@@ -3,8 +3,6 @@ pr: none
 
 pool:
   vmImage: 'windows-latest'
-  timeoutInMinutes: 90
-  cancelTimeoutInMinutes: 0
 
 variables:
   solution: '**/*.sln'
@@ -77,7 +75,7 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
     
 - task: store-flight@0
-  timeoutInMinutes: 0
+  timeoutInMinutes: 90
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
