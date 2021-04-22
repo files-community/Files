@@ -1054,6 +1054,25 @@
 
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <RadioButton
+                                        x:Uid="NavToolbarColumnView"
+                                        Width="36"
+                                        Height="32"
+                                        MinWidth="0"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Command="{x:Bind ToggleLayoutModeColumnView}"
+                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                        CornerRadius="4"
+                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                        Style="{StaticResource ToggleButtonRevealStyle}"
+                                        ToolTipService.ToolTip="Column View">
+                                        <RadioButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Number1" Modifiers="Control,Shift" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                                        </RadioButton.KeyboardAccelerators>
+                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
+                                    </RadioButton>
+                                    <RadioButton
                                         x:Uid="NavToolbarDetailsView"
                                         Width="36"
                                         Height="32"
@@ -1067,6 +1086,9 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Details View">
+                                        <RadioButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Number2" Modifiers="Control,Shift" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                                        </RadioButton.KeyboardAccelerators>
                                         <FontIcon FontSize="16" Glyph="&#xE179;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1083,6 +1105,9 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Tiles View">
+                                        <RadioButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Number3" Modifiers="Control,Shift" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                                        </RadioButton.KeyboardAccelerators>
                                         <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1101,6 +1126,9 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Small)">
+                                        <RadioButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Number4" Modifiers="Control,Shift" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                                        </RadioButton.KeyboardAccelerators>
                                         <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1117,6 +1145,9 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Medium)">
+                                        <RadioButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Number5" Modifiers="Control,Shift" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                                        </RadioButton.KeyboardAccelerators>
                                         <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1133,23 +1164,10 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Large)">
+                                        <RadioButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Number6" Modifiers="Control,Shift" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                                        </RadioButton.KeyboardAccelerators>
                                         <FontIcon FontSize="16" Glyph="&#xE739;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarColumnView"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeColumnView}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Column View">
-                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
