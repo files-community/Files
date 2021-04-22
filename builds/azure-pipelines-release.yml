@@ -13,7 +13,7 @@ variables:
 jobs:
 ### BUILD ###
 - job: BuildBits
-  timeoutInMinutes: 90
+  timeoutInMinutes: 120
 
   steps:
   - task: PowerShell@2
