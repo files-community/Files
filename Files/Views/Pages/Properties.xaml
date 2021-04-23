@@ -17,8 +17,8 @@
         <muxc:AcrylicBrush
             x:Key="SystemControlAcrylicWindowBrush"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{StaticResource SystemChromeMediumColor}"
-            TintColor="{StaticResource SystemChromeAltHighColor}"
+            FallbackColor="{StaticResource SolidBackgroundFillColorBase}"
+            TintColor="{StaticResource SolidBackgroundFillColorBase}"
             TintOpacity="0.90" />
     </Page.Resources>
     <Grid>
