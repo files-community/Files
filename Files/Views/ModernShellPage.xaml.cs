@@ -1129,25 +1129,43 @@ namespace Files.Views
             {
                 return;
             }
-            string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
-            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
-            if (lastSlashIndex == -1)
-            {
-                lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/");
-            }
-            if (lastSlashIndex != -1)
-            {
-                parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
-            }
 
-            SelectSidebarItemFromPath();
-            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+            bool isPathRooted = FilesystemViewModel.WorkingDirectory == PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory);
+
+            if (isPathRooted)
+            {
+                ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
-                                              NavPathParam = parentDirectoryOfPath,
+                                              NavPathParam = "NewTab".GetLocalized(),
                                               AssociatedTabInstance = this
                                           },
                                           new SuppressNavigationTransitionInfo());
+            }
+            else
+            {
+
+                string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
+
+                var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+                if (lastSlashIndex == -1)
+                {
+                    lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/");
+                }
+                if (lastSlashIndex != -1)
+                {
+                    parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
+                }
+
+                SelectSidebarItemFromPath();
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+                                              new NavigationArguments()
+                                              {
+                                                  NavPathParam = parentDirectoryOfPath,
+                                                  AssociatedTabInstance = this
+                                              },
+                                              new SuppressNavigationTransitionInfo());
+            }
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
