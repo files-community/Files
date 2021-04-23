@@ -1054,6 +1054,22 @@
 
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <RadioButton
+                                        x:Uid="NavToolbarColumnView"
+                                        Width="36"
+                                        Height="32"
+                                        MinWidth="0"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Command="{x:Bind ToggleLayoutModeColumnView}"
+                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                        CornerRadius="4"
+                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                        Style="{StaticResource ToggleButtonRevealStyle}"
+                                        ToolTipService.ToolTip="Column View">
+                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
+                                    </RadioButton>
+                                    <RadioButton
                                         x:Uid="NavToolbarDetailsView"
                                         Width="36"
                                         Height="32"
@@ -1134,22 +1150,6 @@
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Large)">
                                         <FontIcon FontSize="16" Glyph="&#xE739;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarColumnView"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeColumnView}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Column View">
-                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
