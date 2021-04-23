@@ -508,7 +508,13 @@ namespace Files
                 }
             }
 
-            e.Data.SetStorageItems(selectedStorageItems, false);
+            if(selectedStorageItems.Count > 0)
+            {
+                e.Data.SetStorageItems(selectedStorageItems, false);
+            } else
+            {
+                e.Cancel = true;
+            }
         }
 
         private ListedItem dragOverItem = null;
@@ -532,6 +538,9 @@ namespace Files
             if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
+            } else if (item is null && sender is ListViewItem lvi)
+            {
+                item = lvi.Content as ListedItem;
             }
 
             ItemManipulationModel.SetSelectedItem(item);
