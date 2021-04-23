@@ -375,7 +375,7 @@ namespace Files.UserControls
                         {
                             locItem.IsExpanded = true;
                         }
-                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem));
+                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
                         dragOverItem = null;
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
