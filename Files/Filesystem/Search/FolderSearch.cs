@@ -55,7 +55,6 @@ namespace Files.Filesystem.Search
                 }
             }
         }
-        
         private static async Task<IList<ListedItem>> SearchWithWin32(string userText, string WorkingDirectory, bool hiddenOnly, int maxItemCount = 10)
         {
             var returnedItems = new List<ListedItem>();
