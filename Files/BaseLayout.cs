@@ -654,5 +654,15 @@ namespace Files
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
         public abstract void Dispose();
+
+        protected void ItemsLayout_DragEnter(object sender, DragEventArgs e)
+        {
+            CommandsViewModel?.DragEnterCommand?.Execute(e);
+        }
+
+        protected void ItemsLayout_Drop(object sender, DragEventArgs e)
+        {
+            CommandsViewModel?.DropCommand?.Execute(e);
+        }
     }
 }
