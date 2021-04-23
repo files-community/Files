@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -531,7 +532,6 @@ namespace Files
 
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
-            var deferral = e.GetDeferral();
 
             ListedItem item = GetItemFromElement(sender);
 
@@ -542,6 +542,13 @@ namespace Files
             {
                 item = lvi.Content as ListedItem;
             }
+
+            if(item is null)
+            {
+                return;
+            }
+
+            var deferral = e.GetDeferral();
 
             ItemManipulationModel.SetSelectedItem(item);
 
@@ -584,7 +591,7 @@ namespace Files
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
 
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
