@@ -7,6 +7,8 @@ namespace Files.Filesystem
     {
         public int IconIndex { get; set; }
 
+        public BitmapImage Icon { get; set; }
+
         public string Text { get; }
 
         public string Path { get; }

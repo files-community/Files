@@ -57,6 +57,10 @@ namespace Files.Filesystem
                                 {
                                     Text = "WSL",
                                     Section = SectionType.WSL,
+                                    Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage()
+                                    {
+                                        UriSource = new Uri("ms-appx:///Assets/WSL/genericpng.png")
+                                    },
                                     SelectsOnInvoked = false,
                                     ChildItems = new ObservableCollection<INavigationControlItem>()
                                 };

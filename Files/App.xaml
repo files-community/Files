@@ -300,9 +300,9 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
 
-                                                <Border x:Name="IconColumn" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerIconWidth}">
+                                                <Border x:Name="IconColumn">
                                                     <Viewbox x:Name="IconBox"
-                                                        Height="16"
+                                                        Height="20"
                                                         Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}">
                                                         <ContentPresenter 
                                                             x:Name="Icon" 

@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.DataModels;
+using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -118,6 +119,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
+                            IconIndex = Constants.IconIndexes.NetworkDrives,
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -139,6 +141,8 @@ namespace Files.Filesystem
                     }
 
                     SidebarControl.SideBarItems.EndBulkOperation();
+
+                    SidebarPinnedModel.LoadIconsForSidebarItems();
                 }
                 finally
                 {

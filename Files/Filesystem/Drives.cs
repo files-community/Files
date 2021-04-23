@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.DataModels;
 using Files.Enums;
 using Files.UserControls;
 using Files.UserControls.Widgets;
@@ -134,6 +135,7 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
+                            IconIndex = Constants.IconIndexes.ThisPC,
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
@@ -163,6 +165,8 @@ namespace Files.Filesystem
                     }
 
                     SidebarControl.SideBarItems.EndBulkOperation();
+
+                    SidebarPinnedModel.LoadIconsForSidebarItems();
                 }
                 finally
                 {

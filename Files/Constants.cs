@@ -15,6 +15,8 @@
             public const int GenericDiskDrive = 35;
             public const int WindowsDrive = 36;
             public const int ThisPC = 109;
+            public const int NetworkDrives = 25;
+            public const int RecycleBin = 55;
             public const int CloudDrives = 1040;
             public const int OneDrive = 1043;
             public const int Folder = 3;

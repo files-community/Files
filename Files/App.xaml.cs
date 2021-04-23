@@ -500,8 +500,6 @@ namespace Files
 
     public class WSLDistroItem : INavigationControlItem
     {
-        public new SvgImageSource Icon { get; set; } = null;
-
         public string Text { get; set; }
 
         private string path;
@@ -524,6 +522,8 @@ namespace Files
 
         public SectionType Section { get; private set; }
         public int IconIndex { get; set; } = -1;
+        public BitmapImage Icon { get; set; } = null;
+
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

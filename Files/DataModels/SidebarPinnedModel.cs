@@ -110,6 +110,7 @@ namespace Files.DataModels
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
                         IsDefaultLocation = true,
+                        IconIndex = Constants.IconIndexes.RecycleBin,
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -329,27 +330,6 @@ namespace Files.DataModels
 
                 SidebarControl.SideBarItems.EndBulkOperation();
 
-                foreach(var item in SidebarControl.SideBarItems)
-                {
-                    if (item.ItemType != NavigationControlItemType.LinuxDistro)
-                    {
-                        if (item.ItemType == NavigationControlItemType.Header || item.ItemType == NavigationControlItemType.Location)
-                        {
-                            (item as LocationItem).Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
-                            if (item.ItemType == NavigationControlItemType.Location)
-                            {
-                                foreach(var childItem in (item as LocationItem).ChildItems)
-                                {
-                                    (childItem as LocationItem).Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == childItem.IconIndex).ImageSource as BitmapImage;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            (item as DriveItem).Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
-                        }
-                    }
-                }
             }
             finally
             {
@@ -357,6 +337,26 @@ namespace Files.DataModels
             }
 
             await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);
+            
+            LoadIconsForSidebarItems();
+        }
+
+        public static void LoadIconsForSidebarItems()
+        {
+            foreach (var item in SidebarControl.SideBarItems)
+            {
+                if (item.ItemType != NavigationControlItemType.LinuxDistro && item.Icon == null)
+                {
+                    item.Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
+                    if (item.ItemType == NavigationControlItemType.Location)
+                    {
+                        foreach (var childItem in (item as LocationItem).ChildItems)
+                        {
+                            childItem.Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == childItem.IconIndex).ImageSource as BitmapImage;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
