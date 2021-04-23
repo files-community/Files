@@ -76,7 +76,7 @@ namespace Files.Views
 
         private void CoreDispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs e)
         {
-            if (!e.Handled && e.VirtualKey == VirtualKey.Escape)
+            if (!e.Handled && e.VirtualKey == VirtualKey.Back)
             {
                 GoBack();
                 e.Handled = true;
