@@ -361,6 +361,8 @@
 
                         <Grid
                             Grid.Column="1"
+                            Width="{x:Bind ColumnsViewModel.NameColumnLength.Value, Mode=OneWay}"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Tapped="ItemNameGrid_Tapped">
                             <TextBlock x:Name="ItemName" Text="{x:Bind ItemName, Mode=OneWay}" />
@@ -373,6 +375,8 @@
                         <Grid
                             x:Name="ItemOriginalPathGrid"
                             Grid.Column="2"
+                            Width="{x:Bind ColumnsViewModel.OriginalPathColumnLength.Value, Mode=OneWay}"
+                            HorizontalAlignment="Stretch"
                             x:Load="{x:Bind IsRecycleBinItem}">
                             <TextBlock
                                 x:Name="ItemOriginalPathText"
@@ -383,6 +387,8 @@
                         <Grid
                             x:Name="ItemDateDeletedGrid"
                             Grid.Column="3"
+                            Width="{x:Bind ColumnsViewModel.DateDeletedColumnLength.Value, Mode=OneWay}"
+                            HorizontalAlignment="Stretch"
                             x:Load="{x:Bind IsRecycleBinItem}">
                             <TextBlock VerticalAlignment="Center" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
                         </Grid>
@@ -398,10 +404,12 @@
 
                         <TextBlock
                             Grid.Column="5"
+                            Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength.Value, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemDateModified, Mode=OneWay}" />
                         <TextBlock
                             Grid.Column="6"
+                            Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength.Value, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemType, Mode=OneWay}" />
                     </Grid>
