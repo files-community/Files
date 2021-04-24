@@ -330,7 +330,7 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = true;
         }
 
-        private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
 
