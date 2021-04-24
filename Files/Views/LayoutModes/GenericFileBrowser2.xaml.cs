@@ -32,6 +32,7 @@ namespace Files.Views.LayoutModes
         RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
         private DispatcherQueueTimer renameDoubleClickTimer;
+        private DispatcherQueueTimer renameDoubleClickTimeoutTimer;
 
         public GenericFileBrowser2()
             : base()
@@ -42,6 +43,7 @@ namespace Files.Views.LayoutModes
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             renameDoubleClickTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            renameDoubleClickTimeoutTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -566,6 +568,8 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            ResetDoubleClick();
+
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
@@ -610,27 +614,43 @@ namespace Files.Views.LayoutModes
             CheckDoubleClickToRename();
         }
 
-        private void CheckDoubleClickToRename(bool isSecond = false)
+        private int clickCount = 0;
+        private void CheckDoubleClickToRename()
         {
-            if(!isSecond)
+            if(clickCount < 1)
             {
                 if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
                 {
-                    renameDoubleClickTimer.Stop();
+                    ResetDoubleClick();
                 }
                 else
                 {
+                    clickCount++;
                     renameDoubleClickTimer.Debounce(() =>
                     {
                         renameDoubleClickTimer.Stop();
-                        CheckDoubleClickToRename(true);
-                    }, TimeSpan.FromMilliseconds(700));
+                    }, TimeSpan.FromMilliseconds(510));
+
+                    if(!renameDoubleClickTimeoutTimer.IsRunning)
+                    {
+                        renameDoubleClickTimeoutTimer.Debounce(() =>
+                        {
+                            ResetDoubleClick();
+                        }, TimeSpan.FromMilliseconds(2000));
+                    }
                 }
             } else
             {
-                renameDoubleClickTimer.Stop();
+                ResetDoubleClick();
                 StartRenameItem();
             }
+        }
+
+        private void ResetDoubleClick()
+        {
+            renameDoubleClickTimeoutTimer.Stop();
+            renameDoubleClickTimer.Stop();
+            clickCount = 0;
         }
 
         private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
