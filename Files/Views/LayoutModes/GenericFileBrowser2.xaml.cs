@@ -650,5 +650,10 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
                     + Column6.ActualWidth + Column7.ActualWidth);
         }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateColumnLayout();
+        }
     }
 }

@@ -55,7 +55,8 @@
         x:Name="RootGrid"
         Padding="0,0,0,0"
         VerticalAlignment="Stretch"
-        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}"
+        SizeChanged="RootGrid_SizeChanged">
 
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
