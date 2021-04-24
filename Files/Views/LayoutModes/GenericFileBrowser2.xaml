@@ -27,28 +27,37 @@
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
-        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <converters:BoolToVisibilityConverter
-            x:Key="NegatedBoolToVisibilityConverter"
-            FalseValue="Visible"
-            TrueValue="Collapsed" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:BoolToVisibilityConverter
+                x:Key="NegatedBoolToVisibilityConverter"
+                FalseValue="Visible"
+                TrueValue="Collapsed" />
 
-        <Style x:Name="HeaderGridSplitterStyle" TargetType="controls:GridSplitter">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Width" Value="1" />
-        </Style>
-        <Style x:Name="HeaderButtonStyle" TargetType="Button">
-            <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Opacity="0" />
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+
+            <Style
+                x:Name="HeaderGridSplitterStyle"
+                BasedOn="{StaticResource DefaultGridSplitterStyle}"
+                TargetType="controls:GridSplitter">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Width" Value="1" />
+            </Style>
+            <Style x:Name="HeaderButtonStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </local:BaseLayout.Resources>
 
     <Grid
