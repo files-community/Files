@@ -57,6 +57,23 @@
         VerticalAlignment="Stretch"
         ContextFlyout="{x:Bind BaseContextMenuFlyout}">
 
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+            <KeyboardAccelerator Key="Add" Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+        </Grid.KeyboardAccelerators>
+
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
