@@ -1077,6 +1077,7 @@
                                         <ColumnDefinition Width="24" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Height="16" CornerRadius="2" Margin="-10,0" x:Name="SelectedFolderIndicator" Width="3" Background="Gray" Opacity="0" HorizontalAlignment="Left"></Grid>
                                     <Grid
@@ -1186,6 +1187,9 @@
                         FontSize="18"
                         Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                                    </Grid>
+                                    <Grid Grid.Column="3" Visibility="Collapsed" Width="15"  Opacity="0.5" Margin="10,0,0,0">
+                                        <FontIcon HorizontalAlignment="Center" Visibility="{x:Bind ContainsFilesOrFolders, Mode=OneWay}" Glyph="&#xEDDA;"></FontIcon>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

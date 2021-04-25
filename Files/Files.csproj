@@ -535,6 +535,7 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
+    <Content Include="Assets\FluentIcons\ColumnIcon.png" />
     <Content Include="Assets\FluentIcons\Desktop.svg" />
     <Content Include="Assets\FluentIcons\Documents.svg" />
     <Content Include="Assets\FluentIcons\Downloads.svg" />

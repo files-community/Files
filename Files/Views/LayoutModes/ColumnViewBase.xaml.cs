@@ -42,6 +42,7 @@ namespace Files.Views.LayoutModes
         {
             this.InitializeComponent();
             CurrentColumn = this;
+            
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
