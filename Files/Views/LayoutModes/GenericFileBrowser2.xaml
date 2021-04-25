@@ -27,35 +27,62 @@
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
-        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <converters:BoolToVisibilityConverter
-            x:Key="NegatedBoolToVisibilityConverter"
-            FalseValue="Visible"
-            TrueValue="Collapsed" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:BoolToVisibilityConverter
+                x:Key="NegatedBoolToVisibilityConverter"
+                FalseValue="Visible"
+                TrueValue="Collapsed" />
 
-        <Style x:Name="HeaderGridSplitterStyle" TargetType="controls:GridSplitter">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Width" Value="1" />
-        </Style>
-        <Style x:Name="HeaderButtonStyle" TargetType="Button">
-            <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Opacity="0" />
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+
+            <Style
+                x:Name="HeaderGridSplitterStyle"
+                BasedOn="{StaticResource DefaultGridSplitterStyle}"
+                TargetType="controls:GridSplitter">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Width" Value="1" />
+            </Style>
+            <Style x:Name="HeaderButtonStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </local:BaseLayout.Resources>
 
     <Grid
         x:Name="RootGrid"
         Padding="0,0,0,0"
         VerticalAlignment="Stretch"
-        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        ContextFlyout="{x:Bind BaseContextMenuFlyout}"
+        SizeChanged="RootGrid_SizeChanged">
+
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+            <KeyboardAccelerator Key="Add" Modifiers="Control">
+                <i:Interaction.Behaviors>
+                    <icore:EventTriggerBehavior EventName="Invoked">
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                    </icore:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </KeyboardAccelerator>
+        </Grid.KeyboardAccelerators>
 
         <muxc:ProgressBar
             x:Name="progBar"
@@ -91,10 +118,12 @@
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-            CanDragItems="True"
+            CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
+            DragEnter="ItemsLayout_DragEnter"
             DragItemsStarting="FileList_DragItemsStarting"
+            Drop="ItemsLayout_Drop"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"
@@ -343,15 +372,22 @@
 
                         <Grid
                             Grid.Column="1"
+                            Width="{x:Bind ColumnsViewModel.NameColumnLength.Value, Mode=OneWay}"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Tapped="ItemNameGrid_Tapped">
                             <TextBlock x:Name="ItemName" Text="{x:Bind ItemName, Mode=OneWay}" />
-                            <TextBox x:Name="ItemNameTextBox" Visibility="Collapsed" />
+                            <TextBox
+                                x:Name="ItemNameTextBox"
+                                TextChanged="ListViewTextBoxItemName_TextChanged"
+                                Visibility="Collapsed" />
                         </Grid>
 
                         <Grid
                             x:Name="ItemOriginalPathGrid"
                             Grid.Column="2"
+                            Width="{x:Bind ColumnsViewModel.OriginalPathColumnLength.Value, Mode=OneWay}"
+                            HorizontalAlignment="Stretch"
                             x:Load="{x:Bind IsRecycleBinItem}">
                             <TextBlock
                                 x:Name="ItemOriginalPathText"
@@ -362,6 +398,8 @@
                         <Grid
                             x:Name="ItemDateDeletedGrid"
                             Grid.Column="3"
+                            Width="{x:Bind ColumnsViewModel.DateDeletedColumnLength.Value, Mode=OneWay}"
+                            HorizontalAlignment="Stretch"
                             x:Load="{x:Bind IsRecycleBinItem}">
                             <TextBlock VerticalAlignment="Center" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
                         </Grid>
@@ -377,10 +415,12 @@
 
                         <TextBlock
                             Grid.Column="5"
+                            Width="{x:Bind ColumnsViewModel.DateModifiedColumnLength.Value, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemDateModified, Mode=OneWay}" />
                         <TextBlock
                             Grid.Column="6"
+                            Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength.Value, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemType, Mode=OneWay}" />
                     </Grid>

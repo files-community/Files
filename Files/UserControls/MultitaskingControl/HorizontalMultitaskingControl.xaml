@@ -49,8 +49,8 @@
                             x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
                             Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
-                            Text="Close tabs to the right"
-                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged" />
+                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
+                            Text="Close tabs to the right" />
                     </MenuFlyout>
                 </ResourceDictionary>
                 <ResourceDictionary>
@@ -366,6 +366,7 @@
                                     <Grid
                                         x:Name="LayoutRoot"
                                         Height="{TemplateBinding Height}"
+                                        Margin="-1,0,0,0"
                                         Padding="{TemplateBinding Padding}">
                                         <!--  This item will cover the separator on its left side.  -->
 
@@ -385,8 +386,8 @@
                                             Width="1"
                                             Margin="{ThemeResource TabViewItemSeparatorMargin}"
                                             HorizontalAlignment="Right"
-                                            BorderBrush="{StaticResource SystemBaseLowColor}"
-                                            BorderThickness="0" />
+                                            BorderBrush="{StaticResource SolidBackgroundFillColorQuarternary}"
+                                            BorderThickness="1" />
 
                                         <Grid
                                             x:Name="TabContainer"
@@ -811,12 +812,12 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
+                        Height="36"
                         Margin="4,4"
+                        HorizontalAlignment="Stretch"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         CornerRadius="4"
-                        Height="36"
-                        HorizontalAlignment="Stretch"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"

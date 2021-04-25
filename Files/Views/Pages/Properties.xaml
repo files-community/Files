@@ -1,18 +1,26 @@
 ﻿<Page
     x:Class="Files.Views.Properties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Media"
     d:DesignHeight="700"
     d:DesignWidth="400"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <muxc:AcrylicBrush
+            x:Key="SystemControlAcrylicWindowBrush"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{StaticResource SolidBackgroundFillColorBase}"
+            TintColor="{StaticResource SolidBackgroundFillColorBase}"
+            TintOpacity="0.90" />
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -38,6 +46,10 @@
             SelectedItem="{x:Bind TabGeneral}"
             SelectionChanged="NavigationView_SelectionChanged"
             SelectionFollowsFocus="Enabled">
+            <NavigationView.Resources>
+                <SolidColorBrush x:Key="TransparentBackdropColor" Color="Transparent" />
+                <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="TransparentBackdropColor" />
+            </NavigationView.Resources>
 
             <!--  Tabs  -->
             <NavigationView.MenuItems>

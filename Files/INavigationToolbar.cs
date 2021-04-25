@@ -16,6 +16,7 @@ namespace Files.UserControls
         public bool CanNavigateToParent { get; set; }
         public bool CanGoBack { get; set; }
         public bool CanGoForward { get; set; }
+        public bool IsSingleItemOverride { get; set; }
         public string PathControlDisplayText { get; set; }
         public ObservableCollection<PathBoxItem> PathComponents { get; }
 
