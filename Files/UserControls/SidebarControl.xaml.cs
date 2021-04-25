@@ -1,8 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
-using Files.UserControls;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -57,7 +55,7 @@ namespace Files.UserControls
         public bool IsOpen
         {
             get => (bool)GetValue(IsOpenProperty);
-            set 
+            set
             {
                 if (this.IsLoaded)
                 {
@@ -71,9 +69,9 @@ namespace Files.UserControls
         public bool IsCompact
         {
             get => (bool)GetValue(IsCompactProperty);
-            set 
-            { 
-                if(this.IsLoaded)
+            set
+            {
+                if (this.IsLoaded)
                 {
                     SetValue(IsCompactProperty, value);
                 }
@@ -87,6 +85,8 @@ namespace Files.UserControls
             get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
+
+        private bool IsInPointerPressed = false;
 
         private DispatcherQueueTimer dragOverTimer;
 
@@ -243,11 +243,25 @@ namespace Files.UserControls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem == null || args.InvokedItemContainer == null)
+            if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
+                IsInPointerPressed = false;
                 return;
             }
+
             SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
+        }
+
+        private void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var properties = e.GetCurrentPoint(null).Properties;
+            var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
+            {
+                IsInPointerPressed = true;
+                NavigationHelpers.OpenPathInNewTab(item.Path);
+                e.Handled = true;
+            }
         }
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -262,14 +276,17 @@ namespace Files.UserControls
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
-                ShowUnpinItem = item.Section != SectionType.Library && !item.IsDefaultLocation;
-                ShowProperties = item.Section == SectionType.Library;
+                bool isLibrary = item.Section == SectionType.Library;
+                bool isFavorites = item.Section == SectionType.Favorites;
+                ShowUnpinItem = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
+                ShowProperties = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
                 ShowEjectDevice = false;
 
                 if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
                     ShowEmptyRecycleBin = true;
+                    ShowUnpinItem = true;
                 }
                 else
                 {

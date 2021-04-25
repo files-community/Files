@@ -230,7 +230,8 @@
             x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
             DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
             SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
+            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
+            StatusCenterViewModel="{x:Bind StatusCenterViewModel}"/>
 
         <Custom:DropShadowPanel
             Grid.Row="1"
@@ -246,12 +247,12 @@
                 x:Name="NavToolbar"
                 HorizontalAlignment="Stretch"
                 x:FieldModifier="public"
-                
+
                 MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
                 InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
                 ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
-                
+
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
                 ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                 ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
@@ -259,7 +260,7 @@
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                 ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
-                
+
                 AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                 CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                 CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"

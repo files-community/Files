@@ -1,16 +1,17 @@
-﻿using System;
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
+using System;
 using System.Collections.Generic;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -28,12 +29,12 @@ namespace Files.Helpers
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
-                associatedInstance.SlimContentPage.ResetItemOpacity();
+                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
                     // Dim opacities accordingly
-                    associatedInstance.SlimContentPage.SetItemOpacity(listedItem);
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
 
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -56,7 +57,7 @@ namespace Files.Helpers
                 }
                 if (result.ErrorCode == FileSystemStatusCode.NotFound)
                 {
-                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
                     return;
                 }
                 else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
@@ -77,7 +78,7 @@ namespace Files.Helpers
                             return;
                         }
                     }
-                    associatedInstance.SlimContentPage.ResetItemOpacity();
+                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
                     return;
                 }
             }
@@ -170,8 +171,8 @@ namespace Files.Helpers
             DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
             if (packageView != null)
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-                associatedInstance.SlimContentPage.ResetItemOpacity();
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, false, true);
+                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
             }
         }
 
@@ -209,6 +210,11 @@ namespace Files.Helpers
 
         public static async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
+            _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
+        }
+
+        public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        {
             string currentPath = null;
             if (associatedInstance.SlimContentPage != null)
             {
@@ -221,13 +227,13 @@ namespace Files.Helpers
 
             if (dialog.DynamicResult != DynamicDialogResult.Primary)
             {
-                return;
+                return null;
             }
 
             // Create file based on dialog result
             string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            FilesystemResult created = folderRes;
+            FilesystemResult<(ReturnResult, IStorageItem)> created = null;
             if (folderRes)
             {
                 switch (itemType)
@@ -253,9 +259,30 @@ namespace Files.Helpers
                         break;
                 }
             }
+
             if (created == FileSystemStatusCode.Unauthorized)
             {
                 await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+            }
+
+            return created.Result.Item2;
+        }
+
+        public static async void CreateFolderWithSelectionAsync(IShellPage associatedInstance)
+        {
+            try
+            {
+                CopyItem(associatedInstance);
+                var folder = await CreateFileFromDialogResultTypeForResult(AddItemType.Folder, null, associatedInstance);
+                if (folder == null)
+                {
+                    return;
+                }
+                await associatedInstance.FilesystemHelpers.MoveItemsFromClipboard(Clipboard.GetContent(), folder.Path, false, true);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex);
             }
         }
 
@@ -265,10 +292,10 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="item"></param>
         /// <param name="isHidden"></param>
-        public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, IBaseLayout slimContentPage)
+        public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
         {
             item.IsHiddenItem = isHidden;
-            slimContentPage.ResetItemOpacity();
+            itemManipulationModel.RefreshItemsOpacity();
         }
     }
 }

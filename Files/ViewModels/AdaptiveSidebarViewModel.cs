@@ -10,9 +10,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -37,7 +34,7 @@ namespace Files.ViewModels
                 if (isWindowCompactSize != value)
                 {
                     isWindowCompactSize = value;
-                    
+
                     OnPropertyChanged(nameof(IsWindowCompactSize));
                     OnPropertyChanged(nameof(SidebarWidth));
                     OnPropertyChanged(nameof(IsSidebarOpen));
@@ -50,7 +47,6 @@ namespace Files.ViewModels
             UpdateSidebarSelectedItemFromArgs(arg);
 
             OnPropertyChanged(nameof(SidebarSelectedItem));
-
         }
 
         public void UpdateSidebarSelectedItemFromArgs(string arg)

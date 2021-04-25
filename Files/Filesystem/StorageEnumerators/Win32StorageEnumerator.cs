@@ -143,7 +143,7 @@ namespace Files.Filesystem.StorageEnumerators
 
             if (isHidden)
             {
-                opacity = 0.4;
+                opacity = Constants.UI.DimItemOpacity;
             }
 
             return new ListedItem(null, dateReturnFormat)
@@ -272,7 +272,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                         if (isHidden)
                         {
-                            opacity = 0.4;
+                            opacity = Constants.UI.DimItemOpacity;
                         }
 
                         return new ShortcutItem(null, dateReturnFormat)
@@ -319,7 +319,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                 if (isHidden)
                 {
-                    opacity = 0.4;
+                    opacity = Constants.UI.DimItemOpacity;
                 }
 
                 return new ListedItem(null, dateReturnFormat)

@@ -110,7 +110,7 @@ namespace Files.ViewModels
             switch (prefsForPath.LayoutMode)
             {
                 case FolderLayoutModes.DetailsView:
-                    type = typeof(GenericFileBrowser);
+                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
                     break;
 
                 case FolderLayoutModes.TilesView:
@@ -120,12 +120,13 @@ namespace Files.ViewModels
                 case FolderLayoutModes.GridView:
                     type = typeof(GridViewBrowser);
                     break;
+
                 case FolderLayoutModes.ColumnView:
                     type = typeof(ColumnViewBrowser);
                     break;
 
                 default:
-                    type = typeof(GenericFileBrowser);
+                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
                     break;
             }
             return type;
@@ -478,7 +479,14 @@ namespace Files.ViewModels
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
         {
             var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
-            return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
+            try
+            {
+                return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)

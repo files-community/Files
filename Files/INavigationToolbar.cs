@@ -43,6 +43,8 @@ namespace Files.UserControls
 
         public event EventHandler RefreshRequested;
 
+        public event EventHandler RefreshWidgetsRequested;
+
         public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
     }
 

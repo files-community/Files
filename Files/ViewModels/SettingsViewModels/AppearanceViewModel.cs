@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private bool areRightClickContentMenuAnimationsEnabled = App.AppSettings.AreRightClickContentMenuAnimationsEnabled;
-        private string selectedThemeName = App.AppSettings.PathToThemeFile;
+        private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
         private bool showRestartControl = false;
+        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
 
         public AppearanceViewModel()
         {
@@ -35,7 +36,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         public List<string> Themes { get; set; }
-        public List<string> ColorSchemes => App.ExternalResourcesHelper.Themes;
+        public List<AppTheme> ColorSchemes => App.ExternalResourcesHelper.Themes;
 
         public int SelectedThemeIndex
         {
@@ -96,31 +97,17 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool AreRightClickContentMenuAnimationsEnabled
+        public AppTheme SelectedTheme
         {
             get
             {
-                return areRightClickContentMenuAnimationsEnabled;
+                return selectedTheme;
             }
             set
             {
-                if (SetProperty(ref areRightClickContentMenuAnimationsEnabled, value))
+                if (SetProperty(ref selectedTheme, value))
                 {
-                    App.AppSettings.AreRightClickContentMenuAnimationsEnabled = value;
-                }
-            }
-        }
-        public string SelectedThemeName
-        {
-            get
-            {
-                return selectedThemeName;
-            }
-            set
-            {
-                if (SetProperty(ref selectedThemeName, value))
-                {
-                    App.AppSettings.PathToThemeFile = selectedThemeName;
+                    App.AppSettings.SelectedTheme = selectedTheme;
                     ShowRestartControl = true;
                 }
             }

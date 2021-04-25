@@ -1,19 +1,20 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Enums;
+using Files.Filesystem;
+using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.System;
-using Files.Common;
-using Windows.Storage.Search;
-using Windows.Storage;
-using Files.Enums;
-using Microsoft.Toolkit.Uwp;
-using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
-using Files.ViewModels;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Search;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -74,7 +75,23 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+
+                if (Window.Current.CoreWindow.GetKeyState((VirtualKey)18).HasFlag(CoreVirtualKeyStates.Down))
+                {
+                    await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance.PaneHolder.ActivePane);                    
+                }
+                else
+                {
+                    try
+                    {
+                        await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                    }
+                    catch (Exception e)
+                    {
+                        // This is to try and figure out the root cause of AppCenter error #985932119u
+                        NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                    }
+                }
             }
         }
 
@@ -106,7 +123,7 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

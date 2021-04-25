@@ -1,39 +1,28 @@
-﻿using Files.Common;
-using Files.DataModels;
-using Files.Dialogs;
-using Files.EventArguments;
+﻿using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
-using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Newtonsoft.Json;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -60,7 +49,7 @@ namespace Files
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-        public MenuFlyout ItemContextMenuFlyout { get; set; } = new MenuFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
         public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
@@ -129,8 +118,8 @@ namespace Files
 
                     if (jumpedToItem != null)
                     {
-                        SetSelectedItemOnUi(jumpedToItem);
-                        ScrollIntoView(jumpedToItem);
+                        ItemManipulationModel.SetSelectedItem(jumpedToItem);
+                        ItemManipulationModel.ScrollIntoView(jumpedToItem);
                     }
 
                     // Restart the timer
@@ -195,7 +184,7 @@ namespace Files
                         }
                     }
                     NotifyPropertyChanged(nameof(SelectedItems));
-                    SetDragModeForItems();
+                    ItemManipulationModel.SetDragModeForItems();
                 }
             }
         }
@@ -206,6 +195,10 @@ namespace Files
 
         public BaseLayout()
         {
+            ItemManipulationModel = new ItemManipulationModel();
+
+            HookEvents();
+
             jumpTimer = new DispatcherTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
@@ -225,6 +218,12 @@ namespace Files
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
+        protected abstract void HookEvents();
+
+        protected abstract void UnhookEvents();
+
+        public ItemManipulationModel ItemManipulationModel { get; private set; }
+
         private void JumpTimer_Tick(object sender, object e)
         {
             jumpString = string.Empty;
@@ -233,53 +232,7 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        public abstract void FocusFileList();
-
-        public abstract void SelectAllItems();
-
-        public virtual void InvertSelection()
-        {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
-
-            SetSelectedItemsOnUi(newSelectedItems);
-        }
-
-        public abstract void ClearSelection();
-
-        public abstract void SetDragModeForItems();
-
-        public abstract void ScrollIntoView(ListedItem item);
-
-        protected abstract void AddSelectedItem(ListedItem item);
-
         protected abstract IEnumerable GetAllItems();
-
-        public virtual void SetSelectedItemOnUi(ListedItem selectedItem)
-        {
-            ClearSelection();
-            AddSelectedItem(selectedItem);
-        }
-
-        public virtual void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            ClearSelection();
-            AddSelectedItemsOnUi(selectedItems);
-        }
-
-        public virtual void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            foreach (ListedItem selectedItem in selectedItems)
-            {
-                AddSelectedItem(selectedItem);
-            }
-        }
-
-        public abstract void FocusSelectedItems();
-
-        public abstract void StartRenameItem();
 
         public virtual void ResetItemOpacity()
         {
@@ -293,18 +246,13 @@ namespace Files
             {
                 if (listedItem.IsHiddenItem)
                 {
-                    listedItem.Opacity = 0.4;
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
                 }
                 else
                 {
                     listedItem.Opacity = 1;
                 }
             }
-        }
-
-        public virtual void SetItemOpacity(ListedItem item)
-        {
-            item.Opacity = 0.4;
         }
 
         protected abstract ListedItem GetItemFromElement(object element);
@@ -363,8 +311,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || NormalizePath(workingDir) == NormalizePath(pathRoot)
-                    || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
+                if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 }
@@ -398,7 +345,8 @@ namespace Files
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {navigationArguments.SearchPathParam}");
+                    var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {displayName}");
                 }
             }
 
@@ -406,7 +354,7 @@ namespace Files
 
             FolderSettings.IsLayoutModeChanging = false;
 
-            FocusFileList(); // Set focus on layout specific file list control
+            ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
 
             try
             {
@@ -418,7 +366,7 @@ namespace Files
                         liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
                     }
 
-                    SetSelectedItemsOnUi(liItemsToSelect);
+                    ItemManipulationModel.SetSelectedItems(liItemsToSelect);
                 }
             }
             catch (Exception e)
@@ -426,9 +374,7 @@ namespace Files
             }
 
             ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
-            ItemContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
-            BaseContextMenuFlyout.AreOpenCloseAnimationsEnabled = AppSettings.AreRightClickContentMenuAnimationsEnabled;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -447,16 +393,6 @@ namespace Files
             }
         }
 
-        public void ShowContextFlyout(FrameworkElement target, Point p = new Point())
-        {
-            if(target == null)
-            {
-                return;
-            }
-            LoadMenuItemsAsync();
-            ItemContextMenuFlyout.ShowAt(target, p);
-        }
-
         public void ItemContextFlyout_Opening(object sender, object e)
         {
             try
@@ -468,6 +404,7 @@ namespace Files
                 Debug.WriteLine(error);
             }
         }
+
         public void BaseContextFlyout_Opening(object sender, object e)
         {
             try
@@ -485,10 +422,14 @@ namespace Files
 
         private void LoadMenuItemsAsync()
         {
+            SelectedItemsPropertiesViewModel.CheckFileExtension();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
-            ItemContextMenuFlyout.Items.Clear();
-            ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => ItemContextMenuFlyout.Items.Add(i));
+            ItemContextMenuFlyout.PrimaryCommands.Clear();
+            ItemContextMenuFlyout.SecondaryCommands.Clear();
+            var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+            primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
+            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
@@ -500,9 +441,17 @@ namespace Files
             }
         }
 
-        protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
+        async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
+            if (sender is DataGridRow dataGridRow)
+            {
+                if(dataGridRow.DataContext is ListedItem item)
+                {
+                    ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
+                }
+            }
 
             foreach (ListedItem item in ParentShellPageInstance.SlimContentPage.SelectedItems)
             {
@@ -523,7 +472,7 @@ namespace Files
                 }
             }
 
-            if (selectedStorageItems.Count == 0)
+            if(selectedStorageItems.Count == 0)
             {
                 e.Cancel = true;
                 return;
@@ -531,6 +480,35 @@ namespace Files
 
             e.Data.SetStorageItems(selectedStorageItems, false);
             e.DragUI.SetContentFromDataPackage();
+        }
+
+        protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
+            foreach (var itemObj in e.Items)
+            {
+                var item = itemObj as ListedItem;
+                if (item == null || item is ShortcutItem)
+                {
+                    // Can't drag shortcut items
+                    continue;
+                }
+
+                SelectedItems.Add(item);
+                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                }
+            }
+
+            e.Data.SetStorageItems(selectedStorageItems, false);
         }
 
         private ListedItem dragOverItem = null;
@@ -556,7 +534,7 @@ namespace Files
                 item = gvi.Content as ListedItem;
             }
 
-            SetSelectedItemOnUi(item);
+            ItemManipulationModel.SetSelectedItem(item);
 
             if (dragOverItem != item)
             {
@@ -627,7 +605,7 @@ namespace Files
             ListedItem rowItem = GetItemFromElement(sender);
             if (rowItem != null)
             {
-                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, false, true);
             }
             deferral.Complete();
         }
@@ -639,7 +617,6 @@ namespace Files
             {
                 element.AllowDrop = false;
                 element.DragStarting -= Item_DragStarting;
-                element.DragStarting += Item_DragStarting;
                 element.DragOver -= Item_DragOver;
                 element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
@@ -668,10 +645,5 @@ namespace Files
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
         public abstract void Dispose();
-
-        public void RefreshItems()
-        {
-            ParentShellPageInstance.Refresh_Click();
-        }
     }
 }

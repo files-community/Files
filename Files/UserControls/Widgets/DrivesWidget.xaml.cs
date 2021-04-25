@@ -1,7 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
+using Files.ViewModels.Widgets;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,13 +9,16 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class DrivesWidget : UserControl, INotifyPropertyChanged
+    public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -45,6 +48,10 @@ namespace Files.UserControls.Widgets
                 }
             }
         }
+
+        public string WidgetName => nameof(DrivesWidget);
+
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowDrivesWidget;
 
         public DrivesWidget()
         {
@@ -87,10 +94,26 @@ namespace Files.UserControls.Widgets
 
             NavigationPath = ClickedCard;
 
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed)
+            {
+                NavigationHelpers.OpenPathInNewTab(NavigationPath);
+                return;
+            }
+
             DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
             {
                 Path = NavigationPath
             });
+        }
+
+        private void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+            {
+                string navigationPath = (sender as Button).Tag.ToString();
+                NavigationHelpers.OpenPathInNewTab(navigationPath);
+            }
         }
 
         public class DrivesWidgetInvokedEventArgs : EventArgs
@@ -114,19 +137,9 @@ namespace Files.UserControls.Widgets
             visual.Scale = new Vector3(1);
         }
 
-        private bool showMultiPaneControls;
-
         public bool ShowMultiPaneControls
         {
-            get => showMultiPaneControls;
-            set
-            {
-                if (value != showMultiPaneControls)
-                {
-                    showMultiPaneControls = value;
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
-                }
-            }
+            get => AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
@@ -168,6 +181,15 @@ namespace Files.UserControls.Widgets
                         { "drive", item.Path }
                     });
             }
+        }
+
+        private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

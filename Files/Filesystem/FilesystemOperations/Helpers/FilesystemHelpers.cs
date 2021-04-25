@@ -1,9 +1,12 @@
-﻿using Files.Dialogs;
+﻿using Files.DataModels;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.UserControls;
+using Files.Interacts;
+using Files.ViewModels;
+using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -15,7 +18,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -28,6 +33,8 @@ namespace Files.Filesystem
         private IShellPage associatedInstance;
 
         private IFilesystemOperations filesystemOperations;
+
+        private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
         private RecycleBinHelpers recycleBinHelpers;
 
@@ -56,8 +63,8 @@ namespace Files.Filesystem
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            filesystemOperations = new FilesystemOperations(this.associatedInstance);
-            recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            this.filesystemOperations = new FilesystemOperations(this.associatedInstance);
+            this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
         #endregion Constructor
@@ -66,20 +73,20 @@ namespace Files.Filesystem
 
         #region Create
 
-        public async Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory)
+        public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            IStorageHistory history = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+            var result = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.HistoryWrapper.AddHistory(history);
+                App.HistoryWrapper.AddHistory(result.Item1);
             }
 
-            return returnCode.ToStatus();
+            return (returnCode.ToStatus(), result.Item2);
         }
 
         #endregion Create
@@ -88,98 +95,112 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
         {
-            PostedStatusBanner banner;
-            if (permanently)
+            try
             {
-                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Delete);
-            }
-            else
-            {
-                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Recycle);
-            }
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
-
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
-
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    associatedInstance.SlimContentPage.SelectedItems.Count);
-
-                if (UIHelpers.IsAnyContentDialogOpen())
+                PostedStatusBanner banner;
+                if (permanently)
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
-
-                if (dialog.Result != DialogResult.Delete) // Delete selected items if the result is Yes
-                {
-                    banner.Remove();
-                    return ReturnResult.Cancelled; // Return if the result isn't delete
-                }
-
-                permanently = dialog.PermanentlyDelete;
-            }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            IStorageHistory history;
-            var rawStorageHistory = new List<IStorageHistory>();
-
-            bool originalPermanently = permanently;
-            float progress;
-            for (int i = 0; i < source.Count(); i++)
-            {
-                if (pathsUnderRecycleBin.Contains(source.ElementAt(i).Path))
-                {
-                    permanently = true;
+                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Delete);
                 }
                 else
                 {
-                    permanently = originalPermanently;
+                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Recycle);
                 }
 
-                rawStorageHistory.Add(await filesystemOperations.DeleteAsync(source.ElementAt(i), null, banner.ErrorCode, permanently, cancellationToken));
-                progress = ((float)i / (float)source.Count()) * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
-            }
+                var returnStatus = ReturnResult.InProgress;
+                banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
 
-                if (!permanently && registerHistory)
+                if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
                 {
-                    App.HistoryWrapper.AddHistory(history);
+                    var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
+
+                    List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
+
+                    for (int i = 0; i < source.Count(); i++)
+                    {
+                        incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null));
+                    }
+
+                    FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                        FilesystemOperationType.Delete,
+                        false,
+                        !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                        !deleteFromRecycleBin,
+                        incomingItems,
+                        new List<FilesystemItemsOperationItemModel>()));
+
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result != ContentDialogResult.Primary)
+                    {
+                        banner.Remove();
+                        return ReturnResult.Cancelled; // Return if the result isn't delete
+                    }
+
+                    // Delete selected items if the result is Yes
+                    permanently = dialog.ViewModel.PermanentlyDelete;
                 }
+
+                var sw = new Stopwatch();
+                sw.Start();
+
+                IStorageHistory history;
+                var rawStorageHistory = new List<IStorageHistory>();
+
+                bool originalPermanently = permanently;
+                float progress;
+                for (int i = 0; i < source.Count(); i++)
+                {
+                    if (pathsUnderRecycleBin.Contains(source.ElementAt(i).Path))
+                    {
+                        permanently = true;
+                    }
+                    else
+                    {
+                        permanently = originalPermanently;
+                    }
+
+                    rawStorageHistory.Add(await filesystemOperations.DeleteAsync(source.ElementAt(i), null, banner.ErrorCode, permanently, cancellationToken));
+                    progress = ((float)i / (float)source.Count()) * 100.0f;
+                    ((IProgress<float>)banner.Progress).Report(progress);
+                }
+
+                if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+                {
+                    history = new StorageHistory(
+                        rawStorageHistory[0].OperationType,
+                        rawStorageHistory.SelectMany((item) => item.Source).ToList(),
+                        rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+
+                    if (!permanently && registerHistory)
+                    {
+                        App.HistoryWrapper.AddHistory(history);
+                    }
+                }
+
+                banner.Remove();
+                sw.Stop();
+
+                PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
+                return returnStatus;
+
+            }
+            catch (System.Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete items operation failed:\n{ex}");
+                return ReturnResult.Failed;
             }
 
-            banner.Remove();
-            sw.Stop();
-
-            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-            return returnStatus;
         }
 
         private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
@@ -189,75 +210,87 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
         {
-            PostedStatusBanner banner;
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-
-            if (deleteFromRecycleBin)
+            try
             {
-                permanently = true;
-            }
+                PostedStatusBanner banner;
+                bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
-            if (permanently)
-            {
-                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Delete);
-            }
-            else
-            {
-                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Recycle);
-            }
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    permanently,
-                    associatedInstance.SlimContentPage.SelectedItems.Count);
-
-                if (UIHelpers.IsAnyContentDialogOpen())
+                if (deleteFromRecycleBin)
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
-
-                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
-                {
-                    banner.Remove();
-                    return ReturnResult.Cancelled; // Return if the result isn't delete
+                    permanently = true;
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                if (permanently)
+                {
+                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Delete);
+                }
+                else
+                {
+                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Recycle);
+                }
+
+                var returnStatus = ReturnResult.InProgress;
+
+                banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+                if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+                {
+                    List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
+                {
+                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
+                };
+
+                    FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                        FilesystemOperationType.Delete,
+                        false,
+                        !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                        !deleteFromRecycleBin,
+                        incomingItems,
+                        new List<FilesystemItemsOperationItemModel>()));
+
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result != ContentDialogResult.Primary)
+                    {
+                        banner.Remove();
+                        return ReturnResult.Cancelled; // Return if the result isn't delete
+                    }
+
+                    // Delete selected item if the result is Yes
+                    permanently = dialog.ViewModel.PermanentlyDelete;
+                }
+
+                var sw = new Stopwatch();
+                sw.Start();
+
+                IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+
+                if (!permanently && registerHistory)
+                {
+                    App.HistoryWrapper.AddHistory(history);
+                }
+
+                banner.Remove();
+                sw.Stop();
+
+                PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
+                return returnStatus;
             }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
-
-            if (!permanently && registerHistory)
+            catch (System.Exception ex)
             {
-                App.HistoryWrapper.AddHistory(history);
+                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete item operation failed:\n{ex}");
+                return ReturnResult.Failed;
             }
 
-            banner.Remove();
-            sw.Stop();
-
-            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-            return returnStatus;
         }
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
@@ -267,75 +300,86 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
         {
-            PostedStatusBanner banner;
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-
-            if (deleteFromRecycleBin)
+            try
             {
-                permanently = true;
-            }
+                PostedStatusBanner banner;
+                bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
-            if (permanently)
-            {
-                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Delete);
-            }
-            else
-            {
-                banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Recycle);
-            }
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
-                    deleteFromRecycleBin,
-                    permanently,
-                    associatedInstance.SlimContentPage.SelectedItems.Count);
-
-                if (UIHelpers.IsAnyContentDialogOpen())
+                if (deleteFromRecycleBin)
                 {
-                    // Can show only one dialog at a time
-                    banner.Remove();
-                    return ReturnResult.Cancelled;
-                }
-                await dialog.ShowAsync();
-
-                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
-                {
-                    banner.Remove();
-                    return ReturnResult.Cancelled; // Return if the result isn't delete
+                    permanently = true;
                 }
 
-                permanently = dialog.PermanentlyDelete;
+                if (permanently)
+                {
+                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Delete);
+                }
+                else
+                {
+                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Recycle);
+                }
+
+                var returnStatus = ReturnResult.InProgress;
+                banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+                if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+                {
+                    List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
+                {
+                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
+                };
+
+                    FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                        FilesystemOperationType.Delete,
+                        false,
+                        !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                        !deleteFromRecycleBin,
+                        incomingItems,
+                        new List<FilesystemItemsOperationItemModel>()));
+
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result != ContentDialogResult.Primary)
+                    {
+                        banner.Remove();
+                        return ReturnResult.Cancelled; // Return if the result isn't delete
+                    }
+
+                    // Delete selected item if the result is Yes
+                    permanently = dialog.ViewModel.PermanentlyDelete;
+                }
+
+                var sw = new Stopwatch();
+                sw.Start();
+
+                IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+
+                if (!permanently && registerHistory)
+                {
+                    App.HistoryWrapper.AddHistory(history);
+                }
+
+                banner.Remove();
+                sw.Stop();
+
+                PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
+
+                return returnStatus;
             }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
-
-            if (!permanently && registerHistory)
+            catch (System.Exception ex)
             {
-                App.HistoryWrapper.AddHistory(history);
+                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete item operation failed:\n{ex}");
+                return ReturnResult.Failed;
             }
-
-            banner.Remove();
-            sw.Stop();
-
-            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-            return returnStatus;
         }
 
         #endregion Delete
@@ -359,6 +403,7 @@ namespace Files.Filesystem
         public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
                                                                   DataPackageView packageView,
                                                                   string destination,
+                                                                  bool showDialog,
                                                                   bool registerHistory)
         {
             try
@@ -369,11 +414,11 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.Copy))
                 {
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                    return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Move))
                 {
-                    return await MoveItemsFromClipboard(packageView, destination, registerHistory);
+                    return await MoveItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Link))
                 {
@@ -382,7 +427,7 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.None))
                 {
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                    return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else
                 {
@@ -397,17 +442,17 @@ namespace Files.Filesystem
 
         #region Copy
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory);
+            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
         {
-            return await CopyItemAsync(source.FromStorageItem(), destination, registerHistory);
+            return await CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -419,22 +464,34 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await filesystemOperations.CopyAsync(
-                    source.ElementAt(i),
-                    destination.ElementAt(i),
-                    null,
-                    banner.ErrorCode,
-                    cancellationToken));
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await filesystemOperations.CopyAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        banner.ErrorCode,
+                        cancellationToken));
+                }
 
                 progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
@@ -469,7 +526,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -481,12 +538,30 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.SlimContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
+            itemManipulationModel.ClearSelection();
+
+            IStorageHistory history = null;
+            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
+            {
+                history = await filesystemOperations.CopyAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+            }
+            else
+            {
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+                return ReturnResult.Cancelled;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -509,7 +584,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -535,7 +610,7 @@ namespace Files.Filesystem
                     destinations.Add(Path.Combine(destination, item.Name));
                 }
 
-                returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+                returnStatus = await CopyItemsAsync(source, destinations, showDialog, registerHistory);
 
                 return returnStatus;
             }
@@ -550,8 +625,15 @@ namespace Files.Filesystem
                     // Set the name of the file to be the current time and date
                     var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
-                    using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-                    await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
+                    SoftwareBitmap softwareBitmap;
+
+                    // Create the decoder from the stream
+                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+
+                    // Get the SoftwareBitmap representation of the file
+                    softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+
+                    await Helpers.SaveImageToFile.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)
@@ -569,17 +651,17 @@ namespace Files.Filesystem
 
         #region Move
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory);
+            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
         {
-            return await MoveItemAsync(source.FromStorageItem(), destination, registerHistory);
+            return await MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -591,22 +673,34 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
             IStorageHistory history;
             var rawStorageHistory = new List<IStorageHistory>();
 
-            associatedInstance.SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await filesystemOperations.MoveAsync(
-                    source.ElementAt(i),
-                    destination.ElementAt(i),
-                    null,
-                    banner.ErrorCode,
-                    cancellationToken));
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await filesystemOperations.MoveAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        banner.ErrorCode,
+                        cancellationToken));
+                }
 
                 progress = i / (float)source.Count() * 100.0f;
                 ((IProgress<float>)banner.Progress).Report(progress);
@@ -641,7 +735,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
                 string.Empty,
@@ -653,12 +747,37 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
+            if (cancelOperation)
+            {
+                banner.Remove();
+                return ReturnResult.Cancelled;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
-            associatedInstance.SlimContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
+            itemManipulationModel.ClearSelection();
+
+            IStorageHistory history = null;
+
+            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
+            {
+                history = await filesystemOperations.MoveAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+            }
+            else
+            {
+                ((IProgress<float>)banner.Progress).Report(100.0f);
+                return ReturnResult.Cancelled;
+            }
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -681,7 +800,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -712,7 +831,7 @@ namespace Files.Filesystem
                 destinations.Add(Path.Combine(destination, item.Name));
             }
 
-            returnStatus = await MoveItemsAsync(source, destinations, registerHistory);
+            returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
 
             return returnStatus;
         }
@@ -794,6 +913,71 @@ namespace Files.Filesystem
         #endregion Rename
 
         #endregion IFilesystemHelpers
+
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        {
+            List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
+            List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
+
+            Dictionary<string, FileNameConflictResolveOptionType> collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
+                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
+
+                if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
+                {
+                    conflictingItems.Add(incomingItems.ElementAt(i));
+                }
+            }
+
+            bool mustResolveConflicts = conflictingItems.Count > 0;
+
+            if (mustResolveConflicts || forceDialog)
+            {
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    operationType,
+                    mustResolveConflicts,
+                    false,
+                    false,
+                    incomingItems,
+                    conflictingItems));
+
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                if (mustResolveConflicts) // If there were conflicts, result buttons are different
+                {
+                    if (result != ContentDialogResult.Primary) // Operation was cancelled
+                    {
+                        return (new List<FileNameConflictResolveOptionType>(), true);
+                    }
+                }
+
+                collisions.Clear();
+                List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
+                foreach (var item in itemsResult)
+                {
+                    collisions.Add(item.SourcePath, item.ConflictResolveOption);
+                }
+            }
+
+            // Since collisions are scrambled, we need to sort them PATH--PATH
+            List<FileNameConflictResolveOptionType> newCollisions = new List<FileNameConflictResolveOptionType>();
+
+            for (int i = 0; i < collisions.Count; i++)
+            {
+                for (int j = 0; j < source.Count(); j++)
+                {
+                    if (collisions.ElementAt(i).Key == (source.ElementAt(j).Path ?? source.ElementAt(j).Item.Path))
+                    {
+                        newCollisions.Add(collisions.ElementAt(j).Value);
+                    }
+                }
+            }
+
+            return (newCollisions, false);
+        }
 
         #region Public Helpers
 

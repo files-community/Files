@@ -121,7 +121,6 @@
             -->
 
             <!-- TODO: add more controls? -->
-
         </Grid>
     </StackPanel>
 </local:PropertiesTab>

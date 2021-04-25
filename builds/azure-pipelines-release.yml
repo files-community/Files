@@ -3,8 +3,6 @@ pr: none
 
 pool:
   vmImage: 'windows-latest'
-  timeoutInMinutes: 90
-  cancelTimeoutInMinutes: 0
 
 variables:
   solution: '**/*.sln'
@@ -12,79 +10,83 @@ variables:
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
-steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
-      $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-      $xmlDoc.Package.Properties.DisplayName="Files"
-      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-      $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
-    failOnStderr: true
+jobs:
+### BUILD ###
+- job: BuildBits
+  timeoutInMinutes: 120
 
-- task: DownloadSecureFile@1
-  name: mapsDevKey
-  displayName: 'Download Bing Maps Dev Key'
-  inputs:
-    secureFile: 'BingMapsKey.txt'
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
+        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+        $xmlDoc.Package.Properties.DisplayName="Files"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
+      failOnStderr: true
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: '$(mapsDevKey.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
-    overWrite: true
+  - task: DownloadSecureFile@1
+    name: mapsDevKey
+    displayName: 'Download Bing Maps Dev Key'
+    inputs:
+      secureFile: 'BingMapsKey.txt'
 
-- task: DownloadSecureFile@1
-  name: appCenterDevKey
-  displayName: 'Download AppCenter Dev Key'
-  inputs:
-    secureFile: 'AppCenterKey.txt'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: '$(mapsDevKey.secureFilePath)'
+      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+      overWrite: true
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: '$(appCenterDevKey.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
-    overWrite: true
+  - task: DownloadSecureFile@1
+    name: appCenterDevKey
+    displayName: 'Download AppCenter Dev Key'
+    inputs:
+      secureFile: 'AppCenterKey.txt'
 
-- task: NuGetToolInstaller@1
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: '$(appCenterDevKey.secureFilePath)'
+      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+      overWrite: true
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: NuGetToolInstaller@1
 
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.wapproj'
-    platform: 'x86'
-    configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
-    maximumCpuCount: true
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '$(solution)'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
+  - task: MSBuild@1
+    inputs:
+      solution: '**/*.wapproj'
+      platform: 'x86'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+      maximumCpuCount: true
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
     
-- task: store-flight@0
-  timeoutInMinutes: 0
-  inputs:
-    serviceEndpoint: 'Files'
-    appId: '9NGHP3DX8HDX'
-    flightName: 'Files - Canary'
-    packagePath: '$(appxPackageDir)\**\*.msixupload'
-    force: false
-    skipPolling: false
-    deletePackages: true
-    numberOfPackagesToKeep: '5'
-    isMandatoryUpdate: true
+  - task: store-flight@0
+    inputs:
+      serviceEndpoint: 'Files'
+      appId: '9NGHP3DX8HDX'
+      flightName: 'Files - Canary'
+      packagePath: '$(appxPackageDir)\**\*.msixupload'
+      force: false
+      skipPolling: false
+      deletePackages: true
+      numberOfPackagesToKeep: '5'
+      isMandatoryUpdate: true

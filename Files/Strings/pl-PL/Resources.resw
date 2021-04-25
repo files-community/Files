@@ -102,18 +102,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Odepnij od paska bocznego</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Usuń element(y)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Usuń</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Usuń trwale</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Pulpit</value>
   </data>
@@ -801,12 +789,6 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć ten element?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć te elementy {0}?</value>
-  </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptacyjne (Zalecane)</value>
   </data>
@@ -962,21 +944,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Dyski</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Pokaż karty biblioteki na stronie głównej</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgety</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgety</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Pokaż dyski na stronie głównej</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Pokaż ostatnie pliki na stronie głównej</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Pokaż ukryte pliki i foldery</value>
@@ -1458,9 +1425,6 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Foldery</value>
   </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Włącz animacje podczas otwierania i zamykania menu kontekstowego</value>
-  </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Widok szczegółów</value>
   </data>
@@ -1620,9 +1584,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Dyski w chmurze</value>
   </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>Pokaż Paczki na strone głównej</value>
-  </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Odepnij katalog od paska bocznego</value>
   </data>
@@ -1676,9 +1637,6 @@
   </data>
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Wielokrotne zaznaczanie</value>
-  </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Włacz opcję wielokrotnego zaznaczania (obecnie dostępne tylko w trybach układu kafelek i siatki)</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jeżeli zmienisz rozszerzenie, plik może zostać nieużywalny. Czy na pewno chcesz to zmienić?</value>

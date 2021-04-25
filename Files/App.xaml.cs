@@ -34,6 +34,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -55,6 +56,7 @@ namespace Files
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -410,6 +412,10 @@ namespace Files
             LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
+
+            #if DEBUG
+            Current.Exit();
+            #endif
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
@@ -440,6 +446,7 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
+            SaveSessionTabs();
             Logger.Error(ex, ex.Message);
             if (ShowErrorNotification)
             {
@@ -497,7 +504,7 @@ namespace Files
 
     public class WSLDistroItem : INavigationControlItem
     {
-        public string Glyph { get; set; } = null;
+        public SvgImageSource Icon { get; set; } = null;
 
         public string Text { get; set; }
 
