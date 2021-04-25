@@ -1,4 +1,4 @@
-﻿using Files.EventArguments;
+using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;

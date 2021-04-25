@@ -82,6 +82,7 @@ namespace Files.Helpers
                             // Use localized name
                             displayName = $"ms-resource:///Resources/Sidebar{libName}";
                             break;
+
                         default:
                             // Use original name
                             displayName = library.Text;

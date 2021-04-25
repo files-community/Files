@@ -1,6 +1,5 @@
 ﻿using Files.Common;
 using Files.Dialogs;
-using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -15,16 +14,13 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
@@ -54,7 +50,8 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusBarControl.OngoingTasksControl;
+        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
+        public StatusCenterViewModel StatusCenterViewModel { get; set; } = new StatusCenterViewModel();
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -77,7 +74,7 @@ namespace Files.Views
                     isCurrentInstance = value;
                     if (isCurrentInstance)
                     {
-                        ContentPage?.FocusFileList();
+                        ContentPage?.ItemManipulationModel.FocusFileList();
                     }
                     else
                     {
@@ -124,11 +121,11 @@ namespace Files.Views
             }
         }
 
-        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() => SlimContentPage?.SelectAllItems());
+        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
 
-        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() => SlimContentPage?.InvertSelection());
+        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
 
-        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() => SlimContentPage?.ClearSelection());
+        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
 
         public ICommand PasteItemsFromClipboardCommand => new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
 
@@ -140,7 +137,7 @@ namespace Files.Views
 
         public ICommand OpenDirectoryInDefaultTerminalCommand => new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
 
-        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
+        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
 
         public ICommand CreateNewFileCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
 
@@ -227,7 +224,7 @@ namespace Files.Views
         }
 
         public static event EventHandler NotifyRoot;
-        
+
         private void CopyWorkingLocation()
         {
             try
@@ -262,6 +259,7 @@ namespace Files.Views
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
+
         public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
         {
             if (string.IsNullOrWhiteSpace(singleItemOverride))
@@ -310,7 +308,7 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
-                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this);
+                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems);
                 }
                 else
                 {
@@ -323,16 +321,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                FilesystemViewModel.IsLoadingIndicatorActive = true;
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
-                {
-                    AssociatedTabInstance = this,
-                    IsSearchResultPage = true,
-                    SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1,
-                        InstanceViewModel.FolderSettings.GetIconSize())
-                });
-                FilesystemViewModel.IsLoadingIndicatorActive = false;
+                SubmitSearch(args.QueryText, App.AppSettings.SearchUnindexedItems);
             }
         }
 
@@ -390,7 +379,7 @@ namespace Files.Views
 
         private async void ColumnShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
+            await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
         }
 
         private void ColumnShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -590,12 +579,12 @@ namespace Files.Views
                 return;
             }
 
-            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(YourHome))
+            if (currentInput != instance.WorkingDirectory || CurrentPageType == typeof(WidgetsPage))
             {
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    ItemDisplayFrame.Navigate(typeof(YourHome),
+                    ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = "NewTab".GetLocalized(),
@@ -635,7 +624,7 @@ namespace Files.Views
                         else // Not a file or not accessible
                         {
                             var workingDir = string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory)
-                                    || CurrentPageType == typeof(YourHome)
+                                    || CurrentPageType == typeof(WidgetsPage)
                                 ? AppSettings.HomePath
                                 : FilesystemViewModel.WorkingDirectory;
 
@@ -761,7 +750,7 @@ namespace Files.Views
         {
             if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home")
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome),
+                ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams,
@@ -912,7 +901,7 @@ namespace Files.Views
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
 
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(WidgetsPage))
             {
                 UpdatePositioning(true);
             }
@@ -928,7 +917,7 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
+            var tabInstance = CurrentPageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
                 || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -1001,7 +990,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        this.SlimContentPage.SelectAllItems();
+                        this.SlimContentPage.ItemManipulationModel.SelectAllItems();
                     }
 
                     break;
@@ -1052,12 +1041,12 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
+                    if (CurrentPageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser)) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
 
                     {
                         if (ContentPage.IsItemSelected)
                         {
-                            ContentPage.StartRenameItem();
+                            ContentPage.ItemManipulationModel.StartRenameItem();
                         }
                     }
                     break;
@@ -1076,22 +1065,19 @@ namespace Files.Views
 
         public void Back_Click()
         {
-            
         }
 
         public void Forward_Click()
         {
-            
         }
 
         public void Up_Click()
         {
-            
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
-            if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
+            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
             {
                 NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
@@ -1150,10 +1136,12 @@ namespace Files.Views
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
                     NavigationToolbar.CanRefresh = false;
                     break;
+
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
                     NavigationToolbar.CanGoBack = ItemDisplayFrame.CanGoBack;
                     NavigationToolbar.CanGoForward = ItemDisplayFrame.CanGoForward;
                     break;
+
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavigationToolbar.CanRefresh = true;
                     // Select previous directory
@@ -1189,8 +1177,8 @@ namespace Files.Views
 
                             if (itemToSelect != null && ContentPage != null)
                             {
-                                ContentPage.SetSelectedItemOnUi(itemToSelect);
-                                ContentPage.ScrollIntoView(itemToSelect);
+                                ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+                                ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
                             }
                         }
                     }
@@ -1220,6 +1208,7 @@ namespace Files.Views
                         DataPackageOperation.Move,
                         e.DataView,
                         FilesystemViewModel.WorkingDirectory,
+                        false,
                         true);
                     return DataPackageOperation.Move;
                 }
@@ -1364,7 +1353,6 @@ namespace Files.Views
                 new SuppressNavigationTransitionInfo());
             }
 
-
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
         }
 
@@ -1372,6 +1360,21 @@ namespace Files.Views
         {
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
-    }
 
+        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        {
+            InstanceViewModel.CurrentSearchQuery = query;
+            FilesystemViewModel.IsLoadingIndicatorActive = true;
+            InstanceViewModel.SearchedUnindexedItems = !searchUnindexedItems;
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+            {
+                AssociatedTabInstance = this,
+                IsSearchResultPage = true,
+                SearchPathParam = FilesystemViewModel.WorkingDirectory,
+                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, searchUnindexedItems, -1,
+                    InstanceViewModel.FolderSettings.GetIconSize())
+            });
+            FilesystemViewModel.IsLoadingIndicatorActive = false;
+        }
+    }
 }

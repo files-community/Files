@@ -1,24 +1,23 @@
-﻿using Files.Enums;
+﻿using Files.DataModels;
+using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.ApplicationModel.AppService;
-using Files.Views;
-using System;
-using Windows.UI.Core;
-using Windows.System;
-using Files.Dialogs;
-using System.Diagnostics;
-using Windows.Foundation;
-using Windows.UI.Xaml.Input;
 using Files.ViewModels;
-using Files.DataModels;
+using Files.Views;
+using Microsoft.Toolkit.Uwp;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
 {
@@ -42,13 +41,16 @@ namespace Files.Interacts
 
         private readonly IShellPage associatedInstance;
 
+        private readonly ItemManipulationModel itemManipulationModel;
+
         #endregion Private Members
 
         #region Constructor
 
-        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance)
+        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
         {
             this.associatedInstance = associatedInstance;
+            this.itemManipulationModel = itemManipulationModel;
         }
 
         #endregion Constructor
@@ -66,7 +68,7 @@ namespace Files.Interacts
 
         public virtual void RenameItem(RoutedEventArgs e)
         {
-            SlimContentPage.StartRenameItem();
+            itemManipulationModel.StartRenameItem();
         }
 
         public virtual async void CreateShortcut(RoutedEventArgs e)
@@ -286,7 +288,14 @@ namespace Files.Interacts
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
         {
-            await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
+            }
+            else
+            {
+                await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            }
         }
 
         public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
@@ -316,7 +325,10 @@ namespace Files.Interacts
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
-            DataTransferManager.ShowShareUI();
+            DataTransferManager.ShowShareUI(new ShareUIOptions
+            {
+                Theme = Enum.IsDefined(typeof(ShareUITheme), ThemeHelper.RootTheme.ToString()) ? (ShareUITheme)ThemeHelper.RootTheme : ShareUITheme.Default
+            });
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {
@@ -406,17 +418,30 @@ namespace Files.Interacts
 
         public virtual async void UnpinItemFromStart(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            if(associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
-                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                }
+            } else
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
             }
         }
 
         public async void PinItemToStart(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                }
+            }
+            else
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
             }
         }
 
@@ -461,7 +486,7 @@ namespace Files.Interacts
         {
             var deferral = e.GetDeferral();
 
-            SlimContentPage.ClearSelection();
+            itemManipulationModel.ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
@@ -520,7 +545,7 @@ namespace Files.Interacts
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, true);
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
             }
 
@@ -529,7 +554,17 @@ namespace Files.Interacts
 
         public virtual void RefreshItems(RoutedEventArgs e)
         {
-            SlimContentPage.RefreshItems();
+            associatedInstance.Refresh_Click();
+        }
+
+        public void SearchUnindexedItems(RoutedEventArgs e)
+        {
+            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
+        }
+
+        public async void CreateFolderWithSelection(RoutedEventArgs e)
+        {
+            UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
         #endregion Command Implementation

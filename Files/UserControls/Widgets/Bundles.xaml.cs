@@ -1,4 +1,5 @@
-﻿using Files.ViewModels.Bundles;
+﻿using Files.ViewModels.Widgets;
+using Files.ViewModels.Widgets.Bundles;
 using System;
 using Windows.UI.Xaml.Controls;
 
@@ -6,13 +7,17 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class Bundles : UserControl, IDisposable
+    public sealed partial class Bundles : UserControl, IWidgetItemModel, IDisposable
     {
         public BundlesViewModel ViewModel
         {
             get => (BundlesViewModel)DataContext;
             private set => DataContext = value;
         }
+
+        public string WidgetName => nameof(Bundles);
+
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowBundlesWidget;
 
         public Bundles()
         {

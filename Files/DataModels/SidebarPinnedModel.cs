@@ -12,7 +12,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -47,7 +46,6 @@ namespace Files.DataModels
                 Text = "SidebarHome".GetLocalized(),
                 Section = SectionType.Home,
                 Font = InteractionViewModel.FontName,
-                Glyph = "\uE80F",
                 IsDefaultLocation = true,
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -58,7 +56,6 @@ namespace Files.DataModels
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
                 Font = InteractionViewModel.FontName,
-                Glyph = "\uE734",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -108,7 +105,6 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-                        Glyph = "\uEF87",
                         IsDefaultLocation = true,
                         Path = App.AppSettings.RecycleBinPath
                     };
@@ -269,7 +265,8 @@ namespace Files.DataModels
                     Font = InteractionViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Glyph = GlyphHelper.GetItemIcon(path),
+                    Icon = new Windows.UI.Xaml.Media.Imaging.SvgImageSource(GlyphHelper.GetIconUri(path)),
+                    IconSource = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };

@@ -1,14 +1,19 @@
 ﻿using Files.Common;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public string Glyph { get; set; }
+        public SvgImageSource Icon { get; set; }
+        public Uri IconSource { get; set; }
+        public byte[] IconData { get; set; }
+
         public string Text { get; set; }
 
         private string path;

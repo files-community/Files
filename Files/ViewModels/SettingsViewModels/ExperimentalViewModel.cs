@@ -72,19 +72,19 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private bool showMultiselectOption = App.AppSettings.ShowMultiselectOption;
+        private bool useNewDetailsView = App.AppSettings.UseNewDetailsView;
 
-        public bool ShowMultiselectOption
+        public bool UseNewDetailsView
         {
             get
             {
-                return showMultiselectOption;
+                return useNewDetailsView;
             }
             set
             {
-                if (SetProperty(ref showMultiselectOption, value))
+                if (SetProperty(ref useNewDetailsView, value))
                 {
-                    App.AppSettings.ShowMultiselectOption = value;
+                    App.AppSettings.UseNewDetailsView = value;
                 }
             }
         }

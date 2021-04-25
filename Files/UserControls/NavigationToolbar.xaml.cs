@@ -76,6 +76,68 @@ namespace Files.UserControls
 
         public event EventHandler RefreshRequested;
 
+        public event EventHandler RefreshWidgetsRequested;
+
+        #region YourHome Widgets
+
+        public bool ShowLibraryCardsWidget
+        {
+            get => App.AppSettings.ShowLibraryCardsWidget;
+            set
+            {
+                if (App.AppSettings.ShowLibraryCardsWidget != value)
+                {
+                    App.AppSettings.ShowLibraryCardsWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool ShowDrivesWidget
+        {
+            get => App.AppSettings.ShowDrivesWidget;
+            set
+            {
+                if (App.AppSettings.ShowDrivesWidget != value)
+                {
+                    App.AppSettings.ShowDrivesWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool ShowBundlesWidget
+        {
+            get => App.AppSettings.ShowBundlesWidget;
+            set
+            {
+                if (App.AppSettings.ShowBundlesWidget != value)
+                {
+                    App.AppSettings.ShowBundlesWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool ShowRecentFilesWidget
+        {
+            get => App.AppSettings.ShowRecentFilesWidget;
+            set
+            {
+                if (App.AppSettings.ShowRecentFilesWidget != value)
+                {
+                    App.AppSettings.ShowRecentFilesWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        #endregion YourHome Widgets
+
         #region Selection Options
 
         public static readonly DependencyProperty MultiselectEnabledProperty = DependencyProperty.Register(
@@ -271,6 +333,7 @@ namespace Files.UserControls
                 SetValue(ToggleLayoutModeGridViewLargeProperty, value);
             }
         }
+
         public static readonly DependencyProperty ToggleLayoutModeColumnViewProperty = DependencyProperty.Register(
           "ToggleLayoutModeColumnView",
           typeof(ICommand),
@@ -290,7 +353,7 @@ namespace Files.UserControls
             }
         }
 
-        #endregion
+        #endregion Layout Options
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
@@ -1183,9 +1246,8 @@ namespace Files.UserControls
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase ||
-                FocusManager.GetFocusedElement() is AppBarButton ||
-                FocusManager.GetFocusedElement() is Popup)
+            var focusedElement = FocusManager.GetFocusedElement();
+            if (focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }

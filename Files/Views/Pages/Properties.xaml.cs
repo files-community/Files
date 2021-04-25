@@ -1,8 +1,8 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.Interacts;
 using Files.ViewModels;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -17,7 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
@@ -143,21 +142,15 @@ namespace Files.Views
             {
                 await propertiesGeneral.SaveChangesAsync(listedItem);
             }
-            else if (contentFrame.Content is PropertiesLibrary propertiesLibrary)
+            else
             {
-                if (!await propertiesLibrary.SaveChangesAsync())
-                {
-                    return;
-                }
-            }
-            else if (contentFrame.Content is PropertiesDetails propertiesDetails)
-            {
-                if (!await propertiesDetails.SaveChangesAsync())
+                if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
                 {
                     return;
                 }
             }
 
+            (contentFrame.Content as PropertiesTab).Dispose();
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();

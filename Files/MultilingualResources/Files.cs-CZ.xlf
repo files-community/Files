@@ -6,22 +6,6 @@
     </header>
     <body>
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
-        <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Delete Item(s)</source>
-          <target state="translated">Odstranit položku/y</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Storno</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated">Odstranit</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
-          <source>Permanently delete</source>
-          <target state="translated">Odstranit navždy</target>
-        </trans-unit>
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Otevřít na nové kartě</target>
@@ -124,15 +108,15 @@
           <source>Item type:</source>
           <target state="translated">Typ položky:</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Vybrat vše</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Obrátit výběr</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">Vymazat výběr</target>
         </trans-unit>
@@ -1124,8 +1108,9 @@
           <target state="translated">Ano</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
-          <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
-          <target state="translated">Aby bylo možné použít jazykové nastavení, je třeba aplikaci restartovat. Chcete ji restartovat?</target>
+          <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
+          <target state="needs-review-translation">Aby bylo možné použít jazykové nastavení, je třeba aplikaci restartovat. Chcete ji restartovat?</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -1146,14 +1131,6 @@
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Storno</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete these {0} items?</source>
-          <target state="translated">Opravdu chcete odstranit {0} položek?</target>
-        </trans-unit>
-        <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete this item?</source>
-          <target state="translated">Opravdu chcete smazat tuto položku?</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
@@ -1739,26 +1716,6 @@
           <source>Move here</source>
           <target state="translated">Přesunout sem</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
-          <source>Widgets</source>
-          <target state="translated">Widgety</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
-          <source>Show drives on the home page</source>
-          <target state="translated">Zobrazit disky na domovské stránce</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
-          <source>Show library cards on the home page</source>
-          <target state="translated">Zobrazit karty knihovny na domovské stránce</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show recent files on the home page</source>
-          <target state="translated">Zobrazit poslední soubory na domovské stránce</target>
-        </trans-unit>
-        <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Widgets</source>
-          <target state="translated">Widgety</target>
-        </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
           <target state="translated">Bezpečné odpojení zařízení</target>
@@ -1971,10 +1928,6 @@
         <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Složky</target>
-        </trans-unit>
-        <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Enable animations when opening and closing the context menu</source>
-          <target state="translated">Povolit animace při otevírání a zavírání kontextové nabídky</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details View</source>
@@ -2189,10 +2142,6 @@
           <source>Cloud Drives</source>
           <target state="new">Cloud Drives</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
-          <source>Show bundles on the home page</source>
-          <target state="new">Show bundles on the home page</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
@@ -2265,13 +2214,9 @@
           <source>Unknown</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Neznámý</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Vícenásobný výběr</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="new">Enable multiselect options (currently only available in the tiles and grid view layout modes)</target>
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
@@ -2588,6 +2533,230 @@
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open Storage Sense</source>
+          <target state="new">Open Storage Sense</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Open Storage Sense</source>
+          <target state="new">Open Storage Sense</target>
+        </trans-unit>
+        <trans-unit id="PropertyISO" translate="yes" xml:space="preserve">
+          <source>ISO speed</source>
+          <target state="new">ISO speed</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>{0} items will be copied</source>
+          <target state="new">{0} items will be copied</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Copy item(s)</source>
+          <target state="new">Copy item(s)</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Delete item(s)</source>
+          <target state="new">Delete item(s)</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Move</source>
+          <target state="new">Move</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>{0} items will be moved</source>
+          <target state="new">{0} items will be moved</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Move item(s)</source>
+          <target state="new">Move item(s)</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
+          <source>{0} items will be deleted</source>
+          <target state="new">{0} items will be deleted</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Continue</source>
+          <target state="new">Continue</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Conflicting file name(s)</source>
+          <target state="new">Conflicting file name(s)</target>
+        </trans-unit>
+        <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>One item will be copied</source>
+          <target state="new">One item will be copied</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>One item will be deleted</source>
+          <target state="new">One item will be deleted</target>
+        </trans-unit>
+        <trans-unit id="MoveItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
+          <source>One item will be moved</source>
+          <target state="new">One item will be moved</target>
+        </trans-unit>
+        <trans-unit id="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
+          <source>Permanently delete</source>
+          <target state="new">Permanently delete</target>
+        </trans-unit>
+        <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Didn't find what you're looking for?</source>
+          <target state="new">Didn't find what you're looking for?</target>
+        </trans-unit>
+        <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
+          <source>Search unindexed items.</source>
+          <target state="new">Search unindexed items.</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarWidgets.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Manage widgets</source>
+          <target state="new">Manage widgets</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarWidgetsManager.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Manage widgets</source>
+          <target state="new">Manage widgets</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowBundlesWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles widget</source>
+          <target state="new">Show Bundles widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowDrivesWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Drives widget</source>
+          <target state="new">Show Drives widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowRecentFilesWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Recent Files widget</source>
+          <target state="new">Show Recent Files widget</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarManageWidgetsFlyoutHeader.Text" translate="yes" xml:space="preserve">
+          <source>Manage Widgets</source>
+          <target state="new">Manage Widgets</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowLibraryWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Library widget</source>
+          <target state="new">Show Library widget</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open themes folder</source>
+          <target state="new">Open themes folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsUseNewDetailsView.Header" translate="yes" xml:space="preserve">
+          <source>Use new details view</source>
+          <target state="new">Use new details view</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_DateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_FileType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
+          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s).</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name, and {0} outgoing item(s).</source>
+          <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionSkip.Text" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionSkip" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogUndoOption.Text" translate="yes" xml:space="preserve">
+          <source>Undo</source>
+          <target state="new">Undo</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names.</source>
+          <target state="new">There are {0} conflicting file names.</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name.</source>
+          <target state="new">There is one conflicting file name.</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
+          <source>Create folder with selection</source>
+          <target state="new">Create folder with selection</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
+          <source>Name:</source>
+          <target state="new">Name:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="new">Type:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
+          <source>Date modified:</source>
+          <target state="new">Date modified:</target>
         </trans-unit>
       </group>
     </body>
