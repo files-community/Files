@@ -1107,7 +1107,7 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View">
-                                        <BitmapIcon UriSource="ms-appx:///Assets/FluentIcons/ColumnIcon.png" ShowAsMonochrome="True"></BitmapIcon>
+                                        <BitmapIcon Height="16" UriSource="ms-appx:///Assets/FluentIcons/ColumnIcon.png" ShowAsMonochrome="True"></BitmapIcon>
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
