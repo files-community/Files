@@ -77,7 +77,7 @@ namespace Files.Views
             var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
             foreach (IconFileInfo iFInfo in icons)
             {
-                iFInfo.LoadImageFromModelString();
+                await iFInfo.LoadImageFromModelString();
             }
             IconSelectionGrid.ItemsSource = icons;
         }

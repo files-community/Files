@@ -48,7 +48,7 @@ namespace Files.Views
             if (AppInstance?.ServiceConnection != null && response.Data != null)
             {
                 var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
-                (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath, SelectedDirectory = BaseProperties.ViewModel.ItemPath }, new SuppressNavigationTransitionInfo());
+                (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath, SelectedDirectory = (BaseProperties as FolderProperties)?.Item.ItemPath }, new SuppressNavigationTransitionInfo());
             }
         }
 

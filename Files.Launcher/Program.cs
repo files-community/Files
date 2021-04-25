@@ -539,7 +539,7 @@ namespace FilesFullTrust
                     }
                     else
                     {
-                        SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"], (int)message["iconIndex"]);
+                        SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"], Convert.ToInt32(message["iconIndex"]));
                     }
                     break;
 
@@ -551,7 +551,7 @@ namespace FilesFullTrust
                     }, message.Get("RequestID", (string)null));
                     break;
                 case "GetIconFromDLL":
-                    var iconInfo = Win32API.ExtractIconFromDLL((string)message["iconFile"], (int)message["iconIndex"]);
+                    var iconInfo = Win32API.ExtractIconFromDLL((string)message["iconFile"], Convert.ToInt32(message["iconIndex"]));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "IconInfo", JsonConvert.SerializeObject(iconInfo) },
@@ -590,7 +590,7 @@ namespace FilesFullTrust
             fileName = Path.Combine(folderPath, fileName);
 
             // Create the file
-            using (StreamWriter sw = new StreamWriter(fileName))
+            using (var sw = File.CreateText(fileName))
             {
                 sw.WriteLine("[.ShellClassInfo]");
                 sw.WriteLine("ConfirmFileOp={0}", true);
@@ -600,9 +600,6 @@ namespace FilesFullTrust
                 sw.WriteLine("InfoTip={0}", folder.Name);
                 sw.Close();
             }
-
-            // Update the folder attributes
-            folder.Attributes = folder.Attributes | System.IO.FileAttributes.System;
 
             // "Hide" the desktop.ini
             File.SetAttributes(fileName, File.GetAttributes(fileName) | System.IO.FileAttributes.Hidden);
