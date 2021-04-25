@@ -280,6 +280,7 @@ namespace Files.Views
             else
             {
                 NavigationToolbar.PathComponents.Clear(); // Clear the path UI
+                NavigationToolbar.IsSingleItemOverride = true;
                 NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }

@@ -151,10 +151,10 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap" />
+                        TextWrapping="NoWrap"
+                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                 </Grid>
                 <Popup
                     x:Name="EditPopup"
@@ -390,10 +390,12 @@
             animations:ItemsReorderAnimation.Duration="0:0:0.350"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-            CanDragItems="True"
+            CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
+            DragEnter="ItemsLayout_DragEnter"
             DragItemsStarting="FileList_DragItemsStarting"
+            Drop="ItemsLayout_Drop"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"

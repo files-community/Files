@@ -270,7 +270,7 @@ namespace Files.Filesystem
         {
             try
             {
-                return storageItems.Any(storageItem =>
+                return storageItems.All(storageItem =>
                 Directory.GetParent(storageItem.Path).FullName.Equals(
                     destinationPath, StringComparison.OrdinalIgnoreCase));
             }

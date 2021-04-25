@@ -262,6 +262,7 @@ namespace Files.Views
                 var lastCommonItemIndex = NavigationToolbar.PathComponents
                     .Select((value, index) => new { value, index })
                     .LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+                NavigationToolbar.IsSingleItemOverride = false;
                 while (NavigationToolbar.PathComponents.Count > lastCommonItemIndex)
                 {
                     NavigationToolbar.PathComponents.RemoveAt(lastCommonItemIndex);
@@ -274,6 +275,7 @@ namespace Files.Views
             else
             {
                 NavigationToolbar.PathComponents.Clear(); // Clear the path UI
+                NavigationToolbar.IsSingleItemOverride = true;
                 NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
