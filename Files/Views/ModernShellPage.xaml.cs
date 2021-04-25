@@ -47,7 +47,7 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel; 
+        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -178,20 +178,7 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
-            NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged += ModernShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
-            NavigationToolbar.BackRequested += ModernShellPage_BackNavRequested;
-            NavigationToolbar.ForwardRequested += ModernShellPage_ForwardNavRequested;
-            NavigationToolbar.UpRequested += ModernShellPage_UpNavRequested;
-            NavigationToolbar.RefreshRequested += ModernShellPage_RefreshRequested;
-            NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
-            NavigationToolbar.ItemDraggedOverPathItem += ModernShellPage_NavigationRequested;
             NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
-            NavigationToolbar.CanGoBack = false;
-            NavigationToolbar.CanGoForward = false;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
@@ -262,7 +249,6 @@ namespace Files.Views
                 var lastCommonItemIndex = NavigationToolbar.PathComponents
                     .Select((value, index) => new { value, index })
                     .LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
-                NavigationToolbar.IsSingleItemOverride = false;
                 while (NavigationToolbar.PathComponents.Count > lastCommonItemIndex)
                 {
                     NavigationToolbar.PathComponents.RemoveAt(lastCommonItemIndex);
@@ -275,7 +261,6 @@ namespace Files.Views
             else
             {
                 NavigationToolbar.PathComponents.Clear(); // Clear the path UI
-                NavigationToolbar.IsSingleItemOverride = true;
                 NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
@@ -935,7 +920,7 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GenericFileBrowser2)
+            var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
                 || CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -1436,7 +1421,7 @@ namespace Files.Views
             }
             else
             {
-                if (string.IsNullOrEmpty(navigationPath) 
+                if (string.IsNullOrEmpty(navigationPath)
                     || string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
                     || navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
                         FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
@@ -1447,7 +1432,7 @@ namespace Files.Views
 
                 NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
-                if (sourcePageType == typeof(WidgetsPage) 
+                if (sourcePageType == typeof(WidgetsPage)
                     || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) && (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();
