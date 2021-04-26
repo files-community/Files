@@ -446,42 +446,6 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
-#if DEBUG
-            Debug.WriteLine("--------- UNHANDLED EXCEPTION ---------");
-            if (ex != null)
-            {
-                Debug.WriteLine($"\n>>>> HRESULT: {ex.HResult}\n");
-                if (ex.Message != null)
-                {
-                    Debug.WriteLine("\n--- MESSAGE ---");
-                    Debug.WriteLine(ex.Message);
-                }
-                if (ex.StackTrace != null)
-                {
-                    Debug.WriteLine("\n--- STACKTRACE ---");
-                    Debug.WriteLine(ex.StackTrace);
-                }
-                if (ex.Source != null)
-                {
-                    Debug.WriteLine("\n--- SOURCE ---");
-                    Debug.WriteLine(ex.Source);
-                }
-                if (ex.InnerException != null)
-                {
-                    Debug.WriteLine("\n--- INNER ---");
-                    Debug.WriteLine(ex.InnerException);
-                }
-            }
-            else
-            {
-                Debug.WriteLine("\nException is null!\n");
-            }
-
-            Debug.WriteLine("---------------------------------------");
-
-            Debugger.Break(); // Please check "Output" Window for exception details (View -> Output Window) (CTRL + ALT + O)
-#endif
-
             SaveSessionTabs();
             Logger.Error(ex, ex.Message);
             if (ShowErrorNotification)
