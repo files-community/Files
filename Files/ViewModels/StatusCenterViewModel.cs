@@ -19,11 +19,18 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
-    public class StatusCenterViewModel : ObservableObject, INotifyPropertyChanged, IStatusCenterActions
+    public class StatusCenterViewModel : ObservableObject, IStatusCenterActions
     {
         #region Public Properties
 
         public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+
+        private float medianOperationProgressValue = 0.0f;
+        public float MedianOperationProgressValue
+        {
+            get => medianOperationProgressValue;
+            private set => SetProperty(ref medianOperationProgressValue, value);
+        }
 
         public int OngoingOperationsCount
         {
@@ -87,24 +94,36 @@ namespace Files.ViewModels
             return true;
         }
 
-        #endregion IStatusCenterActions
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public void UpdateBanner(StatusBanner banner)
         {
-            NotifyPropertyChanged(nameof(OngoingOperationsCount));
-            NotifyPropertyChanged(nameof(AnyOperationsOngoing));
+            OnPropertyChanged(nameof(OngoingOperationsCount));
+            OnPropertyChanged(nameof(AnyOperationsOngoing));
         }
 
-        #endregion INotifyPropertyChanged
+        public void UpdateMedianProgress()
+        {
+            // Recalculate 
+            if (!AnyOperationsOngoing)
+            {
+                return;
+            }
+
+            float median = StatusBannersSource.Where((item) => item.IsProgressing).First().Progress;
+
+            if (OngoingOperationsCount >= 2)
+            {
+                foreach (var item in StatusBannersSource.Where((item) => item.IsProgressing).ToList().GetRange(1, StatusBannersSource.Count - 1))
+                {
+                    median *= item.Progress;
+                }
+
+                median *= 100.0f;
+            }
+
+            MedianOperationProgressValue = median;
+        }
+
+        #endregion IStatusCenterActions
     }
 
     public class PostedStatusBanner
@@ -148,6 +167,7 @@ namespace Files.ViewModels
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
                 statusCenterActions.UpdateBanner(Banner);
+                statusCenterActions.UpdateMedianProgress();
                 return;
             }
             else
