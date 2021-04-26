@@ -352,7 +352,7 @@ namespace Files
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-
+            ParentShellPageInstance.LoadPreviewPaneChanged();
             FolderSettings.IsLayoutModeChanging = false;
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
