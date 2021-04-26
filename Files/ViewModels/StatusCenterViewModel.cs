@@ -94,7 +94,6 @@ namespace Files.ViewModels
             return true;
         }
 
-
         public void UpdateBanner(StatusBanner banner)
         {
             OnPropertyChanged(nameof(OngoingOperationsCount));
