@@ -446,44 +446,46 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
-#if DEBUG
-            Debug.WriteLine("--------- UNHANDLED EXCEPTION ---------");
+            string formattedException = string.Empty;
+
+            formattedException += "--------- UNHANDLED EXCEPTION ---------";
             if (ex != null)
             {
-                Debug.WriteLine($"\n>>>> HRESULT: {ex.HResult}\n");
+                formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
                 if (ex.Message != null)
                 {
-                    Debug.WriteLine("\n--- MESSAGE ---");
-                    Debug.WriteLine(ex.Message);
+                    formattedException += "\n--- MESSAGE ---";
+                    formattedException += ex.Message;
                 }
                 if (ex.StackTrace != null)
                 {
-                    Debug.WriteLine("\n--- STACKTRACE ---");
-                    Debug.WriteLine(ex.StackTrace);
+                    formattedException += "\n--- STACKTRACE ---";
+                    formattedException += ex.StackTrace;
                 }
                 if (ex.Source != null)
                 {
-                    Debug.WriteLine("\n--- SOURCE ---");
-                    Debug.WriteLine(ex.Source);
+                    formattedException += "\n--- SOURCE ---";
+                    formattedException += ex.Source;
                 }
                 if (ex.InnerException != null)
                 {
-                    Debug.WriteLine("\n--- INNER ---");
-                    Debug.WriteLine(ex.InnerException);
+                    formattedException += "\n--- INNER ---";
+                    formattedException += ex.InnerException;
                 }
             }
             else
             {
-                Debug.WriteLine("\nException is null!\n");
+                formattedException += "\nException is null!\n";
             }
 
-            Debug.WriteLine("---------------------------------------");
+            formattedException += "---------------------------------------";
+
+            Debug.WriteLine(formattedException);
 
             Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
-#endif
 
             SaveSessionTabs();
-            Logger.Error(ex, ex.Message);
+            Logger.Error(ex, formattedException);
             if (ShowErrorNotification)
             {
                 var toastContent = new ToastContent()
