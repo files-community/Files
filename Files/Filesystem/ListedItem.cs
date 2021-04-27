@@ -121,14 +121,32 @@ namespace Files.Filesystem
             set => SetProperty(ref opacity, value);
         }
 
-        private CloudDriveSyncStatusUI syncStatusUI;
+        private CloudDriveSyncStatusUI syncStatusUI = new CloudDriveSyncStatusUI();
 
         [JsonIgnore]
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => syncStatusUI;
-            set => SetProperty(ref syncStatusUI, value);
+            set
+            {
+                // For some reason this being null will cause a crash with bindings
+                if(value is null)
+                {
+                    value = new CloudDriveSyncStatusUI();
+                }
+                if(SetProperty(ref syncStatusUI, value))
+                {
+                    OnPropertyChanged(nameof(SyncStatusString));
+                }
+            }
         }
+
+        // This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
+        public string SyncStatusString
+        {
+            get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalized() : SyncStatusUI.SyncStatusString;
+        }
+
 
         private BitmapImage fileImage;
 
