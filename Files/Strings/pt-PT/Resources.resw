@@ -87,13 +87,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipo de ficheiro:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Selecionar Tudo</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Inverter seleção</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Limpar Seleção</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -1644,7 +1644,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconhecido</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Seleção múltipla</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">

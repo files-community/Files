@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Szukaj</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Zaznacz wszystko</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Wyczyść zaznaczenie</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ustawienia</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Odwróć zaznaczenie</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -1635,7 +1635,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nieznane</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Wielokrotne zaznaczanie</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">

@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>搜尋</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>全部選擇</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>取消選擇</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>設定</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反選</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -1614,7 +1614,7 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>前往通用檔案管理器的說明文件網站</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>多重選取</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">

@@ -87,13 +87,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Típus:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Összes kijelölése</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Kijelölés megfordítása</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Kijelölés megszüntetése</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -1644,7 +1644,7 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Látogasson el a Files dokumentációs oldalára</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Több elem kijelölése</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
