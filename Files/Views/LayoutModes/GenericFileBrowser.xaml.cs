@@ -543,14 +543,7 @@ namespace Files.Views.LayoutModes
                 }
                 else
                 {
-                    if (AppSettings.OpenFoldersNewTab)
-                    {
-                        NavigationHelpers.OpenPathNewTab(ParentShellPageInstance, false);
-                    }
-                    else
-                    {
-                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                    }
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
                 e.Handled = true;
             }

@@ -58,26 +58,6 @@ namespace Files.Helpers
                 await associatedInstance.ServiceConnection.SendMessageAsync(value);
             }
         }
-        //
-
-        public static async void OpenPathNewTab(IShellPage associatedInstance, bool openViaApplicationPicker = false)
-        {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
-            {
-                // Do not open files and folders inside the recycle bin
-                return;
-            }
-            if (associatedInstance.SlimContentPage == null)
-            {
-                return;
-            }
-            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
-            {
-                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
-                    FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPathInNewTab(item.ItemPath);
-            }
-        }
 
         public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
         {
@@ -94,7 +74,11 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+
+                if (App.AppSettings.OpenFoldersNewTab)
+                    await OpenPathInNewTab(item.ItemPath);
+                else
+                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
             }
         }
 
