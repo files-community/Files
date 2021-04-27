@@ -4,7 +4,6 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -91,6 +90,7 @@ namespace Files.ViewModels
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
+
         public static void OpenThemesFolder()
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -285,6 +285,7 @@ namespace Files.ViewModels
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+
         public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
@@ -551,13 +552,17 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// Gets or sets the user's current selected theme
         /// </summary>
-        public string PathToThemeFile
+        public AppTheme SelectedTheme
         {
-            get => Get("DefaultScheme".GetLocalized());
-            set => Set(value);
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            {
+                Name = "DefaultScheme".GetLocalized()
+            })));
+            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
+
         #endregion Appearance
 
         #region Experimental
@@ -576,7 +581,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool UseFileListCache
         {
-            get => Get(true);
+            get => Get(false);
             set => Set(value);
         }
 
@@ -599,9 +604,9 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// Gets or sets a value whether or not to enable the new list view based details view.
         /// </summary>
-        public bool ShowMultiselectOption
+        public bool UseNewDetailsView
         {
             get => Get(false);
             set => Set(value);

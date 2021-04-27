@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.ViewModels.Widgets
 {

@@ -3,7 +3,6 @@ using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -17,6 +16,7 @@ namespace Files.Filesystem
     public class DriveItem : ObservableObject, INavigationControlItem
     {
         public SvgImageSource Icon { get; set; }
+        public Uri IconSource { get; set; }
 
         private string path;
 
@@ -96,8 +96,8 @@ namespace Files.Filesystem
 
         public SectionType Section { get; set; }
 
-
         private float percentageUsed = 0.0f;
+
         public float PercentageUsed
         {
             get => percentageUsed;
@@ -121,6 +121,7 @@ namespace Files.Filesystem
         }
 
         private bool showStorageSense = false;
+
         public bool ShowStorageSense
         {
             get => showStorageSense;
@@ -194,47 +195,48 @@ namespace Files.Filesystem
                 switch (type)
                 {
                     case DriveType.Fixed:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive.svg"));
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive.svg");
                         break;
 
                     case DriveType.Removable:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
                         break;
 
                     case DriveType.Network:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg"));
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg");
                         break;
 
                     case DriveType.Ram:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
                         break;
 
                     case DriveType.CDRom:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
                         break;
 
                     case DriveType.Unknown:
                         break;
 
                     case DriveType.NoRootDirectory:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
                         break;
 
                     case DriveType.VirtualDrive:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
                         break;
 
                     case DriveType.CloudDrive:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
                         break;
 
                     case DriveType.FloppyDisk:
-                        Icon = new SvgImageSource(new Uri("ms-appx:///Assets/FluentIcons/Folder.svg")); // TODO
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
+                Icon = new SvgImageSource(IconSource);
             });
         }
 

@@ -98,16 +98,16 @@
                 Visibility="{x:Bind Model.DetailsListVisibility, Mode=OneWay}">
                 <ListView.Header>
                     <StackPanel Orientation="Vertical" Spacing="5" Margin="10">
-                        <TextBlock IsTextSelectionEnabled="True" FontWeight="Bold" Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}" FontSize="20" TextWrapping="Wrap"/>
-                        <TextBlock Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}" FontSize="18" IsTextSelectionEnabled="True" TextWrapping="Wrap"/>
+                        <TextBlock IsTextSelectionEnabled="True" FontWeight="Bold" Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}" FontSize="20" TextWrapping="Wrap" />
+                        <TextBlock Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}" FontSize="18" IsTextSelectionEnabled="True" TextWrapping="Wrap" />
                     </StackPanel>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
                         <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}" Padding="0, 0, 0, 10">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
 
                             <TextBlock
@@ -117,7 +117,7 @@
                                 Style="{StaticResource HeaderTextBlockStyle}"
                                 Text="{x:Bind Name, Mode=OneWay}"
                                 FontSize="14" />
-                            
+
                             <TextBlock
                                 x:Name="PropertyValueTemplateTextBox"
                                 Grid.Row="1"

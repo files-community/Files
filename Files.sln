@@ -11,8 +11,6 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "Files.Pack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files.Extensions", "Files.Extensions\Files.Extensions.vcxproj", "{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,26 +122,6 @@ Global
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x64.Build.0 = Release|Any CPU
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x86.ActiveCfg = Release|Any CPU
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x86.Build.0 = Release|Any CPU
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|Any CPU.Build.0 = Debug|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|ARM.ActiveCfg = Debug|ARM
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|ARM.Build.0 = Debug|ARM
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|ARM64.Build.0 = Debug|ARM64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|x64.ActiveCfg = Debug|x64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|x64.Build.0 = Debug|x64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|x86.ActiveCfg = Debug|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Debug|x86.Build.0 = Debug|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|Any CPU.ActiveCfg = Release|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|Any CPU.Build.0 = Release|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|ARM.ActiveCfg = Release|ARM
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|ARM.Build.0 = Release|ARM
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|ARM64.ActiveCfg = Release|ARM64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|ARM64.Build.0 = Release|ARM64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|x64.ActiveCfg = Release|x64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|x64.Build.0 = Release|x64
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|x86.ActiveCfg = Release|Win32
-		{D4E6A3AB-DF72-44A4-9ACB-C8A222656A20}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

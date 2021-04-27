@@ -15,7 +15,7 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private string selectedThemeName = App.AppSettings.PathToThemeFile;
+        private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
         private bool showRestartControl = false;
         public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
 
@@ -36,7 +36,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         public List<string> Themes { get; set; }
-        public List<string> ColorSchemes => App.ExternalResourcesHelper.Themes;
+        public List<AppTheme> ColorSchemes => App.ExternalResourcesHelper.Themes;
 
         public int SelectedThemeIndex
         {
@@ -97,17 +97,17 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public string SelectedThemeName
+        public AppTheme SelectedTheme
         {
             get
             {
-                return selectedThemeName;
+                return selectedTheme;
             }
             set
             {
-                if (SetProperty(ref selectedThemeName, value))
+                if (SetProperty(ref selectedTheme, value))
                 {
-                    App.AppSettings.PathToThemeFile = selectedThemeName;
+                    App.AppSettings.SelectedTheme = selectedTheme;
                     ShowRestartControl = true;
                 }
             }

@@ -505,13 +505,13 @@
     <value>選択されたファイル</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>選択された項目</value>
+    <value>選択されたファイル</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>項目</value>
+    <value>ファイル</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>項目</value>
+    <value>ファイル</value>
   </data>
   <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>サイドバーに固定</value>
@@ -526,7 +526,7 @@
     <value>キャンセル</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>すべての項目を削除してもよろしいですか？</value>
+    <value>すべてのファイルを削除してもよろしいですか？</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>ごみ箱を空にする</value>
@@ -652,7 +652,7 @@
     <value>結果なし</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>表示する項目にアクセスできません</value>
+    <value>表示するファイルにアクセスできません</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>[${0}]に移動</value>
@@ -742,10 +742,10 @@
     <value>Filesの新機能を見る</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>参照されている項目は無効であるか、アクセスできません。{0}エラーメッセージ:{0}{1}</value>
+    <value>参照されているファイルは無効であるか、アクセスできません。{0}エラーメッセージ:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>無効な項目</value>
+    <value>無効なファイル</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>バージョン:</value>
@@ -754,10 +754,10 @@
     <value>現在共有できるものはありません。</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>選択した項目が共有されます</value>
+    <value>選択したファイルが共有されます</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>選択した項目が共有されます</value>
+    <value>選択したファイルが共有されます</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>{0}を共有しています</value>
@@ -766,10 +766,10 @@
     <value>{0} {1}を共有しています</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>名前を変更しようとしている項目が既に存在しません。 名前を変更する必要がある項目の正しい場所を確認してください。</value>
+    <value>名前を変更しようとしているファイルが既に存在しません。 名前を変更する必要があるファイルの正しい場所を確認してください。</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>項目が既に存在しません</value>
+    <value>ファイルが既に存在しません</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
     <value>指定された名前が無効でした。 目的の名前を確認して、再試行してください。</value>
@@ -835,10 +835,10 @@
     <value>言語設定を適用するには、アプリケーションを再起動する必要があります。アプリを再起動しますか？</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>新しい項目の作成</value>
+    <value>新しいファイルの作成</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>以下で新しい項目の種類を選択してください</value>
+    <value>以下で新しいファイルの種類を選択してください</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>キャンセル</value>
@@ -889,7 +889,7 @@
     <value>PayPal で支援する</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>この項目を作成できませんでした</value>
+    <value>このファイルを作成できませんでした</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>アクセスが拒否されました</value>
@@ -934,10 +934,10 @@
     <value>フォルダ</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>ごみ箱の項目</value>
+    <value>ごみ箱のファイル</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>ショートカットの項目</value>
+    <value>ショートカットのアイテム</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>ここに移動</value>
@@ -988,7 +988,7 @@
     <value>評価</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>項目の種類</value>
+    <value>ファイルの種類</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>タイトル</value>
@@ -1363,7 +1363,7 @@
     <value>新しいファイル</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>検索時にインデックスされていない項目を表示 (検索に時間がかかる恐れがあります)</value>
+    <value>検索時にインデックスされていないファイルを表示 (検索に時間がかかる恐れがあります)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>フォルダごとに設定を保存</value>
@@ -1638,9 +1638,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>複数選択</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>複数選択を有効化(現在タイルビューとグリッドビューのみで利用可能)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか？</value>
   </data>
@@ -1741,7 +1738,7 @@
     <value>配色</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>項目数</value>
+    <value>ファイル数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>削除に失敗</value>
@@ -1783,7 +1780,7 @@
     <value>管理者</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Filesが管理者権限で起動しています</value>
+    <value>Filesは管理者権限で起動しています</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>スタートメニューに固定</value>
@@ -1796,5 +1793,197 @@
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
     <value>カラム表示</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>カラム表示</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{2:#,##0} か所からの {0:#,##0} ファイル, {1:#,##0} フォルダ</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>ライブラリ</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>ライブラリ</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>ライブラリ</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>場所:</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>デフォルト</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>デフォルトの保存場所に設定</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>場所なし</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>その他のライブラリ オプション</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>その他のオプション...</value>
+  </data>
+  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>ライブラリを作成</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>希望する名前</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>ライブラリを作成</value>
+  </data>
+  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
+    <value>新しいライブラリの名前を入力</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>入力フィールドは空欄にはできません！</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>名前には以下の文字は使用できません: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>この名前は使用できません！</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>同じ名前のライブラリが既に存在しています！</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>ライブラリを削除</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
+    <value>ライブラリを削除</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
+    <value>本当にこのライブラリを削除しますか？ ファイルとフォルダはファイルシステムに残存します。</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="DialogCancelButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ストレージ センサーを開く</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ストレージ センサーを開く</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO 感度</value>
+  </data>
+  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0}個のファイルがコピーされます</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>ファイルをコピー</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>ファイルを削除</value>
+  </data>
+  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0}個のファイルが移動されます</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>ファイルを移動</value>
+  </data>
+  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0}個のファイルが削除されます</value>
+  </data>
+  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>1個のファイルがコピーされます</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>1個のファイルが削除されます</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>1個のファイルが移動されます</value>
+  </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>完全に削除</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>お探しのファイルが見つかりませんでしたか？</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>インデックスされていないファイルを検索</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ウィジェットを管理</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>ウィジェットを管理</value>
+  </data>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>バンドル ウィジェットを表示</value>
+  </data>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>ドライブ ウィジェットを表示</value>
+  </data>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>最近使用したファイル ウィジェットを表示</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>ウィジェットを管理</value>
+  </data>
+  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+    <value>ライブラリ ウィジェットを表示</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>テーマ フォルダを開く</value>
+  </data>
+  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
+    <value>新しい詳細ビューを使用</value>
+  </data>
+  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
+    <value>変更日時</value>
+  </data>
+  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
+    <value>タイプ</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>{0}個の競合するファイル名と、{1}個のそうでないファイルがあります</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>1個の競合するファイル名と、{0}個のそうでないファイルがあります</value>
   </data>
 </root>

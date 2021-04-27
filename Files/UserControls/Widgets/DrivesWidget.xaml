@@ -12,16 +12,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <StaticResource x:Key="ButtonBackground" ResourceKey="ControlFillColorDefaultBrush" />
-        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-        <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="ControlFillColorDisabledBrush" />
-        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="ControlElevationBorderBrush" />
-        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
-        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
-        <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
-    </UserControl.Resources>
     <StackPanel Spacing="12">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -106,6 +96,7 @@
                             VerticalContentAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind Text, Mode=OneWay}"
                             Click="Button_Click"
+                            PointerPressed="Button_PointerPressed"
                             CornerRadius="8"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
@@ -197,12 +188,12 @@
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
                                     <Grid Margin="0,0,0,8" HorizontalAlignment="Stretch">
-                                        
+
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <TextBlock
                                             x:Name="ItemLocationName"
                                             VerticalAlignment="Center"
@@ -210,13 +201,13 @@
                                             FontWeight="Medium"
                                             Text="{x:Bind Text, Mode=OneWay}"
                                             TextWrapping="NoWrap" />
-                                        
-                                        <Button 
+
+                                        <Button
                                             x:Uid="DrivesWidgetOpenStorageSenseButton"
                                             x:Name="GoToStorageSense"
                                             x:Load="{x:Bind ShowStorageSense}"
                                             AutomationProperties.Name="Open Storage Sense"
-                                            Grid.Column="1" 
+                                            Grid.Column="1"
                                             HorizontalAlignment="Right"
                                             Click="GoToStorageSense_Click"
                                             Background="Transparent"
@@ -231,7 +222,7 @@
                                                 Glyph="&#xE7BA;"
                                                 FontSize="18"
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"/>
+                                                VerticalAlignment="Center" />
                                         </Button>
                                     </Grid>
                                     <muxc:ProgressBar

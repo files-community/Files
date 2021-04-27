@@ -1,7 +1,5 @@
 ﻿using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
-using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -29,15 +27,9 @@ namespace Files.UserControls.MultitaskingControl
 
         private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
         {
-            switch (args.CollectionChange)
+            if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
             {
-                case Windows.Foundation.Collections.CollectionChange.ItemRemoved:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
-                    break;
-
-                case Windows.Foundation.Collections.CollectionChange.ItemInserted:
-                    App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
-                    break;
+                App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
             }
 
             if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
@@ -85,7 +77,7 @@ namespace Files.UserControls.MultitaskingControl
             tabHoverTimer.Stop();
             if (hoveredTabViewItem != null)
             {
-                HorizontalTabView.SelectedItem = hoveredTabViewItem;
+                App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
             }
         }
 

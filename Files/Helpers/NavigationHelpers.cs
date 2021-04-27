@@ -1,19 +1,20 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Enums;
+using Files.Filesystem;
+using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.System;
-using Files.Common;
-using Windows.Storage.Search;
-using Windows.Storage;
-using Files.Enums;
-using Microsoft.Toolkit.Uwp;
-using Windows.UI.Core;
 using Windows.ApplicationModel.Core;
-using Files.ViewModels;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Search;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -74,7 +75,7 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-
+              
                 if (App.AppSettings.OpenFoldersNewTab)
                     await OpenPathInNewTab(item.ItemPath);
                 else
@@ -110,7 +111,7 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

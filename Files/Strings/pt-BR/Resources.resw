@@ -1605,9 +1605,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Multisseleção</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Ativar opções de multisseleção (atualmente disponível apenas nos modos de layout de visualização em grade e blocos)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Se você alterar uma extensão de arquivo, o arquivo pode se tornar inutilizável. Tem certeza de que deseja alterar?</value>
   </data>

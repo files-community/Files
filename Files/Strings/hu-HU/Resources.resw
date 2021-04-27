@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Több elem kijelölése</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Többszörös kijelölés (jelenleg lista és ikon nézetekben elérhető)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Ha módosítja egy fájl kiterjesztését, akkor az használhatatlanná válhat. Végrehajtja a módosítást?</value>
   </data>
@@ -1806,6 +1803,12 @@
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mozaik</value>
   </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Oszlop nézet</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} fájl, {1:#,##0} mappa {2:#,##0} helyről</value>
+  </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Könyvtár</value>
   </data>
@@ -1815,14 +1818,26 @@
   <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
     <value>Könyvtár</value>
   </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>Helyek:</value>
+  </data>
   <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
     <value>Hozzáadás</value>
   </data>
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>Alapértelmezett</value>
   </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Beállítás alapértelmezett mentési útvonalként</value>
+  </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>Eltávolítás</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>Nincsenek helyek</value>
+  </data>
+  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>További widget lehetőségek</value>
   </data>
   <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>További lehetőségek...</value>
@@ -1836,13 +1851,139 @@
   <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Létrehozás</value>
   </data>
+  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
+    <value>Adja meg a könyvtár új nevét</value>
+  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>A mező nem lehet üres!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>Ez a név nem támogatott</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>Már létezik könyvtár ezzel a névvel!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>Könyvtár törlése</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
+    <value>Könyvtár törlése</value>
+  </data>
+  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
+    <value>Biztosan törölné ezt a könyvtárat? A fájlok és mappák megmaradnak a fájlrendszerben.</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>Létrehozás</value>
   </data>
   <data name="DialogCancelButtonText" xml:space="preserve">
     <value>Mégse</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Törlés</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO sebesség</value>
+  </data>
+  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Másolás</value>
+  </data>
+  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} elem másolva lesz</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>Elem(ek) másolása</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>Elem(ek) törlése</value>
+  </data>
+  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Áthelyezés</value>
+  </data>
+  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} elem át lesz helyezve</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>Elem(ek) áthelyezése</value>
+  </data>
+  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} elem törölve lesz</value>
+  </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Átnevezés</value>
+  </data>
+  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Felülírás/összefésülés</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>Ütköző fájlnevek</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Egy elem másolva lesz</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Egy elem törölve lesz</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Egy elem át lesz helyezve</value>
+  </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Végleges törlése</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>Nem találta amire keresett?</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>Nem indexelt elemek keresése.</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Widgetek kezelése</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>Widgetek kezelése</value>
+  </data>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>Munkaterületek megjelenítése</value>
+  </data>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>Meghajtók megjelenítése</value>
+  </data>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>Előzmények megjelenítése</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>Widgetek kezelése</value>
+  </data>
+  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+    <value>Könyvtárak megjelenítése</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Téma mappa megnyitása</value>
+  </data>
+  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
+    <value>Új részletek nézet használata</value>
+  </data>
+  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
+    <value>Módosítás dátuma</value>
+  </data>
+  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
+    <value>Típus</value>
   </data>
 </root>

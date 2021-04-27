@@ -282,11 +282,11 @@
           <source>Search</source>
           <target state="translated">搜尋</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">全部選擇</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">取消選擇</target>
         </trans-unit>
@@ -446,7 +446,7 @@
           <source>Settings</source>
           <target state="translated">設定</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">反選</target>
         </trans-unit>
@@ -1076,8 +1076,9 @@
           <target state="translated" state-qualifier="tm-suggestion">是</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
-          <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
-          <target state="translated">應用程式需要重啟以更改語言設定。您要重啟嗎？</target>
+          <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
+          <target state="needs-review-translation">應用程式需要重啟以更改語言設定。您要重啟嗎？</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -2187,13 +2188,9 @@
           <source>Visit the Files documentation website</source>
           <target state="translated">前往通用檔案管理器的說明文件網站</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlMultiselect.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated" state-qualifier="tm-suggestion">多重選取</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Enable multiselect options (currently only available in the tiles and grid view layout modes)</source>
-          <target state="translated">啟用多重選取（目前僅可在磁磚（並排）、縮略圖顯示模式中使用）</target>
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
@@ -2571,29 +2568,17 @@
           <source>{0} items will be deleted</source>
           <target state="new">{0} items will be deleted</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <source>Continue</source>
+          <target state="new">Continue</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Replace existing</source>
-          <target state="new">Replace existing</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
-          <source>There are {0} conflicting file names, and {1} outgoing item(s)</source>
-          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s)</target>
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
           <target state="new">Conflicting file name(s)</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
-          <source>There is one conflicting file name, and {0} outgoing item(s)</source>
-          <target state="new">There is one conflicting file name, and {0} outgoing item(s)</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be copied</source>
@@ -2646,6 +2631,106 @@
         <trans-unit id="NavToolbarShowLibraryWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Library widget</source>
           <target state="new">Show Library widget</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open themes folder</source>
+          <target state="new">Open themes folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsUseNewDetailsView.Header" translate="yes" xml:space="preserve">
+          <source>Use new details view</source>
+          <target state="new">Use new details view</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_DateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserSortOption_FileType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
+          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s).</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name, and {0} outgoing item(s).</source>
+          <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogOptionSkip.Text" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
+          <source>Replace existing</source>
+          <target state="new">Replace existing</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogTakenActionSkip" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="new">Generate new name</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogUndoOption.Text" translate="yes" xml:space="preserve">
+          <source>Undo</source>
+          <target state="new">Undo</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" translate="yes" xml:space="preserve">
+          <source>There are {0} conflicting file names.</source>
+          <target state="new">There are {0} conflicting file names.</target>
+        </trans-unit>
+        <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
+          <source>There is one conflicting file name.</source>
+          <target state="new">There is one conflicting file name.</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
+          <source>Create folder with selection</source>
+          <target state="new">Create folder with selection</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
+          <source>Name:</source>
+          <target state="new">Name:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="new">Type:</target>
+        </trans-unit>
+        <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
+          <source>Date modified:</source>
+          <target state="new">Date modified:</target>
         </trans-unit>
       </group>
     </body>

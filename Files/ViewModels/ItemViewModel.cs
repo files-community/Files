@@ -7,7 +7,6 @@ using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
@@ -52,7 +51,7 @@ namespace Files.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-        private FolderSettingsViewModel folderSettings = null;
+        public FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -704,8 +703,10 @@ namespace Files.ViewModels
                             if (fileIconInfo.IconData != null)
                             {
                                 item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
+                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadFileIcon = true;
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
@@ -724,6 +725,7 @@ namespace Files.ViewModels
                                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                                             {
                                                 item.FileImage = new BitmapImage();
+                                                item.CustomIconData = await Thumbnail.ToByteArrayAsync();
                                                 await item.FileImage.SetSourceAsync(Thumbnail);
                                                 item.LoadUnknownTypeGlyph = false;
                                                 item.LoadFileIcon = true;
@@ -752,6 +754,7 @@ namespace Files.ViewModels
                             if (fileIconInfo.IconData != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
                             {
                                 item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadFolderGlyph = false;
                                 item.LoadFileIcon = true;
@@ -950,12 +953,13 @@ namespace Files.ViewModels
                 }
             }
 
-            if (path.StartsWith(AppSettings.RecycleBinPath) ||
+            var isRecycleBin = path.StartsWith(AppSettings.RecycleBinPath);
+            if (isRecycleBin ||
                 path.StartsWith(AppSettings.NetworkFolderPath) ||
                 path.StartsWith("ftp:"))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
-                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
                 await EnumerateItemsFromSpecialFolderAsync(path);
             }
             else
@@ -1873,6 +1877,7 @@ namespace Files.ViewModels
     public class PageTypeUpdatedEventArgs
     {
         public bool IsTypeCloudDrive { get; set; }
+        public bool IsTypeRecycleBin { get; set; }
     }
 
     public class WorkingDirectoryModifiedEventArgs : EventArgs

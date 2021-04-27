@@ -4,27 +4,20 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
-using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -50,6 +43,7 @@ namespace Files.Views.LayoutModes
         private Grid gridindicatior;
         private ListViewItem listViewItem;
         public static ColumnViewBrowser ColumnViewBrowser1;
+
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
@@ -73,7 +67,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
         }
 
@@ -88,20 +81,6 @@ namespace Files.Views.LayoutModes
                 else
                 {
                     listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
-        {
-            if (!InstanceViewModel.IsPageTypeSearchResults)
-            {
-                foreach (ListedItem listedItem in FileList.Items.ToList())
-                {
-                    if (FileList.ContainerFromItem(listedItem) is ListViewItem listViewItem)
-                    {
-                        listViewItem.CanDrag = listViewItem.IsSelected;
-                    }
                 }
             }
         }
@@ -170,7 +149,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
                 ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
@@ -197,13 +175,11 @@ namespace Files.Views.LayoutModes
                     ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
                     if (listViewItem2 != null)
                     {
-
                         listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
                     }
                 }
                 catch
                 {
-
                 }
             }
         }
@@ -284,7 +260,6 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            
         }
 
         private async void ReloadItemIcons()
@@ -303,13 +278,13 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-
         }
 
         protected override IEnumerable GetAllItems()
         {
             return (IEnumerable)FileList.ItemsSource;
         }
+
         private static readonly MethodInfo SelectAllMethod = typeof(ListView)
            .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -361,8 +336,12 @@ namespace Files.Views.LayoutModes
 
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = e.OriginalSource as TextBox;
-            CommitRename(textBox);
+            // This check allows the user to use the text box context menu without ending the rename
+            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            {
+                TextBox textBox = e.OriginalSource as TextBox;
+                CommitRename(textBox);
+            }
         }
 
         private async void CommitRename(TextBox textBox)
@@ -443,7 +422,7 @@ namespace Files.Views.LayoutModes
                     return;
                 }
             }
-                // Check if RightTapped row is currently selected
+            // Check if RightTapped row is currently selected
             if (IsItemSelected)
             {
                 if (SelectedItems.Contains(objectPressed))
@@ -478,7 +457,6 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    
                     if (App.InteractionViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -509,10 +487,8 @@ namespace Files.Views.LayoutModes
             await Task.Delay(200);
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-
                 if (listViewItem != null)
                 {
-
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
@@ -533,11 +509,10 @@ namespace Files.Views.LayoutModes
                     }
                     catch
                     {
-
                     }
                     if (item.ContainsFilesOrFolders)
                     {
-                listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
                         var blade = new BladeItem();
                         blade.Content = frame;
@@ -592,7 +567,6 @@ namespace Files.Views.LayoutModes
 
         private void DismissOtherBlades(ListView listView)
         {
-
             var blade = listView.FindAscendant<BladeItem>();
             var index = ColumnHost.ActiveBlades.IndexOf(blade);
             if (index == 0)
@@ -607,7 +581,6 @@ namespace Files.Views.LayoutModes
                 }
                 catch
                 {
-
                 }
             }
             else
@@ -622,17 +595,16 @@ namespace Files.Views.LayoutModes
                 }
                 catch
                 {
-
                 }
             }
         }
+
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
             DismissOtherBlades(sender as ListView);
             await Task.Delay(200);
             if (listViewItem != null)
             {
-
                 listViewItem.Style = (Style)this.Resources["NormalStyle"];
             }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -659,7 +631,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-                    
+
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -700,7 +672,6 @@ namespace Files.Views.LayoutModes
             }
             catch
             {
-
             }
             var frame = new Frame();
             var blade = new BladeItem();
@@ -711,7 +682,7 @@ namespace Files.Views.LayoutModes
             //    NavPathParam = item.ItemPath,
             //    AssociatedTabInstance = ParentShellPageInstance
             //});
-            
+
             frame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
                 Column = ColumnHost.ActiveBlades.IndexOf(blade),
@@ -729,6 +700,7 @@ namespace Files.Views.LayoutModes
             // The following code is only reachable when a user RightTapped an unselected row
             ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
+
         private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
@@ -748,6 +720,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)
@@ -756,11 +729,11 @@ namespace Files.Views.LayoutModes
                 args.ItemContainer = gvi;
             }
             args.ItemContainer.DataContext = args.Item;
+            InitializeDrag(args.ItemContainer);
 
             if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-                InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
                 item.ItemPropertiesInitialized = true;

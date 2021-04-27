@@ -13,16 +13,15 @@
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <icore:EventTriggerBehavior EventName="PointerWheelChanged">
-            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}"/>
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
         </icore:EventTriggerBehavior>
         <icore:EventTriggerBehavior EventName="PointerPressed">
-            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}"/>
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
@@ -42,9 +41,9 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 IsRightTapEnabled="True"
+                Loaded="Grid_Loaded"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
-                Loaded="Grid_Loaded">
+                ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -154,11 +153,13 @@
                         VerticalAlignment="Stretch"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap" />
+                        TextWrapping="NoWrap"
+                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                 </Grid>
                 <Popup
-                    x:Name="EditPopup" x:Load="False"
-                    Grid.Row="1">
+                    x:Name="EditPopup"
+                    Grid.Row="1"
+                    x:Load="False">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
                         Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -183,9 +184,9 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 IsRightTapEnabled="True"
+                Loaded="Grid_Loaded"
                 RightTapped="StackPanel_RightTapped"
-                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}"
-                Loaded="Grid_Loaded">
+                ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />
@@ -327,39 +328,31 @@
         VerticalAlignment="Stretch"
         ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator
-                Key="{x:Bind PlusKey}"
-                Modifiers="Control">
+            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
-            <KeyboardAccelerator
-                Key="{x:Bind MinusKey}"
-                Modifiers="Control">
+            <KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}"/>
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
-            <KeyboardAccelerator
-                Key="Add"
-                Modifiers="Control">
+            <KeyboardAccelerator Key="Add" Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}"/>
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
-            <KeyboardAccelerator
-                Key="Subtract"
-                Modifiers="Control">
+            <KeyboardAccelerator Key="Subtract" Modifiers="Control">
                 <i:Interaction.Behaviors>
                     <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}"/>
+                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
                     </icore:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
@@ -397,8 +390,12 @@
             animations:ItemsReorderAnimation.Duration="0:0:0.350"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             ChoosingItemContainer="FileList_ChoosingItemContainer"
             DoubleTapped="FileList_DoubleTapped"
+            DragEnter="ItemsLayout_DragEnter"
+            DragItemsStarting="FileList_DragItemsStarting"
+            Drop="ItemsLayout_Drop"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"
@@ -416,9 +413,21 @@
                 </ResourceDictionary>
             </GridView.Resources>
             <GridView.Footer>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}" x:Name="SearchUnindexedItemsPanel">
-                    <TextBlock Text="Didn't find what you're looking for?" HorizontalTextAlignment="Center" x:Uid="SearchUnindexedItemsLabel"/>
-                    <HyperlinkButton Content="Search unindexed items." HorizontalAlignment="Center" Command="{x:Bind CommandsViewModel.SearchUnindexedItems}" x:Name="SearchUnindexedItemsButton" x:Uid="SearchUnindexedItemsButton"/>
+                <StackPanel
+                    x:Name="SearchUnindexedItemsPanel"
+                    HorizontalAlignment="Stretch"
+                    x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+                    Orientation="Vertical">
+                    <TextBlock
+                        x:Uid="SearchUnindexedItemsLabel"
+                        HorizontalTextAlignment="Center"
+                        Text="Didn't find what you're looking for?" />
+                    <HyperlinkButton
+                        x:Name="SearchUnindexedItemsButton"
+                        x:Uid="SearchUnindexedItemsButton"
+                        HorizontalAlignment="Center"
+                        Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+                        Content="Search unindexed items." />
                 </StackPanel>
             </GridView.Footer>
         </GridView>

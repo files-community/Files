@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -18,15 +17,18 @@ namespace Files.Helpers
 {
     public static class ContextFlyoutItemHelper
     {
-        static List<ShellNewEntry> cachedNewContextMenuEntries; 
-        public static List<ShellNewEntry> CachedNewContextMenuEntries { 
+        private static List<ShellNewEntry> cachedNewContextMenuEntries;
+
+        public static List<ShellNewEntry> CachedNewContextMenuEntries
+        {
             get
             {
                 cachedNewContextMenuEntries ??= Task.Run(() => RegistryHelper.GetNewContextMenuEntries()).Result;
                 return cachedNewContextMenuEntries;
             }
         }
-        static List<ContextMenuFlyoutItemViewModel> cachedNewItemItems; 
+
+        private static List<ContextMenuFlyoutItemViewModel> cachedNewItemItems;
 
         public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
@@ -41,17 +43,18 @@ namespace Files.Helpers
             menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: new List<ListedItem>());
             return menuItemsList;
         }
+
         public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel)
         {
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
             items.ForEach(x => x.Items = x.Items.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-            if(overflow != null && !shiftPressed)
+            if (overflow != null && !shiftPressed)
             {
                 var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
                 // Adds a separator between items already there and the new ones
-                if(overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
+                if (overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
                 {
                     overflow.Items.Add(new ContextMenuFlyoutItemViewModel()
                     {
@@ -301,6 +304,22 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "PinItemToStart/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = commandsViewModel.PinItemToStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = !itemViewModel.CurrentFolder.IsItemPinnedToStart,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "UnpinItemFromStart/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = commandsViewModel.UnpinItemFromStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowFolderPropertiesCommand,
@@ -339,6 +358,12 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
+                    Glyph = "\uE1DA",
+                    Command = commandsViewModel.CreateFolderWithSelection,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
                     Glyph = "\uE17D",
                     Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
@@ -358,6 +383,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
                     ShowItem = App.AppSettings.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
                     SingleItemOnly = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -373,6 +399,7 @@ namespace Files.Helpers
                     Glyph = "\uE737",
                     Command = commandsViewModel.OpenInNewWindowItemCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -425,7 +452,6 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalized(),
                     Glyph = "\uE8C6",
                     Command = commandsViewModel.CutItemCommand,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -433,7 +459,6 @@ namespace Files.Helpers
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -445,12 +470,22 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    Glyph = "\uE16D",
+                    Command = commandsViewModel.PasteItemsFromClipboardCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
+                    SingleItemOnly = true,
+                    IsEnabled = App.InteractionViewModel.IsPasteEnabled,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalized(),
                     Glyph = "\uF10A",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.CreateShortcutCommand,
                     ShowItem = !selectedItems.FirstOrDefault().IsShortcutItem,
                     SingleItemOnly = true,
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -468,7 +503,6 @@ namespace Files.Helpers
                     Command = commandsViewModel.RenameItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
                     SingleItemOnly = true,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -483,14 +517,16 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToSidebar/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned)
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned)
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned),
+                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -515,7 +551,6 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
-                    IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -527,7 +562,7 @@ namespace Files.Helpers
                 },
             };
         }
-        
+
         public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel)
         {
             var list = new List<ContextMenuFlyoutItemViewModel>()
@@ -537,6 +572,13 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutNewFolder/Text".GetLocalized(),
                     Glyph = "\uE8B7",
                     Command = commandsViewModel.CreateNewFolderCommand,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutNewFile/Text".GetLocalized(),
+                    Glyph = "\uE7C3",
+                    Command = commandsViewModel.CreateNewFileCommand,
+                    CommandParameter = null,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -550,7 +592,7 @@ namespace Files.Helpers
                 {
                     // loading the bitmaps takes a while, so this caches them
                     var bitmap = cachedNewItemItems?.Where(x => x.Text == i.Name).FirstOrDefault()?.BitmapIcon;
-                    if(bitmap == null)
+                    if (bitmap == null)
                     {
                         bitmap = new BitmapImage();
                         bitmap.SetSourceAsync(i.Icon).AsTask().Wait(50);

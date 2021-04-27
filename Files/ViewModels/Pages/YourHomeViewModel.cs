@@ -87,6 +87,6 @@ namespace Files.ViewModels.Pages
             widgetsViewModel?.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

@@ -4,10 +4,8 @@ using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.ObjectModel;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -48,6 +46,14 @@ namespace Files.ViewModels
             set => SetProperty(ref customIcon, value);
         }
 
+        private Uri customIconSource;
+
+        public Uri CustomIconSource
+        {
+            get => customIconSource;
+            set => SetProperty(ref customIconSource, value);
+        }
+
         private bool loadCustomIcon;
 
         public bool LoadCustomIcon
@@ -62,6 +68,13 @@ namespace Files.ViewModels
         {
             get => loadFileIcon;
             set => SetProperty(ref loadFileIcon, value);
+        }
+
+        private byte[] iconData;
+        public byte[] IconData
+        {
+            get => iconData;
+            set => SetProperty(ref iconData, value);
         }
 
         private ImageSource fileIconSource;

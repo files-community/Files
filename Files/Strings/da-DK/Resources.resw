@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Multimarkering</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Aktiver multimarkeringsindstillinger (i øjeblikket kun tilgængelig i flise- og gittervisnings-tilstand)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Hvis du ændre filtypen kan filen muligvis ikke længere bruges. Er du sikker på at du vil ændre den?</value>
   </data>

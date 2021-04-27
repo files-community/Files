@@ -1647,9 +1647,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>多选</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>启用多选选项（当前仅在平铺和网格视图模式下可用）</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>如果您改变文件扩展名，文件可能会变得不可用。您确定您想要改变它吗？</value>
   </data>

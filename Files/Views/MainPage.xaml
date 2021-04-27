@@ -5,19 +5,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core" 
-    xmlns:converters="using:Files.Converters" 
-    xmlns:usercontrols="using:Files.UserControls.MultitaskingControl" 
-    xmlns:local1="using:Files" 
-    xmlns:viewmodels="using:Files.ViewModels" 
-    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:Files.Converters"
+    xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
+    xmlns:local1="using:Files"
+    xmlns:viewmodels="using:Files.ViewModels"
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Files.UserControls" xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.DataContext>
-        <viewmodels:MainPageViewModel/>
+        <viewmodels:MainPageViewModel />
     </Page.DataContext>
     <Page.Resources>
         <ResourceDictionary>
@@ -85,7 +85,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -94,7 +94,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -103,7 +103,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -112,7 +112,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -121,7 +121,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -130,7 +130,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -139,7 +139,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -148,7 +148,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -157,7 +157,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -166,7 +166,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenNewWindowAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenNewWindowAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -175,7 +175,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -184,7 +184,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -193,7 +193,7 @@
             Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -202,7 +202,7 @@
             Modifiers="Control,Shift">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -224,7 +224,7 @@
             IsOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
             IsCompact="{x:Bind SidebarAdaptiveViewModel.IsWindowCompactSize, Mode=OneWay}"
             CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}"
-            EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"/>
+            EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}" />
 
         <Custom:GridSplitter
             x:Name="SidebarResizer"
@@ -249,7 +249,7 @@
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
         <Grid Canvas.ZIndex="4" Grid.Column="1" x:Name="RightMarginGrid" Padding="2,0,0,0"
-                 VerticalAlignment="Top" >
+                 VerticalAlignment="Top">
             <usercontrols:HorizontalMultitaskingControl
                 x:Name="horizontalMultitaskingControl"
                 x:FieldModifier="public"
@@ -259,7 +259,6 @@
                 VerticalAlignment="Top"
                 x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
                 Loaded="HorizontalMultitaskingControl_Loaded" />
-
         </Grid>
         <Grid
                 x:Name="DragArea"
@@ -280,7 +279,7 @@
                         <StateTrigger IsActive="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="SidebarColumn.MinWidth" Value="{ThemeResource NavigationViewCompactPaneLength}"/>
+                        <Setter Target="SidebarColumn.MinWidth" Value="{ThemeResource NavigationViewCompactPaneLength}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

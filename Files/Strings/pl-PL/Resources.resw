@@ -1638,9 +1638,6 @@
   <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Wielokrotne zaznaczanie</value>
   </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Włacz opcję wielokrotnego zaznaczania (obecnie dostępne tylko w trybach układu kafelek i siatki)</value>
-  </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jeżeli zmienisz rozszerzenie, plik może zostać nieużywalny. Czy na pewno chcesz to zmienić?</value>
   </data>
