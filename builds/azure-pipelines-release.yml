@@ -64,7 +64,7 @@ jobs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload'
       maximumCpuCount: true
 
   - task: CopyFiles@2
