@@ -112,9 +112,9 @@ namespace Files.ViewModels
 
             if (OngoingOperationsCount >= 2)
             {
-                foreach (var item in StatusBannersSource.Where((item) => item.IsProgressing).ToList().GetRange(1, StatusBannersSource.Count - 1))
+                foreach (var item in StatusBannersSource.Where((item) => item.IsProgressing).ToList().GetRange(1, OngoingOperationsCount - 1))
                 {
-                    median *= item.Progress;
+                    median *= (item.Progress / 100.0f);
                 }
 
                 median *= 100.0f;
