@@ -1,7 +1,9 @@
 ## Files
 Meet Files, an enthusiast take on what a modern file explorer should be.
 
-Files [code of conduct](https://github.com/files-community/Files/blob/master/CODE_OF_CONDUCT.md)
+Files [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md)
+
+[Contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md)
 
 [![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
@@ -21,6 +23,7 @@ The vision for Files is to make it the best file manager while keeping it simple
 
 ## Why should I contribute?
 We can confidently assert Files is the platform's best file explorer project to bring your innovations to. We focus heavily on extensibility and code modularity and have no plans to stop doing so. When you contribute to this project, you're helping everyone by fixing reported bugs, adding new features, or correcting existing behavior. These changes are quickly included in the final product for all users to benefit from.
+See our co
 
 ## Building Files source
 - Install Visual Studio 2019 and the UWP Development Kit.
