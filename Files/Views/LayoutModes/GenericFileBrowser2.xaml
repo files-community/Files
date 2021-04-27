@@ -293,9 +293,11 @@
                             <ColumnDefinition Width="{x:Bind ColumnsViewModel.ItemTypeColumnLength, Mode=OneWay}" />
                         </Grid.ColumnDefinitions>
                         <Grid
+                            x:Uid="FileBrowserThumbnailIconColumnGrid"
                             Grid.Column="0"
                             Height="Auto"
                             Opacity="{x:Bind Opacity, Mode=OneWay}"
+                            TabFocusNavigation="Local"
                             Tag="ItemImage">
                             <Image
                                 x:Name="Picture"
@@ -410,6 +412,7 @@
                             HorizontalAlignment="Left"
                             x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                             x:Phase="2"
+                            AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"
                             Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                             Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
 
