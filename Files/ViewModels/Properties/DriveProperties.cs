@@ -23,7 +23,7 @@ namespace Files.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.CustomIcon = Drive.Icon;
+                ViewModel.CustomIconSource = Drive.IconSource;
                 ViewModel.LoadCustomIcon = true;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;

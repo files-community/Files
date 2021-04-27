@@ -276,14 +276,17 @@ namespace Files.UserControls
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
-                ShowUnpinItem = item.Section != SectionType.Library && !item.IsDefaultLocation;
-                ShowProperties = item.Section == SectionType.Library;
+                bool isLibrary = item.Section == SectionType.Library;
+                bool isFavorites = item.Section == SectionType.Favorites;
+                ShowUnpinItem = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
+                ShowProperties = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
                 ShowEjectDevice = false;
 
                 if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
                     ShowEmptyRecycleBin = true;
+                    ShowUnpinItem = true;
                 }
                 else
                 {
@@ -372,7 +375,7 @@ namespace Files.UserControls
                         {
                             locItem.IsExpanded = true;
                         }
-                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem));
+                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
                         dragOverItem = null;
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);

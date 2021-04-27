@@ -9,9 +9,13 @@ namespace Files.Interacts
     {
         event EventHandler<PostedStatusBanner> ProgressBannerPosted;
 
+        float MedianOperationProgressValue { get; }
+
         int OngoingOperationsCount { get; }
 
         bool AnyOperationsOngoing { get; }
+
+        void UpdateMedianProgress();
 
         /// <summary>
         /// Posts a new banner to the Status Center control for an operation.
