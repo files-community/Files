@@ -216,6 +216,8 @@ namespace Files.Views
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavigationToolbar.CanNavigateToParent = false;
 
+            AppInstance.LoadPreviewPaneChanged();
+
             // Set path of working directory empty
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 

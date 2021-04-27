@@ -202,6 +202,7 @@
             Grid.Row="1"
             Grid.Column="2"
             HorizontalContentAlignment="Stretch"
+            x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
             BlurRadius="16"
             Canvas.ZIndex="10"
             OffsetX="-4"
@@ -209,8 +210,8 @@
             <controls:PreviewPane
                 x:Name="PreviewPane"
                 x:Uid="SelectedFilePreviewPane"
-                x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"
                 AutomationProperties.Name="Selected file preview pane"
+                Loading="PreviewPane_Loading"
                 SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
         </Custom:DropShadowPanel>
 
@@ -218,7 +219,7 @@
             x:Name="PreviewPaneGridSplitter"
             Grid.Row="1"
             Grid.Column="1"
-            x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"
+            x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
