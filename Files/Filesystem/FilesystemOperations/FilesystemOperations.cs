@@ -355,39 +355,40 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                    FilesystemResult fsResult;
+                    //var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
 
-                    if (!fsResult)
+                    //if (!fsResult)
+                    //{
+                    //Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+
+                    var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                    var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                    fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
+
+                    if (fsResult)
                     {
-                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                        var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
 
-                        var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
-                        var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
-                        fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
-
-                        if (fsResult)
+                        if (fsResultMove == FileSystemStatusCode.AlreadyExists)
                         {
-                            var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
-
-                            if (fsResultMove == FileSystemStatusCode.AlreadyExists)
-                            {
-                                progress?.Report(100.0f);
-                                errorCode?.Report(FileSystemStatusCode.AlreadyExists);
-                                return null;
-                            }
-
-                            if (fsResultMove)
-                            {
-                                if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
-                                {
-                                    // The source folder was hidden, apply hidden attribute to destination
-                                    NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
-                                }
-                                movedItem = (StorageFolder)fsResultMove;
-                            }
-                            fsResult = fsResultMove;
+                            progress?.Report(100.0f);
+                            errorCode?.Report(FileSystemStatusCode.AlreadyExists);
+                            return null;
                         }
+
+                        if (fsResultMove)
+                        {
+                            if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                            {
+                                // The source folder was hidden, apply hidden attribute to destination
+                                NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
+                            }
+                            movedItem = (StorageFolder)fsResultMove;
+                        }
+                        fsResult = fsResultMove;
                     }
+                    //}
                     errorCode?.Report(fsResult.ErrorCode);
                 }
             }
