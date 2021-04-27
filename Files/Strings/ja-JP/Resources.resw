@@ -87,13 +87,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>種類:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>すべて選択</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>選択を反転</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>選択をクリア</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -382,7 +382,7 @@
     <value>名前の変更</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>既存のファイルを置き換える</value>
+    <value>既存のファイルを置換</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>ファイルが既に存在します</value>
@@ -1006,7 +1006,7 @@
     <value>作成日</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>更新日</value>
+    <value>更新日時</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>ビット深度</value>
@@ -1635,7 +1635,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>不明</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>複数選択</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1920,6 +1920,9 @@
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0}個のファイルが削除されます</value>
   </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>続行</value>
+  </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -1975,7 +1978,7 @@
     <value>名前</value>
   </data>
   <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
-    <value>変更日時</value>
+    <value>更新日時</value>
   </data>
   <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
     <value>タイプ</value>
@@ -1985,5 +1988,59 @@
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>1個の競合するファイル名と、{0}個のそうでないファイルがあります</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
+    <value>名前の変更</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+    <value>既存のファイルを置換</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
+    <value>スキップ</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
+    <value>名前の変更</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
+    <value>既存のファイルを置換</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
+    <value>スキップ</value>
+  </data>
+  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
+    <value>名前の変更</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+    <value>既存のファイルを置換</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
+    <value>スキップ</value>
+  </data>
+  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+    <value>名前の変更</value>
+  </data>
+  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
+    <value>{0}個の競合するファイル名があります</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
+    <value>1個の競合するファイル名があります</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>選択したファイルでフォルダーを作成</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>名前:</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>種類:</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>更新日時:</value>
   </data>
 </root>
