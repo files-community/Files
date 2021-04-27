@@ -1620,4 +1620,7 @@
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Správce</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
 </root>

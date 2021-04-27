@@ -20,7 +20,7 @@ namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async void OpenPathInNewTab(string path)
+        public static async Task OpenPathInNewTab(string path)
         {
             await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
@@ -75,23 +75,11 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-
-                if (Window.Current.CoreWindow.GetKeyState((VirtualKey)18).HasFlag(CoreVirtualKeyStates.Down))
-                {
-                    await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance.PaneHolder.ActivePane);                    
-                }
+              
+                if (App.AppSettings.OpenFoldersNewTab)
+                    await OpenPathInNewTab(item.ItemPath);
                 else
-                {
-                    try
-                    {
-                        await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
-                    }
-                    catch (Exception e)
-                    {
-                        // This is to try and figure out the root cause of AppCenter error #985932119u
-                        NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
-                    }
-                }
+                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
             }
         }
 

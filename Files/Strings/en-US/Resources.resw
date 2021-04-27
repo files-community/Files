@@ -2061,6 +2061,9 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Show Bundles widget</value>
   </data>

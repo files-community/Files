@@ -1252,6 +1252,10 @@
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">사이드바에 휴지통 고정</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="translated">Always open folders in new tab</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="translated">파일이나 폴더 삭제 시 확인 창 표시</target>
