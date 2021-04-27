@@ -691,6 +691,7 @@ namespace Files.Filesystem
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
+                Debug.WriteLine($"moving number {i}");
                 if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
                 {
                     rawStorageHistory.Add(await filesystemOperations.MoveAsync(
