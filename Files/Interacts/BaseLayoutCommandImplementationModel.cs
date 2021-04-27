@@ -567,7 +567,12 @@ namespace Files.Interacts
         {
             await UIFilesystemHelpers.MoveItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
         }
-        
+
+        public void CreateFolderWithSelection(RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion Command Implementation
     }
 }
