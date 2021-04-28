@@ -1692,11 +1692,8 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumentos</value>
   </data>
-  <data name="ItemObjectNameDescription" xml:space="preserve">
-    <value>Object name:</value>
-  </data>
   <data name="ItemGroupUserNamesDescription" xml:space="preserve">
-    <value>Group or user names:</value>
+    <value>Group or user names</value>
   </data>
   <data name="ItemPermissionsDescription" xml:space="preserve">
     <value>To change permissions, click Edit:</value>

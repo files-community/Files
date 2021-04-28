@@ -1845,11 +1845,8 @@
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Törlés</value>
   </data>
-  <data name="ItemObjectNameDescription" xml:space="preserve">
-    <value>Object name:</value>
-  </data>
   <data name="ItemGroupUserNamesDescription" xml:space="preserve">
-    <value>Group or user names:</value>
+    <value>Group or user names</value>
   </data>
   <data name="ItemPermissionsDescription" xml:space="preserve">
     <value>To change permissions, click Edit:</value>

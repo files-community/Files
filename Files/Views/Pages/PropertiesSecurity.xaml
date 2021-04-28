@@ -70,6 +70,16 @@
                 Visibility="Visible"
                 Style="{StaticResource PropertyName}"
                 Text="{x:Bind ViewModel.ItemGroupUserNamesDescription}" />
+            
+            <Button x:Name="btnAddUserOrGroup"
+                    Width="40"
+                    Height="40"
+                    Content="+"/>
+
+            <Button x:Name="btnRemoveUserOrGroup"
+                    Width="40"
+                    Height="40"
+                    Content="-"/>
         </Grid>
 
         <Grid>

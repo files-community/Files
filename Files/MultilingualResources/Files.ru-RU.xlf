@@ -2655,13 +2655,9 @@
           <source>Show Library widget</source>
           <target state="new">Show Library widget</target>
         </trans-unit>
-        <trans-unit id="ItemObjectNameDescription" translate="yes" xml:space="preserve">
-          <source>Object name:</source>
-          <target state="new">Object name:</target>
-        </trans-unit>
         <trans-unit id="ItemGroupUserNamesDescription" translate="yes" xml:space="preserve">
-          <source>Group or user names:</source>
-          <target state="new">Group or user names:</target>
+          <source>Group or user names</source>
+          <target state="new">Group or user names</target>
         </trans-unit>
         <trans-unit id="ItemPermissionsDescription" translate="yes" xml:space="preserve">
           <source>To change permissions, click Edit:</source>
