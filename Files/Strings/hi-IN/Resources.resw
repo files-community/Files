@@ -450,9 +450,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ठीक है</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>चयन विकल्प</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>
   </data>
@@ -786,9 +783,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>अधिक विकल्प</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>चयन विकल्प</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>फ़ाइल</value>
   </data>
@@ -1083,12 +1077,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>विकल्प प्रदर्शित करें</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>विकल्प प्रदर्शित करें</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>प्रदर्शन विकल्प</value>
-  </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>फ़ाइल एक्स्टेंशन्स दिखाएँ</value>
   </data>
@@ -1238,5 +1226,17 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>व्यवस्थापक</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>चयन विकल्प</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>चयन विकल्प</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>प्रदर्शन विकल्प</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>प्रदर्शन विकल्प</value>
   </data>
 </root>

@@ -450,9 +450,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ଖାଲି କର</value>
   </data>
@@ -924,9 +921,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>ଅଧିକ ବିକଳ୍ପସମୂହ</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>ଚୟନ ବିକଳ୍ପସମୂହ</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>
   </data>
@@ -1039,12 +1033,6 @@
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1178,5 +1166,17 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>ବ୍ୟବସ୍ଥାପକ</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
 </root>

@@ -426,9 +426,6 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>நீங்கள் இந்தக் கோப்புறையை நீக்கீவிட்டீர்களா?</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>தேர்வு விருப்பங்கள்</value>
-  </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>நீங்கள் நீக்க முயற்சிக்கும் கோப்பானது தற்போது பயன்பாட்டில் உள்ளது.</value>
   </data>
@@ -872,9 +869,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>மேலும் விருப்பங்கள்</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>தேர்வு விருப்பங்கள்</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>செயல் மையம்</value>
   </data>
@@ -1145,12 +1139,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>காட்சி விருப்பங்கள்</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>காட்சி விருப்பங்கள்</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>காண்பி விருப்பங்கள்</value>
-  </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
   </data>
@@ -1285,5 +1273,17 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>நிர்வாகி</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>தேர்வு விருப்பங்கள்</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>தேர்வு விருப்பங்கள்</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>காட்சி விருப்பங்கள்</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>காட்சி விருப்பங்கள்</value>
   </data>
 </root>
