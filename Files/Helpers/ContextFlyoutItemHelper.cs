@@ -146,7 +146,8 @@ namespace Files.Helpers
                         new ContextMenuFlyoutItemViewModel()
                         {
                             Text = "BaseLayoutContextFlyoutColumn/Text".GetLocalized(),
-                            Glyph = "\uE8C0",
+                            Glyph = "\uF115",
+                            GlyphFontFamilyName = "CustomGlyph",
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnView,
                             CommandParameter = true,
@@ -304,6 +305,22 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "PinItemToStart/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = commandsViewModel.PinItemToStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = !itemViewModel.CurrentFolder.IsItemPinnedToStart,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "UnpinItemFromStart/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = commandsViewModel.UnpinItemFromStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowFolderPropertiesCommand,
@@ -339,6 +356,12 @@ namespace Files.Helpers
                     Command = commandsViewModel.OpenItemCommand,
                     IsPrimary = true,
                     ShowItem = selectedItems.Count <= 10,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
+                    Glyph = "\uE1DA",
+                    Command = commandsViewModel.CreateFolderWithSelection,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -448,6 +471,15 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    Glyph = "\uE16D",
+                    Command = commandsViewModel.PasteItemsFromClipboardCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
+                    SingleItemOnly = true,
+                    IsEnabled = App.InteractionViewModel.IsPasteEnabled,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalized(),
                     Glyph = "\uF10A",
                     GlyphFontFamilyName = "CustomGlyph",
@@ -520,15 +552,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "BaseLayoutItemContextFlyoutQuickLook/Text".GetLocalized(),
-                    BitmapIcon = new BitmapImage(new Uri("ms-appx:///Assets/QuickLook/quicklook_icon_black.png")),
-                    Command = commandsViewModel.QuickLookCommand,
-                    ShowItem = App.InteractionViewModel.IsQuickLookEnabled,
-                    SingleItemOnly = true,
-                },
+                }
             };
         }
 

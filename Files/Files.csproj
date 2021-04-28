@@ -194,7 +194,9 @@
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
@@ -223,6 +225,7 @@
     <Compile Include="Helpers\Fractions.cs" />
     <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
+    <Compile Include="Helpers\OptionalPackageManager.cs" />
     <Compile Include="Helpers\ShellContextMenuHelper.cs" />
     <Compile Include="Helpers\UIFilesystemHelpers.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />
@@ -305,7 +308,9 @@
     </Compile>
     <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
+    <Compile Include="ViewModels\StatusCenterViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundlesViewModel.cs" />
@@ -486,6 +491,9 @@
     </Compile>
     <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
       <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutModes\GenericFileBrowser2.xaml.cs">
+      <DependentUpon>GenericFileBrowser2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
       <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
@@ -696,7 +704,6 @@
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -955,6 +962,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\LayoutModes\GenericFileBrowser2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Pages\PropertiesLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1085,6 +1096,9 @@
       <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
+      <Version>7.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Behaviors">
       <Version>7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">

@@ -19,7 +19,7 @@ namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async void OpenPathInNewTab(string path)
+        public static async Task OpenPathInNewTab(string path)
         {
             await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
@@ -74,7 +74,11 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+
+                if (App.AppSettings.OpenFoldersNewTab)
+                    await OpenPathInNewTab(item.ItemPath);
+                else
+                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
             }
         }
 
@@ -106,7 +110,7 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

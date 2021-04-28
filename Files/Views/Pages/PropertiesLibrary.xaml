@@ -105,7 +105,7 @@
                     <StackPanel Margin="14,5,14,5" Spacing="5">
                         <TextBlock
                             x:Uid="LibraryNoLocations"
-                            Visibility="{x:Bind IsLibraryEmpty}"
+                            Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}"
                             Text="No locations"
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>

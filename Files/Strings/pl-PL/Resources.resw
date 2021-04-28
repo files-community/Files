@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Szukaj</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Zaznacz wszystko</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Wyczyść zaznaczenie</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ustawienia</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Odwróć zaznaczenie</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -431,9 +431,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Czy usunąłeś ten folder?</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opcje zaznaczeń</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>Plik, który próbujesz usunąć, jest obecnie używany przez inną aplikację.</value>
@@ -917,9 +914,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Więcej opcji</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Opcje zaznaczania</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centrum statusu</value>
@@ -1446,12 +1440,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Opcje wyświetlania</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opcje wyświetlania</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opcje wyświetlania</value>
-  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Widok siatki (duży)</value>
   </data>
@@ -1635,11 +1623,8 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nieznane</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Wielokrotne zaznaczanie</value>
-  </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Włacz opcję wielokrotnego zaznaczania (obecnie dostępne tylko w trybach układu kafelek i siatki)</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jeżeli zmienisz rozszerzenie, plik może zostać nieużywalny. Czy na pewno chcesz to zmienić?</value>
@@ -1781,5 +1766,17 @@
   </data>
   <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
     <value>Advanced</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opcje zaznaczania</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opcje zaznaczania</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Opcje wyświetlania</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opcje wyświetlania</value>
   </data>
 </root>

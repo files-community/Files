@@ -19,8 +19,25 @@ namespace Files.Filesystem.Search
             var returnedItems = new ObservableCollection<ListedItem>();
             maxItemCount = maxItemCount < 0 ? int.MaxValue : maxItemCount;
 
-            var hiddenOnlyFromWin32 = false;
+            if (App.LibraryManager.TryGetLibrary(WorkingDirectory, out var lib))
+            {
+                foreach (var folder in lib.Folders)
+                {
+                    await AddItemsForFolderAsync(returnedItems, userText, folder, associatedInstance, searchUnindexedItems, maxItemCount, thumbnailSize);
+                }
+            }
+            else
+            {
+                await AddItemsForFolderAsync(returnedItems, userText, WorkingDirectory, associatedInstance, searchUnindexedItems, maxItemCount, thumbnailSize);
+            }
+
+            return returnedItems;
+        }
+
+        private static async Task AddItemsForFolderAsync(ObservableCollection<ListedItem> returnedItems, string userText, string WorkingDirectory, IShellPage associatedInstance, bool searchUnindexedItems, int maxItemCount, uint thumbnailSize)
+        {
             var workingDir = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(WorkingDirectory);
+            var hiddenOnlyFromWin32 = false;
             if (workingDir)
             {
                 foreach (var item in await SearchWithStorageFolder(userText, workingDir, searchUnindexedItems, maxItemCount, thumbnailSize))
@@ -37,8 +54,6 @@ namespace Files.Filesystem.Search
                     returnedItems.Add(item);
                 }
             }
-
-            return returnedItems;
         }
 
         private static async Task<IList<ListedItem>> SearchWithWin32(string userText, string WorkingDirectory, bool hiddenOnly, int maxItemCount = 10)

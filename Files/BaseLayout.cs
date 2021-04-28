@@ -8,6 +8,7 @@ using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -282,7 +283,7 @@ namespace Files
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -309,8 +310,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || NormalizePath(workingDir) == NormalizePath(pathRoot)
-                    || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
+                if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 }
@@ -344,12 +344,13 @@ namespace Files
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {navigationArguments.SearchPathParam}");
+                    var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {displayName}");
                 }
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-
+            ParentShellPageInstance.LoadPreviewPaneChanged();
             FolderSettings.IsLayoutModeChanging = false;
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
@@ -439,9 +440,17 @@ namespace Files
             }
         }
 
-        protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
+        private async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
+            if (sender is DataGridRow dataGridRow)
+            {
+                if (dataGridRow.DataContext is ListedItem item)
+                {
+                    ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
+                }
+            }
 
             foreach (ListedItem item in ParentShellPageInstance.SlimContentPage.SelectedItems)
             {
@@ -472,6 +481,42 @@ namespace Files
             e.DragUI.SetContentFromDataPackage();
         }
 
+        protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
+            foreach (var itemObj in e.Items)
+            {
+                var item = itemObj as ListedItem;
+                if (item == null || item is ShortcutItem)
+                {
+                    // Can't drag shortcut items
+                    continue;
+                }
+
+                SelectedItems.Add(item);
+                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                }
+            }
+
+            if (selectedStorageItems.Count > 0)
+            {
+                e.Data.SetStorageItems(selectedStorageItems, false);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
         private ListedItem dragOverItem = null;
 
         private void Item_DragLeave(object sender, DragEventArgs e)
@@ -486,14 +531,23 @@ namespace Files
 
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
-            var deferral = e.GetDeferral();
-
             ListedItem item = GetItemFromElement(sender);
 
             if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
             }
+            else if (item is null && sender is ListViewItem lvi)
+            {
+                item = lvi.Content as ListedItem;
+            }
+
+            if (item is null)
+            {
+                return;
+            }
+
+            var deferral = e.GetDeferral();
 
             ItemManipulationModel.SetSelectedItem(item);
 
@@ -536,7 +590,7 @@ namespace Files
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
 
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -578,7 +632,6 @@ namespace Files
             {
                 element.AllowDrop = false;
                 element.DragStarting -= Item_DragStarting;
-                element.DragStarting += Item_DragStarting;
                 element.DragOver -= Item_DragOver;
                 element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
@@ -607,5 +660,15 @@ namespace Files
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
         public abstract void Dispose();
+
+        protected void ItemsLayout_DragEnter(object sender, DragEventArgs e)
+        {
+            CommandsViewModel?.DragEnterCommand?.Execute(e);
+        }
+
+        protected void ItemsLayout_Drop(object sender, DragEventArgs e)
+        {
+            CommandsViewModel?.DropCommand?.Execute(e);
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace FilesFullTrust
                 var sid = WindowsIdentity.GetCurrent().User.ToString();
                 foreach (var drive in DriveInfo.GetDrives())
                 {
-                    var recyclePath = Path.Combine(drive.Name, "$Recycle.Bin", sid);
+                    var recyclePath = Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
                     if (drive.DriveType == DriveType.Network || !Directory.Exists(recyclePath))
                     {
                         continue;

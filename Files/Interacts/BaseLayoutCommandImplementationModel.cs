@@ -9,6 +9,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -288,7 +289,14 @@ namespace Files.Interacts
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
         {
-            await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
+            }
+            else
+            {
+                await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            }
         }
 
         public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
@@ -411,17 +419,31 @@ namespace Files.Interacts
 
         public virtual async void UnpinItemFromStart(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
-                await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+                }
+            }
+            else
+            {
+                await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
             }
         }
 
         public async void PinItemToStart(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                }
+            }
+            else
+            {
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
             }
         }
 
@@ -500,7 +522,7 @@ namespace Files.Interacts
 
                 var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.All(x => Path.GetDirectoryName(x.Path) == associatedInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -540,6 +562,11 @@ namespace Files.Interacts
         public void SearchUnindexedItems(RoutedEventArgs e)
         {
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
+        }
+
+        public async void CreateFolderWithSelection(RoutedEventArgs e)
+        {
+            UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
         #endregion Command Implementation

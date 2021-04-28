@@ -476,6 +476,18 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [open folders new tab].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [open folders new tab]; otherwise, <c>false</c>.
+        /// </value>
+        public bool OpenFoldersNewTab
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
@@ -540,12 +552,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// Gets or sets the user's current selected theme
         /// </summary>
-        public string PathToThemeFile
+        public AppTheme SelectedTheme
         {
-            get => Get("DefaultScheme".GetLocalized());
-            set => Set(value);
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            {
+                Name = "DefaultScheme".GetLocalized()
+            })));
+            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
 
         #endregion Appearance
@@ -566,7 +581,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool UseFileListCache
         {
-            get => Get(true);
+            get => Get(false);
             set => Set(value);
         }
 
@@ -589,9 +604,9 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the multiselect option.
+        /// Gets or sets a value whether or not to enable the new list view based details view.
         /// </summary>
-        public bool ShowMultiselectOption
+        public bool UseNewDetailsView
         {
             get => Get(false);
             set => Set(value);

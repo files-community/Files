@@ -87,13 +87,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Typ položky:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Vybrat vše</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Obrátit výběr</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Vymazat výběr</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -473,9 +473,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Možnosti výběru</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Pouze pro čtení</value>
@@ -1245,9 +1242,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Více možností</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Možnosti výběru</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Stavové centrum</value>
   </data>
@@ -1440,12 +1434,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>&amp;Možnosti zobrazení</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>&amp;Možnosti zobrazení</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Možnosti zobrazení</value>
-  </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Zobrazovat přípony souborů</value>
   </data>
@@ -1533,7 +1521,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Neznámý</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vícenásobný výběr</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
@@ -1634,5 +1622,17 @@
   </data>
   <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
     <value>Advanced</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Možnosti výběru</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Možnosti výběru</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Možnosti zobrazení</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Možnosti zobrazení</value>
   </data>
 </root>

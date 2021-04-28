@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace Files.ViewModels.Previews
                 }
             };
 
-            _ = await base.LoadPreviewAndDetails();
+            await LoadItemThumbnail();
 
             return details;
         }
@@ -54,6 +55,16 @@ namespace Files.ViewModels.Previews
             var details = await LoadPreviewAndDetails();
             Item.FileDetails?.Clear();
             Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
+        }
+
+        private async Task LoadItemThumbnail()
+        {
+            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+
+            if (IconData != null)
+            {
+                Item.FileImage = await IconData.ToBitmapAsync();
+            }
         }
     }
 }

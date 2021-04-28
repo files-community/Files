@@ -79,6 +79,7 @@ namespace Files.ViewModels.Properties
             if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
             {
                 ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
+                ViewModel.IconData = fileIconInfo.IconData;
             }
 
             if (Item.IsShortcutItem)

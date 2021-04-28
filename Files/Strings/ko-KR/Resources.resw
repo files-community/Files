@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>검색</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>모두 선택</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>선택 취소</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -339,7 +339,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>설정</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>선택 반전</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -416,9 +416,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>폴더를 삭제하셨나요?</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>선택 옵션</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>다른 프로그램에서 열려 있으므로 제거할 수 없습니다.</value>
@@ -1254,9 +1251,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>추가 옵션</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>선택 옵션</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>작업 현황</value>
   </data>
@@ -1449,12 +1443,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>보기 옵션</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>보기 옵션</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>보기 옵션</value>
-  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
@@ -1644,11 +1632,8 @@
   <data name="Network" xml:space="preserve">
     <value>네트워크</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>다중 선택</value>
-  </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>다중 선택 옵션 활성화 (현재는 타일, 격자 레이아웃에서만 사용할 수 있습니다)</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>파일 확장명을 변경하면 파일을 사용할 수 없게 될 수도 있습니다. 변경하시겠습니까?</value>
@@ -1814,5 +1799,17 @@
   </data>
   <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
     <value>Advanced</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>선택 옵션</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>선택 옵션</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>보기 옵션</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>보기 옵션</value>
   </data>
 </root>

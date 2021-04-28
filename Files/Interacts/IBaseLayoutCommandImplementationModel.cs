@@ -86,5 +86,7 @@ namespace Files.Interacts
         void RefreshItems(RoutedEventArgs e);
 
         void SearchUnindexedItems(RoutedEventArgs e);
+
+        void CreateFolderWithSelection(RoutedEventArgs e);
     }
 }

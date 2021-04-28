@@ -27,15 +27,15 @@ namespace Files.ViewModels.Properties
 {
     public class FileProperties : BaseProperties
     {
-        private ProgressBar ProgressBar;
+        private IProgress<float> hashProgress;
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
-            ProgressBar = progressBar;
+            this.hashProgress = hashProgress;
             Dispatcher = coreDispatcher;
             Item = item;
             AppInstance = instance;
@@ -59,9 +59,11 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.IconData = Item.CustomIconData;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIcon = Item.CustomIcon;
+                ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
 
                 if (Item.IsShortcutItem)
@@ -125,7 +127,7 @@ namespace Files.ViewModels.Properties
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
             if (fileIconInfo.IconData != null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
+                ViewModel.IconData = fileIconInfo.IconData;
             }
 
             if (Item.IsShortcutItem)
@@ -161,7 +163,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar, AppInstance);
+                ViewModel.ItemMD5Hash = await GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, hashProgress, AppInstance);
             }
             catch (Exception ex)
             {
@@ -354,7 +356,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
+        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
@@ -395,10 +397,7 @@ namespace Files.ViewModels.Properties
                 {
                     break;
                 }
-                if (progress != null)
-                {
-                    progress.Value = (double)str.Position / str.Length * 100;
-                }
+                progress?.Report((float)str.Position / str.Length * 100.0f);
             }
             inputStream.Dispose();
             stream.Dispose();

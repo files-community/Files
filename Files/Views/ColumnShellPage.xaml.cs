@@ -50,7 +50,8 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusBarControl.OngoingTasksControl;
+        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
+        public StatusCenterViewModel StatusCenterViewModel { get; set; } = new StatusCenterViewModel();
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -136,7 +137,7 @@ namespace Files.Views
 
         public ICommand OpenDirectoryInDefaultTerminalCommand => new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
 
-        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized()));
+        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
 
         public ICommand CreateNewFileCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
 
@@ -279,6 +280,7 @@ namespace Files.Views
             else
             {
                 NavigationToolbar.PathComponents.Clear(); // Clear the path UI
+                NavigationToolbar.IsSingleItemOverride = true;
                 NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
@@ -899,15 +901,6 @@ namespace Files.Views
                 InitialPageType = typeof(ColumnShellPage),
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
-
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(WidgetsPage))
-            {
-                UpdatePositioning(true);
-            }
-            else
-            {
-                UpdatePositioning();
-            }
         }
 
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -916,7 +909,7 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
+            var tabInstance = CurrentPageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
                 || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -1040,7 +1033,7 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
+                    if (CurrentPageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser)) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBrowser) || CurrentPageType == typeof(ColumnViewBase))
 
                     {
                         if (ContentPage.IsItemSelected)
@@ -1215,45 +1208,21 @@ namespace Files.Views
             return DataPackageOperation.None;
         }
 
-        // This is needed so the layout can be updated when the preview pane is opened
-        public bool PreviewPaneEnabled
-        {
-            get => AppSettings.PreviewPaneEnabled;
-            set
-            {
-                AppSettings.PreviewPaneEnabled = value;
-                NotifyPropertyChanged(nameof(PreviewPaneEnabled));
-                UpdatePositioning();
-            }
-        }
-
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdatePositioning(!InstanceViewModel.IsPageTypeNotHome);
+            UpdatePositioning();
         }
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
         /// This is a workaround as the VisualStateManager causes problems.
         /// </summary>
-        private void UpdatePositioning(bool IsHome = false)
+        private void UpdatePositioning()
         {
-            if (!AppSettings.PreviewPaneEnabled || IsHome)
+            if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
             {
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = new GridLength(0);
-                if (PreviewPaneGridSplitter != null)
-                {
-                    PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
-                }
-
-                if (PreviewPane != null)
-                {
-                    PreviewPane.Visibility = Visibility.Collapsed;
-                    PreviewPaneDropShadowPanel.Visibility = Visibility.Collapsed;
-                }
-
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.00;
             }
             else if (RootGrid.ActualWidth > 800)
             {
@@ -1272,10 +1241,6 @@ namespace Files.Views
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
                 PreviewPane.IsHorizontal = false;
-
-                PreviewPane.Visibility = Visibility.Visible;
-                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
-                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
             else if (RootGrid.ActualWidth <= 800)
             {
@@ -1294,10 +1259,6 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Height = 2;
                 PreviewPaneGridSplitter.Width = RootGrid.Width;
                 PreviewPane.IsHorizontal = true;
-
-                PreviewPane.Visibility = Visibility.Visible;
-                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
-                PreviewPaneDropShadowPanel.Visibility = Visibility.Visible;
             }
         }
 
@@ -1374,6 +1335,37 @@ namespace Files.Views
                     InstanceViewModel.FolderSettings.GetIconSize())
             });
             FilesystemViewModel.IsLoadingIndicatorActive = false;
+        }
+
+        public bool LoadPreviewPane => AppSettings.PreviewPaneEnabled && InstanceViewModel.IsPageTypeNotHome;
+
+        public void LoadPreviewPaneChanged()
+        {
+            NotifyPropertyChanged(nameof(LoadPreviewPane));
+            UpdatePositioning();
+        }
+
+        private void PreviewPane_Loading(FrameworkElement sender, object args)
+        {
+            UpdatePositioning();
+        }
+
+        private bool previewPaneEnabled = App.AppSettings.PreviewPaneEnabled;
+
+        // This is needed so the layout can be updated when the preview pane is opened
+        public bool PreviewPaneEnabled
+        {
+            get => previewPaneEnabled;
+            set
+            {
+                if (value != previewPaneEnabled)
+                {
+                    AppSettings.PreviewPaneEnabled = value;
+                    NotifyPropertyChanged(nameof(PreviewPaneEnabled));
+                    NotifyPropertyChanged(nameof(LoadPreviewPane));
+                    UpdatePositioning();
+                }
+            }
         }
     }
 }
