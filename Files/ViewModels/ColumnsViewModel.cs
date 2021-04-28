@@ -114,6 +114,7 @@ namespace Files.ViewModels
 
 
         private double normalMinLength = 50;
+        [JsonIgnore]
         public double NormalMinLength
         {
             get => normalMinLength;
@@ -149,7 +150,7 @@ namespace Files.ViewModels
         }
         
         [JsonIgnore]
-        private GridLength userLength = new GridLength(1, GridUnitType.Star);
+        private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
         public GridLength UserLength
         {
             get => userLength;
