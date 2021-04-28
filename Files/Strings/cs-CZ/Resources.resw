@@ -150,6 +150,9 @@
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>Formát data</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Always open folders in new tab</value>
+  </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Vzhled aplikace</value>
   </data>
@@ -1619,8 +1622,5 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Správce</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Open folders in new tab</value>
   </data>
 </root>

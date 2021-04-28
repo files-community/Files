@@ -39,7 +39,7 @@ namespace Files.Helpers
                 }));
                 var completed = task.Wait(10000);
 
-                if(completed)
+                if (completed)
                 {
                     var (status, response) = task.Result;
                     if (status == AppServiceResponseStatus.Success

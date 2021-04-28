@@ -852,6 +852,9 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Prullenbak vastmaken aan de zijbalk</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Always open folders in new tab</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Toon extensies voor bekende bestandstypen</value>
   </data>

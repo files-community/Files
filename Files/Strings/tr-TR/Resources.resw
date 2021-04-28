@@ -897,6 +897,9 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Yan çubukta Geri Dönüşüm Kutusu görüntülensin</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Always open folders in new tab</value>
+  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Dosya ve klasörler silinmeden onay iletisi görüntülensin</value>
   </data>

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -28,7 +27,7 @@ namespace Files.Helpers
 
         public async Task LoadSelectedTheme()
         {
-            if(App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
+            if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
             {
                 Debug.WriteLine(package.InstalledLocation.Path);
                 OptionalPackageThemeFolder = package.InstalledLocation;
@@ -38,7 +37,8 @@ namespace Files.Helpers
 
             // This is used to migrate to the new theme setting
             // It can be removed in a future update
-            if(ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path)) {
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path))
+            {
                 var pathStr = path as string;
                 App.AppSettings.SelectedTheme = new AppTheme()
                 {
@@ -62,7 +62,7 @@ namespace Files.Helpers
             {
                 await AddThemesAsync(ThemeFolder);
 
-                if(OptionalPackageThemeFolder != null)
+                if (OptionalPackageThemeFolder != null)
                 {
                     await AddThemesAsync(OptionalPackageThemeFolder, true);
                 }
@@ -84,7 +84,6 @@ namespace Files.Helpers
                     IsFromOptionalPackage = isOptionalPackage
                 });
             }
-
         }
 
         public async Task<bool> TryLoadThemeAsync(AppTheme theme)
@@ -92,16 +91,18 @@ namespace Files.Helpers
             try
             {
                 StorageFile file;
-                if(theme.IsFromOptionalPackage)
+                if (theme.IsFromOptionalPackage)
                 {
-                    if(OptionalPackageThemeFolder != null)
+                    if (OptionalPackageThemeFolder != null)
                     {
                         file = await OptionalPackageThemeFolder.GetFileAsync(theme.Path);
-                    } else
+                    }
+                    else
                     {
                         return false;
                     }
-                } else
+                }
+                else
                 {
                     file = await ThemeFolder.GetFileAsync(theme.Path);
                 }

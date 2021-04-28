@@ -942,6 +942,9 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fäst Papperskorgen på sidofältet</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Always open folders in new tab</value>
+  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Visa en bekräftelsedialog när du tar bort filer eller mappar</value>
   </data>

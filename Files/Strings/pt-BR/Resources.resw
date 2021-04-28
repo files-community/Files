@@ -897,6 +897,9 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fixar a lixeira na barra lateral</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Always open folders in new tab</value>
+  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Mostra uma caixa de diálogo de confirmação ao deletar arquivos ou pastas</value>
   </data>
@@ -1679,9 +1682,6 @@
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
     <value>Nenhum detalhe disponível</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Open folders in new tab</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>Nenhum item selecionado</value>

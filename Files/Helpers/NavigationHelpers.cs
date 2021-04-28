@@ -14,7 +14,6 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -75,7 +74,7 @@ namespace Files.Helpers
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
-              
+
                 if (App.AppSettings.OpenFoldersNewTab)
                     await OpenPathInNewTab(item.ItemPath);
                 else

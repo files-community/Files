@@ -413,9 +413,9 @@ namespace Files
             DrivesManager?.Dispose();
             deferral.Complete();
 
-            #if DEBUG
+#if DEBUG
             Current.Exit();
-            #endif
+#endif
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
