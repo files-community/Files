@@ -146,6 +146,30 @@
                     BorderBrush="{ThemeResource SystemChromeHighColor}"
                     BorderThickness="0,0,0,1"
                     PointerPressed="Grid_PointerPressed">
+                    <Grid.ContextFlyout>
+                        <MenuFlyout>
+                            <ToggleMenuFlyoutItem
+                                x:Uid="DetailsViewHeaderFlyout_ShowOriginalPath"
+                                IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                Text="Original path column"
+                                Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="DetailsViewHeaderFlyout_ShowDateDeleted"
+                                IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                Text="Date deleted column"
+                                Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="DetailsViewHeaderFlyout_ShowItemType"
+                                IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                Text="Item type column"
+                                Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="DetailsViewHeaderFlyout_ShowDateModified"
+                                IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                Text="Date modified column"
+                                Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                        </MenuFlyout>
+                    </Grid.ContextFlyout>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition
                             x:Name="Column1"
@@ -261,7 +285,8 @@
                         HorizontalAlignment="Stretch"
                         Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                         CommandParameter="DateModified"
-                        Style="{StaticResource HeaderButtonStyle}">
+                        Style="{StaticResource HeaderButtonStyle}"
+                        Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}">
                         <TextBlock
                             x:Uid="FileBrowserSortOption_DateModified"
                             Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
@@ -273,7 +298,8 @@
                     <controls:GridSplitter
                         Grid.Column="11"
                         ManipulationDelta="GridSplitter_ManipulationDelta"
-                        Style="{StaticResource HeaderGridSplitterStyle}" />
+                        Style="{StaticResource HeaderGridSplitterStyle}"
+                        Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
                     <Button
                         Grid.Column="12"
                         Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"

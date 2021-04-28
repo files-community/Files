@@ -91,12 +91,17 @@ namespace Files.ViewModels
 
     public class ColumnViewModel : ObservableObject
     {
-        private bool isHidden = false;
 
+        private bool isHidden;
+        public bool IsHidden
+        {
+            get => isHidden;
+            set => SetProperty(ref isHidden, value);
+        }
 
         public double MaxLength
         {
-            get => isHidden || UserCollapsed ? 0 : NormalMaxLength;
+            get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
         }
         
         private double normalMaxLength = 800;
@@ -120,9 +125,9 @@ namespace Files.ViewModels
             }
         }
 
-        public double MinLength => isHidden || UserCollapsed ? 0 : NormalMinLength;
+        public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
 
-        public Visibility Visibility => isHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         private bool userCollapsed;
         public bool UserCollapsed
@@ -139,7 +144,7 @@ namespace Files.ViewModels
 
         public GridLength Length
         {
-            get => isHidden || UserCollapsed ? new GridLength(0) : UserLength;
+            get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
             
         }
         
@@ -158,13 +163,13 @@ namespace Files.ViewModels
 
         public void Hide()
         {
-            isHidden = true;
+            IsHidden = true;
             UpdateVisibility();
         }
 
         public void Show()
         {
-            isHidden = false;
+            IsHidden = false;
             UpdateVisibility();
         }
 
