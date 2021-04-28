@@ -263,12 +263,12 @@ namespace FilesFullTrust
 
         public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
         {
-			var message = new Dictionary<string, object>(valueSet)
-			{
-				{ "RequestID", requestID }
-			};
+	    var message = new Dictionary<string, object>(valueSet)
+	    {
+                { "RequestID", requestID }
+	    };
 
-			var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+	    var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
             await pipe.WriteAsync(serialized, 0, serialized.Length);
         }
 
