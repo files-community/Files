@@ -148,6 +148,7 @@ namespace Files.ViewModels
             
         }
         
+        [JsonIgnore]
         private GridLength userLength = new GridLength(1, GridUnitType.Star);
         public GridLength UserLength
         {
@@ -159,6 +160,12 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(Length));
                 }
             }
+        }
+
+        public double UserLengthPixels
+        {
+            get => UserLength.Value;
+            set => UserLength = new GridLength(value, GridUnitType.Pixel);
         }
 
         public void Hide()

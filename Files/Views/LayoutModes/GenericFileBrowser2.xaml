@@ -150,21 +150,25 @@
                         <MenuFlyout>
                             <ToggleMenuFlyoutItem
                                 x:Uid="DetailsViewHeaderFlyout_ShowOriginalPath"
+                                Click="ToggleMenuFlyoutItem_Click"
                                 IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                 Text="Original path column"
                                 Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="DetailsViewHeaderFlyout_ShowDateDeleted"
+                                Click="ToggleMenuFlyoutItem_Click"
                                 IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                 Text="Date deleted column"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="DetailsViewHeaderFlyout_ShowItemType"
+                                Click="ToggleMenuFlyoutItem_Click"
                                 IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                 Text="Item type column"
                                 Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="DetailsViewHeaderFlyout_ShowDateModified"
+                                Click="ToggleMenuFlyoutItem_Click"
                                 IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                 Text="Date modified column"
                                 Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -223,6 +227,7 @@
 
                     <controls:GridSplitter
                         Grid.Column="3"
+                        ManipulationCompleted="GridSplitter_ManipulationCompleted"
                         ManipulationDelta="GridSplitter_ManipulationDelta"
                         Style="{StaticResource HeaderGridSplitterStyle}" />
 
@@ -241,6 +246,7 @@
                     </Button>
                     <controls:GridSplitter
                         Grid.Column="5"
+                        ManipulationCompleted="GridSplitter_ManipulationCompleted"
                         ManipulationDelta="GridSplitter_ManipulationDelta"
                         Style="{StaticResource HeaderGridSplitterStyle}"
                         Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
@@ -259,6 +265,7 @@
                     </Button>
                     <controls:GridSplitter
                         Grid.Column="7"
+                        ManipulationCompleted="GridSplitter_ManipulationCompleted"
                         ManipulationDelta="GridSplitter_ManipulationDelta"
                         Style="{StaticResource HeaderGridSplitterStyle}"
                         Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
@@ -276,6 +283,7 @@
 
                     <controls:GridSplitter
                         Grid.Column="9"
+                        ManipulationCompleted="GridSplitter_ManipulationCompleted"
                         ManipulationDelta="GridSplitter_ManipulationDelta"
                         Style="{StaticResource HeaderGridSplitterStyle}"
                         Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
@@ -297,9 +305,11 @@
 
                     <controls:GridSplitter
                         Grid.Column="11"
+                        ManipulationCompleted="GridSplitter_ManipulationCompleted"
                         ManipulationDelta="GridSplitter_ManipulationDelta"
                         Style="{StaticResource HeaderGridSplitterStyle}"
                         Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
+
                     <Button
                         Grid.Column="12"
                         Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"

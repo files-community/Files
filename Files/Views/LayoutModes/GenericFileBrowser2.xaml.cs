@@ -11,7 +11,9 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
@@ -27,7 +29,19 @@ namespace Files.Views.LayoutModes
     public sealed partial class GenericFileBrowser2 : BaseLayout
     {
         public string oldItemName;
-        public ColumnsViewModel ColumnsViewModel { get; set; } = new ColumnsViewModel();
+        ColumnsViewModel columnsViewModel = new ColumnsViewModel();
+        public ColumnsViewModel ColumnsViewModel 
+        {
+            get => columnsViewModel;
+            set
+            {
+                if(value != columnsViewModel)
+                {
+                    columnsViewModel = value;
+                    NotifyPropertyChanged(nameof(ColumnsViewModel));
+                }
+            }
+        }
 
         RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
@@ -160,7 +174,12 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+
             base.OnNavigatedTo(eventArgs);
+            if (ParentShellPageInstance.InstanceViewModel?.FolderSettings.ColumnsViewModel != null)
+            {
+                ColumnsViewModel = ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel;
+            }
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -644,6 +663,16 @@ namespace Files.Views.LayoutModes
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateColumnLayout();
+        }
+
+        private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+        }
+
+        private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
     }
 }
