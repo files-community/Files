@@ -591,7 +591,7 @@
   <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Layout Mode</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1368,7 +1368,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>More options</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1566,10 +1566,10 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Display Options</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Display options</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Display options</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">

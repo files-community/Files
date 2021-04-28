@@ -474,9 +474,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Možnosti výběru</value>
-  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Pouze pro čtení</value>
   </data>
@@ -1245,9 +1242,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Více možností</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Možnosti výběru</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Stavové centrum</value>
   </data>
@@ -1439,12 +1433,6 @@
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>&amp;Možnosti zobrazení</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>&amp;Možnosti zobrazení</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Možnosti zobrazení</value>
   </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Zobrazovat přípony souborů</value>

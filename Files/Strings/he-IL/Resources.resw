@@ -402,9 +402,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>אישור</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>אפשרויות בחירה</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>רוקן את סל המיחזור</value>
   </data>
@@ -972,9 +969,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>אפשרויות נוספות</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>אפשרויות בחירה</value>
-  </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>פתח פריטים בלחיצה בודדת</value>
   </data>
@@ -1178,12 +1172,6 @@
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>אפשרויות &amp;תצוגה</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>אפשרויות &amp;תצוגה</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>אפשרויות תצוגה</value>
   </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>הצג סיומות קבצים</value>
