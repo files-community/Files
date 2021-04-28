@@ -16,14 +16,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -442,13 +440,13 @@ namespace Files
             }
         }
 
-        async void Item_DragStarting(object sender, DragStartingEventArgs e)
+        private async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
 
             if (sender is DataGridRow dataGridRow)
             {
-                if(dataGridRow.DataContext is ListedItem item)
+                if (dataGridRow.DataContext is ListedItem item)
                 {
                     ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
                 }
@@ -473,7 +471,7 @@ namespace Files
                 }
             }
 
-            if(selectedStorageItems.Count == 0)
+            if (selectedStorageItems.Count == 0)
             {
                 e.Cancel = true;
                 return;
@@ -509,10 +507,11 @@ namespace Files
                 }
             }
 
-            if(selectedStorageItems.Count > 0)
+            if (selectedStorageItems.Count > 0)
             {
                 e.Data.SetStorageItems(selectedStorageItems, false);
-            } else
+            }
+            else
             {
                 e.Cancel = true;
             }
@@ -532,18 +531,18 @@ namespace Files
 
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
-
             ListedItem item = GetItemFromElement(sender);
 
             if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
-            } else if (item is null && sender is ListViewItem lvi)
+            }
+            else if (item is null && sender is ListViewItem lvi)
             {
                 item = lvi.Content as ListedItem;
             }
 
-            if(item is null)
+            if (item is null)
             {
                 return;
             }

@@ -23,7 +23,7 @@ namespace Files.Helpers
         {
             // Remove symbols because windows doesn't like them in the ID, and will blow up
             var str = $"folder-{new string(path.Where(c => char.IsLetterOrDigit(c)).ToArray())}";
-            if(str.Length > 64)
+            if (str.Length > 64)
             {
                 // if the id string is too long, Windows will throw an error, so remove every other character
                 str = new string(str.Where((x, i) => i % 2 == 0).ToArray());

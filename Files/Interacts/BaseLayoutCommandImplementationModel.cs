@@ -419,13 +419,14 @@ namespace Files.Interacts
 
         public virtual async void UnpinItemFromStart(RoutedEventArgs e)
         {
-            if(associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
                     await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
                 }
-            } else
+            }
+            else
             {
                 await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
             }

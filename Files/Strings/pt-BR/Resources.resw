@@ -1680,9 +1680,6 @@
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
     <value>Nenhum detalhe disponível</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Open folders in new tab</value>
-  </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>Nenhum item selecionado</value>
   </data>

@@ -193,14 +193,12 @@ namespace Files.Filesystem
 
                 PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
                 return returnStatus;
-
             }
             catch (System.Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn($"Delete items operation failed:\n{ex}");
                 return ReturnResult.Failed;
             }
-
         }
 
         private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
@@ -290,7 +288,6 @@ namespace Files.Filesystem
                 NLog.LogManager.GetCurrentClassLogger().Warn($"Delete item operation failed:\n{ex}");
                 return ReturnResult.Failed;
             }
-
         }
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)

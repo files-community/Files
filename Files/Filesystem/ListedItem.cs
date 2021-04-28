@@ -18,15 +18,17 @@ namespace Files.Filesystem
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
-        public string ItemTooltipText 
-        { 
-            get 
+
+        public string ItemTooltipText
+        {
+            get
             {
                 return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
             }
         }
+
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
         private bool loadFolderGlyph;
@@ -99,6 +101,7 @@ namespace Files.Filesystem
         }
 
         private Uri customIconSource;
+
         public Uri CustomIconSource
         {
             get => customIconSource;
@@ -107,6 +110,7 @@ namespace Files.Filesystem
 
         [JsonIgnore]
         private byte[] customIconData;
+
         public byte[] CustomIconData
         {
             get => customIconData;
@@ -355,6 +359,7 @@ namespace Files.Filesystem
 
         [JsonIgnore]
         private ColumnsViewModel columnsViewModel;
+
         public ColumnsViewModel ColumnsViewModel
         {
             get => columnsViewModel;
@@ -366,6 +371,7 @@ namespace Files.Filesystem
                 }
             }
         }
+
         // This is a hack used because x:Bind casting did not work properly
         [JsonIgnore]
         public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
