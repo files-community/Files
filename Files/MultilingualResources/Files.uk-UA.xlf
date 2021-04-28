@@ -1195,6 +1195,10 @@
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Закріпити Кошик на бічній панелі</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="translated">Always open folders in new tab</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="translated">Показувати діалогове вікно підтвердження під час видалення файлів або папок</target>

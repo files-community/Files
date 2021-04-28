@@ -693,7 +693,15 @@ namespace Files.Views.LayoutModes
         private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+            
+            if (AppSettings.OpenFoldersNewTab)
+            {
+                NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
+            }
+            else
+            {
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+            }
         }
 
         #region IDisposable

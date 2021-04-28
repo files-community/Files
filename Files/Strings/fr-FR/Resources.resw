@@ -31,7 +31,7 @@
     <value>Modifié le :</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Effacer tous les éléments</value>
+    <value>Créé le :</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Les fichiers précédemment ouverts s'afficheront ici</value>
@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Rechercher</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Sélectionner tout</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Effacer la sélection</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Paramètres</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Inverser la sélection</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -1614,7 +1614,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Sélection Multiple</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1997,5 +1997,17 @@
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Il y a un conflit de nom de fichiers.</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>Créer un dossier avec la sélection</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>Nom :</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>Type :</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>Date de modification :</value>
   </data>
 </root>

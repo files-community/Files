@@ -93,13 +93,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Vienuma tips:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Atlasīt visu</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Mainīt atlasi uz pretējo</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Notīrīt atlasi</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -1659,7 +1659,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nezināms</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vairākatlase</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">

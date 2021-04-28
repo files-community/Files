@@ -84,13 +84,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>‏‏סוג פריט</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>בחר הכל</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>הפוך בחירה</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>נקה בחירה</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -1340,5 +1340,8 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>מנהל מערכת</value>
+  </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
   </data>
 </root>

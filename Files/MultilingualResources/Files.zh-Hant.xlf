@@ -1216,6 +1216,10 @@
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">將資源回收桶釘選至側邊欄</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="translated">Always open folders in new tab</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="translated">在刪除檔案或資料夾時顯示確認視窗</target>

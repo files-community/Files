@@ -195,6 +195,10 @@
           <source>Date format</source>
           <target state="translated">Formát data</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="translated">Always open folders in new tab</target>
+        </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
           <source>App theme</source>
           <target state="translated">Vzhled aplikace</target>

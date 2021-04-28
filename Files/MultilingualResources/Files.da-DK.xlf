@@ -166,6 +166,10 @@
           <source>Files</source>
           <target state="translated">Files</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="translated">Always open folders in new tab</target>
+        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
           <target state="translated">Send feedback</target>
