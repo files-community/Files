@@ -854,9 +854,6 @@
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Always open folders in new tab</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</value>
   </data>

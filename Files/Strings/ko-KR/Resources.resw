@@ -945,9 +945,6 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>사이드바에 휴지통 고정</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Always open folders in new tab</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>파일이나 폴더 삭제 시 확인 창 표시</value>
   </data>

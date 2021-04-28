@@ -897,9 +897,6 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Przypnij Kosz do paska bocznego</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Always open folders in new tab</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Pokazuj okno potwierdzenia podczas usuwania plików lub folderów</value>
   </data>

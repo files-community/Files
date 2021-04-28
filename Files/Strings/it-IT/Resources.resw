@@ -897,9 +897,6 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pinna il Cestino alla barra laterale</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Always open folders in new tab</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Chiedi conferma prima di eliminare file e cartelle</value>
   </data>

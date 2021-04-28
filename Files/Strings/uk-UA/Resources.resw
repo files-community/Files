@@ -897,9 +897,6 @@
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Закріпити Кошик на бічній панелі</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Always open folders in new tab</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Показувати діалогове вікно підтвердження під час видалення файлів або папок</value>
   </data>
