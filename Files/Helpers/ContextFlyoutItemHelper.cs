@@ -146,7 +146,8 @@ namespace Files.Helpers
                         new ContextMenuFlyoutItemViewModel()
                         {
                             Text = "BaseLayoutContextFlyoutColumn/Text".GetLocalized(),
-                            Glyph = "\uE8C0",
+                            Glyph = "\uF115",
+                            GlyphFontFamilyName = "CustomGlyph",
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnView,
                             CommandParameter = true,

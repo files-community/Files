@@ -1149,7 +1149,7 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View">
-                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
+                                        <FontIcon FontSize="16" Glyph="&#xF115;" FontFamily="{StaticResource CustomGlyph}" />
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
