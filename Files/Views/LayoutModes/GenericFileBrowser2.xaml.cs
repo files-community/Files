@@ -11,8 +11,10 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
@@ -28,7 +30,19 @@ namespace Files.Views.LayoutModes
     public sealed partial class GenericFileBrowser2 : BaseLayout
     {
         public string oldItemName;
-        public ColumnsViewModel ColumnsViewModel { get; set; } = new ColumnsViewModel();
+        ColumnsViewModel columnsViewModel = new ColumnsViewModel();
+        public ColumnsViewModel ColumnsViewModel 
+        {
+            get => columnsViewModel;
+            set
+            {
+                if(value != columnsViewModel)
+                {
+                    columnsViewModel = value;
+                    NotifyPropertyChanged(nameof(ColumnsViewModel));
+                }
+            }
+        }
 
         RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
@@ -162,6 +176,11 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            if (ParentShellPageInstance.InstanceViewModel?.FolderSettings.ColumnsViewModel != null)
+            {
+                ColumnsViewModel = ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel;
+            }
+
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -201,36 +220,22 @@ namespace Files.Views.LayoutModes
             // This code updates which colulmns are hidden and which ones are shwn
             if (!e.IsTypeRecycleBin)
             {
-                ColumnsViewModel.OriginalPathColumnVisibility = Visibility.Collapsed;
-                ColumnsViewModel.OriginalPathColumnLength = new GridLength(0, GridUnitType.Pixel);
-                ColumnsViewModel.OriginalPathMaxLength = 0;
-
-                ColumnsViewModel.DateDeletedColumnVisibility = Visibility.Collapsed;
-                ColumnsViewModel.DateDeletedColumnLength = new GridLength(0, GridUnitType.Pixel);
-                ColumnsViewModel.DateDeletedMaxLength = 0;
+                ColumnsViewModel.DateDeletedColumn.Hide();
+                ColumnsViewModel.OriginalPathColumn.Hide();
             }
             else
             {
-                ColumnsViewModel.OriginalPathColumnVisibility = Visibility.Visible;
-                ColumnsViewModel.OriginalPathColumnLength = new GridLength(150, GridUnitType.Pixel);
-                ColumnsViewModel.OriginalPathMaxLength = 200;
-
-                ColumnsViewModel.DateDeletedColumnVisibility = Visibility.Visible;
-                ColumnsViewModel.DateDeletedColumnLength = new GridLength(80, GridUnitType.Pixel);
-                ColumnsViewModel.DateDeletedMaxLength = 150;
+                ColumnsViewModel.OriginalPathColumn.Show();
+                ColumnsViewModel.DateDeletedColumn.Show();
             }
 
             if (!e.IsTypeCloudDrive)
             {
-                ColumnsViewModel.StatusColumnVisibility = Visibility.Collapsed;
-                ColumnsViewModel.StatusColumnLength = new GridLength(0, GridUnitType.Pixel);
-                ColumnsViewModel.StatusColumnMaxLength = 0;
+                ColumnsViewModel.StatusColumn.Hide();
             }
             else
             {
-                ColumnsViewModel.StatusColumnVisibility = Visibility.Visible;
-                ColumnsViewModel.StatusColumnLength = new GridLength(40, GridUnitType.Pixel);
-                ColumnsViewModel.StatusColumnMaxLength = 100;
+                ColumnsViewModel.StatusColumn.Show();
             }
         }
 
@@ -649,13 +654,13 @@ namespace Files.Views.LayoutModes
 
         private void UpdateColumnLayout()
         {
-            ColumnsViewModel.IconColumnLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.NameColumnLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.OriginalPathColumnLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateDeletedColumnLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.StatusColumnLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateModifiedColumnLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.ItemTypeColumnLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.NameColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
                     + Column6.ActualWidth + Column7.ActualWidth);
         }
@@ -663,6 +668,16 @@ namespace Files.Views.LayoutModes
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateColumnLayout();
+        }
+
+        private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+        }
+
+        private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
     }
 }
