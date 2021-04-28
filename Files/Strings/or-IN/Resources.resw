@@ -1167,4 +1167,16 @@
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>ବ୍ୟବସ୍ଥାପକ</value>
   </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
+  </data>
 </root>

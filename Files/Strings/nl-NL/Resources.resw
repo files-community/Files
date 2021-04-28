@@ -1572,4 +1572,16 @@
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
     <value>Files wordt uitgevoerd als administrator</value>
   </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Selectieopties</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Selectieopties</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Weergaveopties</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Weergaveopties</value>
+  </data>
 </root>

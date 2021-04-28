@@ -1785,4 +1785,16 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Rimuovi dal Menu Start</value>
   </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opzioni selezione</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opzioni selezione</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Opzioni di visualizzazione</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opzioni</value>
+  </data>
 </root>
