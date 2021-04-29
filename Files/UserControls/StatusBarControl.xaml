@@ -14,8 +14,8 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
-    mc:Ignorable="d"
-    Loading="UserControl_Loading">
+    Loading="UserControl_Loading"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -73,6 +73,7 @@
                 Width="36"
                 Height="32"
                 x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                AccessKey="M"
                 Background="Transparent"
                 Click="FullTrustStatus_Click"
                 FontSize="16"
@@ -87,6 +88,7 @@
                     Width="36"
                     Height="32"
                     Padding="0"
+                    AccessKey="T"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -113,8 +115,8 @@
                                 MinHeight="300"
                                 MaxHeight="400"
                                 x:FieldModifier="public"
-                                IsTabStop="True" 
-                                StatusCenterViewModel="{x:Bind StatusCenterViewModel}"/>
+                                IsTabStop="True"
+                                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>
