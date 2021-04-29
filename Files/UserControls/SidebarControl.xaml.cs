@@ -13,13 +13,15 @@ using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
-    public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
+    public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
@@ -50,20 +52,6 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
-
-        public bool IsOpen
-        {
-            get => (bool)GetValue(IsOpenProperty);
-            set
-            {
-                if (this.IsLoaded)
-                {
-                    SetValue(IsOpenProperty, value);
-                }
-            }
-        }
-
         public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
 
         public bool IsCompact
@@ -93,7 +81,7 @@ namespace Files.UserControls
         public SidebarControl()
         {
             this.InitializeComponent();
-            SidebarNavView.Loaded += SidebarNavView_Loaded;
+            this.Loaded += SidebarNavView_Loaded;
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -252,14 +240,14 @@ namespace Files.UserControls
             SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
         }
 
-        private void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
             if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
             {
                 IsInPointerPressed = true;
-                NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
             }
         }
@@ -334,9 +322,9 @@ namespace Files.UserControls
             e.Handled = true;
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
+            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -608,10 +596,54 @@ namespace Files.UserControls
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
+            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
+        }
 
-            SidebarNavView.Loaded -= SidebarNavView_Loaded;
+        private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var step = 1;
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                step = 5;
+            }
+
+            if (e.Key == VirtualKey.Left)
+            {
+                IncrementSize(-step);
+                e.Handled = true;
+            } else if(e.Key == VirtualKey.Right)
+            {
+                IncrementSize(step);
+                e.Handled = true;
+            }
+        }
+
+        private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {   
+            if(IsPaneOpen)
+            {
+                IncrementSize(e.Delta.Translation.X);
+            }
+        }
+
+        private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+        }
+
+        private void IncrementSize(double val)
+        {
+            AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + val);
+        }
+
+        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPaneOpen)
+            {
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+            }
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
