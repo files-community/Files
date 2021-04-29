@@ -459,7 +459,6 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
-                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
