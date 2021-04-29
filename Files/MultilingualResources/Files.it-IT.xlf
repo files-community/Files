@@ -354,10 +354,6 @@
           <source>Properties</source>
           <target state="translated">Proprietà</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
-        </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
           <target state="translated">Benvenuti in Files!</target>
@@ -2731,6 +2727,26 @@
         <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Display options</source>
           <target state="translated">Opzioni</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File icon</source>
+          <target state="new">File icon</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path column</source>
+          <target state="new">Original path column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type column</source>
+          <target state="new">Item type column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified column</source>
+          <target state="new">Date modified column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted column</source>
+          <target state="new">Date deleted column</target>
         </trans-unit>
       </group>
     </body>

@@ -198,9 +198,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>속성</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>새 창</value>
   </data>

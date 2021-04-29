@@ -167,9 +167,9 @@
                             Spacing="14"
                             Tag="SupportUs">
                             <FontIcon
-                                FontFamily="{StaticResource OldFluentUIGlyphs}"
+                                FontFamily="{StaticResource CustomGlyph}"
                                 Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEB3B;" />
+                                Glyph="&#xF119;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
                                 <TextBlock
