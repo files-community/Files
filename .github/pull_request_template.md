@@ -8,7 +8,7 @@ I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 -->
 
 **Resolved / Related Issues**
-Itemize resolved / related issues by this PR.
+Items resolved / related issues by this PR.
 - Closes ...
 - Related ...
 
