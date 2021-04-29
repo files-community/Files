@@ -677,6 +677,7 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="B"
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
                     Click="Back_Click"
@@ -701,6 +702,7 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="F"
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
                     Click="Forward_Click"
@@ -724,6 +726,7 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="U"
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
                     Click="Up_Click"
@@ -745,6 +748,7 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="R"
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
                     Click="Refresh_Click"
@@ -901,6 +905,7 @@
                 Grid.Column="2"
                 Width="36"
                 Height="32"
+                AccessKey="I"
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
@@ -925,6 +930,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    AccessKey="W"
                     AutomationProperties.Name="Manage widgets"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -965,6 +971,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="S"
                     AutomationProperties.Name="Selection options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -1024,6 +1031,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="L"
                     AutomationProperties.Name="Display options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -1149,7 +1157,10 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View">
-                                        <FontIcon FontSize="16" Glyph="&#xF115;" FontFamily="{StaticResource CustomGlyph}" />
+                                        <FontIcon
+                                            FontFamily="{StaticResource CustomGlyph}"
+                                            FontSize="16"
+                                            Glyph="&#xF115;" />
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
@@ -1162,6 +1173,7 @@
                     x:Uid="PreviewPaneToggle"
                     Width="36"
                     Height="32"
+                    AccessKey="P"
                     AutomationProperties.Name="Toggle preview pane"
                     Background="Transparent"
                     Click="PreviewPane_Click"
@@ -1178,6 +1190,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                    AccessKey="T"
                     AllowDrop="True"
                     AutomationProperties.Name="Vertical tab strip"
                     Background="Transparent"
