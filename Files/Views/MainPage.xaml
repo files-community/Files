@@ -185,7 +185,8 @@
         x:Name="SidebarControl"
         Grid.Column="0"
         Grid.ColumnSpan="2"
-        HorizontalAlignment="Left"
+        HorizontalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
         CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}"
         Canvas.ZIndex="1000"
         EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
@@ -193,7 +194,7 @@
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
         <Grid HorizontalAlignment="Stretch">
-            <ContentPresenter Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+            <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
             <Grid
                 x:Name="RightMarginGrid"
