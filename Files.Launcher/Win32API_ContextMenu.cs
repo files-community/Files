@@ -232,8 +232,6 @@ namespace FilesFullTrust
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
                 var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName));
                 ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-                // This hides the "Open in Files" context menu item that is shown when Files is set as the default explorer
-                contextMenu.Items = contextMenu.Items.Where(x => x.CommandString != "openinfiles").ToList();
                 return contextMenu;
             }
 
