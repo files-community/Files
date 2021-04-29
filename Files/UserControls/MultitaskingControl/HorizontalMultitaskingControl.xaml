@@ -458,7 +458,7 @@
                                                         <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
-                                                        <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
+                                                        <Setter Target="CloseButton.Foreground" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -484,6 +484,7 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -497,6 +498,7 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -511,6 +513,7 @@
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
                                                         <Setter Target="LayoutRoot.Background" Value="Transparent" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -524,6 +527,7 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                         <Setter Target="LayoutRoot.Background" Value="Transparent" />
                                                     </VisualState.Setters>
                                                 </VisualState>
