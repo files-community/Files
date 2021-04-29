@@ -492,9 +492,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Logboek locatie openen</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nieuw tabblad (Ctrl+T)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item geselecteerd</value>
   </data>
