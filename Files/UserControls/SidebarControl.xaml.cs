@@ -13,9 +13,11 @@ using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
@@ -604,14 +606,31 @@ namespace Files.UserControls
 
             if (border != null)
             {
+                border.ManipulationMode = ManipulationModes.TranslateX;
+
                 border.PointerEntered += Border_PointerEntered;
                 border.PointerExited += Border_PointerExited;
                 border.PointerCanceled += Border_PointerCanceled;
-                border.ManipulationMode = ManipulationModes.TranslateX;
                 border.ManipulationDelta += Border_ManipulationDelta;
             }
+        }
 
-            this.Loaded -= SidebarNavView_Loaded;
+        private void Sidebar_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var step = 1;
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                step = 5;
+            }
+
+            if (e.Key == VirtualKey.Left)
+            {
+                IncrementSize(-step);
+            } else if(e.Key == VirtualKey.Right)
+            {
+                IncrementSize(step);
+            }
         }
 
         private void Border_PointerCanceled(object sender, PointerRoutedEventArgs e)
@@ -623,7 +642,7 @@ namespace Files.UserControls
         {   
             if(IsPaneOpen)
             {
-                AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + e.Delta.Translation.X);
+                IncrementSize(e.Delta.Translation.X);
             }
         }
 
@@ -634,14 +653,19 @@ namespace Files.UserControls
 
         private void ResetCursor()
         {
-            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
+            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+        }
+
+        private void IncrementSize(double val)
+        {
+            AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + val);
         }
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (IsPaneOpen)
             {
-                Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.SizeWestEast, 0);
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
             }
         }
 
