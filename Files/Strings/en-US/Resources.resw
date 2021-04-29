@@ -432,9 +432,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
-  </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Welcome to Files!</value>
   </data>
@@ -591,7 +588,7 @@
   <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Layout Mode</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
@@ -1368,7 +1365,7 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>More options</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
@@ -1566,10 +1563,10 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Display Options</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Display options</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Display options</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
@@ -2061,6 +2058,9 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Show Bundles widget</value>
   </data>
@@ -2159,5 +2159,23 @@
   </data>
 <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Open with</value>
+  </data>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>File icon</value>
+  </data>
+    <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>Original path column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>Item type column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>Date modified column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>Date deleted column</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>Sidebar resizer</value>
   </data>
 </root>

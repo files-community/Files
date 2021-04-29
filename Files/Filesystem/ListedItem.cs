@@ -18,15 +18,17 @@ namespace Files.Filesystem
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
-        public string ItemTooltipText 
-        { 
-            get 
+
+        public string ItemTooltipText
+        {
+            get
             {
                 return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
             }
         }
+
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
         private bool loadFolderGlyph;
@@ -99,6 +101,7 @@ namespace Files.Filesystem
         }
 
         private Uri customIconSource;
+
         public Uri CustomIconSource
         {
             get => customIconSource;
@@ -107,6 +110,7 @@ namespace Files.Filesystem
 
         [JsonIgnore]
         private byte[] customIconData;
+
         public byte[] CustomIconData
         {
             get => customIconData;
@@ -121,14 +125,32 @@ namespace Files.Filesystem
             set => SetProperty(ref opacity, value);
         }
 
-        private CloudDriveSyncStatusUI syncStatusUI;
+        private CloudDriveSyncStatusUI syncStatusUI = new CloudDriveSyncStatusUI();
 
         [JsonIgnore]
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => syncStatusUI;
-            set => SetProperty(ref syncStatusUI, value);
+            set
+            {
+                // For some reason this being null will cause a crash with bindings
+                if(value is null)
+                {
+                    value = new CloudDriveSyncStatusUI();
+                }
+                if(SetProperty(ref syncStatusUI, value))
+                {
+                    OnPropertyChanged(nameof(SyncStatusString));
+                }
+            }
         }
+
+        // This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
+        public string SyncStatusString
+        {
+            get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalized() : SyncStatusUI.SyncStatusString;
+        }
+
 
         private BitmapImage fileImage;
 
@@ -356,6 +378,7 @@ namespace Files.Filesystem
 
         [JsonIgnore]
         private ColumnsViewModel columnsViewModel;
+
         public ColumnsViewModel ColumnsViewModel
         {
             get => columnsViewModel;
@@ -367,6 +390,7 @@ namespace Files.Filesystem
                 }
             }
         }
+
         // This is a hack used because x:Bind casting did not work properly
         [JsonIgnore]
         public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;

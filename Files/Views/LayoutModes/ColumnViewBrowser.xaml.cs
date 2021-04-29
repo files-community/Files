@@ -67,7 +67,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
         }
 
@@ -82,20 +81,6 @@ namespace Files.Views.LayoutModes
                 else
                 {
                     listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
-        {
-            if (!InstanceViewModel.IsPageTypeSearchResults)
-            {
-                foreach (ListedItem listedItem in FileList.Items.ToList())
-                {
-                    if (FileList.ContainerFromItem(listedItem) is ListViewItem listViewItem)
-                    {
-                        listViewItem.CanDrag = listViewItem.IsSelected;
-                    }
                 }
             }
         }
@@ -164,7 +149,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
                 ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
@@ -352,8 +336,12 @@ namespace Files.Views.LayoutModes
 
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = e.OriginalSource as TextBox;
-            CommitRename(textBox);
+            // This check allows the user to use the text box context menu without ending the rename
+            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            {
+                TextBox textBox = e.OriginalSource as TextBox;
+                CommitRename(textBox);
+            }
         }
 
         private async void CommitRename(TextBox textBox)
@@ -741,11 +729,11 @@ namespace Files.Views.LayoutModes
                 args.ItemContainer = gvi;
             }
             args.ItemContainer.DataContext = args.Item;
+            InitializeDrag(args.ItemContainer);
 
             if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-                InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
                 item.ItemPropertiesInitialized = true;

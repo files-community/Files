@@ -23,7 +23,6 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -285,7 +284,7 @@ namespace Files
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -352,7 +351,7 @@ namespace Files
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-
+            ParentShellPageInstance.LoadPreviewPaneChanged();
             FolderSettings.IsLayoutModeChanging = false;
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
@@ -442,13 +441,13 @@ namespace Files
             }
         }
 
-        async void Item_DragStarting(object sender, DragStartingEventArgs e)
+        private async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
 
             if (sender is DataGridRow dataGridRow)
             {
-                if(dataGridRow.DataContext is ListedItem item)
+                if (dataGridRow.DataContext is ListedItem item)
                 {
                     ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
                 }
@@ -473,7 +472,7 @@ namespace Files
                 }
             }
 
-            if(selectedStorageItems.Count == 0)
+            if (selectedStorageItems.Count == 0)
             {
                 e.Cancel = true;
                 return;
@@ -509,7 +508,14 @@ namespace Files
                 }
             }
 
-            e.Data.SetStorageItems(selectedStorageItems, false);
+            if (selectedStorageItems.Count > 0)
+            {
+                e.Data.SetStorageItems(selectedStorageItems, false);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private ListedItem dragOverItem = null;
@@ -526,14 +532,23 @@ namespace Files
 
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
-            var deferral = e.GetDeferral();
-
             ListedItem item = GetItemFromElement(sender);
 
             if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
             }
+            else if (item is null && sender is ListViewItem lvi)
+            {
+                item = lvi.Content as ListedItem;
+            }
+
+            if (item is null)
+            {
+                return;
+            }
+
+            var deferral = e.GetDeferral();
 
             ItemManipulationModel.SetSelectedItem(item);
 
@@ -576,7 +591,7 @@ namespace Files
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
 
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 } else if(item.IsExecutable)
@@ -649,5 +664,15 @@ namespace Files
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
         public abstract void Dispose();
+
+        protected void ItemsLayout_DragEnter(object sender, DragEventArgs e)
+        {
+            CommandsViewModel?.DragEnterCommand?.Execute(e);
+        }
+
+        protected void ItemsLayout_Drop(object sender, DragEventArgs e)
+        {
+            CommandsViewModel?.DropCommand?.Execute(e);
+        }
     }
 }

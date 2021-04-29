@@ -109,6 +109,8 @@
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
             DoubleTapped="AllView_DoubleTapped"
+            DragEnter="ItemsLayout_DragEnter"
+            Drop="ItemsLayout_Drop"
             FocusVisualPrimaryThickness="0"
             Holding="AllView_Holding"
             IsDoubleTapEnabled="True"

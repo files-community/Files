@@ -9,6 +9,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -418,13 +419,14 @@ namespace Files.Interacts
 
         public virtual async void UnpinItemFromStart(RoutedEventArgs e)
         {
-            if(associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
                     await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
                 }
-            } else
+            }
+            else
             {
                 await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
             }
@@ -520,7 +522,7 @@ namespace Files.Interacts
 
                 var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.All(x => Path.GetDirectoryName(x.Path) == associatedInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }

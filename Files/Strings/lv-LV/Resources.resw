@@ -93,13 +93,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Vienuma tips:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Atlasīt visu</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Mainīt atlasi uz pretējo</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Notīrīt atlasi</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -327,9 +327,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Rekvizīti</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
-  </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Laipni lūgti Failos!</value>
   </data>
@@ -485,9 +482,6 @@
   </data>
   <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
     <value>Izkārtojuma veids</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Atlases opcijas</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Tikai lasāms</value>
@@ -1260,9 +1254,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Papildu opcijas</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Atlases opcijas</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Statusa centrs</value>
   </data>
@@ -1456,12 +1447,6 @@
     <value>Detalizēts skats</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Attēlojuma opcijas</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Attēlojuma opcijas</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Attēlojuma opcijas</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
@@ -1659,7 +1644,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Nezināms</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vairākatlase</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1763,5 +1748,17 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrators</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Atlases opcijas</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Atlases opcijas</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Attēlojuma opcijas</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Attēlojuma opcijas</value>
   </data>
 </root>

@@ -254,10 +254,6 @@
           <source>Properties</source>
           <target state="translated" state-qualifier="tm-suggestion">Eigenschappen</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
-        </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New window</source>
           <target state="translated" state-qualifier="tm-suggestion">Nieuw venster</target>
@@ -565,10 +561,6 @@
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
           <target state="translated">Heeft u deze map verwijderd?</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Selection options</source>
-          <target state="translated" state-qualifier="tm-suggestion">Selectieopties</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
@@ -1588,10 +1580,6 @@
           <source>More options</source>
           <target state="translated" state-qualifier="tm-suggestion">Meer opties</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Selection options</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Selectieopties</target>
-        </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
           <target state="translated">Status centrum</target>
@@ -1927,14 +1915,6 @@
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated">Weergaveopties</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Display options</source>
-          <target state="translated">Weergaveopties</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Display options</source>
-          <target state="translated" state-qualifier="tm-suggestion">Weergaveopties</target>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
@@ -2727,6 +2707,46 @@
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
           <target state="new">Date modified:</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="new">Open folders in new tab</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">Selectieopties</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">Selectieopties</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="translated">Weergaveopties</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="translated">Weergaveopties</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File icon</source>
+          <target state="new">File icon</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path column</source>
+          <target state="new">Original path column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type column</source>
+          <target state="new">Item type column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified column</source>
+          <target state="new">Date modified column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted column</source>
+          <target state="new">Date deleted column</target>
         </trans-unit>
       </group>
     </body>

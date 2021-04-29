@@ -31,7 +31,7 @@
     <value>Modifié le :</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Effacer tous les éléments</value>
+    <value>Créé le :</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Les fichiers précédemment ouverts s'afficheront ici</value>
@@ -198,9 +198,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Propriétés</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>Aperçu</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Nouvelle fenêtre</value>
   </data>
@@ -219,10 +216,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Rechercher</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Sélectionner tout</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Effacer la sélection</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +339,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Paramètres</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Inverser la sélection</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -431,9 +428,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Options de sélection</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>Le fichier que vous essayez de supprimer est actuellement utilisé par une autre application.</value>
@@ -914,9 +908,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Plus d'options</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Options de sélection</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centre de statut</value>
@@ -1425,12 +1416,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Options d'affichage</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Options d'affichage</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Options d'affichage</value>
-  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Vue grille (Grande)</value>
   </data>
@@ -1614,7 +1599,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Sélection Multiple</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1997,5 +1982,29 @@
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Il y a un conflit de nom de fichiers.</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>Créer un dossier avec la sélection</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>Nom :</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>Type :</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>Date de modification :</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Options de sélection</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Options de sélection</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Options d'affichage</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Options d'affichage</value>
   </data>
 </root>

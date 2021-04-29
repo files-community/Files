@@ -81,13 +81,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipo di file:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Seleziona tutto</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Inverti selezione</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Deseleziona tutto</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -273,9 +273,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Proprietà</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
-  </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Benvenuti in Files!</value>
   </data>
@@ -431,9 +428,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Vuoi eliminare questa cartella?</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opzioni selezione</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>Il file che stai tentando di eliminare è attualmente utilizzato da un'altra applicazione.</value>
@@ -917,9 +911,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Più opzioni</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Opzioni selezione</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Stato delle operazioni</value>
@@ -1452,12 +1443,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Opzioni</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opzioni di visualizzazione</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opzioni</value>
-  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Icone (Grandi)</value>
   </data>
@@ -1644,7 +1629,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Sconosciuto</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Selezione multipla</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1796,5 +1781,17 @@
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Rimuovi dal Menu Start</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opzioni selezione</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opzioni selezione</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Opzioni di visualizzazione</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opzioni</value>
   </data>
 </root>
