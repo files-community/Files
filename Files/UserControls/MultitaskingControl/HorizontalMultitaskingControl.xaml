@@ -33,7 +33,7 @@
                             Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE97D;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

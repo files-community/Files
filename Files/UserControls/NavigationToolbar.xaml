@@ -1225,7 +1225,7 @@
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 Text="New pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF57C;" />
+                                    <FontIcon Glyph="&#xF117;" FontFamily="{StaticResource CustomGlyph}" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
