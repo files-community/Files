@@ -318,9 +318,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>خصائص</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>نظرة سريعة</value>
-  </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>مرحبا بك في Files</value>
   </data>
