@@ -492,9 +492,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>打開日誌目錄</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新索引標籤（Ctrl+T）</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已選取的項目</value>
   </data>

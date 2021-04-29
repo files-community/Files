@@ -684,7 +684,7 @@
                     CornerRadius="4"
                     IsEnabled="{x:Bind CanGoBack}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Back (Alt + Left Arrow)">
+                    ToolTipService.ToolTip="Back (Alt+Left Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
@@ -709,7 +709,7 @@
                     CornerRadius="4"
                     IsEnabled="{x:Bind CanGoForward}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
+                    ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
@@ -732,7 +732,7 @@
                     Click="Up_Click"
                     CornerRadius="4"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Up (Alt + Up Arrow)">
+                    ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -1179,7 +1179,7 @@
                     Click="PreviewPane_Click"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
+                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                     Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <FontIcon FontSize="14" Glyph="&#xE146;" />
                 </AppBarButton>
@@ -1238,7 +1238,7 @@
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 Text="New pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF117;" FontFamily="{StaticResource CustomGlyph}" />
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator
