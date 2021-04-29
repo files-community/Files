@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls
 {
-    public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
+    public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
@@ -50,20 +50,6 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
-
-        public bool IsOpen
-        {
-            get => (bool)GetValue(IsOpenProperty);
-            set
-            {
-                if (this.IsLoaded)
-                {
-                    SetValue(IsOpenProperty, value);
-                }
-            }
-        }
-
         public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
 
         public bool IsCompact
@@ -93,7 +79,7 @@ namespace Files.UserControls
         public SidebarControl()
         {
             this.InitializeComponent();
-            SidebarNavView.Loaded += SidebarNavView_Loaded;
+            this.Loaded += SidebarNavView_Loaded;
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -606,12 +592,57 @@ namespace Files.UserControls
             await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
         }
 
+        private UIElement border;
+
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
+            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
 
-            SidebarNavView.Loaded -= SidebarNavView_Loaded;
+            // This finds the border of the navigation view and allows it to be resized by dragging
+            border = this.FindDescendant("HCPaneBorder");
+
+            if (border != null)
+            {
+                border.PointerEntered += Border_PointerEntered;
+                border.PointerExited += Border_PointerExited;
+                border.PointerCanceled += Border_PointerCanceled;
+                border.ManipulationMode = ManipulationModes.TranslateX;
+                border.ManipulationDelta += Border_ManipulationDelta;
+            }
+
+            this.Loaded -= SidebarNavView_Loaded;
+        }
+
+        private void Border_PointerCanceled(object sender, PointerRoutedEventArgs e)
+        {
+            ResetCursor();
+        }
+
+        private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {   
+            if(IsPaneOpen)
+            {
+                AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + e.Delta.Translation.X);
+            }
+        }
+
+        private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            ResetCursor();
+        }
+
+        private void ResetCursor()
+        {
+            Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.Arrow, 0);
+        }
+
+        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPaneOpen)
+            {
+                Window.Current.CoreWindow.PointerCursor = new Windows.UI.Core.CoreCursor(Windows.UI.Core.CoreCursorType.SizeWestEast, 0);
+            }
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)

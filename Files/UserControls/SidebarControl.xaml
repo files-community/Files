@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<muxc:NavigationView
     x:Class="Files.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,10 +12,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
+    IsBackButtonVisible="Collapsed"
+    IsPaneToggleButtonVisible="True"
+    IsSettingsVisible="True"
+    IsTitleBarAutoPaddingEnabled="False"
+    ItemInvoked="Sidebar_ItemInvoked"
+    MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
+    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
+    PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
+    SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
-    <UserControl.Resources>
+    <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
@@ -58,9 +68,9 @@
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
                     IsRightTapEnabled="True"
                     MenuItemsSource="{x:Bind ChildItems}"
+                    PointerPressed="Sidebar_PointerPressed"
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
-                    PointerPressed="Sidebar_PointerPressed"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
@@ -81,8 +91,8 @@
                     DragOver="NavigationViewDriveItem_DragOver"
                     Drop="NavigationViewDriveItem_Drop"
                     IsRightTapEnabled="True"
-                    RightTapped="NavigationViewDriveItem_RightTapped"
                     PointerPressed="Sidebar_PointerPressed"
+                    RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
@@ -100,8 +110,8 @@
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
-                    RightTapped="NavigationViewWSLItem_RightTapped"
                     PointerPressed="Sidebar_PointerPressed"
+                    RightTapped="NavigationViewWSLItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
                     <muxc:NavigationViewItem.Icon>
@@ -114,121 +124,101 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <local:NavItemDataTemplateSelector
-                x:Key="NavItemSelector"
-                DriveNavItemTemplate="{StaticResource DriveNavItem}"
-                LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
-                LocationNavItemTemplate="{StaticResource LocationNavItem}" />
-
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
             <conv:NavigationViewCompactConverter x:Key="DisplayModeConverter" />
+
+            <x:Double x:Key="NavigationViewItemExpandedGlyphFontSize">8.0</x:Double>
+
+            <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
+                <MenuFlyout.Items>
+                    <MenuFlyoutItem
+                        x:Name="EmptyRecycleBin"
+                        x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
+                        x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
+                        Command="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
+                        IsEnabled="{x:Bind RecycleBinHasItems, Mode=OneWay}"
+                        Text="Empty recycle bin">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="OpenInNewPane"
+                        x:Uid="SideBarOpenInNewPane"
+                        x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
+                        Click="OpenInNewPane_Click"
+                        Text="Open in new pane">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="OpenInNewTab"
+                        x:Uid="SideBarOpenInNewTab"
+                        Click="OpenInNewTab_Click"
+                        Text="Open in new tab">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="OpenInNewWindow"
+                        x:Uid="SideBarOpenInNewWindow"
+                        Click="OpenInNewWindow_Click"
+                        Text="Open in new window">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="UnpinItem"
+                        x:Uid="SideBarUnpinFromSideBar"
+                        x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
+                        Click="{x:Bind UnpinItem_Click}"
+                        Text="Unpin from Sidebar">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE77A;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="EjectDevice"
+                        x:Uid="SideBarEjectDevice"
+                        x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
+                        Click="EjectDevice_Click"
+                        Text="Eject">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="PropertiesFolder"
+                        x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
+                        x:Load="{x:Bind ShowProperties, Mode=OneWay}"
+                        Click="Properties_Click"
+                        Text="Properties">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE946;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyout.Items>
+            </MenuFlyout>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </muxc:NavigationView.Resources>
 
-    <Grid>
-        <muxc:NavigationView
-            x:Name="SidebarNavView"
-            HorizontalAlignment="Stretch"
-            IsBackButtonVisible="Collapsed"
-            IsPaneOpen="{x:Bind IsOpen, Mode=TwoWay}"
-            IsPaneToggleButtonVisible="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-            IsSettingsVisible="True"
-            IsTitleBarAutoPaddingEnabled="False"
-            ItemInvoked="Sidebar_ItemInvoked"
-            MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-            MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
-            OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
-            PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
-            SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <muxc:NavigationView.Resources>
-                <ResourceDictionary>
-                    <x:Double x:Key="NavigationViewItemExpandedGlyphFontSize">8.0</x:Double>
+    <muxc:NavigationView.PaneHeader>
+        <TextBlock
+            x:Uid="SidebarHeader"
+            Margin="10,6"
+            VerticalAlignment="Center"
+            FontSize="16"
+            FontWeight="Medium"
+            Text="Files" />
+    </muxc:NavigationView.PaneHeader>
 
-                    <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
-                        <MenuFlyout.Items>
-                            <MenuFlyoutItem
-                                x:Name="EmptyRecycleBin"
-                                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                                x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
-                                Command="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
-                                IsEnabled="{x:Bind RecycleBinHasItems, Mode=OneWay}"
-                                Text="Empty recycle bin">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="OpenInNewPane"
-                                x:Uid="SideBarOpenInNewPane"
-                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
-                                Click="OpenInNewPane_Click"
-                                Text="Open in new pane">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="OpenInNewTab"
-                                x:Uid="SideBarOpenInNewTab"
-                                Click="OpenInNewTab_Click"
-                                Text="Open in new tab">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="OpenInNewWindow"
-                                x:Uid="SideBarOpenInNewWindow"
-                                Click="OpenInNewWindow_Click"
-                                Text="Open in new window">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="UnpinItem"
-                                x:Uid="SideBarUnpinFromSideBar"
-                                x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
-                                Click="{x:Bind UnpinItem_Click}"
-                                Text="Unpin from Sidebar">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE77A;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="EjectDevice"
-                                x:Uid="SideBarEjectDevice"
-                                x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
-                                Click="EjectDevice_Click"
-                                Text="Eject">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="PropertiesFolder"
-                                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                                x:Load="{x:Bind ShowProperties, Mode=OneWay}"
-                                Click="Properties_Click"
-                                Text="Properties">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE946;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout.Items>
-                    </MenuFlyout>
-                </ResourceDictionary>
-            </muxc:NavigationView.Resources>
-
-            <muxc:NavigationView.PaneHeader>
-                <TextBlock
-                    x:Uid="SidebarHeader"
-                    Margin="10,6"
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    FontWeight="Medium"
-                    Text="Files" />
-            </muxc:NavigationView.PaneHeader>
-        </muxc:NavigationView>
-    </Grid>
-</UserControl>
+    <muxc:NavigationView.MenuItemTemplateSelector>
+        <local:NavItemDataTemplateSelector
+            DriveNavItemTemplate="{StaticResource DriveNavItem}"
+            LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
+            LocationNavItemTemplate="{StaticResource LocationNavItem}" />
+    </muxc:NavigationView.MenuItemTemplateSelector>
+</muxc:NavigationView>
