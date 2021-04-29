@@ -348,6 +348,7 @@
                             x:Uid="FileBrowserThumbnailIconColumnGrid"
                             Grid.Column="0"
                             Height="Auto"
+                            AutomationProperties.Name="File icon"
                             Opacity="{x:Bind Opacity, Mode=OneWay}"
                             TabFocusNavigation="Local"
                             Tag="ItemImage">
