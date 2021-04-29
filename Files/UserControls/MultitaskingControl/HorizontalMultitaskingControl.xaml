@@ -23,7 +23,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
                             Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-                            Text="New tab">
+                            Text="New tab (Ctrl+T)">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
@@ -120,6 +120,7 @@
 
                                             <Button
                                                 x:Name="AddButton"
+                                                x:Uid="HorizontalMultitaskingControlAddButton"
                                                 Grid.Column="2"
                                                 Command="{TemplateBinding AddTabButtonCommand}"
                                                 CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
@@ -128,6 +129,7 @@
                                                 HighContrastAdjustment="None"
                                                 IsTextScaleFactorEnabled="False"
                                                 Style="{StaticResource TabViewButtonStyle}"
+                                                ToolTipService.ToolTip="New tab (Ctrl+T)"
                                                 Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}" />
 
                                             <ContentPresenter
@@ -434,6 +436,7 @@
 
                                             <Button
                                                 x:Name="CloseButton"
+                                                x:Uid="HorizontalMultitaskingControlCloseButton"
                                                 Grid.Column="2"
                                                 Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
                                                 Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
@@ -445,7 +448,8 @@
                                                 HighContrastAdjustment="None"
                                                 IsTabStop="False"
                                                 IsTextScaleFactorEnabled="False"
-                                                Style="{StaticResource TabViewCloseButtonStyle}" />
+                                                Style="{StaticResource TabViewCloseButtonStyle}"
+                                                ToolTipService.ToolTip="Close tab (Ctrl+W)" />
                                         </Grid>
 
                                         <VisualStateManager.VisualStateGroups>
