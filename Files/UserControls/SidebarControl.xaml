@@ -269,7 +269,6 @@
                                         AllowFocusOnInteraction="True"
                                         BorderBrush="Transparent"
                                         BorderThickness="0,0,1,0"
-                                        Canvas.ZIndex="100"
                                         ManipulationDelta="Border_ManipulationDelta"
                                         ManipulationMode="TranslateX"
                                         PointerCanceled="Border_PointerExited"
