@@ -601,21 +601,21 @@ namespace Files.UserControls
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
 
-            // This finds the border of the navigation view and allows it to be resized by dragging
-            border = this.FindDescendant("HCPaneBorder");
+            //// This finds the border of the navigation view and allows it to be resized by dragging
+            //border = this.FindDescendant("HCPaneBorder");
 
-            if (border != null)
-            {
-                border.ManipulationMode = ManipulationModes.TranslateX;
+            //if (border != null)
+            //{
+            //    border.ManipulationMode = ManipulationModes.TranslateX;
 
-                border.PointerEntered += Border_PointerEntered;
-                border.PointerExited += Border_PointerExited;
-                border.PointerCanceled += Border_PointerCanceled;
-                border.ManipulationDelta += Border_ManipulationDelta;
-            }
+            //    border.PointerEntered += Border_PointerEntered;
+            //    border.PointerExited += Border_PointerExited;
+            //    border.PointerCanceled += Border_PointerCanceled;
+            //    border.ManipulationDelta += Border_ManipulationDelta;
+            //}
         }
 
-        private void Sidebar_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
@@ -627,15 +627,12 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Left)
             {
                 IncrementSize(-step);
+                e.Handled = true;
             } else if(e.Key == VirtualKey.Right)
             {
                 IncrementSize(step);
+                e.Handled = true;
             }
-        }
-
-        private void Border_PointerCanceled(object sender, PointerRoutedEventArgs e)
-        {
-            ResetCursor();
         }
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -647,11 +644,6 @@ namespace Files.UserControls
         }
 
         private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            ResetCursor();
-        }
-
-        private void ResetCursor()
         {
             Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
         }
