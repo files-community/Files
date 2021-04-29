@@ -240,14 +240,14 @@ namespace Files.UserControls
             SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
         }
 
-        private void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
             if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
             {
                 IsInPointerPressed = true;
-                NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
             }
         }
@@ -322,9 +322,9 @@ namespace Files.UserControls
             e.Handled = true;
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
+            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -594,25 +594,10 @@ namespace Files.UserControls
             await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
         }
 
-        private UIElement border;
-
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
-
-            //// This finds the border of the navigation view and allows it to be resized by dragging
-            //border = this.FindDescendant("HCPaneBorder");
-
-            //if (border != null)
-            //{
-            //    border.ManipulationMode = ManipulationModes.TranslateX;
-
-            //    border.PointerEntered += Border_PointerEntered;
-            //    border.PointerExited += Border_PointerExited;
-            //    border.PointerCanceled += Border_PointerCanceled;
-            //    border.ManipulationDelta += Border_ManipulationDelta;
-            //}
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
