@@ -510,9 +510,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Naplózás helyének megnyitása</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Új lap (Ctrl + T)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>kijelölt elem</value>
   </data>

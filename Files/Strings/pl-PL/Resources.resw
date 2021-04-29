@@ -492,9 +492,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Otwórz lokalizację dziennika</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nowa karta (Ctrl + T)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>zaznaczony element</value>
   </data>

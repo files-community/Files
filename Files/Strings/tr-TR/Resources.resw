@@ -492,9 +492,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Günlük konumunu aç</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Yeni sekme (Ctrl + T)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>öge seçildi</value>
   </data>
