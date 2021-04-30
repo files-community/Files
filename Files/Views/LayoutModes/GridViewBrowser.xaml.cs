@@ -36,6 +36,7 @@ namespace Files.Views.LayoutModes
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
+        private Type DataType { get; } = typeof(GroupedCollection<ListedItem>);
 
         protected override void HookEvents()
         {

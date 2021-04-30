@@ -22,6 +22,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -56,6 +57,8 @@ namespace Files
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
         public bool IsRenamingItem { get; set; } = false;
+
+        public CollectionViewSource CollectionViewSource { get; } = new CollectionViewSource();
 
         private NavigationArguments navigationArguments;
 
@@ -296,6 +299,12 @@ namespace Files
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
+
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = x => new string(x.ItemName.Take(1).ToArray()).ToUpper();
+
+            CollectionViewSource.Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection;
+            CollectionViewSource.IsSourceGrouped = true;
+
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;

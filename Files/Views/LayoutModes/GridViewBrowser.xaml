@@ -6,6 +6,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
@@ -399,10 +400,29 @@
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"
+            ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
             Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+            <GridView.GroupStyle>
+                <GroupStyle HidesIfEmpty="True">
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Border AutomationProperties.Name="{Binding Key, Mode=OneTime}">
+                                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="{Binding Key, Mode=OneTime}" />
+                            </Border>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
+
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid AreStickyGroupHeadersEnabled="False" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+
             <GridView.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>

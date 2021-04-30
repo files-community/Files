@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Files.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,6 +18,8 @@ namespace Files.Helpers
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
 
+        public ObservableCollection<GroupedCollection<T>> GroupedCollection { get; } = new ObservableCollection<GroupedCollection<T>>();
+
         public int Count => collection.Count;
 
         public bool IsReadOnly => false;
@@ -25,6 +29,8 @@ namespace Files.Helpers
         public bool IsSynchronized => true;
 
         public object SyncRoot => syncRoot;
+
+        public bool IsGrouped => !(ItemGroupKeySelector is null);
 
         object IList.this[int index]
         {
@@ -53,6 +59,30 @@ namespace Files.Helpers
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private Func<T, string> itemGroupKeySelector;
+        public Func<T, string> ItemGroupKeySelector {
+            get => itemGroupKeySelector;
+            set => itemGroupKeySelector = value;
+        }
+
+        private Func<T, object> itemSortKeySelector;
+        public Func<T, object> ItemSortKeySelector
+        {
+            get => itemSortKeySelector;
+            set => itemSortKeySelector = value;
+        }
+
+        public BulkConcurrentObservableCollection()
+        {
+
+        }
+
+        public BulkConcurrentObservableCollection(IEnumerable<T> items)
+        {
+            AddRange(items);
+        }
+
+
         public void BeginBulkOperation()
         {
             isBulkOperationStarted = true;
@@ -68,7 +98,45 @@ namespace Files.Helpers
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                 }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+
+                if (IsGrouped)
+                {
+                    GroupItems();
+                }
             }
+        }
+
+        private void GroupItems()
+        {
+            var groupedList = collection.GroupBy(keySelector: ItemGroupKeySelector).Select(group => new GroupedCollection<T>(group) { Key = group.Key });
+            groupedList.ForEach(x =>
+            {
+                var existing = GroupedCollection.Where(y => y.Key == x.Key).FirstOrDefault();
+                if (existing is null)
+                {
+                    GroupedCollection.Insert(GroupedCollection.ToList().Append(x).OrderBy(gp => gp.Key).ToList().IndexOf(x), x);
+                } else
+                {
+                    x.ForEach(item =>
+                    {
+                        if(!existing.Contains(item))
+                        {
+                            existing.Insert(existing.ToList().Append(item).OrderBy(ItemSortKeySelector).ToList().IndexOf(item), item);
+                        }
+                    });
+                }
+
+                GroupedCollection.ForEach(gpc =>
+                {
+                    gpc.ForEach(item =>
+                    {
+                        if(!collection.Contains(item))
+                        {
+                            gpc.Remove(item);
+                        }
+                    });
+                });
+            });
         }
 
         public void EndBulkOperation()
@@ -94,6 +162,7 @@ namespace Files.Helpers
             lock (syncRoot)
             {
                 collection.Clear();
+                GroupedCollection.Clear();
             }
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
