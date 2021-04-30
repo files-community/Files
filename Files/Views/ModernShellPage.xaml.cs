@@ -1418,6 +1418,7 @@ namespace Files.Views
         public void LoadPreviewPaneChanged()
         {
             NotifyPropertyChanged(nameof(LoadPreviewPane));
+            UpdatePositioning();
         }
 
         private void PreviewPane_Loading(FrameworkElement sender, object args)
