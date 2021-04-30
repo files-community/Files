@@ -440,6 +440,19 @@ namespace Files.ViewModels
             }
         }
 
+
+        public ColumnsViewModel ColumnsViewModel
+        {
+            get => LayoutPreference.ColumnsViewModel;
+            set
+            {
+                SetProperty(ref LayoutPreference.ColumnsViewModel, value, nameof(ColumnsViewModel));
+                LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+            }
+        }
+
+
+
         public static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
@@ -537,6 +550,8 @@ namespace Files.ViewModels
             public FolderLayoutModes LayoutMode;
             public int GridViewSize;
 
+            public ColumnsViewModel ColumnsViewModel;
+
             public bool IsAdaptiveLayoutOverridden;
 
             public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
@@ -547,20 +562,33 @@ namespace Files.ViewModels
                 this.GridViewSize = App.AppSettings.DefaultGridViewSize;
                 this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
                 this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
+                this.ColumnsViewModel = new ColumnsViewModel();
 
                 this.IsAdaptiveLayoutOverridden = false; // Default is always turned on for every dir
             }
 
             public static LayoutPreferences FromCompositeValue(ApplicationDataCompositeValue compositeValue)
             {
-                return new LayoutPreferences
+                var pref = new LayoutPreferences
                 {
                     LayoutMode = (FolderLayoutModes)(int)compositeValue[nameof(LayoutMode)],
                     GridViewSize = (int)compositeValue[nameof(GridViewSize)],
                     DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
-                    IsAdaptiveLayoutOverridden = (bool?)compositeValue[nameof(IsAdaptiveLayoutOverridden)] != null
+                    IsAdaptiveLayoutOverridden = (bool?)compositeValue[nameof(IsAdaptiveLayoutOverridden)] != null,
                 };
+                try
+                {
+                    pref.ColumnsViewModel = JsonConvert.DeserializeObject<ColumnsViewModel>(compositeValue[nameof(ColumnsViewModel)] as string, new JsonSerializerSettings()
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+                }
+                catch (Exception)
+                {
+                }
+
+                return pref;
             }
 
             public ApplicationDataCompositeValue ToCompositeValue()
@@ -571,7 +599,8 @@ namespace Files.ViewModels
                     { nameof(GridViewSize), this.GridViewSize },
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
-                    { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden }
+                    { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden },
+                    { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }
                 };
             }
 
@@ -592,7 +621,8 @@ namespace Files.ViewModels
                         prefs.GridViewSize == this.GridViewSize &&
                         prefs.DirectorySortOption == this.DirectorySortOption &&
                         prefs.DirectorySortDirection == this.DirectorySortDirection &&
-                        prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden);
+                        prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden &&
+                        prefs.ColumnsViewModel == this.ColumnsViewModel);
                 }
                 return base.Equals(obj);
             }
@@ -615,5 +645,7 @@ namespace Files.ViewModels
             Medium,
             Large
         }
+
+        public ColumnsViewModel ColumnsViewModel { get; set; }
     }
 }

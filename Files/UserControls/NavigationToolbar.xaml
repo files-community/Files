@@ -677,13 +677,14 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="B"
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
                     Click="Back_Click"
                     CornerRadius="4"
                     IsEnabled="{x:Bind CanGoBack}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Back (Alt + Left Arrow)">
+                    ToolTipService.ToolTip="Back (Alt+Left Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
@@ -701,13 +702,14 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="F"
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
                     Click="Forward_Click"
                     CornerRadius="4"
                     IsEnabled="{x:Bind CanGoForward}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
+                    ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
@@ -724,12 +726,13 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="U"
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
                     Click="Up_Click"
                     CornerRadius="4"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Up (Alt + Up Arrow)">
+                    ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -745,6 +748,7 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="R"
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
                     Click="Refresh_Click"
@@ -901,6 +905,7 @@
                 Grid.Column="2"
                 Width="36"
                 Height="32"
+                AccessKey="I"
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
@@ -925,6 +930,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    AccessKey="W"
                     AutomationProperties.Name="Manage widgets"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -965,6 +971,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="S"
                     AutomationProperties.Name="Selection options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -1024,6 +1031,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="L"
                     AutomationProperties.Name="Display options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -1149,7 +1157,10 @@
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View">
-                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
+                                        <FontIcon
+                                            FontFamily="{StaticResource CustomGlyph}"
+                                            FontSize="16"
+                                            Glyph="&#xF115;" />
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
@@ -1162,12 +1173,13 @@
                     x:Uid="PreviewPaneToggle"
                     Width="36"
                     Height="32"
+                    AccessKey="P"
                     AutomationProperties.Name="Toggle preview pane"
                     Background="Transparent"
                     Click="PreviewPane_Click"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
+                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                     Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <FontIcon FontSize="14" Glyph="&#xE146;" />
                 </AppBarButton>
@@ -1178,6 +1190,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                    AccessKey="T"
                     AllowDrop="True"
                     AutomationProperties.Name="Vertical tab strip"
                     Background="Transparent"
@@ -1225,7 +1238,7 @@
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 Text="New pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF57C;" />
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator

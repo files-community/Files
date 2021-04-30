@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {

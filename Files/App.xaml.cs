@@ -416,9 +416,9 @@ namespace Files
             DrivesManager?.Dispose();
             deferral.Complete();
 
-            #if DEBUG
+#if DEBUG
             Current.Exit();
-            #endif
+#endif
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
@@ -449,8 +449,46 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
+            string formattedException = string.Empty;
+
+            formattedException += "--------- UNHANDLED EXCEPTION ---------";
+            if (ex != null)
+            {
+                formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
+                if (ex.Message != null)
+                {
+                    formattedException += "\n--- MESSAGE ---";
+                    formattedException += ex.Message;
+                }
+                if (ex.StackTrace != null)
+                {
+                    formattedException += "\n--- STACKTRACE ---";
+                    formattedException += ex.StackTrace;
+                }
+                if (ex.Source != null)
+                {
+                    formattedException += "\n--- SOURCE ---";
+                    formattedException += ex.Source;
+                }
+                if (ex.InnerException != null)
+                {
+                    formattedException += "\n--- INNER ---";
+                    formattedException += ex.InnerException;
+                }
+            }
+            else
+            {
+                formattedException += "\nException is null!\n";
+            }
+
+            formattedException += "---------------------------------------";
+
+            Debug.WriteLine(formattedException);
+
+            Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+
             SaveSessionTabs();
-            Logger.Error(ex, ex.Message);
+            Logger.Error(ex, formattedException);
             if (ShowErrorNotification)
             {
                 var toastContent = new ToastContent()

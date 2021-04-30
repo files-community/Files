@@ -111,7 +111,7 @@
                                             Text="Open in new pane"
                                             Visibility="Collapsed">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -121,7 +121,7 @@
                                             DataContext="{x:Bind}"
                                             Text="Open in new tab">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -131,7 +131,7 @@
                                             DataContext="{x:Bind}"
                                             Text="Open in new window">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
+                                                <FontIcon Glyph="&#xE737;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -152,7 +152,7 @@
                                             DataContext="{x:Bind}"
                                             Text="Eject">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                                <FontIcon Glyph="&#xF847;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
@@ -163,7 +163,7 @@
                                             DataContext="{x:Bind}"
                                             Text="Disconnect">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                                <FontIcon Glyph="&#xF847;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                     </MenuFlyout.Items>
