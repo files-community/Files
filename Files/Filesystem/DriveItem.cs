@@ -141,6 +141,7 @@ namespace Files.Filesystem
             set => SetProperty(ref showStorageSense, value);
         }
         public int IconIndex { get; set; } = Constants.IconIndexes.GenericDiskDrive;
+        public byte[] IconData { get; set; }
 
         public DriveItem()
         {
@@ -209,42 +210,42 @@ namespace Files.Filesystem
                 switch (type)
                 {
                     case DriveType.Fixed:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage;
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage;
                         break;
 
                     case DriveType.Removable:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.Network:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.Ram:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.CDRom:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.Unknown:
                         break;
 
                     case DriveType.NoRootDirectory:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.VirtualDrive:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.CloudDrive:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.CloudDrives).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.CloudDrives).Image as BitmapImage; // TODO
                         break;
 
                     case DriveType.FloppyDisk:
-                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).ImageSource as BitmapImage; // TODO
+                        Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.GenericDiskDrive).Image as BitmapImage; // TODO
                         break;
 
                     default:

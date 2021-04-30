@@ -11,6 +11,7 @@ namespace Files.Filesystem
     public class LocationItem : ObservableObject, INavigationControlItem
     {
         public int IconIndex { get; set; } = 3;
+
         private BitmapImage icon = null;
         public BitmapImage Icon
         {
@@ -24,6 +25,9 @@ namespace Files.Filesystem
                 }
             }
         }
+
+        public byte[] IconData { get; set; } = null;
+
         public string Text { get; set; }
 
         private string path;

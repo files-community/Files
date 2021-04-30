@@ -2,12 +2,12 @@
 using Files.Helpers;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public class LibraryLocationItem : LocationItem
     {
-        public int DesiredIconIndex { get; set; }
         public string DefaultSaveFolder { get; }
 
         public ReadOnlyCollection<string> Folders { get; }
@@ -19,7 +19,10 @@ namespace Files.Filesystem
             Section = SectionType.Library;
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
-            DesiredIconIndex = GlyphHelper.GetIconIndex(shellLibrary.DefaultSaveFolder);
+            IconIndex = GlyphHelper.GetIconIndex(shellLibrary.DefaultSaveFolder);
+            var info = GlyphHelper.GetItemIconInfoFromPath(shellLibrary.DefaultSaveFolder);
+            Icon = info.Image as BitmapImage;
+            IconData = info.IconDataBytes;
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;

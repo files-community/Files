@@ -429,6 +429,7 @@ namespace Files.Filesystem
             ItemType = "ItemTypeLibrary".GetLocalized();
             LoadCustomIcon = true;
             CustomIcon = lib.Icon;
+            CustomIconData = lib.IconData;
             //CustomIconSource = lib.IconSource;
             LoadFileIcon = CustomIconData != null;
 

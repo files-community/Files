@@ -13,7 +13,8 @@ namespace Files.Extensions
         public static async Task LoadImageFromModelString(this IconFileInfo info)
         {
             var dataBytes = Convert.FromBase64String(info.IconData);
-            info.ImageSource = await dataBytes.ToBitmapAsync();
+            info.IconDataBytes = dataBytes;
+            info.Image = await dataBytes.ToBitmapAsync();
         }
     }
 }

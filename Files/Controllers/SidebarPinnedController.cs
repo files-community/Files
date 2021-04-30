@@ -24,11 +24,6 @@ namespace Files.Controllers
 
         public static async Task<SidebarPinnedController> CreateInstance()
         {
-            if (MainPage.SidebarIconResources == null)
-            {
-                MainPage.SidebarIconResources = await MainPage.LoadSidebarIconResources();
-            }
-
             var instance = new SidebarPinnedController();
             return await instance.InitializeAsync();
         }

@@ -347,12 +347,14 @@ namespace Files.DataModels
             {
                 if (item.ItemType != NavigationControlItemType.LinuxDistro && item.Icon == null)
                 {
-                    item.Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
+                    item.Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).Image as BitmapImage;
+                    item.IconData = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == item.IconIndex).IconDataBytes;
                     if (item.ItemType == NavigationControlItemType.Location)
                     {
                         foreach (var childItem in (item as LocationItem).ChildItems)
                         {
-                            childItem.Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == childItem.IconIndex).ImageSource as BitmapImage;
+                            childItem.Icon = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == childItem.IconIndex).Image as BitmapImage;
+                            childItem.IconData = MainPage.SidebarIconResources.FirstOrDefault(x => x.Index == childItem.IconIndex).IconDataBytes;
                         }
                     }
                 }

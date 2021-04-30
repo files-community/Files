@@ -185,20 +185,6 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async void GetItemsAddedIcon()
-        {
-            if (MainPage.WidgetIconResources == null)
-            {
-                MainPage.WidgetIconResources = await MainPage.LoadWidgetIconResources();
-            }
-
-            var icons = MainPage.WidgetIconResources;
-            foreach (var item in ItemsAdded)
-            {
-                item.Icon = icons.FirstOrDefault(x => x.Index == item.IconIndex).ImageSource as BitmapImage;
-            }
-        }
-
         private void GetPropertiesForItemsAdded()
         {
             foreach (var item in ItemsAdded)
@@ -231,13 +217,13 @@ namespace Files.UserControls.Widgets
             ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
             {
-                IconIndex = Constants.IconIndexes.Desktop,
+                Icon = MainPage.WidgetIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.Desktop).Image as BitmapImage,
                 Text = "SidebarDesktop".GetLocalized(),
                 Path = AppSettings.DesktopPath,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                IconIndex = Constants.IconIndexes.Downloads,
+                Icon = MainPage.WidgetIconResources.FirstOrDefault(x => x.Index == Constants.IconIndexes.Downloads).Image as BitmapImage,
                 Text = "SidebarDownloads".GetLocalized(),
                 Path = AppSettings.DownloadsPath,
             });
@@ -248,7 +234,6 @@ namespace Files.UserControls.Widgets
             if (App.LibraryManager.Libraries.Count > 0)
             {
                 ReloadLibraryItems();
-                GetItemsAddedIcon();
             }
 
             App.LibraryManager.Libraries.CollectionChanged += Libraries_CollectionChanged;
@@ -389,7 +374,7 @@ namespace Files.UserControls.Widgets
             {
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    IconIndex = lib.DesiredIconIndex,
+                    Icon = lib.Icon,
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,

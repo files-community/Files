@@ -8,19 +8,20 @@ namespace Files.Common
 {
     public class IconFileInfo : INotifyPropertyChanged
     {
+        public byte[] IconDataBytes { get; set; }
         public string IconData { get; }
         public int Index { get; }
 
-        private object imageSource = null;
-        public object ImageSource
+        private object image = null;
+        public object Image
         {
-            get => imageSource;
+            get => image;
             set
             {
-                if (value != imageSource)
+                if (value != image)
                 {
-                    imageSource = value;
-                    RaisePropertyChanged("ImageSource");
+                    image = value;
+                    RaisePropertyChanged("Image");
                 }
             }
         }

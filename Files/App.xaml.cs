@@ -95,6 +95,9 @@ namespace Files
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
+            
+            MainPage.SidebarIconResources = await MainPage.LoadSidebarIconResources();
+            MainPage.WidgetIconResources = await MainPage.LoadWidgetIconResources();
 
             InteractionViewModel ??= new InteractionViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
@@ -527,6 +530,7 @@ namespace Files
         public SectionType Section { get; private set; }
         public int IconIndex { get; set; } = -1;
         public BitmapImage Icon { get; set; } = null;
+        public byte[] IconData { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }

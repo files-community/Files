@@ -1,6 +1,9 @@
-﻿using Files.ViewModels;
+﻿using Files.Common;
+using Files.ViewModels;
+using Files.Views;
 using System;
 using System.IO;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -142,6 +145,12 @@ namespace Files.Helpers
                 }
             }
             return iconCode;
+        }
+
+        public static IconFileInfo GetItemIconInfoFromPath(string path)
+        {
+            var index = GetIconIndex(path);
+            return MainPage.WidgetIconResources.FirstOrDefault(x => x.Index == index);
         }
     }
 }

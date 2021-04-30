@@ -9,6 +9,8 @@ namespace Files.Filesystem
 
         public BitmapImage Icon { get; set; }
 
+        public byte[] IconData { get; set; }
+
         public string Text { get; }
 
         public string Path { get; }

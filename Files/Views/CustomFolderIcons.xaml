@@ -48,7 +48,7 @@
 				<GridView.ItemTemplate>
 					<DataTemplate x:DataType="common:IconFileInfo">
 						<Grid Width="16" Height="16">
-							<Image Source="{x:Bind ((BitmapImage)ImageSource), Mode=OneWay}" />
+							<Image Source="{x:Bind ((BitmapImage)Image), Mode=OneWay}" />
 						</Grid>
 					</DataTemplate>
 				</GridView.ItemTemplate>

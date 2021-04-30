@@ -75,11 +75,14 @@ namespace Files.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
+            if (ViewModel.IconData == null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
-                ViewModel.IconData = fileIconInfo.IconData;
+                var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+                if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
+                {
+                    ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
+                    ViewModel.IconData = fileIconInfo.IconData;
+                }
             }
 
             if (Item.IsShortcutItem)
