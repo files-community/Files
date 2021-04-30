@@ -56,7 +56,7 @@ namespace Files.Views
             TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
-            TabCustomization.Visibility = listedItem != null && listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder ? Visibility.Visible : Visibility.Collapsed;
+            TabCustomization.Visibility = listedItem != null && listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder ? Visibility.Collapsed : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
