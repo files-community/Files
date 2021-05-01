@@ -68,7 +68,7 @@
                     Content="Security"
                     Tag="Security">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xEA18;" />
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem

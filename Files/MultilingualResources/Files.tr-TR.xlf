@@ -2613,23 +2613,23 @@
           <source>Show Library widget</source>
           <target state="new">Show Library widget</target>
         </trans-unit>
-        <trans-unit id="ItemGroupUserNamesDescription" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemUsersGroupLabel" translate="yes" xml:space="preserve">
           <source>Group or user names</source>
           <target state="new">Group or user names</target>
         </trans-unit>
-        <trans-unit id="ItemPermissionsDescription" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemPermissionsLabel" translate="yes" xml:space="preserve">
           <source>To change permissions, click Edit:</source>
           <target state="new">To change permissions, click Edit:</target>
         </trans-unit>
-        <trans-unit id="ItemPermissionsDescriptionButton" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemPermissionsButtonLabel" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="new">Edit</target>
         </trans-unit>
-        <trans-unit id="ItemAdvanPermissionsDescription" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemAdvanPermissionsLabel" translate="yes" xml:space="preserve">
           <source>For special permissions or advanced settings, click Advanced:</source>
           <target state="new">For special permissions or advanced settings, click Advanced:</target>
         </trans-unit>
-        <trans-unit id="ItemAdvanPermissionsDescriptionButton" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemAdvanPermissionsButtonLabel" translate="yes" xml:space="preserve">
           <source>Advanced</source>
           <target state="new">Advanced</target>
         </trans-unit>

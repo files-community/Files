@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Arama</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>Tümünü Seç</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Seçimi Temizle</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ayarlar</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>Seçimi Tersine Çevir</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -431,6 +431,9 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Bu klasörü sildiniz mi?</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Seçim ayarları</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>Silmeye çalıştığınız dosya şu anda başka bir uygulama tarafından kullanılıyor.</value>
@@ -914,6 +917,9 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Diğer seçenekler</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Seçim ayarları</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Durum merkezi</value>
@@ -1446,6 +1452,12 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Görünüm Ayarları</value>
   </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Görünüm Ayarları</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Görünüm ayarları</value>
+  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Büyük simgeler</value>
   </data>
@@ -1632,7 +1644,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Bilinmiyor</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Çoklu seçim</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1757,33 +1769,5 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Yönetici</value>
-  </data>
-<<<<<<< HEAD
-  <data name="ItemGroupUserNamesDescription" xml:space="preserve">
-    <value>Group or user names</value>
-  </data>
-  <data name="ItemPermissionsDescription" xml:space="preserve">
-    <value>To change permissions, click Edit:</value>
-  </data>
-  <data name="ItemPermissionsDescriptionButton" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="ItemAdvanPermissionsDescription" xml:space="preserve">
-    <value>For special permissions or advanced settings, click Advanced:</value>
-  </data>
-  <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
-    <value>Advanced</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Seçim ayarları</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Seçim ayarları</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Görünüm ayarları</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Görünüm ayarları</value>
   </data>
 </root>

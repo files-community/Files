@@ -1755,19 +1755,19 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>從開始功能表取消釘選</value>
   </data>
-  <data name="ItemGroupUserNamesDescription" xml:space="preserve">
+  <data name="ItemUsersGroupLabel" xml:space="preserve">
     <value>Group or user names</value>
   </data>
-  <data name="ItemPermissionsDescription" xml:space="preserve">
+  <data name="ItemPermissionsLabel" xml:space="preserve">
     <value>To change permissions, click Edit:</value>
   </data>
-  <data name="ItemPermissionsDescriptionButton" xml:space="preserve">
+  <data name="ItemPermissionsButtonLabel" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="ItemAdvanPermissionsDescription" xml:space="preserve">
+  <data name="ItemAdvanPermissionsLabel" xml:space="preserve">
     <value>For special permissions or advanced settings, click Advanced:</value>
   </data>
-  <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
+  <data name="ItemAdvanPermissionsButtonLabel" xml:space="preserve">
     <value>Advanced</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">

@@ -718,35 +718,35 @@ namespace Files.ViewModels
         }
 
         private string itemGroupUserNamesDescription;
-        public string ItemGroupUserNamesDescription
+        public string ItemUsersGroupLabel
         {
             get => itemGroupUserNamesDescription;
             set => SetProperty(ref itemGroupUserNamesDescription, value);
         }
 
-        private string itemPermissionsDescription;
-        public string ItemPermissionsDescription
+        private string itemPermissionsLabel;
+        public string ItemPermissionsLabel
         {
-            get => itemPermissionsDescription;
-            set => SetProperty(ref itemPermissionsDescription, value);
+            get => itemPermissionsLabel;
+            set => SetProperty(ref itemPermissionsLabel, value);
         }
 
         private string itemPermissionsDescriptionButton;
-        public string ItemPermissionsDescriptionButton
+        public string ItemPermissionsButtonLabel
         {
             get => itemPermissionsDescriptionButton;
             set => SetProperty(ref itemPermissionsDescriptionButton, value);
         }
 
         private string itemAdvanPermissionsDescription;
-        public string ItemAdvanPermissionsDescription
+        public string ItemAdvanPermissionsLabel
         {
             get => itemAdvanPermissionsDescription;
             set => SetProperty(ref itemAdvanPermissionsDescription, value);
         }
 
         private string itemAdvanPermissionsDescriptionButton;
-        public string ItemAdvanPermissionsDescriptionButton
+        public string ItemAdvanPermissionsButtonLabel
         {
             get => itemAdvanPermissionsDescriptionButton;
             set => SetProperty(ref itemAdvanPermissionsDescriptionButton, value);

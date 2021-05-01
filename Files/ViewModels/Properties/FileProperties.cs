@@ -107,11 +107,11 @@ namespace Files.ViewModels.Properties
         {
             ViewModel.ItemObjectNameDescription = "ItemObjectNameDescription".GetLocalized();
             ViewModel.ItemObjectNameValue = Item.ItemName;
-            ViewModel.ItemGroupUserNamesDescription = "ItemGroupUserNamesDescription".GetLocalized();
-            ViewModel.ItemPermissionsDescription = "ItemPermissionsDescription".GetLocalized();
-            ViewModel.ItemPermissionsDescriptionButton = "ItemPermissionsDescriptionButton".GetLocalized();
-            ViewModel.ItemAdvanPermissionsDescription = "ItemAdvanPermissionsDescription".GetLocalized();
-            ViewModel.ItemAdvanPermissionsDescriptionButton = "ItemAdvanPermissionsDescriptionButton".GetLocalized();
+            ViewModel.ItemUsersGroupLabel = "ItemUsersGroupLabel".GetLocalized();
+            ViewModel.ItemPermissionsLabel = "ItemPermissionsLabel".GetLocalized();
+            ViewModel.ItemPermissionsButtonLabel = "ItemPermissionsButtonLabel".GetLocalized();
+            ViewModel.ItemAdvanPermissionsLabel = "ItemAdvanPermissionsLabel".GetLocalized();
+            ViewModel.ItemAdvanPermissionsButtonLabel = "ItemAdvanPermissionsButtonLabel".GetLocalized();
         }
 
         public override async void GetSpecialProperties()

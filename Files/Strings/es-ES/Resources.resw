@@ -219,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Buscar</value>
   </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>Seleccionar Todo</value>
   </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Quitar Selección</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ajustes</value>
   </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>Invertir Selección</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -431,6 +431,9 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Has eliminado esta carpeta?</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opciones de selección</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>La acción no se puede completar porque otro programa tiene abierto el archivo.</value>
@@ -829,7 +832,7 @@
     <value>Si</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>La aplicación necesita reiniciarse para aplicar los cambios, ¿Reiniciar ahora?</value>
+    <value>La aplicación necesita reiniciarse para aplicar el cambio de idioma, ¿Reiniciar ahora?</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
     <value>Crear nuevo elemento</value>
@@ -914,6 +917,9 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Más opciones</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opciones de selección</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centro de actividades</value>
@@ -1434,6 +1440,12 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Mostrar u ocultar</value>
   </data>
+  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Opciones de vista</value>
+  </data>
+  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opciones de vista</value>
+  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Iconos grandes</value>
   </data>
@@ -1620,7 +1632,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Desconocido</value>
   </data>
-  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
     <value>Multiselección</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1868,194 +1880,5 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocidad ISO</value>
-  </data>
-  <data name="ItemGroupUserNamesDescription" xml:space="preserve">
-    <value>Group or user names</value>
-  </data>
-  <data name="ItemPermissionsDescription" xml:space="preserve">
-    <value>To change permissions, click Edit:</value>
-  </data>
-  <data name="ItemPermissionsDescriptionButton" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="ItemAdvanPermissionsDescription" xml:space="preserve">
-    <value>For special permissions or advanced settings, click Advanced:</value>
-  </data>
-  <data name="ItemAdvanPermissionsDescriptionButton" xml:space="preserve">
-    <value>Advanced</value>
-  </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Copiar</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se copiarán {0} elementos</value>
-  </data>
-  <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copiar elemento(s)</value>
-  </data>
-  <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Eliminar elemento(s)</value>
-  </data>
-  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Mover</value>
-  </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se moverán {0} elementos</value>
-  </data>
-  <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Mover elementos(s)</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Eliminar</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se eliminarán {0} elementos</value>
-  </data>
-  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Continuar</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nombre de archivo(s) en conflicto</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se copiará 1 elemento</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se eliminará 1 elemento</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se moverá 1 elemento</value>
-  </data>
-  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Eliminar permanentemente</value>
-  </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>¿No encontraste lo que buscabas?</value>
-  </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Buscar elementos no indexados.</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ajustes de widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Ajustes de widgets</value>
-  </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Mostrar contenedores</value>
-  </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Mostrar unidades</value>
-  </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Mostrar archivos recientes</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Ajustes de widgets</value>
-  </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
-    <value>Mostrar bibliotecas</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Abrir ubicación de temas</value>
-  </data>
-  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
-    <value>Usar el nuevo modo de vista "Detalles"</value>
-  </data>
-  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
-    <value>Nombre</value>
-  </data>
-  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
-    <value>Fecha de modificación</value>
-  </data>
-  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Hay {0} nombres de archivos en conflicto y {1} elemento(s) saliente(s).</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Hay un nombre de archivo en conflicto y {0} elementos salientes.</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Generar nuevo nombre</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Remplazar el existente</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>Omitir</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Generar nuevo nombre</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Reemplazar el existente</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>Omitir</value>
-  </data>
-  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
-    <value>Detalles</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Generar nuevo nombre</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Reemplazar el existente</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>Omitir</value>
-  </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
-    <value>Generar nuevo nombre</value>
-  </data>
-  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Deshacer</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Hay {0} nombres de archivo en conflicto.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Hay un nombre de archivo en conflicto.</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Crear carpeta con la selección</value>
-  </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Nombre:</value>
-  </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Tipo:</value>
-  </data>
-  <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Fecha de modificación:</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Abrir carpetas en una nueva pestaña</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opciones de selección</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Opciones de selección</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opciones de vista</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opciones de vista</value>
   </data>
 </root>
