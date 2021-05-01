@@ -746,7 +746,7 @@ namespace Files.ViewModels
                             matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageFile != null)
                             {
-                                if (!item.LoadFileIcon) // Loading icon from fulltrust process failed
+                                if (fileIconInfo.IconData == null) // Loading icon from fulltrust process failed
                                 {
                                     using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                                     using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
@@ -754,9 +754,8 @@ namespace Files.ViewModels
                                     {
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                                         {
-                                            item.FileImage = new BitmapImage();
                                             item.CustomIconData = await Thumbnail.ToByteArrayAsync();
-                                            await item.FileImage.SetSourceAsync(Thumbnail);
+                                            item.FileImage = await item.CustomIconData.ToBitmapAsync();
                                             item.LoadUnknownTypeGlyph = false;
                                             item.LoadFileIcon = true;
                                         });
