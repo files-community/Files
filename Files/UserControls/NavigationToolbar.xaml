@@ -910,8 +910,9 @@
                     ToolTipService.ToolTip="Filter"
                     Loaded="SearchFilterButton_Loaded"
                     DataContext="{x:Bind SearchOption}"
+                    IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
-                    <FontIcon FontSize="14" Glyph="&#xF246;" />
+                    <FontIcon FontSize="14" Glyph="&#xE71C;" />
                     <Button.Flyout>
                         <Flyout Placement="Bottom" Closed="SearchFilterButton_Closed">
                             <StackPanel Spacing="12">

@@ -145,8 +145,9 @@ namespace Files.Filesystem.Search
         {
             QueryOptions options = new QueryOptions()
             {
+                Language = "en-US",
                 FolderDepth = FolderDepth.Deep,
-                UserSearchFilter = string.IsNullOrWhiteSpace(userText) ? null : userText,
+                UserSearchFilter = string.IsNullOrWhiteSpace(userText) ? string.Empty : userText,
             };
 
             if (searchUnindexedItems)
@@ -158,24 +159,20 @@ namespace Files.Filesystem.Search
                 options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
             }
 
-            if (!(option is null) && !(options.UserSearchFilter is null))
+            if (!(option is null))
             {
                 var filter = new StringBuilder();
 
-                if (!(options.UserSearchFilter is null))
-                {
-                    filter.Append($"\"{options.UserSearchFilter}\"");
-                }
                 if (option.MinDate.HasValue)
                 {
-                    filter.Append(" System.ItemDate:>=" + option.MinDate.Value.Date.ToShortDateString());
+                    filter.Append(" System.ItemDate:>=" + option.MinDate.Value.ToString("dd/MM/yyyy"));
                 }
                 if (option.MaxDate.HasValue)
                 {
-                    filter.Append(" System.ItemDate:<=" + option.MaxDate.Value.Date.ToShortDateString());
+                    filter.Append(" System.ItemDate:<=" + option.MaxDate.Value.ToString("dd/MM/yyyy"));
                 }
 
-                options.UserSearchFilter = filter.ToString();
+                options.UserSearchFilter += filter.ToString();
             }
 
             options.SortOrder.Clear();
@@ -184,6 +181,7 @@ namespace Files.Filesystem.Search
                 PropertyName = "System.Search.Rank",
                 AscendingOrder = false
             });
+
             options.SetPropertyPrefetch(Windows.Storage.FileProperties.PropertyPrefetchOptions.None, null);
             options.SetThumbnailPrefetch(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
             var itemQueryResult = workingDir.CreateItemQueryWithOptions(options);
