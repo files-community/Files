@@ -14,7 +14,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
+    xmlns:xh="using:Files.Helpers.XamlHelpers" xmlns:usercontrols="using:Files.UserControls"
     d:DesignHeight="72"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -899,21 +899,56 @@
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
 
-            <Button
-                x:Name="SearchButton"
-                x:Uid="NavSearchButton"
-                Grid.Column="2"
-                Width="36"
-                Height="32"
-                AccessKey="I"
-                AutomationProperties.Name="Search"
-                Background="Transparent"
-                Click="SearchButton_Click"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search">
-                <FontIcon FontSize="14" Glyph="&#xE721;" />
-            </Button>
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button
+                    x:Name="SearchFilterButton"
+                    Width="36" Height="32"
+                    Background="Transparent"
+                    AutomationProperties.Name="Filter"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Filter"
+                    Loaded="SearchFilterButton_Loaded"
+                    Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
+                    <FontIcon FontSize="14" Glyph="&#xF246;" />
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom" Closed="SearchFilterButton_Closed">
+                            <StackPanel Spacing="12">
+                                <TextBlock
+                                    x:Uid="NavToolbarSearchWhenHeader"
+                                    FontWeight="Medium" Text="When" />
+                                <StackPanel Spacing="4" Orientation="Horizontal">
+                                    <usercontrols:CalendarPicker
+                                        x:Name="SearchWhenFrom"
+                                        Width="140"
+                                        PlaceholderText="From"
+                                        Date="{Binding MinDate, Mode=TwoWay}"
+                                    />
+                                    <usercontrols:CalendarPicker
+                                        x:Name="SearchWhenTo"
+                                        Width="140"
+                                        PlaceholderText="To"
+                                        Date="{Binding MaxDate, Mode=TwoWay}"
+                                    />
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button
+                    x:Name="SearchButton"
+                    x:Uid="NavSearchButton"
+                    Grid.Column="2"
+                    Width="36" Height="32"
+                    AccessKey="I"
+                    AutomationProperties.Name="Search"
+                    Background="Transparent"
+                    Click="SearchButton_Click"
+                    IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Search">
+                    <FontIcon FontSize="14" Glyph="&#xE721;" />
+                </Button>
+            </StackPanel>
         </Grid>
 
         <StackPanel

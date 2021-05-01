@@ -196,6 +196,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Filesystem\Search\FolderSearchOption.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
+    <Compile Include="UserControls\CalendarPicker.cs" />
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>

@@ -2181,4 +2181,13 @@
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
     <value>Sidebar resizer</value>
   </data>
+    <data name="NavToolbarSearchWhenHeader.Text" xml:space="preserve">
+    <value>When</value>
+  </data>
+    <data name="NavToolbarSearchWhenFrom.PlaceholderText" xml:space="preserve">
+    <value>From</value>
+  </data>
+    <data name="NavToolbarSearchWhenTo.PlaceholderText" xml:space="preserve">
+    <value>To</value>
+  </data>
 </root>

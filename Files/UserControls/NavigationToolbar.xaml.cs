@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.UserControls.MultitaskingControl;
@@ -1249,13 +1250,26 @@ namespace Files.UserControls
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
-            if (focusedElement is FlyoutBase || focusedElement is AppBarButton)
+            if (focusedElement == SearchFilterButton || focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }
 
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
+        }
+
+        public FolderSearchOption SearchOption { get; } = new FolderSearchOption();
+
+        private void SearchFilterButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            SearchWhenFrom.PlaceholderText = "NavToolbarSearchWhenFrom/PlaceholderText".GetLocalized();
+            SearchWhenTo.PlaceholderText = "NavToolbarSearchWhenTo/PlaceholderText".GetLocalized();
+        }
+
+        private void SearchFilterButton_Closed(object sender, object e)
+        {
+            SearchRegion.Focus(FocusState.Pointer);
         }
 
         public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)
