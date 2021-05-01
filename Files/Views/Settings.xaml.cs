@@ -2,6 +2,7 @@
 using Files.ViewModels;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,6 +30,8 @@ namespace Files.Views
             var currentView = SystemNavigationManager.GetForCurrentView();
             currentView.BackRequested += OnBackRequested;
 
+            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += CoreDispatcher_AcceleratorKeyActivated;
+
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
@@ -43,12 +46,22 @@ namespace Files.Views
         {
             var currentView = SystemNavigationManager.GetForCurrentView();
             currentView.BackRequested -= OnBackRequested;
+            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated -= CoreDispatcher_AcceleratorKeyActivated;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame.CanGoBack)
+            {
+                GoBack();
+                e.Handled = true;
+            }
+        }
+
+        private void CoreDispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs e)
+        {
+            if (!e.Handled && e.VirtualKey == VirtualKey.GoBack)
             {
                 GoBack();
                 e.Handled = true;
