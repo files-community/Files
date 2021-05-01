@@ -492,9 +492,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Открыть расположение лог файла</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Создать вкладку (Ctrl + T)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>элемент выбран</value>
   </data>

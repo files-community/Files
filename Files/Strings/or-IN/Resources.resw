@@ -297,9 +297,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
-  </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files UWP କୁ ସ୍ଵାଗତ</value>
   </data>
@@ -500,9 +497,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>ଲଗ୍ ଅବସ୍ଥାନ ଖୋଲ</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ନୂତନ ଟ୍ୟାବ୍ (Ctrl + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ମନୋନୀତ</value>

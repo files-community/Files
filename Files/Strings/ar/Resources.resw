@@ -318,9 +318,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>خصائص</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>نظرة سريعة</value>
-  </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>مرحبا بك في Files</value>
   </data>
@@ -530,9 +527,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>افتح موقع السجل</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>علامة تبويب جديدة	Ctrl+T</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>تم تحديد العنصر</value>

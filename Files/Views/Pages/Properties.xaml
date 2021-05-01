@@ -56,6 +56,7 @@
                 <NavigationViewItem
                     x:Name="TabGeneral"
                     x:Uid="PropertiesDialogTabGeneral"
+                    AccessKey="G"
                     Content="General"
                     Tag="General">
                     <NavigationViewItem.Icon>
@@ -74,6 +75,7 @@
                 <NavigationViewItem
                     x:Name="TabShorcut"
                     x:Uid="PropertiesDialogTabShortcut"
+                    AccessKey="S"
                     Content="Shortcut"
                     Tag="Shortcut"
                     Visibility="Collapsed">
@@ -84,6 +86,7 @@
                 <NavigationViewItem
                     x:Name="TabLibrary"
                     x:Uid="PropertiesDialogTabLibrary"
+                    AccessKey="L"
                     Content="Library"
                     Tag="Library"
                     Visibility="Collapsed">
@@ -94,6 +97,7 @@
                 <NavigationViewItem
                     x:Name="TabDetails"
                     x:Uid="PropertiesDialogTabDetails"
+                    AccessKey="D"
                     Content="Details"
                     Tag="Details"
                     Visibility="Collapsed">

@@ -438,9 +438,6 @@
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>אישור</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>כרטיסיה חדשה	Ctrl+T</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>הפריט נבחר</value>
   </data>

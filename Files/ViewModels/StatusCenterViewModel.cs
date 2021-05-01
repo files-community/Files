@@ -278,8 +278,8 @@ namespace Files.ViewModels
                                 Title = "ExtractInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
-                                    FontFamily = Application.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
-                                    Glyph = "\xEA5C"    // Extract glyph
+                                    FontFamily = Application.Current.Resources["CustomGlyph"] as FontFamily,
+                                    Glyph = "\xF11A"    // Extract glyph
                                 };
                                 break;
 
