@@ -111,5 +111,4 @@ namespace Files.Views
         public SecurityType ItemType { get; set; }
     }
     public enum SecurityType { User, Group };
-
 }
