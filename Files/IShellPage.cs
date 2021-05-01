@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -43,7 +44,7 @@ namespace Files
 
         void RemoveLastPageFromBackStack();
 
-        void SubmitSearch(string query, bool searchUnindexedItems);
+        void SubmitSearch(string query, bool searchUnindexedItems, FolderSearchOption option = null);
 
         void LoadPreviewPaneChanged();
     }

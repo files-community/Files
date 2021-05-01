@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -14,7 +15,7 @@ namespace Files.Filesystem.Search
 {
     internal class FolderSearch
     {
-        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, bool searchUnindexedItems, int maxItemCount = 10, uint thumbnailSize = 24)
+        public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, bool searchUnindexedItems, FolderSearchOption option = null, int maxItemCount = 10, uint thumbnailSize = 24)
         {
             var returnedItems = new ObservableCollection<ListedItem>();
             maxItemCount = maxItemCount < 0 ? int.MaxValue : maxItemCount;
@@ -23,24 +24,24 @@ namespace Files.Filesystem.Search
             {
                 foreach (var folder in lib.Folders)
                 {
-                    await AddItemsForFolderAsync(returnedItems, userText, folder, associatedInstance, searchUnindexedItems, maxItemCount, thumbnailSize);
+                    await AddItemsForFolderAsync(returnedItems, userText, folder, associatedInstance, searchUnindexedItems, maxItemCount, thumbnailSize, option);
                 }
             }
             else
             {
-                await AddItemsForFolderAsync(returnedItems, userText, WorkingDirectory, associatedInstance, searchUnindexedItems, maxItemCount, thumbnailSize);
+                await AddItemsForFolderAsync(returnedItems, userText, WorkingDirectory, associatedInstance, searchUnindexedItems, maxItemCount, thumbnailSize, option);
             }
 
             return returnedItems;
         }
 
-        private static async Task AddItemsForFolderAsync(ObservableCollection<ListedItem> returnedItems, string userText, string WorkingDirectory, IShellPage associatedInstance, bool searchUnindexedItems, int maxItemCount, uint thumbnailSize)
+        private static async Task AddItemsForFolderAsync(ObservableCollection<ListedItem> returnedItems, string userText, string WorkingDirectory, IShellPage associatedInstance, bool searchUnindexedItems, int maxItemCount, uint thumbnailSize, FolderSearchOption option = null)
         {
             var workingDir = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(WorkingDirectory);
             var hiddenOnlyFromWin32 = false;
             if (workingDir)
             {
-                foreach (var item in await SearchWithStorageFolder(userText, workingDir, searchUnindexedItems, maxItemCount, thumbnailSize))
+                foreach (var item in await SearchWithStorageFolder(userText, workingDir, searchUnindexedItems, maxItemCount, thumbnailSize, option))
                 {
                     returnedItems.Add(item);
                 }
@@ -140,7 +141,7 @@ namespace Files.Filesystem.Search
             return returnedItems;
         }
 
-        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, bool searchUnindexedItems, int maxItemCount = 10, uint thumbnailSize = 24)
+        private static async Task<IList<ListedItem>> SearchWithStorageFolder(string userText, StorageFolder workingDir, bool searchUnindexedItems, int maxItemCount = 10, uint thumbnailSize = 24, FolderSearchOption option = null)
         {
             QueryOptions options = new QueryOptions()
             {
@@ -157,7 +158,27 @@ namespace Files.Filesystem.Search
                 options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
             }
 
-            options.SortOrder.Clear();
+            if (!(option is null) && !(options.UserSearchFilter is null))
+            {
+                var filter = new StringBuilder();
+
+                if (!(options.UserSearchFilter is null))
+                {
+                    filter.Append($"\"{options.UserSearchFilter}\"");
+                }
+                if (option.MinDate.HasValue)
+                {
+                    filter.Append(" System.ItemDate:>=" + option.MinDate.Value.Date.ToShortDateString());
+                }
+                if (option.MaxDate.HasValue)
+                {
+                    filter.Append(" System.ItemDate:<=" + option.MaxDate.Value.Date.ToShortDateString());
+                }
+
+                options.UserSearchFilter = filter.ToString();
+            }
+
+           options.SortOrder.Clear();
             options.SortOrder.Add(new SortEntry()
             {
                 PropertyName = "System.Search.Rank",

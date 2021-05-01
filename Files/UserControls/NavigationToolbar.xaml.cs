@@ -880,6 +880,8 @@ namespace Files.UserControls
             }
         }
 
+        private FolderSearchOption SearchOption { get; } = new FolderSearchOption();
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -1258,8 +1260,6 @@ namespace Files.UserControls
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
         }
-
-        public FolderSearchOption SearchOption { get; } = new FolderSearchOption();
 
         private void SearchFilterButton_Loaded(object sender, RoutedEventArgs e)
         {

@@ -851,6 +851,7 @@
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
                 TextChanged="SearchRegion_TextChanged"
                 UpdateTextOnSelect="False"
+                Tag="{x:Bind SearchOption}"
                 Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
                 <AutoSuggestBox.QueryIcon>
                     <FontIcon FontSize="14" Glyph="&#xE094;" />
@@ -908,6 +909,7 @@
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Filter"
                     Loaded="SearchFilterButton_Loaded"
+                    DataContext="{x:Bind SearchOption}"
                     Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
                     <FontIcon FontSize="14" Glyph="&#xF246;" />
                     <Button.Flyout>

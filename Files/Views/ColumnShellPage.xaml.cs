@@ -309,7 +309,9 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
-                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems);
+                    var option = sender.Tag as FolderSearchOption;
+                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text,
+                        FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems, option);
                 }
                 else
                 {
@@ -322,7 +324,8 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                SubmitSearch(args.QueryText, App.AppSettings.SearchUnindexedItems);
+                var option = sender.Tag as FolderSearchOption;
+                SubmitSearch(args.QueryText, App.AppSettings.SearchUnindexedItems, option);
             }
         }
 
@@ -1321,7 +1324,7 @@ namespace Files.Views
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
 
-        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        public async void SubmitSearch(string query, bool searchUnindexedItems, FolderSearchOption option = null)
         {
             InstanceViewModel.CurrentSearchQuery = query;
             FilesystemViewModel.IsLoadingIndicatorActive = true;
@@ -1331,8 +1334,8 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, searchUnindexedItems, -1,
-                    InstanceViewModel.FolderSettings.GetIconSize())
+                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory,
+                    this, searchUnindexedItems, option, -1, InstanceViewModel.FolderSettings.GetIconSize())
             });
             FilesystemViewModel.IsLoadingIndicatorActive = false;
         }
