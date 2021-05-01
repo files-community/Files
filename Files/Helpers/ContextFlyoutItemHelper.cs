@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -97,51 +98,6 @@ namespace Files.Helpers
                     ShowInRecycleBin = true,
                     Items = new List<ContextMenuFlyoutItemViewModel>()
                     {
-                        // Grid view large
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutGridViewLarge/Text".GetLocalized(),
-                            Glyph = "\uE739",
-                            ShowInRecycleBin = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge,
-                            CommandParameter = true,
-                        },
-                        // Grid view medium
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutGridViewMedium/Text".GetLocalized(),
-                            Glyph = "\uF0E2",
-                            ShowInRecycleBin = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium,
-                            CommandParameter = true,
-                        },
-                        // Grid view small
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutGridViewSmall/Text".GetLocalized(),
-                            Glyph = "\uE80A",
-                            ShowInRecycleBin = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall,
-                            CommandParameter = true,
-                        },
-                        // Tiles view
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutTilesView/Text".GetLocalized(),
-                            Glyph = "\uE15C",
-                            ShowInRecycleBin = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTiles,
-                            CommandParameter = true,
-                        },
-                        // Details view
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutDetails/Text".GetLocalized(),
-                            Glyph = "\uE179",
-                            ShowInRecycleBin = true,
-                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
-                            CommandParameter = true,
-                        },
                         // Column view
                         new ContextMenuFlyoutItemViewModel()
                         {
@@ -151,6 +107,57 @@ namespace Files.Helpers
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnView,
                             CommandParameter = true,
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number1, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift}
+                        },
+                        // Details view
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutDetails/Text".GetLocalized(),
+                            Glyph = "\uE179",
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
+                            CommandParameter = true,
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number2, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift}
+                        },
+                        // Tiles view
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutTilesView/Text".GetLocalized(),
+                            Glyph = "\uE15C",
+                            ShowInRecycleBin = true,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTiles,
+                            CommandParameter = true,
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number3, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift}
+                        },
+                        // Grid view small
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutGridViewSmall/Text".GetLocalized(),
+                            Glyph = "\uE80A",
+                            ShowInRecycleBin = true,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall,
+                            CommandParameter = true,
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number4, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift}
+                        },
+                        // Grid view medium
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutGridViewMedium/Text".GetLocalized(),
+                            Glyph = "\uF0E2",
+                            ShowInRecycleBin = true,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium,
+                            CommandParameter = true,
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number5, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift}
+                        },
+                        // Grid view large
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutGridViewLarge/Text".GetLocalized(),
+                            Glyph = "\uE739",
+                            ShowInRecycleBin = true,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge,
+                            CommandParameter = true,
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift}
                         },
                     }
                 },
