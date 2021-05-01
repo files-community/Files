@@ -178,7 +178,7 @@ namespace Files.Filesystem.Search
                 options.UserSearchFilter = filter.ToString();
             }
 
-           options.SortOrder.Clear();
+            options.SortOrder.Clear();
             options.SortOrder.Add(new SortEntry()
             {
                 PropertyName = "System.Search.Rank",
