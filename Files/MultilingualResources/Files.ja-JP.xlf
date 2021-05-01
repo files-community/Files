@@ -1835,10 +1835,6 @@
           <source>Remove</source>
           <target state="translated">削除</target>
         </trans-unit>
-        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
-          <source>Cache files and folders for better performance</source>
-          <target state="translated">よりよいパフォーマンスのためにファイルとフォルダをキャッシュ</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">キャンセル</target>
@@ -2231,14 +2227,6 @@
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
           <target state="translated">切断</target>
-        </trans-unit>
-        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
-          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="translated">ファイルを予めキャッシュする量の上限(HDDには小さな値を推奨)</target>
-        </trans-unit>
-        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
-          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">ファイルを予めキャッシュ(サブフォルダのファイルをプリロード)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>

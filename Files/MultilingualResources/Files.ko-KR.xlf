@@ -1844,10 +1844,6 @@
           <source>Original path</source>
           <target state="translated">원래 위치</target>
         </trans-unit>
-        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
-          <source>Cache files and folders for better performance</source>
-          <target state="translated">파일, 폴더를 캐싱하여 성능 개선</target>
-        </trans-unit>
         <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated">추가</target>
@@ -2232,14 +2228,6 @@
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
           <target state="translated">연결 끊기</target>
-        </trans-unit>
-        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
-          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="translated">선점적 캐시 병렬 실행 제한 (하드 드라이브에는 숫자가 적을수록 좋습니다)</target>
-        </trans-unit>
-        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
-          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">선점적 캐시 사용 (탐색 시 하위 폴더 내 항목을 미리 로딩합니다)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>

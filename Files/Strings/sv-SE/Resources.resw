@@ -1386,9 +1386,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Ursprunglig plats</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Lagra filer och mappar i cache för bättre prestanda</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Lägg till</value>
   </data>

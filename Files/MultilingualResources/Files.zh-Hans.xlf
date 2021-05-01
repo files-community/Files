@@ -1836,10 +1836,6 @@
           <source>Remove</source>
           <target state="translated">移除</target>
         </trans-unit>
-        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
-          <source>Cache files and folders for better performance</source>
-          <target state="translated">缓存文件和文件夹以获取更好的性能</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">取消</target>
@@ -2232,14 +2228,6 @@
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
           <target state="translated">断开连接</target>
-        </trans-unit>
-        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
-          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="translated">抢占式缓存并发限制（对硬盘驱动器更小的数字更好）</target>
-        </trans-unit>
-        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
-          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">使用抢占式缓存（浏览时预加载子文件夹项目）</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>

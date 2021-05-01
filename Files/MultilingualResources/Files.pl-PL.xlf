@@ -1846,10 +1846,6 @@
           <source>Remove</source>
           <target state="translated">Usuń</target>
         </trans-unit>
-        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
-          <source>Cache files and folders for better performance</source>
-          <target state="translated">Buforuj pliki i foldery dla lepszej wydajności</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Anuluj</target>
@@ -2245,14 +2241,6 @@
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
           <target state="translated">Odłącz</target>
-        </trans-unit>
-        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
-          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="translated">Równoległy limit wyprzedzającego buforowania pamięci podręcznej (mniejsza ilość powinna działać lepiej dla dysków twardych)</target>
-        </trans-unit>
-        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
-          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">Używaj wyprzedzającego buforowania (wstępne wczytywanie wpisów w podrzędnych katalogach podczas nawigacji)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>

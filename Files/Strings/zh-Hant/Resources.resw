@@ -1350,9 +1350,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>移除</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>快取檔案及資料夾以獲得更佳的效能</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -1646,12 +1643,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>中斷連線</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>「主動式快取」最多可同時執行的執行續 (較小的數量應該會在硬碟上運作得比較好)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>啟用主動式快取 (在瀏覽資料夾時預先載入子資料夾的內容)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>更多綁定選項</value>

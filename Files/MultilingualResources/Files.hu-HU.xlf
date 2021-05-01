@@ -1840,10 +1840,6 @@
           <source>Remove</source>
           <target state="translated">Törlés</target>
         </trans-unit>
-        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
-          <source>Cache files and folders for better performance</source>
-          <target state="translated">Fájlok és mappák gyorsítótárazása a jobb teljesítményért</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Mégse</target>
@@ -2243,14 +2239,6 @@
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
           <target state="translated">Szétkapcsolás</target>
-        </trans-unit>
-        <trans-unit id="PreemptiveCacheParallelLimit.Header" translate="yes" xml:space="preserve">
-          <source>Preemptive cache parallel limit (smaller numbers should work better for hard drives)</source>
-          <target state="translated">Előzetes gyorsítótár szálak maximális száma (kisebb érték jobb lehet HDD esetén)</target>
-        </trans-unit>
-        <trans-unit id="SettingsUsePreemptiveCache.Header" translate="yes" xml:space="preserve">
-          <source>Use preemptive cache (preload entries in child directories on navigation)</source>
-          <target state="translated">Előzetes gyorsítótárazás (almappák beolvasása navigáláskor)</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
