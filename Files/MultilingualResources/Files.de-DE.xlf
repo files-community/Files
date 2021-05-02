@@ -2296,7 +2296,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
-          <target state="translated">Unter Bibliotheken in der Seitenleise anzeigen</target>
+          <target state="translated">Bibliotheken in der Seitenleise anzeigen</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
