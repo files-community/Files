@@ -43,7 +43,6 @@ namespace Files.Views
 
             if (BaseProperties != null)
             {
-
             }
         }
 

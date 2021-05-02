@@ -242,7 +242,6 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemPermissionsButtonLabel = "ItemPermissionsButtonLabel".GetLocalized();
             ViewModel.ItemAdvanPermissionsLabel = "ItemAdvanPermissionsLabel".GetLocalized();
             ViewModel.ItemAdvanPermissionsButtonLabel = "ItemAdvanPermissionsButtonLabel".GetLocalized();
-
         }
     }
 }

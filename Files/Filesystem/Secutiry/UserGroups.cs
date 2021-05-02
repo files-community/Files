@@ -14,5 +14,9 @@ namespace Files.Filesystem.Secutiry
         public string Path { get; set; }
         public SecurityType ItemType { get; set; }
     }
-    public enum SecurityType { User, Group };
+    public enum SecurityType 
+    { 
+        User, 
+        Group
+    };
 }
