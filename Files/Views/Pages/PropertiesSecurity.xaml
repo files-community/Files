@@ -63,13 +63,15 @@
                 FontWeight="Bold"
                 Text="Group or user names" />
 
+
+            
             <Button x:Name="btnAddUserOrGroup"
                     Grid.Column="1"
                     Grid.Row="0"
                     Width="40"
                     Height="40"
                     Content="+"
-                    Margin="0,0,40,0"
+                    Margin="0,0,80,0"                    
                     HorizontalAlignment="Right"/>
 
             <Button x:Name="btnRemoveUserOrGroup"
@@ -77,7 +79,17 @@
                     Grid.Row="0"
                     Width="40"
                     Height="40"
-                    Content="-" 
+                    Content="-"
+                    Margin="0,0,40,0"
+                    HorizontalAlignment="Right"/>
+            
+            <Button x:Name="btnEditUserOrGroup"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Width="40"
+                    Height="40"                    
+                    Content="&#xE792;"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}" 
                     HorizontalAlignment="Right"/>
         </Grid>
 
@@ -168,10 +180,10 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button Name="AdvencedPermissions"
+            <Button Name="AdvancedPermissions"
                     Grid.Row="3"
                     Grid.Column="0"
-                    Content="Advenced permissions"/>
+                    Content="Advanced permissions"/>
 
     </Grid>
 

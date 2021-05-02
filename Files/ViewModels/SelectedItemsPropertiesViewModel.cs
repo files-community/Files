@@ -703,20 +703,6 @@ namespace Files.ViewModels
             set => SetProperty(ref isHidden, value);
         }
 
-        private string itemObjectNameDescription;
-        public string ItemObjectNameDescription
-        {
-            get => itemObjectNameDescription;
-            set => SetProperty(ref itemObjectNameDescription, value);
-        }
-
-        private string itemObjectNameValue;
-        public string ItemObjectNameValue
-        {
-            get => itemObjectNameValue;
-            set => SetProperty(ref itemObjectNameValue, value);
-        }
-
         private string itemGroupUserNamesDescription;
         public string ItemUsersGroupLabel
         {

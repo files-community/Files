@@ -103,10 +103,8 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public override async void GetSecurityProperties()
+        public async override void GetSecurityProperties()
         {
-            ViewModel.ItemObjectNameDescription = "ItemObjectNameDescription".GetLocalized();
-            ViewModel.ItemObjectNameValue = Item.ItemName;
             ViewModel.ItemUsersGroupLabel = "ItemUsersGroupLabel".GetLocalized();
             ViewModel.ItemPermissionsLabel = "ItemPermissionsLabel".GetLocalized();
             ViewModel.ItemPermissionsButtonLabel = "ItemPermissionsButtonLabel".GetLocalized();

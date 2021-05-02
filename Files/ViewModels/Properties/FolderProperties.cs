@@ -6,11 +6,13 @@ using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -233,15 +235,14 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public override void GetSecurityProperties()
+        public async override void GetSecurityProperties()
         {
-            ViewModel.ItemObjectNameDescription = "ItemObjectNameDescription".GetLocalized();
-            ViewModel.ItemObjectNameValue = "ItemObjectNameValue".GetLocalized();
             ViewModel.ItemUsersGroupLabel = "ItemUsersGroupLabel".GetLocalized();
             ViewModel.ItemPermissionsLabel = "ItemPermissionsLabel".GetLocalized();
             ViewModel.ItemPermissionsButtonLabel = "ItemPermissionsButtonLabel".GetLocalized();
             ViewModel.ItemAdvanPermissionsLabel = "ItemAdvanPermissionsLabel".GetLocalized();
             ViewModel.ItemAdvanPermissionsButtonLabel = "ItemAdvanPermissionsButtonLabel".GetLocalized();
+
         }
     }
 }
