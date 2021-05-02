@@ -401,7 +401,8 @@ namespace Files.Filesystem
                                                                   DataPackageView packageView,
                                                                   string destination,
                                                                   bool showDialog,
-                                                                  bool registerHistory)
+                                                                  bool registerHistory,
+                                                                  bool isTargetExecutable = false)
         {
             try
             {
@@ -419,6 +420,13 @@ namespace Files.Filesystem
                 }
                 else if (operation.HasFlag(DataPackageOperation.Link))
                 {
+                    // Open with piggybacks off of the link operation, since there isn't one for it
+                    if (isTargetExecutable)
+                    {
+                        var items = await packageView.GetStorageItemsAsync();
+                        NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
+                    }
+                    
                     // TODO: Support link creation
                     return default;
                 }

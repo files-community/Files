@@ -380,7 +380,8 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalized(),
-                    Glyph = "\uF57C",
+                    Glyph = "\uF117",
+                    GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
                     ShowItem = App.AppSettings.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
                     SingleItemOnly = true,
@@ -389,7 +390,8 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalized(),
-                    Glyph = "\uEC6C",
+                    Glyph = "\uF113",
+                    GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.OpenDirectoryInNewTabCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
                     IsPrimary = true,

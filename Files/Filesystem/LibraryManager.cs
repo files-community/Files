@@ -186,7 +186,6 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
-                            Font = App.Current.Resources["OldFluentUIGlyphs"] as FontFamily,
                             SelectsOnInvoked = false,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };

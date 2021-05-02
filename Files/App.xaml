@@ -26,7 +26,6 @@
                 x:Key="LargeGridInfo"
                 Mode="GridView"
                 SizeKind="Large" />
-            <FontFamily x:Key="OldFluentUIGlyphs">/Assets/Custom Glyphs/fluentui.ttf#fluentui</FontFamily>
             <FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
             <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
             <ResourceDictionary.MergedDictionaries>

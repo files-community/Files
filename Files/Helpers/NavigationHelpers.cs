@@ -82,6 +82,31 @@ namespace Files.Helpers
             }
         }
 
+        public static async void OpenItemsWithExecutable(IShellPage associatedInstance, List<IStorageItem> items, string executable)
+        {
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+            if (associatedInstance.SlimContentPage == null)
+            {
+                return;
+            }
+            foreach (var item in items)
+            {
+                try
+                {
+                    await OpenPath(executable, associatedInstance, FilesystemItemType.File, false, false, args: $"\"{item.Path}\"");
+                }
+                catch (Exception e)
+                {
+                    // This is to try and figure out the root cause of AppCenter error #985932119u
+                    NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                }
+            }
+        }
+
         /// <summary>
         /// Navigates to a directory or opens file
         /// </summary>
@@ -91,7 +116,7 @@ namespace Files.Helpers
         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
         /// <param name="selectItems">List of filenames that are selected upon navigation</param>
-        public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null)
+        public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default)
         // TODO: This function reliability has not been extensively tested
         {
             string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -238,7 +263,7 @@ namespace Files.Helpers
                 {
                     if (string.IsNullOrEmpty(shortcutTargetPath))
                     {
-                        await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                        await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
                     }
                     else
                     {
@@ -251,13 +276,13 @@ namespace Files.Helpers
                                 mostRecentlyUsed.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await Win32Helpers.InvokeWin32ComponentAsync(shortcutTargetPath, associatedInstance, shortcutArguments, shortcutRunAsAdmin, shortcutWorkingDirectory);
+                        await Win32Helpers.InvokeWin32ComponentAsync(shortcutTargetPath, associatedInstance, $"{args} {shortcutArguments}", shortcutRunAsAdmin, shortcutWorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
                 else if (isHiddenItem)
                 {
-                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
                 }
                 else
                 {
@@ -354,7 +379,7 @@ namespace Files.Helpers
 
                                 if (!launchSuccess)
                                 {
-                                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
                                 }
                             }
                         });
