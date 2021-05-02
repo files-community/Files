@@ -492,7 +492,7 @@ namespace Files.Views.LayoutModes
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
-                if (item.ItemType == "File folder")
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
                     //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
@@ -624,7 +624,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200);
-                if (item.ItemType == "File folder")
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
                     //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
