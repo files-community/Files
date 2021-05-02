@@ -377,15 +377,14 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox.Parent == null)
+            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            if (gridViewItem == null)
             {
                 // Navigating away, do nothing
             }
             else
             {
-                ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
                 TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
