@@ -972,7 +972,7 @@ namespace Files.ViewModels
                         storageFolder = res.Result;
                     }
                 }
-                if (await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false, library))
+                if (await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, cacheResult, cacheOnly: false, library))
                 {
                     // Is folder synced to cloud storage?
                     var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
@@ -1005,7 +1005,7 @@ namespace Files.ViewModels
                                             storageFolder = res.Result;
                                         }
                                     }
-                                    await EnumerateItemsFromStandardFolderAsync(folderPath, storageFolder, folderSettings.GetLayoutType(folderPath), addFilesCTS.Token, null, cacheOnly: true, library);
+                                    await EnumerateItemsFromStandardFolderAsync(folderPath, storageFolder, folderSettings.GetLayoutType(folderPath, false), addFilesCTS.Token, null, cacheOnly: true, library);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception ex)

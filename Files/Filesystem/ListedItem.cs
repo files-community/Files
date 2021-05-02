@@ -108,9 +108,9 @@ namespace Files.Filesystem
             set => SetProperty(ref customIconSource, value);
         }
 
-        [JsonIgnore]
         private byte[] customIconData;
 
+        [JsonIgnore]
         public byte[] CustomIconData
         {
             get => customIconData;
@@ -374,21 +374,6 @@ namespace Files.Filesystem
         {
             get => itemFile;
             set => SetProperty(ref itemFile, value);
-        }
-
-        [JsonIgnore]
-        private ColumnsViewModel columnsViewModel;
-
-        public ColumnsViewModel ColumnsViewModel
-        {
-            get => columnsViewModel;
-            set
-            {
-                if (value != columnsViewModel)
-                {
-                    SetProperty(ref columnsViewModel, value);
-                }
-            }
         }
 
         // This is a hack used because x:Bind casting did not work properly
