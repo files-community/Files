@@ -706,7 +706,6 @@ namespace Files.ViewModels
                                 item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
-                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadFileIcon = true;
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
