@@ -89,7 +89,7 @@ namespace Files.UserControls.Widgets
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 
-        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
+        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(async (item) =>
         {
             if (string.IsNullOrEmpty(item.Path))
             {
@@ -104,7 +104,7 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 return;
             }
 
@@ -328,18 +328,18 @@ namespace Files.UserControls.Widgets
             LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            NavigationHelpers.OpenPathInNewTab(item.Path);
+            await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
-        private void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
-                NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
 
@@ -381,7 +381,7 @@ namespace Files.UserControls.Widgets
                     SelectCommand = LibraryCardClicked,
                     AutomationProperties = lib.Text,
                     Library = lib,
-                }) ;
+                });
             }
             ItemsAdded.EndBulkOperation();
         }

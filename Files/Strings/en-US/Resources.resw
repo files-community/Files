@@ -2160,6 +2160,9 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Date modified:</value>
   </data>
+<data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>Open with</value>
+  </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>File icon</value>
   </data>

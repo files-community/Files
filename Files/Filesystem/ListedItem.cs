@@ -108,9 +108,9 @@ namespace Files.Filesystem
             set => SetProperty(ref customIconSource, value);
         }
 
-        [JsonIgnore]
         private byte[] customIconData;
 
+        [JsonIgnore]
         public byte[] CustomIconData
         {
             get => customIconData;
@@ -365,6 +365,7 @@ namespace Files.Filesystem
         public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
+        public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.Contains("exe") ?? false;
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private StorageFile itemFile;
@@ -373,21 +374,6 @@ namespace Files.Filesystem
         {
             get => itemFile;
             set => SetProperty(ref itemFile, value);
-        }
-
-        [JsonIgnore]
-        private ColumnsViewModel columnsViewModel;
-
-        public ColumnsViewModel ColumnsViewModel
-        {
-            get => columnsViewModel;
-            set
-            {
-                if (value != columnsViewModel)
-                {
-                    SetProperty(ref columnsViewModel, value);
-                }
-            }
         }
 
         // This is a hack used because x:Bind casting did not work properly
@@ -443,6 +429,7 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+        public override bool IsExecutable => Path.GetExtension(TargetPath)?.Contains("exe") ?? false;
     }
 
     public class LibraryItem : ListedItem

@@ -197,15 +197,24 @@ namespace Files.Filesystem
                     }
                 }
 
-                Libraries.BeginBulkOperation();
-                Libraries.Clear();
                 var libs = await LibraryHelper.ListUserLibraries();
                 if (libs != null)
                 {
-                    libs.Sort();
-                    Libraries.AddRange(libs);
+                    foreach (var lib in libs)
+                    {
+                        if (!Libraries.Any(x => x.Path == lib.Path))
+                        {
+                            Libraries.AddSorted(lib);
+                        }
+                    }
+                    foreach (var lib in Libraries.ToList())
+                    {
+                        if (!libs.Any(x => x.Path == lib.Path))
+                        {
+                            Libraries.Remove(lib);
+                        }
+                    }
                 }
-                Libraries.EndBulkOperation();
             });
         }
 

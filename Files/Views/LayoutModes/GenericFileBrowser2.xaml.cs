@@ -30,13 +30,15 @@ namespace Files.Views.LayoutModes
     public sealed partial class GenericFileBrowser2 : BaseLayout
     {
         public string oldItemName;
-        ColumnsViewModel columnsViewModel = new ColumnsViewModel();
-        public ColumnsViewModel ColumnsViewModel 
+        
+        private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
+
+        public ColumnsViewModel ColumnsViewModel
         {
             get => columnsViewModel;
             set
             {
-                if(value != columnsViewModel)
+                if (value != columnsViewModel)
                 {
                     columnsViewModel = value;
                     NotifyPropertyChanged(nameof(ColumnsViewModel));
@@ -44,13 +46,12 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        RelayCommand<string> UpdateSortOptionsCommand { get; set; }
+        private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
         private DispatcherQueueTimer renameDoubleClickTimer;
         private DispatcherQueueTimer renameDoubleClickTimeoutTimer;
 
-        public GenericFileBrowser2()
-            : base()
+        public GenericFileBrowser2() : base()
         {
             InitializeComponent();
             this.DataContext = this;
@@ -88,17 +89,6 @@ namespace Files.Views.LayoutModes
                     listedItem.Opacity = 1;
                 }
             }
-        }
-
-        private void FilesAndFolders_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            UpdateItemColumnViewModels();
-        }
-
-        private void UpdateItemColumnViewModels()
-        {
-            // Make sure every new item has the column view model
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders?.ToList().ForEach(x => x.ColumnsViewModel = ColumnsViewModel);
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -184,7 +174,9 @@ namespace Files.Views.LayoutModes
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged += FilesAndFolders_CollectionChanged;
+            FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+            FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
             if (FileList.ItemsSource == null)
@@ -198,10 +190,10 @@ namespace Files.Views.LayoutModes
             if (parameters.IsLayoutSwitch)
             {
                 ReloadItemIcons();
-                UpdateItemColumnViewModels();
             }
 
-            UpdateSortOptionsCommand = new RelayCommand<string>(x => {
+            UpdateSortOptionsCommand = new RelayCommand<string>(x =>
+            {
                 var val = Enum.Parse<SortOption>(x);
                 if (ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortOption == val)
                 {
@@ -212,6 +204,12 @@ namespace Files.Views.LayoutModes
                     ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortOption = val;
                     ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection = SortDirection.Ascending;
                 }
+            });
+
+            FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
+            {
+                IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
+                IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
         }
 
@@ -252,8 +250,7 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.CollectionChanged -= FilesAndFolders_CollectionChanged;
-            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+            ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 
             if (e.SourcePageType != typeof(GridViewBrowser))
             {
@@ -269,7 +266,6 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-
         }
 
         protected override IEnumerable GetAllItems()
@@ -381,15 +377,14 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox.Parent == null)
+            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            if (gridViewItem == null)
             {
                 // Navigating away, do nothing
             }
             else
             {
-                ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
                 TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
@@ -543,7 +538,7 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            if(args.ItemContainer == null)
+            if (args.ItemContainer == null)
             {
                 args.ItemContainer = new ListViewItem();
             }
@@ -611,7 +606,7 @@ namespace Files.Views.LayoutModes
         private int clickCount = 0;
         private void CheckDoubleClickToRename()
         {
-            if(clickCount < 1)
+            if (clickCount < 1)
             {
                 if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
                 {
@@ -625,7 +620,7 @@ namespace Files.Views.LayoutModes
                         renameDoubleClickTimer.Stop();
                     }, TimeSpan.FromMilliseconds(510));
 
-                    if(!renameDoubleClickTimeoutTimer.IsRunning)
+                    if (!renameDoubleClickTimeoutTimer.IsRunning)
                     {
                         renameDoubleClickTimeoutTimer.Debounce(() =>
                         {
@@ -633,7 +628,8 @@ namespace Files.Views.LayoutModes
                         }, TimeSpan.FromMilliseconds(2000));
                     }
                 }
-            } else
+            }
+            else
             {
                 ResetDoubleClick();
                 StartRenameItem();
