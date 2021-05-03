@@ -832,6 +832,27 @@ namespace Files.ViewModels
             return (null, null, false);
         }
 
+        public async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize)
+        {
+            if (Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "GetIconWithoutOverlay");
+                value.Add("filePath", filePath);
+                value.Add("thumbnailSize", (int)thumbnailSize);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var icon = response.Get("Icon", (string)null);
+
+                    // BitmapImage can only be created on UI thread, so return raw data and create
+                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                    return (icon == null ? null : Convert.FromBase64String(icon));
+                }
+            }
+            return null;
+        }
+
         public void RefreshItems(string previousDir, bool useCache = true)
         {
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, useCache);
