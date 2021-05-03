@@ -2020,7 +2020,7 @@
     <value>Es gibt {0} Konflikte.</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Es gibt einen Konflikt</value>
+    <value>Es gibt einen Konflikt.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
     <value>Ordner aus Auswahl erzeugen</value>
