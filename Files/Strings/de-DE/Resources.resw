@@ -55,7 +55,7 @@
     <value>Den Entwicklern einen Fehlerbericht mit detaillierten Informationen senden</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Drittanbieter-Lizenzen</value>
+    <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Über</value>
@@ -100,7 +100,7 @@
     <value>Voreinstellungen</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Von Seitenleiste entfernen</value>
+    <value>Von Seitenleiste lösen</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Desktop</value>
@@ -238,7 +238,7 @@
     <value>Name</value>
   </data>
   <data name="dateColumn.Header" xml:space="preserve">
-    <value>Geändert</value>
+    <value>Änderungsdatum</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Typ</value>
@@ -295,13 +295,13 @@
     <value>Dieser Ordner ist leer.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zurück (Alt + Linker Pfeil)</value>
+    <value>Zurück (Alt + Pfeiltaste links)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorwärts (Alt + Recher Pfeil)</value>
+    <value>Vorwärts (Alt + Pfeiltaste rechts)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hoch (Alt + Pfeil Hoch)</value>
+    <value>Hoch (Alt + Pfeiltaste oben)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Aktualisieren (F5)</value>
@@ -580,7 +580,7 @@
     <value>Inhalt:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Dateien, {1:#,##0} Ordner</value>
+    <value>{0:#,##0} Datei(en), {1:#,##0} Ordner</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Als Administrator ausführen</value>
@@ -625,13 +625,13 @@
     <value>Seiten:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Wenn ein angeheftetes Element gestartet wird</value>
+    <value>Wenn ein Ordner in Files geöfnet wird</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Immer eine neue Instanz öffnen</value>
+    <value>In neuem Fenster öffnen</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Ordner in neuem Tab öffnen</value>
+    <value>In neuem Tab öffnen</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows-Standard</value>
@@ -823,7 +823,7 @@
     <value>Ja</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die Anwendung muss neu gestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neu starten?</value>
+    <value>Die Anwendung muss neu gestartet werden, um die Einstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neu starten?</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
     <value>Neues Element erstellen</value>
@@ -871,7 +871,7 @@
     <value>Sprache</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal-Anwendungen</value>
+    <value>Konsolenanwendungen</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Unterstützen Sie uns</value>
@@ -961,7 +961,7 @@
     <value>Tab in neuem Fenster öffnen</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Neuer Tab</value>
+    <value>Neuer Tab (Strg + T)</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Suchen</value>
@@ -1471,7 +1471,7 @@
     <value>Dateipfad</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorschaupanel anzeigen (Ctrl + P)</value>
+    <value>Vorschau anzeigen (Strg + P)</value>
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Tab-Anpassung</value>
@@ -1573,7 +1573,7 @@
     <value>Cloudspeicher</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Ordner von Seitenleiste entfernen</value>
+    <value>Ordner von Seitenleiste lösen</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Netzwerklaufwerke</value>
@@ -1714,7 +1714,7 @@
     <value>Argumente</value>
   </data>
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>Unter Bibliotheken in der Seitenleise anzeigen</value>
+    <value>Bibliotheken in der Seitenleise anzeigen</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotheken</value>
@@ -1912,10 +1912,10 @@
     <value>{0} Objekte werden gelöscht</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Neuen Namen generieren</value>
+    <value>Fortfahren</value>
   </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Vorhandene ersetzen</value>
+    <value>Abbrechen</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Problematische Dateinamen</value>
@@ -1974,6 +1974,69 @@
   <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
     <value>Typ</value>
   </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>Es gibt {0} Konflikte und {1} verbleibende Einträge.</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>Es gibt einen Konflikt und {1} verbleibende Einträge.</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
+    <value>Neuen Namen erzeugen</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+    <value>Bestehende ersetzen</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
+    <value>Überspringen</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
+    <value>Neuen Namen erzeugen</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
+    <value>Bestehende ersetzen</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
+    <value>Überspringen</value>
+  </data>
+  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
+    <value>Neuen Namen erzeugen</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+    <value>Bestehende ersetzen</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
+    <value>Überspringen</value>
+  </data>
+  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+    <value>Neuen Namen erzeugen</value>
+  </data>
+  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
+    <value>Es gibt {0} Konflikte.</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
+    <value>Es gibt einen Konflikt.</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>Ordner aus Auswahl erzeugen</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>Typ:</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>Änderungsdatum:</value>
+  </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>Ordner in neuem Tab öffnen</value>
+  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Auswahloptionen</value>
   </data>
@@ -1985,5 +2048,32 @@
   </data>
   <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Anzeigeoptionen</value>
+  </data>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>Datei-Icon</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>Spalte: Ursprünglicher Pfad</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>Spalte: Dateityp</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>Spalte: Änderungsdatum</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>Spalte: Löschdatum</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>Größe ändern: Seitenleiste</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Neuer Tab (Strg + T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tab schließen (Strg + W)</value>
+  </data>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>Öffnen mit</value>
   </data>
 </root>
