@@ -1953,7 +1953,7 @@
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
-          <target state="translated">Vorschau anzeigen (Strg + P)</target>
+          <target state="translated">Vorschau anzeigen/ausblenden (Strg + P)</target>
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab customization</source>
