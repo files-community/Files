@@ -6,13 +6,11 @@ using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -242,6 +240,8 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemPermissionsButtonLabel = "ItemPermissionsButtonLabel".GetLocalized();
             ViewModel.ItemAdvanPermissionsLabel = "ItemAdvanPermissionsLabel".GetLocalized();
             ViewModel.ItemAdvanPermissionsButtonLabel = "ItemAdvanPermissionsButtonLabel".GetLocalized();
+
+
         }
     }
 }

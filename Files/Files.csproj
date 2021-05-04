@@ -196,8 +196,8 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
-    <Compile Include="Filesystem\Secutiry\Permission.cs" />
-    <Compile Include="Filesystem\Secutiry\UserGroups.cs" />
+    <Compile Include="Filesystem\Security\Permission.cs" />
+    <Compile Include="Filesystem\Security\UserGroups.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />

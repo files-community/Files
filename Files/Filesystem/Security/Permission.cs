@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem.Secutiry
+namespace Files.Filesystem.Security
 {
     public class Permission
     {

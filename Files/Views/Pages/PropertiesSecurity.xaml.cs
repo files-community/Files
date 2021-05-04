@@ -1,20 +1,24 @@
-﻿using Files.Dialogs;
-using Files.Enums;
-using Files.Filesystem;
-using Files.Filesystem.Secutiry;
-using Files.Helpers;
+﻿using Files.Filesystem;
+using Files.Filesystem.Security;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Files.Views
 {
     public sealed partial class PropertiesSecurity : PropertiesTab
     {
+        #region Variables
+
+
+        #endregion
+
+        #region Constructors
+
         public PropertiesSecurity()
         {
             InitializeComponent();
@@ -35,17 +39,24 @@ namespace Files.Views
             usergroups.Add(new UserGroups() { Id = 3, Icon = "&#xE77B;", Description = "Administrators", Path = " (administrators\\administrator) ", ItemType = SecurityType.User });
 
             lstUserGroups.ItemsSource = usergroups;
+
+
         }
 
-        protected override void Properties_Loaded(object sender, RoutedEventArgs e)
-        {
-            base.Properties_Loaded(sender, e);
+        #endregion
 
-            if (BaseProperties != null)
-            {
-            }
-        }
+        #region Properties
 
+
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Dispose()
         {
             throw new NotImplementedException();
@@ -54,44 +65,41 @@ namespace Files.Views
         /// <summary>
         /// Tries to save changed properties to file.
         /// </summary>
-        /// <returns>Returns true if properties have been saved successfully.</returns>
-        public async Task<bool> SaveChangesAsync()
-        {
-            while (true)
-            {
-                using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
-                try
-                {
-                    await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
-                    return true;
-                }
-                catch
-                {
-                    // Attempting to open more than one ContentDialog
-                    // at a time will throw an error)
-                    if (UIHelpers.IsAnyContentDialogOpen())
-                    {
-                        return false;
-                    }
-                    await dialog.ShowAsync();
-                    switch (dialog.DynamicResult)
-                    {
-                        case DynamicDialogResult.Primary:
-                            break;
-
-                        case DynamicDialogResult.Secondary:
-                            return true;
-
-                        case DynamicDialogResult.Cancel:
-                            return false;
-                    }
-                }
-            }
-        }
-
+        /// <param name="item"></param>
+        /// <returns>
+        /// Returns true if properties have been saved successfully.
+        /// </returns>
+        /// <exception cref="NotImplementedException"></exception>
         public override Task<bool> SaveChangesAsync(ListedItem item)
         {
             throw new NotImplementedException();
         }
+
+
+        #endregion
+
+        #region Events
+
+        protected override async void Properties_Loaded(object sender, RoutedEventArgs e)
+        {
+            base.Properties_Loaded(sender, e);
+
+            if (BaseProperties != null)
+            {
+            }
+
+            if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0))
+            {
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            }
+        }
+
+        private void btnEditUserOrGroup_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        #endregion
+
     }
 }
