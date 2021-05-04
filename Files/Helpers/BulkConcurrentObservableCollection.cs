@@ -1,4 +1,5 @@
 ﻿using Files.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
 {
@@ -18,7 +20,7 @@ namespace Files.Helpers
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
 
-        public ObservableCollection<GroupedCollection<T>> GroupedCollection { get; } = new ObservableCollection<GroupedCollection<T>>();
+        public BulkConcurrentObservableCollection<GroupedCollection<T>> GroupedCollection { get; private set; }
 
         public int Count => collection.Count;
 
@@ -62,7 +64,16 @@ namespace Files.Helpers
         private Func<T, string> itemGroupKeySelector;
         public Func<T, string> ItemGroupKeySelector {
             get => itemGroupKeySelector;
-            set => itemGroupKeySelector = value;
+            set { 
+                itemGroupKeySelector = value;
+                if (value != null)
+                {
+                    GroupedCollection = new BulkConcurrentObservableCollection<GroupedCollection<T>>();
+                } else
+                {
+                    GroupedCollection = null;
+                }
+            }
         }
 
         private Func<T, object> itemSortKeySelector;
@@ -86,62 +97,131 @@ namespace Files.Helpers
         public void BeginBulkOperation()
         {
             isBulkOperationStarted = true;
+            GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
+            GroupedCollection?.BeginBulkOperation();
         }
 
         protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
         {
             if (!isBulkOperationStarted)
             {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
                 CollectionChanged?.Invoke(this, e);
                 if (countChanged)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+            }
 
-                if (IsGrouped)
+            if (IsGrouped)
+            {
+                if (!(e.NewItems is null))
                 {
-                    GroupItems();
+                    AddItemsToGroup(e.NewItems.Cast<T>());
+                }
+                if (!(e.OldItems is null))
+                {
+                    RemoveItemsFromGroup(e.OldItems.Cast<T>());
                 }
             }
         }
 
-        private void GroupItems()
+        private void AddItemsToGroup(IEnumerable<T> items)
         {
-            var groupedList = collection.GroupBy(keySelector: ItemGroupKeySelector).Select(group => new GroupedCollection<T>(group) { Key = group.Key });
-            groupedList.ForEach(x =>
+            var dict = new Dictionary<string, List<T>>();
+            if (!IsGrouped)
             {
-                var existing = GroupedCollection.Where(y => y.Key == x.Key).FirstOrDefault();
-                if (existing is null)
+                return;
+            }
+
+            foreach (var item in items)
+            {
+                var key = GetGroupForItem(item);
+
+                var groups = dict.Where(x => x.Key == key);
+                if (dict.TryGetValue(key, out var list))
                 {
-                    GroupedCollection.Insert(GroupedCollection.ToList().Append(x).OrderBy(gp => gp.Key).ToList().IndexOf(x), x);
-                } else
+                    list.Add(item);
+                }
+                else
                 {
-                    x.ForEach(item =>
+                    var group = new List<T>
+                {
+                    item
+                };
+                    dict.Add(key, group);
+                }
+            }
+
+            foreach (var gpItems in dict)
+            {
+                var groups = GroupedCollection.Where(x => x.Key == gpItems.Key);
+                if (groups.Count() > 0)
+                {
+                    groups.First().AddRange(gpItems.Value);
+                }
+                else
+                {
+                    var group = new GroupedCollection<T>(gpItems.Value)
                     {
-                        if(!existing.Contains(item))
-                        {
-                            existing.Insert(existing.ToList().Append(item).OrderBy(ItemSortKeySelector).ToList().IndexOf(item), item);
-                        }
+                        Key = gpItems.Key,
+                    };
+                    GroupedCollection.Add(group);
+                }
+            }
+        }
+        
+        private void RemoveItemsFromGroup(IEnumerable<T> items)
+        {
+            var dict = new Dictionary<string, List<T>>();
+            if (!IsGrouped)
+            {
+                return;
+            }
+
+            foreach (var item in items)
+            {
+                var key = GetGroupForItem(item);
+
+                var groups = dict.Where(x => x.Key == key);
+                if (dict.TryGetValue(key, out var list))
+                {
+                    list.Add(item);
+                }
+                else
+                {
+                    dict.Add(key, new List<T>
+                    {
+                        item
                     });
                 }
+            }
 
-                GroupedCollection.ForEach(gpc =>
+            foreach (var gpItems in dict)
+            {
+                var groups = GroupedCollection.Where(x => x.Key == gpItems.Key);
+                if (groups.Count() > 0)
                 {
-                    gpc.ForEach(item =>
-                    {
-                        if(!collection.Contains(item))
-                        {
-                            gpc.Remove(item);
-                        }
-                    });
-                });
-            });
+                    gpItems.Value.ForEach(x => groups.First().Remove(x));
+                }
+            }
+        }
+
+        private string GetGroupForItem(T item)
+        {
+            return ItemGroupKeySelector?.Invoke(item);
         }
 
         public void EndBulkOperation()
         {
+            if(!isBulkOperationStarted)
+            {
+                return;
+            }
             isBulkOperationStarted = false;
+            GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
+            GroupedCollection?.EndBulkOperation();
+
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
@@ -153,7 +233,7 @@ namespace Files.Helpers
             {
                 collection.Add(item);
             }
-
+            
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
@@ -162,8 +242,8 @@ namespace Files.Helpers
             lock (syncRoot)
             {
                 collection.Clear();
-                GroupedCollection.Clear();
             }
+            GroupedCollection?.Clear();
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }

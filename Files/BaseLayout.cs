@@ -59,7 +59,22 @@ namespace Files
 
         public bool IsRenamingItem { get; set; } = false;
 
-        public CollectionViewSource CollectionViewSource { get; } = new CollectionViewSource();
+        private CollectionViewSource collectionViewSource = new CollectionViewSource()
+        {
+            IsSourceGrouped = true,
+        };
+
+        public CollectionViewSource CollectionViewSource
+        {
+            get => collectionViewSource;
+            set  {
+                if(collectionViewSource != value)
+                {
+                    collectionViewSource = value;
+                    NotifyPropertyChanged(nameof(CollectionViewSource));
+                }
+            }
+        }
 
         private NavigationArguments navigationArguments;
 
@@ -300,11 +315,6 @@ namespace Files
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
-
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = x => new string(x.ItemName.Take(1).ToArray()).ToUpper();
-
-            CollectionViewSource.Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection;
-            CollectionViewSource.IsSourceGrouped = true;
 
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;

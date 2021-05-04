@@ -406,7 +406,7 @@
             SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
             Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <GridView.GroupStyle>
-                <GroupStyle HidesIfEmpty="True">
+                <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
                             <Border AutomationProperties.Name="{Binding Key, Mode=OneTime}">

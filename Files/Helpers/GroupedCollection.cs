@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
-    public class GroupedCollection<T> : ObservableCollection<T>, ISectionHeader
+    public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>
     {
         public string Key { get; set; }
 
@@ -17,18 +17,8 @@ namespace Files.Helpers
         public GroupedCollection(IEnumerable<T> items) : base(items)
         {
         }
-    }
-
-    // This is needed because xaml data types can't be generic
-    public class GroupedItemCollection : GroupedCollection<ListedItem>
-    {
-        public GroupedItemCollection(IEnumerable<ListedItem> items) : base(items)
+        public GroupedCollection() : base()
         {
         }
-    }
-
-    public interface ISectionHeader
-    {
-        public string Key { get; set; }
     }
 }
