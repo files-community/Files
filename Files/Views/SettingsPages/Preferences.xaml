@@ -119,6 +119,13 @@
                     Header="Open folders in new tab"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="OpenFoldersNewTabCtrlLeftClick"
+                    x:Uid="SettingsPreferencesOpenFoldersNewTabCtrlLeftClick"
+                    Header="Ctrl + Left mouse click to open folders in new tab"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding OpenFoldersNewTabCtrlLeftClick, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
 

@@ -480,18 +480,27 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var mouseLeftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton).HasFlag(CoreVirtualKeyStates.Down);
 
             var cp = e.GetCurrentPoint((UIElement)sender);
             if (cp.Position.Y <= AllView.ColumnHeaderHeight // Return if click is on the header
-                || cp.Properties.IsLeftButtonPressed // Return if dragging an item
+                || (cp.Properties.IsLeftButtonPressed && !ctrlPressed) // Return if dragging an item
                 || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
-                || ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
+                || shiftPressed) // Allow for Ctrl+Shift selection
             {
                 return;
             }
             if (IsRenamingItem)
             {
                 return;
+            }
+
+            if (AppSettings.OpenFoldersNewTabCtrlLeftClick && ctrlPressed && mouseLeftPressed)
+            {
+                ListedItem item = ((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem);
+
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+                    await NavigationHelpers.OpenPathInNewTab(item.ItemPath);
             }
 
             // Check if the setting to open items with a single click is turned on
@@ -574,7 +583,7 @@ namespace Files.Views.LayoutModes
             {
                 HandleRightClick(sender, e);
             }
-        }
+        }       
 
         public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
         {

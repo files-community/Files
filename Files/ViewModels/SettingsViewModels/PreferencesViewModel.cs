@@ -19,6 +19,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
         private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
+        private bool openFoldersNewTabCtrlLeftClick = App.AppSettings.OpenFoldersNewTabCtrlLeftClick;
 
         public static LibraryManager LibraryManager { get; private set; }
 
@@ -146,6 +147,21 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref openFoldersNewTab, value))
                 {
                     App.AppSettings.OpenFoldersNewTab = value;
+                }
+            }
+        }
+
+        public bool OpenFoldersNewTabCtrlLeftClick
+        {
+            get
+            {
+                return openFoldersNewTabCtrlLeftClick;
+            }
+            set
+            {
+                if (SetProperty(ref openFoldersNewTabCtrlLeftClick, value))
+                {
+                    App.AppSettings.OpenFoldersNewTabCtrlLeftClick = value;
                 }
             }
         }
