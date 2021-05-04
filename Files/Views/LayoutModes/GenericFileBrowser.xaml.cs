@@ -597,7 +597,8 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.SetSelectedItem(objectPressed);
             }
         }
-
+        
+        int incr = 0;
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance != null)
@@ -610,6 +611,26 @@ namespace Files.Views.LayoutModes
                         DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
+                    }
+
+                    //select next file/folder item using space key
+                    if (args.KeyCode == (uint)Windows.System.VirtualKey.Space)
+                    {
+                        if (SelectedItem == null)
+                        {
+                            AllView.SelectedItems.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault());
+                            incr = 1;
+                        }
+                        else
+                        {
+                            AllView.SelectedItems.Clear();
+                            while (incr < ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count)
+                            {
+                                AllView.SelectedItems.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders[incr]);
+                                incr++;
+                                break;
+                            }
+                        }
                     }
 
                     base.Page_CharacterReceived(sender, args);
