@@ -598,7 +598,6 @@ namespace Files.Views.LayoutModes
             }
         }
         
-        int incr = 0;
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance != null)
@@ -619,17 +618,6 @@ namespace Files.Views.LayoutModes
                         if (SelectedItem == null)
                         {
                             AllView.SelectedItems.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault());
-                            incr = 1;
-                        }
-                        else
-                        {
-                            AllView.SelectedItems.Clear();
-                            while (incr < ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count)
-                            {
-                                AllView.SelectedItems.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders[incr]);
-                                incr++;
-                                break;
-                            }
                         }
                     }
 
