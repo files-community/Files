@@ -16,6 +16,7 @@
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
+    CompactModeThresholdWidth="750"
     IsBackButtonVisible="Collapsed"
     IsPaneToggleButtonVisible="True"
     IsSettingsVisible="True"
@@ -23,7 +24,7 @@
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
     OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
-    PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
+    PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
@@ -126,7 +127,6 @@
             </DataTemplate>
 
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <conv:NavigationViewCompactConverter x:Key="DisplayModeConverter" />
 
             <x:Double x:Key="NavigationViewItemExpandedGlyphFontSize">8.0</x:Double>
 
