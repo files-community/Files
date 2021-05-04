@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
-    public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>
+    public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
     {
         public string Key { get; set; }
 
@@ -20,5 +20,10 @@ namespace Files.Helpers
         public GroupedCollection() : base()
         {
         }
+    }
+
+    public interface IGroupedCollectionHeader
+    {
+        public string Key { get; set; }
     }
 }

@@ -36,7 +36,6 @@ namespace Files.Views.LayoutModes
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
-        private Type DataType { get; } = typeof(GroupedCollection<ListedItem>);
 
         protected override void HookEvents()
         {
@@ -143,7 +142,12 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = x => new string(x.ItemName.Take(1).ToArray()).ToUpper();
-            CollectionViewSource.Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection;
+
+            CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+            {
+                IsSourceGrouped = true,
+                Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
+            };
 
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -555,6 +559,16 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
+
+        private void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            if(!e.IsSourceZoomedInView)
+            {
+                // According to the docs this isn't necessary, but it would crash otherwise
+                var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+                e.DestinationItem.Item = destination.FirstOrDefault();
+            }
         }
     }
 }
