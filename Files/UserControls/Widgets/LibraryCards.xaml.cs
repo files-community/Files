@@ -83,7 +83,7 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay;
+        public Func<string, uint, Task<byte[]>> LoadIconOverlay;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -167,13 +167,9 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async System.Threading.Tasks.Task<byte[]> GetIcon(string path)
+        private async Task<byte[]> GetIcon(string path)
         {
-            BitmapImage icon = new BitmapImage();
-
-            var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
-
-            return IconData;
+            return await LoadIconOverlay(path, 48u);
         }
 
         private async Task GetItemsAddedIcon()
