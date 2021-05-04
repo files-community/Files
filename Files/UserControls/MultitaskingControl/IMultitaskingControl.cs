@@ -10,7 +10,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public ObservableCollection<TabItem> Items { get; }
 
-        public List<ITabItem> RecentlyClosedTabs { get; }
+        public ObservableCollection<ITabItem> RecentlyClosedTabs { get; }
 
         public ITabItemContent GetCurrentSelectedTabInstance();
 

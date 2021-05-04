@@ -12,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+    xmlns:vw="using:Files.ViewModels"
     d:DesignHeight="400"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -567,6 +568,7 @@
                                     BorderThickness="0,1,0,0" />
                                 <Button
                                     x:Name="AddButton"
+                                    x:Uid="VerticalTabViewAddTabButton"
                                     Grid.Row="2"
                                     Margin="0,4,0,0"
                                     HorizontalAlignment="Stretch"
@@ -576,7 +578,7 @@
                                     CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
                                     HighContrastAdjustment="None"
                                     IsTextScaleFactorEnabled="False"
-                                    ToolTipService.ToolTip="{x:Null}"
+                                    ToolTipService.ToolTip="Add tab (Ctrl+T)"
                                     Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}">
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -585,10 +587,29 @@
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
+                                <Button
+                                    x:Name="ReopenClosedTabButton"
+                                    x:Uid="ReopenClosedTabButton"
+                                    Grid.Row="3"
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="Transparent"
+                                    Command="{x:Bind vw:MainPageViewModel.ReopenClosedTabCommand}"
+                                    HighContrastAdjustment="None"
+                                    IsTextScaleFactorEnabled="False"
+                                    ToolTipService.ToolTip="Reopen closed tab (Ctrl+Shift+T)"
+                                    Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="VerticalTabViewReopenClosedTab" Text="Reopen closed tab" />
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
 
                                 <ContentPresenter
                                     x:Name="RightContentPresenter"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     HorizontalAlignment="Stretch"
                                     Content="{TemplateBinding TabStripFooter}"
                                     ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />

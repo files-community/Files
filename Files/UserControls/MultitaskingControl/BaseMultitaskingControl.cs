@@ -32,7 +32,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public ObservableCollection<TabItem> Items => MainPageViewModel.AppInstances;
 
-        public List<ITabItem> RecentlyClosedTabs { get; private set; } = new List<ITabItem>();
+        public ObservableCollection<ITabItem> RecentlyClosedTabs { get; private set; } = new ObservableCollection<ITabItem>();
 
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {

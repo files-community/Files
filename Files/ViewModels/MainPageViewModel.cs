@@ -9,6 +9,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,9 +24,26 @@ namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
-        private bool isRestoringClosedTab = false; // Avoid reopening two tabs
+        private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
-        public static IMultitaskingControl MultitaskingControl { get; set; }
+        private static IMultitaskingControl multitaskingControl;
+
+        public static IMultitaskingControl MultitaskingControl
+        {
+            get => multitaskingControl;
+            set
+            {
+                if (!(multitaskingControl is null))
+                {
+                    multitaskingControl.RecentlyClosedTabs.CollectionChanged -= RecentlyClosedTabs_CollectionChanged;
+                }
+                multitaskingControl = value;
+                if (!(multitaskingControl is null))
+                {
+                    multitaskingControl.RecentlyClosedTabs.CollectionChanged += RecentlyClosedTabs_CollectionChanged;
+                }
+            }
+        }
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 
@@ -46,6 +64,8 @@ namespace Files.ViewModels
         public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
+
+        public static IRelayCommand ReopenClosedTabCommand { get; } = new RelayCommand(ReopenClosedTab, CanReopenClosedTab);
 
         #endregion Commands
 
@@ -144,17 +164,33 @@ namespace Files.ViewModels
             }
             else // ctrl + shift + t, restore recently closed tab
             {
-                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
+                if (CanReopenClosedTab())
                 {
-                    isRestoringClosedTab = true;
-                    ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                    isRestoringClosedTab = false;
+                    ReopenClosedTab();
                 }
             }
             e.Handled = true;
         }
+
+        private static bool CanReopenClosedTab()
+        {
+            return !isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any();
+        }
+        private static async void ReopenClosedTab()
+        {
+            isRestoringClosedTab = true;
+            ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
+            MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
+            await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
+            isRestoringClosedTab = false;
+            ReopenClosedTabCommand.NotifyCanExecuteChanged();
+        }
+
+        private static void RecentlyClosedTabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ReopenClosedTabCommand.NotifyCanExecuteChanged();
+        }
+
 
         #endregion Command Implementation
 
