@@ -62,6 +62,7 @@ namespace Files.Helpers
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Func<T, string> itemGroupKeySelector;
+
         public Func<T, string> ItemGroupKeySelector {
             get => itemGroupKeySelector;
             set { 
