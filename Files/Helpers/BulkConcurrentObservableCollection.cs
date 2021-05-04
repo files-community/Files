@@ -1,4 +1,5 @@
 ﻿using Files.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
 {
@@ -18,7 +20,7 @@ namespace Files.Helpers
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
 
-        public ObservableCollection<GroupedCollection<T>> GroupedCollection { get; } = new ObservableCollection<GroupedCollection<T>>();
+        public BulkConcurrentObservableCollection<GroupedCollection<T>> GroupedCollection { get; private set; }
 
         public int Count => collection.Count;
 
@@ -62,7 +64,16 @@ namespace Files.Helpers
         private Func<T, string> itemGroupKeySelector;
         public Func<T, string> ItemGroupKeySelector {
             get => itemGroupKeySelector;
-            set => itemGroupKeySelector = value;
+            set { 
+                itemGroupKeySelector = value;
+                if (value != null)
+                {
+                    GroupedCollection = new BulkConcurrentObservableCollection<GroupedCollection<T>>();
+                } else
+                {
+                    GroupedCollection = null;
+                }
+            }
         }
 
         private Func<T, object> itemSortKeySelector;
@@ -86,62 +97,87 @@ namespace Files.Helpers
         public void BeginBulkOperation()
         {
             isBulkOperationStarted = true;
+            GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
+            GroupedCollection?.BeginBulkOperation();
         }
 
         protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
         {
             if (!isBulkOperationStarted)
             {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
                 CollectionChanged?.Invoke(this, e);
                 if (countChanged)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+            }
 
-                if (IsGrouped)
+            if (IsGrouped)
+            {
+                if (!(e.NewItems is null))
                 {
-                    GroupItems();
+                    AddItemsToGroup(e.NewItems.Cast<T>());
+                }
+                if (!(e.OldItems is null))
+                {
+                    RemoveItemsFromGroup(e.OldItems.Cast<T>());
                 }
             }
         }
 
-        private void GroupItems()
+        private void AddItemsToGroup(IEnumerable<T> items)
         {
-            var groupedList = collection.GroupBy(keySelector: ItemGroupKeySelector).Select(group => new GroupedCollection<T>(group) { Key = group.Key });
-            groupedList.ForEach(x =>
+            foreach (var item in items)
             {
-                var existing = GroupedCollection.Where(y => y.Key == x.Key).FirstOrDefault();
-                if (existing is null)
-                {
-                    GroupedCollection.Insert(GroupedCollection.ToList().Append(x).OrderBy(gp => gp.Key).ToList().IndexOf(x), x);
-                } else
-                {
-                    x.ForEach(item =>
-                    {
-                        if(!existing.Contains(item))
-                        {
-                            existing.Insert(existing.ToList().Append(item).OrderBy(ItemSortKeySelector).ToList().IndexOf(item), item);
-                        }
-                    });
-                }
+                var key = GetGroupKeyForItem(item);
 
-                GroupedCollection.ForEach(gpc =>
+                var groups = GroupedCollection.Where(x => x.Key == key);
+                if (groups.Count() > 0)
                 {
-                    gpc.ForEach(item =>
+                    groups.First().Add(item);
+                }
+                else
+                {
+                    var group = new GroupedCollection<T>()
                     {
-                        if(!collection.Contains(item))
-                        {
-                            gpc.Remove(item);
-                        }
-                    });
-                });
-            });
+                        Key = key,
+                    };
+                    group.Add(item);
+                    GroupedCollection.Add(group);
+                }
+            }
+        }
+        
+        private void RemoveItemsFromGroup(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                var key = GetGroupKeyForItem(item);
+
+                var groups = GroupedCollection.Where(x => x.Key == key);
+                if (groups.Count() > 0)
+                {
+                    groups.First().Remove(item);
+                }
+            }
+        }
+
+        private string GetGroupKeyForItem(T item)
+        {
+            return ItemGroupKeySelector?.Invoke(item);
         }
 
         public void EndBulkOperation()
         {
+            if(!isBulkOperationStarted)
+            {
+                return;
+            }
             isBulkOperationStarted = false;
+            GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
+            GroupedCollection?.EndBulkOperation();
+
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
@@ -153,7 +189,7 @@ namespace Files.Helpers
             {
                 collection.Add(item);
             }
-
+            
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
@@ -162,8 +198,8 @@ namespace Files.Helpers
             lock (syncRoot)
             {
                 collection.Clear();
-                GroupedCollection.Clear();
             }
+            GroupedCollection?.Clear();
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
