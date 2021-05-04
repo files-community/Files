@@ -174,7 +174,7 @@ namespace Files.ViewModels
 
         private static bool CanReopenClosedTab()
         {
-            return !isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any();
+            return !isRestoringClosedTab && (MultitaskingControl?.RecentlyClosedTabs?.Any()??false);
         }
         private static async void ReopenClosedTab()
         {
