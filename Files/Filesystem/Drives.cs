@@ -208,18 +208,20 @@ namespace Files.Filesystem
             }
 
             var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-
             lock (drivesList)
             {
                 // If drive already in list, skip.
                 if (drivesList.Any(x => x.DeviceID == deviceId ||
-                    string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
+                string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
                 {
                     return;
                 }
+            }
 
-                var driveItem = new DriveItem(root, deviceId, type, thumbnail);
+            var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type, thumbnail);
 
+            lock (drivesList)
+            {
                 Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
                 drivesList.Add(driveItem);
@@ -296,13 +298,14 @@ namespace Files.Filesystem
                     {
                         continue;
                     }
+                }
 
-                    var type = GetDriveType(drive);
+                var type = GetDriveType(drive);
+                var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), type, thumbnail);
 
-                    var driveItem = new DriveItem(res.Result, drive.Name.TrimEnd('\\'), type, thumbnail);
-
+                lock (drivesList)
+                {
                     Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
-
                     drivesList.Add(driveItem);
                 }
             }
@@ -425,15 +428,20 @@ namespace Files.Filesystem
                     {
                         // If drive already in list, skip.
                         var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
-                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
+                        string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
                         if (matchingDrive != null)
                         {
                             // Update device id to match drive letter
                             matchingDrive.DeviceID = deviceId;
                             return;
                         }
-                        var type = GetDriveType(driveAdded);
-                        var driveItem = new DriveItem(rootAdded, deviceId, type, thumbnail);
+                    }
+
+                    var type = GetDriveType(driveAdded);
+                    var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
+
+                    lock (drivesList)
+                    {
                         Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
                         drivesList.Add(driveItem);
                     }

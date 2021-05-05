@@ -137,20 +137,22 @@ namespace Files.Filesystem
             ItemType = NavigationControlItemType.CloudDrive;
         }
 
-        public DriveItem(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
+        public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
         {
-            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SetBitmapImage(imageStream));
+            var item = new DriveItem();
 
-            Text = root.DisplayName;
-            Type = type;
-            Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
-            DeviceID = deviceId;
-            Root = root;
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
+            item.Text = root.DisplayName;
+            item.Type = type;
+            item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            item.DeviceID = deviceId;
+            item.Root = root;
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
 
-            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
+            return item;
         }
 
-        private async void SetBitmapImage(IRandomAccessStream imageStream)
+        public async Task SetBitmapImage(IRandomAccessStream imageStream)
         {
             if (imageStream != null)
             {
