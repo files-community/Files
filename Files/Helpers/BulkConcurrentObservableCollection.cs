@@ -127,6 +127,17 @@ namespace Files.Helpers
             }
         }
 
+        public void ResetGroups()
+        {
+            if(!IsGrouped)
+            {
+                return;
+            }
+
+            GroupedCollection.Clear();
+            AddItemsToGroup(collection);
+        }
+
         private void AddItemsToGroup(IEnumerable<T> items)
         {
             foreach (var item in items)

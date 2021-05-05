@@ -216,6 +216,7 @@ namespace Files.Filesystem
 
         public string FileExtension { get; set; }
         public string FileSize { get; set; }
+        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
         public long FileSizeBytes { get; set; }
         public string ItemDateModified { get; private set; }
         public string ItemDateCreated { get; private set; }

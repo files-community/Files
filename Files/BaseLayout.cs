@@ -17,6 +17,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -318,6 +320,7 @@ namespace Files
 
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
             FolderSettings.SetLayoutInformation();
 
@@ -371,6 +374,7 @@ namespace Files
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             ParentShellPageInstance.LoadPreviewPaneChanged();
+            UpdateGroupOptions();
             FolderSettings.IsLayoutModeChanging = false;
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
@@ -396,12 +400,24 @@ namespace Files
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
         }
 
+        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
+        {
+            UpdateGroupOptions();
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.BeginBulkOperation();
+            await Task.Run(() => ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ResetGroups());
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+            {
+                ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.EndBulkOperation();
+            });
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
@@ -692,6 +708,28 @@ namespace Files
         protected void ItemsLayout_Drop(object sender, DragEventArgs e)
         {
             CommandsViewModel?.DropCommand?.Execute(e);
+        }
+
+        public void UpdateGroupOptions()
+        {
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(FolderSettings.DirectoryGroupOption);
+
+            if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
+            {
+                CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+                {
+                    IsSourceGrouped = true,
+                    Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
+                };
+            }
+            else
+            {
+                CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+                {
+                    IsSourceGrouped = false,
+                    Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                };
+            }
         }
     }
 }

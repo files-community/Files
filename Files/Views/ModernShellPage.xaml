@@ -283,6 +283,7 @@
                 SearchSuggestionChosen="ModernShellPage_SearchSuggestionChosen"
                 SearchTextChanged="ModernShellPage_SearchTextChanged"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
+                SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOptionListing, Mode=TwoWay}"
                 ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
                 ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
                 ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"

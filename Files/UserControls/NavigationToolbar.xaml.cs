@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
@@ -217,6 +218,19 @@ namespace Files.UserControls
         }
 
         #endregion Selection Options
+
+        public static readonly DependencyProperty SelectedGroupModeProperty = DependencyProperty.Register(
+         nameof(SelectedGroupMode),
+         typeof(GroupOptionListing),
+         typeof(NavigationToolbar),
+         new PropertyMetadata(null)
+        );
+
+        public GroupOptionListing SelectedGroupMode
+        {
+            get => (GroupOptionListing)GetValue(SelectedGroupModeProperty);
+            set => SetValue(SelectedGroupModeProperty, value);
+        }
 
         #region Layout Options
 
@@ -1317,5 +1331,7 @@ namespace Files.UserControls
         {
             PreviewPaneEnabled = !PreviewPaneEnabled;
         }
+
+        private List<GroupOptionListing> groupOptions = GroupingHelper.GetGroupOptionsMenuItems();
     }
 }

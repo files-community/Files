@@ -23,7 +23,6 @@
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -1054,6 +1053,18 @@
                                         Header="Show file extensions"
                                         IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
                                 </StackPanel>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarGroupingMode"
+                                    FontWeight="Medium"
+                                    Text="Grouping" />
+
+                                <ComboBox
+                                    x:Name="GroupModeSelector"
+                                    HorizontalAlignment="Stretch"
+                                    DisplayMemberPath="Text"
+                                    ItemsSource="{x:Bind groupOptions}"
+                                    SelectedItem="{x:Bind SelectedGroupMode, Mode=TwoWay}" />
 
                                 <TextBlock
                                     x:Uid="NavToolbarLayoutMode"

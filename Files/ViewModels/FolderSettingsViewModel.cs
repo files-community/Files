@@ -150,6 +150,8 @@ namespace Files.ViewModels
             }
         }
 
+        public RelayCommand<string> SetGroupingModeCommand => new RelayCommand<string>(val => DirectoryGroupOption = Enum.Parse<GroupOption>(val));
+
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
@@ -411,6 +413,7 @@ namespace Files.ViewModels
         }
 
         public event EventHandler SortOptionPreferenceUpdated;
+        public event EventHandler GroupOptionPreferenceUpdated;
 
         public event EventHandler SortDirectionPreferenceUpdated;
 
@@ -423,6 +426,37 @@ namespace Files.ViewModels
                 {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+        
+        public GroupOption DirectoryGroupOption
+        {
+            get => LayoutPreference.DirectoryGroupOption;
+            set
+            {
+                if (SetProperty(ref LayoutPreference.DirectoryGroupOption, value, nameof(DirectoryGroupOption)))
+                {
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    GroupOptionPreferenceUpdated?.Invoke(this, new EventArgs());
+                    OnPropertyChanged(nameof(DirectoryGroupOptionListing));
+                }
+            }
+        }
+        
+        public GroupOptionListing DirectoryGroupOptionListing
+        {
+            get => GroupingHelper.GetGroupOptionsMenuItems().Where(x => x.GroupOption == DirectoryGroupOption).First();
+            set
+            {
+                if(value is null)
+                {
+                    return;
+                }
+                if (SetProperty(ref LayoutPreference.DirectoryGroupOption, value.GroupOption, nameof(DirectoryGroupOption)))
+                {
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    GroupOptionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -547,6 +581,7 @@ namespace Files.ViewModels
         {
             public SortOption DirectorySortOption;
             public SortDirection DirectorySortDirection;
+            public GroupOption DirectoryGroupOption;
             public FolderLayoutModes LayoutMode;
             public int GridViewSize;
 
@@ -561,6 +596,7 @@ namespace Files.ViewModels
                 this.LayoutMode = App.AppSettings.DefaultLayoutMode;
                 this.GridViewSize = App.AppSettings.DefaultGridViewSize;
                 this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
+                this.DirectoryGroupOption = App.AppSettings.DefaultDirectoryGroupOption;
                 this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
                 this.ColumnsViewModel = new ColumnsViewModel();
 
@@ -577,6 +613,12 @@ namespace Files.ViewModels
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
                     IsAdaptiveLayoutOverridden = (bool?)compositeValue[nameof(IsAdaptiveLayoutOverridden)] != null,
                 };
+
+                if(compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
+                {
+                    pref.DirectoryGroupOption = (GroupOption)(int)gpOption;
+                }
+
                 try
                 {
                     pref.ColumnsViewModel = JsonConvert.DeserializeObject<ColumnsViewModel>(compositeValue[nameof(ColumnsViewModel)] as string, new JsonSerializerSettings()
@@ -598,6 +640,7 @@ namespace Files.ViewModels
                     { nameof(LayoutMode), (int)this.LayoutMode },
                     { nameof(GridViewSize), this.GridViewSize },
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
+                    { nameof(DirectoryGroupOption), (int)this.DirectoryGroupOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
                     { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden },
                     { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }

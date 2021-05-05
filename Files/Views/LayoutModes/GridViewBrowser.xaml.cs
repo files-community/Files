@@ -141,13 +141,6 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = x => new string(x.ItemName.Take(1).ToArray()).ToUpper();
-
-            CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
-            {
-                IsSourceGrouped = true,
-                Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
-            };
 
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
