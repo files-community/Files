@@ -2695,6 +2695,10 @@
           <source>Create folder with selection</source>
           <target state="translated">Crear carpeta con la selección</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutAddToRecentFiles.Text" translate="yes" xml:space="preserve">
+          <source>Add to recent files</source>
+          <target state="new">Add to recent files</target>
+        </trans-unit>
         <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
           <source>Name:</source>
           <target state="translated">Nombre:</target>

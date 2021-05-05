@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
 using System;
@@ -158,15 +159,53 @@ namespace Files.UserControls.Widgets
                     FileIconVis = ItemFileIconVis
                 });
             }
+            else if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                ItemName = item.Name;
+                ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
+                ItemType = StorageItemTypes.Folder;
+                ItemImage = new BitmapImage();
+                StorageFolder folder = (StorageFolder)item;
+                var thumbnail = await folder.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+                if (thumbnail == null)
+                {
+                    ItemEmptyImgVis = true;
+                }
+                else
+                {
+                    await ItemImage.SetSourceAsync(thumbnail);
+                    ItemEmptyImgVis = false;
+                }
+                ItemFolderImgVis = false;
+                ItemFileIconVis = true;
+                recentItemsCollection.Add(new RecentItem()
+                {
+                    RecentPath = ItemPath,
+                    Name = ItemName,
+                    Type = ItemType,
+                    FolderImg = ItemFolderImgVis,
+                    EmptyImgVis = ItemEmptyImgVis,
+                    FileImg = ItemImage,
+                    FileIconVis = ItemFileIconVis
+                });
+            }
         }
 
-        private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var path = (e.ClickedItem as RecentItem).RecentPath;
-            RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
+            var item = (e.ClickedItem as RecentItem);
+
+            if ((e.ClickedItem as RecentItem).Type == StorageItemTypes.File)
             {
-                ItemPath = path
-            });
+                RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
+                {
+                    ItemPath = item.RecentPath
+                });
+            }
+            else if ((e.ClickedItem as RecentItem).Type == StorageItemTypes.Folder)
+            {
+                await NavigationHelpers.OpenPathInNewTab(item.RecentPath);
+            }
         }
 
         private async void RemoveRecentItem_Click(object sender, RoutedEventArgs e)

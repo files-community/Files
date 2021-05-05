@@ -365,6 +365,12 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutItemContextFlyoutAddToRecentFiles/Text".GetLocalized(),
+                    Glyph = "\uE1DA",
+                    Command = commandsViewModel.AddToRecentFiles,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
                     Glyph = "\uE17D",
                     Command = commandsViewModel.OpenItemWithApplicationPickerCommand,

@@ -88,5 +88,6 @@ namespace Files.Interacts
         void SearchUnindexedItems(RoutedEventArgs e);
 
         void CreateFolderWithSelection(RoutedEventArgs e);
+        void AddToRecentFiles(RoutedEventArgs e);
     }
 }

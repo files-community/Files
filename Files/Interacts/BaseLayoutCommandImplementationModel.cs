@@ -569,6 +569,20 @@ namespace Files.Interacts
             UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
+        public async void AddToRecentFiles(RoutedEventArgs e)
+        {
+            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            {
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                {
+                    if(listedItem.ContainsFilesOrFolders)           
+                        NavigationHelpers.AddRecentItems(listedItem.ItemPath, associatedInstance, FilesystemItemType.Directory, false, false, args: $"\"{listedItem.ItemPath}\"");
+                    else
+                        NavigationHelpers.AddRecentItems(listedItem.ItemPath, associatedInstance, FilesystemItemType.File, false, false, args: $"\"{listedItem.ItemPath}\"");
+                }
+            }
+        }
+
         #endregion Command Implementation
     }
 }

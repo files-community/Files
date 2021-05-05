@@ -107,6 +107,117 @@ namespace Files.Helpers
             }
         }
 
+        public static async void AddRecentItems(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default)
+        {
+            string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            FilesystemResult opened = (FilesystemResult)false;
+
+            // Shortcut item variables
+            string shortcutTargetPath = null;
+            string shortcutArguments = null;
+            string shortcutWorkingDirectory = null;
+            bool shortcutRunAsAdmin = false;
+            bool shortcutIsFolder = false;
+
+            if (itemType == null || isShortcutItem)
+            {
+                if (isShortcutItem)
+                {
+                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "ParseLink" },
+                        { "filepath", path }
+                    });
+
+                    if (status == AppServiceResponseStatus.Success)
+                    {
+                        shortcutTargetPath = response.Get("TargetPath", string.Empty);
+                        shortcutArguments = response.Get("Arguments", string.Empty);
+                        shortcutWorkingDirectory = response.Get("WorkingDirectory", string.Empty);
+                        shortcutRunAsAdmin = response.Get("RunAsAdmin", false);
+                        shortcutIsFolder = response.Get("IsFolder", false);
+
+                        itemType = shortcutIsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                    }
+                    else
+                    {
+                        //return false;
+                    }
+                }
+                else
+                {
+                    itemType = await StorageItemHelpers.GetTypeFromPath(path);
+                }
+            }
+
+            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+
+            if (itemType == FilesystemItemType.Directory) // OpenDirectory
+            {
+                if (isShortcutItem)
+                {
+                    if (!string.IsNullOrEmpty(shortcutTargetPath))
+                    {
+                        StorageFolderWithPath childFolder = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(shortcutTargetPath);
+                        if (childFolder != null)
+                        {
+                            // Add location to MRU List
+                            mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
+                        }
+                    }
+                }
+                else
+                {
+                    opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
+                        .OnSuccess(childFolder =>
+                        {
+                            // Add location to MRU List
+                            mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
+                        });
+                }
+            }
+            else if (itemType == FilesystemItemType.File) // OpenFile
+            {
+                if (isShortcutItem)
+                {
+                    if (!string.IsNullOrEmpty(shortcutTargetPath))
+                    {
+                        if (!path.EndsWith(".url"))
+                        {
+                            StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutTargetPath);
+                            if (childFile != null)
+                            {
+                                // Add location to MRU List
+                                mostRecentlyUsed.Add(childFile.File, childFile.Path);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
+                        .OnSuccess(async childFile =>
+                        {
+                            // Add location to MRU List
+                            mostRecentlyUsed.Add(childFile.File, childFile.Path);
+                        });
+                }
+            }
+
+            if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
+            {
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                associatedInstance.NavigationToolbar.CanRefresh = false;
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
+                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
+                });
+            }
+        }
+
         /// <summary>
         /// Navigates to a directory or opens file
         /// </summary>
@@ -399,5 +510,6 @@ namespace Files.Helpers
 
             return opened;
         }
+
     }
 }

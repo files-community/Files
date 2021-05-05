@@ -2025,6 +2025,9 @@
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
     <value>Ordner aus Auswahl erzeugen</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutAddToRecentFiles.Text" xml:space="preserve">
+    <value>Add to recent files</value>
+  </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
   </data>
