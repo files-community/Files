@@ -28,7 +28,7 @@
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="T" Modifiers="Control" />
+                                <KeyboardAccelerator Key="T" Modifiers="Control" IsEnabled="False"  />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
