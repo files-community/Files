@@ -157,6 +157,7 @@ namespace Files.Helpers
                     };
                     group.Add(item);
                     GroupedCollection.Add(group);
+                    //GroupedCollection.Sort();
                 }
             }
         }
@@ -353,6 +354,33 @@ namespace Files.Helpers
             }
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index));
+        }
+
+        public void Sort()
+        {
+            lock(SyncRoot)
+            {
+                collection.Sort();
+            }
+        }
+
+        public void Sort(Comparison<T> comparison)
+        {
+            lock(SyncRoot)
+            {
+                collection.Sort(comparison);
+            }
+        }
+
+        public void Order(Func<List<T>, IEnumerable<T>> func)
+        {
+            IEnumerable<T> result;
+            lock(SyncRoot)
+            {
+                result = func.Invoke(collection);
+            }
+
+            ReplaceRange(0, result);
         }
 
         int IList.Add(object value)
