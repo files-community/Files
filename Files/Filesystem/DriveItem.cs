@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -15,7 +16,7 @@ namespace Files.Filesystem
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
+        public BitmapImage Icon { get; set; }
         public Uri IconSource { get; set; }
 
         private string path;
@@ -74,7 +75,10 @@ namespace Files.Filesystem
             set
             {
                 type = value;
-                SetGlyph(type);
+                if (Icon == null)
+                {
+                    SetGlyph(type);
+                }
             }
         }
 
@@ -133,8 +137,10 @@ namespace Files.Filesystem
             ItemType = NavigationControlItemType.CloudDrive;
         }
 
-        public DriveItem(StorageFolder root, string deviceId, DriveType type)
+        public DriveItem(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
         {
+            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SetBitmapImage(imageStream));
+
             Text = root.DisplayName;
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
@@ -142,6 +148,16 @@ namespace Files.Filesystem
             Root = root;
 
             CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
+        }
+
+        private async void SetBitmapImage(IRandomAccessStream imageStream)
+        {
+            if (imageStream != null)
+            {
+                var image = new BitmapImage();
+                await image.SetSourceAsync(imageStream);
+                Icon = image;
+            }
         }
 
         public async Task UpdateLabelAsync()
@@ -236,7 +252,7 @@ namespace Files.Filesystem
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
-                Icon = new SvgImageSource(IconSource);
+                Icon = new BitmapImage(IconSource);
             });
         }
 
