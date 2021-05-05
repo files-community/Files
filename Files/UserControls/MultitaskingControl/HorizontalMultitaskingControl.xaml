@@ -60,7 +60,7 @@
                             Click="{x:Bind vm:MainPageViewModel.ReopenClosedTab}"
                             Text="Reopen closed tab">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="T" Modifiers="Control,Shift" />
+                                <KeyboardAccelerator Key="T" Modifiers="Control,Shift" IsEnabled="False" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyout>
