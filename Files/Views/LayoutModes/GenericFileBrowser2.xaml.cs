@@ -521,11 +521,24 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var mouseLeftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton).HasFlag(CoreVirtualKeyStates.Down);
 
             // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || InteractionViewModel.MultiselectEnabled)
+            if (shiftPressed
+                || (ctrlPressed && !AppSettings.OpenFoldersNewTabCtrlLeftClick)
+                || InteractionViewModel.MultiselectEnabled)
             {
                 return;
+            }
+
+            var item = (e.ClickedItem as ListedItem);
+            if (AppSettings.OpenFoldersNewTabCtrlLeftClick && ctrlPressed && mouseLeftPressed)
+            {
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+                {
+                    await NavigationHelpers.OpenPathInNewTab(item.ItemPath);
+                    return;
+                }
             }
 
             // Check if the setting to open items with a single click is turned on

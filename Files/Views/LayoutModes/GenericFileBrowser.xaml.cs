@@ -486,7 +486,8 @@ namespace Files.Views.LayoutModes
             if (cp.Position.Y <= AllView.ColumnHeaderHeight // Return if click is on the header
                 || (cp.Properties.IsLeftButtonPressed && !ctrlPressed) // Return if dragging an item
                 || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
-                || shiftPressed) // Allow for Ctrl+Shift selection
+                || shiftPressed
+                || (ctrlPressed && !AppSettings.OpenFoldersNewTabCtrlLeftClick)) // Allow for Ctrl+Shift selection
             {
                 return;
             }
@@ -497,10 +498,14 @@ namespace Files.Views.LayoutModes
 
             if (AppSettings.OpenFoldersNewTabCtrlLeftClick && ctrlPressed && mouseLeftPressed)
             {
-                ListedItem item = ((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem);
-
-                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
-                    await NavigationHelpers.OpenPathInNewTab(item.ItemPath);
+                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item)
+                {
+                    if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+                    {
+                        await NavigationHelpers.OpenPathInNewTab(item.ItemPath);
+                        return;
+                    }
+                }
             }
 
             // Check if the setting to open items with a single click is turned on
@@ -583,7 +588,7 @@ namespace Files.Views.LayoutModes
             {
                 HandleRightClick(sender, e);
             }
-        }       
+        }
 
         public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
         {
@@ -699,13 +704,13 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private async void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            
+
             if (AppSettings.OpenFoldersNewTab)
             {
-                NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
+                await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
             }
             else
             {

@@ -485,16 +485,13 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-            await Task.Delay(200);
-            if (listViewItem != null)
-            {
-                listViewItem.Style = (Style)this.Resources["NormalStyle"];
-            }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var mouseLeftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftButton).HasFlag(CoreVirtualKeyStates.Down);
 
-            if (ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
+            if (shiftPressed
+                || (ctrlPressed && !AppSettings.OpenFoldersNewTabCtrlLeftClick)
+                || InteractionViewModel.MultiselectEnabled)
             {
                 return;
             }
@@ -503,6 +500,22 @@ namespace Files.Views.LayoutModes
                 return;
             }
             var item = (e.ClickedItem as ListedItem);
+            if (AppSettings.OpenFoldersNewTabCtrlLeftClick && ctrlPressed && mouseLeftPressed)
+            {
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+                {
+                    await NavigationHelpers.OpenPathInNewTab(item.ItemPath);
+                    return;
+                }
+            }
+
+            DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
+            await Task.Delay(200);
+            if (listViewItem != null)
+            {
+                listViewItem.Style = (Style)this.Resources["NormalStyle"];
+            }
+
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
