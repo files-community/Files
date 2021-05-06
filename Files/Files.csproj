@@ -1168,6 +1168,10 @@
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RBAC\RBAC.csproj">
+      <Project>{37abb54f-80fb-48e0-8b1a-c3bba144cedb}</Project>
+      <Name>RBAC</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
