@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Common;
 using Files.Extensions;
+using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -12,7 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Filesystem
+namespace Files.DataModels.NavigationControlItems
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {

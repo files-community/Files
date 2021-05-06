@@ -34,7 +34,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -538,34 +537,5 @@ namespace Files
                 Application.Current.Exit();
             }
         }
-    }
-
-    public class WSLDistroItem : INavigationControlItem
-    {
-        public SvgImageSource Icon { get; set; } = null;
-
-        public string Text { get; set; }
-
-        private string path;
-
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
-            }
-        }
-
-        public string HoverDisplayText { get; private set; }
-
-        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
-
-        public Uri Logo { get; set; }
-
-        public SectionType Section { get; private set; }
-
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

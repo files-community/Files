@@ -174,6 +174,7 @@
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
+    <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -428,7 +429,7 @@
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Enums\WallpaperType.cs" />
-    <Compile Include="Filesystem\DriveItem.cs" />
+    <Compile Include="DataModels\NavigationControlItems\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
@@ -460,8 +461,8 @@
     <Compile Include="ViewModels\CurrentInstanceViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
-    <Compile Include="Filesystem\INavigationControlItem.cs" />
-    <Compile Include="Filesystem\LocationItem.cs" />
+    <Compile Include="DataModels\NavigationControlItems\INavigationControlItem.cs" />
+    <Compile Include="DataModels\NavigationControlItems\LocationItem.cs" />
     <Compile Include="ViewModels\Properties\BaseProperties.cs" />
     <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
     <Compile Include="ViewModels\Properties\DriveProperties.cs" />
