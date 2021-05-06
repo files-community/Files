@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

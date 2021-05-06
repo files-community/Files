@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Enums;
 using Files.UserControls;
 using Files.UserControls.Widgets;
@@ -18,7 +19,7 @@ using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Media.Imaging;
+using DriveType = Files.DataModels.NavigationControlItems.DriveType;
 
 namespace Files.Filesystem
 {
