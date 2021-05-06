@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -15,7 +16,7 @@ namespace Files.Filesystem
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
+        public BitmapImage Icon { get; set; }
         public Uri IconSource { get; set; }
 
         private string path;
@@ -74,7 +75,10 @@ namespace Files.Filesystem
             set
             {
                 type = value;
-                SetGlyph(type);
+                if (Icon == null)
+                {
+                    SetGlyph(type);
+                }
             }
         }
 
@@ -133,15 +137,29 @@ namespace Files.Filesystem
             ItemType = NavigationControlItemType.CloudDrive;
         }
 
-        public DriveItem(StorageFolder root, string deviceId, DriveType type)
+        public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
         {
-            Text = root.DisplayName;
-            Type = type;
-            Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
-            DeviceID = deviceId;
-            Root = root;
+            var item = new DriveItem();
 
-            CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UpdatePropertiesAsync());
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
+            item.Text = root.DisplayName;
+            item.Type = type;
+            item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            item.DeviceID = deviceId;
+            item.Root = root;
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+
+            return item;
+        }
+
+        public async Task SetBitmapImage(IRandomAccessStream imageStream)
+        {
+            if (imageStream != null)
+            {
+                var image = new BitmapImage();
+                await image.SetSourceAsync(imageStream);
+                Icon = image;
+            }
         }
 
         public async Task UpdateLabelAsync()
@@ -236,7 +254,7 @@ namespace Files.Filesystem
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
-                Icon = new SvgImageSource(IconSource);
+                Icon = new BitmapImage(IconSource);
             });
         }
 

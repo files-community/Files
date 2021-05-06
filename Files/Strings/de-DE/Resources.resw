@@ -1471,7 +1471,7 @@
     <value>Dateipfad</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorschau anzeigen (Strg + P)</value>
+    <value>Vorschau anzeigen/ausblenden (Strg + P)</value>
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Tab-Anpassung</value>
