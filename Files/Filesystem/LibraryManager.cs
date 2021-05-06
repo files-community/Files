@@ -56,13 +56,22 @@ namespace Files.Filesystem
                             break;
 
                         case NotifyCollectionChangedAction.Reset:
-                            librarySection.ChildItems.Clear();
                             foreach (var lib in Libraries.Where(IsLibraryOnSidebar))
                             {
-                                if (await lib.CheckDefaultSaveFolderAccess())
+                                if (!librarySection.ChildItems.Any(x => x.Path == lib.Path))
                                 {
-                                    lib.Font = InteractionViewModel.FontName;
-                                    librarySection.ChildItems.AddSorted(lib);
+                                    if (await lib.CheckDefaultSaveFolderAccess())
+                                    {
+                                        lib.Font = InteractionViewModel.FontName;
+                                        librarySection.ChildItems.AddSorted(lib);
+                                    }
+                                }
+                            }
+                            foreach (var lib in librarySection.ChildItems.ToList())
+                            {
+                                if (!Libraries.Any(x => x.Path == lib.Path))
+                                {
+                                    librarySection.ChildItems.Remove(lib);
                                 }
                             }
                             break;
@@ -197,24 +206,15 @@ namespace Files.Filesystem
                     }
                 }
 
+                Libraries.BeginBulkOperation();
+                Libraries.Clear();
                 var libs = await LibraryHelper.ListUserLibraries();
                 if (libs != null)
                 {
-                    foreach (var lib in libs)
-                    {
-                        if (!Libraries.Any(x => x.Path == lib.Path))
-                        {
-                            Libraries.AddSorted(lib);
-                        }
-                    }
-                    foreach (var lib in Libraries.ToList())
-                    {
-                        if (!libs.Any(x => x.Path == lib.Path))
-                        {
-                            Libraries.Remove(lib);
-                        }
-                    }
+                    libs.Sort();
+                    Libraries.AddRange(libs);
                 }
+                Libraries.EndBulkOperation();
             });
         }
 
