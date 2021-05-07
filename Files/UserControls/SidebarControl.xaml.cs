@@ -229,11 +229,19 @@ namespace Files.UserControls
             return new GridLength(200);
         }
 
-        private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
                 IsInPointerPressed = false;
+                return;
+            }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
+            {
+                string navigationPath = args.InvokedItemContainer.Tag.ToString();
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
                 return;
             }
 
@@ -621,7 +629,7 @@ namespace Files.UserControls
         }
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {   
+        {
             if(IsPaneOpen)
             {
                 IncrementSize(e.Delta.Translation.X);
