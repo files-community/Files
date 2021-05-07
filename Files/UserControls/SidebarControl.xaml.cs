@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
@@ -319,7 +320,7 @@ namespace Files.UserControls
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as WSLDistroItem;
+            var item = sidebarItem.DataContext as WslDistroItem;
 
             ShowEjectDevice = false;
             ShowUnpinItem = false;

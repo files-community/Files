@@ -7,13 +7,11 @@
     xmlns:conv="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
-    xmlns:local1="using:Files"
-    xmlns:local2="using:Files.Filesystem"
-    xmlns:local3="using:Files.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    HorizontalAlignment="Stretch"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+	xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+	HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
     IsBackButtonVisible="Collapsed"
@@ -54,7 +52,7 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
-            <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
+            <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
                     BorderThickness="0.8"
@@ -80,7 +78,7 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
+            <DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
                 <muxc:NavigationViewItem
                     Padding="0"
                     AllowDrop="True"
@@ -103,7 +101,7 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
+            <DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
                 <muxc:NavigationViewItem
                     Padding="0"
                     BorderThickness="0.8"
@@ -116,11 +114,11 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
                     <muxc:NavigationViewItem.Icon>
-                        <BitmapIcon
-                            Width="30"
-                            Height="30"
-                            ShowAsMonochrome="False"
-                            UriSource="{x:Bind Logo}" />
+						<muxc:ImageIcon>
+							<muxc:ImageIcon.Source>
+								<BitmapImage UriSource="{x:Bind Logo}"/>
+							</muxc:ImageIcon.Source>
+						</muxc:ImageIcon>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>

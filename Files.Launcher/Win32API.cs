@@ -100,7 +100,7 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
+        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true)
         {
             string iconStr = null, overlayStr = null;
 
@@ -122,41 +122,49 @@ namespace FilesFullTrust
                 //Marshal.ReleaseComObject(fctry);
             }
 
-            var shfi = new Shell32.SHFILEINFO();
-            var ret = Shell32.SHGetFileInfo(
-                path,
-                0,
-                ref shfi,
-                Shell32.SHFILEINFO.Size,
-                Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
-            if (ret == IntPtr.Zero)
+            if (getOverlay)
+            {
+                var shfi = new Shell32.SHFILEINFO();
+                var ret = Shell32.SHGetFileInfo(
+                    path,
+                    0,
+                    ref shfi,
+                    Shell32.SHFILEINFO.Size,
+                    Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+                if (ret == IntPtr.Zero)
+                {
+                    return (iconStr, null, false);
+                }
+
+                bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+                User32.DestroyIcon(shfi.hIcon);
+                Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
+                using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
+                if (imageList.IsNull || imageList.IsInvalid)
+                {
+                    return (iconStr, null, isCustom);
+                }
+
+                var overlayIdx = shfi.iIcon >> 24;
+                if (overlayIdx != 0)
+                {
+                    var overlayImage = imageList.Interface.GetOverlayImage(overlayIdx);
+                    using var hOverlay = imageList.Interface.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+                    if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+                    {
+                        using var image = hOverlay.ToIcon().ToBitmap();
+                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    }
+                }
+
+                return (iconStr, overlayStr, isCustom);
+            }
+            else
             {
                 return (iconStr, null, false);
             }
 
-            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
-            User32.DestroyIcon(shfi.hIcon);
-            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
-            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
-            if (imageList.IsNull || imageList.IsInvalid)
-            {
-                return (iconStr, null, isCustom);
-            }
-
-            var overlayIdx = shfi.iIcon >> 24;
-            if (overlayIdx != 0)
-            {
-                var overlayImage = imageList.Interface.GetOverlayImage(overlayIdx);
-                using var hOverlay = imageList.Interface.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-                {
-                    using var image = hOverlay.ToIcon().ToBitmap();
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                }
-            }
-
-            return (iconStr, overlayStr, isCustom);
         }
 
         private static void RunPowershellCommand(string command, bool runAsAdmin)
