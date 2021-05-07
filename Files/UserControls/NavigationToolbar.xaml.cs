@@ -787,6 +787,24 @@ namespace Files.UserControls
             }
         }
 
+        private string searchButtonGlyph = "\uE721";
+
+        public string SearchButtonGlyph
+        {
+            get
+            {
+                return searchButtonGlyph;
+            }
+            set
+            {
+                if (value != searchButtonGlyph)
+                {
+                    searchButtonGlyph = value;
+                    NotifyPropertyChanged(nameof(SearchButtonGlyph));
+                }
+            }
+        }
+
         bool INavigationToolbar.IsEditModeEnabled
         {
             get
@@ -1241,7 +1259,7 @@ namespace Files.UserControls
             {
                 SearchRegion.Text = "";
                 IsSearchRegionVisible = false;
-                SearchButtonIcon.Glyph = "\uE721";
+                SearchButtonGlyph = "\uE721";
             }
             else
             {
@@ -1252,7 +1270,7 @@ namespace Files.UserControls
                 SearchRegion.UpdateLayout();
 
                 SearchRegion.Focus(FocusState.Programmatic);
-                SearchButtonIcon.Glyph = "\uE711";
+                SearchButtonGlyph = "\uE711";
             }
         }
 
@@ -1266,7 +1284,7 @@ namespace Files.UserControls
 
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
-            SearchButtonIcon.Glyph = "\uE721";
+            SearchButtonGlyph = "\uE721";
         }
 
         public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)
