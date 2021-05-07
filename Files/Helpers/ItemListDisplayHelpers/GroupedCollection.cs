@@ -18,6 +18,8 @@ namespace Files.Helpers
     {
         public GroupedHeaderViewModel Model { get; set; }
 
+        public bool IsSorted { get; set; }
+
         public GroupedCollection(IEnumerable<T> items) : base(items)
         {
             AddEvents();

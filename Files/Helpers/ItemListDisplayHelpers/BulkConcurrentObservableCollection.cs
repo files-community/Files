@@ -154,7 +154,9 @@ namespace Files.Helpers
                 }
                 if (groups.Count() > 0)
                 {
-                    groups.First().Add(item);
+                    var gp = groups.First();
+                    gp.Add(item);
+                    gp.IsSorted = false;
                 }
                 else
                 {

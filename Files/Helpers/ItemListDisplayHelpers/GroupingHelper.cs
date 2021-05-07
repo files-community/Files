@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Files.Extensions;
 
 namespace Files.Helpers
 {
@@ -17,7 +18,7 @@ namespace Files.Helpers
             {
                 GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpper(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeString(x.FileSizeBytes) : x.FileSizeDisplay,
-                GroupOption.DateCreated => x => x.ItemDateCreated,
+                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetFriendlyTimeSpan().Item1,
                 GroupOption.FileType => x => x.FileExtension ?? "NA",
                 _ => null,
             };
@@ -28,20 +29,27 @@ namespace Files.Helpers
             return option switch
             {
                 GroupOption.FileType => ((x => { 
-                    x.Model.Subtext = x.Model.Key;
-                    x.Model.Text = x.First().ItemType;
-                    if (x.First().IsShortcutItem)
-                    {
-                        x.Model.Icon = "\uE71B";
-                    }
-                }), x => {
-                    ListedItem first = x.First();
-                    var model = x.Model;
+                        x.Model.Subtext = x.Model.Key;
+                        x.Model.Text = x.First().ItemType;
+                        if (x.First().IsShortcutItem)
+                        {
+                            x.Model.Icon = "\uE71B";
+                        }
+                        }), x => {
+                            ListedItem first = x.First();
+                            var model = x.Model;
 
-                    model.Text = first.ItemType + "s";
-                    model.Subtext = first.FileExtension;
-                }),
-                _ => (null, null)
+                            model.Text = first.ItemType + "s";
+                            model.Subtext = first.FileExtension;
+                        }),
+                    GroupOption.DateCreated => ((x =>
+                    {
+                        var vals = x.First().ItemDateCreatedReal.GetFriendlyTimeSpan();
+                        x.Model.Subtext = vals.Item2;
+                        x.Model.Icon = vals.Item3;
+                    }), null),
+
+                    _ => (null, null)
             };
         }
 
@@ -66,6 +74,11 @@ namespace Files.Helpers
             {
                 GroupOption = GroupOption.FileType,
                 Text = "File type",
+            },
+            new GroupOptionListing()
+            {
+                GroupOption = GroupOption.DateCreated,
+                Text = "Date created",
             },
         };
 

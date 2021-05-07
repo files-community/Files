@@ -1,4 +1,5 @@
 ﻿using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.ViewModels;
@@ -228,7 +229,7 @@ namespace Files.Filesystem
             get => itemDateModifiedReal;
             set
             {
-                ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateModifiedReal = value;
             }
         }
@@ -240,7 +241,7 @@ namespace Files.Filesystem
             get => itemDateCreatedReal;
             set
             {
-                ItemDateCreated = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateCreatedReal = value;
             }
         }
@@ -252,7 +253,7 @@ namespace Files.Filesystem
             get => itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateAccessedReal = value;
             }
         }
@@ -292,44 +293,6 @@ namespace Files.Filesystem
         { }
 
         protected string DateReturnFormat { get; }
-
-        public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
-        {
-            var elapsed = DateTimeOffset.Now - d;
-
-            if (elapsed.TotalDays > 7 || returnFormat == "g")
-            {
-                return d.ToLocalTime().ToString(returnFormat);
-            }
-            else if (elapsed.TotalDays > 2)
-            {
-                return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
-            }
-            else if (elapsed.TotalDays > 1)
-            {
-                return string.Format("DayAgo".GetLocalized(), elapsed.Days);
-            }
-            else if (elapsed.TotalHours > 2)
-            {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
-            }
-            else if (elapsed.TotalHours > 1)
-            {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
-            }
-            else if (elapsed.TotalMinutes > 2)
-            {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
-            }
-            else if (elapsed.TotalMinutes > 1)
-            {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
-            }
-            else
-            {
-                return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
-            }
-        }
 
         private ObservableCollection<FileProperty> fileDetails;
 
@@ -402,7 +365,7 @@ namespace Files.Filesystem
             get => itemDateDeletedReal;
             set
             {
-                ItemDateDeleted = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateDeleted = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateDeletedReal = value;
             }
         }

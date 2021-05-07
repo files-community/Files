@@ -509,7 +509,7 @@ namespace Files.ViewModels
 
                 if (folderSettings.DirectoryGroupOption != GroupOption.None)
                 {
-                    await OrderGroups();
+                    OrderGroups();
                 }
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -529,13 +529,14 @@ namespace Files.ViewModels
 
         private Task OrderFilesAndFoldersAsync()
         {
+            // Sorting group contents is handled elsewhere
+            if (folderSettings.DirectoryGroupOption != GroupOption.None)
+            {
+                return Task.CompletedTask;
+            }
+
             return Task.Run(() =>
             {
-                if(folderSettings.DirectoryGroupOption != GroupOption.None)
-                {
-                    return Task.CompletedTask;
-                }
-
                 if (filesAndFolders.Count == 0)
                 {
                     return Task.CompletedTask;
@@ -547,9 +548,10 @@ namespace Files.ViewModels
             });
         }
 
-        private async Task OrderGroups()
+        private void OrderGroups()
         {
-            foreach (var gp in FilesAndFolders.GroupedCollection)
+            var gps = FilesAndFolders.GroupedCollection.Where(x => !x.IsSorted);
+            foreach (var gp in gps)
             {
                 gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
             }

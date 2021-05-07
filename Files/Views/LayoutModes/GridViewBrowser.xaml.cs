@@ -568,17 +568,29 @@ namespace Files.Views.LayoutModes
 
         private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState((sender as UIElement).FindAscendant<ListViewBaseHeaderItem>(), "PointerOver", true);
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "PointerOver", true);
+            }
         }
 
         private void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState((sender as UIElement).FindAscendant<ListViewBaseHeaderItem>(), "Normal", true);
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if(!(element is null))
+            {
+                VisualStateManager.GoToState(element, "Normal", true);
+            }
         }
 
         private void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState((sender as UIElement).FindAscendant<ListViewBaseHeaderItem>(), "Pressed", true);
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "Pressed", true);
+            }
         }
     }
 }
