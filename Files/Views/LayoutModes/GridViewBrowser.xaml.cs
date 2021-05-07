@@ -565,5 +565,20 @@ namespace Files.Views.LayoutModes
                 e.DestinationItem.Item = destination.FirstOrDefault();
             }
         }
+
+        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState((sender as UIElement).FindAscendant<ListViewBaseHeaderItem>(), "PointerOver", true);
+        }
+
+        private void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState((sender as UIElement).FindAscendant<ListViewBaseHeaderItem>(), "Normal", true);
+        }
+
+        private void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState((sender as UIElement).FindAscendant<ListViewBaseHeaderItem>(), "Pressed", true);
+        }
     }
 }
