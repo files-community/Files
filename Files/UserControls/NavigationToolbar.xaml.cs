@@ -1237,19 +1237,27 @@ namespace Files.UserControls
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            IsSearchRegionVisible = true;
+            if (IsSearchRegionVisible)
+            {
+                SearchRegion.Text = "";
+                IsSearchRegionVisible = false;
+            }
+            else
+            {
+                IsSearchRegionVisible = true;
 
-            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
-            // we can guarantee that the focus call will be able to find an open ASB
-            SearchRegion.UpdateLayout();
+                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+                // we can guarantee that the focus call will be able to find an open ASB
+                SearchRegion.UpdateLayout();
 
-            SearchRegion.Focus(FocusState.Programmatic);
+                SearchRegion.Focus(FocusState.Programmatic);
+            }
         }
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
-            if (focusedElement is FlyoutBase || focusedElement is AppBarButton)
+            if (focusedElement == SearchButton || focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }
