@@ -713,6 +713,10 @@ namespace Files
         public void UpdateGroupOptions()
         {
             ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(FolderSettings.DirectoryGroupOption);
+            var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(FolderSettings.DirectoryGroupOption);
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GetGroupHeaderInfo = groupInfoSelector.Item1;
+            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
+
 
             if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
             {

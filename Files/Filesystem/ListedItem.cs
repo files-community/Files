@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -13,7 +14,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
-    public class ListedItem : ObservableObject
+    public class ListedItem : ObservableObject, IGroupableItem
     {
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
@@ -380,6 +381,8 @@ namespace Files.Filesystem
         // This is a hack used because x:Bind casting did not work properly
         [JsonIgnore]
         public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
+
+        public string Key { get; set; }
     }
 
     public class RecycleBinItem : ListedItem

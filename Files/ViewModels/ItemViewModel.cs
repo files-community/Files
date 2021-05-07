@@ -506,6 +506,11 @@ namespace Files.ViewModels
                     }
                 });
 
+                if (folderSettings.DirectoryGroupOption != GroupOption.None)
+                {
+                    await OrderGroups();
+                }
+
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
                     // trigger CollectionChanged with NotifyCollectionChangedAction.Reset
@@ -527,7 +532,7 @@ namespace Files.ViewModels
             {
                 if(folderSettings.DirectoryGroupOption != GroupOption.None)
                 {
-                    return OrderGroups();
+                    return Task.CompletedTask;
                 }
 
                 if (filesAndFolders.Count == 0)
@@ -545,12 +550,7 @@ namespace Files.ViewModels
         {
             foreach (var gp in FilesAndFolders.GroupedCollection)
             {
-                gp.BeginBulkOperation();
                 gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                {
-                    gp.EndBulkOperation();
-                });
             }
         }
 
@@ -717,6 +717,16 @@ namespace Files.ViewModels
                             item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
+
+                    if(item.Key != null && FilesAndFolders.IsGrouped && FilesAndFolders.GetExtendedGroupHeaderInfo != null)
+                    {
+                        var gp = FilesAndFolders.GroupedCollection.Where(x => x.Model.Key == item.Key).FirstOrDefault();
+                        if (!(gp is null) && !gp.Model.Initialized && !(gp.GetExtendedGroupHeaderInfo is null))
+                        {
+                            await gp.InitializeExtendedGroupHeaderInfoAsync();
+                        }
+                    }
+
                     loadExtendedPropsSemaphore.Release();
                 }
             });

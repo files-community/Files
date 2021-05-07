@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
@@ -84,6 +85,9 @@ namespace Files.Helpers
             set => itemSortKeySelector = value;
         }
 
+        public Action<GroupedCollection<T>> GetGroupHeaderInfo { get; set; }
+        public Action<GroupedCollection<T>> GetExtendedGroupHeaderInfo { get; set; }
+
         public BulkConcurrentObservableCollection()
         {
 
@@ -95,7 +99,7 @@ namespace Files.Helpers
         }
 
 
-        public void BeginBulkOperation()
+        public virtual void BeginBulkOperation()
         {
             isBulkOperationStarted = true;
             GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
@@ -143,32 +147,42 @@ namespace Files.Helpers
             foreach (var item in items)
             {
                 var key = GetGroupKeyForItem(item);
-
-                var groups = GroupedCollection.Where(x => x.Key == key);
+                var groups = GroupedCollection.Where(x => x.Model.Key == key);
+                if(item is IGroupableItem groupable)
+                {
+                    groupable.Key = key;
+                }
                 if (groups.Count() > 0)
                 {
                     groups.First().Add(item);
                 }
                 else
                 {
-                    var group = new GroupedCollection<T>()
+                    var group = new GroupedCollection<T>(key)
                     {
-                        Key = key,
+                        item
                     };
-                    group.Add(item);
+                    
+                    group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
+                    if(!(GetGroupHeaderInfo is null))
+                    {
+                        GetGroupHeaderInfo.Invoke(group);
+                        // TODO: this probably hurts performance
+                        _ = group.UpdateModelAsync();
+                    }
                     GroupedCollection.Add(group);
                     //GroupedCollection.Sort();
                 }
             }
         }
-        
+
         private void RemoveItemsFromGroup(IEnumerable<T> items)
         {
             foreach (var item in items)
             {
                 var key = GetGroupKeyForItem(item);
 
-                var groups = GroupedCollection.Where(x => x.Key == key);
+                var groups = GroupedCollection.Where(x => x.Model.Key == key);
                 if (groups.Count() > 0)
                 {
                     groups.First().Remove(item);
@@ -181,7 +195,7 @@ namespace Files.Helpers
             return ItemGroupKeySelector?.Invoke(item);
         }
 
-        public void EndBulkOperation()
+        public virtual void EndBulkOperation()
         {
             if(!isBulkOperationStarted)
             {

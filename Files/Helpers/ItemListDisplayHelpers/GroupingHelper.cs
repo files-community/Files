@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -12,18 +13,29 @@ namespace Files.Helpers
     {
         public static Func<ListedItem, string> GetItemGroupKeySelector(GroupOption option)
         {
-            switch(option)
+            return option switch
             {
-                case GroupOption.Name:
-                    return x => new string(x.ItemName.Take(1).ToArray()).ToUpper();
-                
-                case GroupOption.Size:
-                    return x => x.FileSizeDisplay;
+                GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpper(),
+                GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeString(x.FileSizeBytes) : x.FileSizeDisplay,
+                GroupOption.DateCreated => x => x.ItemDateCreated,
+                GroupOption.FileType => x => x.ItemType,
+                _ => null,
+            };
+        }
+        
+        public static (Action<GroupedCollection<ListedItem>>, Action<GroupedCollection<ListedItem>>) GetGroupInfoSelector(GroupOption option)
+        {
+            return option switch
+            {
+                GroupOption.FileType => ((x => x.Model.Subtext = x.Model.Key), x => {
+                    ListedItem first = x.First();
+                    var model = x.Model;
 
-                case GroupOption.None:
-                default:
-                    return null;
-            }
+                    model.Text = first.ItemType;
+                    model.Subtext = first.FileExtension;
+                }),
+                _ => (null, null)
+            };
         }
 
         public static List<GroupOptionListing> GetGroupOptionsMenuItems() => new List<GroupOptionListing>()
@@ -43,12 +55,35 @@ namespace Files.Helpers
                 GroupOption = GroupOption.Size,
                 Text = "Size",
             },
+            new GroupOptionListing()
+            {
+                GroupOption = GroupOption.FileType,
+                Text = "File type",
+            },
         };
+
+        public static string GetGroupSizeString(long size)
+        {
+            if (size > 500000)
+            {
+                return "500000";
+            }
+            if (size > 10000)
+            {
+                return "10000";
+            }
+            return "0";
+        }
     }
 
     public class GroupOptionListing
     {
         public string Text { get; set; }
         public GroupOption GroupOption { get; set; }
+    }
+
+    public interface IGroupableItem
+    {
+        public string Key { get; set; }
     }
 }

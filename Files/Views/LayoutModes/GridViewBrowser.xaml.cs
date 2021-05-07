@@ -17,6 +17,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -517,6 +518,7 @@ namespace Files.Views.LayoutModes
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
                 item.ItemPropertiesInitialized = true;
+
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
         }
