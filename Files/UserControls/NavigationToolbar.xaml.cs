@@ -1241,6 +1241,7 @@ namespace Files.UserControls
             {
                 SearchRegion.Text = "";
                 IsSearchRegionVisible = false;
+                SearchButtonIcon.Glyph = "\uE721";
             }
             else
             {
@@ -1251,6 +1252,7 @@ namespace Files.UserControls
                 SearchRegion.UpdateLayout();
 
                 SearchRegion.Focus(FocusState.Programmatic);
+                SearchButtonIcon.Glyph = "\uE711";
             }
         }
 
@@ -1264,6 +1266,7 @@ namespace Files.UserControls
 
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
+            SearchButtonIcon.Glyph = "\uE721";
         }
 
         public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)
