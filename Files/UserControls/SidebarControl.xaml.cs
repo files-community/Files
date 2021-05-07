@@ -238,7 +238,7 @@ namespace Files.UserControls
             }
 
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            if (ctrlPressed)
+            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
             {
                 string navigationPath = args.InvokedItemContainer.Tag.ToString();
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
