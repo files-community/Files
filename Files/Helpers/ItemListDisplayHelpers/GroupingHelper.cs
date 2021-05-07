@@ -38,7 +38,7 @@ namespace Files.Helpers
                     ListedItem first = x.First();
                     var model = x.Model;
 
-                    model.Text = first.ItemType;
+                    model.Text = first.ItemType + "s";
                     model.Subtext = first.FileExtension;
                 }),
                 _ => (null, null)

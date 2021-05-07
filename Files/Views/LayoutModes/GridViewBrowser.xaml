@@ -475,16 +475,16 @@
                     SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
-                            <StackPanel Orientation="Horizontal" Spacing="5">
+                            <StackPanel
+                                Margin="0,0,0,10"
+                                Orientation="Horizontal"
+                                Spacing="5">
                                 <Image
                                     Height="36"
                                     Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
                                     Stretch="Uniform" />
                                 <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
-                                <StackPanel
-                                    Margin="0,0,0,5"
-                                    AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
-                                    Orientation="Vertical">
+                                <StackPanel AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal" Spacing="5">
                                         <TextBlock
                                             VerticalAlignment="Bottom"
