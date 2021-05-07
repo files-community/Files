@@ -475,22 +475,31 @@
                     SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
-                            <StackPanel
-                                Margin="0,0,0,5"
-                                AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
-                                Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                    <TextBlock
-                                        VerticalAlignment="Bottom"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
-                                    <TextBlock
-                                        VerticalAlignment="Bottom"
-                                        FontSize="14"
-                                        Style="{StaticResource SubheaderTextBlockStyle}"
-                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}" />
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <Image
+                                    Height="36"
+                                    Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+                                    Stretch="Uniform" />
+                                <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+                                <StackPanel
+                                    Margin="0,0,0,5"
+                                    AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+                                    Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock
+                                            VerticalAlignment="Bottom"
+                                            FontSize="20"
+                                            FontWeight="SemiBold"
+                                            Style="{StaticResource SubheaderTextBlockStyle}"
+                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+                                        <TextBlock
+                                            VerticalAlignment="Bottom"
+                                            FontSize="14"
+                                            Style="{StaticResource SubheaderTextBlockStyle}"
+                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}" />
                                 </StackPanel>
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

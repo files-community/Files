@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Helpers
 {
@@ -115,6 +116,20 @@ namespace Files.Helpers
         {
             get => countText;
             set => SetPropertyWithUpdateDelay(ref countText, value);
+        }
+        
+        private ImageSource imageSource;
+        public ImageSource ImageSource
+        {
+            get => imageSource;
+            set => SetPropertyWithUpdateDelay(ref imageSource, value);
+        }
+
+        private string icon;
+        public string Icon
+        {
+            get => icon;
+            set => SetPropertyWithUpdateDelay(ref icon, value);
         }
 
         private void SetPropertyWithUpdateDelay<T>(ref T field, T newVal, [CallerMemberName] string propName = null)

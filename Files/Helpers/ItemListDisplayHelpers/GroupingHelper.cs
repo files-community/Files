@@ -18,7 +18,7 @@ namespace Files.Helpers
                 GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpper(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeString(x.FileSizeBytes) : x.FileSizeDisplay,
                 GroupOption.DateCreated => x => x.ItemDateCreated,
-                GroupOption.FileType => x => x.ItemType,
+                GroupOption.FileType => x => x.FileExtension ?? "NA",
                 _ => null,
             };
         }
@@ -27,7 +27,14 @@ namespace Files.Helpers
         {
             return option switch
             {
-                GroupOption.FileType => ((x => x.Model.Subtext = x.Model.Key), x => {
+                GroupOption.FileType => ((x => { 
+                    x.Model.Subtext = x.Model.Key;
+                    x.Model.Text = x.First().ItemType;
+                    if (x.First().IsShortcutItem)
+                    {
+                        x.Model.Icon = "\uE71B";
+                    }
+                }), x => {
                     ListedItem first = x.First();
                     var model = x.Model;
 
