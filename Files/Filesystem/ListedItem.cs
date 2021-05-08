@@ -377,6 +377,8 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path)
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
+        public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
+
     }
 
     public class ShortcutItem : ListedItem

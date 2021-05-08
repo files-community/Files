@@ -21,6 +21,8 @@ namespace Files.Helpers
                 GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetFriendlyTimeSpan().text,
                 GroupOption.DateModified => x => x.ItemDateModifiedReal.GetFriendlyTimeSpan().text,
                 GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
+                GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
+                GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetFriendlyTimeSpan().text,
                 _ => null,
             };
         }
@@ -67,39 +69,19 @@ namespace Files.Helpers
                         x.Model.Icon = vals.glyph;
                         x.Model.SortIndexOverride = vals.index;
                     }, null),
+                    
+                GroupOption.OriginalFolder => (x =>
+                    {
+                        ListedItem first = x.First();
+                        var model = x.Model;
+
+                        model.Text = (first as RecycleBinItem)?.ItemOriginalFolderName;
+                        model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder;
+                    }, null),
 
                 _ => (null, null)
             };
         }
-
-        public static List<GroupOptionListing> GetGroupOptionsMenuItems() => new List<GroupOptionListing>()
-        {
-            new GroupOptionListing()
-            {
-                GroupOption = GroupOption.None,
-                Text = "None",
-            },
-            new GroupOptionListing()
-            {
-                GroupOption = GroupOption.Name,
-                Text = "Name",
-            },
-            new GroupOptionListing()
-            {
-                GroupOption = GroupOption.Size,
-                Text = "Size",
-            },
-            new GroupOptionListing()
-            {
-                GroupOption = GroupOption.FileType,
-                Text = "File type",
-            },
-            new GroupOptionListing()
-            {
-                GroupOption = GroupOption.DateCreated,
-                Text = "Date created",
-            },
-        };
 
         public static string GetGroupSizeString(long size)
         {
@@ -113,12 +95,6 @@ namespace Files.Helpers
             }
             return "0";
         }
-    }
-
-    public class GroupOptionListing
-    {
-        public string Text { get; set; }
-        public GroupOption GroupOption { get; set; }
     }
 
     public interface IGroupableItem

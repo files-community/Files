@@ -988,12 +988,20 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <muxc:RadioButtons Header="Group by" SelectedIndex="{x:Bind SelectedGroupMode, Mode=TwoWay, Converter={StaticResource IntToGroupOption}}">
-                                    <RadioButton Content="None" />
-                                    <RadioButton Content="Name" />
-                                    <RadioButton Content="Date modified" />
-                                    <RadioButton Content="Date created" />
-                                    <RadioButton Content="Size" />
-                                    <RadioButton Content="Type" />
+                                    <RadioButton Content="None" GroupName="GroupOptionsGroup" />
+                                    <RadioButton Content="Name" GroupName="GroupOptionsGroup" />
+                                    <RadioButton Content="Date modified" GroupName="GroupOptionsGroup" />
+                                    <RadioButton Content="Date created" GroupName="GroupOptionsGroup" />
+                                    <RadioButton Content="Size" GroupName="GroupOptionsGroup" />
+                                    <RadioButton Content="Type" GroupName="GroupOptionsGroup" />
+                                    <RadioButton
+                                        Content="Original folder"
+                                        GroupName="GroupOptionsGroup"
+                                        IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+                                    <RadioButton
+                                        Content="Date deleted"
+                                        GroupName="GroupOptionsGroup"
+                                        IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
                                 </muxc:RadioButtons>
 
                                 <Rectangle
@@ -1012,22 +1020,28 @@
                                     <muxc:RadioButtons
                                         Grid.Column="2"
                                         Header="Sort by"
-                                        SelectedIndex="{x:Bind SelectedSortMode, Mode=TwoWay, Converter={StaticResource IntToGroupOption}}">
-                                        <RadioButton Content="Name" />
-                                        <RadioButton Content="Date modified" />
-                                        <RadioButton Content="Date created" />
-                                        <RadioButton Content="Size" />
-                                        <RadioButton Content="Type" />
-                                        <RadioButton Content="Original Path" IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
-                                        <RadioButton Content="Date deleted" IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+                                        SelectedIndex="{x:Bind SelectedSortMode, Mode=TwoWay, Converter={StaticResource IntToSortOption}}">
+                                        <RadioButton Content="Name" GroupName="SortOptionsGroup" />
+                                        <RadioButton Content="Date modified" GroupName="SortOptionsGroup" />
+                                        <RadioButton Content="Date created" GroupName="SortOptionsGroup" />
+                                        <RadioButton Content="Size" GroupName="SortOptionsGroup" />
+                                        <RadioButton Content="Type" GroupName="SortOptionsGroup" />
+                                        <RadioButton
+                                            Content="Original Path"
+                                            GroupName="SortOptionsGroup"
+                                            IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+                                        <RadioButton
+                                            Content="Date deleted"
+                                            GroupName="SortOptionsGroup"
+                                            IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
                                     </muxc:RadioButtons>
 
                                     <muxc:RadioButtons
                                         Header="Sort direction"
                                         MaxColumns="1"
                                         SelectedIndex="{x:Bind SelectedSortDirection, Mode=TwoWay, Converter={StaticResource IntToSortDirection}}">
-                                        <RadioButton Content="Ascending" />
-                                        <RadioButton Content="Descending" />
+                                        <RadioButton Content="Ascending" GroupName="SortDirectionGroup" />
+                                        <RadioButton Content="Descending" GroupName="SortDirectionGroup" />
                                     </muxc:RadioButtons>
                                 </StackPanel>
                             </Grid>

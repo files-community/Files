@@ -1371,7 +1371,5 @@ namespace Files.UserControls
         {
             PreviewPaneEnabled = !PreviewPaneEnabled;
         }
-
-        private List<GroupOptionListing> groupOptions = GroupingHelper.GetGroupOptionsMenuItems();
     }
 }

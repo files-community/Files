@@ -19,7 +19,7 @@
         DateCreated,
         Size,
         FileType,
-        OriginalPath,
+        OriginalFolder,
         DateDeleted
     }
 }

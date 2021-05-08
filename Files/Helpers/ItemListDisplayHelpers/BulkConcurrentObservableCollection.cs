@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 
@@ -17,7 +18,7 @@ namespace Files.Helpers
     [DebuggerDisplay("Count = {Count}")]
     public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
     {
-        private bool isBulkOperationStarted;
+        protected bool isBulkOperationStarted;
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
 
@@ -132,7 +133,7 @@ namespace Files.Helpers
             }
         }
 
-        public void ResetGroups()
+        public void ResetGroups(CancellationToken token = default)
         {
             if(!IsGrouped)
             {
@@ -142,13 +143,18 @@ namespace Files.Helpers
             // Prevents any unwanted errors caused by bindings updating
             GroupedCollection.ForEach(x => x.Model.PausePropertyChangedNotifications());
             GroupedCollection.Clear();
-            AddItemsToGroup(collection);
+            AddItemsToGroup(collection, token);
         }
 
-        private void AddItemsToGroup(IEnumerable<T> items)
+        private void AddItemsToGroup(IEnumerable<T> items, CancellationToken token = default)
         {
             foreach (var item in items)
             {
+
+                if(token.IsCancellationRequested)
+                {
+                    return;
+                }
                 var key = GetGroupKeyForItem(item);
                 var groups = GroupedCollection.Where(x => x.Model.Key == key);
                 if(item is IGroupableItem groupable)
@@ -172,8 +178,6 @@ namespace Files.Helpers
                     if(!(GetGroupHeaderInfo is null))
                     {
                         GetGroupHeaderInfo.Invoke(group);
-                        // TODO: this probably hurts performance
-                        _ = group.UpdateModelAsync();
                     }
                     GroupedCollection.Add(group);
                     GroupedCollection.IsSorted = false;

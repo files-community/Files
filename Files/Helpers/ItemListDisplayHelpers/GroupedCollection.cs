@@ -56,27 +56,33 @@ namespace Files.Helpers
             }
         }
 
-        public async Task InitializeExtendedGroupHeaderInfoAsync()
+        public void InitializeExtendedGroupHeaderInfoAsync()
         {
             if(GetExtendedGroupHeaderInfo is null)
             {
                 return;
             }
 
-            Model.PausePropertyChangedNotifications();
+            Model.ResumePropertyChangedNotifications(false);
 
             GetExtendedGroupHeaderInfo.Invoke(this);
-            await UpdateModelAsync();
-
             Model.Initialized = true;
+            if(isBulkOperationStarted)
+            {
+                Model.PausePropertyChangedNotifications();
+            }
         }
 
-        public async Task UpdateModelAsync()
+        public override void BeginBulkOperation()
         {
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-            {
-                Model.ResumePropertyChangedNotifications();
-            }, Windows.System.DispatcherQueuePriority.Low);
+            base.BeginBulkOperation();
+            Model.PausePropertyChangedNotifications();
+        }
+
+        public override void EndBulkOperation()
+        {
+            base.EndBulkOperation();
+            Model.ResumePropertyChangedNotifications();
         }
     }
 
@@ -162,15 +168,18 @@ namespace Files.Helpers
             deferPropChangedNotifs = true;
         }
 
-        public void ResumePropertyChangedNotifications()
+        public void ResumePropertyChangedNotifications(bool triggerUpdates = true)
         {
             if(deferPropChangedNotifs == false)
             {
                 return;
             }
             deferPropChangedNotifs = false;
-            changedPropQueue.ForEach(prop => OnPropertyChanged(prop));
-            changedPropQueue.Clear();
+            if(triggerUpdates)
+            {
+                changedPropQueue.ForEach(prop => OnPropertyChanged(prop));
+                changedPropQueue.Clear();
+            }
         }
 
         private List<string> changedPropQueue = new List<string>();

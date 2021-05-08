@@ -55,6 +55,7 @@ namespace Files.Extensions
         /// <returns>User friendly strings representing the text and period and an icon glyph to display</returns>
         public static (string text, string range, string glyph, int index) GetFriendlyTimeSpan(this DateTimeOffset dt)
         {
+            Windows.Globalization.Calendar cal = new Windows.Globalization.Calendar();
             var t = DateTimeOffset.Now;
             var t2 = dt.ToLocalTime();
             var today = DateTime.Today;
@@ -68,8 +69,9 @@ namespace Files.Extensions
             {
                 return ("Yesterday", today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161", 1);
             }
-            
-            if(diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
+
+            // TODO: use system setting for first day of week
+            if (diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
             {
                 return ("Earlier this week", today.GetFriendlyRange(TimeSpan.FromDays((int)t.DayOfWeek)), "\uE162", 2);
             }
@@ -97,11 +99,12 @@ namespace Files.Extensions
             return $"{t.Subtract(diff).ToShortDateString()} - {t.ToShortDateString()}";
         }
 
+        private static Calendar calendar;
         public static int GetWeekOfYear(this DateTimeOffset t)
         {
-            // TODO: Localize me
-            Calendar cal = new CultureInfo("en-US").Calendar;
-            return cal.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+            calendar ??= new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
+            // TODO: use system setting for first day of week
+            return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
     }
 }

@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -374,7 +375,8 @@ namespace Files
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             ParentShellPageInstance.LoadPreviewPaneChanged();
-            UpdateGroupOptions();
+            ParentShellPageInstance.FilesystemViewModel.UpdateGroupOptions();
+            UpdateCollectionViewSource();
             FolderSettings.IsLayoutModeChanging = false;
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
@@ -400,15 +402,15 @@ namespace Files
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
         }
 
+        private CancellationTokenSource groupingCancellationToken;
         private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
         {
-            UpdateGroupOptions();
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.BeginBulkOperation();
-            await Task.Run(() => ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ResetGroups());
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-            {
-                ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.EndBulkOperation();
-            });
+            // Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
+            groupingCancellationToken?.Cancel();
+            groupingCancellationToken = new CancellationTokenSource();
+            var token = groupingCancellationToken.Token;
+            await ParentShellPageInstance.FilesystemViewModel.GroupOptionsUpdated(token);
+            UpdateCollectionViewSource();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -710,14 +712,8 @@ namespace Files
             CommandsViewModel?.DropCommand?.Execute(e);
         }
 
-        public void UpdateGroupOptions()
+        public void UpdateCollectionViewSource()
         {
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(FolderSettings.DirectoryGroupOption);
-            var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(FolderSettings.DirectoryGroupOption);
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GetGroupHeaderInfo = groupInfoSelector.Item1;
-            ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
-
-
             if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
             {
                 CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()

@@ -548,11 +548,20 @@ namespace Files.ViewModels
             });
         }
 
-        private void OrderGroups()
+        private void OrderGroups(CancellationToken token = default)
         {
-            var gps = FilesAndFolders.GroupedCollection.Where(x => !x.IsSorted);
+            var gps = FilesAndFolders.GroupedCollection?.Where(x => !x.IsSorted);
+            if(gps is null)
+            {
+                return;
+            }
             foreach (var gp in gps)
             {
+                if(token.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
             }
             if(!FilesAndFolders.GroupedCollection.IsSorted)
@@ -560,6 +569,66 @@ namespace Files.ViewModels
                 FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
                 FilesAndFolders.GroupedCollection.IsSorted = true;
             }
+        }
+
+        public async Task GroupOptionsUpdated(CancellationToken token)
+        {
+            try
+            {
+                try
+                {
+                    // Conflicts will occur if re-grouping is run while items are still being enumerated, so wait for enumeration to complete first
+                    await enumFolderSemaphore.WaitAsync(token);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+
+                FilesAndFolders.BeginBulkOperation();
+                UpdateGroupOptions();
+                if (FilesAndFolders.IsGrouped)
+                {
+                    await Task.Run(() =>
+                    {
+                        FilesAndFolders.ResetGroups(token);
+                        if (token.IsCancellationRequested)
+                        {
+                            return;
+                        }
+                        OrderGroups();
+                    });
+                }
+                else
+                {
+                    await OrderFilesAndFoldersAsync();
+                }
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                {
+                    FilesAndFolders.EndBulkOperation();
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                enumFolderSemaphore.Release();
+            }
+        }
+
+        public void UpdateGroupOptions()
+        {
+            FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption);
+            var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(folderSettings.DirectoryGroupOption);
+            FilesAndFolders.GetGroupHeaderInfo = groupInfoSelector.Item1;
+            FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
         }
 
         private bool isLoadingIndicatorActive = false;
@@ -770,9 +839,11 @@ namespace Files.ViewModels
 
                     if (loadGroupHeaderInfo)
                     {
-                        gp.Model.PausePropertyChangedNotifications();
-                        gp.Model.ImageSource = groupImage;
-                        await gp.InitializeExtendedGroupHeaderInfoAsync();
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => {
+                            gp.Model.ImageSource = groupImage;
+                            gp.InitializeExtendedGroupHeaderInfoAsync();
+                        });
+
                     }
 
                     loadExtendedPropsSemaphore.Release();
