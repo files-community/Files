@@ -308,7 +308,6 @@ namespace Files.Helpers
                     Text = "PinItemToStart/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinItemToStartCommand,
-                    ShowOnShift = true,
                     ShowItem = !itemViewModel.CurrentFolder.IsItemPinnedToStart,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -316,7 +315,6 @@ namespace Files.Helpers
                     Text = "UnpinItemFromStart/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinItemFromStartCommand,
-                    ShowOnShift = true,
                     ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -536,7 +534,6 @@ namespace Files.Helpers
                     Text = "PinItemToStart/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinItemToStartCommand,
-                    ShowOnShift = true,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsItemPinnedToStart),
                     SingleItemOnly = true,
                 },
@@ -545,7 +542,6 @@ namespace Files.Helpers
                     Text = "UnpinItemFromStart/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinItemFromStartCommand,
-                    ShowOnShift = true,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart),
                     SingleItemOnly = true,
                 },
