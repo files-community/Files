@@ -112,7 +112,7 @@
                     PointerPressed="Sidebar_PointerPressed"
                     RightTapped="NavigationViewWSLItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
 						<muxc:ImageIcon>
 							<muxc:ImageIcon.Source>
