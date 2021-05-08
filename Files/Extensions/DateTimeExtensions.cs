@@ -53,7 +53,7 @@ namespace Files.Extensions
         /// </summary>
         /// <param name="dt"></param>
         /// <returns>User friendly strings representing the text and period and an icon glyph to display</returns>
-        public static (string, string, string) GetFriendlyTimeSpan(this DateTimeOffset dt)
+        public static (string text, string range, string glyph, int index) GetFriendlyTimeSpan(this DateTimeOffset dt)
         {
             var t = DateTimeOffset.Now;
             var t2 = dt.ToLocalTime();
@@ -62,34 +62,34 @@ namespace Files.Extensions
             var diff = t - dt;
             if (t.Month == t2.Month && t.Day == t2.Day)
             {
-                return ("Today", today.ToShortDateString(), "\ue184");
+                return ("Today", today.ToShortDateString(), "\ue184", 0);
             }
             if(t.Month == t2.Month && t.Day - t2.Day < 2)
             {
-                return ("Yesterday", today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161");
+                return ("Yesterday", today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161", 1);
             }
             
             if(diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
             {
-                return ("Earlier this week", today.GetFriendlyRange(TimeSpan.FromDays((int)t.DayOfWeek)), "\uE162");
+                return ("Earlier this week", today.GetFriendlyRange(TimeSpan.FromDays((int)t.DayOfWeek)), "\uE162", 2);
             }
             
             if(diff.Days <= 14 && t.GetWeekOfYear() - 1 == t2.GetWeekOfYear())
             {
-                return ("Last week", today.GetFriendlyRange(TimeSpan.FromDays(7 + (int)t.DayOfWeek)), "\uE162");
+                return ("Last week", today.GetFriendlyRange(TimeSpan.FromDays(7 + (int)t.DayOfWeek)), "\uE162", 3);
             }
 
             if(t.Year == t2.Year && t.Month == t2.Month)
             {
-                return ("This month", today.GetFriendlyRange(TimeSpan.FromDays(t.Day)), "\ue163");
+                return ("This month", today.GetFriendlyRange(TimeSpan.FromDays(t.Day)), "\ue163", 4);
             }
 
             if(t.Year == t2.Year)
             {
-                return ("This year", today.GetFriendlyRange(TimeSpan.FromDays(t.DayOfYear)), "\ue163");
+                return ("This year", today.GetFriendlyRange(TimeSpan.FromDays(t.DayOfYear)), "\ue163", 5);
             }
 
-            return ("Older", $"Before {today.Subtract(TimeSpan.FromDays(today.DayOfYear)).ToShortDateString()}", "\uEC92");
+            return ("Older", $"Before {today.Subtract(TimeSpan.FromDays(today.DayOfYear)).ToShortDateString()}", "\uEC92", 6);
         }
 
         public static string GetFriendlyRange(this DateTime t, TimeSpan diff)

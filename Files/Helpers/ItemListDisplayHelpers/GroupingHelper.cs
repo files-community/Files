@@ -18,38 +18,57 @@ namespace Files.Helpers
             {
                 GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpper(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeString(x.FileSizeBytes) : x.FileSizeDisplay,
-                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetFriendlyTimeSpan().Item1,
-                GroupOption.FileType => x => x.FileExtension ?? "NA",
+                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetFriendlyTimeSpan().text,
+                GroupOption.DateModified => x => x.ItemDateModifiedReal.GetFriendlyTimeSpan().text,
+                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
                 _ => null,
             };
         }
-        
+
         public static (Action<GroupedCollection<ListedItem>>, Action<GroupedCollection<ListedItem>>) GetGroupInfoSelector(GroupOption option)
         {
             return option switch
             {
-                GroupOption.FileType => ((x => { 
-                        x.Model.Subtext = x.Model.Key;
-                        x.Model.Text = x.First().ItemType;
-                        if (x.First().IsShortcutItem)
-                        {
-                            x.Model.Icon = "\uE71B";
-                        }
-                        }), x => {
-                            ListedItem first = x.First();
-                            var model = x.Model;
-
-                            model.Text = first.ItemType + "s";
-                            model.Subtext = first.FileExtension;
-                        }),
-                    GroupOption.DateCreated => ((x =>
+                GroupOption.FileType => (x =>
+                {
+                    x.Model.Subtext = x.Model.Key;
+                    var first = x.First();
+                    x.Model.Text = first.ItemType;
+                    if (first.IsShortcutItem)
                     {
-                        var vals = x.First().ItemDateCreatedReal.GetFriendlyTimeSpan();
-                        x.Model.Subtext = vals.Item2;
-                        x.Model.Icon = vals.Item3;
-                    }), null),
+                        x.Model.Icon = "\uE71B";
+                    }
+                    if (first.PrimaryItemAttribute != StorageItemTypes.Folder)
+                    {
+                        // Always show file sections below folders
+                        x.Model.SortIndexOverride = 1;
+                    }
 
-                    _ => (null, null)
+                }, x =>
+                {
+                    ListedItem first = x.First();
+                    var model = x.Model;
+
+                    model.Text = first.ItemType;
+                    model.Subtext = first.FileExtension;
+                }
+                ),
+                GroupOption.DateCreated => (x =>
+                {
+                    var vals = x.First().ItemDateCreatedReal.GetFriendlyTimeSpan();
+                    x.Model.Subtext = vals.range;
+                    x.Model.Icon = vals.glyph;
+                    x.Model.SortIndexOverride = vals.index;
+                }, null),
+                GroupOption.DateModified => (x =>
+                    {
+                        var vals = x.First().ItemDateModifiedReal.GetFriendlyTimeSpan();
+                        x.Model.Subtext = vals.range;
+                        x.Model.Icon = vals.glyph;
+                        x.Model.SortIndexOverride = vals.index;
+                    }, null),
+
+                _ => (null, null)
             };
         }
 

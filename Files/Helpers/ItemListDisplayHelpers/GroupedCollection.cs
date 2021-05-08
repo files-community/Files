@@ -18,8 +18,6 @@ namespace Files.Helpers
     {
         public GroupedHeaderViewModel Model { get; set; }
 
-        public bool IsSorted { get; set; }
-
         public GroupedCollection(IEnumerable<T> items) : base(items)
         {
             AddEvents();
@@ -97,6 +95,7 @@ namespace Files.Helpers
     {
         public string Key { get; set; }
         public bool Initialized { get; set; }
+        public int SortIndexOverride { get; set; }
 
         private string text;
         public string Text

@@ -22,6 +22,7 @@ namespace Files.Helpers
         private readonly List<T> collection = new List<T>();
 
         public BulkConcurrentObservableCollection<GroupedCollection<T>> GroupedCollection { get; private set; }
+        public bool IsSorted { get; set; }
 
         public int Count => collection.Count;
 
@@ -138,6 +139,8 @@ namespace Files.Helpers
                 return;
             }
 
+            // Prevents any unwanted errors caused by bindings updating
+            GroupedCollection.ForEach(x => x.Model.PausePropertyChangedNotifications());
             GroupedCollection.Clear();
             AddItemsToGroup(collection);
         }
@@ -173,7 +176,7 @@ namespace Files.Helpers
                         _ = group.UpdateModelAsync();
                     }
                     GroupedCollection.Add(group);
-                    //GroupedCollection.Sort();
+                    GroupedCollection.IsSorted = false;
                 }
             }
         }

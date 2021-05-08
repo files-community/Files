@@ -164,6 +164,7 @@
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
+    <Compile Include="Converters\IntToGroupOption.cs" />
     <Compile Include="Converters\MiddleTextEllipsisConverter.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\NavigationViewCompactConverter.cs" />

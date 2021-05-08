@@ -555,6 +555,11 @@ namespace Files.ViewModels
             {
                 gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
             }
+            if(!FilesAndFolders.GroupedCollection.IsSorted)
+            {
+                FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
+                FilesAndFolders.GroupedCollection.IsSorted = true;
+            }
         }
 
         private bool isLoadingIndicatorActive = false;

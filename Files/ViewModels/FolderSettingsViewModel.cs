@@ -150,8 +150,6 @@ namespace Files.ViewModels
             }
         }
 
-        public RelayCommand<string> SetGroupingModeCommand => new RelayCommand<string>(val => DirectoryGroupOption = Enum.Parse<GroupOption>(val));
-
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
@@ -439,24 +437,6 @@ namespace Files.ViewModels
                 {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     GroupOptionPreferenceUpdated?.Invoke(this, new EventArgs());
-                    OnPropertyChanged(nameof(DirectoryGroupOptionListing));
-                }
-            }
-        }
-        
-        public GroupOptionListing DirectoryGroupOptionListing
-        {
-            get => GroupingHelper.GetGroupOptionsMenuItems().Where(x => x.GroupOption == DirectoryGroupOption).First();
-            set
-            {
-                if(value is null)
-                {
-                    return;
-                }
-                if (SetProperty(ref LayoutPreference.DirectoryGroupOption, value.GroupOption, nameof(DirectoryGroupOption)))
-                {
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
-                    GroupOptionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -575,7 +555,20 @@ namespace Files.ViewModels
             dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
 
-        public LayoutPreferences LayoutPreference { get; private set; }
+        private LayoutPreferences layoutPreference;
+        public LayoutPreferences LayoutPreference 
+        {
+            get => layoutPreference;
+            private set
+            {
+                if(SetProperty(ref layoutPreference, value))
+                {
+                    OnPropertyChanged(nameof(DirectoryGroupOption));
+                    OnPropertyChanged(nameof(DirectorySortOption));
+                    OnPropertyChanged(nameof(DirectorySortDirection));
+                }
+            }
+        }
 
         public class LayoutPreferences
         {
