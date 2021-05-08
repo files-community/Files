@@ -168,7 +168,17 @@ namespace FilesFullTrust
 
         private static async void InitializeAppServiceConnection()
         {
-            connection = new NamedPipeServerStream($@"FilesInteropService_ServerPipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Message, PipeOptions.Asynchronous, 2048, 2048, null, HandleInheritability.None, PipeAccessRights.ChangePermissions);
+            connection = NamedPipeServerStreamConstructors.New(
+                $@"FilesInteropService_ServerPipe",
+                PipeDirection.InOut,
+                NamedPipeServerStream.MaxAllowedServerInstances,
+                PipeTransmissionMode.Message,
+                PipeOptions.Asynchronous,
+                2048,
+                2048,
+                null,
+                HandleInheritability.None,
+                PipeAccessRights.ChangePermissions);
 
             PipeSecurity Security = connection.GetAccessControl();
             PipeAccessRule ClientRule = new PipeAccessRule(new SecurityIdentifier("S-1-15-2-1"), PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance, AccessControlType.Allow);
@@ -186,6 +196,7 @@ namespace FilesFullTrust
 
             if (connection.IsConnected)
             {
+                connection.ReadMode = PipeTransmissionMode.Message;
                 var info = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
                 BeginRead(info);
             }
