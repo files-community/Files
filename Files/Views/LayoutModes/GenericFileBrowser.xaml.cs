@@ -690,13 +690,13 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private async void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            
+
             if (AppSettings.OpenFoldersNewTab)
             {
-                NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
+                await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
             }
             else
             {

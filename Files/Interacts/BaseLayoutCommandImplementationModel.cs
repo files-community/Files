@@ -399,7 +399,7 @@ namespace Files.Interacts
             App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
-        public virtual void ItemPointerPressed(PointerRoutedEventArgs e)
+        public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
@@ -407,11 +407,11 @@ namespace Files.Interacts
                 {
                     if (Item.IsShortcutItem)
                     {
-                        NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                     }
                     else
                     {
-                        NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
                     }
                 }
             }
@@ -564,7 +564,7 @@ namespace Files.Interacts
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
-        public async void CreateFolderWithSelection(RoutedEventArgs e)
+        public void CreateFolderWithSelection(RoutedEventArgs e)
         {
             UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
