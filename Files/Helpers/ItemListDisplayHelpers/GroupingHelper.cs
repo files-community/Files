@@ -118,7 +118,7 @@ namespace Files.Helpers
                 lastSizeStr = sizeGp.sizeText;
             }
 
-            return ("0", "Tiny", $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length+1);
+            return ("0", "ItemSizeText_Tiny".GetLocalized(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length+1);
         }
 
         public static string GetGroupSizeKey(long size)
@@ -136,11 +136,11 @@ namespace Files.Helpers
 
         private static readonly (long size, string text, string sizeText)[] sizeGroups = new (long, string, string)[]
         {
-            (5000000000, "Huge", "5 GiB".ConvertSizeAbbreviation()),
-            (1000000000, "Very large", "1 GiB".ConvertSizeAbbreviation()), 
-            (128000000, "Large", "128 MiB".ConvertSizeAbbreviation()), 
-            (1000000, "Medium", "1 MiB".ConvertSizeAbbreviation()), // 1MB
-            (16000, "Small", "16 KiB".ConvertSizeAbbreviation()), // 16kb
+            (5000000000, "ItemSizeText_Huge".GetLocalized(), "5 GiB".ConvertSizeAbbreviation()),
+            (1000000000, "ItemSizeText_VeryLarge".GetLocalized(), "1 GiB".ConvertSizeAbbreviation()), 
+            (128000000, "ItemSizeText_Large".GetLocalized(), "128 MiB".ConvertSizeAbbreviation()), 
+            (1000000, "ItemSizeText_Medium".GetLocalized(), "1 MiB".ConvertSizeAbbreviation()), 
+            (16000, "ItemSizeText_Small".GetLocalized(), "16 KiB".ConvertSizeAbbreviation()),
         };
     }
 

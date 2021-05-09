@@ -245,14 +245,14 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "Group by",
+                    Text = "NavToolbarGroupByRadioButtons/Header".GetLocalized(),
                     Glyph = "\uF168",
                     ShowInRecycleBin = true,
                     Items = new List<ContextMenuFlyoutItemViewModel>()
                     {
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "None",
+                            Text = "NavToolbarGroupByOption_None/Content".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.None,
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -270,7 +270,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "Original folder",
+                            Text = "NavToolbarArrangementOption_OriginalFolder/Content".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder,
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,

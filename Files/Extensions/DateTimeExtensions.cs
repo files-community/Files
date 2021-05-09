@@ -64,47 +64,46 @@ namespace Files.Extensions
             var diff = t - dt;
             if (t.Month == t2.Month && t.Day == t2.Day)
             {
-                return ("Today", today.ToShortDateString(), "\ue184", 0);
+                return ("ItemTimeText_Today".GetLocalized(), today.ToShortDateString(), "\ue184", 0);
             }
 
             if(t.Month == t2.Month && t.Day - t2.Day < 2)
             {
-                return ("Yesterday", today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161", 1);
+                return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161", 1);
             }
 
-            // TODO: use system setting for first day of week
             if (diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
             {
-                return ("Earlier this week", t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).Date.ToShortDateString(), "\uE162", 2);
-            }
-            
-            if(diff.Days <= 14 && t.GetWeekOfYear() - 1 == t2.GetWeekOfYear())
-            {
-                return ("Last week", t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).Date.ToShortDateString(), "\uE162", 3);
+                return ("ItemTimeText_ThisWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).Date.ToShortDateString(), "\uE162", 2);
             }
 
-            if(t.Year == t2.Year && t.Month == t2.Month)
+            if (diff.Days <= 14 && t.GetWeekOfYear() - 1 == t2.GetWeekOfYear())
             {
-                return ("This month", t.Subtract(TimeSpan.FromDays(t.Day+1)).Date.ToShortDateString(), "\ue163", 4);
+                return ("ItemTimeText_LastWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).Date.ToShortDateString(), "\uE162", 3);
+            }
+
+            if (t.Year == t2.Year && t.Month == t2.Month)
+            {
+                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day-1)).Date.ToShortDateString(), "\ue163", 4);
             }
             
             if(t.Year == t2.Year && t.Month-1 == t2.Month)
             {
-                return ("Last month", t.Subtract(TimeSpan.FromDays(t.Day + 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).Date.ToShortDateString(), "\ue163", 4);
+                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).Date.ToShortDateString(), "\ue163", 5);
             }
 
             if(t.Year == t2.Year)
             {
-                return ("This year", t.Subtract(TimeSpan.FromDays(t.DayOfYear+1)).Date.ToShortDateString(), "\ue163", 5);
+                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear-1)).Date.ToShortDateString(), "\ue163", 5);
             }
 
-            return ("Older", $"Before {today.Subtract(TimeSpan.FromDays(today.DayOfYear+1)).ToShortDateString()}", "\uEC92", 6);
+            return ("ItemTimeText_Older".GetLocalized(), string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)).ToShortDateString()), "\uEC92", 6);
         }
 
         private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
         public static int GetWeekOfYear(this DateTimeOffset t)
         {
-            // TODO: use system setting for first day of week
+            // Should we use the system setting for the first day of week in the future?
             return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
     }

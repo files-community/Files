@@ -52,7 +52,7 @@ namespace Files.Helpers
         {
             if(e.PropertyName == nameof(Count))
             {
-                Model.CountText = $"{Count} items";
+                Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalized() : "GroupItemsCount_Singular".GetLocalized(), Count);
             }
         }
 
