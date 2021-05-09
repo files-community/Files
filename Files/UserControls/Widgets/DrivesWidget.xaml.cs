@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
@@ -70,10 +71,10 @@ namespace Files.UserControls.Widgets
             await DriveHelpers.EjectDeviceAsync(item.Path);
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            NavigationHelpers.OpenPathInNewTab(item.Path);
+            await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -88,7 +89,7 @@ namespace Files.UserControls.Widgets
             await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             string NavigationPath = ""; // path to navigate
             string ClickedCard = (sender as Button).Tag.ToString();
@@ -98,7 +99,7 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                NavigationHelpers.OpenPathInNewTab(NavigationPath);
+                await NavigationHelpers.OpenPathInNewTab(NavigationPath);
                 return;
             }
 
@@ -108,12 +109,12 @@ namespace Files.UserControls.Widgets
             });
         }
 
-        private void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
-                NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
 

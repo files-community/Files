@@ -2709,7 +2709,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Ouvrir les dossiers dans un nouvel onglet</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -2731,6 +2731,10 @@
           <source>Group or user names</source>
           <target state="new">Group or user names</target>
         </trans-unit>
+        <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File icon</source>
+          <target state="translated">Icône de fichier</target>
+        </trans-unit>
         <trans-unit id="ItemPermissionsLabel" translate="yes" xml:space="preserve">
           <source>To change permissions, click Edit:</source>
           <target state="new">To change permissions, click Edit:</target>
@@ -2746,6 +2750,10 @@
         <trans-unit id="ItemAdvanPermissionsButtonLabel" translate="yes" xml:space="preserve">
           <source>Advanced</source>
           <target state="new">Advanced</target>
+        </trans-unit>
+        <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="translated">Ouvrir avec</target>
         </trans-unit>
       </group>
     </body>

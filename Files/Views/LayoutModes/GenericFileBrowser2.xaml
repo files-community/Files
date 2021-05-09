@@ -327,8 +327,7 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <Grid
-                        Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
+                    <Grid Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         ColumnSpacing="4"
                         IsRightTapEnabled="True"
@@ -336,13 +335,13 @@
                         RightTapped="StackPanel_RightTapped"
                         ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.StatusColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.DateModifiedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                            <ColumnDefinition Width="{Binding ColumnsViewModel.ItemTypeColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                         </Grid.ColumnDefinitions>
                         <Grid
                             x:Uid="FileBrowserThumbnailIconColumnGrid"
@@ -427,7 +426,7 @@
 
                         <Grid
                             Grid.Column="1"
-                            Width="{x:Bind ColumnsViewModel.NameColumn.Length.Value, Mode=OneWay}"
+                            Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Tapped="ItemNameGrid_Tapped">
@@ -441,7 +440,7 @@
                         <Grid
                             x:Name="ItemOriginalPathGrid"
                             Grid.Column="2"
-                            Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length.Value, Mode=OneWay}"
+                            Width="{Binding ColumnsViewModel.OriginalPathColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                             HorizontalAlignment="Stretch"
                             x:Load="{x:Bind IsRecycleBinItem}">
                             <TextBlock
@@ -453,7 +452,7 @@
                         <Grid
                             x:Name="ItemDateDeletedGrid"
                             Grid.Column="3"
-                            Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length.Value, Mode=OneWay}"
+                            Width="{Binding ColumnsViewModel.DateDeletedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                             HorizontalAlignment="Stretch"
                             x:Load="{x:Bind IsRecycleBinItem}">
                             <TextBlock VerticalAlignment="Center" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
@@ -466,21 +465,21 @@
                             AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
                             Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
                             Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
-                            Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
+                            Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
                         <TextBlock
                             Grid.Column="5"
-                            Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length.Value, Mode=OneWay}"
+                            Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                            Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
+                            Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
                         <TextBlock
                             Grid.Column="6"
-                            Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length.Value, Mode=OneWay}"
+                            Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                             VerticalAlignment="Center"
                             Text="{x:Bind ItemType, Mode=OneWay}"
-                            Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
+                            Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

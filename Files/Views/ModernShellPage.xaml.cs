@@ -913,6 +913,7 @@ namespace Files.Views
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
+                || CurrentPageType == typeof(GenericFileBrowser2)
                 || CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -1036,7 +1037,7 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser))
+                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GenericFileBrowser2) || CurrentPageType == typeof(GridViewBrowser))
                     {
                         if (ContentPage.IsItemSelected)
                         {
@@ -1391,7 +1392,8 @@ namespace Files.Views
                 NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
                 if (sourcePageType == typeof(WidgetsPage)
-                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) && (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GridViewBrowser)))
+                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) && 
+                    (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GenericFileBrowser2) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();
                 }
@@ -1419,6 +1421,7 @@ namespace Files.Views
         public void LoadPreviewPaneChanged()
         {
             NotifyPropertyChanged(nameof(LoadPreviewPane));
+            UpdatePositioning();
         }
 
         private void PreviewPane_Loading(FrameworkElement sender, object args)

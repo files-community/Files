@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.UserControls;
 using Files.ViewModels;

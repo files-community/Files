@@ -2748,6 +2748,10 @@
           <source>Advanced</source>
           <target state="new">Advanced</target>
         </trans-unit>
+        <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="new">Open with</target>
+        </trans-unit>
       </group>
     </body>
   </file>

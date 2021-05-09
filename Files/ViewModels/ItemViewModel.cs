@@ -707,7 +707,6 @@ namespace Files.ViewModels
                                 item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
-                                item.CustomIconData = fileIconInfo.IconData;
                                 item.LoadFileIcon = true;
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
@@ -832,6 +831,27 @@ namespace Files.ViewModels
                 }
             }
             return (null, null, false);
+        }
+
+        public async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize)
+        {
+            if (Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "GetIconWithoutOverlay");
+                value.Add("filePath", filePath);
+                value.Add("thumbnailSize", (int)thumbnailSize);
+                var (status, response) = await Connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var icon = response.Get("Icon", (string)null);
+
+                    // BitmapImage can only be created on UI thread, so return raw data and create
+                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                    return (icon == null ? null : Convert.FromBase64String(icon));
+                }
+            }
+            return null;
         }
 
         public void RefreshItems(string previousDir, bool useCache = true)
@@ -974,7 +994,7 @@ namespace Files.ViewModels
                         storageFolder = res.Result;
                     }
                 }
-                if (await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path), addFilesCTS.Token, cacheResult, cacheOnly: false, library))
+                if (await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, cacheResult, cacheOnly: false, library))
                 {
                     // Is folder synced to cloud storage?
                     var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
@@ -1007,7 +1027,7 @@ namespace Files.ViewModels
                                             storageFolder = res.Result;
                                         }
                                     }
-                                    await EnumerateItemsFromStandardFolderAsync(folderPath, storageFolder, folderSettings.GetLayoutType(folderPath), addFilesCTS.Token, null, cacheOnly: true, library);
+                                    await EnumerateItemsFromStandardFolderAsync(folderPath, storageFolder, folderSettings.GetLayoutType(folderPath, false), addFilesCTS.Token, null, cacheOnly: true, library);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception ex)

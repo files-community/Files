@@ -3,14 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:local="using:Files.UserControls.Widgets"
-    xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+	xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <StackPanel Spacing="12">
         <Grid>
@@ -79,7 +78,7 @@
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="local2:DriveItem">
+                <DataTemplate x:DataType="navigationcontrolitems:DriveItem">
                     <Grid
                         Width="270"
                         extensions:VisualExtensions.CenterPoint="135,45,0"

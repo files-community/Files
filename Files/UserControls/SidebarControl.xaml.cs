@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
@@ -17,7 +18,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
@@ -230,11 +230,19 @@ namespace Files.UserControls
             return new GridLength(200);
         }
 
-        private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
                 IsInPointerPressed = false;
+                return;
+            }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
+            {
+                string navigationPath = args.InvokedItemContainer.Tag.ToString();
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
                 return;
             }
 
@@ -309,7 +317,7 @@ namespace Files.UserControls
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as WSLDistroItem;
+            var item = sidebarItem.DataContext as WslDistroItem;
 
             ShowEjectDevice = false;
             ShowUnpinItem = false;
@@ -622,7 +630,7 @@ namespace Files.UserControls
         }
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {   
+        {
             if(IsPaneOpen)
             {
                 IncrementSize(e.Delta.Translation.X);
