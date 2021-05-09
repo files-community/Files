@@ -17,6 +17,7 @@ namespace Files.UserControls.MultitaskingControl
         private TabViewItem hoveredTabViewItem = null;
 
         private SettingsViewModel AppSettings => App.AppSettings;
+        private SecurityViewModel SecurityModel => App.SecurityModel;
 
         public HorizontalMultitaskingControl()
         {

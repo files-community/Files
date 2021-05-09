@@ -8,7 +8,7 @@ namespace Files.Dialogs
     public sealed partial class PropertiesDialog : ContentDialog
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         public PropertiesDialog()
         {
             this.InitializeComponent();

@@ -34,6 +34,7 @@ namespace Files.Views
         private ListedItem listedItem;
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
 
         public Properties()
         {

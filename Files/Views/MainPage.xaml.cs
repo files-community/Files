@@ -23,6 +23,7 @@ namespace Files.Views
     public sealed partial class MainPage : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
 
         public MainPageViewModel ViewModel
         {

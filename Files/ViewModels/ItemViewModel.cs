@@ -51,6 +51,7 @@ namespace Files.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         public FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }

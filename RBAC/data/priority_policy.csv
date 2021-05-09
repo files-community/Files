@@ -1,0 +1,12 @@
+p, alice, data1, read, allow
+p, data1_deny_group, data1, read, deny
+p, data1_deny_group, data1, write, deny
+p, alice, data1, write, allow
+
+g, alice, data1_deny_group
+
+p, data2_allow_group, data2, read, allow
+p, bob, data2, read, deny
+p, bob, data2, write, deny
+
+g, bob, data2_allow_group

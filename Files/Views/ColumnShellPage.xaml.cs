@@ -50,6 +50,7 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
         public StatusCenterViewModel StatusCenterViewModel { get; set; } = new StatusCenterViewModel();
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;

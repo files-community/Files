@@ -28,6 +28,7 @@ namespace Files.UserControls
         public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 

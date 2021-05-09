@@ -11,7 +11,7 @@ namespace Files.UserControls
         #region Singleton
 
         public SettingsViewModel AppSettings => App.AppSettings;
-
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
         #endregion Singleton

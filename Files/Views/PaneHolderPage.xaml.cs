@@ -28,6 +28,7 @@ namespace Files.Views
         public event PropertyChangedEventHandler PropertyChanged;
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
         private TabItemArguments tabItemArguments;

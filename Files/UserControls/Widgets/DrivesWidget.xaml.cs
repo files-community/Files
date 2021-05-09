@@ -21,6 +21,7 @@ namespace Files.UserControls.Widgets
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
 
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 

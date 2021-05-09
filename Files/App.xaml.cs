@@ -47,6 +47,7 @@ namespace Files
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
         public static SettingsViewModel AppSettings { get; private set; }
+        public static SecurityViewModel SecurityModel { get; private set; }
         public static InteractionViewModel InteractionViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
@@ -91,6 +92,11 @@ namespace Files
             if (AppSettings == null)
             {
                 AppSettings = await SettingsViewModel.CreateInstance();
+            }
+
+            if (SecurityModel == null)
+            {
+                SecurityModel = await SecurityViewModel.CreateInstance();
             }
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();

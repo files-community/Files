@@ -86,6 +86,7 @@ namespace Files.UserControls.Widgets
         public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay;
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 

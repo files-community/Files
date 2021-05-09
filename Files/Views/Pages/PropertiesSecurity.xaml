@@ -89,7 +89,6 @@
                     Width="40"
                     Height="40"                    
                     Content="&#xE792;"
-                    Click="btnEditUserOrGroup_Click"
                     FontFamily="{StaticResource SymbolThemeFontFamily}" 
                     HorizontalAlignment="Right"/>
         </Grid>

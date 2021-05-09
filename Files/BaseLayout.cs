@@ -40,6 +40,7 @@ namespace Files
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
 
         public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
 

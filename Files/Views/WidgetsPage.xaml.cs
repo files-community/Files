@@ -18,6 +18,7 @@ namespace Files.Views
     {
         private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 

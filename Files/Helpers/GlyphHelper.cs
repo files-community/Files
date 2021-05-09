@@ -8,6 +8,7 @@ namespace Files.Helpers
     internal static class GlyphHelper
     {
         public static SettingsViewModel AppSettings => App.AppSettings;
+        public static SecurityViewModel SecurityModel => App.SecurityModel;
 
         /// <summary>
         /// Gets the icon for the items in the navigation sidebar

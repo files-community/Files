@@ -637,7 +637,7 @@ namespace Files.UserControls
         }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-
+        public SecurityViewModel SecurityModel => App.SecurityModel;
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
         private DispatcherQueueTimer dragOverTimer;

@@ -1,0 +1,2 @@
+p, alice, /alice_data/:resource, GET
+p, alice, /alice_data2/:id/using/:resId, GET
