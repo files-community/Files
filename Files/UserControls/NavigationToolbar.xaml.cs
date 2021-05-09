@@ -219,57 +219,17 @@ namespace Files.UserControls
 
         #endregion Selection Options
 
-        public static readonly DependencyProperty SelectedGroupModeProperty = DependencyProperty.Register(
-         nameof(SelectedGroupMode),
-         typeof(GroupOption),
+        public static readonly DependencyProperty ArrangementOptionsFlyoutContentProperty = DependencyProperty.Register(
+         nameof(ArrangementOptionsFlyoutContent),
+         typeof(UIElement),
          typeof(NavigationToolbar),
          new PropertyMetadata(null)
         );
 
-        public GroupOption SelectedGroupMode
+        public UIElement ArrangementOptionsFlyoutContent
         {
-            get => (GroupOption)GetValue(SelectedGroupModeProperty);
-            set => SetValue(SelectedGroupModeProperty, value);
-        }
-        
-        
-        public static readonly DependencyProperty SelectedSortModeProperty = DependencyProperty.Register(
-         nameof(SelectedSortMode),
-         typeof(SortOption),
-         typeof(NavigationToolbar),
-         new PropertyMetadata(null)
-        );
-
-        public SortOption SelectedSortMode
-        {
-            get => (SortOption)GetValue(SelectedSortModeProperty);
-            set => SetValue(SelectedSortModeProperty, value);
-        }
-        
-        public static readonly DependencyProperty SelectedSortDirectionProperty = DependencyProperty.Register(
-         nameof(SelectedSortDirection),
-         typeof(SortDirection),
-         typeof(NavigationToolbar),
-         new PropertyMetadata(null)
-        );
-
-        public SortDirection SelectedSortDirection
-        {
-            get => (SortDirection)GetValue(SelectedSortDirectionProperty);
-            set => SetValue(SelectedSortDirectionProperty, value);
-        }
-        
-        public static readonly DependencyProperty IsPageTypeRecycleBinProperty = DependencyProperty.Register(
-         nameof(IsPageTypeRecycleBin),
-         typeof(bool),
-         typeof(NavigationToolbar),
-         new PropertyMetadata(null)
-        );
-
-        public bool IsPageTypeRecycleBin
-        {
-            get => (bool)GetValue(IsPageTypeRecycleBinProperty);
-            set => SetValue(IsPageTypeRecycleBinProperty, value);
+            get => (UIElement)GetValue(ArrangementOptionsFlyoutContentProperty);
+            set => SetValue(ArrangementOptionsFlyoutContentProperty, value);
         }
 
         #region Layout Options

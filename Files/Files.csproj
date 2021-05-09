@@ -242,6 +242,9 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
+    <Compile Include="UserControls\ArrangementOptions.xaml.cs">
+      <DependentUpon>ArrangementOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
@@ -817,6 +820,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\FilesystemOperationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ArrangementOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

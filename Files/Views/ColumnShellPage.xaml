@@ -265,7 +265,6 @@
                 IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
                 IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
                 MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
                 NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
@@ -277,16 +276,22 @@
                 PasteInvokedCommand="{x:Bind PasteItemsFromClipboardCommand, Mode=OneWay}"
                 PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
-                SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
-                SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
-                SelectedSortMode="{x:Bind InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}"
                 ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
                 ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
                 ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                 ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}" />
+                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}">
+                <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+                    <controls:ArrangementOptions
+                        x:Name="ArrangementOptionsFlyoutContent"
+                        IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                        SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
+                        SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
+                        SelectedSortMode="{x:Bind InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
+                </controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+            </controls:NavigationToolbar>
         </Custom:DropShadowPanel>
     </Grid>
 </Page>
