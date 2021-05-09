@@ -427,6 +427,8 @@ namespace Files.ViewModels
                 }
             }
         }
+
+        public RelayCommand<GroupOption> ChangeGroupOptionCommand => new RelayCommand<GroupOption>(x => DirectoryGroupOption = x);
         
         public GroupOption DirectoryGroupOption
         {
