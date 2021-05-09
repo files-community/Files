@@ -1,3 +1,4 @@
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;

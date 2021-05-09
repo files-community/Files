@@ -2777,6 +2777,10 @@
           <source>Close tab (Ctrl+W)</source>
           <target state="new">Close tab (Ctrl+W)</target>
         </trans-unit>
+        <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="new">Open with</target>
+        </trans-unit>
       </group>
     </body>
   </file>

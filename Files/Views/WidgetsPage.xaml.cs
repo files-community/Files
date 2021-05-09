@@ -1,4 +1,5 @@
-﻿using Files.Dialogs;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
@@ -58,7 +59,7 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
-                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconOverlayAsync;
+                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconWithoutOverlayAsync;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
