@@ -537,7 +537,14 @@ namespace Files.ViewModels
                 ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
-            else
+            else if(folderPath == App.AppSettings.DownloadsPath)
+            {
+                return new LayoutPreferences()
+                {
+                    // Default for downloads folder is to group by date created
+                    DirectoryGroupOption = GroupOption.DateCreated,
+                };
+            } else
             {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
             }
