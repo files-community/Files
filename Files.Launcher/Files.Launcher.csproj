@@ -5,6 +5,7 @@
     <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <RuntimeIdentifiers>win10-x86;win10-x86-aot;win10-x64;win10-x64-aot;win-x86;win-x64</RuntimeIdentifiers>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FilesFullTrust</RootNamespace>
     <AssemblyName>FilesFullTrust</AssemblyName>
