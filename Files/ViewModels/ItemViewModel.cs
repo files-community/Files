@@ -551,20 +551,20 @@ namespace Files.ViewModels
         private void OrderGroups(CancellationToken token = default)
         {
             var gps = FilesAndFolders.GroupedCollection?.Where(x => !x.IsSorted);
-            if(gps is null)
+            if (gps is null)
             {
                 return;
             }
             foreach (var gp in gps)
             {
-                if(token.IsCancellationRequested)
+                if (token.IsCancellationRequested)
                 {
                     return;
                 }
 
                 gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
             }
-            if(!FilesAndFolders.GroupedCollection.IsSorted)
+            if (!FilesAndFolders.GroupedCollection.IsSorted)
             {
                 FilesAndFolders.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
                 FilesAndFolders.GroupedCollection.IsSorted = true;
@@ -608,6 +608,7 @@ namespace Files.ViewModels
                 {
                     return;
                 }
+
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
                     FilesAndFolders.EndBulkOperation();
@@ -620,6 +621,22 @@ namespace Files.ViewModels
             finally
             {
                 enumFolderSemaphore.Release();
+            }
+        }
+
+        public async Task ReloadItemGroupHeaderImagesAsync()
+        {
+            // this is needed to update the group icons for file type groups
+            if (folderSettings.DirectoryGroupOption == GroupOption.FileType)
+            {
+                foreach (var gp in FilesAndFolders.GroupedCollection)
+                {
+                    var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        gp.Model.ImageSource = img;
+                    }, Windows.System.DispatcherQueuePriority.Low);
+                }
             }
         }
 
@@ -690,6 +707,7 @@ namespace Files.ViewModels
                 try
                 {
                     bool isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
+                    StorageFile matchingStorageFile = null;
 
                     if (item.Key != null && FilesAndFolders.IsGrouped && FilesAndFolders.GetExtendedGroupHeaderInfo != null)
                     {
@@ -700,7 +718,6 @@ namespace Files.ViewModels
                     if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
                         var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
-                        (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = loadGroupHeaderInfo && isFileTypeGroupMode ? await LoadIconOverlayAsync(item.ItemPath, 76) : (null, null, false);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -714,20 +731,16 @@ namespace Files.ViewModels
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
 
-                            if (loadGroupHeaderInfo && isFileTypeGroupMode && headerIconInfo.iconData != null && !item.IsShortcutItem)
-                            {
-                                groupImage = await headerIconInfo.iconData.ToBitmapAsync();
-                            }
                         }, Windows.System.DispatcherQueuePriority.Low);
                         if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                         {
-                            StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
-                            if (matchingStorageItem != null)
+                            matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
+                            if (matchingStorageFile != null)
                             {
                                 if (!item.LoadFileIcon) // Loading icon from fulltrust process failed
                                 {
-                                    using var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-                                    using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
+                                    using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                                    using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
                                     if (Thumbnail != null)
                                     {
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -737,22 +750,15 @@ namespace Files.ViewModels
                                             await item.FileImage.SetSourceAsync(Thumbnail);
                                             item.LoadUnknownTypeGlyph = false;
                                             item.LoadFileIcon = true;
-
-                                            if (headerThumbnail != null)
-                                            {
-                                                var bmp = new BitmapImage();
-                                                await bmp.SetSourceAsync(headerThumbnail);
-                                                groupImage = bmp;
-                                            }
                                         });
                                     }
                                 }
 
-                                var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
+                                var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                                 {
-                                    item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                                    item.ItemType = matchingStorageItem.DisplayType;
+                                    item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
+                                    item.ItemType = matchingStorageFile.DisplayType;
                                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 }, Windows.System.DispatcherQueuePriority.Low);
                                 wasSyncStatusLoaded = true;
@@ -762,7 +768,6 @@ namespace Files.ViewModels
                     else
                     {
                         var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
-                        //(byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = loadGroupHeaderInfo && isFileTypeGroupMode ? await LoadIconOverlayAsync(item.ItemPath, 100) : (null, null, false);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -776,10 +781,6 @@ namespace Files.ViewModels
                             }
                             item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
 
-                            //if(loadGroupHeaderInfo && isFileTypeGroupMode && headerIconInfo.iconData != null)
-                            //{
-                            //    groupImage = await headerIconInfo.iconData.ToBitmapAsync();
-                            //}
                         }, Windows.System.DispatcherQueuePriority.Low);
 
                         if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
@@ -803,17 +804,6 @@ namespace Files.ViewModels
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {
-
-                                    if (loadGroupHeaderInfo && isFileTypeGroupMode)
-                                    {
-                                        var svg = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
-                                        {
-                                            RasterizePixelHeight = 128,
-                                            RasterizePixelWidth = 128,
-                                        };
-                                        groupImage = svg;
-                                    }
-
                                     item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                     item.ItemType = matchingStorageItem.DisplayType;
                                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
@@ -821,6 +811,11 @@ namespace Files.ViewModels
                                 }, Windows.System.DispatcherQueuePriority.Low);
                             }
                         }
+                    }
+
+                    if (loadGroupHeaderInfo && isFileTypeGroupMode)
+                    {
+                        groupImage = await GetItemTypeGroupIcon(item, matchingStorageFile);
                     }
                 }
                 catch (Exception)
@@ -839,7 +834,8 @@ namespace Files.ViewModels
 
                     if (loadGroupHeaderInfo)
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        {
                             gp.Model.ImageSource = groupImage;
                             gp.InitializeExtendedGroupHeaderInfoAsync();
                         });
@@ -851,6 +847,54 @@ namespace Files.ViewModels
             });
         }
 
+        private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, StorageFile matchingStorageItem = null)
+        {
+            ImageSource groupImage = null;
+            if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
+            {
+                (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = await LoadIconOverlayAsync(item.ItemPath, 76);
+
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    if (headerIconInfo.iconData != null && !item.IsShortcutItem)
+                    {
+                        groupImage = await headerIconInfo.iconData.ToBitmapAsync();
+                    }
+                }, Windows.System.DispatcherQueuePriority.Low);
+
+                if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
+                {
+                    if (groupImage == null) // Loading icon from fulltrust process failed
+                    {
+                        matchingStorageItem ??= await GetFileFromPathAsync(item.ItemPath);
+
+                        if (matchingStorageItem != null)
+                        {
+                            using var headerThumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale);
+                            if (headerThumbnail != null)
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                {
+                                    var bmp = new BitmapImage();
+                                    await bmp.SetSourceAsync(headerThumbnail);
+                                    groupImage = bmp;
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => groupImage = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
+                {
+                    RasterizePixelHeight = 128,
+                    RasterizePixelWidth = 128,
+                }, Windows.System.DispatcherQueuePriority.Low);
+            }
+
+            return groupImage;
+        }
         public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
             if (Connection != null)

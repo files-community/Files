@@ -411,6 +411,7 @@ namespace Files
             var token = groupingCancellationToken.Token;
             await ParentShellPageInstance.FilesystemViewModel.GroupOptionsUpdated(token);
             UpdateCollectionViewSource();
+            await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

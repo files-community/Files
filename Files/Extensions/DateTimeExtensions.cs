@@ -59,12 +59,14 @@ namespace Files.Extensions
             var t = DateTimeOffset.Now;
             var t2 = dt.ToLocalTime();
             var today = DateTime.Today;
-            
+
+
             var diff = t - dt;
             if (t.Month == t2.Month && t.Day == t2.Day)
             {
                 return ("Today", today.ToShortDateString(), "\ue184", 0);
             }
+
             if(t.Month == t2.Month && t.Day - t2.Day < 2)
             {
                 return ("Yesterday", today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161", 1);
@@ -73,36 +75,35 @@ namespace Files.Extensions
             // TODO: use system setting for first day of week
             if (diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
             {
-                return ("Earlier this week", today.GetFriendlyRange(TimeSpan.FromDays((int)t.DayOfWeek)), "\uE162", 2);
+                return ("Earlier this week", t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).Date.ToShortDateString(), "\uE162", 2);
             }
             
             if(diff.Days <= 14 && t.GetWeekOfYear() - 1 == t2.GetWeekOfYear())
             {
-                return ("Last week", today.GetFriendlyRange(TimeSpan.FromDays(7 + (int)t.DayOfWeek)), "\uE162", 3);
+                return ("Last week", t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).Date.ToShortDateString(), "\uE162", 3);
             }
 
             if(t.Year == t2.Year && t.Month == t2.Month)
             {
-                return ("This month", today.GetFriendlyRange(TimeSpan.FromDays(t.Day)), "\ue163", 4);
+                return ("This month", t.Subtract(TimeSpan.FromDays(t.Day+1)).Date.ToShortDateString(), "\ue163", 4);
+            }
+            
+            if(t.Year == t2.Year && t.Month-1 == t2.Month)
+            {
+                return ("Last month", t.Subtract(TimeSpan.FromDays(t.Day + 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).Date.ToShortDateString(), "\ue163", 4);
             }
 
             if(t.Year == t2.Year)
             {
-                return ("This year", today.GetFriendlyRange(TimeSpan.FromDays(t.DayOfYear)), "\ue163", 5);
+                return ("This year", t.Subtract(TimeSpan.FromDays(t.DayOfYear+1)).Date.ToShortDateString(), "\ue163", 5);
             }
 
-            return ("Older", $"Before {today.Subtract(TimeSpan.FromDays(today.DayOfYear)).ToShortDateString()}", "\uEC92", 6);
+            return ("Older", $"Before {today.Subtract(TimeSpan.FromDays(today.DayOfYear+1)).ToShortDateString()}", "\uEC92", 6);
         }
 
-        public static string GetFriendlyRange(this DateTime t, TimeSpan diff)
-        {
-            return $"{t.Subtract(diff).ToShortDateString()} - {t.ToShortDateString()}";
-        }
-
-        private static Calendar calendar;
+        private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
         public static int GetWeekOfYear(this DateTimeOffset t)
         {
-            calendar ??= new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
             // TODO: use system setting for first day of week
             return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
