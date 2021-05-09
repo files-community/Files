@@ -539,9 +539,14 @@ namespace Files.ViewModels
             }
             else if(folderPath == App.AppSettings.DownloadsPath)
             {
-                return new LayoutPreferences()
+                // Default for downloads folder is to group by date created
+                return new LayoutPreferences
                 {
-                    // Default for downloads folder is to group by date created
+                    LayoutMode = App.AppSettings.DefaultLayoutMode,
+                    GridViewSize = App.AppSettings.DefaultGridViewSize,
+                    DirectorySortOption = App.AppSettings.DefaultDirectorySortOption,
+                    DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection,
+                    ColumnsViewModel = new ColumnsViewModel(),
                     DirectoryGroupOption = GroupOption.DateCreated,
                 };
             } else
