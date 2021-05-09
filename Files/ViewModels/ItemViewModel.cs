@@ -627,16 +627,19 @@ namespace Files.ViewModels
         public async Task ReloadItemGroupHeaderImagesAsync()
         {
             // this is needed to update the group icons for file type groups
-            if (folderSettings.DirectoryGroupOption == GroupOption.FileType)
+            if (folderSettings.DirectoryGroupOption == GroupOption.FileType && FilesAndFolders.GroupedCollection != null)
             {
-                foreach (var gp in FilesAndFolders.GroupedCollection)
+                await Task.Run(async () =>
                 {
-                    var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    foreach (var gp in FilesAndFolders.GroupedCollection)
                     {
-                        gp.Model.ImageSource = img;
-                    }, Windows.System.DispatcherQueuePriority.Low);
-                }
+                        var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        {
+                            gp.Model.ImageSource = img;
+                        }, Windows.System.DispatcherQueuePriority.Low);
+                    }
+                });
             }
         }
 

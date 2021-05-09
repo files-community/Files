@@ -27,6 +27,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -730,6 +731,43 @@ namespace Files
                     IsSourceGrouped = false,
                     Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
                 };
+            }
+        }
+
+        protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            if (!e.IsSourceZoomedInView)
+            {
+                // According to the docs this isn't necessary, but it would crash otherwise
+                var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+                e.DestinationItem.Item = destination.FirstOrDefault();
+            }
+        }
+
+        protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "PointerOver", true);
+            }
+        }
+
+        protected void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
+        {
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "Normal", true);
+            }
+        }
+
+        protected void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "Pressed", true);
             }
         }
     }

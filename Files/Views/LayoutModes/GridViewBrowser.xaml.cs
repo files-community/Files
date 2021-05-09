@@ -171,10 +171,6 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-            if (e.SourcePageType != typeof(GridViewBrowser))
-            {
-                FileList.ItemsSource = null;
-            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -554,43 +550,6 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
-
-        private void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
-        {
-            if(!e.IsSourceZoomedInView)
-            {
-                // According to the docs this isn't necessary, but it would crash otherwise
-                var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
-                e.DestinationItem.Item = destination.FirstOrDefault();
-            }
-        }
-
-        private void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
-            if (!(element is null))
-            {
-                VisualStateManager.GoToState(element, "PointerOver", true);
-            }
-        }
-
-        private void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
-        {
-            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
-            if(!(element is null))
-            {
-                VisualStateManager.GoToState(element, "Normal", true);
-            }
-        }
-
-        private void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
-            if (!(element is null))
-            {
-                VisualStateManager.GoToState(element, "Pressed", true);
-            }
         }
     }
 }

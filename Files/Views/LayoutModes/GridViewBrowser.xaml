@@ -509,15 +509,20 @@
                                         <StackPanel Orientation="Horizontal" Spacing="5">
                                             <TextBlock
                                                 VerticalAlignment="Bottom"
+                                                Foreground="{ThemeResource MediaTextThemeBrush}"
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{x:Bind Model.Text, Mode=OneWay}" />
                                             <TextBlock
                                                 VerticalAlignment="Bottom"
                                                 FontSize="14"
+                                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                 Style="{StaticResource SubheaderTextBlockStyle}"
                                                 Text="{x:Bind Model.Subtext, Mode=OneWay}" />
                                         </StackPanel>
-                                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Model.CountText, Mode=OneWay}" />
+                                        <TextBlock
+                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind Model.CountText, Mode=OneWay}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
