@@ -118,9 +118,6 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.2.5" />
     <PackageReference Include="NamedPipeServerStream.NetFrameworkVersion" Version="1.0.8" />
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
-    </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.7.9</Version>
     </PackageReference>
@@ -130,9 +127,6 @@
     <PackageReference Include="Vanara.Windows.Shell">
       <Version>3.3.9</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />

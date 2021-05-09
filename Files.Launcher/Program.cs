@@ -1,6 +1,5 @@
 using Files.Common;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,8 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace FilesFullTrust
     internal class Program
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static JsonSerializerOptions includeFieldsOptions = new JsonSerializerOptions { IncludeFields = true };
 
         [STAThread]
         private static void Main(string[] args)
@@ -150,7 +152,7 @@ namespace FilesFullTrust
                 {
                     using var folderItem = new ShellItem(e.FullPath);
                     var shellFileItem = GetShellFileItem(folderItem);
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem, includeFieldsOptions);
                 }
                 // Send message to UWP app to refresh items
                 await Win32API.SendMessageAsync(connection, response);
@@ -234,8 +236,15 @@ namespace FilesFullTrust
                 if (connection.IsMessageComplete) // Message is completed
                 {
                     var message = info.Message.ToString().TrimEnd('\0');
-
-                    Connection_RequestReceived(connection, JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+                    var options = new JsonSerializerOptions
+                    {
+                        Converters =
+                        {
+                            new DictionaryStringObjectJsonConverter()
+                        },
+                        IncludeFields = true
+                    };
+                    Connection_RequestReceived(connection, JsonSerializer.Deserialize<Dictionary<string, object>>(message, options));
 
                     // Begin a new reading operation
                     var nextInfo = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
@@ -274,7 +283,7 @@ namespace FilesFullTrust
             }
             else if (message.ContainsKey("ApplicationList"))
             {
-                var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
+                var applicationList = JsonSerializer.Deserialize<IEnumerable<string>>((string)message["ApplicationList"]);
                 HandleApplicationsLaunch(applicationList, message);
             }
         }
@@ -345,8 +354,8 @@ namespace FilesFullTrust
                     var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<Dictionary<string, object>>(HandleMenuMessage);
                     var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<Win32API.ContextMenu>(message);
                     contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
-                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
-                    var serializedCm = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(contextMenuResponse));
+                    contextMenuResponse.Add("ContextMenu", JsonSerializer.Serialize(cMenuLoad, includeFieldsOptions));
+                    var serializedCm = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(contextMenuResponse, includeFieldsOptions));
                     await Win32API.SendMessageAsync(connection, contextMenuResponse, message.Get("RequestID", (string)null));
                     break;
 
@@ -545,7 +554,7 @@ namespace FilesFullTrust
                         }
                         return flc;
                     });
-                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
+                    responseEnum.Add("Enumerate", JsonSerializer.Serialize(folderContentsList, includeFieldsOptions));
                     await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
                     break;
 
@@ -561,7 +570,7 @@ namespace FilesFullTrust
                     }
                     else if (message.ContainsKey("ApplicationList"))
                     {
-                        var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
+                        var applicationList = JsonSerializer.Deserialize<IEnumerable<string>>((string)message["ApplicationList"]);
                         HandleApplicationsLaunch(applicationList, message);
                     }
                     break;
@@ -599,7 +608,7 @@ namespace FilesFullTrust
                         Logger.Error($"Failed to open library after {changeType}: {newPath}");
                         return;
                     }
-                    response["Item"] = JsonConvert.SerializeObject(GetShellLibraryItem(library, newPath));
+                    response["Item"] = JsonSerializer.Serialize(GetShellLibraryItem(library, newPath), includeFieldsOptions);
                     library.Dispose();
                 }
                 // Send message to UWP app to refresh items
@@ -629,7 +638,7 @@ namespace FilesFullTrust
                                     libraryItems.Add(GetShellLibraryItem(library, libFile));
                                 }
                             }
-                            response.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
+                            response.Add("Enumerate", JsonSerializer.Serialize(libraryItems, includeFieldsOptions));
                         }
                         catch (Exception e)
                         {
@@ -648,7 +657,7 @@ namespace FilesFullTrust
                         try
                         {
                             using var library = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
-                            response.Add("Create", JsonConvert.SerializeObject(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
+                            response.Add("Create", JsonSerializer.Serialize(GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing)), includeFieldsOptions));
                         }
                         catch (Exception e)
                         {
@@ -666,7 +675,7 @@ namespace FilesFullTrust
                         var response = new ValueSet();
                         try
                         {
-                            var folders = message.ContainsKey("folders") ? JsonConvert.DeserializeObject<string[]>((string)message["folders"]) : null;
+                            var folders = message.ContainsKey("folders") ? JsonSerializer.Deserialize<string[]>((string)message["folders"]) : null;
                             var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
                             var isPinned = message.Get("isPinned", (bool?)null);
 
@@ -710,7 +719,7 @@ namespace FilesFullTrust
                             if (updated)
                             {
                                 library.Commit();
-                                response.Add("Update", JsonConvert.SerializeObject(GetShellLibraryItem(library, libPath)));
+                                response.Add("Update", JsonSerializer.Serialize(GetShellLibraryItem(library, libPath), includeFieldsOptions));
                             }
                         }
                         catch (Exception e)
@@ -1193,6 +1202,85 @@ namespace FilesFullTrust
                 return deviceId != null ? Path.Combine(deviceId, itemPath) : executable;
             }
             return executable;
+        }
+    }
+
+    public class DictionaryStringObjectJsonConverter : JsonConverter<Dictionary<string, object>>
+    {
+        public override Dictionary<string, object> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (reader.TokenType != JsonTokenType.StartObject)
+            {
+                throw new JsonException($"JsonTokenType was of type {reader.TokenType}, only objects are supported");
+            }
+
+            var dictionary = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject)
+                {
+                    return dictionary;
+                }
+
+                if (reader.TokenType != JsonTokenType.PropertyName)
+                {
+                    throw new JsonException("JsonTokenType was not PropertyName");
+                }
+
+                var propertyName = reader.GetString();
+
+                if (string.IsNullOrWhiteSpace(propertyName))
+                {
+                    throw new JsonException("Failed to get property name");
+                }
+
+                reader.Read();
+
+                dictionary.Add(propertyName, ExtractValue(ref reader, options));
+            }
+
+            return dictionary;
+        }
+
+        public override void Write(Utf8JsonWriter writer, Dictionary<string, object> value, JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, value, options);
+        }
+
+        private object ExtractValue(ref Utf8JsonReader reader, JsonSerializerOptions options)
+        {
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.String:
+                    if (reader.TryGetDateTime(out var date))
+                    {
+                        return date;
+                    }
+                    return reader.GetString();
+                case JsonTokenType.False:
+                    return false;
+                case JsonTokenType.True:
+                    return true;
+                case JsonTokenType.Null:
+                    return null;
+                case JsonTokenType.Number:
+                    if (reader.TryGetInt64(out var result))
+                    {
+                        return result;
+                    }
+                    return reader.GetDecimal();
+                case JsonTokenType.StartObject:
+                    return Read(ref reader, null, options);
+                case JsonTokenType.StartArray:
+                    var list = new List<object>();
+                    while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+                    {
+                        list.Add(ExtractValue(ref reader, options));
+                    }
+                    return list;
+                default:
+                    throw new JsonException($"'{reader.TokenType}' is not supported");
+            }
         }
     }
 }
