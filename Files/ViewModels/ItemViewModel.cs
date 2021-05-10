@@ -887,7 +887,8 @@ namespace Files.ViewModels
                     }
                 }
             }
-            else
+            // This prevents both the shortcut glyph and folder icon being shown
+            else if(!item.IsShortcutItem)
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => groupImage = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
                 {
