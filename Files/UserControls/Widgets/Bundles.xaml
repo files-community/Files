@@ -180,15 +180,16 @@
                                 <!--  Bundle Options  -->
                                 <Button
                                     Grid.Column="1"
-                                    Width="34"
-                                    Height="30"
+                                    Width="36"
+                                    Height="32"
+                                    Padding="0"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
                                     Background="Transparent"
                                     BorderBrush="Transparent">
-                                    <FontIcon FontSize="12" Glyph="&#xe712;" />
+                                    <FontIcon FontSize="14" Glyph="&#xe712;" />
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem

@@ -6,7 +6,7 @@ We are happy to hear your feedback for the future of Files. Check the
 submitted similar feedback. You can add your feedback to existing issues or you can open a new issue.
 
 We always look at your feedback when we decide what to work on next and we look forward to hearing your ideas. Remember that
-all community interactions must abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
+all community interactions must abide by the [Code of Conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
 
 ## Finding issues you can help with
 Looking for something to work on?
@@ -25,7 +25,7 @@ improvements which address the top issues reported by Files users. Some general 
 * **DO** follow our [Coding and Style](https://files-community.github.io/docs/#/articles/code-style) guidelines, and keep code changes as small as possible.
 * **DO** include corresponding tests whenever possible.
 * **DO** check for additional occurrences of the same problem in other parts of the codebase before submitting your PR.
-* **DO** [link the issue](https://github.com/blog/957-introducing-issue-mentions) you are addressing in the 
+* **DO** [link the issue](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#manually-linking-a-pull-request-to-an-issue) you are addressing in the 
    pull request.
 * **DO** write a good description for your pull request. More detail is better. Describe *why* the change is being 
    made and *why* you have chosen a particular solution. Describe any manual testing you performed to validate your change.

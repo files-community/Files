@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.Views;
@@ -36,7 +37,6 @@ namespace Files.ViewModels
                     isWindowCompactSize = value;
 
                     OnPropertyChanged(nameof(IsWindowCompactSize));
-                    OnPropertyChanged(nameof(SidebarWidth));
                     OnPropertyChanged(nameof(IsSidebarOpen));
                 }
             }
@@ -102,7 +102,7 @@ namespace Files.ViewModels
             get => IsWindowCompactSize || !IsSidebarOpen ? CompactSidebarWidth : App.AppSettings.SidebarWidth;
             set
             {
-                if (IsWindowCompactSize || !IsSidebarOpen)
+                if (!IsSidebarOpen)
                 {
                     return;
                 }
@@ -116,13 +116,9 @@ namespace Files.ViewModels
 
         public bool IsSidebarOpen
         {
-            get => !IsWindowCompactSize && App.AppSettings.IsSidebarOpen;
+            get => App.AppSettings.IsSidebarOpen;
             set
             {
-                if (IsWindowCompactSize)
-                {
-                    return;
-                }
                 if (App.AppSettings.IsSidebarOpen != value)
                 {
                     App.AppSettings.IsSidebarOpen = value;

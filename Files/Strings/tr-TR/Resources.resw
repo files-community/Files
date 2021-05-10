@@ -201,9 +201,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Özellikler</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>Hızlı Göz At</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Yeni Pencere</value>
   </data>
@@ -222,10 +219,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Arama</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Tümünü Seç</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Seçimi Temizle</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -345,7 +342,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ayarlar</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Seçimi Tersine Çevir</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -435,9 +432,6 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Bu klasörü sildiniz mi?</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Seçim ayarları</value>
-  </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>Silmeye çalıştığınız dosya şu anda başka bir uygulama tarafından kullanılıyor.</value>
   </data>
@@ -500,9 +494,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Günlük konumunu aç</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Yeni sekme (Ctrl + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>öge seçildi</value>
@@ -920,9 +911,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Diğer seçenekler</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Seçim ayarları</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Durum merkezi</value>
@@ -1455,12 +1443,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Görünüm Ayarları</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Görünüm Ayarları</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Görünüm ayarları</value>
-  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Büyük simgeler</value>
   </data>
@@ -1647,7 +1629,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Bilinmiyor</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Çoklu seçim</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
@@ -1772,5 +1754,17 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Yönetici</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Seçim ayarları</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Seçim ayarları</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Görünüm ayarları</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Görünüm ayarları</value>
   </data>
 </root>

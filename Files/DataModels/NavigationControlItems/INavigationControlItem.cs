@@ -1,12 +1,11 @@
 ﻿using System;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public interface INavigationControlItem : IComparable<INavigationControlItem>
     {
-        public SvgImageSource Icon { get; }
-
         public string Text { get; }
 
         public string Path { get; }

@@ -275,8 +275,12 @@ namespace Files.Views.LayoutModes
 
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = e.OriginalSource as TextBox;
-            CommitRename(textBox);
+            // This check allows the user to use the text box context menu without ending the rename
+            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            {
+                TextBox textBox = e.OriginalSource as TextBox;
+                CommitRename(textBox);
+            }
         }
 
         private async void CommitRename(TextBox textBox)
@@ -435,7 +439,7 @@ namespace Files.Views.LayoutModes
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
-                if (item.ItemType == "File folder")
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     if (item.ContainsFilesOrFolders)
                     {
@@ -504,7 +508,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200);
-                if (item.ItemType == "File folder")
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     if (item.ContainsFilesOrFolders)
                     {

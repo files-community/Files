@@ -423,10 +423,6 @@
           <source>Properties</source>
           <target state="translated" state-qualifier="tm-suggestion">خصائص</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">نظرة سريعة</target>
-        </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
           <target state="translated">مرحبا بك في Files</target>
@@ -500,16 +496,19 @@
           <target state="translated" state-qualifier="tm-suggestion">‏‏هذا المجلد فارغ</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back (Alt + Left Arrow)</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏الانتقال للخلف (Alt + مفتاح السهم الأيسر)</target>
+          <source>Back (Alt+Left Arrow)</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏الانتقال للخلف (Alt + مفتاح السهم الأيسر)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward (Alt + Right Arrow)</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏الانتقال للأمام (Alt + مفتاح السهم الأيمن)</target>
+          <source>Forward (Alt+Right Arrow)</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏الانتقال للأمام (Alt + مفتاح السهم الأيمن)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Up (Alt + Up Arrow)</source>
-          <target state="translated">‏‏الانتقال للاعلى (Alt + مفتاح السهم الأيمن)</target>
+          <source>Up (Alt+Up Arrow)</source>
+          <target state="needs-review-translation">‏‏الانتقال للاعلى (Alt + مفتاح السهم الأيمن)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -635,10 +634,6 @@
           <source>Layout Mode</source>
           <target state="translated" state-qualifier="tm-suggestion">وضع التخطيط</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Selection options</source>
-          <target state="translated" state-qualifier="tm-suggestion">خيارات التحديد</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
           <source>Read-only</source>
           <target state="translated" state-qualifier="tm-suggestion">للقراءة فقط</target>
@@ -714,10 +709,6 @@
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open log location</source>
           <target state="translated">افتح موقع السجل</target>
-        </trans-unit>
-        <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>New tab (Ctrl + T)</source>
-          <target state="translated" state-qualifier="tm-suggestion">علامة تبويب جديدة	Ctrl+T</target>
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
@@ -1668,10 +1659,6 @@
           <source>More options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات إضافية</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Selection options</source>
-          <target state="translated" state-qualifier="tm-suggestion">خيارات التحديد</target>
-        </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
           <target state="translated">مركز الحالة</target>
@@ -1733,8 +1720,9 @@
           <target state="translated">نقل علامة التبويب إلى نافذة جديدة</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="translated" state-qualifier="tm-suggestion">علامة تبويب جديدة</target>
+          <source>New tab (Ctrl+T)</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">علامة تبويب جديدة</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ClearPropertiesFlyoutText.Text" translate="yes" xml:space="preserve">
           <source>Some properties may contain personal information.</source>
@@ -1929,15 +1917,6 @@
           <source>Display Options</source>
           <target state="translated" state-qualifier="tm-suggestion">خيارات العرض</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Display options</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">خيارات العرض</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Display options</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏خيارات العرض</target>
-        </trans-unit>
         <trans-unit id="NavToolbarGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">عرض الشبكة (كبير)</target>
@@ -2121,8 +2100,8 @@
           <target state="new">Cloud Drives</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Toggle the preview pane (Ctrl + P)</source>
-          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+          <source>Toggle the preview pane (Ctrl+P)</source>
+          <target state="new">Toggle the preview pane (Ctrl+P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
@@ -2743,6 +2722,62 @@
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
           <target state="new">Date modified:</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="new">Open folders in new tab</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">خيارات التحديد</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">خيارات التحديد</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="translated">خيارات العرض</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="translated">خيارات العرض</target>
+        </trans-unit>
+        <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File icon</source>
+          <target state="new">File icon</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path column</source>
+          <target state="new">Original path column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type column</source>
+          <target state="new">Item type column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified column</source>
+          <target state="new">Date modified column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted column</source>
+          <target state="new">Date deleted column</target>
+        </trans-unit>
+        <trans-unit id="ResizeElementKeyboardControl.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Sidebar resizer</source>
+          <target state="new">Sidebar resizer</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl+T)</source>
+          <target state="new">New tab (Ctrl+T)</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Close tab (Ctrl+W)</source>
+          <target state="new">Close tab (Ctrl+W)</target>
+        </trans-unit>
+        <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="new">Open with</target>
         </trans-unit>
       </group>
     </body>
