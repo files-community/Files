@@ -22,7 +22,7 @@ namespace Files.Helpers
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
                 GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetFriendlyTimeSpan().text,
                 GroupOption.DateModified => x => x.ItemDateModifiedReal.GetFriendlyTimeSpan().text,
-                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
+                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
                 GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetFriendlyTimeSpan().text,
                 _ => null,
