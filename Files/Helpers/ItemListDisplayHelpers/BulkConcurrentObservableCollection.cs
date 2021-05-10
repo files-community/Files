@@ -68,11 +68,11 @@ namespace Files.Helpers
 
         public Func<T, string> ItemGroupKeySelector {
             get => itemGroupKeySelector;
-            set { 
+            set {
                 itemGroupKeySelector = value;
                 if (value != null)
                 {
-                    GroupedCollection = new BulkConcurrentObservableCollection<GroupedCollection<T>>();
+                    GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
                 } else
                 {
                     GroupedCollection = null;
