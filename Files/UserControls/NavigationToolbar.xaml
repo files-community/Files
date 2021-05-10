@@ -974,7 +974,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    AccessKey="S"
+                    AccessKey="A"
                     AutomationProperties.Name="Arrangement options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"

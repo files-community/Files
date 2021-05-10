@@ -64,16 +64,17 @@
         <Rectangle
             Grid.Column="1"
             Width="1"
-            Margin="5,0,5,0"
+            Margin="16,0,16,0"
             VerticalAlignment="Stretch"
             Fill="{ThemeResource MenuFlyoutSeparatorThemeBrush}"
-            RadiusX="0.5"
-            RadiusY="0.5" />
+            RadiusX="1"
+            RadiusY="1" />
 
         <StackPanel
             Grid.Column="2"
-            Margin="5,0,0,0"
-            Orientation="Vertical">
+            Margin="0,0,0,0"
+            Orientation="Vertical"
+            Spacing="8">
             <muxc:RadioButtons
                 x:Uid="NavToolbarSortByRadioButtons"
                 Grid.Column="2"

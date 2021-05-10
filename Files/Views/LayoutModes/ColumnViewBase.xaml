@@ -1436,6 +1436,7 @@
                                         <StackPanel Orientation="Horizontal" Spacing="5">
                                             <TextBlock
                                                 VerticalAlignment="Bottom"
+                                                FontSize="16"
                                                 Foreground="{ThemeResource MediaTextThemeBrush}"
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{x:Bind Model.Text, Mode=OneWay}" />
@@ -1483,7 +1484,7 @@
                                     <StackPanel Orientation="Horizontal" Spacing="5">
                                         <TextBlock
                                             VerticalAlignment="Bottom"
-                                            FontSize="20"
+                                            FontSize="16"
                                             FontWeight="SemiBold"
                                             Style="{StaticResource SubheaderTextBlockStyle}"
                                             Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
