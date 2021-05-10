@@ -912,7 +912,7 @@
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search">
-                <FontIcon FontSize="14" Glyph="&#xE721;" />
+                <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
             </Button>
         </Grid>
 
