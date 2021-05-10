@@ -1442,7 +1442,6 @@
                                                         <TextBlock
                                                             VerticalAlignment="Bottom"
                                                             FontSize="16"
-                                                            Foreground="{ThemeResource MediaTextThemeBrush}"
                                                             Style="{StaticResource SubtitleTextBlockStyle}"
                                                             Text="{x:Bind Model.Text, Mode=OneWay}" />
                                                         <TextBlock
