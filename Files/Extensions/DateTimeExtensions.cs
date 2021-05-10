@@ -64,17 +64,17 @@ namespace Files.Extensions
             var diff = t - dt;
             if (t.Month == t2.Month && t.Day == t2.Day)
             {
-                return ("ItemTimeText_Today".GetLocalized(), today.ToShortDateString(), "\ue184", 0);
+                return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
             if(t.Month == t2.Month && t.Day - t2.Day < 2)
             {
-                return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToShortDateString(), "\ue161", 1);
+                return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToUserDateString(), "\ue161", 1);
             }
 
             if (diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
             {
-                return ("ItemTimeText_ThisWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).Date.ToShortDateString(), "\uE162", 2);
+                return ("ItemTimeText_ThisWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).ToUserDateString(), "\uE162", 2);
             }
 
             if (diff.Days <= 14 && t.GetWeekOfYear() - 1 == t2.GetWeekOfYear())
@@ -84,20 +84,20 @@ namespace Files.Extensions
 
             if (t.Year == t2.Year && t.Month == t2.Month)
             {
-                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day-1)).Date.ToShortDateString(), "\ue163", 4);
+                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day-1)).ToUserDateString(), "\ue163", 4);
             }
             
             if(t.Year == t2.Year && t.Month-1 == t2.Month)
             {
-                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).Date.ToShortDateString(), "\ue163", 5);
+                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).ToUserDateString(), "\ue163", 5);
             }
 
             if(t.Year == t2.Year)
             {
-                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear-1)).Date.ToShortDateString(), "\ue163", 5);
+                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear-1)).ToUserDateString(), "\ue163", 5);
             }
 
-            return ("ItemTimeText_Older".GetLocalized(), string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)).ToShortDateString()), "\uEC92", 6);
+            return ("ItemTimeText_Older".GetLocalized(), string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)).ToUserDateString()), "\uEC92", 6);
         }
 
         private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
@@ -105,6 +105,16 @@ namespace Files.Extensions
         {
             // Should we use the system setting for the first day of week in the future?
             return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+        }
+
+        public static string ToUserDateString(this DateTimeOffset t)
+        {
+            return App.AppSettings.DisplayedTimeStyle == Enums.TimeStyle.System ? t.Date.ToShortDateString() : t.ToString("D");
+        }
+        
+        public static string ToUserDateString(this DateTime t)
+        {
+            return App.AppSettings.DisplayedTimeStyle == Enums.TimeStyle.System ? t.ToShortDateString() : t.ToString("D");
         }
     }
 }
