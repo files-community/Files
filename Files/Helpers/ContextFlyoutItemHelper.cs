@@ -455,6 +455,12 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalized(),
                     Glyph = "\uE8C6",
                     Command = commandsViewModel.CutItemCommand,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.X,
+                        Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                        IsEnabled = false,
+                    },
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -462,6 +468,12 @@ namespace Files.Helpers
                     Glyph = "\uE8C8",
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.C,
+                        Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                        IsEnabled = false,
+                    },
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -479,6 +491,12 @@ namespace Files.Helpers
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
                     SingleItemOnly = true,
                     IsEnabled = App.InteractionViewModel.IsPasteEnabled,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.V,
+                        Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                        IsEnabled = false,
+                    },
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -495,17 +513,25 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutDelete/Text".GetLocalized(),
                     Glyph = "\uE74D",
                     Command = commandsViewModel.DeleteItemCommand,
-                    KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.Delete },
                     ShowInRecycleBin = true,
                     IsPrimary = true,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.Delete,
+                        IsEnabled = false,
+                    },
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalized(),
                     Glyph = "\uE8AC",
                     Command = commandsViewModel.RenameItemCommand,
-                    KeyboardAccelerator = new KeyboardAccelerator() { Key = Windows.System.VirtualKey.F2 },
                     SingleItemOnly = true,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.F2,
+                        IsEnabled = false,
+                    },
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
