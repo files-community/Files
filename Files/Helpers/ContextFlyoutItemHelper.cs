@@ -51,7 +51,9 @@ namespace Files.Helpers
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
             if (overflow != null && !shiftPressed)
             {
-                var overflowItems = items.Where(x => x.ShowOnShift).ToList();
+                var overflowItems = App.AppSettings.MoveOverflowMenuItemsToSubMenu
+                    ? items.Where(x => x.ShowInMoreMenu).ToList()
+                    : new List<ContextMenuFlyoutItemViewModel>(0);
 
                 // Adds a separator between items already there and the new ones
                 if (overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
@@ -307,6 +309,7 @@ namespace Files.Helpers
                 {
                     Text = "PinItemToStart/Text".GetLocalized(),
                     Glyph = "\uE840",
+                    ShowInMoreMenu = true,
                     Command = commandsViewModel.PinItemToStartCommand,
                     ShowItem = !itemViewModel.CurrentFolder.IsItemPinnedToStart,
                 },
@@ -314,6 +317,7 @@ namespace Files.Helpers
                 {
                     Text = "UnpinItemFromStart/Text".GetLocalized(),
                     Glyph = "\uE77A",
+                    ShowInMoreMenu = true,
                     Command = commandsViewModel.UnpinItemFromStartCommand,
                     ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
                 },
@@ -533,6 +537,7 @@ namespace Files.Helpers
                 {
                     Text = "PinItemToStart/Text".GetLocalized(),
                     Glyph = "\uE840",
+                    ShowInMoreMenu = true,
                     Command = commandsViewModel.PinItemToStartCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsItemPinnedToStart),
                     SingleItemOnly = true,
@@ -541,6 +546,7 @@ namespace Files.Helpers
                 {
                     Text = "UnpinItemFromStart/Text".GetLocalized(),
                     Glyph = "\uE77A",
+                    ShowInMoreMenu = true,
                     Command = commandsViewModel.UnpinItemFromStartCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart),
                     SingleItemOnly = true,

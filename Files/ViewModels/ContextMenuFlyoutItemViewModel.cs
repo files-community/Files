@@ -20,9 +20,9 @@ namespace Files.ViewModels
         public BitmapImage BitmapIcon { get; set; }
 
         /// <summary>
-        /// Only show the item when the shift key is held
+        /// Show item in more menu where setting MoveOverflowMenuItemsToSubMenu is active and shift is not held
         /// </summary>
-        public bool ShowOnShift { get; set; }
+        public bool ShowInMoreMenu { get; set; }
 
         /// <summary>
         /// Only show when one item is selected
