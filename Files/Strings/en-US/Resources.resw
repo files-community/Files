@@ -2183,10 +2183,10 @@
   </data>
   <data name="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Arrangement options</value>
-  </data>   
+  </data>
   <data name="NavToolbarArrangementOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Arrangement options</value>
-  </data>    
+  </data>
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Group by</value>
   </data>
@@ -2213,9 +2213,6 @@
   </data>
   <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
     <value>Type</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
-    <value>Sort by</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Sort by</value>
