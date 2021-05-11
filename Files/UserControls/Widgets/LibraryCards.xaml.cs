@@ -83,13 +83,13 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay;
+        public Func<string, uint, Task<byte[]>> LoadIconOverlay;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 
-        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
+        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(async (item) =>
         {
             if (string.IsNullOrEmpty(item.Path))
             {
@@ -104,7 +104,7 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 return;
             }
 
@@ -167,13 +167,9 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async System.Threading.Tasks.Task<byte[]> GetIcon(string path)
+        private async Task<byte[]> GetIcon(string path)
         {
-            BitmapImage icon = new BitmapImage();
-
-            var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
-
-            return IconData;
+            return await LoadIconOverlay(path, 48u);
         }
 
         private async Task GetItemsAddedIcon()
@@ -328,18 +324,18 @@ namespace Files.UserControls.Widgets
             LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            NavigationHelpers.OpenPathInNewTab(item.Path);
+            await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
-        private void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
-                NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
 
@@ -381,7 +377,7 @@ namespace Files.UserControls.Widgets
                     SelectCommand = LibraryCardClicked,
                     AutomationProperties = lib.Text,
                     Library = lib,
-                }) ;
+                });
             }
             ItemsAdded.EndBulkOperation();
         }

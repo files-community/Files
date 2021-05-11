@@ -476,6 +476,18 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [open folders new tab].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [open folders new tab]; otherwise, <c>false</c>.
+        /// </value>
+        public bool OpenFoldersNewTab
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
@@ -588,15 +600,6 @@ namespace Files.ViewModels
         public int PreemptiveCacheParallelLimit
         {
             get => Get(2);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the multiselect option.
-        /// </summary>
-        public bool ShowMultiselectOption
-        {
-            get => Get(false);
             set => Set(value);
         }
 

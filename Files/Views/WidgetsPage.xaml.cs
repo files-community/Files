@@ -1,4 +1,5 @@
-﻿using Files.Dialogs;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
@@ -58,7 +59,7 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
-                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconOverlayAsync;
+                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconWithoutOverlayAsync;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
@@ -215,6 +216,8 @@ namespace Files.Views
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.CanNavigateBackward;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavigationToolbar.CanNavigateToParent = false;
+
+            AppInstance.LoadPreviewPaneChanged();
 
             // Set path of working directory empty
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");

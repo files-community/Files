@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -9,7 +6,7 @@ using Windows.Storage.Streams;
 
 namespace Files.Helpers
 {
-    static class SaveImageToFile
+    internal static class SaveImageToFile
     {
         /// <summary>
         /// This function encodes a software bitmap with the specified encoder and saves it to a file
@@ -41,6 +38,7 @@ namespace Files.Helpers
                         // but disable thumbnail generation.
                         encoder.IsThumbnailGenerated = false;
                         break;
+
                     default:
                         throw;
                 }

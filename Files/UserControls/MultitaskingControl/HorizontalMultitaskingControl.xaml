@@ -23,7 +23,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
                             Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-                            Text="New tab">
+                            Text="New tab (Ctrl+T)">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
@@ -33,7 +33,7 @@
                             Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xE97D;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -49,8 +49,8 @@
                             x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
                             Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
-                            Text="Close tabs to the right"
-                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged" />
+                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
+                            Text="Close tabs to the right" />
                     </MenuFlyout>
                 </ResourceDictionary>
                 <ResourceDictionary>
@@ -120,6 +120,7 @@
 
                                             <Button
                                                 x:Name="AddButton"
+                                                x:Uid="HorizontalMultitaskingControlAddButton"
                                                 Grid.Column="2"
                                                 Command="{TemplateBinding AddTabButtonCommand}"
                                                 CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
@@ -128,6 +129,7 @@
                                                 HighContrastAdjustment="None"
                                                 IsTextScaleFactorEnabled="False"
                                                 Style="{StaticResource TabViewButtonStyle}"
+                                                ToolTipService.ToolTip="New tab (Ctrl+T)"
                                                 Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}" />
 
                                             <ContentPresenter
@@ -366,6 +368,7 @@
                                     <Grid
                                         x:Name="LayoutRoot"
                                         Height="{TemplateBinding Height}"
+                                        Margin="-1,0,0,0"
                                         Padding="{TemplateBinding Padding}">
                                         <!--  This item will cover the separator on its left side.  -->
 
@@ -385,8 +388,8 @@
                                             Width="1"
                                             Margin="{ThemeResource TabViewItemSeparatorMargin}"
                                             HorizontalAlignment="Right"
-                                            BorderBrush="{StaticResource SystemBaseLowColor}"
-                                            BorderThickness="0" />
+                                            BorderBrush="{StaticResource SolidBackgroundFillColorQuarternary}"
+                                            BorderThickness="1" />
 
                                         <Grid
                                             x:Name="TabContainer"
@@ -433,6 +436,7 @@
 
                                             <Button
                                                 x:Name="CloseButton"
+                                                x:Uid="HorizontalMultitaskingControlCloseButton"
                                                 Grid.Column="2"
                                                 Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
                                                 Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
@@ -444,7 +448,8 @@
                                                 HighContrastAdjustment="None"
                                                 IsTabStop="False"
                                                 IsTextScaleFactorEnabled="False"
-                                                Style="{StaticResource TabViewCloseButtonStyle}" />
+                                                Style="{StaticResource TabViewCloseButtonStyle}"
+                                                ToolTipService.ToolTip="Close tab (Ctrl+W)" />
                                         </Grid>
 
                                         <VisualStateManager.VisualStateGroups>
@@ -471,6 +476,7 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderPointerOverCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderPointerOverCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -478,17 +484,18 @@
                                                     <VisualState.Setters>
                                                         <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
                                                         <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
@@ -496,6 +503,7 @@
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -503,13 +511,14 @@
                                                     <VisualState.Setters>
                                                         <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
                                                         <Setter Target="LayoutRoot.Background" Value="Transparent" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -517,12 +526,13 @@
                                                     <VisualState.Setters>
                                                         <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
                                                         <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource SolidBackgroundFillColorTertiary}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
                                                         <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
+                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                                         <Setter Target="LayoutRoot.Background" Value="Transparent" />
                                                     </VisualState.Setters>
                                                 </VisualState>
@@ -811,12 +821,12 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
+                        Height="36"
                         Margin="4,4"
+                        HorizontalAlignment="Stretch"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         CornerRadius="4"
-                        Height="36"
-                        HorizontalAlignment="Stretch"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"

@@ -58,7 +58,7 @@ namespace FilesFullTrust
                 var sid = WindowsIdentity.GetCurrent().User.ToString();
                 foreach (var drive in DriveInfo.GetDrives())
                 {
-                    var recyclePath = Path.Combine(drive.Name, "$Recycle.Bin", sid);
+                    var recyclePath = Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
                     if (drive.DriveType == DriveType.Network || !Directory.Exists(recyclePath))
                     {
                         continue;
@@ -392,6 +392,16 @@ namespace FilesFullTrust
                         { "Icon", iconOverlay.icon },
                         { "Overlay", iconOverlay.overlay },
                         { "HasCustomIcon", iconOverlay.isCustom }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "GetIconWithoutOverlay":
+                    var fileIconPath2 = (string)message["filePath"];
+                    var thumbnailSize2 = (int)(long)message["thumbnailSize"];
+                    var icon2 = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, false)).Result;
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Icon", icon2.icon },
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -790,7 +800,7 @@ namespace FilesFullTrust
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
                 "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
-                "eject", "rename", "explore",
+                "eject", "rename", "explore", "openinfiles",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };

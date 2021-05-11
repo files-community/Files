@@ -76,6 +76,7 @@
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
+                    AccessKey="A"
                     BorderThickness="0.8"
                     Content="Appearance"
                     IsSelected="True">
@@ -85,6 +86,7 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
+                    AccessKey="O"
                     BorderThickness="0.8"
                     Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
@@ -93,25 +95,27 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
+                    AccessKey="P"
                     BorderThickness="0.8"
                     Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xeb5e;" />
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
+                    AccessKey="M"
                     BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="{StaticResource OldFluentUIGlyphs}"
                             FontSize="16"
-                            Glyph="&#xeba9;" />
+                            Glyph="&#xEE40;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
+                    AccessKey="F"
                     BorderThickness="0.8"
                     Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
@@ -120,6 +124,7 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
+                    AccessKey="E"
                     BorderThickness="0.8"
                     Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
@@ -128,13 +133,13 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"
+                    AccessKey="B"
                     BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="{StaticResource OldFluentUIGlyphs}"
                             FontSize="16"
-                            Glyph="&#xe95f;" />
+                            Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
