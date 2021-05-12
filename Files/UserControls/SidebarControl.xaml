@@ -27,28 +27,15 @@
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
+                <ResourceDictionary x:Key="Default">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="{StaticResource SidebarTintLuminosityOpacity}"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{StaticResource SidebarTintOpacity}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="{StaticResource SidebarTintLuminosityOpacity}"
-                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{StaticResource SidebarTintOpacity}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
