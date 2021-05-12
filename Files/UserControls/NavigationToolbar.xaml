@@ -681,7 +681,6 @@
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
                     Click="Back_Click"
-                    CornerRadius="4"
                     IsEnabled="{x:Bind CanGoBack}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Back (Alt+Left Arrow)">
@@ -706,7 +705,6 @@
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
                     Click="Forward_Click"
-                    CornerRadius="4"
                     IsEnabled="{x:Bind CanGoForward}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
@@ -730,7 +728,6 @@
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
                     Click="Up_Click"
-                    CornerRadius="4"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
@@ -752,7 +749,6 @@
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
                     Click="Refresh_Click"
-                    CornerRadius="4"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Refresh (F5)">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
@@ -772,7 +768,7 @@
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 BorderThickness="0"
-                CornerRadius="4"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontWeight="SemiBold"
@@ -800,7 +796,7 @@
                 Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
-                CornerRadius="4"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
                 Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
 
@@ -812,7 +808,7 @@
                     VerticalContentAlignment="Stretch"
                     Background="Transparent"
                     CanReorderItems="False"
-                    CornerRadius="4"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
                     IsItemClickEnabled="True"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
                     ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
@@ -843,7 +839,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
-                CornerRadius="4"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 LostFocus="SearchRegion_LostFocus"
                 PlaceholderText="Search"
                 QuerySubmitted="SearchRegion_QuerySubmitted"
@@ -1071,7 +1067,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeDetailsView}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Details View">
@@ -1087,7 +1083,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeTiles}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Tiles View">
@@ -1105,7 +1101,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewSmall}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Small)">
@@ -1121,7 +1117,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewMedium}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Medium)">
@@ -1137,7 +1133,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewLarge}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Large)">
@@ -1153,7 +1149,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeColumnView}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View">
