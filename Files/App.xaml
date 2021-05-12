@@ -57,6 +57,8 @@
 
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                            <x:Double x:Key="SidebarTintOpacity">0</x:Double>
+                            <x:Double x:Key="SidebarTintLuminosityOpacity">0.85</x:Double>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -82,6 +84,8 @@
 
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                            <x:Double x:Key="SidebarTintOpacity">0.15</x:Double>
+                            <x:Double x:Key="SidebarTintLuminosityOpacity">0.85</x:Double>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -105,6 +109,9 @@
 
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+
+                            <x:Double x:Key="SidebarTintOpacity">0.15</x:Double>
+                            <x:Double x:Key="SidebarTintLuminosityOpacity">0.85</x:Double>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
