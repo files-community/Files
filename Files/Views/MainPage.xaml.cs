@@ -55,11 +55,6 @@ namespace Files.Views
             RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
