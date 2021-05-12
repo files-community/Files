@@ -23,10 +23,13 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
                             Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-                            Text="New tab (Ctrl+T)">
+                            Text="New tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="T" Modifiers="Control" IsEnabled="False"  />
+                            </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlDuplicateTab"
@@ -51,6 +54,15 @@
                             Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
                             Text="Close tabs to the right" />
+                        <MenuFlyoutItem
+                            x:Name="MenuItemReopenClosedTab"
+                            x:Uid="HorizontalMultitaskingControlReopenClosedTab"
+                            Click="{x:Bind vm:MainPageViewModel.ReopenClosedTab}"
+                            Text="Reopen closed tab">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="T" Modifiers="Control,Shift" IsEnabled="False" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </ResourceDictionary>
                 <ResourceDictionary>

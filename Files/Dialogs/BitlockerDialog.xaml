@@ -9,7 +9,7 @@
     x:Uid="BitlockerDialog"
     Title="Enter password to unlock the drive"
     BorderThickness="0"
-    CornerRadius="4"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="None"
     PrimaryButtonClick="BitlockerDialog_PrimaryButtonClick"
     PrimaryButtonText="Unlock"
@@ -38,7 +38,6 @@
                 x:Name="PasswordInput"
                 x:Uid="BitlockerDialogInputText"
                 Height="35"
-                IsPasswordRevealButtonEnabled="True"
                 PasswordChanged="BitlockerInput_TextChanged"
                 PasswordRevealMode="Peek"
                 PlaceholderText="Password" />

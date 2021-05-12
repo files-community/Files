@@ -3,6 +3,7 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -178,14 +179,8 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContextMenu_Opening(object sender, object e)
         {
-            if (MainPageViewModel.MultitaskingControl.Items.Count == 1)
-            {
-                MenuItemMoveTabToNewWindow.IsEnabled = false;
-            }
-            else
-            {
-                MenuItemMoveTabToNewWindow.IsEnabled = true;
-            }
+            MenuItemMoveTabToNewWindow.IsEnabled = MainPageViewModel.MultitaskingControl.Items.Count > 1;
+            MenuItemReopenClosedTab.IsEnabled = MainPageViewModel.MultitaskingControl.RecentlyClosedTabs.Any();
         }
 
         private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)

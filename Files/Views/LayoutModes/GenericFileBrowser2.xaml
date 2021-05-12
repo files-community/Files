@@ -327,7 +327,8 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <Grid Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
+                    <Grid
+                        Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         ColumnSpacing="4"
                         IsRightTapEnabled="True"
