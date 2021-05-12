@@ -54,6 +54,7 @@
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="#29000000" />
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="#37000000" />
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#0F000000" />
+
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                         </ResourceDictionary>
@@ -78,6 +79,7 @@
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="#73000000" />
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="#37000000" />
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#33000000" />
+
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                         </ResourceDictionary>
@@ -100,6 +102,9 @@
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
                             <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+
+                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
