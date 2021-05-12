@@ -80,7 +80,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Control.IsTemplateFocusTarget="True"
-                                CornerRadius="4"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
                                 FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
 
                                 <Grid.ColumnDefinitions>

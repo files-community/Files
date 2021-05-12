@@ -11,7 +11,7 @@
     CloseButtonStyle="{ThemeResource DefaultButtonStyle}"
     CloseButtonText="No"
     Content="Would you like to continue as administrator?"
-    CornerRadius="4"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="None"
     PrimaryButtonText="Yes"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
