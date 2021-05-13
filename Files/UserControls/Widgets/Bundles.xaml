@@ -123,7 +123,7 @@
                         AllowDrop="True"
                         Background="{ThemeResource ControlFillColorDefaultBrush}"
                         ColumnSpacing="8"
-                        CornerRadius="8">
+                        CornerRadius="{StaticResource OverlayCornerRadius}">
                         <i:Interaction.Behaviors>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <icore:EventTriggerBehavior EventName="DragOver">
@@ -382,7 +382,7 @@
             HorizontalAlignment="Left"
             x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Mode=OneWay}"
             Background="{ThemeResource ControlFillColorDefaultBrush}"
-            CornerRadius="8">
+            CornerRadius="{StaticResource OverlayCornerRadius}">
 
             <!--  heh xD  -->
             <Button

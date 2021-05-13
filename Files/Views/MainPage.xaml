@@ -192,15 +192,16 @@
         IsCompact="{x:Bind SidebarAdaptiveViewModel.IsWindowCompactSize, Mode=OneWay}"
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
-        <Grid HorizontalAlignment="Stretch">
-            <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+        <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
+        <controls:SidebarControl.TabContent>
             <Grid
                 x:Name="RightMarginGrid"
                 Grid.Column="1"
-                Padding="2,0,0,0"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Canvas.ZIndex="4">
+                Canvas.ZIndex="4"
+                IsHitTestVisible="True">
                 <usercontrols:HorizontalMultitaskingControl
                     x:Name="horizontalMultitaskingControl"
                     Height="50"
@@ -211,16 +212,6 @@
                     Canvas.ZIndex="40"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
             </Grid>
-            <Grid
-                x:Name="DragArea"
-                Grid.ColumnSpan="2"
-                Height="40"
-                Margin="38,0,0,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                Background="Transparent"
-                Canvas.ZIndex="3"
-                Loaded="DragArea_Loaded" />
-        </Grid>
+        </controls:SidebarControl.TabContent>
     </controls:SidebarControl>
 </Page>

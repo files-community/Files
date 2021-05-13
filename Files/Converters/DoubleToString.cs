@@ -21,7 +21,7 @@ namespace Files.Converters
             {
                 return Double.Parse(value as string);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 return null;
             }

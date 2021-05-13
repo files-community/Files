@@ -1201,7 +1201,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="Transparent"
-                        CornerRadius="4"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
                         IsRightTapEnabled="True"
                         Loaded="Grid_Loaded"
                         RightTapped="StackPanel_RightTapped"
@@ -1218,7 +1218,7 @@
                             Margin="-10,0"
                             HorizontalAlignment="Left"
                             Background="Gray"
-                            CornerRadius="2"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             Opacity="0" />
                         <Grid
                             Grid.Column="0"

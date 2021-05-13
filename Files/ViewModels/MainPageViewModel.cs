@@ -23,7 +23,7 @@ namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
-        private bool isRestoringClosedTab = false; // Avoid reopening two tabs
+        private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
@@ -144,14 +144,7 @@ namespace Files.ViewModels
             }
             else // ctrl + shift + t, restore recently closed tab
             {
-                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
-                {
-                    isRestoringClosedTab = true;
-                    ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                    isRestoringClosedTab = false;
-                }
+                ReopenClosedTab(null, null);
             }
             e.Handled = true;
         }
@@ -454,6 +447,18 @@ namespace Files.ViewModels
         public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
         {
             MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem);
+        }
+
+        public static async void ReopenClosedTab(object sender, RoutedEventArgs e)
+        {
+            if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
+            {
+                isRestoringClosedTab = true;
+                ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
+                MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
+                await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
+                isRestoringClosedTab = false;
+            }
         }
 
         public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)

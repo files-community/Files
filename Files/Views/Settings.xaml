@@ -16,22 +16,22 @@
                 <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
@@ -108,9 +108,7 @@
                     BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontSize="16"
-                            Glyph="&#xEE40;" />
+                        <FontIcon FontSize="16" Glyph="&#xEE40;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -137,9 +135,7 @@
                     BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontSize="16"
-                            Glyph="&#xE946;" />
+                        <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>

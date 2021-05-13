@@ -7,11 +7,11 @@
     xmlns:conv="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-	xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
-	HorizontalAlignment="Stretch"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
     IsBackButtonVisible="Collapsed"
@@ -27,28 +27,15 @@
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
+                <ResourceDictionary x:Key="Default">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
-                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -112,13 +99,13 @@
                     PointerPressed="Sidebar_PointerPressed"
                     RightTapped="NavigationViewWSLItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-						<muxc:ImageIcon>
-							<muxc:ImageIcon.Source>
-								<BitmapImage UriSource="{x:Bind Logo}"/>
-							</muxc:ImageIcon.Source>
-						</muxc:ImageIcon>
+                        <muxc:ImageIcon>
+                            <muxc:ImageIcon.Source>
+                                <BitmapImage UriSource="{x:Bind Logo}" />
+                            </muxc:ImageIcon.Source>
+                        </muxc:ImageIcon>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -220,6 +207,7 @@
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
                                 </Grid.ColumnDefinitions>
 
+
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
@@ -230,7 +218,6 @@
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    Canvas.ZIndex="1"
                                     Visibility="Collapsed">
 
                                     <contract7Present:Grid.BackgroundTransition>
@@ -281,6 +268,27 @@
                                     </Grid>
 
                                 </Grid>
+
+                                <!--  This defines the drag area for the title bar  -->
+                                <Grid
+                                    x:Name="DragArea"
+                                    Grid.ColumnSpan="2"
+                                    Height="40"
+                                    Margin="38,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Top"
+                                    Background="Transparent"
+                                    Canvas.ZIndex="1"
+                                    Loaded="DragArea_Loaded" />
+
+                                <!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
+                                <Border
+                                    x:Name="TabContentBorder"
+                                    Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
+                                    VerticalAlignment="Top"
+                                    Canvas.ZIndex="2"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 
                                 <!--  Content Area  -->
                                 <Grid x:Name="ContentRoot" Grid.ColumnSpan="2">
@@ -378,6 +386,9 @@
                                             <VisualTransition From="ClosedCompactLeft" To="OpenCompactOverlayLeft">
 
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -415,6 +426,9 @@
                                             <VisualTransition From="ClosedCompactRight" To="OpenCompactOverlayRight">
 
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -562,10 +576,12 @@
                                                             KeyTime="0:0:0.12"
                                                             Value="0.0" />
                                                     </DoubleAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenCompactOverlayRight" To="ClosedCompactRight">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
@@ -605,6 +621,9 @@
                                                             KeyTime="0:0:0.12"
                                                             Value="0.0" />
                                                     </DoubleAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenInlineLeft" To="Closed">
@@ -691,7 +710,6 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="ClosedCompactLeft" To="OpenInlineLeft">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -891,6 +909,9 @@
                                         <VisualState x:Name="OpenCompactOverlayLeft">
 
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -914,6 +935,9 @@
                                         <VisualState x:Name="OpenCompactOverlayRight">
 
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
                                                 </ObjectAnimationUsingKeyFrames>
