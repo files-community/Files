@@ -287,7 +287,6 @@
                                     x:Name="TabContentBorder"
                                     Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
-                                    Margin="44,0,0,0"
                                     VerticalAlignment="Top"
                                     Canvas.ZIndex="2"
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
@@ -307,13 +306,9 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="DisplayModeStates">
-
                                         <VisualStateGroup.Transitions>
                                             <VisualTransition From="Closed" To="OpenOverlayLeft">
                                                 <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0,0,0,0" />
-                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -479,7 +474,6 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenOverlayLeft" To="Closed">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -638,9 +632,6 @@
                                             <VisualTransition From="OpenInlineLeft" To="Closed">
 
                                                 <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="44,0,0,0" />
-                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="{StaticResource SplitViewPaneAnimationCloseDuration}" Value="Collapsed" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -680,9 +671,6 @@
                                             <VisualTransition From="Closed" To="OpenInlineLeft">
 
                                                 <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0,0,0,0" />
-                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -726,9 +714,6 @@
                                             </VisualTransition>
                                             <VisualTransition From="ClosedCompactLeft" To="OpenInlineLeft">
                                                 <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0,0,0,0" />
-                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -764,6 +749,7 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenInlineLeft" To="ClosedCompactLeft">
+
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
@@ -799,10 +785,8 @@
                                         </VisualStateGroup.Transitions>
                                         <VisualState x:Name="Closed" />
                                         <VisualState x:Name="ClosedCompactLeft">
+
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0,0,0,0" />
-                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -823,10 +807,8 @@
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="ClosedCompactRight">
+
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0,0,0,0" />
-                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -892,7 +874,6 @@
                                         </VisualState>
                                         <VisualState x:Name="OpenInlineLeft">
                                             <VisualState.Setters>
-                                                <Setter Target="TabContentBorder.Margin" Value="0,0,0,0" />
                                                 <Setter Target="PaneRoot.Visibility" Value="Visible" />
                                                 <Setter Target="HCPaneBorder.Visibility" Value="Visible" />
                                                 <Setter Target="ContentRoot.Grid.ColumnSpan" Value="1" />
@@ -906,9 +887,6 @@
                                         <VisualState x:Name="OpenInlineRight">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TabContentBorder" Storyboard.TargetProperty="Margin">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0,0,0,0" />
-                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
                                                 </ObjectAnimationUsingKeyFrames>

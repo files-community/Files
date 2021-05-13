@@ -6,6 +6,7 @@ using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,8 +15,6 @@ using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-
 namespace Files.ViewModels
 {
     public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
@@ -26,9 +25,9 @@ namespace Files.ViewModels
 
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
-        private Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode sidebarDisplayMode;
+        private NavigationViewDisplayMode sidebarDisplayMode;
         
-        public Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode SidebarDisplayMode
+        public NavigationViewDisplayMode SidebarDisplayMode
         {
             get => sidebarDisplayMode;
             set 
@@ -36,6 +35,7 @@ namespace Files.ViewModels
                 if(SetProperty(ref sidebarDisplayMode, value))
                 {
                     OnPropertyChanged(nameof(IsSidebarCompactSize));
+                    UpdateTabControlMargin();
                 }
             }
         }
@@ -147,9 +147,27 @@ namespace Files.ViewModels
             App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
 
-        public void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
+        public void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
         {
             SidebarDisplayMode = args.DisplayMode;
+        }
+
+
+        private void UpdateTabControlMargin()
+        {
+            TabControlMargin = SidebarDisplayMode switch
+            {
+                // This prevents the pane toggle button from overlapping the tab control in minimal mode
+                NavigationViewDisplayMode.Minimal => new Thickness(44, 0, 0, 0), 
+                _ => new Thickness(0, 0, 0, 0),
+            };
+        }
+
+        private Thickness tabControlMargin;
+        public Thickness TabControlMargin
+        {
+            get => tabControlMargin;
+            set => SetProperty(ref tabControlMargin, value);
         }
     }
 }

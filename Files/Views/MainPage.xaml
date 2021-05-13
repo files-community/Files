@@ -198,6 +198,7 @@
             <Grid
                 x:Name="RightMarginGrid"
                 Grid.Column="1"
+                Margin="{x:Bind SidebarAdaptiveViewModel.TabControlMargin, Mode=OneWay}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Canvas.ZIndex="4"
