@@ -1,12 +1,15 @@
 ﻿using Files.DataModels;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Input;
@@ -17,6 +20,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
@@ -84,6 +88,14 @@ namespace Files.UserControls
                     SetValue(SelectedSidebarItemProperty, value);
                 }
             }
+        }
+        
+        public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
+
+        public UIElement TabContent
+        {
+            get => (UIElement)GetValue(TabContentProperty);
+            set => SetValue(TabContentProperty, value);
         }
 
         private bool canOpenInNewPane;
@@ -215,11 +227,19 @@ namespace Files.UserControls
             return new GridLength(200);
         }
 
-        private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
                 IsInPointerPressed = false;
+                return;
+            }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
+            {
+                string navigationPath = args.InvokedItemContainer.Tag.ToString();
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
                 return;
             }
 
@@ -294,7 +314,7 @@ namespace Files.UserControls
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as WSLDistroItem;
+            var item = sidebarItem.DataContext as WslDistroItem;
 
             ShowEjectDevice = false;
             ShowUnpinItem = false;
@@ -584,6 +604,8 @@ namespace Files.UserControls
         {
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
+
+            (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -607,7 +629,7 @@ namespace Files.UserControls
         }
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {   
+        {
             if(IsPaneOpen)
             {
                 IncrementSize(e.Delta.Translation.X);
@@ -636,6 +658,11 @@ namespace Files.UserControls
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
         }
     }
 

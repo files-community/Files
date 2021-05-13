@@ -1,4 +1,5 @@
-﻿using Files.UserControls;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
@@ -93,7 +94,7 @@ namespace Files.Filesystem
 
                                 if (!section.ChildItems.Any(x => x.Path == folder.Path))
                                 {
-                                    section.ChildItems.Add(new WSLDistroItem()
+                                    section.ChildItems.Add(new WslDistroItem()
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,

@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
@@ -52,11 +53,6 @@ namespace Files.Views
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
-        }
-
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)

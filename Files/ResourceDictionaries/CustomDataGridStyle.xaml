@@ -122,7 +122,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Background="#8CFFFFFF"
-                            CornerRadius="2"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             IsHitTestVisible="False"
                             Opacity="0" />
                         <VisualStateManager.VisualStateGroups>

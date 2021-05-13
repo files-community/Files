@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;

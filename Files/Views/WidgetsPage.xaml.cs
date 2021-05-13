@@ -1,4 +1,5 @@
-﻿using Files.Dialogs;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;

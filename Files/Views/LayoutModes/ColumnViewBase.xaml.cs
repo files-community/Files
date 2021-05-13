@@ -33,8 +33,6 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
-        private ListViewItem navigatedfolder;
-        private Grid gridindicatior;
 
         public ColumnViewBase() : base()
         {
