@@ -21,7 +21,14 @@ namespace Files.ViewModels
     public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
     {
         public ICommand EmptyRecycleBinCommand { get; private set; }
-        public IPaneHolder PaneHolder { get; set; }
+
+        private IPaneHolder paneHolder;
+        public IPaneHolder PaneHolder
+        {
+            get => paneHolder;
+            set => SetProperty(ref paneHolder, value);
+        }
+
         public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
 
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();

@@ -15,7 +15,7 @@ namespace Files.Helpers
             {
                 if (status == ReturnResult.AccessUnauthorized)
                 {
-                    associatedInstance.StatusCenterActions.PostBanner(
+                    App.StatusCenterViewModel.PostBanner(
                         "AccessDeniedDeleteDialog/Title".GetLocalized(),
                         "AccessDeniedDeleteDialog/Text".GetLocalized(),
                         0,
@@ -24,7 +24,7 @@ namespace Files.Helpers
                 }
                 else if (status == ReturnResult.IntegrityCheckFailed)
                 {
-                    associatedInstance.StatusCenterActions.PostBanner(
+                    App.StatusCenterViewModel.PostBanner(
                         "FileNotFoundDialog/Title".GetLocalized(),
                         "FileNotFoundDialog/Text".GetLocalized(),
                         0,
@@ -33,7 +33,7 @@ namespace Files.Helpers
                 }
                 else if (status == ReturnResult.Failed || status == ReturnResult.UnknownException)
                 {
-                    associatedInstance.StatusCenterActions.PostBanner(
+                    App.StatusCenterViewModel.PostBanner(
                         "StatusDeletionFailed".GetLocalized(),
                         "StatusUnknownError".GetLocalized(),
                         0,
@@ -44,7 +44,7 @@ namespace Files.Helpers
                 {
                     if (operation == FileOperationType.Delete)
                     {
-                        associatedInstance.StatusCenterActions.PostBanner(
+                        App.StatusCenterViewModel.PostBanner(
                         "StatusDeletionComplete".GetLocalized(),
                         "StatusOperationCompleted".GetLocalized(),
                         0,
@@ -53,7 +53,7 @@ namespace Files.Helpers
                     }
                     else if (operation == FileOperationType.Recycle)
                     {
-                        associatedInstance.StatusCenterActions.PostBanner(
+                        App.StatusCenterViewModel.PostBanner(
                         "StatusRecycleComplete".GetLocalized(),
                         "StatusOperationCompleted".GetLocalized(),
                         0,

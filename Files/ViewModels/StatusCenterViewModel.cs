@@ -23,7 +23,7 @@ namespace Files.ViewModels
     {
         #region Public Properties
 
-        public static ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+        public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
         private float medianOperationProgressValue = 0.0f;
         public float MedianOperationProgressValue

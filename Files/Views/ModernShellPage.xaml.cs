@@ -47,7 +47,7 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
+        //public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -55,7 +55,7 @@ namespace Files.Views
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        public StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
+        //public StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
         private bool isCurrentInstance { get; set; } = false;
 
@@ -99,6 +99,7 @@ namespace Files.Views
                 {
                     contentPage = value;
                     NotifyPropertyChanged(nameof(ContentPage));
+                    NotifyPropertyChanged(nameof(SlimContentPage));
                 }
             }
         }

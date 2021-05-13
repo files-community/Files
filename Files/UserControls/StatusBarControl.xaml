@@ -36,8 +36,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel
+            x:Name="SelectionDirectoryInformationPanel"
             Margin="8,0"
             VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Orientation="Horizontal"
             Spacing="12">
             <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />

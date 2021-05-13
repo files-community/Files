@@ -33,6 +33,8 @@ namespace Files.Views
 
         public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
 
+        public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -226,6 +228,12 @@ namespace Files.Views
                 SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Defers the status bar loading until after the page has loaded to improve startup perf
+            FindName(nameof(StatusBarControl));
         }
     }
 }
