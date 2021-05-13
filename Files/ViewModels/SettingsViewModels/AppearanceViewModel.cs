@@ -119,7 +119,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         private async void UpdateTheme()
         {
-            await Task.Delay(150);
+            await Task.Delay(250);
 
             var selTheme = SelectedThemeIndex;
             SelectedThemeIndex = 0;
