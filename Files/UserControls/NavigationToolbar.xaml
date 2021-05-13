@@ -1071,7 +1071,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeColumnView}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View (Ctrl+Shift+1)">
@@ -1090,7 +1090,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeDetailsView}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Details View (Ctrl+Shift+2)">
@@ -1106,7 +1106,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeTiles}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Tiles View (Ctrl+Shift+3)">
@@ -1124,7 +1124,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewSmall}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+4)">
@@ -1140,7 +1140,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewMedium}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+5)">
@@ -1156,7 +1156,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewLarge}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+6)">
