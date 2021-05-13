@@ -5,8 +5,9 @@
     xmlns:UserControls="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:helpers="using:Files.Helpers"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -50,15 +51,15 @@
                     Width="Auto"
                     MinWidth="200"
                     MaxWidth="250"
+                    x:Load="{x:Bind ShowColorSchemeSelector}"
                     Header="Color scheme"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" >
+                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="helpers:AppTheme">
                             <Grid>
-                                <TextBlock Text="{x:Bind Name}"/>
+                                <TextBlock Text="{x:Bind Name}" />
                             </Grid>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -67,9 +68,9 @@
                 <HyperlinkButton
                     x:Name="OpenThemesFolderButton"
                     x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    x:Load="{x:Bind ShowColorSchemeSelector}"
                     Command="{Binding OpenThemesFolderCommand}"
-                    Content="Open themes folder"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" />
+                    Content="Open themes folder" />
 
                 <StackPanel
                     Width="Auto"
@@ -118,10 +119,5 @@
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
-
-        <UserControls:RestartControl
-            x:Name="RestartControl"
-            VerticalAlignment="Bottom"
-            ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
     </Grid>
 </Page>

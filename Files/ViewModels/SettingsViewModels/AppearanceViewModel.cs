@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.SettingsViewModels
@@ -107,16 +108,24 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTheme, value))
                 {
+                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
+
                     App.AppSettings.SelectedTheme = selectedTheme;
-                    ShowRestartControl = true;
+
+                    UpdateTheme();
                 }
             }
         }
 
-        public bool ShowRestartControl
+        private async void UpdateTheme()
         {
-            get => showRestartControl;
-            set => SetProperty(ref showRestartControl, value);
+            await Task.Delay(150);
+
+            var selTheme = SelectedThemeIndex;
+            SelectedThemeIndex = 0;
+            SelectedThemeIndex = 1;
+            SelectedThemeIndex = 2;
+            SelectedThemeIndex = selTheme;
         }
     }
 }

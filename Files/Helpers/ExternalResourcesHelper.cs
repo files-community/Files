@@ -117,6 +117,44 @@ namespace Files.Helpers
                 return false;
             }
         }
+
+        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
+        {
+            await RemoveThemeAsync(OldTheme);
+            await TryLoadThemeAsync(NewTheme);
+        }
+
+        public async Task<bool> RemoveThemeAsync(AppTheme theme)
+        {
+            try
+            {
+                StorageFile file;
+                if (theme.IsFromOptionalPackage)
+                {
+                    if (OptionalPackageThemeFolder != null)
+                    {
+                        file = await OptionalPackageThemeFolder.GetFileAsync(theme.Path);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    file = await ThemeFolder.GetFileAsync(theme.Path);
+                }
+                CurrentThemeResources = await FileIO.ReadTextAsync(file);
+                var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
+                App.Current.Resources.MergedDictionaries.Remove(xaml);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 
     public struct AppTheme
