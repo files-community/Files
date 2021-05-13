@@ -1074,7 +1074,7 @@
                                         CornerRadius="4"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Column View">
+                                        ToolTipService.ToolTip="Column View (Ctrl+Shift+1)">
                                         <FontIcon
                                             FontFamily="{StaticResource CustomGlyph}"
                                             FontSize="16"
@@ -1093,7 +1093,7 @@
                                         CornerRadius="4"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Details View">
+                                        ToolTipService.ToolTip="Details View (Ctrl+Shift+2)">
                                         <FontIcon FontSize="16" Glyph="&#xE179;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1109,7 +1109,7 @@
                                         CornerRadius="4"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Tiles View">
+                                        ToolTipService.ToolTip="Tiles View (Ctrl+Shift+3)">
                                         <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1127,7 +1127,7 @@
                                         CornerRadius="4"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Small)">
+                                        ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+4)">
                                         <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1143,7 +1143,7 @@
                                         CornerRadius="4"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Medium)">
+                                        ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+5)">
                                         <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1159,7 +1159,7 @@
                                         CornerRadius="4"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Large)">
+                                        ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+6)">
                                         <FontIcon FontSize="16" Glyph="&#xE739;" />
                                     </RadioButton>
                                 </StackPanel>
