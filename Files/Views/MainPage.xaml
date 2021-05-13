@@ -205,8 +205,6 @@
                 Grid.Row="2"
                 Grid.ColumnSpan="3"
                 x:Load="False"
-                DirectoryPropertiesViewModel="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.SlimContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-                SelectedItemsPropertiesViewModel="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.SlimContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
                 ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 ShowStatusCenter="True"
                 StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />

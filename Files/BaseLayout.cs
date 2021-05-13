@@ -37,19 +37,7 @@ namespace Files
 
         protected NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
-        private SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel;
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel 
-        {
-            get => selectedItemsPropertiesViewModel;
-            private set
-            {
-                if (value != selectedItemsPropertiesViewModel)
-                {
-                    selectedItemsPropertiesViewModel = value;
-                    NotifyPropertyChanged(nameof(DirectoryPropertiesViewModel));
-                }
-            }
-        }
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -58,20 +46,7 @@ namespace Files
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-
-        private DirectoryPropertiesViewModel directoryPropertiesViewModel;
-        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel 
-        {
-            get => directoryPropertiesViewModel;
-            private set
-            {
-                if(value != directoryPropertiesViewModel)
-                {
-                    directoryPropertiesViewModel = value;
-                    NotifyPropertyChanged(nameof(DirectoryPropertiesViewModel));
-                }
-            }
-        }
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
         public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
