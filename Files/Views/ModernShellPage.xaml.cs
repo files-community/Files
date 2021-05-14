@@ -2,6 +2,7 @@
 using Files.DataModels;
 using Files.Dialogs;
 using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
