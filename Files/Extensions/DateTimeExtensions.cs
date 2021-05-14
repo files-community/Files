@@ -100,6 +100,17 @@ namespace Files.Extensions
             return ("ItemTimeText_Older".GetLocalized(), string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)).ToUserDateString()), "\uEC92", 6);
         }
 
+        public static (string text, string range, string glyph, int index) GetUserSettingsFriendlyTimeSpan(this DateTimeOffset dt)
+        {
+            var result = dt.GetFriendlyTimeSpan();
+            if (App.AppSettings.DisplayedTimeStyle == Enums.TimeStyle.Application)
+            {
+                return result;
+            }
+
+            return (result.range, result.range, result.glyph, result.index);
+        }
+
         private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
         public static int GetWeekOfYear(this DateTimeOffset t)
         {
@@ -109,12 +120,12 @@ namespace Files.Extensions
 
         public static string ToUserDateString(this DateTimeOffset t)
         {
-            return App.AppSettings.DisplayedTimeStyle == Enums.TimeStyle.System ? t.Date.ToShortDateString() : t.ToString("D");
+            return t.Date.ToShortDateString();
         }
         
         public static string ToUserDateString(this DateTime t)
         {
-            return App.AppSettings.DisplayedTimeStyle == Enums.TimeStyle.System ? t.ToShortDateString() : t.ToString("D");
+            return t.ToShortDateString();
         }
     }
 }

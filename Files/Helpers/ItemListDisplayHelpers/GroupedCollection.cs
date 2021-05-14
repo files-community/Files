@@ -124,7 +124,14 @@ namespace Files.Helpers
             get => countText;
             set => SetPropertyWithUpdateDelay(ref countText, value);
         }
-        
+
+        private bool showCountTextBelow;
+        public bool ShowCountTextBelow
+        {
+            get => showCountTextBelow;
+            set => SetProperty(ref showCountTextBelow, value);
+        }
+
         private ImageSource imageSource;
         public ImageSource ImageSource
         {

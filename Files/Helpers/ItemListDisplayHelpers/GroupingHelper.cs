@@ -20,11 +20,11 @@ namespace Files.Helpers
             {
                 GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpper(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
-                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetFriendlyTimeSpan().text,
-                GroupOption.DateModified => x => x.ItemDateModifiedReal.GetFriendlyTimeSpan().text,
+                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.DateModified => x => x.ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan().text,
                 GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
-                GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetFriendlyTimeSpan().text,
+                GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan().text,
                 _ => null,
             };
         }
@@ -37,6 +37,7 @@ namespace Files.Helpers
                 {
                     var first = x.First();
                     x.Model.Text = first.ItemType;
+                    x.Model.Subtext = first.FileExtension;
                     if (first.IsShortcutItem)
                     {
                         x.Model.Icon = "\uE71B";
@@ -46,7 +47,6 @@ namespace Files.Helpers
                         // Always show file sections below folders
                         x.Model.SortIndexOverride = 1;
                     }
-
                 }, x =>
                 {
                     ListedItem first = x.First();
@@ -61,21 +61,22 @@ namespace Files.Helpers
                     if(first.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
                         var vals = GetGroupSizeInfo(first.FileSizeBytes);
-                        x.Model.Text = vals.text;
+                        //x.Model.Text = vals.text;
                         x.Model.Subtext = vals.range;
+                        x.Model.Text = vals.range;
                         x.Model.SortIndexOverride = vals.index;
                     }
                 }, null),
                 GroupOption.DateCreated => (x =>
                 {
-                    var vals = x.First().ItemDateCreatedReal.GetFriendlyTimeSpan();
+                    var vals = x.First().ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan();
                     x.Model.Subtext = vals.range;
                     x.Model.Icon = vals.glyph;
                     x.Model.SortIndexOverride = vals.index;
                 }, null),
                 GroupOption.DateModified => (x =>
                     {
-                        var vals = x.First().ItemDateModifiedReal.GetFriendlyTimeSpan();
+                        var vals = x.First().ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan();
                         x.Model.Subtext = vals.range;
                         x.Model.Icon = vals.glyph;
                         x.Model.SortIndexOverride = vals.index;
@@ -83,7 +84,7 @@ namespace Files.Helpers
                 
                 GroupOption.DateDeleted => (x =>
                     {
-                        var vals = (x.First() as RecycleBinItem)?.ItemDateDeletedReal.GetFriendlyTimeSpan() ?? null;
+                        var vals = (x.First() as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan() ?? null;
                         x.Model.Subtext = vals?.range;
                         x.Model.Icon = vals?.glyph;
                         x.Model.SortIndexOverride = vals?.index ?? 0;
@@ -93,6 +94,7 @@ namespace Files.Helpers
                     {
                         ListedItem first = x.First();
                         var model = x.Model;
+                        model.ShowCountTextBelow = true;
 
                         model.Text = (first as RecycleBinItem)?.ItemOriginalFolderName;
                         model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder;

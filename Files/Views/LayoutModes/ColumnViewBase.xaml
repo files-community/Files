@@ -20,6 +20,10 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
+        <converters:BoolToVisibilityConverter
+            x:Key="BoolToVisibilityConverter"
+            FalseValue="Collapsed"
+            TrueValue="Visible" />
 
         <Style x:Key="UnFocusedStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -1170,37 +1174,44 @@
             <Setter Property="Padding" Value="12,8,12,0" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}" />
             <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewHeaderItem">
-                        <StackPanel
+                        <Grid
+                            x:Name="HeaderItemRootGrid"
+                            Margin="0,0,4,0"
                             HorizontalAlignment="Stretch"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             PointerCanceled="StackPanel_PointerCanceled"
                             PointerEntered="StackPanel_PointerEntered"
                             PointerExited="StackPanel_PointerCanceled"
                             PointerPressed="RootPanel_PointerPressed"
                             PointerReleased="StackPanel_PointerCanceled">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
                             <ContentPresenter
                                 x:Name="ContentPresenter"
+                                Grid.Column="0"
                                 Margin="{TemplateBinding Padding}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                ContentTransitions="{TemplateBinding ContentTransitions}"
-                                CornerRadius="{TemplateBinding CornerRadius}" />
+                                ContentTransitions="{TemplateBinding ContentTransitions}" />
                             <Rectangle
+                                Grid.Column="1"
                                 Height="1"
-                                Margin="12,8,12,0"
                                 HorizontalAlignment="Stretch"
-                                VerticalAlignment="Bottom"
+                                VerticalAlignment="Center"
                                 Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
                                 StrokeThickness="0.5" />
 
@@ -1211,14 +1222,11 @@
 
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                         <VisualState.Setters>
@@ -1228,14 +1236,11 @@
 
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderItemRootGrid" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                         <VisualState.Setters>
@@ -1244,7 +1249,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                        </StackPanel>
+                        </Grid>
 
                     </ControlTemplate>
                 </Setter.Value>
@@ -1430,26 +1435,39 @@
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
                                     <StackPanel
-                                        Margin="4,4,0,4"
+                                        Margin="0,0,0,4"
+                                        VerticalAlignment="Top"
                                         AutomationProperties.Name="{x:Bind Model.Text}"
-                                        Orientation="Vertical">
+                                        Spacing="0">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <TextBlock
-                                                VerticalAlignment="Bottom"
+                                                VerticalAlignment="Center"
                                                 FontSize="16"
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{x:Bind Model.Text, Mode=OneWay}" />
+
                                             <TextBlock
-                                                VerticalAlignment="Bottom"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{x:Bind Model.CountText, Mode=OneWay}"
+                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+                                            <TextBlock
+                                                VerticalAlignment="Center"
                                                 FontSize="14"
                                                 Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                 Style="{StaticResource SubheaderTextBlockStyle}"
-                                                Text="{x:Bind Model.Subtext, Mode=OneWay}" />
+                                                Text="{x:Bind Model.Subtext, Mode=OneWay}"
+                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                         </StackPanel>
                                         <TextBlock
+                                            Margin="0,2,0,0"
                                             Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind Model.CountText, Mode=OneWay}" />
+                                            Text="{x:Bind Model.CountText, Mode=OneWay}"
+                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
@@ -1472,6 +1490,7 @@
                         <DataTemplate x:DataType="ICollectionViewGroup">
                             <StackPanel
                                 Margin="0,4,0,4"
+                                VerticalAlignment="Center"
                                 Orientation="Horizontal"
                                 Spacing="4">
                                 <Image
@@ -1479,21 +1498,38 @@
                                     Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
                                     Stretch="Uniform" />
                                 <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
-                                <StackPanel AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" Orientation="Vertical">
+                                <StackPanel
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+                                    Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
                                         <TextBlock
-                                            VerticalAlignment="Bottom"
+                                            VerticalAlignment="Center"
                                             FontSize="16"
-                                            FontWeight="SemiBold"
-                                            Style="{StaticResource SubheaderTextBlockStyle}"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
                                             Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+
                                         <TextBlock
-                                            VerticalAlignment="Bottom"
+                                            Margin="4,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+                                            Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+                                        <TextBlock
+                                            VerticalAlignment="Center"
                                             FontSize="14"
+                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                             Style="{StaticResource SubheaderTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}" />
+                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+                                            Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     </StackPanel>
-                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}" />
+                                    <TextBlock
+                                        Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+                                        Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
