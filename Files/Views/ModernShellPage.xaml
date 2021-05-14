@@ -166,7 +166,7 @@
     <Grid
         x:Name="RootGrid"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-        BorderThickness="0,0,0,2"
+        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
         SizeChanged="RootGrid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

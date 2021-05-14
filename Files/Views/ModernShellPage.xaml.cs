@@ -145,6 +145,18 @@ namespace Files.Views
             set { SetValue(CurrentInstanceBorderBrushProperty, value); }
         }
 
+        public Thickness CurrentInstanceBorderThickness
+        {
+            get { return (Thickness)GetValue(CurrentInstanceBorderThicknessProperty); }
+            set { SetValue(CurrentInstanceBorderThicknessProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentInstanceBorderThickness.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
+            DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
+
+
+
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
 
