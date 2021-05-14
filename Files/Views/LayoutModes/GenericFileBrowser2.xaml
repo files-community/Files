@@ -209,8 +209,7 @@
             <SemanticZoom.ZoomedInView>
                 <ListView
                     x:Name="FileList"
-                    Margin="0,4,0,0"
-                    Padding="12,0,4,0"
+                    Padding="0,0,4,0"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     x:FieldModifier="public"
