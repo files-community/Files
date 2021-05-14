@@ -42,7 +42,6 @@
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
-                    BorderThickness="0.8"
                     CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
@@ -69,7 +68,6 @@
                 <muxc:NavigationViewItem
                     Padding="0"
                     AllowDrop="True"
-                    BorderThickness="0.8"
                     Content="{x:Bind Text, Mode=OneWay}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
@@ -91,7 +89,6 @@
             <DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
                 <muxc:NavigationViewItem
                     Padding="0"
-                    BorderThickness="0.8"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
@@ -101,19 +98,17 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon>
-                            <muxc:ImageIcon.Source>
-                                <BitmapImage UriSource="{x:Bind Logo}" />
-                            </muxc:ImageIcon.Source>
-                        </muxc:ImageIcon>
-                    </muxc:NavigationViewItem.Icon>
+						<muxc:ImageIcon>
+							<muxc:ImageIcon.Source>
+								<BitmapImage UriSource="{x:Bind Logo}"/>
+							</muxc:ImageIcon.Source>
+						</muxc:ImageIcon>
+					</muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
             <conv:NavigationViewCompactConverter x:Key="DisplayModeConverter" />
-
-            <x:Double x:Key="NavigationViewItemExpandedGlyphFontSize">8.0</x:Double>
 
             <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                 <MenuFlyout.Items>
@@ -197,11 +192,11 @@
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}" />
                 <Setter Property="CompactPaneLength" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
                 <Setter Property="PaneBackground" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
-                <!--<contract7Present:Setter Property="CornerRadius" Value="{ThemeResource SplitViewPaneRootCornerRadius}" />-->
+                <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
-                            <Grid Background="{TemplateBinding Background}">
+                            <Grid CornerRadius="0" Background="{TemplateBinding Background}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition x:Name="ColumnDefinition1" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneGridLength, FallbackValue=0}" />
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
@@ -214,7 +209,7 @@
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
-                                    contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+									CornerRadius="0"
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -995,7 +990,7 @@
             Margin="10,6"
             VerticalAlignment="Center"
             FontSize="16"
-            FontWeight="Medium"
+            FontWeight="SemiBold"
             Text="Files" />
     </muxc:NavigationView.PaneHeader>
 

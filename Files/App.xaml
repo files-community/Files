@@ -138,7 +138,9 @@
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
 
-                    <!--  WinUI style is breaking us, overriding with a modified version solves crashes in release  -->
+					<Thickness x:Key="NavigationViewContentPresenterMargin">0,0,0,0</Thickness>
+
+					<!--  WinUI style is breaking us, overriding with a modified version solves crashes in release  -->
                     <Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnLeftPane" TargetType="primitives:NavigationViewItemPresenter">
                         <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
                         <Setter Property="Background" Value="{ThemeResource NavigationViewItemBackground}" />
