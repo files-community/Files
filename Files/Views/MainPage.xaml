@@ -203,7 +203,6 @@
             <controls:StatusBarControl
                 x:Name="StatusBarControl"
                 Grid.Row="2"
-                Grid.ColumnSpan="3"
                 x:Load="False"
                 ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 ShowStatusCenter="True"

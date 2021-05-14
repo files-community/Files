@@ -27,7 +27,7 @@
     </UserControl.Resources>
 
     <Grid
-        Height="38"
+        Height="42"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
         <Grid.ColumnDefinitions>
@@ -65,7 +65,7 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="0,2,8,2"
+            Padding="0,2,8,8"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
