@@ -266,11 +266,13 @@ namespace Files.DataModels
                     Font = InteractionViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Icon = new Windows.UI.Xaml.Media.Imaging.SvgImageSource(GlyphHelper.GetIconUri(path)),
-                    IconSource = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
+                await locationItem.SetBitmapImage(await res.Result?.GetThumbnailAsync(
+                    Windows.Storage.FileProperties.ThumbnailMode.ListView, 
+                    24, 
+                    Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail));
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
                 {

@@ -88,9 +88,9 @@ namespace Files.Filesystem
 
         // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
         // TODO: eventually we should remove this b/c it's not thread safe
-        private SvgImageSource customIcon;
+        private BitmapImage customIcon;
 
-        public SvgImageSource CustomIcon
+        public BitmapImage CustomIcon
         {
             get => customIcon;
             set
