@@ -27,7 +27,7 @@
         <muxc:RadioButtons
             x:Uid="NavToolbarGroupByRadioButtons"
             FontWeight="Bold"
-            Header="Group by"
+            Header="Group By"
             SelectedIndex="{x:Bind SelectedGroupMode, Mode=TwoWay, Converter={StaticResource IntToGroupOption}}">
             <RadioButton
                 x:Uid="NavToolbarGroupByOption_None"
@@ -82,7 +82,7 @@
                 x:Uid="NavToolbarSortByRadioButtons"
                 Grid.Column="2"
                 FontWeight="Bold"
-                Header="Sort by"
+                Header="Sort By"
                 SelectedIndex="{x:Bind SelectedSortMode, Mode=TwoWay, Converter={StaticResource IntToSortOption}}">
                 <RadioButton
                     x:Uid="NavToolbarArrangementOption_Name"

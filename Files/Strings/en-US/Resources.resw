@@ -2188,7 +2188,7 @@
     <value>Arrangement options</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
-    <value>Group by</value>
+    <value>Group By</value>
   </data>
   <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
     <value>None</value>
@@ -2215,7 +2215,7 @@
     <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
-    <value>Sort by</value>
+    <value>Sort By</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sort direction</value>
