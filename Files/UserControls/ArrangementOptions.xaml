@@ -23,6 +23,7 @@
         </Grid.ColumnDefinitions>
         <muxc:RadioButtons
             x:Uid="NavToolbarGroupByRadioButtons"
+            FontWeight="Bold"
             Header="Group by"
             SelectedIndex="{x:Bind SelectedGroupMode, Mode=TwoWay, Converter={StaticResource IntToGroupOption}}">
             <RadioButton
@@ -77,6 +78,7 @@
             <muxc:RadioButtons
                 x:Uid="NavToolbarSortByRadioButtons"
                 Grid.Column="2"
+                FontWeight="Bold"
                 Header="Sort by"
                 SelectedIndex="{x:Bind SelectedSortMode, Mode=TwoWay, Converter={StaticResource IntToSortOption}}">
                 <RadioButton
@@ -113,6 +115,7 @@
 
             <muxc:RadioButtons
                 x:Uid="NavToolbarSortDirectionRadioButtons"
+                FontWeight="Bold"
                 Header="Sort direction"
                 MaxColumns="1"
                 SelectedIndex="{x:Bind SelectedSortDirection, Mode=TwoWay, Converter={StaticResource IntToSortDirection}}">
