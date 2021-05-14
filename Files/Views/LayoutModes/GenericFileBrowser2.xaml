@@ -595,10 +595,10 @@
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
                                     <StackPanel
-                                        Margin="5,4,0,4"
+                                        Margin="4,4,0,4"
                                         AutomationProperties.Name="{x:Bind Model.Text}"
                                         Orientation="Vertical">
-                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
                                             <TextBlock
                                                 VerticalAlignment="Bottom"
                                                 FontSize="16"
@@ -663,16 +663,16 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
                             <StackPanel
-                                Margin="0,5,0,5"
+                                Margin="0,4,0,4"
                                 Orientation="Horizontal"
-                                Spacing="5">
+                                Spacing="4">
                                 <Image
                                     Height="36"
                                     Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
                                     Stretch="Uniform" />
                                 <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
                                 <StackPanel AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
                                         <TextBlock
                                             VerticalAlignment="Bottom"
                                             FontSize="16"
