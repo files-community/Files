@@ -2215,7 +2215,7 @@
     <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
-    <value>Sort by</value>
+    <value>Sort By</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sort direction</value>
