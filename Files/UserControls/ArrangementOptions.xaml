@@ -82,7 +82,7 @@
                 x:Uid="NavToolbarSortByRadioButtons"
                 Grid.Column="2"
                 FontWeight="Bold"
-                Header="Sort by"
+                Header="Sort By"
                 SelectedIndex="{x:Bind SelectedSortMode, Mode=TwoWay, Converter={StaticResource IntToSortOption}}">
                 <RadioButton
                     x:Uid="NavToolbarArrangementOption_Name"
