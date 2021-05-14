@@ -47,16 +47,10 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
-
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
-
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-
-        public StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
-
         private bool isCurrentInstance { get; set; } = false;
 
         public bool IsCurrentInstance
@@ -99,6 +93,7 @@ namespace Files.Views
                 {
                     contentPage = value;
                     NotifyPropertyChanged(nameof(ContentPage));
+                    NotifyPropertyChanged(nameof(SlimContentPage));
                 }
             }
         }
@@ -149,6 +144,18 @@ namespace Files.Views
             get { return (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty); }
             set { SetValue(CurrentInstanceBorderBrushProperty, value); }
         }
+
+        public Thickness CurrentInstanceBorderThickness
+        {
+            get { return (Thickness)GetValue(CurrentInstanceBorderThicknessProperty); }
+            set { SetValue(CurrentInstanceBorderThicknessProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentInstanceBorderThickness.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
+            DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
+
+
 
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));

@@ -138,7 +138,10 @@
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
 
-                    <!--  WinUI style is breaking us, overriding with a modified version solves crashes in release  -->
+					<x:Double x:Key="SidebarIconSize">20</x:Double>
+					<Thickness x:Key="NavigationViewContentPresenterMargin">0,0,0,0</Thickness>
+
+					<!--  WinUI style is breaking us, overriding with a modified version solves crashes in release  -->
                     <Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnLeftPane" TargetType="primitives:NavigationViewItemPresenter">
                         <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
                         <Setter Property="Background" Value="{ThemeResource NavigationViewItemBackground}" />
@@ -203,7 +206,7 @@
                                                 <Border x:Name="IconColumn" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerIconWidth}">
                                                     <Viewbox
                                                         x:Name="IconBox"
-                                                        Height="16"
+                                                        Height="{StaticResource SidebarIconSize}"
                                                         Margin="{ThemeResource NavigationViewItemOnLeftIconBoxMargin}">
                                                         <ContentPresenter
                                                             x:Name="Icon"

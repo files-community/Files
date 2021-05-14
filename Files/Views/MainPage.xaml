@@ -15,6 +15,7 @@
     xmlns:viewmodels="using:Files.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
+    Loaded="Page_Loaded"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.DataContext>
@@ -192,7 +193,21 @@
         IsCompact="{x:Bind SidebarAdaptiveViewModel.IsWindowCompactSize, Mode=OneWay}"
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
-        <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+
+            <controls:StatusBarControl
+                x:Name="StatusBarControl"
+                Grid.Row="2"
+                x:Load="False"
+                ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                ShowStatusCenter="True"
+                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+        </Grid>
 
         <controls:SidebarControl.TabContent>
             <Grid

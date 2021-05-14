@@ -59,6 +59,8 @@ namespace Files
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
+
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
         public static class AppData

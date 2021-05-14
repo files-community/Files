@@ -22,6 +22,7 @@ namespace Files.ViewModels
     {
         public ICommand EmptyRecycleBinCommand { get; private set; }
         public IPaneHolder PaneHolder { get; set; }
+
         public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
 
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
