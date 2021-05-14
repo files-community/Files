@@ -35,7 +35,6 @@ namespace Files.Helpers
             {
                 GroupOption.FileType => (x =>
                 {
-                    x.Model.Subtext = x.Model.Key;
                     var first = x.First();
                     x.Model.Text = first.ItemType;
                     if (first.IsShortcutItem)
@@ -54,7 +53,6 @@ namespace Files.Helpers
                     var model = x.Model;
 
                     model.Text = first.ItemType;
-                    model.Subtext = first.FileExtension;
                 }
                 ),
                 GroupOption.Size => (x =>
