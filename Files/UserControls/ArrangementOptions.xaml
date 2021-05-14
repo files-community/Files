@@ -14,6 +14,9 @@
         <converters:IntToGroupOption x:Key="IntToGroupOption" />
         <converters:IntToSortOption x:Key="IntToSortOption" />
         <converters:IntToSortDirection x:Key="IntToSortDirection" />
+        <Style BasedOn="{StaticResource DefaultRadioButtonStyle}" TargetType="RadioButton">
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
