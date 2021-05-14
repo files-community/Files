@@ -179,11 +179,6 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
-            if (FileList.ItemsSource == null)
-            {
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
-            }
-
             ColumnsViewModel.TotalWidth = Math.Max(800, RootGrid.Width);
 
             var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -251,11 +246,6 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-
-            if (e.SourcePageType != typeof(GridViewBrowser))
-            {
-                FileList.ItemsSource = null;
-            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)

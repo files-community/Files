@@ -164,6 +164,9 @@
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
+    <Compile Include="Converters\IntToGroupOption.cs" />
+    <Compile Include="Converters\IntToSortDirection.cs" />
+    <Compile Include="Converters\IntToSortOption.cs" />
     <Compile Include="Converters\MiddleTextEllipsisConverter.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\NavigationViewCompactConverter.cs" />
@@ -194,9 +197,12 @@
     <Compile Include="EventArguments\Bundles\BundlesLoadIconOverlayEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
@@ -228,6 +234,7 @@
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
     <Compile Include="Helpers\OptionalPackageManager.cs" />
     <Compile Include="Helpers\ShellContextMenuHelper.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\SortingHelper.cs" />
     <Compile Include="Helpers\UIFilesystemHelpers.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />
     <Compile Include="Helpers\UIHelpers.cs" />
@@ -235,6 +242,9 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
+    <Compile Include="UserControls\ArrangementOptions.xaml.cs">
+      <DependentUpon>ArrangementOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
@@ -393,7 +403,7 @@
     <Compile Include="Helpers\PostBannerHelpers.cs" />
     <Compile Include="Helpers\RecycleBinHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\BulkConcurrentObservableCollection.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
@@ -810,6 +820,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\FilesystemOperationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ArrangementOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

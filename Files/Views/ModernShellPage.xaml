@@ -279,7 +279,16 @@
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                 ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                UpRequested="ModernShellPage_UpNavRequested" />
+                UpRequested="ModernShellPage_UpNavRequested">
+                <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+                    <controls:ArrangementOptions
+                        x:Name="ArrangementOptionsFlyoutContent"
+                        IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                        SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
+                        SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
+                        SelectedSortMode="{x:Bind InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
+                </controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+            </controls:NavigationToolbar>
         </Custom:DropShadowPanel>
     </Grid>
 </Page>

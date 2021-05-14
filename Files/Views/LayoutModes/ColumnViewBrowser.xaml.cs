@@ -235,10 +235,6 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            if (FileList.ItemsSource == null)
-            {
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
-            }
             columnparent = ParentShellPageInstance;
             parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)

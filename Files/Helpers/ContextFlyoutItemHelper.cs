@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.ViewModels;
@@ -239,6 +240,89 @@ namespace Files.Helpers
                             Command = new RelayCommand(() => itemViewModel.IsSortedDescending = true),
                             ShowInRecycleBin = true,
                             ItemType = ItemType.Toggle
+                        },
+                    }
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "NavToolbarGroupByRadioButtons/Header".GetLocalized(),
+                    Glyph = "\uF168",
+                    ShowInRecycleBin = true,
+                    Items = new List<ContextMenuFlyoutItemViewModel>()
+                    {
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "NavToolbarGroupByOption_None/Content".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.None,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.None,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByName/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Name,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.Name,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "NavToolbarArrangementOption_OriginalFolder/Content".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.OriginalFolder,
+                            ItemType = ItemType.Toggle,
+                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.DateDeleted,
+                            ItemType = ItemType.Toggle,
+                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateModified,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.DateModified,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByDateCreated/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateCreated,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.DateCreated,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByType/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileType,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.FileType,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortBySize/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Size,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.Size,
+                            ItemType = ItemType.Toggle,
                         },
                     }
                 },
