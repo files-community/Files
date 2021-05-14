@@ -10,7 +10,7 @@
     Title="{Binding TitleText, Mode=OneWay}"
     CloseButtonStyle="{StaticResource DefaultButtonStyle}"
     CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
-    CornerRadius="4"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
     IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"

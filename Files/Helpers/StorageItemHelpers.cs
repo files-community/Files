@@ -28,7 +28,7 @@ namespace Files.Helpers
                 //      we could implement this code here for getting .lnk files
                 //      for now, we can't
 
-                return default(TOut);
+                return default;
 
                 if (false) // Prevent unnecessary exceptions
                 {
@@ -72,7 +72,7 @@ namespace Files.Helpers
                 return (TOut)(IStorageItem)folder.Result;
             }
 
-            return default(TOut);
+            return default;
 
             // Extensions
 

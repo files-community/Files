@@ -311,7 +311,7 @@ namespace Files.Interacts
                     Clipboard.Flush();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Debugger.Break();
             }

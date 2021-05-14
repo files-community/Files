@@ -31,16 +31,12 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
-        private List<Frame> Frames;
-        private string NavParam;
         private DispatcherQueueTimer tapDebounceTimer;
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
         public static IShellPage columnparent;
         private NavigationArguments parameters;
-        private ListViewItem navigatedfolder;
-        private Grid gridindicatior;
         private ListViewItem listViewItem;
         public static ColumnViewBrowser ColumnViewBrowser1;
 

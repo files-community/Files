@@ -1411,7 +1411,7 @@
     <value>Move tab to new window</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>New tab (Ctrl+T)</value>
@@ -2276,5 +2276,8 @@
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} items</value>
+  </data>
+    <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>Reopen closed tab</value>
   </data>
 </root>
