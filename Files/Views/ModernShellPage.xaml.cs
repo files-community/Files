@@ -47,16 +47,10 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        //public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
-
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
-
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-
-        //public StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
-
         private bool isCurrentInstance { get; set; } = false;
 
         public bool IsCurrentInstance
