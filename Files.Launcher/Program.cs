@@ -377,6 +377,7 @@ namespace FilesFullTrust
                     var driveName = (string)message["drivename"];
                     var newLabel = (string)message["newlabel"];
                     Win32API.SetVolumeLabel(driveName, newLabel);
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "SetVolumeLabel", driveName } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "FileOperation":
@@ -739,7 +740,8 @@ namespace FilesFullTrust
                     break;
 
                 case "OpenMapNetworkDriveDialog":
-                    NetworkDrivesAPI.OpenMapNetworkDriveDialog();
+                    var hwnd = (long)message["HWND"];
+                    NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":

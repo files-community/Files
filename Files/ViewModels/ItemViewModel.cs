@@ -1206,7 +1206,7 @@ namespace Files.ViewModels
                         value.Add("action", "Unlock");
                         value.Add("drive", Path.GetPathRoot(path));
                         value.Add("password", userInput);
-                        await Connection.SendMessageAsync(value);
+                        _ = await Connection.SendMessageForResponseAsync(value);
 
                         if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                         {
