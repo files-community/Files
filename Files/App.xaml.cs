@@ -34,7 +34,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -59,6 +58,8 @@ namespace Files
         public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
@@ -412,6 +413,10 @@ namespace Files
             LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
+
+#if DEBUG
+            Current.Exit();
+#endif
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
@@ -442,8 +447,46 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
+            string formattedException = string.Empty;
+
+            formattedException += "--------- UNHANDLED EXCEPTION ---------";
+            if (ex != null)
+            {
+                formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
+                if (ex.Message != null)
+                {
+                    formattedException += "\n--- MESSAGE ---";
+                    formattedException += ex.Message;
+                }
+                if (ex.StackTrace != null)
+                {
+                    formattedException += "\n--- STACKTRACE ---";
+                    formattedException += ex.StackTrace;
+                }
+                if (ex.Source != null)
+                {
+                    formattedException += "\n--- SOURCE ---";
+                    formattedException += ex.Source;
+                }
+                if (ex.InnerException != null)
+                {
+                    formattedException += "\n--- INNER ---";
+                    formattedException += ex.InnerException;
+                }
+            }
+            else
+            {
+                formattedException += "\nException is null!\n";
+            }
+
+            formattedException += "---------------------------------------";
+
+            Debug.WriteLine(formattedException);
+
+            Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+
             SaveSessionTabs();
-            Logger.Error(ex, ex.Message);
+            Logger.Error(ex, formattedException);
             if (ShowErrorNotification)
             {
                 var toastContent = new ToastContent()
@@ -496,34 +539,5 @@ namespace Files
                 Application.Current.Exit();
             }
         }
-    }
-
-    public class WSLDistroItem : INavigationControlItem
-    {
-        public SvgImageSource Icon { get; set; } = null;
-
-        public string Text { get; set; }
-
-        private string path;
-
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
-            }
-        }
-
-        public string HoverDisplayText { get; private set; }
-
-        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
-
-        public Uri Logo { get; set; }
-
-        public SectionType Section { get; private set; }
-
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

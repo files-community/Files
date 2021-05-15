@@ -70,6 +70,7 @@
                 VerticalAlignment="Stretch">
                 <usercontrols:FileIcon
                     AutomationProperties.AccessibilityView="Raw"
+                    FileIconImageData="{x:Bind ViewModel.IconData, Mode=OneWay}"
                     ItemSize="80"
                     ViewModel="{x:Bind ViewModel}" />
             </Grid>

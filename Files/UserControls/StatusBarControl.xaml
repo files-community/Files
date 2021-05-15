@@ -14,8 +14,8 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
-    mc:Ignorable="d"
-    Loading="UserControl_Loading">
+    Loading="UserControl_Loading"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -27,7 +27,7 @@
     </UserControl.Resources>
 
     <Grid
-        Height="38"
+        Height="42"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
         <Grid.ColumnDefinitions>
@@ -36,8 +36,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel
+            x:Name="SelectionDirectoryInformationPanel"
             Margin="8,0"
             VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Orientation="Horizontal"
             Spacing="12">
             <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
@@ -63,7 +65,7 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="0,2,8,2"
+            Padding="0,2,8,8"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
@@ -73,6 +75,7 @@
                 Width="36"
                 Height="32"
                 x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                AccessKey="M"
                 Background="Transparent"
                 Click="FullTrustStatus_Click"
                 FontSize="16"
@@ -87,6 +90,7 @@
                     Width="36"
                     Height="32"
                     Padding="0"
+                    AccessKey="T"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -113,8 +117,8 @@
                                 MinHeight="300"
                                 MaxHeight="400"
                                 x:FieldModifier="public"
-                                IsTabStop="True" 
-                                StatusCenterViewModel="{x:Bind StatusCenterViewModel}"/>
+                                IsTabStop="True"
+                                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>

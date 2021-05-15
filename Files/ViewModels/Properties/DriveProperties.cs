@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace Files.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.CustomIcon = Drive.Icon;
+                ViewModel.CustomIconSource = Drive.IconSource;
                 ViewModel.LoadCustomIcon = true;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.ItemFileIconLabel = Drive.Text;

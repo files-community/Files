@@ -42,7 +42,7 @@ namespace Files.ViewModels.Properties
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             // Cannot get date and owner in MTP devices
-            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);
+            ViewModel.ItemAccessedTimestamp = ((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
 
             if (App.AppSettings.ShowFileOwner)
             {

@@ -47,7 +47,8 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemType = Library.ItemType;
                 //ViewModel.FileIconSource = Library.FileImage;
                 ViewModel.LoadCustomIcon = Library.LoadCustomIcon;
-                ViewModel.CustomIcon = Library.CustomIcon;
+                ViewModel.CustomIconSource = Library.CustomIconSource;
+                ViewModel.IconData = Library.CustomIconData;
                 ViewModel.LoadFolderGlyph = Library.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Library.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Library.LoadFileIcon;
@@ -65,7 +66,7 @@ namespace Files.ViewModels.Properties
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(libraryFile.DateCreated, returnformat);
+                ViewModel.ItemCreatedTimestamp = libraryFile.DateCreated.GetFriendlyDateFromFormat(returnformat);
                 GetOtherProperties(libraryFile.Properties);
             }
 

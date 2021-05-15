@@ -11,8 +11,6 @@ namespace Files
 {
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
-        IStatusCenterActions StatusCenterActions { get; }
-
         //Interaction InteractionOperations { get; }
 
         ItemViewModel FilesystemViewModel { get; }
@@ -44,6 +42,8 @@ namespace Files
         void RemoveLastPageFromBackStack();
 
         void SubmitSearch(string query, bool searchUnindexedItems);
+
+        void LoadPreviewPaneChanged();
     }
 
     public interface IPaneHolder : IDisposable

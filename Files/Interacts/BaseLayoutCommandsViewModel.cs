@@ -70,6 +70,7 @@ namespace Files.Interacts
             DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
             RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(commandsModel.SearchUnindexedItems);
+            CreateFolderWithSelection = new RelayCommand<RoutedEventArgs>(commandsModel.CreateFolderWithSelection);
         }
 
         #endregion Command Initialization
@@ -154,6 +155,7 @@ namespace Files.Interacts
 
         public ICommand RefreshCommand { get; private set; }
         public ICommand SearchUnindexedItems { get; private set; }
+        public ICommand CreateFolderWithSelection { get; private set; }
 
         #endregion Commands
 

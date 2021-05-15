@@ -33,8 +33,6 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
-        private ListViewItem navigatedfolder;
-        private Grid gridindicatior;
 
         public ColumnViewBase() : base()
         {
@@ -55,7 +53,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
         }
 
@@ -70,20 +67,6 @@ namespace Files.Views.LayoutModes
                 else
                 {
                     listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
-        {
-            if (!InstanceViewModel.IsPageTypeSearchResults)
-            {
-                foreach (ListedItem listedItem in FileList.Items.ToList())
-                {
-                    if (FileList.ContainerFromItem(listedItem) is ListViewItem listViewItem)
-                    {
-                        listViewItem.CanDrag = listViewItem.IsSelected;
-                    }
                 }
             }
         }
@@ -152,7 +135,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
                 ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
@@ -192,12 +174,8 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            if (FileList.ItemsSource == null)
-            {
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
-                ParentShellPageInstance.IsCurrentInstance = true;
-                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
-            }
+            ParentShellPageInstance.IsCurrentInstance = true;
+            ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -291,8 +269,12 @@ namespace Files.Views.LayoutModes
 
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = e.OriginalSource as TextBox;
-            CommitRename(textBox);
+            // This check allows the user to use the text box context menu without ending the rename
+            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            {
+                TextBox textBox = e.OriginalSource as TextBox;
+                CommitRename(textBox);
+            }
         }
 
         private async void CommitRename(TextBox textBox)
@@ -451,7 +433,7 @@ namespace Files.Views.LayoutModes
                     listViewItem.Style = (Style)this.Resources["NormalStyle"];
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
-                if (item.ItemType == "File folder")
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     if (item.ContainsFilesOrFolders)
                     {
@@ -520,7 +502,7 @@ namespace Files.Views.LayoutModes
             {
                 tapDebounceTimer.Stop();
                 await Task.Delay(200);
-                if (item.ItemType == "File folder")
+                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     if (item.ContainsFilesOrFolders)
                     {
@@ -586,11 +568,11 @@ namespace Files.Views.LayoutModes
                 args.ItemContainer = gvi;
             }
             args.ItemContainer.DataContext = args.Item;
+            InitializeDrag(args.ItemContainer);
 
             if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-                InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
                 item.ItemPropertiesInitialized = true;

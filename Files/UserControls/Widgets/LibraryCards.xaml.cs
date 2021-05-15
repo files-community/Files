@@ -41,6 +41,7 @@ namespace Files.UserControls.Widgets
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
         public BitmapImage Icon { get; set; }
+        public byte[] IconData { get; set; }
         public bool IsLibrary => Library != null;
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
         public LibraryLocationItem Library { get; set; }
@@ -82,13 +83,13 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Func<string, uint, Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)>> LoadIconOverlay;
+        public Func<string, uint, Task<byte[]>> LoadIconOverlay;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
 
-        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(item =>
+        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(async (item) =>
         {
             if (string.IsNullOrEmpty(item.Path))
             {
@@ -103,7 +104,7 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 return;
             }
 
@@ -166,25 +167,24 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async System.Threading.Tasks.Task<BitmapImage> GetIcon(string path)
+        private async Task<byte[]> GetIcon(string path)
         {
-            BitmapImage icon = new BitmapImage();
-
-            var (IconData, OverlayData, IsCustom) = await LoadIconOverlay(path, 128u);
-
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                icon = await IconData.ToBitmapAsync();
-            });
-
-            return icon;
+            return await LoadIconOverlay(path, 48u);
         }
 
         private async Task GetItemsAddedIcon()
         {
             foreach (var item in ItemsAdded)
             {
-                item.Icon = await GetIcon(item.Path);
+                var iconData = await GetIcon(item.Path);
+                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    return await iconData.ToBitmapAsync();
+                });
+                if(item.Library != null)
+                {
+                    item.Library.IconData = iconData;
+                }
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
@@ -324,18 +324,18 @@ namespace Files.UserControls.Widgets
             LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            NavigationHelpers.OpenPathInNewTab(item.Path);
+            await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
-        private void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
-                NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
 
@@ -364,9 +364,14 @@ namespace Files.UserControls.Widgets
             }
             foreach (var lib in App.LibraryManager.Libraries)
             {
+                var iconData = await GetIcon(lib.Path);
+                lib.IconData = iconData;
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = await GetIcon(lib.Path),
+                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        return await iconData.ToBitmapAsync();
+                    }),
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,

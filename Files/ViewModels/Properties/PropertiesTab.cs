@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

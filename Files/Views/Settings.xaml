@@ -16,22 +16,22 @@
                 <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
@@ -76,6 +76,7 @@
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
+                    AccessKey="A"
                     BorderThickness="0.8"
                     Content="Appearance"
                     IsSelected="True">
@@ -85,6 +86,7 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
+                    AccessKey="O"
                     BorderThickness="0.8"
                     Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
@@ -93,25 +95,25 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
+                    AccessKey="P"
                     BorderThickness="0.8"
                     Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource OldFluentUIGlyphs}" Glyph="&#xeb5e;" />
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
+                    AccessKey="M"
                     BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontFamily="{StaticResource OldFluentUIGlyphs}"
-                            FontSize="16"
-                            Glyph="&#xeba9;" />
+                        <FontIcon FontSize="16" Glyph="&#xEE40;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
+                    AccessKey="F"
                     BorderThickness="0.8"
                     Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
@@ -120,6 +122,7 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
+                    AccessKey="E"
                     BorderThickness="0.8"
                     Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
@@ -128,13 +131,11 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"
+                    AccessKey="B"
                     BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontFamily="{StaticResource OldFluentUIGlyphs}"
-                            FontSize="16"
-                            Glyph="&#xe95f;" />
+                        <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>

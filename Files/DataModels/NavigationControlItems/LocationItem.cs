@@ -1,15 +1,21 @@
 ﻿using Files.Common;
+using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Filesystem
+namespace Files.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public SvgImageSource Icon { get; set; }
+        public BitmapImage Icon { get; set; }
+        public Uri IconSource { get; set; }
+        public byte[] IconData { get; set; }
 
         public string Text { get; set; }
 
@@ -46,5 +52,15 @@ namespace Files.Filesystem
         public SectionType Section { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+
+        public async Task SetBitmapImage(IRandomAccessStream imageStream)
+        {
+            if (imageStream != null)
+            {
+                var image = new BitmapImage();
+                await image.SetSourceAsync(imageStream);
+                Icon = image;
+            }
+        }
     }
 }

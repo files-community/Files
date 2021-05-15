@@ -10,6 +10,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Image Source="{x:Bind Model.Thumbnail, Mode=OneWay}" />
+        <Image Source="{x:Bind Model.Thumbnail}" />
     </Grid>
 </UserControl>

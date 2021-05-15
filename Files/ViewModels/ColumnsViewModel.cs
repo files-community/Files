@@ -1,47 +1,192 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {
-        private GridLength row1Width = new GridLength(30, GridUnitType.Pixel);
-        public GridLength Row1Width
+        private ColumnViewModel iconColumn = new ColumnViewModel()
         {
-            get => row1Width;
-            set => SetProperty(ref row1Width, value);
-        }
-        private GridLength row2Width = new GridLength(1, GridUnitType.Star);
-        public GridLength Row2Width
+            UserLength = new GridLength(30, GridUnitType.Pixel),
+        };
+
+        public ColumnViewModel IconColumn
         {
-            get => row2Width;
-            set => SetProperty(ref row2Width, value);
-        }
-        private GridLength row3Width = new GridLength(40, GridUnitType.Pixel);
-        public GridLength Row3Width
-        {
-            get => row3Width;
-            set => SetProperty(ref row3Width, value);
+            get => iconColumn;
+            set => SetProperty(ref iconColumn, value);
         }
 
-        private GridLength row4Width = new GridLength(1, GridUnitType.Star);
-        public GridLength Row4Width
+        private ColumnViewModel nameColumn = new ColumnViewModel();
+
+        public ColumnViewModel NameColumn
         {
-            get => row4Width;
-            set => SetProperty(ref row4Width, value);
+            get => nameColumn;
+            set => SetProperty(ref nameColumn, value);
         }
-        private GridLength row5Width = new GridLength(1, GridUnitType.Star);
-        public GridLength Row5Width
+
+
+        private ColumnViewModel statusColumn = new ColumnViewModel()
         {
-            get => row5Width;
-            set => SetProperty(ref row5Width, value);
+            UserLength = new GridLength(40, GridUnitType.Pixel),
+            NormalMaxLength = 100,
+        };
+
+        public ColumnViewModel StatusColumn
+        {
+            get => statusColumn;
+            set => SetProperty(ref statusColumn, value);
+        }
+
+
+        private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
+        public ColumnViewModel DateModifiedColumn
+        {
+            get => dateModifiedColumn;
+            set => SetProperty(ref dateModifiedColumn, value);
+        }
+
+
+        private ColumnViewModel originalPathColumn = new ColumnViewModel()
+        {
+            NormalMaxLength = 500,
+        };
+        public ColumnViewModel OriginalPathColumn
+        {
+            get => originalPathColumn;
+            set => SetProperty(ref originalPathColumn, value);
+        }
+
+
+        private ColumnViewModel itemTypeColumn = new ColumnViewModel();
+        public ColumnViewModel ItemTypeColumn
+        {
+            get => itemTypeColumn;
+            set => SetProperty(ref itemTypeColumn, value);
+        }
+
+
+        private ColumnViewModel dateDeletedColumn = new ColumnViewModel();
+        public ColumnViewModel DateDeletedColumn
+        {
+            get => dateDeletedColumn;
+            set => SetProperty(ref dateDeletedColumn, value);
+        }
+
+        private double totalWidth = 600;
+        public double TotalWidth
+        {
+            get => totalWidth;
+            set => SetProperty(ref totalWidth, value);
+        }
+    }
+
+    public class ColumnViewModel : ObservableObject
+    {
+
+        private bool isHidden;
+        public bool IsHidden
+        {
+            get => isHidden;
+            set => SetProperty(ref isHidden, value);
+        }
+
+        public double MaxLength
+        {
+            get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
+        }
+        
+        private double normalMaxLength = 800;
+        [JsonIgnore]
+        public double NormalMaxLength
+        {
+            get => normalMaxLength;
+            set => SetProperty(ref normalMaxLength, value);
+        }
+
+
+        private double normalMinLength = 50;
+        [JsonIgnore]
+        public double NormalMinLength
+        {
+            get => normalMinLength;
+            set { 
+                if(SetProperty(ref normalMinLength, value))
+                {
+                    OnPropertyChanged(nameof(MinLength));
+                }
+            }
+        }
+
+        public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
+
+        public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
+
+        private bool userCollapsed;
+        public bool UserCollapsed
+        {
+            get => userCollapsed;
+            set
+            {
+                if(SetProperty(ref userCollapsed, value)) 
+                {
+                    UpdateVisibility();
+                }
+            }
+        }
+
+        public GridLength Length
+        {
+            get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
+            
+        }
+        
+        [JsonIgnore]
+        private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
+        public GridLength UserLength
+        {
+            get => userLength;
+            set
+            {
+                if(SetProperty(ref userLength, value))
+                {
+                    OnPropertyChanged(nameof(Length));
+                }
+            }
+        }
+
+        public double UserLengthPixels
+        {
+            get => UserLength.Value;
+            set => UserLength = new GridLength(value, GridUnitType.Pixel);
+        }
+
+        public void Hide()
+        {
+            IsHidden = true;
+            UpdateVisibility();
+        }
+
+        public void Show()
+        {
+            IsHidden = false;
+            UpdateVisibility();
+        }
+
+        private void UpdateVisibility()
+        {
+            OnPropertyChanged(nameof(Length));
+            OnPropertyChanged(nameof(MaxLength));
+            OnPropertyChanged(nameof(Visibility));
+            OnPropertyChanged(nameof(MinLength));
         }
     }
 }

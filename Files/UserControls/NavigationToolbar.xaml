@@ -14,6 +14,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="72"
     d:DesignWidth="800"
@@ -21,8 +22,11 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
+            <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-
+            <converters:IntToGroupOption x:Key="IntToGroupOption" />
+            <converters:IntToSortOption x:Key="IntToSortOption" />
+            <converters:IntToSortDirection x:Key="IntToSortDirection" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -676,13 +680,13 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="B"
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
                     Click="Back_Click"
-                    CornerRadius="4"
                     IsEnabled="{x:Bind CanGoBack}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Back (Alt + Left Arrow)">
+                    ToolTipService.ToolTip="Back (Alt+Left Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
@@ -700,13 +704,13 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="F"
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
                     Click="Forward_Click"
-                    CornerRadius="4"
                     IsEnabled="{x:Bind CanGoForward}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
+                    ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
@@ -723,12 +727,12 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="U"
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
                     Click="Up_Click"
-                    CornerRadius="4"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Up (Alt + Up Arrow)">
+                    ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -744,10 +748,10 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
+                    AccessKey="R"
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
                     Click="Refresh_Click"
-                    CornerRadius="4"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Refresh (F5)">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
@@ -767,7 +771,7 @@
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 BorderThickness="0"
-                CornerRadius="4"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontWeight="SemiBold"
@@ -781,7 +785,8 @@
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 Text="{x:Bind PathText, Mode=OneWay}"
                 TextChanged="VisiblePath_TextChanged"
-                TextMemberPath="ItemPath" />
+                TextMemberPath="ItemPath"
+                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -794,8 +799,9 @@
                 Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
-                CornerRadius="4"
-                PointerPressed="ManualPathEntryItem_Click">
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                PointerPressed="ManualPathEntryItem_Click"
+                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
 
                 <ListView
                     x:Name="PathViewInteract"
@@ -805,7 +811,7 @@
                     VerticalContentAlignment="Stretch"
                     Background="Transparent"
                     CanReorderItems="False"
-                    CornerRadius="4"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
                     IsItemClickEnabled="True"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
                     ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
@@ -836,7 +842,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
-                CornerRadius="4"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 LostFocus="SearchRegion_LostFocus"
                 PlaceholderText="Search"
                 QuerySubmitted="SearchRegion_QuerySubmitted"
@@ -898,13 +904,14 @@
                 Grid.Column="2"
                 Width="36"
                 Height="32"
+                AccessKey="I"
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search">
-                <FontIcon FontSize="14" Glyph="&#xE721;" />
+                <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
             </Button>
         </Grid>
 
@@ -922,6 +929,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    AccessKey="W"
                     AutomationProperties.Name="Manage widgets"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -957,11 +965,30 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
+                    x:Name="ArrangementOptions"
+                    x:Uid="NavToolbarArrangementOptionsButton"
+                    Width="36"
+                    Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="A"
+                    AutomationProperties.Name="Arrangement options"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Arrangement options">
+                    <FontIcon FontSize="14" Glyph="&#xF168;" />
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
                     x:Name="SelectionOptions"
                     x:Uid="NavToolbarSelectionOptions"
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="S"
                     AutomationProperties.Name="Selection options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -973,8 +1000,7 @@
                                 x:Name="MultiselectMFI"
                                 x:Uid="NavToolbarMultiselect"
                                 IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
-                                Text="Multiselect"
-                                Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
+                                Text="Multiselect">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE762;" />
                                 </MenuFlyoutItem.Icon>
@@ -1022,6 +1048,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="L"
                     AutomationProperties.Name="Display options"
                     Background="Transparent"
                     Style="{StaticResource ToolBarButtonStyle}"
@@ -1061,7 +1088,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeDetailsView}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Details View">
@@ -1077,7 +1104,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeTiles}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Tiles View">
@@ -1095,7 +1122,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewSmall}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Small)">
@@ -1111,7 +1138,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewMedium}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Medium)">
@@ -1127,7 +1154,7 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeGridViewLarge}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Grid View (Large)">
@@ -1143,11 +1170,14 @@
                                         VerticalContentAlignment="Center"
                                         Command="{x:Bind ToggleLayoutModeColumnView}"
                                         CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="4"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
                                         ToolTipService.ToolTip="Column View">
-                                        <FontIcon FontSize="16" Glyph="&#xE8C0;" />
+                                        <FontIcon
+                                            FontFamily="{StaticResource CustomGlyph}"
+                                            FontSize="16"
+                                            Glyph="&#xF115;" />
                                     </RadioButton>
                                 </StackPanel>
                             </StackPanel>
@@ -1160,12 +1190,13 @@
                     x:Uid="PreviewPaneToggle"
                     Width="36"
                     Height="32"
+                    AccessKey="P"
                     AutomationProperties.Name="Toggle preview pane"
                     Background="Transparent"
                     Click="PreviewPane_Click"
                     IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
+                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                     Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <FontIcon FontSize="14" Glyph="&#xE146;" />
                 </AppBarButton>
@@ -1176,6 +1207,7 @@
                     Width="36"
                     Height="32"
                     x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                    AccessKey="T"
                     AllowDrop="True"
                     AutomationProperties.Name="Vertical tab strip"
                     Background="Transparent"
@@ -1223,7 +1255,7 @@
                                 IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 Text="New pane">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF57C;" />
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
                                 </MenuFlyoutItem.Icon>
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator

@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
@@ -270,7 +271,7 @@ namespace Files.Filesystem
         {
             try
             {
-                return storageItems.Any(storageItem =>
+                return storageItems.All(storageItem =>
                 Directory.GetParent(storageItem.Path).FullName.Equals(
                     destinationPath, StringComparison.OrdinalIgnoreCase));
             }

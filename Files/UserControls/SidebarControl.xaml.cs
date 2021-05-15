@@ -1,25 +1,31 @@
 ﻿using Files.DataModels;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
-    public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
+    public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
@@ -50,20 +56,6 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(SidebarControl), new PropertyMetadata(true));
-
-        public bool IsOpen
-        {
-            get => (bool)GetValue(IsOpenProperty);
-            set
-            {
-                if (this.IsLoaded)
-                {
-                    SetValue(IsOpenProperty, value);
-                }
-            }
-        }
-
         public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
 
         public bool IsCompact
@@ -93,7 +85,7 @@ namespace Files.UserControls
         public SidebarControl()
         {
             this.InitializeComponent();
-            SidebarNavView.Loaded += SidebarNavView_Loaded;
+            this.Loaded += SidebarNavView_Loaded;
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -110,6 +102,14 @@ namespace Files.UserControls
                     SetValue(SelectedSidebarItemProperty, value);
                 }
             }
+        }
+        
+        public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
+
+        public UIElement TabContent
+        {
+            get => (UIElement)GetValue(TabContentProperty);
+            set => SetValue(TabContentProperty, value);
         }
 
         private bool canOpenInNewPane;
@@ -241,7 +241,7 @@ namespace Files.UserControls
             return new GridLength(200);
         }
 
-        private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
@@ -249,17 +249,25 @@ namespace Files.UserControls
                 return;
             }
 
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
+            {
+                string navigationPath = args.InvokedItemContainer.Tag.ToString();
+                await NavigationHelpers.OpenPathInNewTab(navigationPath);
+                return;
+            }
+
             SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
         }
 
-        private void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
             if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
             {
                 IsInPointerPressed = true;
-                NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
             }
         }
@@ -276,14 +284,17 @@ namespace Files.UserControls
                 !item.Text.Equals("WSL") &&
                 !item.Text.Equals("SidebarFavorites".GetLocalized()))
             {
-                ShowUnpinItem = item.Section != SectionType.Library && !item.IsDefaultLocation;
-                ShowProperties = item.Section == SectionType.Library;
+                bool isLibrary = item.Section == SectionType.Library;
+                bool isFavorites = item.Section == SectionType.Favorites;
+                ShowUnpinItem = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
+                ShowProperties = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
                 ShowEjectDevice = false;
 
                 if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
                     ShowEmptyRecycleBin = true;
+                    ShowUnpinItem = true;
                 }
                 else
                 {
@@ -317,7 +328,7 @@ namespace Files.UserControls
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as WSLDistroItem;
+            var item = sidebarItem.DataContext as WslDistroItem;
 
             ShowEjectDevice = false;
             ShowUnpinItem = false;
@@ -331,9 +342,9 @@ namespace Files.UserControls
             e.Handled = true;
         }
 
-        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
+            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -372,7 +383,7 @@ namespace Files.UserControls
                         {
                             locItem.IsExpanded = true;
                         }
-                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem));
+                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
                         dragOverItem = null;
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
@@ -605,16 +616,67 @@ namespace Files.UserControls
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
+            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
 
-            SidebarNavView.Loaded -= SidebarNavView_Loaded;
+            (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
+        }
+
+        private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var step = 1;
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                step = 5;
+            }
+
+            if (e.Key == VirtualKey.Left)
+            {
+                IncrementSize(-step);
+                e.Handled = true;
+            } else if(e.Key == VirtualKey.Right)
+            {
+                IncrementSize(step);
+                e.Handled = true;
+            }
+        }
+
+        private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if(IsPaneOpen)
+            {
+                IncrementSize(e.Delta.Translation.X);
+            }
+        }
+
+        private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+        }
+
+        private void IncrementSize(double val)
+        {
+            AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + val);
+        }
+
+        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPaneOpen)
+            {
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+            }
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
         }
     }
 

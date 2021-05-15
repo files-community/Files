@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
@@ -218,6 +219,19 @@ namespace Files.UserControls
 
         #endregion Selection Options
 
+        public static readonly DependencyProperty ArrangementOptionsFlyoutContentProperty = DependencyProperty.Register(
+         nameof(ArrangementOptionsFlyoutContent),
+         typeof(UIElement),
+         typeof(NavigationToolbar),
+         new PropertyMetadata(null)
+        );
+
+        public UIElement ArrangementOptionsFlyoutContent
+        {
+            get => (UIElement)GetValue(ArrangementOptionsFlyoutContentProperty);
+            set => SetValue(ArrangementOptionsFlyoutContentProperty, value);
+        }
+
         #region Layout Options
 
         public static readonly DependencyProperty LayoutModeInformationProperty = DependencyProperty.Register(
@@ -354,6 +368,8 @@ namespace Files.UserControls
         }
 
         #endregion Layout Options
+
+        public bool IsSingleItemOverride { get; set; } = false;
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
@@ -785,6 +801,24 @@ namespace Files.UserControls
             }
         }
 
+        private string searchButtonGlyph = "\uE721";
+
+        public string SearchButtonGlyph
+        {
+            get
+            {
+                return searchButtonGlyph;
+            }
+            set
+            {
+                if (value != searchButtonGlyph)
+                {
+                    searchButtonGlyph = value;
+                    NotifyPropertyChanged(nameof(SearchButtonGlyph));
+                }
+            }
+        }
+
         bool INavigationToolbar.IsEditModeEnabled
         {
             get
@@ -1040,7 +1074,7 @@ namespace Files.UserControls
 
         private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (IsSingleItemOverride || !((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
@@ -1235,26 +1269,36 @@ namespace Files.UserControls
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            IsSearchRegionVisible = true;
+            if (IsSearchRegionVisible)
+            {
+                SearchRegion.Text = "";
+                IsSearchRegionVisible = false;
+                SearchButtonGlyph = "\uE721";
+            }
+            else
+            {
+                IsSearchRegionVisible = true;
 
-            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
-            // we can guarantee that the focus call will be able to find an open ASB
-            SearchRegion.UpdateLayout();
+                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+                // we can guarantee that the focus call will be able to find an open ASB
+                SearchRegion.UpdateLayout();
 
-            SearchRegion.Focus(FocusState.Programmatic);
+                SearchRegion.Focus(FocusState.Programmatic);
+                SearchButtonGlyph = "\uE711";
+            }
         }
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase ||
-                FocusManager.GetFocusedElement() is AppBarButton ||
-                FocusManager.GetFocusedElement() is Popup)
+            var focusedElement = FocusManager.GetFocusedElement();
+            if (focusedElement == SearchButton || focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }
 
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
+            SearchButtonGlyph = "\uE721";
         }
 
         public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)

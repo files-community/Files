@@ -11,11 +11,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -47,7 +49,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.SetDragModeForItemsInvoked += ItemManipulationModel_SetDragModeForItemsInvoked;
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
         }
 
@@ -62,20 +63,6 @@ namespace Files.Views.LayoutModes
                 else
                 {
                     listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        private void ItemManipulationModel_SetDragModeForItemsInvoked(object sender, EventArgs e)
-        {
-            if (!InstanceViewModel.IsPageTypeSearchResults)
-            {
-                foreach (ListedItem listedItem in FileList.Items.ToList())
-                {
-                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
-                    {
-                        gridViewItem.CanDrag = gridViewItem.IsSelected;
-                    }
                 }
             }
         }
@@ -143,7 +130,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.SetDragModeForItemsInvoked -= ItemManipulationModel_SetDragModeForItemsInvoked;
                 ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
@@ -156,6 +142,7 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+
             currentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -184,10 +171,6 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-            if (e.SourcePageType != typeof(GridViewBrowser))
-            {
-                FileList.ItemsSource = null;
-            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -328,8 +311,12 @@ namespace Files.Views.LayoutModes
 
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = e.OriginalSource as TextBox;
-            CommitRename(textBox);
+            // This check allows the user to use the text box context menu without ending the rename
+            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            {
+                TextBox textBox = e.OriginalSource as TextBox;
+                CommitRename(textBox);
+            }
         }
 
         private async void CommitRename(TextBox textBox)
@@ -520,13 +507,14 @@ namespace Files.Views.LayoutModes
             }
             args.ItemContainer.DataContext = args.Item;
 
+            InitializeDrag(args.ItemContainer);
             if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-                InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
                 item.ItemPropertiesInitialized = true;
+
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
         }

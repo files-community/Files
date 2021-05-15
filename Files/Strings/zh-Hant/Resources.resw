@@ -198,9 +198,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>內容</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook 預覽</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>新視窗</value>
   </data>
@@ -219,10 +216,10 @@
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>搜尋</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>全部選擇</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>取消選擇</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -342,7 +339,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>設定</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反選</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -432,9 +429,6 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>您把此資料夾刪除了嗎？</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>選取選項</value>
-  </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>欲删除的檔案正被其他程式使用。</value>
   </data>
@@ -497,9 +491,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>打開日誌目錄</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新索引標籤（Ctrl+T）</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已選取的項目</value>
@@ -923,9 +914,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>更多選項</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>選取選項</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>狀態儀表板</value>
@@ -1422,12 +1410,6 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>顯示選項</value>
   </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>顯示選項</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>顯示選項</value>
-  </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>縮略圖（大）</value>
   </data>
@@ -1614,11 +1596,8 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>前往通用檔案管理器的說明文件網站</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>多重選取</value>
-  </data>
-  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>啟用多重選取（目前僅可在磁磚（並排）、縮略圖顯示模式中使用）</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>假如您變更副檔名，檔案可能變得無法使用。您確定要變更？</value>
@@ -1769,5 +1748,17 @@
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>從開始功能表取消釘選</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>選取選項</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>選取選項</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>顯示選項</value>
+  </data>
+  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>顯示選項</value>
   </data>
 </root>
