@@ -490,12 +490,12 @@ namespace Files.ViewModels
                     {
                         FilesAndFolders.RemoveRange(filesAndFolders.Count, FilesAndFolders.Count - filesAndFolders.Count);
                     }
-                };
 
-                if (folderSettings.DirectoryGroupOption != GroupOption.None)
-                {
-                    OrderGroups();
-                }
+                    if (folderSettings.DirectoryGroupOption != GroupOption.None)
+                    {
+                        OrderGroups();
+                    }
+                };
 
                 Action updateUIAction = () =>
                 {
@@ -539,9 +539,7 @@ namespace Files.ViewModels
                 }
 
                 filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
-
-                return Task.CompletedTask;
-            });
+            };
 
             if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
             {
