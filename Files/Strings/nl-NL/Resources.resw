@@ -843,6 +843,12 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Toegang geweigerd</value>
   </data>
+  <data name="MovingShortcutsDialog.Text" xml:space="preserve">
+    <value>Is not allowed to move shorcuts.</value>
+  </data>
+  <data name="MovingShortcutsDialog.Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Prullenbak vastmaken aan de zijbalk</value>
   </data>

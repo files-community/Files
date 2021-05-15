@@ -888,6 +888,12 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Accesso Negato</value>
   </data>
+  <data name="MovingShortcutsDialog.Text" xml:space="preserve">
+    <value>Is not allowed to move shorcuts.</value>
+  </data>
+  <data name="MovingShortcutsDialog.Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pinna il Cestino alla barra laterale</value>
   </data>

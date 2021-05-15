@@ -13,6 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.Popups;
 
 namespace Files.Helpers
 {
@@ -221,24 +222,40 @@ namespace Files.Helpers
                 }
                 else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
-                    // Try again with fulltrust process
-                    if (associatedInstance.ServiceConnection != null)
+                    bool withShortcuts = false;
+                    foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                     {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        AppServiceResponseStatus status = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                        if (listedItem.ItemPath.EndsWith(".lnk"))
+                        {
+                            withShortcuts = true;
+                        }
+                    }                            
+
+                    if (withShortcuts)
+                    {
+                        await DialogDisplayHelper.ShowDialogAsync("MovingShortcutsDialog/Title".GetLocalized(), "MovingShortcutsDialog/Text".GetLocalized());
+                    }                        
+                    else
+                    {
+                        // Try again with fulltrust process
+                        if (associatedInstance.ServiceConnection != null)
+                        {
+                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                            AppServiceResponseStatus status = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
                             { "filepath", filePaths },
                             { "operation", (int)DataPackageOperation.Move }
                         });
-                        if (status == AppServiceResponseStatus.Success)
-                        {
-                            return;
+                            if (status == AppServiceResponseStatus.Success)
+                            {
+                                return;
+                            }
                         }
+                        associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+                        return;
                     }
-                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-                    return;
                 }
             }
 

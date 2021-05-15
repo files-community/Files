@@ -1186,6 +1186,14 @@
           <source>Access Denied</source>
           <target state="translated">Отказано в доступе</target>
         </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated" state-qualifier="tm-suggestion">Error</target>
+        </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Title" translate="yes" xml:space="preserve">
+          <source>Is not allowed to move shorcuts.</source>
+          <target state="translated" state-qualifier="tm-suggestion">Is not allowed to move shorcuts</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Закрепить Корзину в боковой панели</target>

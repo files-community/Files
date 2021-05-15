@@ -1115,6 +1115,14 @@
           <source>Access Denied</source>
           <target state="translated">접근 거부되었습니다</target>
         </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated" state-qualifier="tm-suggestion">Error</target>
+        </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Text" translate="yes" xml:space="preserve">
+          <source>Is not allowed to move shorcuts.</source>
+          <target state="translated" state-qualifier="tm-suggestion">Is not allowed to move shorcuts</target>
+        </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">취소</target>

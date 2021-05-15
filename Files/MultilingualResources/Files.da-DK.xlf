@@ -1103,6 +1103,14 @@
           <source>We weren't able to create this item</source>
           <target state="translated">Vi kunne ikke oprette dette emne</target>
         </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated" state-qualifier="tm-suggestion">Error</target>
+        </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Text" translate="yes" xml:space="preserve">
+          <source>Is not allowed to move shorcuts.</source>
+          <target state="translated" state-qualifier="tm-suggestion">Is not allowed to move shorcuts</target>
+        </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Adgang nægtet</target>
