@@ -88,7 +88,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Style="{StaticResource PropertyValueTextBox}"
+                Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.ItemFileIconLabel, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemFileIconLabelVisibility, Mode=OneWay}" />
             
