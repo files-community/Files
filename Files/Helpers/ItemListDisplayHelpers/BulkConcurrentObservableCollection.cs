@@ -1,10 +1,16 @@
-﻿using System;
+﻿using Files.Extensions;
+using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
 {
@@ -12,9 +18,12 @@ namespace Files.Helpers
     [DebuggerDisplay("Count = {Count}")]
     public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
     {
-        private bool isBulkOperationStarted;
+        protected bool isBulkOperationStarted;
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
+
+        public BulkConcurrentObservableCollection<GroupedCollection<T>> GroupedCollection { get; private set; }
+        public bool IsSorted { get; set; }
 
         public int Count => collection.Count;
 
@@ -25,6 +34,8 @@ namespace Files.Helpers
         public bool IsSynchronized => true;
 
         public object SyncRoot => syncRoot;
+
+        public bool IsGrouped => !(ItemGroupKeySelector is null);
 
         object IList.this[int index]
         {
@@ -53,27 +64,156 @@ namespace Files.Helpers
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void BeginBulkOperation()
+        private Func<T, string> itemGroupKeySelector;
+
+        public Func<T, string> ItemGroupKeySelector {
+            get => itemGroupKeySelector;
+            set {
+                itemGroupKeySelector = value;
+                if (value != null)
+                {
+                    GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
+                } else
+                {
+                    GroupedCollection = null;
+                }
+            }
+        }
+
+        private Func<T, object> itemSortKeySelector;
+        public Func<T, object> ItemSortKeySelector
+        {
+            get => itemSortKeySelector;
+            set => itemSortKeySelector = value;
+        }
+
+        public Action<GroupedCollection<T>> GetGroupHeaderInfo { get; set; }
+        public Action<GroupedCollection<T>> GetExtendedGroupHeaderInfo { get; set; }
+
+        public BulkConcurrentObservableCollection()
+        {
+
+        }
+
+        public BulkConcurrentObservableCollection(IEnumerable<T> items)
+        {
+            AddRange(items);
+        }
+
+
+        public virtual void BeginBulkOperation()
         {
             isBulkOperationStarted = true;
+            GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
+            GroupedCollection?.BeginBulkOperation();
         }
 
         protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e, bool countChanged = true)
         {
             if (!isBulkOperationStarted)
             {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
                 CollectionChanged?.Invoke(this, e);
                 if (countChanged)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+            }
+
+            if (IsGrouped)
+            {
+                if (!(e.NewItems is null))
+                {
+                    AddItemsToGroup(e.NewItems.Cast<T>());
+                }
+                if (!(e.OldItems is null))
+                {
+                    RemoveItemsFromGroup(e.OldItems.Cast<T>());
+                }
             }
         }
 
-        public void EndBulkOperation()
+        public void ResetGroups(CancellationToken token = default)
         {
+            if(!IsGrouped)
+            {
+                return;
+            }
+
+            // Prevents any unwanted errors caused by bindings updating
+            GroupedCollection.ForEach(x => x.Model.PausePropertyChangedNotifications());
+            GroupedCollection.Clear();
+            AddItemsToGroup(collection, token);
+        }
+
+        private void AddItemsToGroup(IEnumerable<T> items, CancellationToken token = default)
+        {
+            foreach (var item in items)
+            {
+
+                if(token.IsCancellationRequested)
+                {
+                    return;
+                }
+                var key = GetGroupKeyForItem(item);
+                var groups = GroupedCollection.Where(x => x.Model.Key == key);
+                if(item is IGroupableItem groupable)
+                {
+                    groupable.Key = key;
+                }
+                if (groups.Count() > 0)
+                {
+                    var gp = groups.First();
+                    gp.Add(item);
+                    gp.IsSorted = false;
+                }
+                else
+                {
+                    var group = new GroupedCollection<T>(key)
+                    {
+                        item
+                    };
+                    
+                    group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
+                    if(!(GetGroupHeaderInfo is null))
+                    {
+                        GetGroupHeaderInfo.Invoke(group);
+                    }
+                    GroupedCollection.Add(group);
+                    GroupedCollection.IsSorted = false;
+                }
+            }
+        }
+
+        private void RemoveItemsFromGroup(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                var key = GetGroupKeyForItem(item);
+
+                var groups = GroupedCollection.Where(x => x.Model.Key == key);
+                if (groups.Count() > 0)
+                {
+                    groups.First().Remove(item);
+                }
+            }
+        }
+
+        private string GetGroupKeyForItem(T item)
+        {
+            return ItemGroupKeySelector?.Invoke(item);
+        }
+
+        public virtual void EndBulkOperation()
+        {
+            if(!isBulkOperationStarted)
+            {
+                return;
+            }
             isBulkOperationStarted = false;
+            GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
+            GroupedCollection?.EndBulkOperation();
+
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
@@ -85,7 +225,7 @@ namespace Files.Helpers
             {
                 collection.Add(item);
             }
-
+            
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
@@ -95,6 +235,7 @@ namespace Files.Helpers
             {
                 collection.Clear();
             }
+            GroupedCollection?.Clear();
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
@@ -236,6 +377,33 @@ namespace Files.Helpers
             }
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index));
+        }
+
+        public void Sort()
+        {
+            lock(SyncRoot)
+            {
+                collection.Sort();
+            }
+        }
+
+        public void Sort(Comparison<T> comparison)
+        {
+            lock(SyncRoot)
+            {
+                collection.Sort(comparison);
+            }
+        }
+
+        public void Order(Func<List<T>, IEnumerable<T>> func)
+        {
+            IEnumerable<T> result;
+            lock(SyncRoot)
+            {
+                result = func.Invoke(collection);
+            }
+
+            ReplaceRange(0, result);
         }
 
         int IList.Add(object value)

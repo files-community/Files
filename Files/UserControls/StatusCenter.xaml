@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
-    xmlns:models="using:Files.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Files.ViewModels"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="300"
     d:DesignWidth="300"
@@ -131,7 +131,7 @@
             Grid.Row="1"
             VerticalAlignment="Stretch"
             ItemContainerStyle="{StaticResource ListViewItemStyleFixed}"
-            ItemsSource="{x:Bind models:StatusCenterViewModel.StatusBannersSource, Mode=OneWay}"
+            ItemsSource="{x:Bind StatusCenterViewModel.StatusBannersSource, Mode=OneWay}"
             SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:StatusBanner">

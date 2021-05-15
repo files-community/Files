@@ -12,8 +12,8 @@
     xmlns:local="using:Files.Views"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
@@ -121,6 +121,7 @@
                     <local:ModernShellPage
                         x:Name="PaneLeft"
                         ContentChanged="Pane_ContentChanged"
+                        CurrentInstanceBorderThickness="0,0,2,0"
                         IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                         IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                         IsPageMainPane="True"
@@ -139,6 +140,7 @@
                     <local:ModernShellPage
                         x:Name="PaneRight"
                         ContentChanged="Pane_ContentChanged"
+                        CurrentInstanceBorderThickness="2,0,0,0"
                         IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                         IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                         IsPageMainPane="False"

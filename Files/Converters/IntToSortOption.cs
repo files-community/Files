@@ -1,29 +1,24 @@
-﻿using System;
+﻿using Files.Enums;
+using System;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
 {
-    internal class UInt32ToString : IValueConverter
+    public class IntToSortOption : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value != null)
-            {
-                return value.ToString();
-            }
-
-            return "";
+            return System.Convert.ToInt32((byte)(value ?? SortOption.Name));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            try
+            if((int)value != -1)
             {
-                return UInt32.Parse(value as string);
-            }
-            catch (FormatException)
+                return (SortOption)(byte)(int)value;
+            } else
             {
-                return null;
+                return SortOption.Name;
             }
         }
     }

@@ -27,7 +27,7 @@
     </UserControl.Resources>
 
     <Grid
-        Height="38"
+        Height="42"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
         <Grid.ColumnDefinitions>
@@ -36,8 +36,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel
+            x:Name="SelectionDirectoryInformationPanel"
             Margin="8,0"
             VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Orientation="Horizontal"
             Spacing="12">
             <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
@@ -63,7 +65,7 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="0,2,8,2"
+            Padding="0,2,8,8"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">

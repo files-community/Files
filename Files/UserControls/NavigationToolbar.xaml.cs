@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
@@ -217,6 +218,19 @@ namespace Files.UserControls
         }
 
         #endregion Selection Options
+
+        public static readonly DependencyProperty ArrangementOptionsFlyoutContentProperty = DependencyProperty.Register(
+         nameof(ArrangementOptionsFlyoutContent),
+         typeof(UIElement),
+         typeof(NavigationToolbar),
+         new PropertyMetadata(null)
+        );
+
+        public UIElement ArrangementOptionsFlyoutContent
+        {
+            get => (UIElement)GetValue(ArrangementOptionsFlyoutContentProperty);
+            set => SetValue(ArrangementOptionsFlyoutContentProperty, value);
+        }
 
         #region Layout Options
 

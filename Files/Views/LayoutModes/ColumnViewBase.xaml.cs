@@ -33,8 +33,6 @@ namespace Files.Views.LayoutModes
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
-        private ListViewItem navigatedfolder;
-        private Grid gridindicatior;
 
         public ColumnViewBase() : base()
         {
@@ -176,12 +174,8 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            if (FileList.ItemsSource == null)
-            {
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
-                ParentShellPageInstance.IsCurrentInstance = true;
-                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
-            }
+            ParentShellPageInstance.IsCurrentInstance = true;
+            ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {

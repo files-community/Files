@@ -1,29 +1,24 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using System;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
 {
-    internal class UInt32ToString : IValueConverter
+    public class IntToSortDirection : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value != null)
-            {
-                return value.ToString();
-            }
-
-            return "";
+            return System.Convert.ToInt32(value ?? SortDirection.Ascending);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            try
+            if((int)value != -1)
             {
-                return UInt32.Parse(value as string);
-            }
-            catch (FormatException)
+                return (SortDirection)(int)value;
+            } else
             {
-                return null;
+                return SortDirection.Ascending;
             }
         }
     }
