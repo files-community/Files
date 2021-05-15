@@ -298,10 +298,6 @@
           <source>Share</source>
           <target state="translated">Поділитися</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
-          <source>Move...</source>
-          <target state="translated" state-qualifier="tm-suggestion">Move</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated">Вирізати</target>
@@ -1296,7 +1292,7 @@
           <target state="translated">Перемістити вкладку у нове вікно</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New tab (Ctrl+T)</source>
+          <source>New tab</source>
           <target state="needs-review-translation">Нова вкладка</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -2787,6 +2783,14 @@
         <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
           <source>Open with</source>
           <target state="new">Open with</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.Text" translate="yes" xml:space="preserve">
+          <source>Reopen closed tab</source>
+          <target state="new">Reopen closed tab</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
+          <source>Move...</source>
+          <target state="new">Move...</target>
         </trans-unit>
       </group>
     </body>

@@ -9,7 +9,7 @@
     x:Uid="BitlockerDialog"
     Title="Enter password to unlock the drive"
     BorderThickness="0"
-    CornerRadius="4"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="None"
     PrimaryButtonClick="BitlockerDialog_PrimaryButtonClick"
     PrimaryButtonText="Unlock"
