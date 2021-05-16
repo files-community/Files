@@ -48,6 +48,7 @@
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Width" Value="1" />
+                <Setter Property="Opacity" Value="0.8" />
             </Style>
             <Style x:Name="HeaderButtonStyle" TargetType="Button">
                 <Setter Property="CornerRadius" Value="0" />
@@ -310,6 +311,7 @@
 
                             <Button
                                 Grid.Column="2"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="Name"
                                 Style="{StaticResource HeaderButtonStyle}">
@@ -317,7 +319,6 @@
                                     x:Uid="FileBrowserSortOption_Name"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Name"
-                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -330,6 +331,7 @@
                             <Button
                                 Grid.Column="4"
                                 HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="OriginalPath"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -337,7 +339,6 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Original path"
-                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
                             <controls:GridSplitter
@@ -349,6 +350,7 @@
 
                             <Button
                                 Grid.Column="6"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateDeleted"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -356,7 +358,6 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date deleted"
-                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
                             <controls:GridSplitter
@@ -387,6 +388,7 @@
                             <Button
                                 Grid.Column="10"
                                 HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateModified"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -395,7 +397,6 @@
                                     x:Uid="FileBrowserSortOption_DateModified"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date modified"
-                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -408,6 +409,7 @@
 
                             <Button
                                 Grid.Column="12"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileType"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -416,7 +418,6 @@
                                     x:Uid="FileBrowserSortOption_FileType"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Type"
-                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
                         </Grid>
@@ -432,7 +433,7 @@
                                 RightTapped="StackPanel_RightTapped"
                                 ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
@@ -444,6 +445,7 @@
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
                                     Height="Auto"
+                                    HorizontalAlignment="Left"
                                     AutomationProperties.Name="File icon"
                                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     TabFocusNavigation="Local"
