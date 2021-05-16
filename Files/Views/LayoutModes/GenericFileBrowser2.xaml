@@ -48,10 +48,12 @@
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Width" Value="1" />
+                <Setter Property="Opacity" Value="0.8" />
             </Style>
             <Style x:Name="HeaderButtonStyle" TargetType="Button">
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Setter Property="Background">
                     <Setter.Value>
@@ -317,7 +319,6 @@
                                     x:Uid="FileBrowserSortOption_Name"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Name"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -337,7 +338,6 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Original path"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
                             <controls:GridSplitter
@@ -356,7 +356,6 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date deleted"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
                             <controls:GridSplitter
@@ -373,7 +372,7 @@
                                 VerticalAlignment="Center"
                                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                 Text="Status"
-                                TextAlignment="Center"
+                                TextAlignment="Left"
                                 TextWrapping="Wrap"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
@@ -395,7 +394,6 @@
                                     x:Uid="FileBrowserSortOption_DateModified"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date modified"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -416,7 +414,6 @@
                                     x:Uid="FileBrowserSortOption_FileType"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Type"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
                         </Grid>
@@ -444,6 +441,7 @@
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
                                     Height="Auto"
+                                    HorizontalAlignment="Left"
                                     AutomationProperties.Name="File icon"
                                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     TabFocusNavigation="Local"
