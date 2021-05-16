@@ -53,6 +53,7 @@
             <Style x:Name="HeaderButtonStyle" TargetType="Button">
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Setter Property="Background">
                     <Setter.Value>
@@ -311,7 +312,6 @@
 
                             <Button
                                 Grid.Column="2"
-                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="Name"
                                 Style="{StaticResource HeaderButtonStyle}">
@@ -331,7 +331,6 @@
                             <Button
                                 Grid.Column="4"
                                 HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="OriginalPath"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -350,7 +349,6 @@
 
                             <Button
                                 Grid.Column="6"
-                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateDeleted"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -388,7 +386,6 @@
                             <Button
                                 Grid.Column="10"
                                 HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateModified"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -409,7 +406,6 @@
 
                             <Button
                                 Grid.Column="12"
-                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileType"
                                 Style="{StaticResource HeaderButtonStyle}"
