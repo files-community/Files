@@ -97,7 +97,6 @@ namespace Files.ViewModels.Previews
             Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
         }
 
-
         public delegate void LoadedEventHandler(object sender, EventArgs e);
 
         public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
