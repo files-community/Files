@@ -48,11 +48,14 @@
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Width" Value="1" />
+                <Setter Property="Opacity" Value="0.8" />
             </Style>
             <Style x:Name="HeaderButtonStyle" TargetType="Button">
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="Background">
                     <Setter.Value>
                         <SolidColorBrush Opacity="0" />
@@ -233,6 +236,14 @@
                     <i:Interaction.Behaviors>
                         <behaviors:StickyHeaderBehavior />
                     </i:Interaction.Behaviors>
+                    <ListView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                            <!--<ContentThemeTransition />-->
+                            <ReorderThemeTransition />
+                            <EntranceThemeTransition IsStaggeringEnabled="False" />
+                        </TransitionCollection>
+                    </ListView.ItemContainerTransitions>
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
@@ -306,6 +317,10 @@
                                     x:Name="Column7"
                                     Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition
+                                    x:Name="Column8"
+                                    Width="0" />
                             </Grid.ColumnDefinitions>
 
                             <Button
@@ -317,7 +332,6 @@
                                     x:Uid="FileBrowserSortOption_Name"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Name"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -329,7 +343,6 @@
 
                             <Button
                                 Grid.Column="4"
-                                HorizontalAlignment="Stretch"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="OriginalPath"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -337,9 +350,9 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Original path"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
+
                             <controls:GridSplitter
                                 Grid.Column="5"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
@@ -356,9 +369,9 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date deleted"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
+
                             <controls:GridSplitter
                                 Grid.Column="7"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
@@ -369,11 +382,10 @@
                             <TextBlock
                                 Grid.Column="8"
                                 Width="{x:Bind ColumnsViewModel.StatusColumn.Length.Value, Mode=OneWay}"
-                                HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
                                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                 Text="Status"
-                                TextAlignment="Center"
+                                TextAlignment="Left"
                                 TextWrapping="Wrap"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
@@ -386,7 +398,6 @@
 
                             <Button
                                 Grid.Column="10"
-                                HorizontalAlignment="Stretch"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateModified"
                                 Style="{StaticResource HeaderButtonStyle}"
@@ -395,7 +406,6 @@
                                     x:Uid="FileBrowserSortOption_DateModified"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date modified"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -416,9 +426,15 @@
                                     x:Uid="FileBrowserSortOption_FileType"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Type"
-                                    TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Button>
+
+                            <controls:GridSplitter
+                                Grid.Column="13"
+                                ManipulationCompleted="GridSplitter_ManipulationCompleted"
+                                ManipulationDelta="GridSplitter_ManipulationDelta"
+                                Style="{StaticResource HeaderGridSplitterStyle}"
+                                Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -444,26 +460,15 @@
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
                                     Height="Auto"
+                                    HorizontalAlignment="Left"
                                     AutomationProperties.Name="File icon"
                                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     TabFocusNavigation="Local"
                                     Tag="ItemImage">
                                     <Image
-                                        x:Name="Picture"
-                                        Width="25"
-                                        Margin="0,12,0,12"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                                        x:Phase="1"
-                                        Source="{x:Bind FileImage, Mode=OneWay}"
-                                        Stretch="Uniform" />
-                                    <Image
                                         x:Name="FolderGlyph"
-                                        Width="25"
-                                        Height="25"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
+                                        Width="24"
+                                        Height="24"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                                         x:Phase="1"
                                         Stretch="Uniform">
@@ -476,39 +481,39 @@
                                     </Image>
                                     <FontIcon
                                         x:Name="TypeUnknownGlyph"
-                                        Width="25"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                         x:Phase="1"
-                                        FontSize="25"
                                         Glyph="&#xE7C3;" />
+                                    <FontIcon
+                                        x:Name="WebShortcutGlyph"
+                                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
+                                        x:Phase="1"
+                                        Glyph="&#xE71B;" />
+                                    <Image
+                                        x:Name="Picture"
+                                        Width="20"
+                                        Height="20"
+                                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                                        x:Phase="1"
+                                        Source="{x:Bind FileImage, Mode=OneWay}"
+                                        Stretch="Uniform" />
                                     <Image
                                         x:Name="IconOverlay"
-                                        Width="5"
-                                        Height="5"
-                                        Margin="1"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Bottom"
+                                        Width="22"
+                                        Height="22"
+                                        Margin="2,8,8,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
                                         x:Load="True"
                                         x:Phase="1"
                                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                                         Stretch="Uniform" />
-                                    <Viewbox
-                                        x:Name="WebShortcutGlyph"
-                                        MaxWidth="25"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-                                        x:Phase="1">
-                                        <FontIcon FontSize="28" Glyph="&#xE71B;" />
-                                    </Viewbox>
                                     <Border
                                         x:Name="ShortcutGlyphElement"
-                                        Margin="1"
-                                        Padding="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Bottom"
+                                        Margin="2,18,18,2"
+                                        Padding="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
                                         x:Load="{x:Bind IsShortcutItem}"
                                         x:Phase="1"
                                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -516,7 +521,7 @@
                                         BorderThickness="1">
                                         <FontIcon
                                             FontFamily="{StaticResource CustomGlyph}"
-                                            FontSize="7"
+                                            FontSize="10"
                                             Glyph="&#xF10A;" />
                                     </Border>
                                 </Grid>
@@ -558,7 +563,7 @@
                                 <FontIcon
                                     x:Name="CloudDriveSyncStatusGlyph"
                                     Grid.Column="4"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
                                     Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
                                     Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
