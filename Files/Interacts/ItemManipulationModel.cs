@@ -16,6 +16,8 @@ namespace Files.Interacts
 
         public event EventHandler<ListedItem> AddSelectedItemInvoked;
 
+        public event EventHandler<ListedItem> RemoveSelectedItemInvoked;
+
         public event EventHandler FocusSelectedItemsInvoked;
 
         public event EventHandler StartRenameItemInvoked;
@@ -56,6 +58,19 @@ namespace Files.Interacts
             foreach (ListedItem item in items)
             {
                 AddSelectedItem(item);
+            }
+        }
+
+        public void RemoveSelectedItem(ListedItem item)
+        {
+            RemoveSelectedItemInvoked?.Invoke(this, item);
+        }
+
+        public void RemoveSelectedItems(List<ListedItem> items)
+        {
+            foreach (ListedItem item in items)
+            {
+                RemoveSelectedItem(item);
             }
         }
 
