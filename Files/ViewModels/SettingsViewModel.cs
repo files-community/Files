@@ -734,6 +734,13 @@ namespace Files.ViewModels
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
         }
+        
+        
+        public GroupOption DefaultDirectoryGroupOption
+        {
+            get => (GroupOption)Get((byte)GroupOption.None);
+            set => Set((byte)value);
+        }
 
         #region ReadAndSaveSettings
 

@@ -1284,7 +1284,7 @@
           <target state="translated">Lap áthelyezése új ablakba</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New tab (Ctrl+T)</source>
+          <source>New tab</source>
           <target state="needs-review-translation">Új lap</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -2382,11 +2382,11 @@
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Column View</source>
-          <target state="translated">Mozaik</target>
+          <target state="translated">Oszlop</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Column View</source>
-          <target state="translated">Mozaik</target>
+          <target state="translated">Oszlop</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
@@ -2644,87 +2644,87 @@
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
-          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s).</target>
+          <target state="translated">{0} ütköző fájlnév, és {1} kimenő elem.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
-          <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
+          <target state="translated">Nincsenek ütköző fájlnevek, {1} kimenő elem.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Új név létrehozása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
-          <target state="new">Replace existing</target>
+          <target state="translated">Célhelyen lévő fájl felülírása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Kihagyás</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Új név létrehozása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
-          <target state="new">Replace existing</target>
+          <target state="translated">Célhelyen lévő fájl felülírása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Kihagyás</target>
         </trans-unit>
         <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="translated">Részletek</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Új név létrehozása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
-          <target state="new">Replace existing</target>
+          <target state="translated">Célhelyen lévő fájl felülírása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Kihagyás</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Új név létrehozása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogUndoOption.Text" translate="yes" xml:space="preserve">
           <source>Undo</source>
-          <target state="new">Undo</target>
+          <target state="translated">Visszavonás</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names.</source>
-          <target state="new">There are {0} conflicting file names.</target>
+          <target state="translated">{0} ütköző fájlév.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name.</source>
-          <target state="new">There is one conflicting file name.</target>
+          <target state="translated">Nincsenek ütköző fájlnevek.</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
           <source>Create folder with selection</source>
-          <target state="new">Create folder with selection</target>
+          <target state="translated">Mappa létrehozása a kijelölt elemekkel</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
           <source>Name:</source>
-          <target state="new">Name:</target>
+          <target state="translated">Név:</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Type:</target>
+          <target state="translated">Típus:</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
-          <target state="new">Date modified:</target>
+          <target state="translated">Módosítás dátuma:</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Mappák megnyitása új lapon</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -2744,35 +2744,171 @@
         </trans-unit>
         <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File icon</source>
-          <target state="new">File icon</target>
+          <target state="translated">Fájl ikon</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path column</source>
-          <target state="new">Original path column</target>
+          <target state="translated">Volt elérési út</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type column</source>
-          <target state="new">Item type column</target>
+          <target state="translated">Elem típusa</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateModified.Text" translate="yes" xml:space="preserve">
           <source>Date modified column</source>
-          <target state="new">Date modified column</target>
+          <target state="translated">Módosítás dátuma</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted column</source>
-          <target state="new">Date deleted column</target>
+          <target state="translated">Törlés dátuma</target>
         </trans-unit>
         <trans-unit id="ResizeElementKeyboardControl.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Sidebar resizer</source>
-          <target state="new">Sidebar resizer</target>
+          <target state="translated">Oldalsáv átméretező</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl+T)</source>
-          <target state="new">New tab (Ctrl+T)</target>
+          <target state="translated">Új lap (Ctrl+T)</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Close tab (Ctrl+W)</source>
-          <target state="new">Close tab (Ctrl+W)</target>
+          <target state="translated">Lap bezárása (Ctrl+W)</target>
+        </trans-unit>
+        <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
+          <source>Open with</source>
+          <target state="translated">Társítás</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Arrangement options</source>
+          <target state="new">Arrangement options</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Arrangement options</source>
+          <target state="new">Arrangement options</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+          <source>Group By</source>
+          <target state="new">Group By</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarGroupByOption_None.Content" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_Name.Content" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_DateModified.Content" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_DateCreated.Content" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="new">Date created</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_Size.Content" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_DateDeleted.Content" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_OriginalFolder.Content" translate="yes" xml:space="preserve">
+          <source>Original folder</source>
+          <target state="new">Original folder</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOption_Type.Content" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+          <source>Sort By</source>
+          <target state="new">Sort By</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionRadioButtons.Header" translate="yes" xml:space="preserve">
+          <source>Sort direction</source>
+          <target state="new">Sort direction</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOption_Ascending.Content" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">Ascending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOption_Descending.Content" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">Descending</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeText_Huge" translate="yes" xml:space="preserve">
+          <source>Huge</source>
+          <target state="new">Huge</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeText_VeryLarge" translate="yes" xml:space="preserve">
+          <source>Very large</source>
+          <target state="new">Very large</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeText_Large" translate="yes" xml:space="preserve">
+          <source>Large</source>
+          <target state="new">Large</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeText_Medium" translate="yes" xml:space="preserve">
+          <source>Medium</source>
+          <target state="new">Medium</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeText_Small" translate="yes" xml:space="preserve">
+          <source>Small</source>
+          <target state="new">Small</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeText_Tiny" translate="yes" xml:space="preserve">
+          <source>Tiny</source>
+          <target state="new">Tiny</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+          <source>Today</source>
+          <target state="new">Today</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_Yesterday" translate="yes" xml:space="preserve">
+          <source>Yesterday</source>
+          <target state="new">Yesterday</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_ThisWeek" translate="yes" xml:space="preserve">
+          <source>Earlier this week</source>
+          <target state="new">Earlier this week</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_LastWeek" translate="yes" xml:space="preserve">
+          <source>Last week</source>
+          <target state="new">Last week</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_ThisMonth" translate="yes" xml:space="preserve">
+          <source>This month</source>
+          <target state="new">This month</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_LastMonth" translate="yes" xml:space="preserve">
+          <source>Last month</source>
+          <target state="new">Last month</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_ThisYear" translate="yes" xml:space="preserve">
+          <source>This year</source>
+          <target state="new">This year</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_Older" translate="yes" xml:space="preserve">
+          <source>Older</source>
+          <target state="new">Older</target>
+        </trans-unit>
+        <trans-unit id="ItemTimeText_Before" translate="yes" xml:space="preserve">
+          <source>Before {0}</source>
+          <target state="new">Before {0}</target>
+        </trans-unit>
+        <trans-unit id="GroupItemsCount_Singular" translate="yes" xml:space="preserve">
+          <source>{0} item</source>
+          <target state="new">{0} item</target>
+        </trans-unit>
+        <trans-unit id="GroupItemsCount_Plural" translate="yes" xml:space="preserve">
+          <source>{0} items</source>
+          <target state="new">{0} items</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.Text" translate="yes" xml:space="preserve">
+          <source>Reopen closed tab</source>
+          <target state="new">Reopen closed tab</target>
         </trans-unit>
       </group>
     </body>

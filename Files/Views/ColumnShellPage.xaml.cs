@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -50,8 +51,7 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
-        public StatusCenterViewModel StatusCenterViewModel { get; set; } = new StatusCenterViewModel();
+
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -101,6 +101,7 @@ namespace Files.Views
                 {
                     contentPage = value;
                     NotifyPropertyChanged(nameof(ContentPage));
+                    NotifyPropertyChanged(nameof(SlimContentPage));
                 }
             }
         }

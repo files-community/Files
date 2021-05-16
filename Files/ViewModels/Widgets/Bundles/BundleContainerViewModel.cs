@@ -355,7 +355,7 @@ namespace Files.ViewModels.Widgets.Bundles
                     SaveBundle();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             finally

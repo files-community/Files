@@ -164,6 +164,9 @@
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
+    <Compile Include="Converters\IntToGroupOption.cs" />
+    <Compile Include="Converters\IntToSortDirection.cs" />
+    <Compile Include="Converters\IntToSortOption.cs" />
     <Compile Include="Converters\MiddleTextEllipsisConverter.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\NavigationViewCompactConverter.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
+    <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -193,9 +197,12 @@
     <Compile Include="EventArguments\Bundles\BundlesLoadIconOverlayEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
@@ -227,6 +234,7 @@
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
     <Compile Include="Helpers\OptionalPackageManager.cs" />
     <Compile Include="Helpers\ShellContextMenuHelper.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\SortingHelper.cs" />
     <Compile Include="Helpers\UIFilesystemHelpers.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />
     <Compile Include="Helpers\UIHelpers.cs" />
@@ -234,6 +242,9 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
+    <Compile Include="UserControls\ArrangementOptions.xaml.cs">
+      <DependentUpon>ArrangementOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
@@ -392,7 +403,7 @@
     <Compile Include="Helpers\PostBannerHelpers.cs" />
     <Compile Include="Helpers\RecycleBinHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\BulkConcurrentObservableCollection.cs" />
+    <Compile Include="Helpers\ItemListDisplayHelpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
@@ -428,7 +439,7 @@
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Enums\WallpaperType.cs" />
-    <Compile Include="Filesystem\DriveItem.cs" />
+    <Compile Include="DataModels\NavigationControlItems\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
@@ -460,8 +471,8 @@
     <Compile Include="ViewModels\CurrentInstanceViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
-    <Compile Include="Filesystem\INavigationControlItem.cs" />
-    <Compile Include="Filesystem\LocationItem.cs" />
+    <Compile Include="DataModels\NavigationControlItems\INavigationControlItem.cs" />
+    <Compile Include="DataModels\NavigationControlItems\LocationItem.cs" />
     <Compile Include="ViewModels\Properties\BaseProperties.cs" />
     <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
     <Compile Include="ViewModels\Properties\DriveProperties.cs" />
@@ -812,6 +823,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ArrangementOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\RestartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1062,7 +1077,7 @@
       <Version>4.2.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>5.0.5</Version>
+      <Version>5.0.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.Memory">
       <Version>5.0.0</Version>
@@ -1071,31 +1086,31 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.DeveloperTools">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Behaviors">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>7.0.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Lottie">
       <Version>7.0.2</Version>

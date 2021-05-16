@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
@@ -32,6 +33,8 @@ namespace Files.Views
 
         public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
 
+        public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -54,11 +57,6 @@ namespace Files.Views
             RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
@@ -78,6 +76,7 @@ namespace Files.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+                UpdateStatusBarProperties();
             }
         }
 
@@ -90,6 +89,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
             SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+            UpdateStatusBarProperties();
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
@@ -97,6 +97,16 @@ namespace Files.Views
         private void PaneHolder_ActivePaneChanged(object sender, EventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
+            UpdateStatusBarProperties();
+        }
+        
+        private void UpdateStatusBarProperties()
+        {
+            if(StatusBarControl != null)
+            {
+                StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.DirectoryPropertiesViewModel;
+                StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.SelectedItemsPropertiesViewModel;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -230,6 +240,12 @@ namespace Files.Views
                 SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Defers the status bar loading until after the page has loaded to improve startup perf
+            FindName(nameof(StatusBarControl));
         }
     }
 }

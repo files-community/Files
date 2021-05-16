@@ -3,13 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:local="using:Files.UserControls.Widgets"
-    xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <StackPanel Spacing="12">
@@ -79,7 +78,7 @@
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="local2:DriveItem">
+                <DataTemplate x:DataType="navigationcontrolitems:DriveItem">
                     <Grid
                         Width="270"
                         extensions:VisualExtensions.CenterPoint="135,45,0"
@@ -96,8 +95,8 @@
                             VerticalContentAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind Text, Mode=OneWay}"
                             Click="Button_Click"
+                            CornerRadius="{StaticResource OverlayCornerRadius}"
                             PointerPressed="Button_PointerPressed"
-                            CornerRadius="8"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
                             <Button.ContextFlyout>
@@ -179,8 +178,8 @@
                                 </Grid.ColumnDefinitions>
                                 <Image
                                     Grid.Column="0"
-                                    x:Phase="1"
                                     Height="40"
+                                    x:Phase="1"
                                     Source="{x:Bind Icon, Mode=OneWay}" />
                                 <StackPanel
                                     Grid.Column="1"
@@ -203,26 +202,26 @@
                                             TextWrapping="NoWrap" />
 
                                         <Button
-                                            x:Uid="DrivesWidgetOpenStorageSenseButton"
                                             x:Name="GoToStorageSense"
-                                            x:Load="{x:Bind ShowStorageSense}"
-                                            AutomationProperties.Name="Open Storage Sense"
+                                            x:Uid="DrivesWidgetOpenStorageSenseButton"
                                             Grid.Column="1"
-                                            HorizontalAlignment="Right"
-                                            Click="GoToStorageSense_Click"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
                                             Width="30"
                                             Height="30"
-                                            ToolTipService.ToolTip="Open Storage Sense"
-                                            VerticalContentAlignment="Center"
+                                            Padding="0"
+                                            HorizontalAlignment="Right"
                                             HorizontalContentAlignment="Center"
-                                            Padding="0">
+                                            VerticalContentAlignment="Center"
+                                            x:Load="{x:Bind ShowStorageSense}"
+                                            AutomationProperties.Name="Open Storage Sense"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            Click="GoToStorageSense_Click"
+                                            ToolTipService.ToolTip="Open Storage Sense">
                                             <FontIcon
-                                                Glyph="&#xE7BA;"
-                                                FontSize="18"
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
+                                                VerticalAlignment="Center"
+                                                FontSize="18"
+                                                Glyph="&#xE7BA;" />
                                         </Button>
                                     </Grid>
                                     <muxc:ProgressBar

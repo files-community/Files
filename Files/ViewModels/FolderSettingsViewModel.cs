@@ -411,6 +411,7 @@ namespace Files.ViewModels
         }
 
         public event EventHandler SortOptionPreferenceUpdated;
+        public event EventHandler GroupOptionPreferenceUpdated;
 
         public event EventHandler SortDirectionPreferenceUpdated;
 
@@ -423,6 +424,21 @@ namespace Files.ViewModels
                 {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
+        public RelayCommand<GroupOption> ChangeGroupOptionCommand => new RelayCommand<GroupOption>(x => DirectoryGroupOption = x);
+        
+        public GroupOption DirectoryGroupOption
+        {
+            get => LayoutPreference.DirectoryGroupOption;
+            set
+            {
+                if (SetProperty(ref LayoutPreference.DirectoryGroupOption, value, nameof(DirectoryGroupOption)))
+                {
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    GroupOptionPreferenceUpdated?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -521,7 +537,19 @@ namespace Files.ViewModels
                 ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
-            else
+            else if(folderPath == App.AppSettings.DownloadsPath)
+            {
+                // Default for downloads folder is to group by date created
+                return new LayoutPreferences
+                {
+                    LayoutMode = App.AppSettings.DefaultLayoutMode,
+                    GridViewSize = App.AppSettings.DefaultGridViewSize,
+                    DirectorySortOption = App.AppSettings.DefaultDirectorySortOption,
+                    DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection,
+                    ColumnsViewModel = new ColumnsViewModel(),
+                    DirectoryGroupOption = GroupOption.DateCreated,
+                };
+            } else
             {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
             }
@@ -541,12 +569,26 @@ namespace Files.ViewModels
             dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
 
-        public LayoutPreferences LayoutPreference { get; private set; }
+        private LayoutPreferences layoutPreference;
+        public LayoutPreferences LayoutPreference 
+        {
+            get => layoutPreference;
+            private set
+            {
+                if(SetProperty(ref layoutPreference, value))
+                {
+                    OnPropertyChanged(nameof(DirectoryGroupOption));
+                    OnPropertyChanged(nameof(DirectorySortOption));
+                    OnPropertyChanged(nameof(DirectorySortDirection));
+                }
+            }
+        }
 
         public class LayoutPreferences
         {
             public SortOption DirectorySortOption;
             public SortDirection DirectorySortDirection;
+            public GroupOption DirectoryGroupOption;
             public FolderLayoutModes LayoutMode;
             public int GridViewSize;
 
@@ -561,6 +603,7 @@ namespace Files.ViewModels
                 this.LayoutMode = App.AppSettings.DefaultLayoutMode;
                 this.GridViewSize = App.AppSettings.DefaultGridViewSize;
                 this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
+                this.DirectoryGroupOption = App.AppSettings.DefaultDirectoryGroupOption;
                 this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
                 this.ColumnsViewModel = new ColumnsViewModel();
 
@@ -577,6 +620,12 @@ namespace Files.ViewModels
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
                     IsAdaptiveLayoutOverridden = (bool?)compositeValue[nameof(IsAdaptiveLayoutOverridden)] != null,
                 };
+
+                if(compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
+                {
+                    pref.DirectoryGroupOption = (GroupOption)(int)gpOption;
+                }
+
                 try
                 {
                     pref.ColumnsViewModel = JsonConvert.DeserializeObject<ColumnsViewModel>(compositeValue[nameof(ColumnsViewModel)] as string, new JsonSerializerSettings()
@@ -598,6 +647,7 @@ namespace Files.ViewModels
                     { nameof(LayoutMode), (int)this.LayoutMode },
                     { nameof(GridViewSize), this.GridViewSize },
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
+                    { nameof(DirectoryGroupOption), (int)this.DirectoryGroupOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
                     { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden },
                     { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }

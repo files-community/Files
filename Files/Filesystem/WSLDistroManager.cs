@@ -1,4 +1,5 @@
-﻿using Files.UserControls;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
@@ -58,6 +59,7 @@ namespace Files.Filesystem
                                     Text = "WSL",
                                     Section = SectionType.WSL,
                                     SelectsOnInvoked = false,
+                                    Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                     ChildItems = new ObservableCollection<INavigationControlItem>()
                                 };
                                 SidebarControl.SideBarItems.Add(section);
@@ -93,7 +95,7 @@ namespace Files.Filesystem
 
                                 if (!section.ChildItems.Any(x => x.Path == folder.Path))
                                 {
-                                    section.ChildItems.Add(new WSLDistroItem()
+                                    section.ChildItems.Add(new WslDistroItem()
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,

@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
@@ -164,7 +165,8 @@ namespace Files.UserControls.Widgets
                 await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "NetworkDriveOperation" },
-                        { "netdriveop", "OpenMapNetworkDriveDialog" }
+                        { "netdriveop", "OpenMapNetworkDriveDialog" },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
             }
         }
