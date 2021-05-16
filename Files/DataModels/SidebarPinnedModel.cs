@@ -24,7 +24,7 @@ namespace Files.DataModels
     {
         private SidebarPinnedController controller;
 
-        private LocationItem favoriteSection;
+        private LocationItem favoriteSection, homeSection;
 
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -42,15 +42,22 @@ namespace Files.DataModels
 
         public SidebarPinnedModel()
         {
+            homeSection = new LocationItem()
+            {
+                Text = "SidebarHome".GetLocalized(),
+                Section = SectionType.Home,
+                Font = InteractionViewModel.FontName,
+                IsDefaultLocation = true,
+                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
+                Path = "Home",
+                ChildItems = new ObservableCollection<INavigationControlItem>()
+            };
             favoriteSection = new LocationItem()
             {
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
-                SelectsOnInvoked = true,
-                IsDefaultLocation = true,
-                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
+                SelectsOnInvoked = false,
                 Font = InteractionViewModel.FontName,
-                Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -304,6 +311,11 @@ namespace Files.DataModels
             try
             {
                 SidebarControl.SideBarItems.BeginBulkOperation();
+
+                if (homeSection != null)
+                {
+                    AddItemToSidebarAsync(homeSection);
+                }
 
                 for (int i = 0; i < FavoriteItems.Count(); i++)
                 {
