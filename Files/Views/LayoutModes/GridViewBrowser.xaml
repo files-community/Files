@@ -547,6 +547,15 @@
                         </GroupStyle>
                     </GridView.GroupStyle>
 
+                    <GridView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                            <!--<ContentThemeTransition />-->
+                            <ReorderThemeTransition />
+                            <EntranceThemeTransition IsStaggeringEnabled="False" />
+                        </TransitionCollection>
+                    </GridView.ItemContainerTransitions>
+
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid AreStickyGroupHeadersEnabled="True" Orientation="Horizontal" />
