@@ -451,22 +451,21 @@
                                     <Image
                                         x:Name="Picture"
                                         Width="25"
-                                        Margin="0,12,0,12"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                         x:Phase="1"
                                         Source="{x:Bind FileImage, Mode=OneWay}"
                                         Stretch="Uniform" />
-									<FontIcon
+                                    <FontIcon
                                         x:Name="FolderGlyphIcon"
                                         Width="25"
                                         Height="25"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-			                            Glyph="&#xF12B;" />
-									<FontIcon
+                                        Glyph="&#xF12B;" />
+                                    <FontIcon
                                         x:Name="TypeUnknownGlyph"
                                         Width="25"
                                         HorizontalAlignment="Stretch"
