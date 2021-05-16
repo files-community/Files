@@ -9,7 +9,14 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <WebView x:Name="WebViewControl" />
+    <Grid
+        x:Name="RootGrid"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <WebView
+            x:Name="WebViewControl"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Loaded="WebViewControl_Loaded" />
     </Grid>
 </UserControl>

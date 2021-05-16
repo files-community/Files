@@ -88,7 +88,6 @@ namespace Files.ViewModels.Previews
             var detailsFull = new List<FileProperty>();
             Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             DetailsFromPreview = await LoadPreviewAndDetails();
-            RaiseLoadedEvent();
             var props = await GetSystemFileProperties();
 
             // Add the details from the preview function, then the system file properties
@@ -98,15 +97,7 @@ namespace Files.ViewModels.Previews
             Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
         }
 
-        public event LoadedEventHandler LoadedEvent;
-
         public delegate void LoadedEventHandler(object sender, EventArgs e);
-
-        protected virtual void RaiseLoadedEvent()
-        {
-            // Raise the event in a thread-safe manner using the ?. operator.
-            LoadedEvent?.Invoke(this, new EventArgs());
-        }
 
         public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
         {
