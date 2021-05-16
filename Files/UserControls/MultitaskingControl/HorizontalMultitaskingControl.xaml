@@ -65,19 +65,6 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </ResourceDictionary>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Name="Light">
-                            <SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="#f3f1ef" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="Dark">
-                            <SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="#161514" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="HighContrast">
-                            <SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
                 <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
                 <ResourceDictionary>
                     <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
