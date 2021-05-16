@@ -317,7 +317,7 @@
                                     x:Uid="FileBrowserSortOption_Name"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Name"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -337,7 +337,7 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Original path"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
                             <controls:GridSplitter
@@ -356,7 +356,7 @@
                                 <TextBlock
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date deleted"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
                             <controls:GridSplitter
@@ -373,7 +373,7 @@
                                 VerticalAlignment="Center"
                                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                 Text="Status"
-                                TextAlignment="Center"
+                                TextAlignment="Left"
                                 TextWrapping="Wrap"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
@@ -395,7 +395,7 @@
                                     x:Uid="FileBrowserSortOption_DateModified"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Date modified"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
 
@@ -416,7 +416,7 @@
                                     x:Uid="FileBrowserSortOption_FileType"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                     Text="Type"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextWrapping="Wrap" />
                             </Button>
                         </Grid>
