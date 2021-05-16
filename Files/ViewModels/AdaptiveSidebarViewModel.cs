@@ -39,6 +39,7 @@ namespace Files.ViewModels
 
                     OnPropertyChanged(nameof(IsWindowCompactSize));
                     OnPropertyChanged(nameof(IsSidebarOpen));
+                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
                 }
             }
         }
@@ -163,6 +164,10 @@ namespace Files.ViewModels
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
+                    break;
+
+                case nameof(App.AppSettings.IsDualPaneEnabled):
+                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
             }
         }

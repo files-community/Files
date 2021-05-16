@@ -31,11 +31,12 @@ namespace Files.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
+                        _ = await AppInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
@@ -53,6 +54,7 @@ namespace Files.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 var newName = ViewModel.ItemName;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
@@ -74,6 +76,7 @@ namespace Files.Views
             }
             else
             {
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
