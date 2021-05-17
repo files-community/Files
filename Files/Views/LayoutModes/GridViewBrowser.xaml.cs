@@ -46,6 +46,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
             ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
             ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
@@ -93,14 +94,31 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private void ItemManipulationModel_RemoveSelectedItemInvoked(object sender, ListedItem e)
+        {
+            if (FileList?.Items.Contains(e) ?? false)
+            {
+                FileList.SelectedItems.Remove(e);
+            }
+        }
+
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
+            if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
+            {
+                var oldSelectedItems = SelectedItems.ToList();
+                ItemManipulationModel.SelectAllItems();
+                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
+            }
+            else
+            {
+                List<ListedItem> newSelectedItems = GetAllItems()
+                    .Cast<ListedItem>()
+                    .Except(SelectedItems)
+                    .ToList();
 
-            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+                ItemManipulationModel.SetSelectedItems(newSelectedItems);
+            }
         }
 
         private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
@@ -127,6 +145,7 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
                 ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
                 ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;

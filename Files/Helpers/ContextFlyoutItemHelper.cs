@@ -377,14 +377,14 @@ namespace Files.Helpers
                 {
                     Text = "BaseLayoutContextFlyoutPinDirectoryToSidebar/Text".GetLocalized(),
                     Glyph = "\uE840",
-                    Command = commandsViewModel.SidebarPinItemCommand,
+                    Command = commandsViewModel.PinDirectoryToSidebarCommand,
                     ShowItem =!itemViewModel.CurrentFolder.IsPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar/Text".GetLocalized(),
                     Glyph = "\uE77A",
-                    Command = commandsViewModel.SidebarUnpinItemCommand,
+                    Command = commandsViewModel.UnpinDirectoryFromSidebarCommand,
                     ShowItem =itemViewModel.CurrentFolder.IsPinned
                 },
                 new ContextMenuFlyoutItemViewModel()

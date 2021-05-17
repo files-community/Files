@@ -165,7 +165,8 @@ namespace Files.UserControls.Widgets
                 await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "NetworkDriveOperation" },
-                        { "netdriveop", "OpenMapNetworkDriveDialog" }
+                        { "netdriveop", "OpenMapNetworkDriveDialog" },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
             }
         }

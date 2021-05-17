@@ -1290,6 +1290,16 @@
                     ScrollViewer.IsScrollInertiaEnabled="True"
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+
+                    <ListView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                            <!--<ContentThemeTransition />-->
+                            <ReorderThemeTransition />
+                            <EntranceThemeTransition IsStaggeringEnabled="False" />
+                        </TransitionCollection>
+                    </ListView.ItemContainerTransitions>
+
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
