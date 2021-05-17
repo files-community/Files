@@ -23,9 +23,7 @@ namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
-        private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
-
-        public static IMultitaskingControl MultitaskingControl { get; set; }
+        public IMultitaskingControl MultitaskingControl { get; set; }
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 
@@ -144,7 +142,7 @@ namespace Files.ViewModels
             }
             else // ctrl + shift + t, restore recently closed tab
             {
-                ReopenClosedTab(null, null);
+                ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
             }
             e.Handled = true;
         }
@@ -442,28 +440,6 @@ namespace Files.ViewModels
             {
                 await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             }
-        }
-
-        public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
-        {
-            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
-        public static async void ReopenClosedTab(object sender, RoutedEventArgs e)
-        {
-            if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
-            {
-                isRestoringClosedTab = true;
-                ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                isRestoringClosedTab = false;
-            }
-        }
-
-        public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
-        {
-            await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem);
         }
 
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
