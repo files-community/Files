@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Files.UserControls.NavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -896,8 +896,13 @@
                         </Grid>
                     </DataTemplate>
                 </AutoSuggestBox.ItemTemplate>
+                <AutoSuggestBox.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="Escape"
+                        Invoked="SearchBox_Escaped"
+                        Modifiers="None" />
+                </AutoSuggestBox.KeyboardAccelerators>
             </AutoSuggestBox>
-
             <Button
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"
@@ -912,6 +917,9 @@
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search">
                 <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F" Modifiers="Control" />
+                </Button.KeyboardAccelerators>
             </Button>
         </Grid>
 

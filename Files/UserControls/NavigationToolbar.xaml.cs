@@ -386,6 +386,7 @@ namespace Files.UserControls
             }
             set
             {
+
                 SetValue(IsPageTypeNotHomeProperty, value);
             }
         }
@@ -1267,7 +1268,7 @@ namespace Files.UserControls
             IsSearchRegionVisible = false;
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        public void OpenSearchBox()
         {
             if (IsSearchRegionVisible)
             {
@@ -1288,6 +1289,10 @@ namespace Files.UserControls
             }
         }
 
+        private void SearchButton_Click(object sender, RoutedEventArgs e) => OpenSearchBox();
+
+        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => CloseSearchBox();
+
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
@@ -1296,6 +1301,11 @@ namespace Files.UserControls
                 return;
             }
 
+            CloseSearchBox();
+        }
+
+        private void CloseSearchBox()
+        {
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
             SearchButtonGlyph = "\uE721";
