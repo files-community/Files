@@ -903,6 +903,7 @@
                         Modifiers="None" />
                 </AutoSuggestBox.KeyboardAccelerators>
             </AutoSuggestBox>
+
             <Button
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"

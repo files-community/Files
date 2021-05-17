@@ -386,7 +386,6 @@ namespace Files.UserControls
             }
             set
             {
-
                 SetValue(IsPageTypeNotHomeProperty, value);
             }
         }
