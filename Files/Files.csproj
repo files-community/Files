@@ -1128,7 +1128,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.9</Version>
+      <Version>4.7.10</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
       <Version>4.7.9</Version>
