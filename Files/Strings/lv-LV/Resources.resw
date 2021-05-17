@@ -840,12 +840,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Piekļuve liegta</value>
   </data>
-  <data name="MovingShortcutsDialog.Text" xml:space="preserve">
-    <value>Is not allowed to move shorcuts.</value>
-  </data>
-  <data name="MovingShortcutsDialog.Title" xml:space="preserve">
-    <value>Error</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Atcelt</value>
   </data>

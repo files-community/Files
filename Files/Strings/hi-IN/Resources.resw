@@ -771,12 +771,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>प्रवेश निषेध</value>
   </data>
-  <data name="MovingShortcutsDialog.Text" xml:space="preserve">
-    <value>Is not allowed to move shorcuts.</value>
-  </data>
-  <data name="MovingShortcutsDialog.Title" xml:space="preserve">
-    <value>Error</value>
-  </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>दिनांक स्वरूप</value>
   </data>

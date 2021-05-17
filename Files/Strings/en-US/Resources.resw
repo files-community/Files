@@ -955,7 +955,7 @@
     <value>Access Denied</value>
   </data>
   <data name="MovingShortcutsDialog.Text" xml:space="preserve">
-    <value>Is not allowed to move shorcuts.</value>
+    <value>Is not allowed to move shortcuts.</value>
   </data>
   <data name="MovingShortcutsDialog.Title" xml:space="preserve">
     <value>Error</value>

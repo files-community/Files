@@ -1190,14 +1190,6 @@
           <source>Access Denied</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">प्रवेश निषेध</target>
         </trans-unit>
-        <trans-unit id="MovingShortcutsDialog.Title" translate="yes" xml:space="preserve">
-          <source>Error</source>
-          <target state="translated" state-qualifier="tm-suggestion">Error</target>
-        </trans-unit>
-        <trans-unit id="MovingShortcutsDialog.Text" translate="yes" xml:space="preserve">
-          <source>Is not allowed to move shorcuts.</source>
-          <target state="translated" state-qualifier="tm-suggestion">Is not allowed to move shorcuts</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="new">Pin Recycle Bin to the sidebar</target>
@@ -2922,6 +2914,14 @@
         <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
           <source>Move...</source>
           <target state="new">Move...</target>
+        </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Text" translate="yes" xml:space="preserve">
+          <source>Is not allowed to move shortcuts.</source>
+          <target state="new">Is not allowed to move shortcuts.</target>
+        </trans-unit>
+        <trans-unit id="MovingShortcutsDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="new">Error</target>
         </trans-unit>
       </group>
     </body>
