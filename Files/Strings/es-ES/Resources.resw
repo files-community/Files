@@ -2038,7 +2038,7 @@
     <value>Opciones de vista</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>Ícono</value>
+    <value>Icono</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
     <value>Ubicación original</value>
@@ -2137,7 +2137,7 @@
     <value>A principios de esta semana</value>
   </data>
   <data name="ItemTimeText_LastWeek" xml:space="preserve">
-    <value>Semana pasada</value>
+    <value>La semana pasada</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
     <value>Este mes</value>
