@@ -18,9 +18,7 @@ namespace Files.Views
     public sealed partial class WidgetsPage : Page, IDisposable
     {
         private IShellPage AppInstance = null;
-        public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
-        public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
 
         private LibraryCards libraryCards;
         private DrivesWidget drivesWidget;
@@ -40,6 +38,13 @@ namespace Files.Views
             ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
             ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            this.Dispose();
+
+            base.OnNavigatedFrom(e);
         }
 
         public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
@@ -135,7 +140,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
+                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, App.AppSettings.CloudDrivesManager.Drives))
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
@@ -236,8 +241,6 @@ namespace Files.Views
 
         #region IDisposable
 
-        // TODO: This Dispose() is never called, please implement the functionality to call this function.
-        //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
         public void Dispose()
         {
             ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;

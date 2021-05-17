@@ -111,7 +111,7 @@ namespace Files.ViewModels.Properties
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
+                ViewModel.ItemCreatedTimestamp = storageFolder.DateCreated.GetFriendlyDateFromFormat(returnformat);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);
             }

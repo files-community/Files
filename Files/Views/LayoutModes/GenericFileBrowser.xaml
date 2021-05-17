@@ -193,11 +193,6 @@
                                 AutomationProperties.Name="Thumbnail column"
                                 Opacity="{x:Bind Opacity, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
-                                <Rectangle
-                                    x:Name="CutIndicator"
-                                    Fill="LightGray"
-                                    Opacity="0.1"
-                                    Visibility="Collapsed" />
                                 <Image
                                     x:Name="FolderGlyphElement"
                                     Width="24"

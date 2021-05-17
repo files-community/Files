@@ -17,12 +17,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 
@@ -46,7 +51,6 @@ namespace Files
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
@@ -57,6 +61,23 @@ namespace Files
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
         public bool IsRenamingItem { get; set; } = false;
+
+        private CollectionViewSource collectionViewSource = new CollectionViewSource()
+        {
+            IsSourceGrouped = true,
+        };
+
+        public CollectionViewSource CollectionViewSource
+        {
+            get => collectionViewSource;
+            set  {
+                if(collectionViewSource != value)
+                {
+                    collectionViewSource = value;
+                    NotifyPropertyChanged(nameof(CollectionViewSource));
+                }
+            }
+        }
 
         private NavigationArguments navigationArguments;
 
@@ -297,8 +318,10 @@ namespace Files
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
+
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
             FolderSettings.SetLayoutInformation();
 
@@ -352,6 +375,8 @@ namespace Files
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             ParentShellPageInstance.LoadPreviewPaneChanged();
+            ParentShellPageInstance.FilesystemViewModel.UpdateGroupOptions();
+            UpdateCollectionViewSource();
             FolderSettings.IsLayoutModeChanging = false;
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
@@ -377,12 +402,25 @@ namespace Files
             BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
         }
 
+        private CancellationTokenSource groupingCancellationToken;
+        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
+        {
+            // Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
+            groupingCancellationToken?.Cancel();
+            groupingCancellationToken = new CancellationTokenSource();
+            var token = groupingCancellationToken.Token;
+            await ParentShellPageInstance.FilesystemViewModel.GroupOptionsUpdated(token);
+            UpdateCollectionViewSource();
+            await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
@@ -673,6 +711,63 @@ namespace Files
         protected void ItemsLayout_Drop(object sender, DragEventArgs e)
         {
             CommandsViewModel?.DropCommand?.Execute(e);
+        }
+
+        public void UpdateCollectionViewSource()
+        {
+            if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
+            {
+                CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+                {
+                    IsSourceGrouped = true,
+                    Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
+                };
+            }
+            else
+            {
+                CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+                {
+                    IsSourceGrouped = false,
+                    Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                };
+            }
+        }
+
+        protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            if (!e.IsSourceZoomedInView)
+            {
+                // According to the docs this isn't necessary, but it would crash otherwise
+                var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+                e.DestinationItem.Item = destination.FirstOrDefault();
+            }
+        }
+
+        protected void StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "PointerOver", true);
+            }
+        }
+
+        protected void StackPanel_PointerCanceled(object sender, PointerRoutedEventArgs e)
+        {
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "Normal", true);
+            }
+        }
+
+        protected void RootPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var element = (sender as UIElement)?.FindAscendant<ListViewBaseHeaderItem>();
+            if (!(element is null))
+            {
+                VisualStateManager.GoToState(element, "Pressed", true);
+            }
         }
     }
 }

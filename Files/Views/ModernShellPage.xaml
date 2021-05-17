@@ -166,7 +166,7 @@
     <Grid
         x:Name="RootGrid"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-        BorderThickness="0,0,0,2"
+        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
         SizeChanged="RootGrid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -177,7 +177,6 @@
                 x:Name="PreviewPaneRow"
                 Height="2*"
                 MaxHeight="400" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -223,16 +222,6 @@
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
-
-        <controls:StatusBarControl
-            x:Name="StatusBarControl"
-            Grid.Row="5"
-            Grid.ColumnSpan="3"
-            x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-            DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-            SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}"
-            StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
 
         <Custom:DropShadowPanel
             Grid.Row="1"
@@ -290,7 +279,16 @@
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                 ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                UpRequested="ModernShellPage_UpNavRequested" />
+                UpRequested="ModernShellPage_UpNavRequested">
+                <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+                    <controls:ArrangementOptions
+                        x:Name="ArrangementOptionsFlyoutContent"
+                        IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                        SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
+                        SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
+                        SelectedSortMode="{x:Bind InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
+                </controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+            </controls:NavigationToolbar>
         </Custom:DropShadowPanel>
     </Grid>
 </Page>

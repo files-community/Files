@@ -21,6 +21,7 @@ namespace Files.ViewModels
     {
         public ICommand EmptyRecycleBinCommand { get; private set; }
         public IPaneHolder PaneHolder { get; set; }
+
         public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
 
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
@@ -138,6 +139,10 @@ namespace Files.ViewModels
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
+                    break;
+
+                case nameof(App.AppSettings.IsDualPaneEnabled):
+                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
             }
         }

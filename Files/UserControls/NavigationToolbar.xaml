@@ -14,6 +14,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="72"
     d:DesignWidth="800"
@@ -23,7 +24,9 @@
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-
+            <converters:IntToGroupOption x:Key="IntToGroupOption" />
+            <converters:IntToSortOption x:Key="IntToSortOption" />
+            <converters:IntToSortDirection x:Key="IntToSortDirection" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -958,6 +961,24 @@
                                         IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
                                 </StackPanel>
                             </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ArrangementOptions"
+                    x:Uid="NavToolbarArrangementOptionsButton"
+                    Width="36"
+                    Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="A"
+                    AutomationProperties.Name="Arrangement options"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Arrangement options">
+                    <FontIcon FontSize="14" Glyph="&#xF168;" />
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
