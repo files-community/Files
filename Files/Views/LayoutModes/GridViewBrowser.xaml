@@ -187,7 +187,7 @@
                 Height="100"
                 Margin="0,0,0,0"
                 Padding="0"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 IsRightTapEnabled="True"
