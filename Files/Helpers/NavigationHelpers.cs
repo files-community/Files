@@ -20,7 +20,7 @@ namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async void OpenPathInNewTab(string path)
+        public static async Task OpenPathInNewTab(string path)
         {
             await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }

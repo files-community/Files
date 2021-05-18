@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
 using System;
@@ -50,18 +51,16 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        private async void OpenSelectedFilesLocation_Click(object sender, RoutedEventArgs e)
         {
-            var flyoutItem = sender as MenuFlyoutItem;
-            var clickedOnItem = flyoutItem.DataContext as RecentItem;
-            if (clickedOnItem.IsFile)
+            foreach (RecentItem selectedItem in RecentsView.SelectedItems)
             {
-                var filePath = clickedOnItem.RecentPath;
-                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
-                RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
+                if (selectedItem.IsFile)
                 {
-                    ItemPath = folderPath
-                });
+                    var filePath = selectedItem.RecentPath;
+                    var folderPath = filePath.Substring(0, filePath.Length - selectedItem.Name.Length);
+                    await NavigationHelpers.OpenPathInNewTab(folderPath);
+                }
             }
         }
 
@@ -160,47 +159,40 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
+        private void RecentsView_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
-            var path = (e.ClickedItem as RecentItem).RecentPath;
+            var item = (sender as ListView).SelectedItem;
+            var path = (item as RecentItem).RecentPath;
             RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
                 ItemPath = path
             });
         }
 
-        private async void RemoveRecentItem_Click(object sender, RoutedEventArgs e)
+        private async void RemoveRecentSelectedItems_Click(object sender, RoutedEventArgs e)
         {
-            // Get the sender frameworkelement
+            // Now clear it from the recent list cache permanently.
+            // No token stored in the viewmodel, so need to find it the old fashioned way.
+            var mru = StorageApplicationPermissions.MostRecentlyUsedList;
 
-            if (sender is MenuFlyoutItem fe)
+            foreach (RecentItem vm in RecentsView.SelectedItems)
             {
-                // Grab it's datacontext ViewModel and remove it from the list.
-
-                if (fe.DataContext is RecentItem vm)
+                foreach (var element in mru.Entries)
                 {
-                    // Remove it from the visible collection
-                    recentItemsCollection.Remove(vm);
-
-                    // Now clear it from the recent list cache permanently.
-                    // No token stored in the viewmodel, so need to find it the old fashioned way.
-                    var mru = StorageApplicationPermissions.MostRecentlyUsedList;
-
-                    foreach (var element in mru.Entries)
+                    var f = await mru.GetItemAsync(element.Token);
+                    if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
                     {
-                        var f = await mru.GetItemAsync(element.Token);
-                        if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
+                        mru.Remove(element.Token);
+                        if (recentItemsCollection.Count == 0)
                         {
-                            mru.Remove(element.Token);
-                            if (recentItemsCollection.Count == 0)
-                            {
-                                Empty.Visibility = Visibility.Visible;
-                            }
-                            break;
+                            Empty.Visibility = Visibility.Visible;
                         }
                     }
                 }
             }
+
+            recentItemsCollection.Clear();
+            PopulateRecentsList();   
         }
 
         private void ClearRecentItems_Click(object sender, RoutedEventArgs e)

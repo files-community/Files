@@ -37,11 +37,11 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     IsItemClickEnabled="True"
-                    IsRightTapEnabled="True"
-                    ItemClick="RecentsView_ItemClick"
+                    IsRightTapEnabled="True"                    
+                    DoubleTapped="RecentsView_DoubleTapped"
                     ItemContainerTransitions="{x:Null}"
                     ItemsSource="{x:Bind recentItemsCollection}"
-                    SelectionMode="None">
+                    SelectionMode="Multiple">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:RecentItem">
                             <Grid
@@ -55,10 +55,10 @@
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                            x:Name="RemoveRecentItem"
-                                            x:Uid="RecentItemRemove"
-                                            Click="RemoveRecentItem_Click"
-                                            Text="Remove this item">
+                                            x:Name="RemoveRecentSelectedItems"
+                                            x:Uid="RecentItemsSelectedRemove"
+                                            Click="RemoveRecentSelectedItems_Click"
+                                            Text="Remove selected items">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE738;" />
                                             </MenuFlyoutItem.Icon>
@@ -72,9 +72,9 @@
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
-                                            x:Uid="RecentItemOpenFileLocation"
-                                            Click="OpenFileLocation_Click"
-                                            Text="Open file location"
+                                            x:Uid="RecentItemOpenSelectedFiles"
+                                            Click="OpenSelectedFilesLocation_Click"
+                                            Text="Open selected files locations"
                                             Visibility="{x:Bind IsFile}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xED25;" />
