@@ -20,6 +20,8 @@
                 public const int GridViewSizeMedium = 160;
 
                 public const int GridViewSizeSmall = 100;
+
+                public const int TilesView = 260;
             }
 
             public static class GenericFileBrowser
