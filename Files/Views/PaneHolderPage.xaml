@@ -101,7 +101,7 @@
             Canvas.ZIndex="100"
             OffsetX="-8"
             ShadowOpacity="0.04 ">
-            <Grid Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}">
+            <Grid Background="{ThemeResource PaneHolderPageBackgroundBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
                         x:Name="LeftColumn"

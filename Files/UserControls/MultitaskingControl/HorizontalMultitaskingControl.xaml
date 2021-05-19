@@ -799,7 +799,7 @@
 
     <Grid
         HorizontalAlignment="Left"
-        Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+        Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
         Canvas.ZIndex="4">
 
         <muxc:TabView

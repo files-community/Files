@@ -66,6 +66,10 @@
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Horizontal Tab Control  -->
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  PaneHolderPage  -->
+                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -100,6 +104,10 @@
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Horizontal Tab Control  -->
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  PaneHolderPage  -->
+                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -132,6 +140,10 @@
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Horizontal Tab Control  -->
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  PaneHolderPage  -->
+                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
