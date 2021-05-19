@@ -67,7 +67,7 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTagControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  PaneHolderPage  -->
                             <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
@@ -105,7 +105,7 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTagControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  PaneHolderPage  -->
                             <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
@@ -141,7 +141,7 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTagControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  PaneHolderPage  -->
                             <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
