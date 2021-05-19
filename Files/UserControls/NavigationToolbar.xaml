@@ -919,7 +919,7 @@
                 ToolTipService.ToolTip="Search">
                 <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F" Modifiers="Control" />
+                    <KeyboardAccelerator Key="F" Modifiers="Control" IsEnabled="False" />
                 </Button.KeyboardAccelerators>
             </Button>
         </Grid>
