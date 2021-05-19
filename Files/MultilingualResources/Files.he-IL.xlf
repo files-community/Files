@@ -477,8 +477,9 @@
           <target state="translated" state-qualifier="tm-suggestion">Refresh (F5)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated" state-qualifier="tm-suggestion">חיפוש</target>
+          <source>Search (Ctrl+F)</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">חיפוש</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
@@ -2903,6 +2904,18 @@
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.Text" translate="yes" xml:space="preserve">
           <source>Reopen closed tab</source>
           <target state="new">Reopen closed tab</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutPrivacyPolicy.Text" translate="yes" xml:space="preserve">
+          <source>Privacy policy</source>
+          <target state="new">Privacy policy</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutPrivacyPolicyDescription.Text" translate="yes" xml:space="preserve">
+          <source>View Files privacy policy</source>
+          <target state="new">View Files privacy policy</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>View Files privacy policy</source>
+          <target state="new">View Files privacy policy</target>
         </trans-unit>
       </group>
     </body>
