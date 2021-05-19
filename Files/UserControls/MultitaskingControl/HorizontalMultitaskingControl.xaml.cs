@@ -179,8 +179,8 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContextMenu_Opening(object sender, object e)
         {
-            MenuItemMoveTabToNewWindow.IsEnabled = MainPageViewModel.MultitaskingControl.Items.Count > 1;
-            MenuItemReopenClosedTab.IsEnabled = MainPageViewModel.MultitaskingControl.RecentlyClosedTabs.Any();
+            MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
+            MenuItemReopenClosedTab.IsEnabled = RecentlyClosedTabs.Any();
         }
 
         private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
