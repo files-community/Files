@@ -40,6 +40,8 @@ namespace Files.Filesystem
 
         private readonly CancellationToken cancellationToken;
 
+        private StatusCenterViewModel statusCenterViewModel => App.StatusCenterViewModel;
+
         #region Helpers Members
 
         private static readonly List<string> RestrictedFileNames = new List<string>()
@@ -100,7 +102,7 @@ namespace Files.Filesystem
                 PostedStatusBanner banner;
                 if (permanently)
                 {
-                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    banner = statusCenterViewModel.PostBanner(string.Empty,
                     associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     ReturnResult.InProgress,
@@ -108,7 +110,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    banner = statusCenterViewModel.PostBanner(string.Empty,
                     associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     ReturnResult.InProgress,
@@ -220,7 +222,7 @@ namespace Files.Filesystem
 
                 if (permanently)
                 {
-                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    banner = statusCenterViewModel.PostBanner(string.Empty,
                     associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     ReturnResult.InProgress,
@@ -228,7 +230,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    banner = statusCenterViewModel.PostBanner(string.Empty,
                     associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     ReturnResult.InProgress,
@@ -309,7 +311,7 @@ namespace Files.Filesystem
 
                 if (permanently)
                 {
-                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    banner = statusCenterViewModel.PostBanner(string.Empty,
                     associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     ReturnResult.InProgress,
@@ -317,7 +319,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    banner = associatedInstance.StatusCenterActions.PostBanner(string.Empty,
+                    banner = statusCenterViewModel.PostBanner(string.Empty,
                     associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     ReturnResult.InProgress,
@@ -459,7 +461,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
+            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -520,7 +522,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.StatusCenterActions.PostBanner(
+                statusCenterViewModel.PostBanner(
                     "StatusCopyComplete".GetLocalized(),
                     "StatusOperationCompleted".GetLocalized(),
                     0,
@@ -533,7 +535,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
+            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -578,7 +580,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.StatusCenterActions.PostBanner(
+                statusCenterViewModel.PostBanner(
                     "StatusCopyComplete".GetLocalized(),
                     "StatusOperationCompleted".GetLocalized(),
                     0,
@@ -668,7 +670,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
+            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -729,7 +731,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.StatusCenterActions.PostBanner(
+                statusCenterViewModel.PostBanner(
                     "StatusMoveComplete".GetLocalized(),
                     "StatusOperationCompleted".GetLocalized(),
                     0,
@@ -742,7 +744,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = associatedInstance.StatusCenterActions.PostBanner(
+            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -794,7 +796,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                associatedInstance.StatusCenterActions.PostBanner(
+                statusCenterViewModel.PostBanner(
                     "StatusMoveComplete".GetLocalized(),
                     "StatusOperationCompleted".GetLocalized(),
                     0,

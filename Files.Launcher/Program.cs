@@ -377,6 +377,7 @@ namespace FilesFullTrust
                     var driveName = (string)message["drivename"];
                     var newLabel = (string)message["newlabel"];
                     Win32API.SetVolumeLabel(driveName, newLabel);
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "SetVolumeLabel", driveName } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "FileOperation":
@@ -392,6 +393,16 @@ namespace FilesFullTrust
                         { "Icon", iconOverlay.icon },
                         { "Overlay", iconOverlay.overlay },
                         { "HasCustomIcon", iconOverlay.isCustom }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "GetIconWithoutOverlay":
+                    var fileIconPath2 = (string)message["filePath"];
+                    var thumbnailSize2 = (int)(long)message["thumbnailSize"];
+                    var icon2 = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, false)).Result;
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Icon", icon2.icon },
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -729,7 +740,8 @@ namespace FilesFullTrust
                     break;
 
                 case "OpenMapNetworkDriveDialog":
-                    NetworkDrivesAPI.OpenMapNetworkDriveDialog();
+                    var hwnd = (long)message["HWND"];
+                    NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":

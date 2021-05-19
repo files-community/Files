@@ -45,7 +45,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.LoadCustomIcon, Mode=OneWay}"
-            Source="{x:Bind CustomIconImageSource, Mode=OneWay}" />
+            Source="{x:Bind CustomIconImageSource}" />
         <FontIcon
             x:Name="WebShortcutGlyph"
             HorizontalAlignment="Left"

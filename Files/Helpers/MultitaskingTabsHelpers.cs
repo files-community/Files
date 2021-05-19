@@ -10,7 +10,7 @@ namespace Files.Helpers
 {
     public static class MultitaskingTabsHelpers
     {
-        public static void CloseTabsToTheRight(TabItem clickedTab)
+        public static void CloseTabsToTheRight(TabItem clickedTab, IMultitaskingControl multitaskingControl)
         {
             int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
             List<TabItem> tabsToClose = new List<TabItem>();
@@ -22,16 +22,16 @@ namespace Files.Helpers
 
             foreach (var item in tabsToClose)
             {
-                MainPageViewModel.MultitaskingControl?.CloseTab(item);
+                multitaskingControl?.CloseTab(item);
             }
         }
 
-        public static async Task MoveTabToNewWindow(TabItem tab)
+        public static async Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
         {
             int index = MainPageViewModel.AppInstances.IndexOf(tab);
             TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
 
-            MainPageViewModel.MultitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
+            multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 
             if (tabItemArguments != null)
             {

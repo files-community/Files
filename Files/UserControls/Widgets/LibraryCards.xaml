@@ -99,16 +99,16 @@
                             AutomationProperties.Name="{x:Bind AutomationProperties}"
                             Command="{x:Bind SelectCommand}"
                             CommandParameter="{x:Bind}"
-                            Tag="{x:Bind Path}"
+                            CornerRadius="{StaticResource OverlayCornerRadius}"
                             PointerPressed="Button_PointerPressed"
-                            CornerRadius="8">
+                            Tag="{x:Bind Path}">
                             <Button.ContextFlyout>
                                 <MenuFlyout Opening="MenuFlyout_Opening">
                                     <MenuFlyout.Items>
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewPane"
                                             x:Uid="SideBarOpenInNewPane"
-                                            x:Load="{x:Bind HasPath, Mode=OneWay}"
+                                            x:Load="{x:Bind HasPath}"
                                             Click="OpenInNewPane_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new pane"
@@ -120,7 +120,7 @@
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewTab"
                                             x:Uid="SideBarOpenInNewTab"
-                                            x:Load="{x:Bind HasPath, Mode=OneWay}"
+                                            x:Load="{x:Bind HasPath}"
                                             Click="OpenInNewTab_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new tab">
@@ -131,7 +131,7 @@
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewWindow"
                                             x:Uid="SideBarOpenInNewWindow"
-                                            x:Load="{x:Bind HasPath, Mode=OneWay}"
+                                            x:Load="{x:Bind HasPath}"
                                             Click="OpenInNewWindow_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new window">
@@ -142,7 +142,7 @@
                                         <MenuFlyoutItem
                                             x:Name="Properties"
                                             x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                                            x:Load="{x:Bind IsLibrary, Mode=OneWay}"
+                                            x:Load="{x:Bind IsLibrary}"
                                             Click="OpenLibraryProperties_Click"
                                             DataContext="{x:Bind}"
                                             Text="Properties">
@@ -150,11 +150,11 @@
                                                 <FontIcon Glyph="&#xE946;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator x:Name="DeleteLibrarySeparator" x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator x:Name="DeleteLibrarySeparator" x:Load="{x:Bind IsUserCreatedLibrary}" />
                                         <MenuFlyoutItem
                                             x:Name="DeleteLibrary"
                                             x:Uid="BaseLayoutContextFlyoutDeleteLibrary"
-                                            x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"
+                                            x:Load="{x:Bind IsUserCreatedLibrary}"
                                             Click="DeleteLibrary_Click"
                                             DataContext="{x:Bind}"
                                             Foreground="OrangeRed"

@@ -6,7 +6,7 @@ namespace Files.Helpers
 {
     public static class WidgetsHelpers
     {
-        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget defaultValue = default(TWidget)) where TWidget : IWidgetItemModel, new()
+        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget defaultValue = default) where TWidget : IWidgetItemModel, new()
         {
             bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
             bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>();
@@ -21,15 +21,15 @@ namespace Files.Helpers
                 // Remove the widget
                 widgetsViewModel.RemoveWidget<TWidget>();
                 shouldReload = false;
-                return default(TWidget);
+                return default;
             }
             else if (!isWidgetSettingEnabled)
             {
                 shouldReload = false;
-                return default(TWidget);
+                return default;
             }
 
-            shouldReload = EqualityComparer<TWidget>.Default.Equals(defaultValue, default(TWidget));
+            shouldReload = EqualityComparer<TWidget>.Default.Equals(defaultValue, default);
 
             return (defaultValue);
         }

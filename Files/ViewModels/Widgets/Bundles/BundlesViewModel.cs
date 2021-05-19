@@ -38,8 +38,6 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Private Members
 
-        private bool isInitialized;
-
         private bool itemAddedInternally;
 
         private int internalCollectionCount;
@@ -438,7 +436,6 @@ namespace Files.ViewModels.Widgets.Bundles
         public async Task Initialize()
         {
             await Load();
-            isInitialized = true;
         }
 
         public (bool result, string reason) CanAddBundle(string name)

@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
@@ -217,6 +218,19 @@ namespace Files.UserControls
         }
 
         #endregion Selection Options
+
+        public static readonly DependencyProperty ArrangementOptionsFlyoutContentProperty = DependencyProperty.Register(
+         nameof(ArrangementOptionsFlyoutContent),
+         typeof(UIElement),
+         typeof(NavigationToolbar),
+         new PropertyMetadata(null)
+        );
+
+        public UIElement ArrangementOptionsFlyoutContent
+        {
+            get => (UIElement)GetValue(ArrangementOptionsFlyoutContentProperty);
+            set => SetValue(ArrangementOptionsFlyoutContentProperty, value);
+        }
 
         #region Layout Options
 
@@ -787,6 +801,24 @@ namespace Files.UserControls
             }
         }
 
+        private string searchButtonGlyph = "\uE721";
+
+        public string SearchButtonGlyph
+        {
+            get
+            {
+                return searchButtonGlyph;
+            }
+            set
+            {
+                if (value != searchButtonGlyph)
+                {
+                    searchButtonGlyph = value;
+                    NotifyPropertyChanged(nameof(SearchButtonGlyph));
+                }
+            }
+        }
+
         bool INavigationToolbar.IsEditModeEnabled
         {
             get
@@ -1187,15 +1219,15 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
+            if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
             {
                 // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (MainPageViewModel.MultitaskingControl != null)
+                if (mainPage.ViewModel.MultitaskingControl != null)
                 {
-                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                    mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
                 }
-                MainPageViewModel.MultitaskingControl = VerticalTabs;
-                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
+                mainPage.ViewModel.MultitaskingControl = VerticalTabs;
+                mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
@@ -1237,25 +1269,36 @@ namespace Files.UserControls
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            IsSearchRegionVisible = true;
+            if (IsSearchRegionVisible)
+            {
+                SearchRegion.Text = "";
+                IsSearchRegionVisible = false;
+                SearchButtonGlyph = "\uE721";
+            }
+            else
+            {
+                IsSearchRegionVisible = true;
 
-            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
-            // we can guarantee that the focus call will be able to find an open ASB
-            SearchRegion.UpdateLayout();
+                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+                // we can guarantee that the focus call will be able to find an open ASB
+                SearchRegion.UpdateLayout();
 
-            SearchRegion.Focus(FocusState.Programmatic);
+                SearchRegion.Focus(FocusState.Programmatic);
+                SearchButtonGlyph = "\uE711";
+            }
         }
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
-            if (focusedElement is FlyoutBase || focusedElement is AppBarButton)
+            if (focusedElement == SearchButton || focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }
 
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
+            SearchButtonGlyph = "\uE721";
         }
 
         public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)

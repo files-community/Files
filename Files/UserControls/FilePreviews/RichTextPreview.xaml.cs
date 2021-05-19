@@ -10,14 +10,13 @@ namespace Files.UserControls.FilePreviews
     {
         public RichTextPreview(RichTextPreviewViewModel viewModel)
         {
-            viewModel.LoadedEvent += ViewModel_LoadedEvent;
             ViewModel = viewModel;
             InitializeComponent();
         }
 
         public RichTextPreviewViewModel ViewModel { get; set; }
 
-        private void ViewModel_LoadedEvent(object sender, EventArgs e)
+        private void TextPreviewControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             TextPreviewControl.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
         }
