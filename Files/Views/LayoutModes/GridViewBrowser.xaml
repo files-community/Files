@@ -202,11 +202,12 @@
                 <FontIcon
                     x:Name="CloudDriveSyncStatusGlyph"
                     Grid.Column="0"
+                    Width="20"
                     Margin="10,0,0,0"
-                    x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                     x:Phase="2"
                     Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                    Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                    Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                    Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <Grid
                     Grid.Column="1"
                     Height="Auto"
