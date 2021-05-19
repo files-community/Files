@@ -98,7 +98,7 @@ namespace Files.Behaviors
             if (itemsControl.ItemsPanelRoot is ItemsWrapGrid itemsPanel)
             {
                 //Get total size
-                var total = e?.NewSize.Width ?? itemsControl.ActualWidth;
+                var total = (e?.NewSize.Width ?? itemsControl.ActualWidth) - (itemsPanel.Margin.Left + itemsPanel.Margin.Right + itemsControl.Padding.Left + itemsControl.Padding.Right);
 
                 //Minimum item size.
                 var itemMinSize = Math.Min(total, (double)itemsControl.GetValue(MinItemWidthProperty));

@@ -561,7 +561,10 @@
 
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="True" Orientation="Horizontal" />
+                            <ItemsWrapGrid
+                                Margin="0,0,8,0"
+                                AreStickyGroupHeadersEnabled="True"
+                                Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
 
