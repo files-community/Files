@@ -916,7 +916,7 @@
                 Click="SearchButton_Click"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search">
+                ToolTipService.ToolTip="Search (Ctrl+F)">
                 <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F" Modifiers="Control" IsEnabled="False" />
