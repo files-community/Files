@@ -131,6 +131,30 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutPrivacyPolicyListViewItem"
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="View Files privacy policy"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14"
+                            Tag="PrivacyPolicy">
+                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE72E;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutPrivacyPolicy" Text="Privacy policy" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutPrivacyPolicyDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="View Files privacy policy"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
                         x:Uid="SettingsAboutContributorsListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
