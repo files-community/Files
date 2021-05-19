@@ -466,19 +466,23 @@
                                     TabFocusNavigation="Local"
                                     Tag="ItemImage">
                                     <Image
-                                        x:Name="FolderGlyph"
+                                        x:Name="Picture"
+                                        Width="24"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                                        x:Phase="1"
+                                        Source="{x:Bind FileImage, Mode=OneWay}"
+                                        Stretch="Uniform" />
+                                    <FontIcon
+                                        x:Name="FolderGlyphIcon"
                                         Width="24"
                                         Height="24"
+										FontSize="24"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                        x:Phase="1"
-                                        Stretch="Uniform">
-                                        <Image.Source>
-                                            <SvgImageSource
-                                                RasterizePixelHeight="128"
-                                                RasterizePixelWidth="128"
-                                                UriSource="{x:Bind FolderIconSource}" />
-                                        </Image.Source>
-                                    </Image>
+                                        Glyph="&#xF12B;" />
                                     <FontIcon
                                         x:Name="TypeUnknownGlyph"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
@@ -489,14 +493,6 @@
                                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                         x:Phase="1"
                                         Glyph="&#xE71B;" />
-                                    <Image
-                                        x:Name="Picture"
-                                        Width="20"
-                                        Height="20"
-                                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                                        x:Phase="1"
-                                        Source="{x:Bind FileImage, Mode=OneWay}"
-                                        Stretch="Uniform" />
                                     <Image
                                         x:Name="IconOverlay"
                                         Width="22"
