@@ -656,7 +656,7 @@
         Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+        Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />

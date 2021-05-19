@@ -64,6 +64,8 @@
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Navigation Toolbar  -->
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -96,6 +98,8 @@
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Navigation Toolbar  -->
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -126,6 +130,8 @@
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Navigation Toolbar  -->
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
@@ -138,10 +144,10 @@
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
 
-					<x:Double x:Key="SidebarIconSize">20</x:Double>
-					<Thickness x:Key="NavigationViewContentPresenterMargin">0,0,0,0</Thickness>
+                    <x:Double x:Key="SidebarIconSize">20</x:Double>
+                    <Thickness x:Key="NavigationViewContentPresenterMargin">0,0,0,0</Thickness>
 
-					<!--  WinUI style is breaking us, overriding with a modified version solves crashes in release  -->
+                    <!--  WinUI style is breaking us, overriding with a modified version solves crashes in release  -->
                     <Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnLeftPane" TargetType="primitives:NavigationViewItemPresenter">
                         <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}" />
                         <Setter Property="Background" Value="{ThemeResource NavigationViewItemBackground}" />
