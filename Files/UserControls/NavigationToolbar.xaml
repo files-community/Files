@@ -656,7 +656,7 @@
         Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+        Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -796,7 +796,7 @@
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
+                Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -919,7 +919,10 @@
                 ToolTipService.ToolTip="Search (Ctrl+F)">
                 <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F" Modifiers="Control" IsEnabled="False" />
+                    <KeyboardAccelerator
+                        Key="F"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </Button.KeyboardAccelerators>
             </Button>
         </Grid>
