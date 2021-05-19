@@ -316,7 +316,7 @@
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
+    <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />

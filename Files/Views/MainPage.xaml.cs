@@ -31,7 +31,7 @@ namespace Files.Views
             set => DataContext = value;
         }
 
-        public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
+        public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
         public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
 

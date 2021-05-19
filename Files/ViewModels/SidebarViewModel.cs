@@ -17,7 +17,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 namespace Files.ViewModels
 {
-    public class AdaptiveSidebarViewModel : ObservableObject, IDisposable
+    public class SidebarViewModel : ObservableObject, IDisposable
     {
         public ICommand EmptyRecycleBinCommand { get; private set; }
         public IPaneHolder PaneHolder { get; set; }
@@ -119,7 +119,7 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedSidebarItem, value);
         }
 
-        public AdaptiveSidebarViewModel()
+        public SidebarViewModel()
         {
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
