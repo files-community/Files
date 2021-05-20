@@ -163,7 +163,7 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
-      <KeyboardAccelerator
+        <KeyboardAccelerator
             Key="F1"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
@@ -198,7 +198,7 @@
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
-            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+            Background="{ThemeResource FileBrowserBackgroundBrush}"
             Navigated="ItemDisplayFrame_Navigated" />
 
         <Custom:DropShadowPanel
