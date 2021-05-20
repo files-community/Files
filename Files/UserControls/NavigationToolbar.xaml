@@ -653,7 +653,6 @@
 
     <Grid
         x:Name="ToolbarGrid"
-        Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
@@ -663,7 +662,7 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <Grid ColumnSpacing="4">
+        <Grid Padding="8,0,8,0" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -924,7 +923,6 @@
 
         <CommandBar
             Grid.Row="1"
-            Grid.ColumnSpan="3"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Background="Transparent">
