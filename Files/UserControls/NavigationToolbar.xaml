@@ -1098,7 +1098,7 @@
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Details View (Ctrl+Shift+2)">
+                                        ToolTipService.ToolTip="Details View (Ctrl+Shift+1)">
                                         <FontIcon FontSize="16" Glyph="&#xE179;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1114,7 +1114,7 @@
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Tiles View (Ctrl+Shift+3)">
+                                        ToolTipService.ToolTip="Tiles View (Ctrl+Shift+2)">
                                         <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1132,7 +1132,7 @@
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+4)">
+                                        ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+3)">
                                         <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1148,7 +1148,7 @@
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+5)">
+                                        ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+4)">
                                         <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1164,7 +1164,7 @@
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+6)">
+                                        ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+5)">
                                         <FontIcon FontSize="16" Glyph="&#xE739;" />
                                     </RadioButton>
                                     <RadioButton
@@ -1180,7 +1180,7 @@
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                         Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Column View (Ctrl+Shift+1)">
+                                        ToolTipService.ToolTip="Column View (Ctrl+Shift+6)">
                                         <FontIcon
                                             FontFamily="{StaticResource CustomGlyph}"
                                             FontSize="16"

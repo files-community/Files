@@ -1044,23 +1044,23 @@ namespace Files.Views
                     await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
                     break;
 
-                case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
-                    break;
-                case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, details view
+                case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
                     break;
-                case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, tiles view
+                case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
                     break;
-                case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid small view
+                case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
                     break;
-                case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid medium view
+                case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
                     break;
-                case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, grid large view
+                case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+                    break;
+                case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
                     break;
             };
 
@@ -1422,7 +1422,7 @@ namespace Files.Views
                 NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
                 if (sourcePageType == typeof(WidgetsPage)
-                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) && 
+                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
                     (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GenericFileBrowser2) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();
