@@ -187,7 +187,7 @@
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
                                     <Grid
-                                        Height="30"
+                                        Height="28"
                                         Margin="0,0,0,8"
                                         HorizontalAlignment="Stretch">
 
@@ -208,8 +208,8 @@
                                             x:Name="GoToStorageSense"
                                             x:Uid="DrivesWidgetOpenStorageSenseButton"
                                             Grid.Column="1"
-                                            Width="30"
-                                            Height="30"
+                                            Width="28"
+                                            Height="28"
                                             Padding="0"
                                             HorizontalAlignment="Right"
                                             HorizontalContentAlignment="Center"
