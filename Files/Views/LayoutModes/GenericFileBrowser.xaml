@@ -193,20 +193,14 @@
                                 AutomationProperties.Name="Thumbnail column"
                                 Opacity="{x:Bind Opacity, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind ItemTooltipText}">
-                                <Image
-                                    x:Name="FolderGlyphElement"
-                                    Width="24"
-                                    Height="24"
+								<FontIcon
+                                    x:Name="FolderGlyphIcon"
+									FontSize="18"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
                                     x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                    x:Phase="1">
-                                    <Image.Source>
-                                        <SvgImageSource
-                                            RasterizePixelHeight="128"
-                                            RasterizePixelWidth="128"
-                                            UriSource="{x:Bind FolderIconSource}" />
-                                    </Image.Source>
-                                </Image>
-                                <FontIcon
+			                        Glyph="&#xF12B;" />
+								<FontIcon
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     x:Phase="1"

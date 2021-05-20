@@ -567,6 +567,7 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
+    <Content Include="Assets\FluentIcons\CloudDrive.png" />
     <Content Include="Assets\FluentIcons\Desktop.svg" />
     <Content Include="Assets\FluentIcons\Documents.svg" />
     <Content Include="Assets\FluentIcons\Downloads.svg" />
@@ -574,6 +575,7 @@
     <Content Include="Assets\FluentIcons\Drive_Network.svg" />
     <Content Include="Assets\FluentIcons\Drive_USB.svg" />
     <Content Include="Assets\FluentIcons\Folder.svg" />
+    <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FluentIcons\Music.svg" />
     <Content Include="Assets\FluentIcons\Pictures.svg" />
     <Content Include="Assets\FluentIcons\Videos.svg" />

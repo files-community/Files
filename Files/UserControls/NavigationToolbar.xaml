@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Files.UserControls.NavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -656,7 +656,7 @@
         Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+        Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -796,7 +796,7 @@
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource SolidBackgroundFillColorQuarternary}"
+                Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -877,25 +877,26 @@
                                         x:Name="EmptyIconGlyph"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph}"
                                         Glyph="&#xE7C3;" />
-                                    <Image
-                                        x:Name="FolderGlyph"
+                                    <FontIcon
+                                        x:Name="FolderGlyphIcon"
+                                        Width="24"
+                                        Height="24"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                        Stretch="Uniform">
-                                        <Image.Source>
-                                            <SvgImageSource
-                                                RasterizePixelHeight="128"
-                                                RasterizePixelWidth="128"
-                                                UriSource="{x:Bind FolderIconSource}" />
-                                        </Image.Source>
-                                    </Image>
+                                        Glyph="&#xF12B;" />
                                 </Grid>
                                 <TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </AutoSuggestBox.ItemTemplate>
+                <AutoSuggestBox.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="Escape"
+                        Invoked="SearchBox_Escaped"
+                        Modifiers="None" />
+                </AutoSuggestBox.KeyboardAccelerators>
             </AutoSuggestBox>
 
             <Button
@@ -910,8 +911,14 @@
                 Click="SearchButton_Click"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search">
+                ToolTipService.ToolTip="Search (Ctrl+F)">
                 <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="F"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </Button.KeyboardAccelerators>
             </Button>
         </Grid>
 

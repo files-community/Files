@@ -48,6 +48,7 @@ namespace Files.DataModels
                 Section = SectionType.Home,
                 Font = InteractionViewModel.FontName,
                 IsDefaultLocation = true,
+                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };

@@ -295,13 +295,13 @@
     <value>Esta carpeta está vacía.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Atrás (Alt + Flecha Izquierda)</value>
+    <value>Atrás (Alt+Flecha Izquierda)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Adelante (Alt + Flecha Derecha)</value>
+    <value>Adelante (Alt+Flecha Derecha)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Arriba (Alt + Flecha Arriba)</value>
+    <value>Arriba (Alt+Flecha Arriba)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Actualizar (F5)</value>
@@ -1552,7 +1552,7 @@
     <value>Ubicación</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Alternar el panel de vista previa (Ctrl + P)</value>
+    <value>Alternar el panel de vista previa (Ctrl+P)</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nombre</value>
@@ -2036,5 +2036,131 @@
   </data>
   <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de vista</value>
+  </data>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>Icono</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>Ubicación original</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>Fecha de modificación</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>Fecha de eliminación</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>Ajuste de tamaño de la barra lateral</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Nueva pestaña (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Cerrar pestaña (Ctrl+W)</value>
+  </data>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>Abrir con</value>
+  </data>
+  <data name="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opciones de vista actual</value>
+  </data>
+  <data name="NavToolbarArrangementOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Opciones de vista actual</value>
+  </data>
+  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+    <value>Agrupar por</value>
+  </data>
+  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
+    <value>Fecha de modificación</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
+    <value>Fecha de creación</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
+    <value>Tamaño</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
+    <value>Fecha de eliminación</value>
+  </data>
+  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
+    <value>Ubicación original</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+    <value>Ordenar por</value>
+  </data>
+  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
+    <value>Dirección de ordenación</value>
+  </data>
+  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
+    <value>Ascendente</value>
+  </data>
+  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
+    <value>Descendente</value>
+  </data>
+  <data name="ItemSizeText_Huge" xml:space="preserve">
+    <value>Enorme</value>
+  </data>
+  <data name="ItemSizeText_VeryLarge" xml:space="preserve">
+    <value>Muy grande</value>
+  </data>
+  <data name="ItemSizeText_Large" xml:space="preserve">
+    <value>Grande</value>
+  </data>
+  <data name="ItemSizeText_Medium" xml:space="preserve">
+    <value>Mediano</value>
+  </data>
+  <data name="ItemSizeText_Small" xml:space="preserve">
+    <value>Pequeño</value>
+  </data>
+  <data name="ItemSizeText_Tiny" xml:space="preserve">
+    <value>Muy pequeño</value>
+  </data>
+  <data name="ItemTimeText_Today" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+    <value>Ayer</value>
+  </data>
+  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+    <value>A principios de esta semana</value>
+  </data>
+  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+    <value>La semana pasada</value>
+  </data>
+  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+    <value>Este mes</value>
+  </data>
+  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+    <value>Mes pasado</value>
+  </data>
+  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+    <value>Este año</value>
+  </data>
+  <data name="ItemTimeText_Older" xml:space="preserve">
+    <value>Más viejo</value>
+  </data>
+  <data name="ItemTimeText_Before" xml:space="preserve">
+    <value>Antes {0}</value>
+  </data>
+  <data name="GroupItemsCount_Singular" xml:space="preserve">
+    <value>{0} elemento</value>
+  </data>
+  <data name="GroupItemsCount_Plural" xml:space="preserve">
+    <value>{0} elementos</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>Volver a abrir pestaña cerrada</value>
   </data>
 </root>
