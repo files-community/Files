@@ -653,7 +653,6 @@
 
     <Grid
         x:Name="ToolbarGrid"
-        Padding="8,0,8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
@@ -663,7 +662,7 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <Grid ColumnSpacing="4">
+        <Grid Padding="8,0,8,0" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -922,468 +921,460 @@
             </Button>
         </Grid>
 
-        <StackPanel
+        <CommandBar
             Grid.Row="1"
-            Grid.ColumnSpan="3"
             HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="4">
-
-            <CommandBar VerticalAlignment="Center" Background="Transparent">
-                <AppBarButton
-                    x:Name="WidgetsManager"
-                    x:Uid="NavToolbarWidgets"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                    AccessKey="W"
-                    AutomationProperties.Name="Manage widgets"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Manage widgets">
-                    <FontIcon FontSize="14" Glyph="&#xF246;" />
-                    <AppBarButton.Flyout>
-                        <Flyout Placement="Bottom">
-                            <StackPanel Spacing="12">
-                                <TextBlock
-                                    x:Uid="NavToolbarManageWidgetsFlyoutHeader"
-                                    FontWeight="Medium"
-                                    Text="Manage Widgets" />
-                                <StackPanel Spacing="4">
-                                    <ToggleSwitch
-                                        x:Uid="NavToolbarShowLibraryWidget"
-                                        Header="Show Library widget"
-                                        IsOn="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}" />
-                                    <ToggleSwitch
-                                        x:Uid="NavToolbarShowDrivesWidget"
-                                        Header="Show Drives widget"
-                                        IsOn="{x:Bind ShowDrivesWidget, Mode=TwoWay}" />
-                                    <ToggleSwitch
-                                        x:Uid="NavToolbarShowBundlesWidget"
-                                        Header="Show Bundles widget"
-                                        IsOn="{x:Bind ShowBundlesWidget, Mode=TwoWay}" />
-                                    <ToggleSwitch
-                                        x:Uid="NavToolbarShowRecentFilesWidget"
-                                        Header="Show Recent Files widget"
-                                        IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
-                                </StackPanel>
+            VerticalAlignment="Center"
+            Background="Transparent">
+            <AppBarButton
+                x:Name="WidgetsManager"
+                x:Uid="NavToolbarWidgets"
+                Width="36"
+                Height="32"
+                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                AccessKey="W"
+                AutomationProperties.Name="Manage widgets"
+                Background="Transparent"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Manage widgets">
+                <FontIcon FontSize="14" Glyph="&#xF246;" />
+                <AppBarButton.Flyout>
+                    <Flyout Placement="Bottom">
+                        <StackPanel Spacing="12">
+                            <TextBlock
+                                x:Uid="NavToolbarManageWidgetsFlyoutHeader"
+                                FontWeight="Medium"
+                                Text="Manage Widgets" />
+                            <StackPanel Spacing="4">
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowLibraryWidget"
+                                    Header="Show Library widget"
+                                    IsOn="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowDrivesWidget"
+                                    Header="Show Drives widget"
+                                    IsOn="{x:Bind ShowDrivesWidget, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowBundlesWidget"
+                                    Header="Show Bundles widget"
+                                    IsOn="{x:Bind ShowBundlesWidget, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowRecentFilesWidget"
+                                    Header="Show Recent Files widget"
+                                    IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
                             </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="ArrangementOptions"
-                    x:Uid="NavToolbarArrangementOptionsButton"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    AccessKey="A"
-                    AutomationProperties.Name="Arrangement options"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Arrangement options">
-                    <FontIcon FontSize="14" Glyph="&#xF168;" />
-                    <AppBarButton.Flyout>
-                        <Flyout>
-                            <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="SelectionOptions"
-                    x:Uid="NavToolbarSelectionOptions"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    AccessKey="S"
-                    AutomationProperties.Name="Selection options"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Selection options">
-                    <FontIcon FontSize="14" Glyph="&#xE762;" />
-                    <AppBarButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <ToggleMenuFlyoutItem
-                                x:Name="MultiselectMFI"
-                                x:Uid="NavToolbarMultiselect"
-                                IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
-                                Text="Multiselect">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE762;" />
-                                </MenuFlyoutItem.Icon>
-                            </ToggleMenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="SelectAllMFI"
-                                x:Uid="NavToolbarSelectAll"
-                                Command="{x:Bind SelectAllInvokedCommand}"
-                                Text="Select All">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8B3;" />
-                                </MenuFlyoutItem.Icon>
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="A"
-                                        IsEnabled="False"
-                                        Modifiers="Control" />
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="InvertSelectionMFI"
-                                x:Uid="NavToolbarInvertSelection"
-                                Command="{x:Bind InvertSelectionInvokedCommand}"
-                                Text="Invert Selection">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE746;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="ClearSelectionMFI"
-                                x:Uid="NavToolbarClearSelection"
-                                Command="{x:Bind ClearSelectionInvokedCommand}"
-                                Text="Clear Selection">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8E6;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-
-                <AppBarButton
-                    x:Name="DisplayOptionsButton"
-                    x:Uid="NavToolbarDisplayOptionsButton"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    AccessKey="L"
-                    AutomationProperties.Name="Display options"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Display options">
-                    <FontIcon FontSize="14" Glyph="&#xE152;" />
-                    <AppBarButton.Flyout>
-                        <Flyout Placement="Bottom">
-                            <StackPanel Spacing="12">
-                                <TextBlock
-                                    x:Uid="NavToolbarDisplayOptions"
-                                    FontWeight="Medium"
-                                    Text="Display Options" />
-                                <StackPanel Spacing="4">
-                                    <ToggleSwitch
-                                        x:Uid="NavToolbarShowHiddenItems"
-                                        Header="Show hidden items"
-                                        IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
-                                    <ToggleSwitch
-                                        x:Uid="NavToolbarShowFileExtensions"
-                                        Header="Show file extensions"
-                                        IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                                </StackPanel>
-
-                                <TextBlock
-                                    x:Uid="NavToolbarLayoutMode"
-                                    FontWeight="Medium"
-                                    Text="Layout Mode" />
-
-                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <RadioButton
-                                        x:Uid="NavToolbarDetailsView"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeDetailsView}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Details View">
-                                        <FontIcon FontSize="16" Glyph="&#xE179;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarTilesView"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeTiles}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Tiles View">
-                                        <FontIcon FontSize="16" Glyph="&#xE15C;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarGridViewSmall"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeGridViewSmall}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Small)">
-                                        <FontIcon FontSize="16" Glyph="&#xE80A;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarGridViewMedium"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeGridViewMedium}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Medium)">
-                                        <FontIcon FontSize="16" Glyph="&#xF0E2;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarGridViewLarge"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeGridViewLarge}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Grid View (Large)">
-                                        <FontIcon FontSize="16" Glyph="&#xE739;" />
-                                    </RadioButton>
-                                    <RadioButton
-                                        x:Uid="NavToolbarColumnView"
-                                        Width="36"
-                                        Height="32"
-                                        MinWidth="0"
-                                        Padding="0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{x:Bind ToggleLayoutModeColumnView}"
-                                        CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
-                                        Style="{StaticResource ToggleButtonRevealStyle}"
-                                        ToolTipService.ToolTip="Column View">
-                                        <FontIcon
-                                            FontFamily="{StaticResource CustomGlyph}"
-                                            FontSize="16"
-                                            Glyph="&#xF115;" />
-                                    </RadioButton>
-                                </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="SelectionOptions"
+                x:Uid="NavToolbarSelectionOptions"
+                Width="36"
+                Height="32"
+                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                AccessKey="S"
+                AutomationProperties.Name="Selection options"
+                Background="Transparent"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Selection options">
+                <FontIcon FontSize="14" Glyph="&#xE762;" />
+                <AppBarButton.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <ToggleMenuFlyoutItem
+                            x:Name="MultiselectMFI"
+                            x:Uid="NavToolbarMultiselect"
+                            IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
+                            Text="Multiselect">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE762;" />
+                            </MenuFlyoutItem.Icon>
+                        </ToggleMenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="SelectAllMFI"
+                            x:Uid="NavToolbarSelectAll"
+                            Command="{x:Bind SelectAllInvokedCommand}"
+                            Text="Select All">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8B3;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="A"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="InvertSelectionMFI"
+                            x:Uid="NavToolbarInvertSelection"
+                            Command="{x:Bind InvertSelectionInvokedCommand}"
+                            Text="Invert Selection">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE746;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="ClearSelectionMFI"
+                            x:Uid="NavToolbarClearSelection"
+                            Command="{x:Bind ClearSelectionInvokedCommand}"
+                            Text="Clear Selection">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8E6;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="ArrangementOptions"
+                x:Uid="NavToolbarArrangementOptionsButton"
+                Width="36"
+                Height="32"
+                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                AccessKey="A"
+                AutomationProperties.Name="Arrangement options"
+                Background="Transparent"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Arrangement options">
+                <FontIcon FontSize="14" Glyph="&#xF168;" />
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="DisplayOptionsButton"
+                x:Uid="NavToolbarDisplayOptionsButton"
+                Width="36"
+                Height="32"
+                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                AccessKey="L"
+                AutomationProperties.Name="Display options"
+                Background="Transparent"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Display options">
+                <FontIcon FontSize="14" Glyph="&#xE152;" />
+                <AppBarButton.Flyout>
+                    <Flyout Placement="Bottom">
+                        <StackPanel Spacing="12">
+                            <TextBlock
+                                x:Uid="NavToolbarDisplayOptions"
+                                FontWeight="Medium"
+                                Text="Display Options" />
+                            <StackPanel Spacing="4">
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowHiddenItems"
+                                    Header="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowFileExtensions"
+                                    Header="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
                             </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
 
-                <AppBarButton
-                    x:Name="PreviewPane"
-                    x:Uid="PreviewPaneToggle"
-                    Width="36"
-                    Height="32"
-                    AccessKey="P"
-                    AutomationProperties.Name="Toggle preview pane"
-                    Background="Transparent"
-                    Click="PreviewPane_Click"
-                    IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
-                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                    <FontIcon FontSize="14" Glyph="&#xE146;" />
-                </AppBarButton>
+                            <TextBlock
+                                x:Uid="NavToolbarLayoutMode"
+                                FontWeight="Medium"
+                                Text="Layout Mode" />
 
-                <AppBarButton
-                    x:Name="VerticalTabStripInvokeButton"
-                    x:Uid="VerticalTabStrip"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
-                    AccessKey="T"
-                    AllowDrop="True"
-                    AutomationProperties.Name="Vertical tab strip"
-                    Background="Transparent"
-                    DragEnter="VerticalTabStripInvokeButton_DragEnter"
-                    IsTapEnabled="True"
-                    Loaded="VerticalTabStripInvokeButton_Loaded"
-                    PointerEntered="Button_PointerEntered"
-                    PointerExited="VerticalTabStripInvokeButton_PointerExited"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    Tapped="Button_Tapped"
-                    ToolTipService.ToolTip="Open tabs">
-                    <FontIcon FontSize="14" Glyph="&#xF5ED;" />
-                    <Button.Flyout>
-                        <Flyout
-                            x:Name="VerticalTabViewFlyout"
-                            Closed="Flyout_Closed"
-                            Opened="Flyout_Opened">
-                            <local:VerticalTabViewControl
-                                x:Name="VerticalTabs"
-                                Width="275"
-                                MaxHeight="300"
-                                x:FieldModifier="public"
-                                PointerExited="VerticalTabs_PointerExited" />
-                        </Flyout>
-                    </Button.Flyout>
-                </AppBarButton>
-
-                <AppBarButton
-                    x:Uid="NavMoreButton"
-                    Width="36"
-                    Height="32"
-                    HorizontalAlignment="Right"
-                    AutomationProperties.Name="More options"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="More options">
-                    <FontIcon FontSize="14" Glyph="&#xE712;" />
-                    <Button.Flyout>
-                        <MenuFlyout Opening="NavMoreButtonFlyout_Opening" Placement="BottomEdgeAlignedRight">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <RadioButton
+                                    x:Uid="NavToolbarDetailsView"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeDetailsView}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Details View">
+                                    <FontIcon FontSize="16" Glyph="&#xE179;" />
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="NavToolbarTilesView"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeTiles}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Tiles View">
+                                    <FontIcon FontSize="16" Glyph="&#xE15C;" />
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="NavToolbarGridViewSmall"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeGridViewSmall}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Grid View (Small)">
+                                    <FontIcon FontSize="16" Glyph="&#xE80A;" />
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="NavToolbarGridViewMedium"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeGridViewMedium}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Grid View (Medium)">
+                                    <FontIcon FontSize="16" Glyph="&#xF0E2;" />
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="NavToolbarGridViewLarge"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeGridViewLarge}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Grid View (Large)">
+                                    <FontIcon FontSize="16" Glyph="&#xE739;" />
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="NavToolbarColumnView"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Command="{x:Bind ToggleLayoutModeColumnView}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
+                                    ToolTipService.ToolTip="Column View">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="16"
+                                        Glyph="&#xF115;" />
+                                </RadioButton>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="PreviewPane"
+                x:Uid="PreviewPaneToggle"
+                Width="36"
+                Height="32"
+                AccessKey="P"
+                AutomationProperties.Name="Toggle preview pane"
+                Background="Transparent"
+                Click="PreviewPane_Click"
+                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
+                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                <FontIcon FontSize="14" Glyph="&#xE146;" />
+            </AppBarButton>
+            <AppBarButton
+                x:Name="VerticalTabStripInvokeButton"
+                x:Uid="VerticalTabStrip"
+                Width="36"
+                Height="32"
+                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                AccessKey="T"
+                AllowDrop="True"
+                AutomationProperties.Name="Vertical tab strip"
+                Background="Transparent"
+                DragEnter="VerticalTabStripInvokeButton_DragEnter"
+                IsTapEnabled="True"
+                Loaded="VerticalTabStripInvokeButton_Loaded"
+                PointerEntered="Button_PointerEntered"
+                PointerExited="VerticalTabStripInvokeButton_PointerExited"
+                Style="{StaticResource ToolBarButtonStyle}"
+                Tapped="Button_Tapped"
+                ToolTipService.ToolTip="Open tabs">
+                <FontIcon FontSize="14" Glyph="&#xF5ED;" />
+                <Button.Flyout>
+                    <Flyout
+                        x:Name="VerticalTabViewFlyout"
+                        Closed="Flyout_Closed"
+                        Opened="Flyout_Opened">
+                        <local:VerticalTabViewControl
+                            x:Name="VerticalTabs"
+                            Width="275"
+                            MaxHeight="300"
+                            x:FieldModifier="public"
+                            PointerExited="VerticalTabs_PointerExited" />
+                    </Flyout>
+                </Button.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Uid="NavMoreButton"
+                Width="36"
+                Height="32"
+                HorizontalAlignment="Right"
+                AutomationProperties.Name="More options"
+                Background="Transparent"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="More options">
+                <FontIcon FontSize="14" Glyph="&#xE712;" />
+                <Button.Flyout>
+                    <MenuFlyout Opening="NavMoreButtonFlyout_Opening" Placement="BottomEdgeAlignedRight">
+                        <MenuFlyoutItem
+                            x:Name="NavToolbarNewPane"
+                            x:Uid="NavigationToolbarNewPane"
+                            x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                            Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                            Text="New pane">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="Add"
+                                    IsEnabled="False"
+                                    Modifiers="Menu,Shift" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="NavToolbarNewTab"
+                            x:Uid="NavigationToolbarNewTab"
+                            Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
+                            Text="New tab">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="T"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="NavToolbarNewWindow"
+                            x:Uid="NavigationToolbarNewWindow"
+                            Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
+                            Text="New window">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE737;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="N"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="CopyPathButton"
+                            x:Uid="NavigationToolbarCopyPath"
+                            Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
+                            Text="Copy location"
+                            Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE167;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator x:Name="SeparatorBar" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Name="OpenInTerminalButton"
+                            x:Uid="NavigationToolbarOpenInTerminal"
+                            Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
+                            Text="Open in Terminal..."
+                            Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE756;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator x:Name="SeparatorBar1" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Name="PasteButton"
+                            x:Uid="NavigationToolbarPaste"
+                            Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
+                            Text="Paste"
+                            Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE77F;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="V"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator x:Name="SeparatorBar2" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutSubItem
+                            x:Name="NewEmptySpace"
+                            x:Uid="BaseLayoutContextFlyoutNew"
+                            IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
+                            Text="New"
+                            Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                            <MenuFlyoutSubItem.Icon>
+                                <FontIcon Glyph="&#xE710;" />
+                            </MenuFlyoutSubItem.Icon>
+                            <MenuFlyoutSubItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="N"
+                                    IsEnabled="False"
+                                    Modifiers="Control,Shift" />
+                            </MenuFlyoutSubItem.KeyboardAccelerators>
                             <MenuFlyoutItem
-                                x:Name="NavToolbarNewPane"
-                                x:Uid="NavigationToolbarNewPane"
-                                x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
-                                Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
-                                IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                                Text="New pane">
+                                x:Name="ToolbarNewFolderItem"
+                                x:Uid="ModernNavigationToolbaNewFolder"
+                                Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
+                                Text="Folder">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                                    <FontIcon Glyph="&#xE8B7;" />
                                 </MenuFlyoutItem.Icon>
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="Add"
-                                        IsEnabled="False"
-                                        Modifiers="Menu,Shift" />
-                                </MenuFlyoutItem.KeyboardAccelerators>
                             </MenuFlyoutItem>
+                            <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
                             <MenuFlyoutItem
-                                x:Name="NavToolbarNewTab"
-                                x:Uid="NavigationToolbarNewTab"
-                                Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
-                                Text="New tab">
+                                x:Name="NewFile"
+                                x:Uid="BaseLayoutContextFlyoutNewFile"
+                                Command="{x:Bind NewFileInvokedCommand, Mode=OneWay}"
+                                CommandParameter="{x:Null}"
+                                IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
+                                Text="File">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-                                </MenuFlyoutItem.Icon>
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="T"
-                                        IsEnabled="False"
-                                        Modifiers="Control" />
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="NavToolbarNewWindow"
-                                x:Uid="NavigationToolbarNewWindow"
-                                Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
-                                Text="New window">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE737;" />
-                                </MenuFlyoutItem.Icon>
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="N"
-                                        IsEnabled="False"
-                                        Modifiers="Control" />
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="CopyPathButton"
-                                x:Uid="NavigationToolbarCopyPath"
-                                Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
-                                IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
-                                Text="Copy location"
-                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE167;" />
+                                    <FontIcon Glyph="&#xE7C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="SeparatorBar" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
-                            <MenuFlyoutItem
-                                x:Name="OpenInTerminalButton"
-                                x:Uid="NavigationToolbarOpenInTerminal"
-                                Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
-                                IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
-                                Text="Open in Terminal..."
-                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE756;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="SeparatorBar1" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
-                            <MenuFlyoutItem
-                                x:Name="PasteButton"
-                                x:Uid="NavigationToolbarPaste"
-                                Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
-                                IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
-                                Text="Paste"
-                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE77F;" />
-                                </MenuFlyoutItem.Icon>
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="V"
-                                        IsEnabled="False"
-                                        Modifiers="Control" />
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="SeparatorBar2" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
-                            <MenuFlyoutSubItem
-                                x:Name="NewEmptySpace"
-                                x:Uid="BaseLayoutContextFlyoutNew"
-                                IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
-                                Text="New"
-                                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                                <MenuFlyoutSubItem.Icon>
-                                    <FontIcon Glyph="&#xE710;" />
-                                </MenuFlyoutSubItem.Icon>
-                                <MenuFlyoutSubItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="N"
-                                        IsEnabled="False"
-                                        Modifiers="Control,Shift" />
-                                </MenuFlyoutSubItem.KeyboardAccelerators>
-                                <MenuFlyoutItem
-                                    x:Name="ToolbarNewFolderItem"
-                                    x:Uid="ModernNavigationToolbaNewFolder"
-                                    Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
-                                    Text="Folder">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE8B7;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
-                                <MenuFlyoutItem
-                                    x:Name="NewFile"
-                                    x:Uid="BaseLayoutContextFlyoutNewFile"
-                                    Command="{x:Bind NewFileInvokedCommand, Mode=OneWay}"
-                                    CommandParameter="{x:Null}"
-                                    IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
-                                    Text="File">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE7C3;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyoutSubItem>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </AppBarButton>
-            </CommandBar>
-        </StackPanel>
+                        </MenuFlyoutSubItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </AppBarButton>
+        </CommandBar>
     </Grid>
 </UserControl>

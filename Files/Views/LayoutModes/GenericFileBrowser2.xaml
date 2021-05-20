@@ -249,7 +249,7 @@
                             x:Name="HeaderGrid"
                             Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
                             Padding="0"
-                            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                            Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
                             BorderThickness="0,0,0,1"
                             PointerPressed="Grid_PointerPressed">
@@ -318,9 +318,7 @@
                                     Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition
-                                    x:Name="Column8"
-                                    Width="0" />
+                                <ColumnDefinition x:Name="Column8" Width="0" />
                             </Grid.ColumnDefinitions>
 
                             <Button
@@ -478,10 +476,10 @@
                                         x:Name="FolderGlyphIcon"
                                         Width="24"
                                         Height="24"
-										FontSize="24"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                                        FontSize="24"
                                         Glyph="&#xF12B;" />
                                     <FontIcon
                                         x:Name="TypeUnknownGlyph"
