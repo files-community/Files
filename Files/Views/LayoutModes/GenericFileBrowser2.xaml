@@ -510,7 +510,7 @@
                                         VerticalAlignment="Center"
                                         x:Load="{x:Bind IsShortcutItem}"
                                         x:Phase="1"
-                                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                         BorderThickness="1">
                                         <FontIcon

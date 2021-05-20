@@ -13,7 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.ViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     NavigationCacheMode="Required"
