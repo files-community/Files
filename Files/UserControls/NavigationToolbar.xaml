@@ -972,24 +972,6 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
-                    x:Name="ArrangementOptions"
-                    x:Uid="NavToolbarArrangementOptionsButton"
-                    Width="36"
-                    Height="32"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    AccessKey="A"
-                    AutomationProperties.Name="Arrangement options"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Arrangement options">
-                    <FontIcon FontSize="14" Glyph="&#xF168;" />
-                    <AppBarButton.Flyout>
-                        <Flyout>
-                            <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton
                     x:Name="SelectionOptions"
                     x:Uid="NavToolbarSelectionOptions"
                     Width="36"
@@ -1048,7 +1030,24 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-
+                <AppBarButton
+                    x:Name="ArrangementOptions"
+                    x:Uid="NavToolbarArrangementOptionsButton"
+                    Width="36"
+                    Height="32"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                    AccessKey="A"
+                    AutomationProperties.Name="Arrangement options"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Arrangement options">
+                    <FontIcon FontSize="14" Glyph="&#xF168;" />
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <AppBarButton
                     x:Name="DisplayOptionsButton"
                     x:Uid="NavToolbarDisplayOptionsButton"
@@ -1191,7 +1190,6 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-
                 <AppBarButton
                     x:Name="PreviewPane"
                     x:Uid="PreviewPaneToggle"
@@ -1207,7 +1205,6 @@
                     Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <FontIcon FontSize="14" Glyph="&#xE146;" />
                 </AppBarButton>
-
                 <AppBarButton
                     x:Name="VerticalTabStripInvokeButton"
                     x:Uid="VerticalTabStrip"
@@ -1241,7 +1238,6 @@
                         </Flyout>
                     </Button.Flyout>
                 </AppBarButton>
-
                 <AppBarButton
                     x:Uid="NavMoreButton"
                     Width="36"
