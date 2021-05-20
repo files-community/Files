@@ -186,7 +186,10 @@
                                     Margin="12,0,0,0"
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
-                                    <Grid Margin="0,0,0,8" HorizontalAlignment="Stretch">
+                                    <Grid
+                                        Height="30"
+                                        Margin="0,0,0,8"
+                                        HorizontalAlignment="Stretch">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
