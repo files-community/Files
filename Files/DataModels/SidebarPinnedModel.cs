@@ -270,10 +270,16 @@ namespace Files.DataModels
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
-                await locationItem.SetBitmapImage(await res.Result?.GetThumbnailAsync(
-                    Windows.Storage.FileProperties.ThumbnailMode.ListView, 
-                    24, 
-                    Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail));
+
+                var getImage = res.Result?.GetThumbnailAsync(
+                    Windows.Storage.FileProperties.ThumbnailMode.ListView,
+                    24,
+                    Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+
+                if(getImage != null)
+                {
+                    await locationItem.SetBitmapImage(await getImage);
+                }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
                 {
