@@ -17,7 +17,6 @@
     <ScrollViewer>
         <widgets:WidgetsListControl
             x:Name="Widgets"
-            Margin="14"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" />
     </ScrollViewer>
