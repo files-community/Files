@@ -50,6 +50,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
             ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
             ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
@@ -98,14 +99,28 @@ namespace Files.Views.LayoutModes
             FileList?.SelectedItems.Add(e);
         }
 
+        private void ItemManipulationModel_RemoveSelectedItemInvoked(object sender, ListedItem e)
+        {
+            FileList?.SelectedItems.Remove(e);
+        }
+
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
+            if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
+            {
+                var oldSelectedItems = SelectedItems.ToList();
+                ItemManipulationModel.SelectAllItems();
+                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
+            }
+            else
+            {
+                List<ListedItem> newSelectedItems = GetAllItems()
+                    .Cast<ListedItem>()
+                    .Except(SelectedItems)
+                    .ToList();
 
-            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+                ItemManipulationModel.SetSelectedItems(newSelectedItems);
+            }
         }
 
         private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
@@ -115,7 +130,7 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
         {
-            SelectAllMethod.Invoke(FileList, null);
+            FileList.SelectAll();
         }
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
@@ -132,6 +147,7 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
                 ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
                 ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
@@ -174,12 +190,8 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            if (FileList.ItemsSource == null)
-            {
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
-                ParentShellPageInstance.IsCurrentInstance = true;
-                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
-            }
+            ParentShellPageInstance.IsCurrentInstance = true;
+            ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -220,9 +232,6 @@ namespace Files.Views.LayoutModes
         {
             return (IEnumerable)FileList.ItemsSource;
         }
-
-        private static readonly MethodInfo SelectAllMethod = typeof(ListView)
-           .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
         private void StartRenameItem()
         {

@@ -70,6 +70,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
             ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
             ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
@@ -117,14 +118,31 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private void ItemManipulationModel_RemoveSelectedItemInvoked(object sender, ListedItem e)
+        {
+            if (FileList?.Items.Contains(e) ?? false)
+            {
+                FileList.SelectedItems.Remove(e);
+            }
+        }
+
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
+            if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
+            {
+                var oldSelectedItems = SelectedItems.ToList();
+                ItemManipulationModel.SelectAllItems();
+                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
+            }
+            else
+            {
+                List<ListedItem> newSelectedItems = GetAllItems()
+                    .Cast<ListedItem>()
+                    .Except(SelectedItems)
+                    .ToList();
 
-            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+                ItemManipulationModel.SetSelectedItems(newSelectedItems);
+            }
         }
 
         private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
@@ -151,6 +169,7 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
                 ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
                 ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
@@ -178,11 +197,6 @@ namespace Files.Views.LayoutModes
             FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-
-            if (FileList.ItemsSource == null)
-            {
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
-            }
 
             ColumnsViewModel.TotalWidth = Math.Max(800, RootGrid.Width);
 
@@ -251,11 +265,6 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-
-            if (e.SourcePageType != typeof(GridViewBrowser))
-            {
-                FileList.ItemsSource = null;
-            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)

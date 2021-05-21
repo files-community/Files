@@ -31,7 +31,9 @@ namespace Files.Views
             set => DataContext = value;
         }
 
-        public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
+        public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
+
+        public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
 
         public MainPage()
         {
@@ -57,15 +59,15 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
+            if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
                 // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (MainPageViewModel.MultitaskingControl != null)
+                if (ViewModel.MultitaskingControl != null)
                 {
-                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
+                    ViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
                 }
-                MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
-                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+                ViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
@@ -74,6 +76,7 @@ namespace Files.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+                UpdateStatusBarProperties();
             }
         }
 
@@ -86,6 +89,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
             SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+            UpdateStatusBarProperties();
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
@@ -93,6 +97,16 @@ namespace Files.Views
         private void PaneHolder_ActivePaneChanged(object sender, EventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
+            UpdateStatusBarProperties();
+        }
+        
+        private void UpdateStatusBarProperties()
+        {
+            if(StatusBarControl != null)
+            {
+                StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.DirectoryPropertiesViewModel;
+                StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.SelectedItemsPropertiesViewModel;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -226,6 +240,12 @@ namespace Files.Views
                 SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Defers the status bar loading until after the page has loaded to improve startup perf
+            FindName(nameof(StatusBarControl));
         }
     }
 }

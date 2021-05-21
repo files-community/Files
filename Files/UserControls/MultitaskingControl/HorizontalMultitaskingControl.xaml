@@ -28,7 +28,10 @@
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="T" Modifiers="Control" IsEnabled="False"  />
+                                <KeyboardAccelerator
+                                    Key="T"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -42,7 +45,7 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemMoveTabToNewWindow"
                             x:Uid="HorizontalMultitaskingControlMoveTabToNewWindow"
-                            Click="{x:Bind vm:MainPageViewModel.MoveTabToNewWindow}"
+                            Click="MoveTabToNewWindow"
                             Text="Move tab to new window">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A7;" />
@@ -51,32 +54,22 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
-                            Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
+                            Click="CloseTabsToTheRight"
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
                             Text="Close tabs to the right" />
                         <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
                             x:Uid="HorizontalMultitaskingControlReopenClosedTab"
-                            Click="{x:Bind vm:MainPageViewModel.ReopenClosedTab}"
+                            Click="ReopenClosedTab"
                             Text="Reopen closed tab">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="T" Modifiers="Control,Shift" IsEnabled="False" />
+                                <KeyboardAccelerator
+                                    Key="T"
+                                    IsEnabled="False"
+                                    Modifiers="Control,Shift" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyout>
-                </ResourceDictionary>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Name="Light">
-                            <SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="#f3f1ef" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="Dark">
-                            <SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="#161514" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Name="HighContrast">
-                            <SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
                 <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
                 <ResourceDictionary>
@@ -806,7 +799,7 @@
 
     <Grid
         HorizontalAlignment="Left"
-        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+        Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
         Canvas.ZIndex="4">
 
         <muxc:TabView
