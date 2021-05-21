@@ -218,6 +218,7 @@ namespace Files
         {
             ItemManipulationModel = new ItemManipulationModel();
 
+            HookBaseEvents();
             HookEvents();
 
             jumpTimer = new DispatcherTimer();
@@ -243,6 +244,16 @@ namespace Files
 
         protected abstract void UnhookEvents();
 
+        private void HookBaseEvents()
+        {
+            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+        
+        private void UnhookBaseEvents()
+        {
+            ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
         public ItemManipulationModel ItemManipulationModel { get; private set; }
 
         private void JumpTimer_Tick(object sender, object e)
@@ -253,7 +264,17 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        protected abstract IEnumerable GetAllItems();
+        protected IEnumerable<ListedItem> GetAllItems() {
+
+            if (CollectionViewSource.IsSourceGrouped) {
+                var consolidated = new List<ListedItem>();
+                // add all items from each group to the new list
+                (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.ForEach(g => g?.ForEach(i => consolidated.Add(i)));
+                return consolidated;
+            }
+
+            return CollectionViewSource.Source as IEnumerable<ListedItem>;
+        }
 
         public virtual void ResetItemOpacity()
         {
@@ -417,6 +438,8 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            UnhookBaseEvents();
+
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -767,6 +790,21 @@ namespace Files
             if (!(element is null))
             {
                 VisualStateManager.GoToState(element, "Pressed", true);
+            }
+        }
+
+        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
+        {
+            foreach (ListedItem listedItem in GetAllItems())
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
     }

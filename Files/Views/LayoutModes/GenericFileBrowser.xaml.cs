@@ -325,11 +325,6 @@ namespace Files.Views.LayoutModes
             RequestedTheme = ThemeHelper.RootTheme;
         }
 
-        protected override IEnumerable GetAllItems()
-        {
-            return AllView.ItemsSource;
-        }
-
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
