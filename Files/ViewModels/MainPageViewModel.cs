@@ -100,6 +100,18 @@ namespace Files.ViewModels
                     // Select the last tab
                     indexToSelect = AppInstances.Count - 1;
                     break;
+
+                case VirtualKey.Tab:
+                    // Select the next tab
+                    if ((App.InteractionViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                    {
+                        indexToSelect = App.InteractionViewModel.TabStripSelectedIndex + 1;
+                    }
+                    else
+                    {
+                        indexToSelect = 0;
+                    }
+                    break;
             }
 
             // Only select the tab if it is in the list
