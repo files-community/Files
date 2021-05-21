@@ -2,6 +2,7 @@
 using Files.Helpers;
 using Files.Interacts;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -69,6 +72,18 @@ namespace Files.ViewModels
         {
             StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+            StatusBannersSource.Add(banner);
+            ProgressBannerPosted?.Invoke(this, postedBanner);
+            return postedBanner;
+        }
+        
+        public PostedStatusBanner PostOperationBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
+        {
+            StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation)
+            {
+                CancellationTokenSource = cancellationTokenSource,
+            };
+            PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
             StatusBannersSource.Add(banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
             return postedBanner;
@@ -134,6 +149,8 @@ namespace Files.ViewModels
 
         private readonly StatusBanner Banner;
 
+        private readonly CancellationTokenSource cancellationTokenSource;
+
         #endregion Private Members
 
         #region Public Members
@@ -141,6 +158,8 @@ namespace Files.ViewModels
         public readonly Progress<float> Progress;
 
         public readonly Progress<FileSystemStatusCode> ErrorCode;
+
+        public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
 
         #endregion Public Members
 
@@ -155,12 +174,27 @@ namespace Files.ViewModels
             this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
 
+        public PostedStatusBanner(StatusBanner banner, IStatusCenterActions statusCenterActions, CancellationTokenSource cancellationTokenSource)
+        {
+            this.Banner = banner;
+            this.statusCenterActions = statusCenterActions;
+            this.cancellationTokenSource = cancellationTokenSource;
+
+            this.Progress = new Progress<float>(ReportProgressToBanner);
+            this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+        }
+
         #endregion Constructor
 
         #region Private Helpers
 
         private void ReportProgressToBanner(float value)
         {
+            if(CancellationToken.IsCancellationRequested) // file operation has been cancelled
+            {
+                Banner.FullTitle = $"{Banner.Title} ({"StatusCancellingOp".GetLocalized()})";
+            }
+
             if (value <= 100.0f)
             {
                 Banner.IsProgressing = true;
@@ -192,6 +226,11 @@ namespace Files.ViewModels
             statusCenterActions.CloseBanner(Banner);
         }
 
+        public void RequestCancellation()
+        {
+            cancellationTokenSource?.Cancel();
+        }
+
         #endregion Public Helpers
     }
 
@@ -202,6 +241,8 @@ namespace Files.ViewModels
         private readonly float initialProgress = 0.0f;
 
         private string fullTitle;
+
+        private bool isIndeterminate;
 
         #endregion Private Members
 
@@ -247,12 +288,24 @@ namespace Files.ViewModels
 
         public Action PrimaryButtonClick { get; }
 
+        public ICommand CancelCommand => new RelayCommand<RoutedEventArgs>(args => CancelOperation());
+
         public bool SolutionButtonsVisible { get; } = false;
+
+        public bool CancelButtonVisible => CancellationTokenSource != null;
+
+        public CancellationTokenSource CancellationTokenSource { get; set; }
 
         public string FullTitle
         {
             get => fullTitle;
             set => SetProperty(ref fullTitle, value ?? string.Empty);
+        }
+
+        public bool IsIndeterminate
+        {
+            get => isIndeterminate;
+            set => SetProperty(ref isIndeterminate, value);
         }
 
         #endregion Public Properties
@@ -292,7 +345,7 @@ namespace Files.ViewModels
                                 break;
 
                             case FileOperationType.Move:
-                                Title = "MoveInProgress/Title".GetLocalized();
+                                Title = "MoveInProgress".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     Glyph = "\xE77F"    // Move glyph
@@ -338,6 +391,7 @@ namespace Files.ViewModels
                     break;
 
                 case ReturnResult.Failed:
+                case ReturnResult.Cancelled:
                     IsProgressing = false;
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
@@ -391,6 +445,15 @@ namespace Files.ViewModels
                 {
                     Glyph = "\xE783"    // Error glyph
                 };
+            }
+        }
+
+        public void CancelOperation()
+        {
+            if(CancelButtonVisible)
+            {
+                CancellationTokenSource.Cancel();
+                IsIndeterminate = true;
             }
         }
     }

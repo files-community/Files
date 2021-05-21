@@ -2,6 +2,7 @@
     x:Class="Files.UserControls.StatusCenter"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -109,6 +110,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
     </UserControl.Resources>
 
     <Grid Margin="-12">
@@ -162,7 +165,7 @@
                                     Height="30"
                                     x:Load="{x:Bind IsProgressing, Mode=OneWay}"
                                     IsActive="True"
-                                    IsIndeterminate="False"
+                                    IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}"
                                     Value="{x:Bind Progress, Mode=OneWay}" />
                                 <FontIcon
                                     FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}"
@@ -185,6 +188,7 @@
                                     FontSize="11"
                                     Text="{x:Bind Message}"
                                     TextTrimming="CharacterEllipsis"
+                                    TextWrapping="WrapWholeWords"
                                     ToolTipService.ToolTip="{x:Bind Message}" />
                             </StackPanel>
                             <Button
@@ -194,12 +198,32 @@
                                 Height="30"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
                                 AutomationProperties.Name="Dismiss"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="DismissBanner"
                                 DataContext="{x:Bind}"
                                 ToolTipService.ToolTip="Dismiss">
+                                <Button.Content>
+                                    <FontIcon FontSize="11" Glyph="&#xE711;" />
+                                </Button.Content>
+                            </Button>
+
+                            <Button
+                                x:Name="CancelBannerButton"
+                                x:Uid="StatusCenterCancelBannerButton"
+                                Grid.Column="2"
+                                Height="30"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                x:Load="{x:Bind CancelButtonVisible}"
+                                AutomationProperties.Name="Cancel"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                Command="{x:Bind CancelCommand}"
+                                DataContext="{x:Bind}"
+                                ToolTipService.ToolTip="Cancel">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>

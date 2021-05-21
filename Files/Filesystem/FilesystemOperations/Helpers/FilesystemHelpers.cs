@@ -670,12 +670,17 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
+            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
+            var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+            PostedStatusBanner banner = statusCenterViewModel.PostOperationBanner(
                 string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                string.Format(source.Count() > 1 ? "StatusMovingItems_Plural".GetLocalized() : "StatusMovingItems_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir),
                 0,
                 ReturnResult.InProgress,
-                FileOperationType.Move);
+                FileOperationType.Move, new CancellationTokenSource());
+
+            var token = banner.CancellationToken;
 
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
@@ -693,11 +698,18 @@ namespace Files.Filesystem
 
             IStorageHistory history;
             var rawStorageHistory = new List<IStorageHistory>();
+            int itemsMoved = 0;
 
             itemManipulationModel.ClearSelection();
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
+                if (token.IsCancellationRequested)
+                {
+                    itemsMoved = i + 1;
+                    break;
+                }
+
                 if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
                 {
                     rawStorageHistory.Add(await filesystemOperations.MoveAsync(
@@ -706,7 +718,7 @@ namespace Files.Filesystem
                         collisions.ElementAt(i).Convert(),
                         null,
                         banner.ErrorCode,
-                        cancellationToken));
+                        token));
                 }
 
                 progress = i / (float)source.Count() * 100.0f;
@@ -729,13 +741,21 @@ namespace Files.Filesystem
             banner.Remove();
             sw.Stop();
 
-            if (sw.Elapsed.TotalSeconds >= 10)
+            if (!token.IsCancellationRequested)
             {
                 statusCenterViewModel.PostBanner(
                     "StatusMoveComplete".GetLocalized(),
-                    "StatusOperationCompleted".GetLocalized(),
+                    string.Format(source.Count() > 1 ? "StatusMovedItems_Plural".GetLocalized() : "StatusMovedItems_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
                     0,
                     ReturnResult.Success,
+                    FileOperationType.Move);
+            } else
+            {
+                statusCenterViewModel.PostBanner(
+                    "StatusMoveCanceled".GetLocalized(),
+                    string.Format(source.Count() > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalized() : "StatusMoveCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
+                    0,
+                    ReturnResult.Cancelled,
                     FileOperationType.Move);
             }
 
