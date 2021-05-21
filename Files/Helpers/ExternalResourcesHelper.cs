@@ -136,7 +136,7 @@ namespace Files.Helpers
         {
             try
             {
-                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.Where(x => x.TryGetValue("CustomThemeID", out var key) && (key as string) == theme.Key).FirstOrDefault());
+                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.TryGetValue("CustomThemeID", out var key) && (key as string) == theme.Key));
                 return true;
             }
             catch (Exception)
