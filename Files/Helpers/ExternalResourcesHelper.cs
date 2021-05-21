@@ -108,8 +108,35 @@ namespace Files.Helpers
                 }
                 CurrentThemeResources = await FileIO.ReadTextAsync(file);
                 var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
+                xaml.Add("CustomThemeID", theme.Key);
                 App.Current.Resources.MergedDictionaries.Add(xaml);
 
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
+        {
+            if (OldTheme.Path != null)
+            {
+                RemoveTheme(OldTheme);
+            }
+
+            if(NewTheme.Path != null)
+            {
+                await TryLoadThemeAsync(NewTheme);
+            }
+        }
+
+        public bool RemoveTheme(AppTheme theme)
+        {
+            try
+            {
+                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.TryGetValue("CustomThemeID", out var key) && (key as string) == theme.Key));
                 return true;
             }
             catch (Exception)
@@ -124,5 +151,6 @@ namespace Files.Helpers
         public string Name { get; set; }
         public string Path { get; set; }
         public bool IsFromOptionalPackage { get; set; }
+        public string Key => $"{Name}-{IsFromOptionalPackage}";
     }
 }
