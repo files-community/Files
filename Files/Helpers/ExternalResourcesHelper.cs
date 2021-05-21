@@ -108,6 +108,7 @@ namespace Files.Helpers
                 }
                 CurrentThemeResources = await FileIO.ReadTextAsync(file);
                 var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
+                xaml.Add("CustomThemeID", theme.Key);
                 App.Current.Resources.MergedDictionaries.Add(xaml);
 
                 return true;
@@ -120,34 +121,22 @@ namespace Files.Helpers
 
         public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
         {
-            await RemoveThemeAsync(OldTheme);
-            await TryLoadThemeAsync(NewTheme);
+            if (OldTheme.Path != null)
+            {
+                RemoveTheme(OldTheme);
+            }
+
+            if(NewTheme.Path != null)
+            {
+                await TryLoadThemeAsync(NewTheme);
+            }
         }
 
-        public async Task<bool> RemoveThemeAsync(AppTheme theme)
+        public bool RemoveTheme(AppTheme theme)
         {
             try
             {
-                StorageFile file;
-                if (theme.IsFromOptionalPackage)
-                {
-                    if (OptionalPackageThemeFolder != null)
-                    {
-                        file = await OptionalPackageThemeFolder.GetFileAsync(theme.Path);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    file = await ThemeFolder.GetFileAsync(theme.Path);
-                }
-                CurrentThemeResources = await FileIO.ReadTextAsync(file);
-                var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
-                App.Current.Resources.MergedDictionaries.Remove(xaml);
-
+                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.Where(x => x.TryGetValue("CustomThemeID", out var key) && (key as string) == theme.Key).FirstOrDefault());
                 return true;
             }
             catch (Exception)
@@ -162,5 +151,6 @@ namespace Files.Helpers
         public string Name { get; set; }
         public string Path { get; set; }
         public bool IsFromOptionalPackage { get; set; }
+        public string Key => $"{Name}-{IsFromOptionalPackage}";
     }
 }
