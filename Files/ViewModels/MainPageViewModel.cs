@@ -35,8 +35,6 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedTabItem, value);
         }
 
-        #region Commands
-
         public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
         public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
@@ -44,8 +42,6 @@ namespace Files.ViewModels
         public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
-
-        #endregion Commands
 
         public MainPageViewModel()
         {
@@ -55,8 +51,6 @@ namespace Files.ViewModels
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
         }
-
-        #region Command Implementation
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
@@ -146,10 +140,6 @@ namespace Files.ViewModels
             }
             e.Handled = true;
         }
-
-        #endregion Command Implementation
-
-        #region Public Helpers
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
@@ -473,6 +463,5 @@ namespace Files.ViewModels
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
 
-        #endregion Public Helpers
     }
 }
