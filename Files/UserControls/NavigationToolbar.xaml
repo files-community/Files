@@ -112,7 +112,7 @@
 
                     <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
                         <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
-                        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                        <Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
                         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
                         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
                         <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />

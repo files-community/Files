@@ -37,23 +37,7 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="White" />
-                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                             <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
-                            <Color x:Key="ControlStrokeColorDefault">#0F000000</Color>
-                            <Color x:Key="ControlStrokeColorSecondary">#29000000</Color>
-                            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#B3FFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#80F9F9F9" />
-                            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="#4DF9F9F9" />
-                            <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="#4DF9F9F9" />
-                            <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="#00FFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="#FFFFFF" />
-                            <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{StaticResource ControlStrokeColorDefault}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{StaticResource ControlStrokeColorSecondary}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush" Color="#0F000000" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="#29000000" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="#37000000" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#0F000000" />
                             <!--  Corner Radius  -->
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
@@ -79,23 +63,7 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#201F1E" />
-                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
-                            <Color x:Key="ControlStrokeColorDefault">#33000000</Color>
-                            <Color x:Key="ControlStrokeColorSecondary">#73000000</Color>
-                            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="#0FFFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="#15FFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="#0BFFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="#0BFFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="#00FFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="#15FFFFFF" />
-                            <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{StaticResource ControlStrokeColorDefault}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{StaticResource ControlStrokeColorSecondary}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush" Color="#33000000" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="#73000000" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="#37000000" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="#33000000" />
                             <!--  Corner Radius  -->
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
@@ -121,21 +89,7 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemColorWindowColor}" />
-                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="{ThemeResource SystemColorWindowColor}" />
-                            <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
-                            <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
-                            <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
-                            <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="{StaticResource SystemColorButtonFaceColor}" />
-                            <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="#00FFFFFF" />
-                            <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{StaticResource SystemColorControlAccentColor}" />
-
-                            <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush" Color="{StaticResource SystemColorWindowTextColor}" />
-                            <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
