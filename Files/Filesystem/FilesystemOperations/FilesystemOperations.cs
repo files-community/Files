@@ -520,7 +520,7 @@ namespace Files.Filesystem
                     var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
                     if (elevateConfirmResult == ContentDialogResult.Primary)
                     {
-                        if (await associatedInstance.ServiceConnection?.Elevate()) // TODO: enable this
+                        if (await associatedInstance.ServiceConnection?.Elevate())
                         {
                             // Try again with fulltrust process (admin)
                             if (associatedInstance.ServiceConnection != null)

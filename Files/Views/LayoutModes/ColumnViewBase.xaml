@@ -1385,7 +1385,7 @@
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Bottom"
                                         x:Phase="1"
-                                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                         BorderThickness="1"
                                         Visibility="{x:Bind IsShortcutItem}">
