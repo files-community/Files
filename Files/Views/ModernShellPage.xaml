@@ -306,10 +306,6 @@
                 ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                 ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                 UpRequested="ModernShellPage_UpNavRequested">
-                <!--controls:NavigationToolbar.SearchBox
-                    SearchTextChanged="ModernShellPage_SearchTextChanged"
-                    SearchQuerySubmitted="ModernShellPage_SearchQuerySubmitted"
-                    SearchSuggestionChosen="ModernShellPage_SearchSuggestionChosen" /-->
                 <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
                     <controls:ArrangementOptions
                         x:Name="ArrangementOptionsFlyoutContent"
