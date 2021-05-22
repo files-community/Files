@@ -667,7 +667,7 @@
     <value>Pasting files</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Moving files to Recycle Bin</value>
+    <value>Moving files to the Recycle Bin</value>
   </data>
   <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Pin directory to sidebar</value>
@@ -1869,6 +1869,9 @@
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Deletion complete</value>
   </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>Deletion cancelled</value>
+  </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>The operation has completed.</value>
   </data>
@@ -2292,29 +2295,101 @@
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Move canceled</value>
   </data>
+    <data name="StatusCopyCanceled" xml:space="preserve">
+    <value>Copy canceled</value>
+  </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
     <value>Moving {0} item from {1} to {2} was canceled</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
     <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
   </data>  
-  <data name="StatusMovingItems_Singular" xml:space="preserve">
+  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
+    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+  </data>  
+  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
     <value>Moving {0} item from {1} to {2}</value>
   </data>
-  <data name="StatusMovingItems_Plural" xml:space="preserve">
+  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
     <value>Moving {0} items from {1} to {2}</value>
   </data>
-  <data name="StatusMovedItems_Singular" xml:space="preserve">
+  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
     <value>Successfully moved {0} item from {1} to {2}</value>
   </data>
-  <data name="StatusMovedItems_Plural" xml:space="preserve">
+  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
     <value>Successfully moved {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to move {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to move {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
+    <value>Copying {0} item to {1} was canceled</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
+    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+  </data> 
+  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
+    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
+  </data>  
+  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
+    <value>Copying {0} item to {1}</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
+    <value>Copying {0} items to {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
+    <value>Successfully copied {0} item to {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+    <value>Successfully copied {0} items to {1}</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
+    <value>Deleting {0} item from {1} was canceled</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
+    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+  </data>  
+  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
+    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+  </data>  
+  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
+    <value>Deleting {0} item from {1}</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
+    <value>Deleting {0} items from {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
+    <value>Successfully deleted {0} item from {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
+    <value>Successfully deleted {0} items from {1}</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to delete {0} item from {1}</value>
+  </data>
+  <data name="StatusDeletionFailedDetailsDetails_Plural" xml:space="preserve">
+    <value>Failed to delete {0} items from {1}</value>
+  </data>
+  <data name="TheRecycleBin" xml:space="preserve">
+    <value>the Recycle Bin</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Moving items</value>
   </data>
+  <data name="CopyInProgress.Title" xml:space="preserve">
+    <value>Copying items</value>
+  </data>
+  <data name="StatusRecycleFailed" xml:space="preserve">
+    <value>Recycle failed</value>
+  </data>
+  <data name="StatusRecycleCancelled" xml:space="preserve">
+    <value>Recycle cancelled</value>
+  </data>
   <data name="StatusCancellingOp" xml:space="preserve">
-    <value>cancelling</value>
+    <value>canceling</value>
   </data>
   <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Dismiss</value>

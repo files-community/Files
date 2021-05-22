@@ -190,9 +190,9 @@ namespace Files.ViewModels
 
         private void ReportProgressToBanner(float value)
         {
-            if(CancellationToken.IsCancellationRequested) // file operation has been cancelled
+            if(CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
             {
-                Banner.FullTitle = $"{Banner.Title} ({"StatusCancellingOp".GetLocalized()})";
+                return;
             }
 
             if (value <= 100.0f)
@@ -242,7 +242,7 @@ namespace Files.ViewModels
 
         private string fullTitle;
 
-        private bool isIndeterminate;
+        private bool isCancelled;
 
         #endregion Private Members
 
@@ -302,10 +302,10 @@ namespace Files.ViewModels
             set => SetProperty(ref fullTitle, value ?? string.Empty);
         }
 
-        public bool IsIndeterminate
+        public bool IsCancelled
         {
-            get => isIndeterminate;
-            set => SetProperty(ref isIndeterminate, value);
+            get => isCancelled;
+            set => SetProperty(ref isCancelled, value);
         }
 
         #endregion Public Properties
@@ -443,7 +443,7 @@ namespace Files.ViewModels
                 StrokeColor = new SolidColorBrush(Colors.Red);
                 GlyphSource = new FontIconSource()
                 {
-                    Glyph = "\xE783"    // Error glyph
+                    Glyph = "\xE783" // Error glyph
                 };
             }
         }
@@ -453,7 +453,8 @@ namespace Files.ViewModels
             if(CancelButtonVisible)
             {
                 CancellationTokenSource.Cancel();
-                IsIndeterminate = true;
+                IsCancelled = true;
+                FullTitle = $"{Title} ({"StatusCancellingOp".GetLocalized()})";
             }
         }
     }

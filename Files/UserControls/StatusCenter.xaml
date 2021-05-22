@@ -165,7 +165,7 @@
                                     Height="30"
                                     x:Load="{x:Bind IsProgressing, Mode=OneWay}"
                                     IsActive="True"
-                                    IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}"
+                                    IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
                                     Value="{x:Bind Progress, Mode=OneWay}" />
                                 <FontIcon
                                     FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}"
@@ -223,6 +223,7 @@
                                 BorderBrush="Transparent"
                                 Command="{x:Bind CancelCommand}"
                                 DataContext="{x:Bind}"
+                                IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                                 ToolTipService.ToolTip="Cancel">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
