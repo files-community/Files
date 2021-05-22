@@ -1,5 +1,4 @@
 ﻿using Files.DataModels;
-using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
@@ -18,7 +17,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -44,12 +42,6 @@ namespace Files.UserControls
         public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
 
         public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
 
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
 
@@ -78,6 +70,8 @@ namespace Files.UserControls
         public event EventHandler RefreshRequested;
 
         public event EventHandler RefreshWidgetsRequested;
+
+        public ISearchBox SearchBox => SearchRegion;
 
         #region YourHome Widgets
 
@@ -658,8 +652,8 @@ namespace Files.UserControls
 
         public NavigationToolbar()
         {
-            this.InitializeComponent();
-            this.Loading += NavigationToolbar_Loading;
+            InitializeComponent();
+            Loading += NavigationToolbar_Loading;
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -1249,22 +1243,6 @@ namespace Files.UserControls
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             RefreshRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            SearchQuerySubmitted?.Invoke(sender, args);
-        }
-
-        private void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            SearchTextChanged?.Invoke(sender, args);
-        }
-
-        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            SearchSuggestionChosen?.Invoke(sender, args);
-            IsSearchRegionVisible = false;
         }
 
         public void OpenSearchBox()

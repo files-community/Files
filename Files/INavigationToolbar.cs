@@ -30,12 +30,6 @@ namespace Files.UserControls
 
         public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
-
         public event EventHandler BackRequested;
 
         public event EventHandler ForwardRequested;
@@ -49,6 +43,8 @@ namespace Files.UserControls
         public void OpenSearchBox();
 
         public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
+
+        public ISearchBox SearchBox { get; }
     }
 
     public class ToolbarQuerySubmittedEventArgs

@@ -177,6 +177,10 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
+            NavToolbar.SearchBox.SearchTextChanged += ModernShellPage_SearchTextChanged;
+            NavToolbar.SearchBox.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
+            NavToolbar.SearchBox.SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
+
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -1192,15 +1196,15 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
             NavigationToolbar.BackRequested -= ModernShellPage_BackNavRequested;
             NavigationToolbar.ForwardRequested -= ModernShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested -= ModernShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
             NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
+            NavigationToolbar.SearchBox.SearchTextChanged -= ModernShellPage_SearchTextChanged;
+            NavigationToolbar.SearchBox.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
+            NavigationToolbar.SearchBox.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
                 navToolbar.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;

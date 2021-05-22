@@ -183,9 +183,6 @@ namespace Files.Views
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
             NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted += ColumnShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged += ColumnShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen += ColumnShellPage_SearchSuggestionChosen;
             NavigationToolbar.BackRequested += ColumnShellPage_BackNavRequested;
             NavigationToolbar.ForwardRequested += ColumnShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested += ColumnShellPage_UpNavRequested;
@@ -194,6 +191,9 @@ namespace Files.Views
             NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             NavigationToolbar.CanGoBack = false;
             NavigationToolbar.CanGoForward = false;
+            NavigationToolbar.SearchBox.SearchTextChanged += ColumnShellPage_SearchTextChanged;
+            NavigationToolbar.SearchBox.SearchQuerySubmitted += ColumnShellPage_SearchQuerySubmitted;
+            NavigationToolbar.SearchBox.SearchSuggestionChosen += ColumnShellPage_SearchSuggestionChosen;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
@@ -1083,14 +1083,14 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted -= ColumnShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged -= ColumnShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen -= ColumnShellPage_SearchSuggestionChosen;
             NavigationToolbar.BackRequested -= ColumnShellPage_BackNavRequested;
             NavigationToolbar.ForwardRequested -= ColumnShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested -= ColumnShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested -= ColumnShellPage_RefreshRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
+            NavigationToolbar.SearchBox.SearchTextChanged -= ColumnShellPage_SearchTextChanged;
+            NavigationToolbar.SearchBox.SearchQuerySubmitted -= ColumnShellPage_SearchQuerySubmitted;
+            NavigationToolbar.SearchBox.SearchSuggestionChosen -= ColumnShellPage_SearchSuggestionChosen;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
