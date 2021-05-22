@@ -777,20 +777,21 @@ namespace Files.UserControls
 
         public string PathText { get; set; }
 
-        private bool isSearchRegionVisible;
+        private bool isSearchBoxVisible;
 
-        public bool IsSearchRegionVisible
+        public bool IsSearchBoxVisible
         {
             get
             {
-                return isSearchRegionVisible;
+                return isSearchBoxVisible;
             }
             set
             {
-                if (value != isSearchRegionVisible)
+                if (value != isSearchBoxVisible)
                 {
-                    isSearchRegionVisible = value;
-                    NotifyPropertyChanged(nameof(IsSearchRegionVisible));
+                    isSearchBoxVisible = value;
+                    NotifyPropertyChanged(nameof(IsSearchBoxVisible));
+                    SearchButtonGlyph = value ? "\uE711" : "\uE721";
                 }
             }
         }
@@ -1245,28 +1246,26 @@ namespace Files.UserControls
             RefreshRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OpenSearchBox()
+        public void SwitchSearchBoxVisibility()
         {
-            if (IsSearchRegionVisible)
+            if (IsSearchBoxVisible)
             {
-                SearchRegion.Text = "";
-                IsSearchRegionVisible = false;
-                SearchButtonGlyph = "\uE721";
+                SearchRegion.Query = string.Empty;
+                IsSearchBoxVisible = false;
             }
             else
             {
-                IsSearchRegionVisible = true;
+                IsSearchBoxVisible = true;
 
                 // Given that binding and layouting might take a few cycles, when calling UpdateLayout
                 // we can guarantee that the focus call will be able to find an open ASB
                 SearchRegion.UpdateLayout();
 
                 SearchRegion.Focus(FocusState.Programmatic);
-                SearchButtonGlyph = "\uE711";
             }
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e) => OpenSearchBox();
+        private void SearchButton_Click(object sender, RoutedEventArgs e) => SwitchSearchBoxVisibility();
 
         private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => CloseSearchBox();
 
@@ -1283,18 +1282,8 @@ namespace Files.UserControls
 
         private void CloseSearchBox()
         {
-            SearchRegion.Text = "";
-            IsSearchRegionVisible = false;
-            SearchButtonGlyph = "\uE721";
-        }
-
-        public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)
-        {
-            SearchRegion.Text = "";
-            if (IsSearchRegionVisible && collapseSearchRegion)
-            {
-                IsSearchRegionVisible = false;
-            }
+            SearchRegion.Query = string.Empty;
+            IsSearchBoxVisible = false;
         }
 
         private void NavMoreButtonFlyout_Opening(object sender, object e)
@@ -1346,6 +1335,16 @@ namespace Files.UserControls
         private void PreviewPane_Click(object sender, RoutedEventArgs e)
         {
             PreviewPaneEnabled = !PreviewPaneEnabled;
+        }
+
+        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            IsSearchBoxVisible = false;
+        }
+
+        private void SearchRegion_Escaped(object sender, AutoSuggestBox e)
+        {
+            IsSearchBoxVisible = false;
         }
     }
 }

@@ -1,22 +1,26 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls
 {
     public sealed partial class SearchBox : UserControl, ISearchBox
     {
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> QueryChanged;
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> QuerySubmitted;
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SuggestionChosen;
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(SearchBox), new PropertyMetadata(string.Empty));
+        public event EventHandler<AutoSuggestBox> Escaped;
 
-        public string Text
+        public static readonly DependencyProperty QueryProperty =
+            DependencyProperty.Register("Query", typeof(string), typeof(SearchBox), new PropertyMetadata(string.Empty));
+
+        public string Query
         {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value ?? string.Empty);
+            get => (string)GetValue(QueryProperty);
+            set => SetValue(QueryProperty, value ?? string.Empty);
         }
 
         public SearchBox()
@@ -26,16 +30,19 @@ namespace Files.UserControls
 
         private void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs e)
         {
-            SearchTextChanged?.Invoke(sender, e);
+            QueryChanged?.Invoke(sender, e);
         }
         private void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
         {
-            SearchQuerySubmitted?.Invoke(sender, e);
+            QuerySubmitted?.Invoke(sender, e);
         }
         private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs e)
         {
-            SearchSuggestionChosen?.Invoke(sender, e);
-            //Visibility = Visibility.Collapsed;
+            SuggestionChosen?.Invoke(sender, e);
+        }
+        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+        {
+            Escaped?.Invoke(this, SearchRegion);
         }
     }
 }

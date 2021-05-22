@@ -177,9 +177,9 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            NavToolbar.SearchBox.SearchTextChanged += ModernShellPage_SearchTextChanged;
-            NavToolbar.SearchBox.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
-            NavToolbar.SearchBox.SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
+            NavToolbar.SearchBox.QueryChanged += ModernShellPage_QueryChanged;
+            NavToolbar.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
+            NavToolbar.SearchBox.SuggestionChosen += ModernShellPage_SuggestionChosen;
 
             DisplayFilesystemConsentDialog();
 
@@ -277,7 +277,7 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void ModernShellPage_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -295,7 +295,7 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void ModernShellPage_QueryChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -310,7 +310,7 @@ namespace Files.Views
             }
         }
 
-        private void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void ModernShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
@@ -902,7 +902,8 @@ namespace Files.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            NavigationToolbar.ClearSearchBoxQueryText(true);
+            NavigationToolbar.SearchBox.Query = string.Empty;
+            NavigationToolbar.IsSearchBoxVisible = false;
             if (ItemDisplayFrame.CurrentSourcePageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
@@ -944,7 +945,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.F): // ctrl + f
-                    NavigationToolbar.OpenSearchBox();
+                    NavigationToolbar.SwitchSearchBoxVisibility();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -1019,7 +1020,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchBoxVisible)
                     {
                         if (InteractionViewModel.IsQuickLookEnabled)
                         {
@@ -1202,9 +1203,9 @@ namespace Files.Views
             NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
             NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
-            NavigationToolbar.SearchBox.SearchTextChanged -= ModernShellPage_SearchTextChanged;
-            NavigationToolbar.SearchBox.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchBox.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
+            NavigationToolbar.SearchBox.QueryChanged -= ModernShellPage_QueryChanged;
+            NavigationToolbar.SearchBox.QuerySubmitted -= ModernShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.SuggestionChosen -= ModernShellPage_SuggestionChosen;
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
                 navToolbar.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;

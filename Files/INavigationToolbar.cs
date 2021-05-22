@@ -9,7 +9,7 @@ namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
-        public bool IsSearchRegionVisible { get; set; }
+        public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }
         public bool CanCopyPathInPage { get; set; }
@@ -40,9 +40,7 @@ namespace Files.UserControls
 
         public event EventHandler RefreshWidgetsRequested;
 
-        public void OpenSearchBox();
-
-        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
+        public void SwitchSearchBoxVisibility();
 
         public ISearchBox SearchBox { get; }
     }

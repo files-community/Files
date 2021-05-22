@@ -61,6 +61,7 @@
     <AutoSuggestBox
         x:Name="SearchRegion"
         x:Uid="NavigationToolbarSearchReigon"
+        Text="{x:Bind Query, Mode=TwoWay}"
         PlaceholderText="Search"
         UpdateTextOnSelect="False"
         TextChanged="SearchRegion_TextChanged"
@@ -72,6 +73,9 @@
         <AutoSuggestBox.QueryIcon>
             <FontIcon FontSize="14" Glyph="&#xE094;" />
         </AutoSuggestBox.QueryIcon>
+        <AutoSuggestBox.KeyboardAccelerators>
+            <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
+        </AutoSuggestBox.KeyboardAccelerators>
     </AutoSuggestBox>
 
 </UserControl>

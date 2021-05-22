@@ -191,9 +191,9 @@ namespace Files.Views
             NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             NavigationToolbar.CanGoBack = false;
             NavigationToolbar.CanGoForward = false;
-            NavigationToolbar.SearchBox.SearchTextChanged += ColumnShellPage_SearchTextChanged;
-            NavigationToolbar.SearchBox.SearchQuerySubmitted += ColumnShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchBox.SearchSuggestionChosen += ColumnShellPage_SearchSuggestionChosen;
+            NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
+            NavigationToolbar.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
@@ -286,7 +286,7 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void ColumnShellPage_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -304,7 +304,7 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void ColumnShellPage_QueryChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -319,7 +319,7 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void ColumnShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
@@ -890,7 +890,8 @@ namespace Files.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            NavigationToolbar.ClearSearchBoxQueryText(true);
+            NavigationToolbar.SearchBox.Query = string.Empty;
+            NavigationToolbar.IsSearchBoxVisible = false;
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnViewBase))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
@@ -1001,7 +1002,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchBoxVisible)
                     {
                         if (App.InteractionViewModel.IsQuickLookEnabled)
                         {
@@ -1088,9 +1089,9 @@ namespace Files.Views
             NavigationToolbar.UpRequested -= ColumnShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested -= ColumnShellPage_RefreshRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
-            NavigationToolbar.SearchBox.SearchTextChanged -= ColumnShellPage_SearchTextChanged;
-            NavigationToolbar.SearchBox.SearchQuerySubmitted -= ColumnShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchBox.SearchSuggestionChosen -= ColumnShellPage_SearchSuggestionChosen;
+            NavigationToolbar.SearchBox.QueryChanged -= ColumnShellPage_QueryChanged;
+            NavigationToolbar.SearchBox.QuerySubmitted -= ColumnShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {

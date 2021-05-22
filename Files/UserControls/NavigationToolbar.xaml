@@ -9,7 +9,6 @@
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
-    xmlns:filesystem="using:Files.Filesystem"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
@@ -764,7 +763,7 @@
                 Text="{x:Bind PathText, Mode=OneWay}"
                 TextChanged="VisiblePath_TextChanged"
                 TextMemberPath="ItemPath"
-                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -779,7 +778,7 @@
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
-                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
 
                 <ListView
                     x:Name="PathViewInteract"
@@ -821,7 +820,9 @@
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 LostFocus="SearchRegion_LostFocus"
-                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
+                Escaped="SearchRegion_Escaped"
+                SuggestionChosen="SearchRegion_SuggestionChosen"
+                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}">
                 <uc:SearchBox.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
                 </uc:SearchBox.KeyboardAccelerators>
