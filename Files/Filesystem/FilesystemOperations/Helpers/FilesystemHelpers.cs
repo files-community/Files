@@ -210,41 +210,20 @@ namespace Files.Filesystem
                 banner.Remove();
                 sw.Stop();
 
-                //PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-                if (!token.IsCancellationRequested)
+                if (token.IsCancellationRequested)
                 {
-                    if(permanently)
-                    {
-                        statusCenterViewModel.PostBanner(
-                            "StatusDeletionComplete".GetLocalized(),
-                            string.Format(source.Count() > 1 ? "StatusDeletedItemsDetails_Plural".GetLocalized() : "StatusDeletedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
-                            0,
-                            ReturnResult.Success,
-                            FileOperationType.Delete);
-                    } else
-                    {
-                        statusCenterViewModel.PostBanner(
-                            "StatusRecycleComplete".GetLocalized(),
-                            string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
-                            0,
-                            ReturnResult.Success,
-                            FileOperationType.Recycle);
-                    }
-                }
-                else
-                {
-                    if(permanently)
+                    if (permanently)
                     {
                         statusCenterViewModel.PostBanner(
                             "StatusDeletionCancelled".GetLocalized(),
-                            string.Format(source.Count() > 1 ? 
-                                itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalized() : "StatusDeleteCanceledDetails_Plural2".GetLocalized() 
+                            string.Format(source.Count() > 1 ?
+                                itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalized() : "StatusDeleteCanceledDetails_Plural2".GetLocalized()
                                 : "StatusDeleteCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
                             0,
                             ReturnResult.Cancelled,
                             FileOperationType.Delete);
-                    } else
+                    }
+                    else
                     {
                         statusCenterViewModel.PostBanner(
                             "StatusRecycleCancelled".GetLocalized(),
@@ -256,14 +235,44 @@ namespace Files.Filesystem
                             FileOperationType.Recycle);
                     }
                 }
+                else if(returnStatus == ReturnResult.Success)
+                {
+                    if (permanently)
+                    {
+                        statusCenterViewModel.PostBanner(
+                            "StatusDeletionComplete".GetLocalized(),
+                            string.Format(source.Count() > 1 ? "StatusDeletedItemsDetails_Plural".GetLocalized() : "StatusDeletedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
+                            0,
+                            ReturnResult.Success,
+                            FileOperationType.Delete);
+                    }
+                    else
+                    {
+                        statusCenterViewModel.PostBanner(
+                            "StatusRecycleComplete".GetLocalized(),
+                            string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
+                            0,
+                            ReturnResult.Success,
+                            FileOperationType.Recycle);
+                    }
+                } else
+                {
+                    PostFailedBanner();
+                }
 
                 return returnStatus;
             }
             catch (System.Exception ex)
             {
                 banner?.Remove();
+                PostFailedBanner();
+                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete items operation failed:\n{ex}");
+                return ReturnResult.Failed;
+            }
 
-                if(permanently)
+            void PostFailedBanner()
+            {
+                if (permanently)
                 {
                     statusCenterViewModel.PostBanner(
                         "StatusDeletionFailed".GetLocalized(),
@@ -271,7 +280,8 @@ namespace Files.Filesystem
                         0,
                         ReturnResult.Failed,
                         FileOperationType.Delete);
-                } else
+                }
+                else
                 {
                     statusCenterViewModel.PostBanner(
                         "StatusRecycleFailed".GetLocalized(),
@@ -281,8 +291,6 @@ namespace Files.Filesystem
                         FileOperationType.Recycle);
                 }
 
-                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete items operation failed:\n{ex}");
-                return ReturnResult.Failed;
             }
         }
 
