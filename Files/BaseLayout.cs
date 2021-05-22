@@ -70,8 +70,9 @@ namespace Files
         public CollectionViewSource CollectionViewSource
         {
             get => collectionViewSource;
-            set  {
-                if(collectionViewSource != value)
+            set
+            {
+                if (collectionViewSource != value)
                 {
                     collectionViewSource = value;
                     NotifyPropertyChanged(nameof(CollectionViewSource));
@@ -248,7 +249,7 @@ namespace Files
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
         }
-        
+
         private void UnhookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
@@ -264,13 +265,12 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        protected IEnumerable<ListedItem> GetAllItems() {
-
-            if (CollectionViewSource.IsSourceGrouped) {
-                var consolidated = new List<ListedItem>();
+        protected IEnumerable<ListedItem> GetAllItems()
+        {
+            if (CollectionViewSource.IsSourceGrouped)
+            {
                 // add all items from each group to the new list
-                (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.ForEach(g => g?.ForEach(i => consolidated.Add(i)));
-                return consolidated;
+                return (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g);
             }
 
             return CollectionViewSource.Source as IEnumerable<ListedItem>;
@@ -655,7 +655,8 @@ namespace Files
                 if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
-                } else if(item.IsExecutable)
+                }
+                else if (item.IsExecutable)
                 {
                     e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
                     e.AcceptedOperation = DataPackageOperation.Link;
