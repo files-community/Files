@@ -880,6 +880,56 @@ namespace FilesFullTrust
                     }
                     break;
 
+                case "RenameItem":
+                    var fileToRenamePath = (string)message["filepath"];
+                    var newName = (string)message["newName"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        using var shi = new ShellItem(fileToRenamePath);
+                        op.QueueRenameOperation(shi, newName);
+                        var renameTcs = new TaskCompletionSource<bool>();
+                        op.PostRenameItem += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
+                        op.PerformOperations();
+                        var result = await renameTcs.Task;
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "MoveItem":
+                    var fileToMovePath = (string)message["filepath"];
+                    var moveDestination = (string)message["destpath"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        using var shi = new ShellItem(fileToMovePath);
+                        using var shd = new ShellFolder(Path.GetDirectoryName(moveDestination));
+                        op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination));
+                        var moveTcs = new TaskCompletionSource<bool>();
+                        op.PostMoveItem += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
+                        op.PerformOperations();
+                        var result = await moveTcs.Task;
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "CopyItem":
+                    var fileToCopyPath = (string)message["filepath"];
+                    var copyDestination = (string)message["destpath"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        using var shi = new ShellItem(fileToCopyPath);
+                        using var shd = new ShellFolder(Path.GetDirectoryName(copyDestination));
+                        op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination));
+                        var copyTcs = new TaskCompletionSource<bool>();
+                        op.PostCopyItem += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
+                        op.PerformOperations();
+                        var result = await copyTcs.Task;
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
                 case "ParseLink":
                     var linkPath = (string)message["filepath"];
                     try

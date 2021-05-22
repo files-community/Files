@@ -197,6 +197,31 @@ namespace Files.Filesystem
                         }
                         fsResult = fsCopyResult;
                     }
+                    if (fsResult == FileSystemStatusCode.Unauthorized)
+                    {
+                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        {
+                            if (associatedInstance.ServiceConnection != null &&
+                                await associatedInstance.ServiceConnection.Elevate())
+                            {
+                                // Try again with fulltrust process (admin)
+                                if (associatedInstance.ServiceConnection != null)
+                                {
+                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                                    {
+                                        { "Arguments", "FileOperation" },
+                                        { "fileop", "CopyItem" },
+                                        { "filepath", source.Path },
+                                        { "destpath", destination }
+                                    });
+                                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                                        && response.Get("Success", false));
+                                }
+                            }
+                        }
+                    }
                     errorCode?.Report(fsResult.ErrorCode);
                     if (!fsResult)
                     {
@@ -233,6 +258,31 @@ namespace Files.Filesystem
                             copiedItem = fsResultCopy.Result;
                         }
                         fsResult = fsResultCopy;
+                    }
+                    if (fsResult == FileSystemStatusCode.Unauthorized)
+                    {
+                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        {
+                            if (associatedInstance.ServiceConnection != null &&
+                                await associatedInstance.ServiceConnection.Elevate())
+                            {
+                                // Try again with fulltrust process (admin)
+                                if (associatedInstance.ServiceConnection != null)
+                                {
+                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                                    {
+                                        { "Arguments", "FileOperation" },
+                                        { "fileop", "CopyItem" },
+                                        { "filepath", source.Path },
+                                        { "destpath", destination }
+                                    });
+                                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                                        && response.Get("Success", false));
+                                }
+                            }
+                        }
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -387,6 +437,31 @@ namespace Files.Filesystem
                             }
                             fsResult = fsResultMove;
                         }
+                        if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
+                        {
+                            var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                            var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                            if (elevateConfirmResult == ContentDialogResult.Primary)
+                            {
+                                if (associatedInstance.ServiceConnection != null &&
+                                    await associatedInstance.ServiceConnection.Elevate())
+                                {
+                                    // Try again with fulltrust process (admin)
+                                    if (associatedInstance.ServiceConnection != null)
+                                    {
+                                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                                        {
+                                            { "Arguments", "FileOperation" },
+                                            { "fileop", "MoveItem" },
+                                            { "filepath", source.Path },
+                                            { "destpath", destination }
+                                        });
+                                        fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                                            && response.Get("Success", false));
+                                    }
+                                }
+                            }
+                        }
                     }
                     errorCode?.Report(fsResult.ErrorCode);
                 }
@@ -420,6 +495,31 @@ namespace Files.Filesystem
                             movedItem = file;
                         }
                         fsResult = fsResultMove;
+                    }
+                    if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
+                    {
+                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        {
+                            if (associatedInstance.ServiceConnection != null &&
+                                await associatedInstance.ServiceConnection.Elevate())
+                            {
+                                // Try again with fulltrust process (admin)
+                                if (associatedInstance.ServiceConnection != null)
+                                {
+                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                                        {
+                                            { "Arguments", "FileOperation" },
+                                            { "fileop", "MoveItem" },
+                                            { "filepath", source.Path },
+                                            { "destpath", destination }
+                                        });
+                                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                                        && response.Get("Success", false));
+                                }
+                            }
+                        }
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -648,7 +748,33 @@ namespace Files.Filesystem
                     }
                     else
                     {
-                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        {
+                            if (associatedInstance.ServiceConnection != null &&
+                                await associatedInstance.ServiceConnection.Elevate())
+                            {
+                                // Try again with fulltrust process (admin)
+                                if (associatedInstance.ServiceConnection != null)
+                                {
+                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                                    {
+                                        { "Arguments", "FileOperation" },
+                                        { "fileop", "RenameItem" },
+                                        { "filepath", source.Path },
+                                        { "newName", newName }
+                                    });
+                                    var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                                        && response.Get("Success", false));
+                                    if (fsResult)
+                                    {
+                                        errorCode?.Report(FileSystemStatusCode.Success);
+                                        return new StorageHistory(FileOperationType.Rename, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
