@@ -186,6 +186,7 @@
                                     Text="{x:Bind FullTitle, Mode=OneWay}" />
                                 <TextBlock
                                     FontSize="11"
+                                    MaxLines="2"
                                     Text="{x:Bind Message}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="WrapWholeWords"
