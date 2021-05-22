@@ -107,6 +107,13 @@
                                     <RotateTransform />
                                 </FontIcon.RenderTransform>
                             </FontIcon>
+                            <muxc:ProgressRing
+                                x:Name="MedianOperationProgressRing"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
+                                IsIndeterminate="False"
+                                Value="{x:Bind StatusCenterViewModel.MedianOperationProgressValue, Mode=OneWay}" />
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
@@ -137,7 +144,7 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="Default">
                 <VisualState x:Name="NoOperations" />
-                <VisualState x:Name="InProgress">
+                <!--<VisualState x:Name="InProgress">
                     <Storyboard>
                         <ColorAnimation
                             Storyboard.TargetName="StatusCenterFontIcon"
@@ -151,7 +158,7 @@
                             To="360"
                             Duration="0:0:1" />
                     </Storyboard>
-                </VisualState>
+                </VisualState>-->
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
