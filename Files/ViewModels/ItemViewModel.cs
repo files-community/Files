@@ -423,8 +423,10 @@ namespace Files.ViewModels
                 FilesAndFolders.Remove(item);
                 if (newIndex != -1)
                 {
-                    FilesAndFolders.Insert(newIndex, item);
+                    FilesAndFolders.Insert(Math.Min(newIndex, FilesAndFolders.Count), item);
                 }
+                IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
             });
         }
 
@@ -575,16 +577,16 @@ namespace Files.ViewModels
         {
             try
             {
-                try
-                {
-                    // Conflicts will occur if re-grouping is run while items are still being enumerated, so wait for enumeration to complete first
-                    await enumFolderSemaphore.WaitAsync(token);
-                }
-                catch (OperationCanceledException)
-                {
-                    return;
-                }
+                // Conflicts will occur if re-grouping is run while items are still being enumerated, so wait for enumeration to complete first
+                await enumFolderSemaphore.WaitAsync(token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
 
+            try
+            {
                 FilesAndFolders.BeginBulkOperation();
                 UpdateGroupOptions();
                 if (FilesAndFolders.IsGrouped)
@@ -614,9 +616,9 @@ namespace Files.ViewModels
                     FilesAndFolders.EndBulkOperation();
                 });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e);
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             finally
             {
@@ -1901,7 +1903,7 @@ namespace Files.ViewModels
 
             try
             {
-                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
+                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
 
                 if (matchingItem != null)
                 {
@@ -1946,7 +1948,7 @@ namespace Files.ViewModels
 
             try
             {
-                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
+                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
 
                 if (matchingItem != null)
                 {
