@@ -188,7 +188,6 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     FontSize="14"
-                                    FontWeight="Medium"
                                     HorizontalTextAlignment="Center"
                                     Text="{x:Bind Text}"
                                     TextTrimming="WordEllipsis"
