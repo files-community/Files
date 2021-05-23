@@ -50,28 +50,31 @@ namespace Files.Helpers
         {
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
             items.ForEach(x => x.Items = x.Items.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
+
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-            if (overflow != null && !shiftPressed)
+            if (overflow != null)
             {
-                var overflowItems = items.Where(x => x.ShowOnShift).ToList();
-
-                // Adds a separator between items already there and the new ones
-                if (overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
+                if (!shiftPressed && App.AppSettings.MoveOverflowMenuItemsToSubMenu) // items with ShowOnShift to overflow menu
                 {
-                    overflow.Items.Add(new ContextMenuFlyoutItemViewModel()
+                    var overflowItems = items.Where(x => x.ShowOnShift).ToList();
+
+                    // Adds a separator between items already there and the new ones
+                    if (overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
                     {
-                        ItemType = ItemType.Separator,
-                    });
+                        overflow.Items.Add(new ContextMenuFlyoutItemViewModel{ ItemType = ItemType.Separator });
+                    }
+
+                    items = items.Except(overflowItems).ToList();
+                    overflowItems.ForEach(x => overflow.Items.Add(x));
                 }
-                overflowItems.ForEach(x => overflow.Items.Add(x));
-                items = items.Except(overflowItems).ToList();
+
+                // remove the overflow if it has no child items
+                if (overflow.Items.Count == 0)
+                {
+                    items.Remove(overflow);
+                }
             }
 
-            // remove the overflow if it has no child items
-            if (overflow != null && overflow.Items.Count == 0)
-            {
-                items.Remove(overflow);
-            }
             return items;
         }
 
