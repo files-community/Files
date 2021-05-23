@@ -752,50 +752,51 @@ namespace Files.Filesystem
             FilesystemResult fsResult = FileSystemStatusCode.InProgress;
             errorCode?.Report(fsResult);
 
-            if (source.ItemType == FilesystemItemType.Directory)
+            fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+
+            if (!fsResult)
             {
-                FilesystemResult<StorageFolder> sourceFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
-                FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
-
-                fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
-                errorCode?.Report(fsResult);
-
-                if (fsResult)
+                if (source.ItemType == FilesystemItemType.Directory)
                 {
-                    fsResult = await FilesystemTasks.Wrap(() =>
+                    FilesystemResult<StorageFolder> sourceFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
+                    FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+
+                    fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
+                    errorCode?.Report(fsResult);
+
+                    if (fsResult)
                     {
-                        return MoveDirectoryAsync(sourceFolder.Result,
-                                                  destinationFolder.Result,
-                                                  Path.GetFileName(destination),
-                                                  CreationCollisionOption.FailIfExists,
-                                                  true);
-                    }); // TODO: we could use here FilesystemHelpers with registerHistory false?
+                        fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), 
+                            CreationCollisionOption.FailIfExists, true));
+                        // TODO: we could use here FilesystemHelpers with registerHistory false?
+                    }
+                    errorCode?.Report(fsResult);
                 }
-                errorCode?.Report(fsResult);
-            }
-            else
-            {
-                FilesystemResult<StorageFile> sourceFile = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
-                FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
-
-                fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
-                errorCode?.Report(fsResult);
-
-                if (fsResult)
+                else
                 {
-                    fsResult = await FilesystemTasks.Wrap(() =>
+                    FilesystemResult<StorageFile> sourceFile = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
+                    FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+
+                    fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
+                    errorCode?.Report(fsResult);
+
+                    if (fsResult)
                     {
-                        return sourceFile.Result.MoveAsync(destinationFolder.Result,
-                                                           Path.GetFileName(destination),
-                                                           NameCollisionOption.GenerateUniqueName).AsTask();
+                        fsResult = await FilesystemTasks.Wrap(() => sourceFile.Result.MoveAsync(destinationFolder.Result, Path.GetFileName(destination), NameCollisionOption.GenerateUniqueName).AsTask());
+                    }
+                    errorCode?.Report(fsResult);
+                }
+                if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
+                {
+                    fsResult = await PerformAdminOperation(new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "MoveItem" },
+                        { "filepath", source.Path },
+                        { "destpath", destination },
+                        { "overwrite", false }
                     });
                 }
-                else if (fsResult == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with MoveFileFromApp
-                    fsResult = (FilesystemResult)NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination);
-                }
-                errorCode?.Report(fsResult);
             }
 
             if (fsResult)
