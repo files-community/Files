@@ -144,7 +144,8 @@
                         AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                         BorderBrush="{x:Bind StrokeColor}"
-                        BorderThickness="4,0,0,0">
+                        BorderThickness="4,0,0,0"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
                         <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -156,13 +157,14 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid
+                                Width="32"
                                 Padding="4,4,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                                 <muxc:ProgressRing
                                     x:Name="ProgressSpinner"
-                                    Width="30"
-                                    Height="30"
+                                    Width="28"
+                                    Height="28"
                                     x:Load="{x:Bind IsProgressing, Mode=OneWay}"
                                     IsActive="True"
                                     IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
@@ -196,7 +198,7 @@
                                 x:Name="DismissBannerButton"
                                 x:Uid="StatusCenterDismissBannerButton"
                                 Grid.Column="2"
-                                Height="30"
+                                Height="32"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
@@ -215,7 +217,7 @@
                                 x:Name="CancelBannerButton"
                                 x:Uid="StatusCenterCancelBannerButton"
                                 Grid.Column="2"
-                                Height="30"
+                                Height="32"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 x:Load="{x:Bind CancelButtonVisible}"

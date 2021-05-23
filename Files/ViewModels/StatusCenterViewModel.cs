@@ -117,25 +117,10 @@ namespace Files.ViewModels
 
         public void UpdateMedianProgress()
         {
-            // Recalculate 
-            if (!AnyOperationsOngoing)
+            if(AnyOperationsOngoing)
             {
-                return;
+                MedianOperationProgressValue = StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
             }
-
-            float median = StatusBannersSource.Where((item) => item.IsProgressing).First().Progress;
-
-            if (OngoingOperationsCount >= 2)
-            {
-                foreach (var item in StatusBannersSource.Where((item) => item.IsProgressing).ToList().GetRange(1, OngoingOperationsCount - 1))
-                {
-                    median *= (item.Progress / 100.0f);
-                }
-
-                median *= 100.0f;
-            }
-
-            MedianOperationProgressValue = median;
         }
 
         #endregion IStatusCenterActions
