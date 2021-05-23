@@ -77,6 +77,10 @@ namespace Files.Filesystem
             {
                 return FileSystemStatusCode.AlreadyExists;
             }
+            else if ((uint)ex.HResult == 0x80071779)
+            {
+                return FileSystemStatusCode.ReadOnly;
+            }
             else if ((uint)ex.HResult == 0x800700A1 // The specified path is invalid (usually an mtp device was disconnected)
                 || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running
                 || (uint)ex.HResult == 0x8000000A) // The data necessary to complete this operation is not yet available)
