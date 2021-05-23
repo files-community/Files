@@ -139,7 +139,6 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:StatusBanner">
                     <Grid
-                        Height="68"
                         Padding="4"
                         HorizontalAlignment="Stretch"
                         AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
@@ -177,6 +176,7 @@
                             </Grid>
                             <StackPanel
                                 Grid.Column="1"
+                                Height="58"
                                 Padding="0,4,0,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
