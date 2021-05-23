@@ -404,7 +404,7 @@ namespace Files.Filesystem
                         var items = await packageView.GetStorageItemsAsync();
                         NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
                     }
-                    
+
                     // TODO: Support link creation
                     return default;
                 }
@@ -861,13 +861,10 @@ namespace Files.Filesystem
                     }
 
                     /* Only prompt user when extension has changed,
-                       not when file name has changed
-                    */
+                       not when file name has changed */
                     if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
                     {
-                        var renameDialogText = "RenameFileDialog/Text".GetLocalized();
-
-                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename", renameDialogText, "Yes", "No");
+                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalized(), "RenameFileDialog/Text".GetLocalized(), "ButtonYes/Content".GetLocalized(), "ButtonNo/Content".GetLocalized());
                         if (yesSelected)
                         {
                             history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
