@@ -55,22 +55,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
-        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
-        {
-            foreach (ListedItem listedItem in (IEnumerable)FileList.ItemsSource)
-            {
-                if (listedItem.IsHiddenItem)
-                {
-                    listedItem.Opacity = Constants.UI.DimItemOpacity;
-                }
-                else
-                {
-                    listedItem.Opacity = 1;
-                }
-            }
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -154,7 +138,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
 
@@ -245,11 +228,6 @@ namespace Files.Views.LayoutModes
         }
 
         private bool itemTemplateChanging = false;
-
-        protected override IEnumerable GetAllItems()
-        {
-            return FileList.Items;
-        }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {

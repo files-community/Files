@@ -54,22 +54,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
-        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
-        {
-            foreach (ListedItem listedItem in (IEnumerable)FileList.ItemsSource)
-            {
-                if (listedItem.IsHiddenItem)
-                {
-                    listedItem.Opacity = Constants.UI.DimItemOpacity;
-                }
-                else
-                {
-                    listedItem.Opacity = 1;
-                }
-            }
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -151,7 +135,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
 
@@ -226,11 +209,6 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-        }
-
-        protected override IEnumerable GetAllItems()
-        {
-            return (IEnumerable)FileList.ItemsSource;
         }
 
         private void StartRenameItem()

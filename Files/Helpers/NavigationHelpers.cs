@@ -135,7 +135,11 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
+                    if (associatedInstance.ServiceConnection == null)
+                    {
+                        return false;
+                    }
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

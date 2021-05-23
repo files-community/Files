@@ -245,6 +245,9 @@
     <Compile Include="UserControls\ArrangementOptions.xaml.cs">
       <DependentUpon>ArrangementOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
+      <DependentUpon>CodePreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
@@ -317,6 +320,7 @@
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
@@ -823,6 +827,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ArrangementOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\CodePreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

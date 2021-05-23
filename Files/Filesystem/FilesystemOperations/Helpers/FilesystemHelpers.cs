@@ -285,86 +285,78 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
         {
-            try
+            PostedStatusBanner banner;
+            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+
+            if (deleteFromRecycleBin)
             {
-                PostedStatusBanner banner;
-                bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+                permanently = true;
+            }
 
-                if (deleteFromRecycleBin)
-                {
-                    permanently = true;
-                }
+            if (permanently)
+            {
+                banner = statusCenterViewModel.PostBanner(string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Delete);
+            }
+            else
+            {
+                banner = statusCenterViewModel.PostBanner(string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Recycle);
+            }
 
-                if (permanently)
-                {
-                    banner = statusCenterViewModel.PostBanner(string.Empty,
-                    associatedInstance.FilesystemViewModel.WorkingDirectory,
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Delete);
-                }
-                else
-                {
-                    banner = statusCenterViewModel.PostBanner(string.Empty,
-                    associatedInstance.FilesystemViewModel.WorkingDirectory,
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Recycle);
-                }
+            var returnStatus = ReturnResult.InProgress;
 
-                var returnStatus = ReturnResult.InProgress;
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-                banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-                if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-                {
-                    List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
+            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            {
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
                 {
                     new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
                 };
 
-                    FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
-                        FilesystemOperationType.Delete,
-                        false,
-                        !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                        !deleteFromRecycleBin,
-                        incomingItems,
-                        new List<FilesystemItemsOperationItemModel>()));
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await dialog.ShowAsync();
 
-                    if (result != ContentDialogResult.Primary)
-                    {
-                        banner.Remove();
-                        return ReturnResult.Cancelled; // Return if the result isn't delete
-                    }
-
-                    // Delete selected item if the result is Yes
-                    permanently = dialog.ViewModel.PermanentlyDelete;
-                }
-
-                var sw = new Stopwatch();
-                sw.Start();
-
-                IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-                ((IProgress<float>)banner.Progress).Report(100.0f);
-
-                if (!permanently && registerHistory)
+                if (result != ContentDialogResult.Primary)
                 {
-                    App.HistoryWrapper.AddHistory(history);
+                    banner.Remove();
+                    return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                banner.Remove();
-                sw.Stop();
+                // Delete selected item if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
+            }
 
-                PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-                return returnStatus;
-            }
-            catch (System.Exception ex)
+            var sw = new Stopwatch();
+            sw.Start();
+
+            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+
+            if (!permanently && registerHistory)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete item operation failed:\n{ex}");
-                return ReturnResult.Failed;
+                App.HistoryWrapper.AddHistory(history);
             }
+
+            banner.Remove();
+            sw.Stop();
+
+            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
+            return returnStatus;
         }
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
@@ -374,86 +366,78 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
         {
-            try
+            PostedStatusBanner banner;
+            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+
+            if (deleteFromRecycleBin)
             {
-                PostedStatusBanner banner;
-                bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+                permanently = true;
+            }
 
-                if (deleteFromRecycleBin)
-                {
-                    permanently = true;
-                }
+            if (permanently)
+            {
+                banner = statusCenterViewModel.PostBanner(string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Delete);
+            }
+            else
+            {
+                banner = statusCenterViewModel.PostBanner(string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Recycle);
+            }
 
-                if (permanently)
-                {
-                    banner = statusCenterViewModel.PostBanner(string.Empty,
-                    associatedInstance.FilesystemViewModel.WorkingDirectory,
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Delete);
-                }
-                else
-                {
-                    banner = statusCenterViewModel.PostBanner(string.Empty,
-                    associatedInstance.FilesystemViewModel.WorkingDirectory,
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Recycle);
-                }
+            var returnStatus = ReturnResult.InProgress;
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-                var returnStatus = ReturnResult.InProgress;
-                banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-                if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-                {
-                    List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
+            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            {
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
                 {
                     new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
                 };
 
-                    FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
-                        FilesystemOperationType.Delete,
-                        false,
-                        !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                        !deleteFromRecycleBin,
-                        incomingItems,
-                        new List<FilesystemItemsOperationItemModel>()));
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                    FilesystemOperationType.Delete,
+                    false,
+                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
+                    !deleteFromRecycleBin,
+                    incomingItems,
+                    new List<FilesystemItemsOperationItemModel>()));
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await dialog.ShowAsync();
 
-                    if (result != ContentDialogResult.Primary)
-                    {
-                        banner.Remove();
-                        return ReturnResult.Cancelled; // Return if the result isn't delete
-                    }
-
-                    // Delete selected item if the result is Yes
-                    permanently = dialog.ViewModel.PermanentlyDelete;
-                }
-
-                var sw = new Stopwatch();
-                sw.Start();
-
-                IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-                ((IProgress<float>)banner.Progress).Report(100.0f);
-
-                if (!permanently && registerHistory)
+                if (result != ContentDialogResult.Primary)
                 {
-                    App.HistoryWrapper.AddHistory(history);
+                    banner.Remove();
+                    return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
-                banner.Remove();
-                sw.Stop();
-
-                PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-                return returnStatus;
+                // Delete selected item if the result is Yes
+                permanently = dialog.ViewModel.PermanentlyDelete;
             }
-            catch (System.Exception ex)
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+
+            if (!permanently && registerHistory)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn($"Delete item operation failed:\n{ex}");
-                return ReturnResult.Failed;
+                App.HistoryWrapper.AddHistory(history);
             }
+
+            banner.Remove();
+            sw.Stop();
+
+            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
+
+            return returnStatus;
         }
 
         #endregion Delete
