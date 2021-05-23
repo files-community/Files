@@ -2280,4 +2280,7 @@
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>View Files privacy policy</value>
   </data>
+  <data name="RenameFileDialogTitle" xml:space="preserve">
+    <value>Rename</value>
+  </data>
 </root>
