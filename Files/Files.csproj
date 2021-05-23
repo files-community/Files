@@ -153,6 +153,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
+    <Compile Include="Behaviors\StretchedGridViewItems.cs" />
     <Compile Include="CommandLine\CommandLineParser.cs" />
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
@@ -169,7 +170,6 @@
     <Compile Include="Converters\IntToSortOption.cs" />
     <Compile Include="Converters\MiddleTextEllipsisConverter.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
-    <Compile Include="Converters\NavigationViewCompactConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\WidthToRightMargin.cs" />
@@ -245,6 +245,9 @@
     <Compile Include="UserControls\ArrangementOptions.xaml.cs">
       <DependentUpon>ArrangementOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
+      <DependentUpon>CodePreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RestartControl.xaml.cs">
       <DependentUpon>RestartControl.xaml</DependentUpon>
     </Compile>
@@ -316,7 +319,8 @@
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AdaptiveSidebarViewModel.cs" />
+    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
@@ -426,9 +430,6 @@
     <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
-      <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\PropertiesDialog.xaml.cs">
       <DependentUpon>PropertiesDialog.xaml</DependentUpon>
@@ -569,6 +570,7 @@
   <ItemGroup>
     <Content Include="Assets\error.png" />
     <Content Include="Assets\Files Icon.png" />
+    <Content Include="Assets\FluentIcons\CloudDrive.png" />
     <Content Include="Assets\FluentIcons\Desktop.svg" />
     <Content Include="Assets\FluentIcons\Documents.svg" />
     <Content Include="Assets\FluentIcons\Downloads.svg" />
@@ -576,6 +578,7 @@
     <Content Include="Assets\FluentIcons\Drive_Network.svg" />
     <Content Include="Assets\FluentIcons\Drive_USB.svg" />
     <Content Include="Assets\FluentIcons\Folder.svg" />
+    <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FluentIcons\Music.svg" />
     <Content Include="Assets\FluentIcons\Pictures.svg" />
     <Content Include="Assets\FluentIcons\Videos.svg" />
@@ -826,6 +829,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\FilePreviews\CodePreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\RestartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -907,10 +914,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\AddItemDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ExceptionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1127,10 +1130,10 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.9</Version>
+      <Version>4.7.10</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.9</Version>
+      <Version>4.7.10</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

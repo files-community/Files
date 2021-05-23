@@ -31,7 +31,7 @@ namespace Files.Views
             set => DataContext = value;
         }
 
-        public AdaptiveSidebarViewModel SidebarAdaptiveViewModel = new AdaptiveSidebarViewModel();
+        public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
         public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
 
@@ -59,15 +59,15 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPageViewModel.MultitaskingControl is HorizontalMultitaskingControl))
+            if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
                 // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (MainPageViewModel.MultitaskingControl != null)
+                if (ViewModel.MultitaskingControl != null)
                 {
-                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
+                    ViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
                 }
-                MainPageViewModel.MultitaskingControl = horizontalMultitaskingControl;
-                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+                ViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
 

@@ -14,6 +14,7 @@
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
+    CompactModeThresholdWidth="750"
     IsBackButtonVisible="Collapsed"
     IsPaneToggleButtonVisible="True"
     IsSettingsVisible="True"
@@ -21,7 +22,7 @@
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
     OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
-    PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
+    PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
@@ -108,7 +109,6 @@
             </DataTemplate>
 
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <conv:NavigationViewCompactConverter x:Key="DisplayModeConverter" />
 
             <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                 <MenuFlyout.Items>
@@ -259,7 +259,8 @@
                                             AutomationProperties.Name="Sidebar resizer"
                                             FocusVisualPrimaryThickness="2"
                                             IsTabStop="True"
-                                            KeyDown="Border_KeyDown" />
+                                            KeyDown="Border_KeyDown"
+                                            UseSystemFocusVisuals="True" />
                                     </Grid>
 
                                 </Grid>
@@ -300,11 +301,12 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="DisplayModeStates">
-
                                         <VisualStateGroup.Transitions>
                                             <VisualTransition From="Closed" To="OpenOverlayLeft">
-
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -338,8 +340,10 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="Closed" To="OpenOverlayRight">
-
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -465,7 +469,6 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenOverlayLeft" To="Closed">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -827,8 +830,10 @@
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayLeft">
-
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -841,8 +846,10 @@
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayRight">
-
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                 </ObjectAnimationUsingKeyFrames>

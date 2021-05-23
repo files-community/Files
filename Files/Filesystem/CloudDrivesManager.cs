@@ -105,6 +105,7 @@ namespace Files.Filesystem
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
                             SelectsOnInvoked = false,
+                            Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Add(section);

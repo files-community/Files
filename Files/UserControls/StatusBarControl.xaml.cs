@@ -9,23 +9,12 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
-        #region Singleton
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
 
-        #endregion Singleton
-
-        #region Private Members
-
         public StatusCenterViewModel StatusCenterViewModel { get; set; }
-
-        #endregion Private Members
-
-        #region Public Properties
-
-
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
         {
@@ -77,18 +66,10 @@ namespace Files.UserControls
             }
         }
 
-        #endregion Public Properties
-
-        #region Constructor
-
         public StatusBarControl()
         {
             this.InitializeComponent();
         }
-
-        #endregion Constructor
-
-        #region Event Handlers
 
         private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
         {
@@ -110,18 +91,12 @@ namespace Files.UserControls
             FullTrustStatusTeachingTip.IsOpen = true;
         }
 
-        #endregion Event Handlers
-
-        #region INotifyPropertyChanged
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        #endregion INotifyPropertyChanged
 
         private void UserControl_Loading(Windows.UI.Xaml.FrameworkElement sender, object args)
         {

@@ -56,20 +56,6 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
-
-        public bool IsCompact
-        {
-            get => (bool)GetValue(IsCompactProperty);
-            set
-            {
-                if (this.IsLoaded)
-                {
-                    SetValue(IsCompactProperty, value);
-                }
-            }
-        }
-
         public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
         public ICommand EmptyRecycleBinCommand

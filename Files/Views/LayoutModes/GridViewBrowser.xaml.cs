@@ -28,6 +28,11 @@ namespace Files.Views.LayoutModes
     {
         public string oldItemName;
 
+        /// <summary>
+        /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
+        /// </summary>
+        public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+
         public GridViewBrowser()
             : base()
         {
@@ -50,22 +55,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
-        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
-        {
-            foreach (ListedItem listedItem in (IEnumerable)FileList.ItemsSource)
-            {
-                if (listedItem.IsHiddenItem)
-                {
-                    listedItem.Opacity = Constants.UI.DimItemOpacity;
-                }
-                else
-                {
-                    listedItem.Opacity = 1;
-                }
-            }
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -149,7 +138,6 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
             }
         }
 
@@ -215,6 +203,8 @@ namespace Files.Views.LayoutModes
         private void SetItemTemplate()
         {
             FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            SetItemMinWidth();
+            itemTemplateChanging = true;
 
             // Set GridViewSize event handlers
             if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
@@ -228,10 +218,16 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        protected override IEnumerable GetAllItems()
+        /// <summary>
+        /// Updates the min size for the item containers
+        /// </summary>
+        private void SetItemMinWidth()
         {
-            return FileList.Items;
+            NotifyPropertyChanged(nameof(GridViewItemMinWidth));
+            Behaviors.StretchedGridViewItems.ResizeItems(FileList);
         }
+
+        private bool itemTemplateChanging = false;
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
@@ -474,6 +470,7 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
+            SetItemMinWidth();
             var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
             // Prevents reloading icons when the icon size hasn't changed
@@ -519,6 +516,13 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
+            // This resizes the items after the item template has been changed and reloaded
+            if(itemTemplateChanging)
+            {
+                itemTemplateChanging = false;
+                Behaviors.StretchedGridViewItems.ResizeItems(FileList);
+            }
+
             if (args.ItemContainer == null)
             {
                 GridViewItem gvi = new GridViewItem();

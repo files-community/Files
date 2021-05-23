@@ -1219,15 +1219,15 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
+            if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
             {
                 // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (MainPageViewModel.MultitaskingControl != null)
+                if (mainPage.ViewModel.MultitaskingControl != null)
                 {
-                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                    mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
                 }
-                MainPageViewModel.MultitaskingControl = VerticalTabs;
-                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
+                mainPage.ViewModel.MultitaskingControl = VerticalTabs;
+                mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
@@ -1267,7 +1267,7 @@ namespace Files.UserControls
             IsSearchRegionVisible = false;
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        public void OpenSearchBox()
         {
             if (IsSearchRegionVisible)
             {
@@ -1288,6 +1288,10 @@ namespace Files.UserControls
             }
         }
 
+        private void SearchButton_Click(object sender, RoutedEventArgs e) => OpenSearchBox();
+
+        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => CloseSearchBox();
+
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
@@ -1296,6 +1300,11 @@ namespace Files.UserControls
                 return;
             }
 
+            CloseSearchBox();
+        }
+
+        private void CloseSearchBox()
+        {
             SearchRegion.Text = "";
             IsSearchRegionVisible = false;
             SearchButtonGlyph = "\uE721";

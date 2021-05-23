@@ -34,9 +34,9 @@ namespace Files.Views
                 ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    if (AppInstance.FilesystemViewModel != null)
+                    if (AppInstance.ServiceConnection != null && AppInstance.FilesystemViewModel != null)
                     {
-                        _ = await AppInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
+                        _ = await AppInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },

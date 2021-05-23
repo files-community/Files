@@ -159,7 +159,36 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="F"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="F1"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number1" Modifiers="Control,Shift"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number2" Modifiers="Control,Shift"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number3" Modifiers="Control,Shift"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number4" Modifiers="Control,Shift"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number5" Modifiers="Control,Shift"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number6" Modifiers="Control,Shift"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
     </Page.KeyboardAccelerators>
@@ -193,7 +222,7 @@
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
-            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+            Background="{ThemeResource FileBrowserBackgroundBrush}"
             Navigated="ItemDisplayFrame_Navigated" />
 
         <Custom:DropShadowPanel

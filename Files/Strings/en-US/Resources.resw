@@ -499,7 +499,7 @@
     <value>Refresh (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Search</value>
+    <value>Search (Ctrl+F)</value>
   </data>
   <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options</value>
@@ -1552,7 +1552,7 @@
     <value>Folders</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Details View</value>
+    <value>Details View (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Details View</value>
@@ -1570,25 +1570,25 @@
     <value>Grid View (Large)</value>
   </data>
   <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Grid View (Large)</value>
+    <value>Grid View (Large) (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
     <value>Grid View (Medium)</value>
   </data>
   <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Grid View (Medium)</value>
+    <value>Grid View (Medium) (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
     <value>Grid View (Small)</value>
   </data>
   <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Grid View (Small)</value>
+    <value>Grid View (Small) (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
     <value>Tiles View</value>
   </data>
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tiles View</value>
+    <value>Tiles View (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Show file extensions</value>
@@ -1894,7 +1894,7 @@
     <value>Column View</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Column View</value>
+    <value>Column View (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Pin to the Start Menu</value>
@@ -2268,7 +2268,16 @@
   <data name="GroupItemsCount_Plural" xml:space="preserve">
     <value>{0} items</value>
   </data>
-    <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
     <value>Reopen closed tab</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
+    <value>View Files privacy policy</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>View Files privacy policy</value>
   </data>
 </root>

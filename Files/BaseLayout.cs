@@ -70,8 +70,9 @@ namespace Files
         public CollectionViewSource CollectionViewSource
         {
             get => collectionViewSource;
-            set  {
-                if(collectionViewSource != value)
+            set
+            {
+                if (collectionViewSource != value)
                 {
                     collectionViewSource = value;
                     NotifyPropertyChanged(nameof(CollectionViewSource));
@@ -218,6 +219,7 @@ namespace Files
         {
             ItemManipulationModel = new ItemManipulationModel();
 
+            HookBaseEvents();
             HookEvents();
 
             jumpTimer = new DispatcherTimer();
@@ -243,6 +245,16 @@ namespace Files
 
         protected abstract void UnhookEvents();
 
+        private void HookBaseEvents()
+        {
+            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
+        private void UnhookBaseEvents()
+        {
+            ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
         public ItemManipulationModel ItemManipulationModel { get; private set; }
 
         private void JumpTimer_Tick(object sender, object e)
@@ -253,7 +265,16 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        protected abstract IEnumerable GetAllItems();
+        protected IEnumerable<ListedItem> GetAllItems()
+        {
+            if (CollectionViewSource.IsSourceGrouped)
+            {
+                // add all items from each group to the new list
+                return (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g);
+            }
+
+            return CollectionViewSource.Source as IEnumerable<ListedItem>;
+        }
 
         public virtual void ResetItemOpacity()
         {
@@ -417,6 +438,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -632,7 +654,8 @@ namespace Files
                 if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
-                } else if(item.IsExecutable)
+                }
+                else if (item.IsExecutable)
                 {
                     e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
                     e.AcceptedOperation = DataPackageOperation.Link;
@@ -767,6 +790,21 @@ namespace Files
             if (!(element is null))
             {
                 VisualStateManager.GoToState(element, "Pressed", true);
+            }
+        }
+
+        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
+        {
+            foreach (ListedItem listedItem in GetAllItems())
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
     }
