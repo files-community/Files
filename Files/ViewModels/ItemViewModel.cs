@@ -1102,7 +1102,7 @@ namespace Files.ViewModels
                     case 1: // Enumerated with StorageFolder
                         PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-                        WatchForStorageFolderChanges(currentStorageFolder.Folder);
+                        WatchForStorageFolderChanges(currentStorageFolder?.Folder);
                         break;
 
                     case -1: // Enumeration failed
@@ -1596,7 +1596,7 @@ namespace Files.ViewModels
                 options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
                 itemQueryResult = rootFolder.CreateItemQueryWithOptions(options);
                 itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
-                watchedItemsOperation = itemQueryResult.GetItemsAsync();
+                watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
             });
         }
 
