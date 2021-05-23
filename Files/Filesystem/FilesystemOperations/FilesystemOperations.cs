@@ -204,7 +204,8 @@ namespace Files.Filesystem
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
                             { "filepath", source.Path },
-                            { "destpath", destination }
+                            { "destpath", destination },
+                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
                         });
                     }
                     errorCode?.Report(fsResult.ErrorCode);
@@ -251,7 +252,8 @@ namespace Files.Filesystem
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
                             { "filepath", source.Path },
-                            { "destpath", destination }
+                            { "destpath", destination },
+                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
                         });
                     }
                 }
@@ -414,7 +416,8 @@ namespace Files.Filesystem
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "MoveItem" },
                                 { "filepath", source.Path },
-                                { "destpath", destination }
+                                { "destpath", destination },
+                                { "overwrite", collision == NameCollisionOption.ReplaceExisting }
                             });
                         }
                     }
@@ -436,7 +439,7 @@ namespace Files.Filesystem
                     if (fsResult)
                     {
                         var file = (StorageFile)sourceResult;
-                        var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                        var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
 
                         if (fsResultMove == FileSystemStatusCode.AlreadyExists)
                         {
@@ -458,7 +461,8 @@ namespace Files.Filesystem
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveItem" },
                             { "filepath", source.Path },
-                            { "destpath", destination }
+                            { "destpath", destination },
+                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
                         });
                     }
                 }
@@ -679,7 +683,8 @@ namespace Files.Filesystem
                             { "Arguments", "FileOperation" },
                             { "fileop", "RenameItem" },
                             { "filepath", source.Path },
-                            { "newName", newName }
+                            { "newName", newName },
+                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
                         });
                         if (fsResult)
                         {

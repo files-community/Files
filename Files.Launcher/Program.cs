@@ -883,9 +883,11 @@ namespace FilesFullTrust
                 case "RenameItem":
                     var fileToRenamePath = (string)message["filepath"];
                     var newName = (string)message["newName"];
+                    var overwriteOnRename = (bool)message["overwrite"];
                     using (var op = new ShellFileOperations())
                     {
                         op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
                         using var shi = new ShellItem(fileToRenamePath);
                         op.QueueRenameOperation(shi, newName);
                         var renameTcs = new TaskCompletionSource<bool>();
@@ -899,9 +901,11 @@ namespace FilesFullTrust
                 case "MoveItem":
                     var fileToMovePath = (string)message["filepath"];
                     var moveDestination = (string)message["destpath"];
+                    var overwriteOnMove = (bool)message["overwrite"];
                     using (var op = new ShellFileOperations())
                     {
                         op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
                         using var shi = new ShellItem(fileToMovePath);
                         using var shd = new ShellFolder(Path.GetDirectoryName(moveDestination));
                         op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination));
@@ -916,9 +920,11 @@ namespace FilesFullTrust
                 case "CopyItem":
                     var fileToCopyPath = (string)message["filepath"];
                     var copyDestination = (string)message["destpath"];
+                    var overwriteOnCopy = (bool)message["overwrite"];
                     using (var op = new ShellFileOperations())
                     {
                         op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
                         using var shi = new ShellItem(fileToCopyPath);
                         using var shd = new ShellFolder(Path.GetDirectoryName(copyDestination));
                         op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination));
