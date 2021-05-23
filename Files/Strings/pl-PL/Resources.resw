@@ -1374,9 +1374,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Usuń</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Buforuj pliki i foldery dla lepszej wydajności</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Anuluj</value>
   </data>
@@ -1667,12 +1664,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Odłącz</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Równoległy limit wyprzedzającego buforowania pamięci podręcznej (mniejsza ilość powinna działać lepiej dla dysków twardych)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Używaj wyprzedzającego buforowania (wstępne wczytywanie wpisów w podrzędnych katalogach podczas nawigacji)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Więcej opcji paczek</value>

@@ -1128,9 +1128,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>הסר</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>לשיפור ביצועים שמור קבצים ותיקיות בזכרון מטמון</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>ביטול</value>
   </data>

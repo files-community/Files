@@ -1377,9 +1377,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Umístění</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Indexovat soubory a složky pro lepší výkon</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Přidat</value>
   </data>

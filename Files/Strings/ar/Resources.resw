@@ -1368,9 +1368,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>المسار الأصلي</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>ملفات ومجلدات ذاكرة التخزين المؤقت لأداء أفضل</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>إضافة</value>
   </data>

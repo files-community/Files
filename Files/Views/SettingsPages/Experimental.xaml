@@ -42,29 +42,6 @@
                     IsOn="{Binding ShowFileOwner, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsUseFileListCache"
-                    Header="Cache files and folders for better performance"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding UseFileListCache, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="SettingsUsePreemptiveCache"
-                    Header="Use preemptive cache (preload entries in child directories on navigation)"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsEnabled="{Binding UseFileListCache, Mode=OneWay}"
-                    IsOn="{Binding UsePreemptiveCache, Mode=TwoWay}" />
-
-                <controls:NumberBox
-                    x:Uid="PreemptiveCacheParallelLimit"
-                    HorizontalAlignment="Left"
-                    Header="Preemptive cache parallel limit (smaller numbers should work better for hard drives)"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(viewModel.UseFileListCache, viewModel.UsePreemptiveCache), Mode=OneWay}"
-                    Minimum="1"
-                    SpinButtonPlacementMode="Inline"
-                    Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" />
-
-                <ToggleSwitch
                     x:Uid="SettingsUseNewDetailsView"
                     Header="Use new details view"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"

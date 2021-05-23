@@ -261,7 +261,6 @@
     <Compile Include="Helpers\CollectionDebugView.cs" />
     <Compile Include="Helpers\DynamicDialogFactory.cs" />
     <Compile Include="Helpers\Extension.cs" />
-    <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />

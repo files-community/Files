@@ -63,18 +63,13 @@ namespace Files.ViewModels
 
         public event EventHandler DirectoryInfoUpdated;
 
-        private string customPath;
-
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         private NamedPipeAsAppServiceConnection Connection;
 
         public string WorkingDirectory
         {
-            get
-            {
-                return currentStorageFolder?.Path ?? customPath;
-            }
+            get; private set;
         }
 
         private StorageFolderWithPath currentStorageFolder;
@@ -92,12 +87,11 @@ namespace Files.ViewModels
 
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
-        public async Task<FilesystemResult> SetWorkingDirectoryAsync(string value)
+        public async Task SetWorkingDirectoryAsync(string value)
         {
-            var navigated = (FilesystemResult)true;
             if (string.IsNullOrWhiteSpace(value))
             {
-                return new FilesystemResult(FileSystemStatusCode.NotAFolder);
+                return;
             }
 
             bool isLibrary = false;
@@ -114,27 +108,10 @@ namespace Files.ViewModels
             {
                 workingRoot = null;
                 currentStorageFolder = null;
-                customPath = value;
             }
             else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
             {
                 workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
-            }
-
-            if (!isLibrary && Path.IsPathRooted(value))
-            {
-                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
-                if (res)
-                {
-                    currentStorageFolder = res.Result;
-                    customPath = null;
-                }
-                else
-                {
-                    currentStorageFolder = null;
-                    customPath = value;
-                }
-                navigated = res;
             }
 
             if (value == "Home" || value == "NewTab".GetLocalized())
@@ -146,8 +123,8 @@ namespace Files.ViewModels
                 App.JumpList.AddFolderToJumpList(value);
             }
 
+            WorkingDirectory = value;
             NotifyPropertyChanged(nameof(WorkingDirectory));
-            return navigated;
         }
 
         public async Task<FilesystemResult<StorageFolder>> GetFolderFromPathAsync(string value)
@@ -438,12 +415,20 @@ namespace Files.ViewModels
             {
                 if (filesAndFolders == null || filesAndFolders.Count == 0)
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    Action action = () =>
                     {
                         FilesAndFolders.Clear();
                         IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-                    });
+                    };
+                    if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+                    {
+                        action();
+                    }
+                    else
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(action);
+                    }
                     return;
                 }
 
@@ -458,7 +443,7 @@ namespace Files.ViewModels
                 // After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
                 // so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
                 // run safely without needs of dispatching to UI thread
-                await Task.Run(() =>
+                Action applyChangesAction = () =>
                 {
                     var startIndex = -1;
                     var tempList = new List<ListedItem>();
@@ -508,21 +493,32 @@ namespace Files.ViewModels
                     {
                         FilesAndFolders.RemoveRange(filesAndFolders.Count, FilesAndFolders.Count - filesAndFolders.Count);
                     }
-                });
 
-                if (folderSettings.DirectoryGroupOption != GroupOption.None)
-                {
-                    OrderGroups();
-                }
+                    if (folderSettings.DirectoryGroupOption != GroupOption.None)
+                    {
+                        OrderGroups();
+                    }
+                };
 
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                Action updateUIAction = () =>
                 {
                     // trigger CollectionChanged with NotifyCollectionChangedAction.Reset
                     // once loading is completed so that UI can be updated
                     FilesAndFolders.EndBulkOperation();
                     IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
                     DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-                });
+                };
+
+                if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+                {
+                    await Task.Run(applyChangesAction);
+                    updateUIAction();
+                }
+                else
+                {
+                    applyChangesAction();
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(updateUIAction);
+                }
             }
             catch (Exception ex)
             {
@@ -538,17 +534,25 @@ namespace Files.ViewModels
                 return Task.CompletedTask;
             }
 
-            return Task.Run(() =>
+            Action action = () =>
             {
                 if (filesAndFolders.Count == 0)
                 {
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
+            };
 
+            if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+            {
+                return Task.Run(action);
+            }
+            else
+            {
+                action();
                 return Task.CompletedTask;
-            });
+            }
         }
 
         private void OrderGroups(CancellationToken token = default)
@@ -743,7 +747,7 @@ namespace Files.ViewModels
                             matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageFile != null)
                             {
-                                if (!item.LoadFileIcon) // Loading icon from fulltrust process failed
+                                if (fileIconInfo.IconData == null) // Loading icon from fulltrust process failed
                                 {
                                     using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                                     using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
@@ -751,9 +755,8 @@ namespace Files.ViewModels
                                     {
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                                         {
-                                            item.FileImage = new BitmapImage();
                                             item.CustomIconData = await Thumbnail.ToByteArrayAsync();
-                                            await item.FileImage.SetSourceAsync(Thumbnail);
+                                            item.FileImage = await item.CustomIconData.ToBitmapAsync();
                                             item.LoadUnknownTypeGlyph = false;
                                             item.LoadFileIcon = true;
                                         });
@@ -948,12 +951,12 @@ namespace Files.ViewModels
             return null;
         }
 
-        public void RefreshItems(string previousDir, bool useCache = true)
+        public void RefreshItems(string previousDir)
         {
-            RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, useCache);
+            RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir);
         }
 
-        private async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
+        private async void RapidAddItemsToCollectionAsync(string path, string previousDir)
         {
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
@@ -997,13 +1000,13 @@ namespace Files.ViewModels
                         var libItem = new LibraryItem(library);
                         foreach (var folder in library.Folders)
                         {
-                            await RapidAddItemsToCollection(folder, useCache, libItem);
+                            await RapidAddItemsToCollection(folder, libItem);
                         }
                     }
                 }
                 else
                 {
-                    await RapidAddItemsToCollection(path, useCache);
+                    await RapidAddItemsToCollection(path);
                 }
 
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
@@ -1017,7 +1020,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task RapidAddItemsToCollection(string path, bool useCache, LibraryItem library = null)
+        private async Task RapidAddItemsToCollection(string path, LibraryItem library = null)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -1026,47 +1029,6 @@ namespace Files.ViewModels
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-
-            List<string> cacheResult = null;
-
-            if (useCache)
-            {
-                cacheResult = await Task.Run(async () =>
-                {
-                    CacheEntry cacheEntry = await fileListCache.ReadFileListFromCache(path, addFilesCTS.Token);
-
-                    if (cacheEntry != null)
-                    {
-                        for (var i = 0; i < Math.Min(32, cacheEntry.FileList.Count); i++)
-                        {
-                            var entry = cacheEntry.FileList[i];
-                            if (!entry.IsHiddenItem || AppSettings.AreHiddenItemsVisible)
-                            {
-                                if (entry.FileImage == null)
-                                {
-                                    entry.LoadFolderGlyph = entry.PrimaryItemAttribute == StorageItemTypes.Folder;
-                                    entry.LoadUnknownTypeGlyph = entry.PrimaryItemAttribute == StorageItemTypes.File && !entry.IsLinkItem;
-                                    entry.LoadWebShortcutGlyph = entry.PrimaryItemAttribute == StorageItemTypes.File && entry.IsLinkItem;
-                                    entry.LoadFileIcon = false;
-                                }
-                                filesAndFolders.Add(entry);
-                            }
-                            if (addFilesCTS.IsCancellationRequested)
-                            {
-                                return null;
-                            }
-                        }
-                        return filesAndFolders.Select(i => i.ItemPath).ToList();
-                    }
-                    return null;
-                });
-                if (cacheResult != null)
-                {
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
-                    IsLoadingItems = false; // Hide progress indicator if loaded from cache
-                }
-            }
 
             var isRecycleBin = path.StartsWith(AppSettings.RecycleBinPath);
             if (isRecycleBin ||
@@ -1079,20 +1041,13 @@ namespace Files.ViewModels
             }
             else
             {
-                var storageFolder = currentStorageFolder;
-                if (Path.IsPathRooted(path))
-                {
-                    var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-                    if (res)
-                    {
-                        storageFolder = res.Result;
-                    }
-                }
-                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, storageFolder, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, cacheResult, cacheOnly: false, library);
+                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
+                IsLoadingItems = false; // Hide progressbar after enumeration
                 switch (enumerated)
                 {
                     case 0: // Enumerated with FindFirstFileExFromApp
                         // Is folder synced to cloud storage?
+                        currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
                         var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
                         PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
 
@@ -1108,54 +1063,6 @@ namespace Files.ViewModels
                     case -1: // Enumeration failed
                     default:
                         break;
-                }
-
-                var parallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
-                if (App.AppSettings.UseFileListCache && App.AppSettings.UsePreemptiveCache && parallelLimit > 0 && !addFilesCTS.IsCancellationRequested)
-                {
-                    void CacheSubfolders(IEnumerable<string> folderPaths, StorageFolderWithPath parentFolder, LibraryItem library)
-                    {
-                        Task.Run(async () =>
-                        {
-                            try
-                            {
-                                await folderPaths.AsyncParallelForEach(async folderPath =>
-                                {
-                                    if (addFilesCTS.IsCancellationRequested)
-                                    {
-                                        return;
-                                    }
-                                    StorageFolderWithPath storageFolder = null;
-                                    if (Path.IsPathRooted(folderPath))
-                                    {
-                                        var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(folderPath, null, parentFolder));
-                                        if (res)
-                                        {
-                                            storageFolder = res.Result;
-                                        }
-                                    }
-                                    await EnumerateItemsFromStandardFolderAsync(folderPath, storageFolder, folderSettings.GetLayoutType(folderPath, false), addFilesCTS.Token, null, cacheOnly: true, library);
-                                }, maxDegreeOfParallelism: parallelLimit);
-                            }
-                            catch (Exception ex)
-                            {
-                                // ignore exception. This is fine, it's only a caching that can fail
-                                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-                            }
-                        }).Forget();
-                    }
-
-                    // run background tasks to iterate through folders and cache all of them preemptively
-                    CacheSubfolders(filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder && !e.IsLibraryItem).Select(e => e.ItemPath), storageFolder, library);
-
-                    // run background tasks to iterate through library folders and cache all of them preemptively
-                    foreach (var libFile in filesAndFolders.Where(e => e.IsLibraryItem))
-                    {
-                        if (App.LibraryManager.TryGetLibrary(libFile.ItemPath, out LibraryLocationItem lib) && !lib.IsEmpty)
-                        {
-                            CacheSubfolders(lib.Folders, null, new LibraryItem(lib));
-                        }
-                    }
                 }
             }
 
@@ -1254,35 +1161,39 @@ namespace Files.ViewModels
             }
         }
 
-        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, StorageFolderWithPath storageFolderForGivenPath, Type sourcePageType, CancellationToken cancellationToken, List<string> skipItems, bool cacheOnly = false, LibraryItem library = null)
+        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder =
                 path == App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\'); // Use storage folder for Box Drive (#4629)
 
             StorageFolder rootFolder = null;
-            var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
-            if (res)
+
+            if (FolderHelpers.CheckFolderAccessWithWin32(path))
             {
-                rootFolder = res.Result;
+                // Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
+                currentStorageFolder = null;
             }
             else if (workingRoot != null)
             {
-                if (storageFolderForGivenPath == null)
+                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
+                if (!res)
                 {
                     return -1;
                 }
-                rootFolder = storageFolderForGivenPath.Folder;
+                currentStorageFolder = res.Result;
+                rootFolder = currentStorageFolder.Folder;
                 enumFromStorageFolder = true;
             }
-            else if (!FolderHelpers.CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
+            else
             {
-                if (cacheOnly)
+                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+                if (res)
                 {
-                    return -1;
+                    currentStorageFolder = res.Result;
+                    rootFolder = currentStorageFolder.Folder;
                 }
-
-                if (res == FileSystemStatusCode.Unauthorized)
+                else if (res == FileSystemStatusCode.Unauthorized)
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
@@ -1307,26 +1218,30 @@ namespace Files.ViewModels
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
-            if (!cacheOnly && await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
+            if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
             {
-                var bitlockerDialog = new Files.Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
-                var bitlockerResult = await bitlockerDialog.ShowAsync();
-                if (bitlockerResult == ContentDialogResult.Primary)
+                rootFolder ??= await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
+                if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                 {
-                    var userInput = bitlockerDialog.storedPasswordInput;
-                    if (Connection != null)
+                    var bitlockerDialog = new Files.Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
+                    var bitlockerResult = await bitlockerDialog.ShowAsync();
+                    if (bitlockerResult == ContentDialogResult.Primary)
                     {
-                        var value = new ValueSet();
-                        value.Add("Arguments", "Bitlocker");
-                        value.Add("action", "Unlock");
-                        value.Add("drive", Path.GetPathRoot(path));
-                        value.Add("password", userInput);
-                        _ = await Connection.SendMessageForResponseAsync(value);
-
-                        if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
+                        var userInput = bitlockerDialog.storedPasswordInput;
+                        if (Connection != null)
                         {
-                            // Drive is still locked
-                            await DialogDisplayHelper.ShowDialogAsync("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
+                            var value = new ValueSet();
+                            value.Add("Arguments", "Bitlocker");
+                            value.Add("action", "Unlock");
+                            value.Add("drive", Path.GetPathRoot(path));
+                            value.Add("password", userInput);
+                            _ = await Connection.SendMessageForResponseAsync(value);
+
+                            if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
+                            {
+                                // Drive is still locked
+                                await DialogDisplayHelper.ShowDialogAsync("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
+                            }
                         }
                     }
                 }
@@ -1345,7 +1260,7 @@ namespace Files.ViewModels
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? storageFolderForGivenPath.Path : rootFolder.Path,
+                    ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? currentStorageFolder.Path : rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
@@ -1358,11 +1273,8 @@ namespace Files.ViewModels
                         currentFolder.ItemDateCreatedReal = dateCreated;
                     }
                 }
-                if (!cacheOnly)
-                {
-                    CurrentFolder = currentFolder;
-                }
-                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, skipItems, cacheOnly);
+                CurrentFolder = currentFolder;
+                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
                 return 1;
             }
             else
@@ -1420,73 +1332,36 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0,
                 };
-                if (!cacheOnly)
-                {
-                    CurrentFolder = currentFolder;
-                }
+                CurrentFolder = currentFolder;
 
                 if (hFile == IntPtr.Zero)
                 {
-                    if (!cacheOnly)
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
-                    }
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
                     return -1;
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, skipItems, cacheOnly);
+                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
                     return 1;
                 }
                 else
                 {
-                    List<ListedItem> fileList;
-                    if (cacheOnly)
+                    List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
                     {
-                        fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, 32, null);
-                        await SaveFileListToCacheAsync(path, fileList);
-                    }
-                    else
-                    {
-                        fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, skipItems, -1, intermediateAction: async (intermediateList) =>
-                        {
-                            filesAndFolders.AddRange(intermediateList);
-                            await OrderFilesAndFoldersAsync();
-                            await ApplyFilesAndFoldersChangesAsync();
-                        });
-
-                        filesAndFolders.AddRange(fileList);
+                        filesAndFolders.AddRange(intermediateList);
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
-                    }
+                    });
 
-                    if (skipItems != null)
-                    {
-                        // remove invalid cache entries
-                        var invalidEntries = filesAndFolders.Where(i => skipItems.Contains(i.ItemPath)).ToList();
-                        foreach (var i in invalidEntries)
-                        {
-                            filesAndFolders.Remove(i);
-                        }
-                    }
-
-                    if (!cacheOnly)
-                    {
-                        if (!addFilesCTS.IsCancellationRequested)
-                        {
-                            await SaveFileListToCacheAsync(path, filesAndFolders);
-                        }
-                        else
-                        {
-                            await fileListCache.SaveFileListToCache(path, null);
-                        }
-                    }
+                    filesAndFolders.AddRange(fileList);
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
                     return 0;
                 }
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, List<string> skipItems, bool cacheOnly)
+        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -1494,62 +1369,24 @@ namespace Files.ViewModels
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
-            List<ListedItem> finalList;
-            if (cacheOnly)
+            List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
+                rootFolder,
+                currentStorageFolder,
+                returnformat,
+                sourcePageType,
+                cancellationToken,
+                -1,
+                async (intermediateList) =>
             {
-                finalList = await UniversalStorageEnumerator.ListEntries(
-                    rootFolder,
-                    currentStorageFolder,
-                    returnformat,
-                    sourcePageType,
-                    cancellationToken,
-                    null,
-                    32,
-                    null);
-                await SaveFileListToCacheAsync(path, finalList);
-            }
-            else
-            {
-                finalList = await UniversalStorageEnumerator.ListEntries(
-                    rootFolder,
-                    currentStorageFolder,
-                    returnformat,
-                    sourcePageType,
-                    cancellationToken,
-                    skipItems,
-                    -1,
-                    async (intermediateList) =>
-                {
-                    filesAndFolders.AddRange(intermediateList);
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
-                });
-                filesAndFolders.AddRange(finalList);
+                filesAndFolders.AddRange(intermediateList);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
-            }
+            });
+            filesAndFolders.AddRange(finalList);
+            await OrderFilesAndFoldersAsync();
+            await ApplyFilesAndFoldersChangesAsync();
 
-            if (skipItems != null)
-            {
-                // remove invalid cache entries
-                var invalidEntries = filesAndFolders.Where(i => skipItems.Contains(i.ItemPath)).ToList();
-                foreach (var i in invalidEntries)
-                {
-                    filesAndFolders.Remove(i);
-                }
-            }
             stopwatch.Stop();
-            if (!cacheOnly)
-            {
-                if (!addFilesCTS.IsCancellationRequested)
-                {
-                    await SaveFileListToCacheAsync(path, filesAndFolders);
-                }
-                else
-                {
-                    await fileListCache.SaveFileListToCache(path, null);
-                }
-            }
             Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
@@ -1780,7 +1617,6 @@ namespace Files.ViewModels
 
                     await OrderFilesAndFoldersAsync();
                     await ApplyFilesAndFoldersChangesAsync();
-                    await SaveFileListToCacheAsync(WorkingDirectory, filesAndFolders);
                 }
             }
             catch
@@ -1978,16 +1814,6 @@ namespace Files.ViewModels
             {
                 enumFolderSemaphore.Release();
             }
-        }
-
-        private Task SaveFileListToCacheAsync(string path, IEnumerable<ListedItem> fileList)
-        {
-            return fileListCache.SaveFileListToCache(path, new CacheEntry
-            {
-                CurrentFolder = CurrentFolder,
-                // since filesAndFolders could be mutated, memory cache needs a copy of current list
-                FileList = fileList.Take(32).ToList()
-            });
         }
 
         private async Task RemoveFileOrFolderAsync(ListedItem item)

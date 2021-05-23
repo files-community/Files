@@ -1380,9 +1380,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Remover</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Armazene arquivos e pastas em cache para melhor desempenho</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancelar</value>
   </data>
@@ -1634,12 +1631,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Desconectar</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Limite preventivo paralelo de cache (números menores devem funcionar melhor para discos rígidos)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Usar cache preemptivo (entradas de pré-carregamento em diretórios filho na navegação)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mais opções de pacotes</value>
