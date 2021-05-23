@@ -199,28 +199,13 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized)
                     {
-                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        fsResult = await PerformAdminOperation(new ValueSet()
                         {
-                            if (associatedInstance.ServiceConnection != null &&
-                                await associatedInstance.ServiceConnection.Elevate())
-                            {
-                                // Try again with fulltrust process (admin)
-                                if (associatedInstance.ServiceConnection != null)
-                                {
-                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-                                    {
-                                        { "Arguments", "FileOperation" },
-                                        { "fileop", "CopyItem" },
-                                        { "filepath", source.Path },
-                                        { "destpath", destination }
-                                    });
-                                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                        && response.Get("Success", false));
-                                }
-                            }
-                        }
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "CopyItem" },
+                            { "filepath", source.Path },
+                            { "destpath", destination }
+                        });
                     }
                     errorCode?.Report(fsResult.ErrorCode);
                     if (!fsResult)
@@ -261,28 +246,13 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized)
                     {
-                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        fsResult = await PerformAdminOperation(new ValueSet()
                         {
-                            if (associatedInstance.ServiceConnection != null &&
-                                await associatedInstance.ServiceConnection.Elevate())
-                            {
-                                // Try again with fulltrust process (admin)
-                                if (associatedInstance.ServiceConnection != null)
-                                {
-                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-                                    {
-                                        { "Arguments", "FileOperation" },
-                                        { "fileop", "CopyItem" },
-                                        { "filepath", source.Path },
-                                        { "destpath", destination }
-                                    });
-                                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                        && response.Get("Success", false));
-                                }
-                            }
-                        }
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "CopyItem" },
+                            { "filepath", source.Path },
+                            { "destpath", destination }
+                        });
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -439,28 +409,13 @@ namespace Files.Filesystem
                         }
                         if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                         {
-                            var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                            var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                            if (elevateConfirmResult == ContentDialogResult.Primary)
+                            fsResult = await PerformAdminOperation(new ValueSet()
                             {
-                                if (associatedInstance.ServiceConnection != null &&
-                                    await associatedInstance.ServiceConnection.Elevate())
-                                {
-                                    // Try again with fulltrust process (admin)
-                                    if (associatedInstance.ServiceConnection != null)
-                                    {
-                                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-                                        {
-                                            { "Arguments", "FileOperation" },
-                                            { "fileop", "MoveItem" },
-                                            { "filepath", source.Path },
-                                            { "destpath", destination }
-                                        });
-                                        fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                            && response.Get("Success", false));
-                                    }
-                                }
-                            }
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "MoveItem" },
+                                { "filepath", source.Path },
+                                { "destpath", destination }
+                            });
                         }
                     }
                     errorCode?.Report(fsResult.ErrorCode);
@@ -498,28 +453,13 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                     {
-                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        fsResult = await PerformAdminOperation(new ValueSet()
                         {
-                            if (associatedInstance.ServiceConnection != null &&
-                                await associatedInstance.ServiceConnection.Elevate())
-                            {
-                                // Try again with fulltrust process (admin)
-                                if (associatedInstance.ServiceConnection != null)
-                                {
-                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-                                        {
-                                            { "Arguments", "FileOperation" },
-                                            { "fileop", "MoveItem" },
-                                            { "filepath", source.Path },
-                                            { "destpath", destination }
-                                        });
-                                    fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                        && response.Get("Success", false));
-                                }
-                            }
-                        }
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "MoveItem" },
+                            { "filepath", source.Path },
+                            { "destpath", destination }
+                        });
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -616,27 +556,13 @@ namespace Files.Filesystem
                 }
                 if (!fsResult)
                 {
-                    var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                    var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                    if (elevateConfirmResult == ContentDialogResult.Primary)
+                    fsResult = await PerformAdminOperation(new ValueSet()
                     {
-                        if (await associatedInstance.ServiceConnection?.Elevate())
-                        {
-                            // Try again with fulltrust process (admin)
-                            if (associatedInstance.ServiceConnection != null)
-                            {
-                                var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-                                {
-                                    { "Arguments", "FileOperation" },
-                                    { "fileop", "DeleteItem" },
-                                    { "filepath", source.Path },
-                                    { "permanently", permanently }
-                                });
-                                fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                    && response.Get("Success", false));
-                            }
-                        }
-                    }
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "DeleteItem" },
+                        { "filepath", source.Path },
+                        { "permanently", permanently }
+                    });
                 }
             }
             else if (fsResult == FileSystemStatusCode.InUse)
@@ -748,32 +674,17 @@ namespace Files.Filesystem
                     }
                     else
                     {
-                        var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-                        var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-                        if (elevateConfirmResult == ContentDialogResult.Primary)
+                        var fsResult = await PerformAdminOperation(new ValueSet()
                         {
-                            if (associatedInstance.ServiceConnection != null &&
-                                await associatedInstance.ServiceConnection.Elevate())
-                            {
-                                // Try again with fulltrust process (admin)
-                                if (associatedInstance.ServiceConnection != null)
-                                {
-                                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
-                                    {
-                                        { "Arguments", "FileOperation" },
-                                        { "fileop", "RenameItem" },
-                                        { "filepath", source.Path },
-                                        { "newName", newName }
-                                    });
-                                    var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                                        && response.Get("Success", false));
-                                    if (fsResult)
-                                    {
-                                        errorCode?.Report(FileSystemStatusCode.Success);
-                                        return new StorageHistory(FileOperationType.Rename, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
-                                    }
-                                }
-                            }
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "RenameItem" },
+                            { "filepath", source.Path },
+                            { "newName", newName }
+                        });
+                        if (fsResult)
+                        {
+                            errorCode?.Report(FileSystemStatusCode.Success);
+                            return new StorageHistory(FileOperationType.Rename, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
                         }
                     }
                 }
@@ -955,6 +866,27 @@ namespace Files.Filesystem
             App.JumpList.RemoveFolder(sourceFolder.Path);
 
             return createdRoot;
+        }
+
+        private async Task<FilesystemResult> PerformAdminOperation(ValueSet operation)
+        {
+            var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
+            var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
+            if (elevateConfirmResult == ContentDialogResult.Primary)
+            {
+                if (associatedInstance.ServiceConnection != null &&
+                    await associatedInstance.ServiceConnection.Elevate())
+                {
+                    // Try again with fulltrust process (admin)
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(operation);
+                        return (FilesystemResult)(status == AppServiceResponseStatus.Success
+                            && response.Get("Success", false));
+                    }
+                }
+            }
+            return (FilesystemResult)false;
         }
 
         #endregion Helpers
