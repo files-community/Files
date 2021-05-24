@@ -13,13 +13,12 @@ namespace Files.UserControls.FilePreviews
         public HtmlPreview(HtmlPreviewViewModel model)
         {
             ViewModel = model;
-            ViewModel.LoadedEvent += ViewModel_LoadedEvent;
             InitializeComponent();
         }
 
         public HtmlPreviewViewModel ViewModel { get; set; }
 
-        private void ViewModel_LoadedEvent(object sender, EventArgs e)
+        private void WebViewControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             WebViewControl.NavigateToString(ViewModel.TextValue);
         }

@@ -11,8 +11,6 @@ namespace Files
 {
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
-        IStatusCenterActions StatusCenterActions { get; }
-
         //Interaction InteractionOperations { get; }
 
         ItemViewModel FilesystemViewModel { get; }

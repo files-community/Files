@@ -205,6 +205,13 @@ namespace Files.ViewModels
                 return new RichTextPreview(model);
             }
 
+            if(CodePreviewViewModel.Extensions.Contains(ext))
+            {
+                var model = new CodePreviewViewModel(item);
+                await model.LoadAsync();
+                return new CodePreview(model);
+            }
+
             var control = await TextPreviewViewModel.TryLoadAsTextAsync(SelectedItem);
             if (control != null)
             {

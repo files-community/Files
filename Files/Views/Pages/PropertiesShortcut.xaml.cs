@@ -8,13 +8,16 @@ namespace Files.Views
     {
         public PropertiesShortcut()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
+        #pragma warning disable 1998
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
             return false;
         }
+        #pragma warning restore 1998
+
         public override void Dispose()
         {
         }

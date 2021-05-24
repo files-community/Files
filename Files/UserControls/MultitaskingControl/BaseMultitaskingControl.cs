@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.Helpers;
+using Files.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Files.UserControls.MultitaskingControl
 {
     public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
+        private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
+
         protected ITabItemContent CurrentSelectedAppInstance;
 
         public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
@@ -90,6 +93,28 @@ namespace Files.UserControls.MultitaskingControl
         public List<ITabItemContent> GetAllTabInstances()
         {
             return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
+        }
+
+        public void CloseTabsToTheRight(object sender, RoutedEventArgs e)
+        {
+            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem, this);
+        }
+
+        public async void ReopenClosedTab(object sender, RoutedEventArgs e)
+        {
+            if (!isRestoringClosedTab && RecentlyClosedTabs.Any())
+            {
+                isRestoringClosedTab = true;
+                ITabItem lastTab = RecentlyClosedTabs.Last();
+                RecentlyClosedTabs.Remove(lastTab);
+                await MainPageViewModel.AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
+                isRestoringClosedTab = false;
+            }
+        }
+
+        public async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
+        {
+            await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem, this);
         }
 
         public void CloseTab(TabItem tabItem)

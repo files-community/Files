@@ -48,6 +48,7 @@ namespace Files.DataModels
                 Section = SectionType.Home,
                 Font = InteractionViewModel.FontName,
                 IsDefaultLocation = true,
+                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -266,11 +267,19 @@ namespace Files.DataModels
                     Font = InteractionViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Icon = new Windows.UI.Xaml.Media.Imaging.SvgImageSource(GlyphHelper.GetIconUri(path)),
-                    IconSource = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
+
+                var getImage = res.Result?.GetThumbnailAsync(
+                    Windows.Storage.FileProperties.ThumbnailMode.ListView,
+                    24,
+                    Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+
+                if(getImage != null)
+                {
+                    await locationItem.SetBitmapImage(await getImage);
+                }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
                 {

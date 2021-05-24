@@ -2,25 +2,23 @@
     x:Class="Files.UserControls.Widgets.WidgetsListControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.UserControls.Widgets"
-    xmlns:vm="using:Files.ViewModels.Widgets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:vm="using:Files.ViewModels.Widgets"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    mc:Ignorable="d">
 
     <Border>
         <Grid>
-            <ListView
-                SelectionMode="None"
-                ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}">
+            <ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
 
                 <!--  Remove Reveal Highlight Effect  -->
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <!--  Spacing  -->
-                        <Setter Property="Margin" Value="0,0,0,24" />
+                        <Setter Property="Margin" Value="14" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">

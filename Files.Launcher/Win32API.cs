@@ -136,7 +136,7 @@ namespace FilesFullTrust
                     return (iconStr, null, false);
                 }
 
-                bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+                bool isCustom = true;
                 User32.DestroyIcon(shfi.hIcon);
                 Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
                 using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);

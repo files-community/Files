@@ -8,17 +8,15 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding TitleText, Mode=OneWay}"
-    CloseButtonStyle="{StaticResource DefaultButtonStyle}"
     CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
     IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"
-    PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
-    SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <!--  No need to specify CommandParameter - `e` is passed by default  -->

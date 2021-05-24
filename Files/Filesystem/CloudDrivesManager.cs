@@ -1,5 +1,6 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
+using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -48,6 +49,12 @@ namespace Files.Filesystem
                     Path = provider.SyncFolder,
                     Type = DriveType.CloudDrive,
                 };
+
+                await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    cloudProviderItem.Icon = await (await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24)).ToBitmapAsync();
+                });
+
                 lock (drivesList)
                 {
                     if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
@@ -98,6 +105,7 @@ namespace Files.Filesystem
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
                             SelectsOnInvoked = false,
+                            Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Add(section);

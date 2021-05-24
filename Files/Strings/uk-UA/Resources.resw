@@ -1335,9 +1335,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Вилучити</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Кешувати файли та папки для швидшої роботи</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Скасувати</value>
   </data>
@@ -1631,12 +1628,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Відключити</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Обмеження кеш-пам’яті (менші числа повинні працювати краще для жорстких дисків)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Використовувати кеш (попередньо завантажувати записи в дочірні каталоги на навігації)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Опції Колекцій</value>

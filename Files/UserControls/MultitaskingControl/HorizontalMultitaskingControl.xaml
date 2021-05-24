@@ -56,7 +56,7 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemMoveTabToNewWindow"
                             x:Uid="HorizontalMultitaskingControlMoveTabToNewWindow"
-                            Click="{x:Bind vm:MainPageViewModel.MoveTabToNewWindow}"
+                            Click="MoveTabToNewWindow"
                             Text="Move tab to new window">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A7;" />
@@ -65,13 +65,13 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemCloseTabsToTheRight"
                             x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
-                            Click="{x:Bind vm:MainPageViewModel.CloseTabsToTheRight}"
+                            Click="CloseTabsToTheRight"
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
                             Text="Close tabs to the right" />
                         <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
                             x:Uid="HorizontalMultitaskingControlReopenClosedTab"
-                            Click="{x:Bind vm:MainPageViewModel.ReopenClosedTab}"
+                            Click="ReopenClosedTab"
                             Text="Reopen closed tab">
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
@@ -535,7 +535,7 @@
 
     <Grid
         HorizontalAlignment="Left"
-        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+        Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
         Canvas.ZIndex="4">
 
         <muxc:TabView

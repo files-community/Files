@@ -1386,9 +1386,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>원래 위치</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>파일, 폴더를 캐싱하여 성능 개선</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>추가</value>
   </data>
@@ -1676,12 +1673,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>연결 끊기</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>선점적 캐시 병렬 실행 제한 (하드 드라이브에는 숫자가 적을수록 좋습니다)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>선점적 캐시 사용 (탐색 시 하위 폴더 내 항목을 미리 로딩합니다)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>추가 보관함 옵션</value>

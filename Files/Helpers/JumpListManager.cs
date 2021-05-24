@@ -46,13 +46,13 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                await AddFolder(path);
+                AddFolder(path);
                 await instance?.SaveAsync();
             }
             catch { }
         }
 
-        private async Task AddFolder(string path)
+        private void AddFolder(string path)
         {
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
@@ -127,7 +127,7 @@ namespace Files.Helpers
 
                 foreach (string path in JumpListItemPaths)
                 {
-                    await AddFolder(path);
+                    AddFolder(path);
                 }
 
                 await instance.SaveAsync();

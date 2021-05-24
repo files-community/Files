@@ -664,7 +664,7 @@
             TabStripDrop="TabStrip_TabStripDrop"
             TabWidthMode="Equal">
             <muxc:TabView.Resources>
-                <ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                <ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SolidBackgroundFillColorBaseBrush" />
                 <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
             </muxc:TabView.Resources>
             <muxc:TabView.TabItemTemplate>

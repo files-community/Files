@@ -2,6 +2,7 @@
 using Files.DataModels;
 using Files.Dialogs;
 using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -47,16 +48,10 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
-
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
-
         public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
-
-        public StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
-
         private bool isCurrentInstance { get; set; } = false;
 
         public bool IsCurrentInstance
@@ -99,6 +94,7 @@ namespace Files.Views
                 {
                     contentPage = value;
                     NotifyPropertyChanged(nameof(ContentPage));
+                    NotifyPropertyChanged(nameof(SlimContentPage));
                 }
             }
         }
@@ -150,6 +146,18 @@ namespace Files.Views
             set { SetValue(CurrentInstanceBorderBrushProperty, value); }
         }
 
+        public Thickness CurrentInstanceBorderThickness
+        {
+            get { return (Thickness)GetValue(CurrentInstanceBorderThicknessProperty); }
+            set { SetValue(CurrentInstanceBorderThicknessProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentInstanceBorderThickness.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
+            DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
+
+
+
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
 
@@ -168,6 +176,10 @@ namespace Files.Views
             cancellationTokenSource = new CancellationTokenSource();
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+
+            NavToolbar.SearchBox.QueryChanged += ModernShellPage_QueryChanged;
+            NavToolbar.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
+            NavToolbar.SearchBox.SuggestionChosen += ModernShellPage_SuggestionChosen;
 
             DisplayFilesystemConsentDialog();
 
@@ -265,7 +277,7 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void ModernShellPage_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -283,7 +295,7 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void ModernShellPage_QueryChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -298,7 +310,7 @@ namespace Files.Views
             }
         }
 
-        private void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void ModernShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
@@ -890,7 +902,8 @@ namespace Files.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            NavigationToolbar.ClearSearchBoxQueryText(true);
+            NavigationToolbar.SearchBox.Query = string.Empty;
+            NavigationToolbar.IsSearchBoxVisible = false;
             if (ItemDisplayFrame.CurrentSourcePageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
@@ -929,6 +942,10 @@ namespace Files.Views
                     {
                         await storageHistoryHelpers.TryRedo();
                     }
+                    break;
+
+                case (true, false, false, true, VirtualKey.F): // ctrl + f
+                    NavigationToolbar.SwitchSearchBoxVisibility();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -1003,7 +1020,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchBoxVisible)
                     {
                         if (InteractionViewModel.IsQuickLookEnabled)
                         {
@@ -1031,6 +1048,25 @@ namespace Files.Views
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
                     await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
                     break;
+
+                case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+                    break;
+                case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+                    break;
+                case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
+                    break;
+                case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
+                    break;
+                case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+                    break;
+                case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
+                    break;
             };
 
             switch (args.KeyboardAccelerator.Key)
@@ -1053,7 +1089,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null, false);
+                ContentOwnedViewModelInstance?.RefreshItems(null);
             });
         }
 
@@ -1161,15 +1197,15 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
             NavigationToolbar.BackRequested -= ModernShellPage_BackNavRequested;
             NavigationToolbar.ForwardRequested -= ModernShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested -= ModernShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
             NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
+            NavigationToolbar.SearchBox.QueryChanged -= ModernShellPage_QueryChanged;
+            NavigationToolbar.SearchBox.QuerySubmitted -= ModernShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.SuggestionChosen -= ModernShellPage_SuggestionChosen;
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
                 navToolbar.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
@@ -1391,7 +1427,7 @@ namespace Files.Views
                 NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
                 if (sourcePageType == typeof(WidgetsPage)
-                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) && 
+                    || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
                     (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GenericFileBrowser2) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();

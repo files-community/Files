@@ -1341,9 +1341,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Убрать</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Кэшировать файлы и папки для повышения производительности</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -1637,12 +1634,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Отключить</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Параллельный предел кэша (меньшие числа должны работать лучше для жестких дисков)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Использовать кеш (предварительная загрузка записей в дочерних каталогах при навигации)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Опции Коллекций</value>

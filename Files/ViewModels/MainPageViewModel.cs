@@ -23,9 +23,7 @@ namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
-        private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
-
-        public static IMultitaskingControl MultitaskingControl { get; set; }
+        public IMultitaskingControl MultitaskingControl { get; set; }
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 
@@ -37,8 +35,6 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedTabItem, value);
         }
 
-        #region Commands
-
         public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
         public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
@@ -46,8 +42,6 @@ namespace Files.ViewModels
         public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
-
-        #endregion Commands
 
         public MainPageViewModel()
         {
@@ -57,8 +51,6 @@ namespace Files.ViewModels
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
         }
-
-        #region Command Implementation
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
@@ -102,6 +94,18 @@ namespace Files.ViewModels
                     // Select the last tab
                     indexToSelect = AppInstances.Count - 1;
                     break;
+
+                case VirtualKey.Tab:
+                    // Select the next tab
+                    if ((App.InteractionViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                    {
+                        indexToSelect = App.InteractionViewModel.TabStripSelectedIndex + 1;
+                    }
+                    else
+                    {
+                        indexToSelect = 0;
+                    }
+                    break;
             }
 
             // Only select the tab if it is in the list
@@ -144,14 +148,10 @@ namespace Files.ViewModels
             }
             else // ctrl + shift + t, restore recently closed tab
             {
-                ReopenClosedTab(null, null);
+                ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
             }
             e.Handled = true;
         }
-
-        #endregion Command Implementation
-
-        #region Public Helpers
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
@@ -444,28 +444,6 @@ namespace Files.ViewModels
             }
         }
 
-        public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
-        {
-            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
-        public static async void ReopenClosedTab(object sender, RoutedEventArgs e)
-        {
-            if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
-            {
-                isRestoringClosedTab = true;
-                ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                isRestoringClosedTab = false;
-            }
-        }
-
-        public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
-        {
-            await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -497,6 +475,5 @@ namespace Files.ViewModels
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
 
-        #endregion Public Helpers
     }
 }

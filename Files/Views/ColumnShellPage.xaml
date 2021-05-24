@@ -226,18 +226,6 @@
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
 
-        <controls:StatusBarControl
-            x:Name="StatusBarControl"
-            Grid.Row="5"
-            Grid.ColumnSpan="3"
-            Height="0"
-            x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-            DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
-            SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-            ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}"
-            StatusCenterViewModel="{x:Bind StatusCenterViewModel}"
-            Visibility="Collapsed" />
-
         <Custom:DropShadowPanel
             Grid.Row="1"
             Grid.ColumnSpan="3"
@@ -282,7 +270,16 @@
                 ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}" />
+                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}">
+                <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+                    <controls:ArrangementOptions
+                        x:Name="ArrangementOptionsFlyoutContent"
+                        IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                        SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
+                        SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
+                        SelectedSortMode="{x:Bind InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
+                </controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
+            </controls:NavigationToolbar>
         </Custom:DropShadowPanel>
     </Grid>
 </Page>

@@ -109,6 +109,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
             ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
             ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
@@ -189,14 +190,31 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private void ItemManipulationModel_RemoveSelectedItemInvoked(object sender, ListedItem e)
+        {
+            if (((IList<ListedItem>)AllView?.ItemsSource)?.Contains(e) ?? false)
+            {
+                AllView.SelectedItems.Remove(e);
+            }
+        }
+
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            List<ListedItem> newSelectedItems = GetAllItems()
-                .Cast<ListedItem>()
-                .Except(SelectedItems)
-                .ToList();
+            if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
+            {
+                var oldSelectedItems = SelectedItems.ToList();
+                ItemManipulationModel.SelectAllItems();
+                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
+            }
+            else
+            {
+                List<ListedItem> newSelectedItems = GetAllItems()
+                    .Cast<ListedItem>()
+                    .Except(SelectedItems)
+                    .ToList();
 
-            ItemManipulationModel.SetSelectedItems(newSelectedItems);
+                ItemManipulationModel.SetSelectedItems(newSelectedItems);
+            }
         }
 
         private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
@@ -223,6 +241,7 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
                 ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
                 ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+                ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
@@ -304,11 +323,6 @@ namespace Files.Views.LayoutModes
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
-        }
-
-        protected override IEnumerable GetAllItems()
-        {
-            return AllView.ItemsSource;
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -690,13 +704,13 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private async void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             tapDebounceTimer.Stop();
-            
+
             if (AppSettings.OpenFoldersNewTab)
             {
-                NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
+                await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ListedItem).ItemPath);
             }
             else
             {

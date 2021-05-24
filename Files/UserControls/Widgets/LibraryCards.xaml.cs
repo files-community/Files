@@ -11,16 +11,13 @@ using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -181,29 +178,13 @@ namespace Files.UserControls.Widgets
                 {
                     return await iconData.ToBitmapAsync();
                 });
-                if(item.Library != null)
+                if (item.Library != null)
                 {
                     item.Library.IconData = iconData;
                 }
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
-        }
-
-        private void GridScaleNormal(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            var element = sender as UIElement;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1);
-        }
-
-        private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            // Source for the scaling: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Implicit%20Animations/ImplicitAnimationsPage.xaml.cs
-            // Search for "Scale Element".
-            var element = sender as UIElement;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1.02f, 1.02f, 1);
         }
 
         private void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => ReloadLibraryItems();
@@ -330,7 +311,7 @@ namespace Files.UserControls.Widgets
             await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
-        private async void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
