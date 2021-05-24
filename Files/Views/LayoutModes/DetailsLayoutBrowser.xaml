@@ -328,8 +328,7 @@
                                 <TextBlock
                                     x:Uid="FileBrowserSortOption_Name"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Name"
-                                    TextWrapping="Wrap" />
+                                    Text="Name" />
                             </Button>
 
                             <controls:GridSplitter
@@ -344,10 +343,7 @@
                                 CommandParameter="OriginalPath"
                                 Style="{StaticResource HeaderButtonStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}">
-                                <TextBlock
-                                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Original path"
-                                    TextWrapping="Wrap" />
+                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Original path" />
                             </Button>
 
                             <controls:GridSplitter
@@ -363,10 +359,7 @@
                                 CommandParameter="DateDeleted"
                                 Style="{StaticResource HeaderButtonStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}">
-                                <TextBlock
-                                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Date deleted"
-                                    TextWrapping="Wrap" />
+                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Date deleted" />
                             </Button>
 
                             <controls:GridSplitter
@@ -384,7 +377,6 @@
                                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                 Text="Status"
                                 TextAlignment="Left"
-                                TextWrapping="Wrap"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -403,8 +395,7 @@
                                 <TextBlock
                                     x:Uid="FileBrowserSortOption_DateModified"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Date modified"
-                                    TextWrapping="Wrap" />
+                                    Text="Date modified" />
                             </Button>
 
                             <controls:GridSplitter
@@ -423,8 +414,7 @@
                                 <TextBlock
                                     x:Uid="FileBrowserSortOption_FileType"
                                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Type"
-                                    TextWrapping="Wrap" />
+                                    Text="Type" />
                             </Button>
 
                             <controls:GridSplitter
