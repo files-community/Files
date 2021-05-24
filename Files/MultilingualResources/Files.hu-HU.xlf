@@ -2911,7 +2911,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutPrivacyPolicyDescription.Text" translate="yes" xml:space="preserve">
           <source>View Files privacy policy</source>
-          <target state="translated">A Files program adatvédelmi irányelve</target>
+          <target state="translated">A Files program adatvédelmi irányelvei</target>
         </trans-unit>
         <trans-unit id="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View Files privacy policy</source>
