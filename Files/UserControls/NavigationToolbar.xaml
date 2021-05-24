@@ -13,8 +13,8 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
     xmlns:uc="using:Files.UserControls"
+    xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="72"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -819,8 +819,8 @@
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                LostFocus="SearchRegion_LostFocus"
                 Escaped="SearchRegion_Escaped"
+                LostFocus="SearchRegion_LostFocus"
                 SuggestionChosen="SearchRegion_SuggestionChosen"
                 Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}">
                 <uc:SearchBox.KeyboardAccelerators>
@@ -832,17 +832,21 @@
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"
                 Grid.Column="2"
-                Width="36" Height="32"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
+                Width="36"
+                Height="32"
                 AccessKey="I"
+                AutomationProperties.Name="Search"
+                Background="Transparent"
                 Click="SearchButton_Click"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                AutomationProperties.Name="Search"
+                Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search (Ctrl+F)">
                 <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F" Modifiers="Control" IsEnabled="False" />
+                    <KeyboardAccelerator
+                        Key="F"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </Button.KeyboardAccelerators>
             </Button>
         </Grid>
