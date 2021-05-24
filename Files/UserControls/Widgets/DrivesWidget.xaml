@@ -219,7 +219,7 @@
                                         Padding="0"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        x:Load="True"
+                                        x:Load="{x:Bind ShowStorageSense}"
                                         AutomationProperties.Name="Open Storage Sense"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
