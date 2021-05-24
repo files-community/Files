@@ -7,14 +7,12 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls.Widgets
@@ -120,22 +118,6 @@ namespace Files.UserControls.Widgets
         public class DrivesWidgetInvokedEventArgs : EventArgs
         {
             public string Path { get; set; }
-        }
-
-        private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            // Source for the scaling: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Implicit%20Animations/ImplicitAnimationsPage.xaml.cs
-            // Search for "Scale Element".
-            var element = sender as UIElement;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1.02f, 1.02f, 1);
-        }
-
-        private void GridScaleNormal(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            var element = sender as UIElement;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1);
         }
 
         public bool ShowMultiPaneControls
