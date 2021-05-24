@@ -626,11 +626,22 @@ namespace Files.UserControls
                 IncrementSize(step);
                 e.Handled = true;
             }
+            
+            // if the user focuses the resizer and attempts to resize while the pane is closed, open it
+            if(!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
+            {
+                IsPaneOpen = true;
+            }
         }
+
+        /// <summary>
+        /// tracks movement for toggling the sidebar
+        /// </summary>
+        double sidebarToggleManipulation = 0;
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if(IsPaneOpen)
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 IncrementSize(e.Delta.Translation.X);
             }
@@ -643,16 +654,43 @@ namespace Files.UserControls
 
         private void IncrementSize(double val)
         {
-            var newSize = AppSettings.SidebarWidth.Value + val;
-            AppSettings.SidebarWidth = new GridLength(newSize >= 0 ? newSize : 0); // passing a negative value will cause an exception
+            if(IsPaneOpen)
+            {
+                var newSize = AppSettings.SidebarWidth.Value + val;
+                AppSettings.SidebarWidth = new GridLength(newSize >= 0 ? newSize : 0); // passing a negative value will cause an exception
+
+                if (newSize < Constants.UI.MinimumSidebarWidth) // if the new size is below the minimum, check whether to toggle the pane
+                {
+                    sidebarToggleManipulation += val;
+                    if (Constants.UI.MinimumSidebarWidth + sidebarToggleManipulation <= 0) // collapse the sidebar
+                    {
+                        sidebarToggleManipulation = 0;
+                        IsPaneOpen = false;
+                    }
+                }
+            } else
+            {
+                sidebarToggleManipulation += val;
+                if (sidebarToggleManipulation >= Constants.UI.MinimumSidebarWidth)
+                {
+                    AppSettings.SidebarWidth = new GridLength(Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
+                    sidebarToggleManipulation = 0;
+                    IsPaneOpen = true;
+                }
+            }
         }
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (IsPaneOpen)
+            if(DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
             }
+        }
+
+        private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            sidebarToggleManipulation = 0;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)

@@ -99,12 +99,12 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-						<muxc:ImageIcon>
-							<muxc:ImageIcon.Source>
-								<BitmapImage UriSource="{x:Bind Logo}"/>
-							</muxc:ImageIcon.Source>
-						</muxc:ImageIcon>
-					</muxc:NavigationViewItem.Icon>
+                        <muxc:ImageIcon>
+                            <muxc:ImageIcon.Source>
+                                <BitmapImage UriSource="{x:Bind Logo}" />
+                            </muxc:ImageIcon.Source>
+                        </muxc:ImageIcon>
+                    </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
@@ -196,7 +196,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
-                            <Grid CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid Background="{TemplateBinding Background}" CornerRadius="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition x:Name="ColumnDefinition1" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneGridLength, FallbackValue=0}" />
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
@@ -209,10 +209,10 @@
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
-									CornerRadius="0"
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="0"
                                     Visibility="Collapsed">
 
                                     <contract7Present:Grid.BackgroundTransition>
@@ -240,29 +240,31 @@
                                         x:DeferLoadStrategy="Lazy"
                                         Fill="{ThemeResource SystemControlForegroundTransparentBrush}"
                                         Visibility="Collapsed" />
+                                </Grid>
 
-                                    <!--  This allows the user to resize the pane  -->
-                                    <Grid
-                                        x:Name="ResizeElementBorder"
-                                        Width="8"
-                                        HorizontalAlignment="Right"
-                                        AllowFocusOnInteraction="True"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0,0,1,0"
-                                        ManipulationDelta="Border_ManipulationDelta"
-                                        ManipulationMode="TranslateX"
-                                        PointerCanceled="Border_PointerExited"
-                                        PointerEntered="Border_PointerEntered"
-                                        PointerExited="Border_PointerExited">
-                                        <UserControl
-                                            x:Uid="ResizeElementKeyboardControl"
-                                            AutomationProperties.Name="Sidebar resizer"
-                                            FocusVisualPrimaryThickness="2"
-                                            IsTabStop="True"
-                                            KeyDown="Border_KeyDown"
-                                            UseSystemFocusVisuals="True" />
-                                    </Grid>
-
+                                <!--  This allows the user to resize the pane  -->
+                                <Grid
+                                    x:Name="ResizeElementBorder"
+                                    Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Width="4"
+                                    HorizontalAlignment="Right"
+                                    AllowFocusOnInteraction="True"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0,0,1,0"
+                                    ManipulationCompleted="ResizeElementBorder_ManipulationCompleted"
+                                    ManipulationDelta="Border_ManipulationDelta"
+                                    ManipulationMode="TranslateX"
+                                    PointerCanceled="Border_PointerExited"
+                                    PointerEntered="Border_PointerEntered"
+                                    PointerExited="Border_PointerExited"
+                                    Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+                                    <UserControl
+                                        x:Uid="ResizeElementKeyboardControl"
+                                        AutomationProperties.Name="Sidebar resizer"
+                                        FocusVisualPrimaryThickness="2"
+                                        IsTabStop="True"
+                                        KeyDown="Border_KeyDown"
+                                        UseSystemFocusVisuals="True" />
                                 </Grid>
 
                                 <!--  This defines the drag area for the title bar  -->
