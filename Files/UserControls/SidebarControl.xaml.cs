@@ -619,11 +619,11 @@ namespace Files.UserControls
 
             if (e.Key == VirtualKey.Left)
             {
-                IncrementSize(-step);
+                SetSize(-step);
                 e.Handled = true;
             } else if(e.Key == VirtualKey.Right)
             {
-                IncrementSize(step);
+                SetSize(step);
                 e.Handled = true;
             }
             
@@ -635,20 +635,17 @@ namespace Files.UserControls
         }
 
         /// <summary>
-        /// tracks movement for toggling the sidebar
-        /// </summary>
-        double sidebarToggleManipulation = 0;
-
-        /// <summary>
         /// true if the user is currently resizing the sidebar
         /// </summary>
         bool dragging;
+
+        double originalSize = 0;
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
-                IncrementSize(e.Delta.Translation.X);
+                SetSize(e.Cumulative.Translation.X);
             }
         }
 
@@ -661,29 +658,28 @@ namespace Files.UserControls
             }
         }
 
-        private void IncrementSize(double val)
+        private void SetSize(double val)
         {
             if(IsPaneOpen)
             {
-                var newSize = AppSettings.SidebarWidth.Value + val;
-                AppSettings.SidebarWidth = new GridLength(newSize >= 0 ? newSize : 0); // passing a negative value will cause an exception
+                var newSize = originalSize + val;
+                if(newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
+                {
+                    AppSettings.SidebarWidth = new GridLength(newSize); // passing a negative value will cause an exception
+                }
 
                 if (newSize < Constants.UI.MinimumSidebarWidth) // if the new size is below the minimum, check whether to toggle the pane
                 {
-                    sidebarToggleManipulation += val;
-                    if (Constants.UI.MinimumSidebarWidth + sidebarToggleManipulation <= 0) // collapse the sidebar
+                    if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength) // collapse the sidebar
                     {
-                        sidebarToggleManipulation = 0;
                         IsPaneOpen = false;
                     }
                 }
             } else
             {
-                sidebarToggleManipulation += val;
-                if (sidebarToggleManipulation >= Constants.UI.MinimumSidebarWidth)
+                if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
                 {
-                    AppSettings.SidebarWidth = new GridLength(Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
-                    sidebarToggleManipulation = 0;
+                    AppSettings.SidebarWidth = new GridLength(Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth)); // set open sidebar length to minimum value to keep it smooth
                     IsPaneOpen = true;
                 }
             }
@@ -700,7 +696,6 @@ namespace Files.UserControls
 
         private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            sidebarToggleManipulation = 0;
             Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             dragging = false;
@@ -721,6 +716,7 @@ namespace Files.UserControls
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
+                originalSize = IsPaneOpen ? AppSettings.SidebarWidth.Value : CompactPaneLength;
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;

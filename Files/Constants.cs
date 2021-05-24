@@ -10,6 +10,8 @@
             /// The minimum width of the sidebar in expanded state
             /// </summary>
             public const double MinimumSidebarWidth = 250;
+
+            public const double MaximumSidebarWidth = 500;
         }
 
         public static class Browser
