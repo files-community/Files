@@ -2606,10 +2606,6 @@
           <source>Open themes folder</source>
           <target state="translated">Atvērt motīvu mapi</target>
         </trans-unit>
-        <trans-unit id="SettingsUseNewDetailsView.Header" translate="yes" xml:space="preserve">
-          <source>Use new details view</source>
-          <target state="translated">Lietot jauno detaļu skatu</target>
-        </trans-unit>
         <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Nosaukums</target>

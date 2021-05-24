@@ -40,12 +40,6 @@
                     Header="Show item owner in properties"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowFileOwner, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="SettingsUseNewDetailsView"
-                    Header="Use new details view"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding UseNewDetailsView, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -43,7 +43,7 @@ namespace Files.ViewModels
         {
             if (LayoutMode == FolderLayoutModes.DetailsView)
             {
-                return Constants.Browser.GenericFileBrowser.DetailsViewSize; // ListView thumbnail
+                return Constants.Browser.DetailsLayoutBrowser.DetailsViewSize; // ListView thumbnail
             }
             else if (LayoutMode == FolderLayoutModes.TilesView)
             {
@@ -110,7 +110,7 @@ namespace Files.ViewModels
             switch (prefsForPath.LayoutMode)
             {
                 case FolderLayoutModes.DetailsView:
-                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
+                    type = typeof(DetailsLayoutBrowser);
                     break;
 
                 case FolderLayoutModes.TilesView:
@@ -126,7 +126,7 @@ namespace Files.ViewModels
                     break;
 
                 default:
-                    type = App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser);
+                    type = typeof(DetailsLayoutBrowser);
                     break;
             }
             return type;

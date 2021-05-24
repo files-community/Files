@@ -2629,10 +2629,6 @@
           <source>Open themes folder</source>
           <target state="translated">Abrir pasta Temas</target>
         </trans-unit>
-        <trans-unit id="SettingsUseNewDetailsView.Header" translate="yes" xml:space="preserve">
-          <source>Use new details view</source>
-          <target state="translated">Utilizar nova Vista Detalhada</target>
-        </trans-unit>
         <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Nome</target>

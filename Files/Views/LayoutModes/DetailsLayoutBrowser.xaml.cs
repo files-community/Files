@@ -27,7 +27,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
 {
-    public sealed partial class GenericFileBrowser2 : BaseLayout
+    public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
         public string oldItemName;
         
@@ -51,7 +51,7 @@ namespace Files.Views.LayoutModes
         private DispatcherQueueTimer renameDoubleClickTimer;
         private DispatcherQueueTimer renameDoubleClickTimeoutTimer;
 
-        public GenericFileBrowser2() : base()
+        public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
             this.DataContext = this;
@@ -432,7 +432,7 @@ namespace Files.Views.LayoutModes
         {
             if (ParentShellPageInstance != null)
             {
-                if (ParentShellPageInstance.CurrentPageType == typeof(GenericFileBrowser2) && !IsRenamingItem)
+                if (ParentShellPageInstance.CurrentPageType == typeof(DetailsLayoutBrowser) && !IsRenamingItem)
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;

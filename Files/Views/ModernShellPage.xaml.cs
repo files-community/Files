@@ -904,7 +904,7 @@ namespace Files.Views
             ContentPage = await GetContentOrNullAsync();
             NavigationToolbar.SearchBox.Query = string.Empty;
             NavigationToolbar.IsSearchBoxVisible = false;
-            if (ItemDisplayFrame.CurrentSourcePageType == (App.AppSettings.UseNewDetailsView ? typeof(GenericFileBrowser2) : typeof(GenericFileBrowser))
+            if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
@@ -924,8 +924,8 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(GenericFileBrowser)
-                || CurrentPageType == typeof(GenericFileBrowser2)
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser)
+                || CurrentPageType == typeof(DetailsLayoutBrowser)
                 || CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -1072,7 +1072,7 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GenericFileBrowser2) || CurrentPageType == typeof(GridViewBrowser))
+                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser))
                     {
                         if (ContentPage.IsItemSelected)
                         {
@@ -1428,7 +1428,7 @@ namespace Files.Views
 
                 if (sourcePageType == typeof(WidgetsPage)
                     || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
-                    (sourcePageType == typeof(GenericFileBrowser) || sourcePageType == typeof(GenericFileBrowser2) || sourcePageType == typeof(GridViewBrowser)))
+                    (sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();
                 }
