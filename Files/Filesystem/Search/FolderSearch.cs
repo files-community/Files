@@ -13,7 +13,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem.Search
 {
-    internal partial class FolderSearch
+    internal class FolderSearch
     {
         private const uint defaultStepSize = 500;
 
