@@ -2,12 +2,14 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Input;
@@ -18,6 +20,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
@@ -52,20 +56,6 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
-
-        public bool IsCompact
-        {
-            get => (bool)GetValue(IsCompactProperty);
-            set
-            {
-                if (this.IsLoaded)
-                {
-                    SetValue(IsCompactProperty, value);
-                }
-            }
-        }
-
         public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
         public ICommand EmptyRecycleBinCommand
@@ -98,6 +88,14 @@ namespace Files.UserControls
                     SetValue(SelectedSidebarItemProperty, value);
                 }
             }
+        }
+        
+        public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
+
+        public UIElement TabContent
+        {
+            get => (UIElement)GetValue(TabContentProperty);
+            set => SetValue(TabContentProperty, value);
         }
 
         private bool canOpenInNewPane;
@@ -606,6 +604,8 @@ namespace Files.UserControls
         {
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
+
+            (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -643,7 +643,8 @@ namespace Files.UserControls
 
         private void IncrementSize(double val)
         {
-            AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + val);
+            var newSize = AppSettings.SidebarWidth.Value + val;
+            AppSettings.SidebarWidth = new GridLength(newSize >= 0 ? newSize : 0); // passing a negative value will cause an exception
         }
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -658,6 +659,11 @@ namespace Files.UserControls
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
         }
     }
 

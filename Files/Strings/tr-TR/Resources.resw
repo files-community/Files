@@ -1380,9 +1380,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Sil</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Daha iyi başarım için dosya ve klasörler ön belleğe alınsın</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>İptal</value>
   </data>
@@ -1676,12 +1673,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Bağlantıyı kes</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Hazırlık ön belleği paralel sınırı (sabit sürücüler için daha küçük değerler daha iyi olmalıdır) </value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Hazırlık ön belleği kullanılsın (gezinirken alt klasör kayıtları önceden yüklenir)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Diğer paket seçenekleri</value>

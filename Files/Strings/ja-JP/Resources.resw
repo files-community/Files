@@ -1371,9 +1371,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>よりよいパフォーマンスのためにファイルとフォルダをキャッシュ</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -1667,12 +1664,6 @@
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>切断</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>ファイルを予めキャッシュする量の上限(HDDには小さな値を推奨)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>ファイルを予めキャッシュ(サブフォルダのファイルをプリロード)</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>その他のバンドル オプション</value>

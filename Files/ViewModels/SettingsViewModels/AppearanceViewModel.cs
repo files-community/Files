@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.SettingsViewModels
@@ -107,16 +108,35 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTheme, value))
                 {
+                    // Remove the old resource file and load the new file
+                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
+
                     App.AppSettings.SelectedTheme = selectedTheme;
-                    ShowRestartControl = true;
+
+                    // Force the application to use the correct resource file
+                    UpdateTheme();
                 }
             }
         }
 
-        public bool ShowRestartControl
+        /// <summary>
+        /// Forces the application to use the correct resource styles
+        /// </summary>
+        private async void UpdateTheme()
         {
-            get => showRestartControl;
-            set => SetProperty(ref showRestartControl, value);
+            // Allow time to remove the old theme
+            await Task.Delay(250);
+
+            // Get the index of the current theme
+            var selTheme = SelectedThemeIndex;
+
+            // Toggle between the themes to force the controls to use the new resource styles
+            SelectedThemeIndex = 0;
+            SelectedThemeIndex = 1;
+            SelectedThemeIndex = 2;
+
+            // Restore the theme to the correct theme
+            SelectedThemeIndex = selTheme;
         }
     }
 }

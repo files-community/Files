@@ -68,7 +68,7 @@ namespace Files.ViewModels
                 // Serialize
                 NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debugger.Break();
                 return false;
@@ -110,10 +110,10 @@ namespace Files.ViewModels
 
                 return (TValue)serializableSettings[propertyName];
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debugger.Break();
-                return default(TValue);
+                return default;
             }
         }
 

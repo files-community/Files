@@ -1,6 +1,7 @@
-﻿using Files.Common;
+using Files.Common;
 using Files.Dialogs;
 using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -50,8 +51,7 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IStatusCenterActions StatusCenterActions => StatusCenterViewModel;
-        public StatusCenterViewModel StatusCenterViewModel { get; set; } = new StatusCenterViewModel();
+
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
 
@@ -101,6 +101,7 @@ namespace Files.Views
                 {
                     contentPage = value;
                     NotifyPropertyChanged(nameof(ContentPage));
+                    NotifyPropertyChanged(nameof(SlimContentPage));
                 }
             }
         }
@@ -182,9 +183,6 @@ namespace Files.Views
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
             NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted += ColumnShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged += ColumnShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen += ColumnShellPage_SearchSuggestionChosen;
             NavigationToolbar.BackRequested += ColumnShellPage_BackNavRequested;
             NavigationToolbar.ForwardRequested += ColumnShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested += ColumnShellPage_UpNavRequested;
@@ -193,6 +191,9 @@ namespace Files.Views
             NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             NavigationToolbar.CanGoBack = false;
             NavigationToolbar.CanGoForward = false;
+            NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
+            NavigationToolbar.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
@@ -285,7 +286,7 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void ColumnShellPage_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -303,7 +304,7 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void ColumnShellPage_QueryChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -318,7 +319,7 @@ namespace Files.Views
             }
         }
 
-        private void ColumnShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void ColumnShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
@@ -889,7 +890,8 @@ namespace Files.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            NavigationToolbar.ClearSearchBoxQueryText(true);
+            NavigationToolbar.SearchBox.Query = string.Empty;
+            NavigationToolbar.IsSearchBoxVisible = false;
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnViewBase))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
@@ -1000,7 +1002,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchBoxVisible)
                     {
                         if (App.InteractionViewModel.IsQuickLookEnabled)
                         {
@@ -1051,7 +1053,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null, false);
+                ContentOwnedViewModelInstance?.RefreshItems(null);
             });
         }
 
@@ -1082,14 +1084,14 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.SearchQuerySubmitted -= ColumnShellPage_SearchQuerySubmitted;
-            NavigationToolbar.SearchTextChanged -= ColumnShellPage_SearchTextChanged;
-            NavigationToolbar.SearchSuggestionChosen -= ColumnShellPage_SearchSuggestionChosen;
             NavigationToolbar.BackRequested -= ColumnShellPage_BackNavRequested;
             NavigationToolbar.ForwardRequested -= ColumnShellPage_ForwardNavRequested;
             NavigationToolbar.UpRequested -= ColumnShellPage_UpNavRequested;
             NavigationToolbar.RefreshRequested -= ColumnShellPage_RefreshRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
+            NavigationToolbar.SearchBox.QueryChanged -= ColumnShellPage_QueryChanged;
+            NavigationToolbar.SearchBox.QuerySubmitted -= ColumnShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
 
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {

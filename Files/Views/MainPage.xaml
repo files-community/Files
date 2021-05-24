@@ -13,8 +13,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.ViewModels"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
+    Loaded="Page_Loaded"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.DataContext>
@@ -144,6 +145,13 @@
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Tab" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
         <KeyboardAccelerator Key="N" Modifiers="Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
@@ -188,19 +196,35 @@
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}"
+        DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
         EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
-        IsCompact="{x:Bind SidebarAdaptiveViewModel.IsWindowCompactSize, Mode=OneWay}"
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
-        <Grid HorizontalAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
+            <controls:StatusBarControl
+                x:Name="StatusBarControl"
+                Grid.Row="2"
+                x:Load="False"
+                ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                ShowStatusCenter="True"
+                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+        </Grid>
+
+        <controls:SidebarControl.TabContent>
             <Grid
                 x:Name="RightMarginGrid"
                 Grid.Column="1"
-                Padding="2,0,0,0"
+                Margin="{x:Bind SidebarAdaptiveViewModel.TabControlMargin, Mode=OneWay}"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Canvas.ZIndex="4">
+                Canvas.ZIndex="4"
+                IsHitTestVisible="True">
                 <usercontrols:HorizontalMultitaskingControl
                     x:Name="horizontalMultitaskingControl"
                     Height="50"
@@ -211,16 +235,6 @@
                     Canvas.ZIndex="40"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
             </Grid>
-            <Grid
-                x:Name="DragArea"
-                Grid.ColumnSpan="2"
-                Height="40"
-                Margin="38,0,0,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                Background="Transparent"
-                Canvas.ZIndex="3"
-                Loaded="DragArea_Loaded" />
-        </Grid>
+        </controls:SidebarControl.TabContent>
     </controls:SidebarControl>
 </Page>

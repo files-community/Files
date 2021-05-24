@@ -10,7 +10,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <RichEditBox x:Name="TextPreviewControl" IsReadOnly="True">
+        <RichEditBox
+            x:Name="TextPreviewControl"
+            IsReadOnly="True"
+            Loaded="TextPreviewControl_Loaded">
             <RichEditBox.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>

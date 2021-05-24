@@ -59,6 +59,7 @@ namespace Files.Filesystem
                                     Text = "WSL",
                                     Section = SectionType.WSL,
                                     SelectsOnInvoked = false,
+                                    Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                     ChildItems = new ObservableCollection<INavigationControlItem>()
                                 };
                                 SidebarControl.SideBarItems.Add(section);

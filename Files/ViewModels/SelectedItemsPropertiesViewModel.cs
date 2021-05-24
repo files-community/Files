@@ -38,9 +38,9 @@ namespace Files.ViewModels
             set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private SvgImageSource customIcon;
+        private BitmapImage customIcon;
 
-        public SvgImageSource CustomIcon
+        public BitmapImage CustomIcon
         {
             get => customIcon;
             set => SetProperty(ref customIcon, value);
@@ -82,7 +82,14 @@ namespace Files.ViewModels
         public ImageSource FileIconSource
         {
             get => fileIconSource;
-            set => SetProperty(ref fileIconSource, value);
+            set 
+            {
+                if (value != null)
+                {
+                    LoadFolderGlyph = false;
+                    SetProperty(ref fileIconSource, value);
+                }
+            } 
         }
 
         private string itemName;

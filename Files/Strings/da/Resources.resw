@@ -1380,9 +1380,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oprindelig sti</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Cache filer og mapper for bedre ydeevne</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Tilføj</value>
   </data>
