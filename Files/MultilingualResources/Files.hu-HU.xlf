@@ -2791,7 +2791,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOption_Name.Content" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="transalted">Név</target>
+          <target state="translated">Név</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOption_DateModified.Content" translate="yes" xml:space="preserve">
           <source>Date modified</source>
