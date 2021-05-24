@@ -24,7 +24,7 @@
                 public const int TilesView = 260;
             }
 
-            public static class GenericFileBrowser
+            public static class DetailsLayoutBrowser
             {
                 public const int DetailsViewSize = 24;
             }

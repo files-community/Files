@@ -1953,9 +1953,6 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Themenordner öffnen</value>
   </data>
-  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
-    <value>Neue Detailsansicht verwenden</value>
-  </data>
   <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
     <value>Name</value>
   </data>

@@ -2611,10 +2611,6 @@
           <source>Open themes folder</source>
           <target state="translated">Ouvrir l'emplacement des thèmes</target>
         </trans-unit>
-        <trans-unit id="SettingsUseNewDetailsView.Header" translate="yes" xml:space="preserve">
-          <source>Use new details view</source>
-          <target state="translated">Utiliser la nouvelle vue détaillée</target>
-        </trans-unit>
         <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Nom</target>

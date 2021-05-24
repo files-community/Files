@@ -504,17 +504,14 @@
     <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
       <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutModes\GenericFileBrowser2.xaml.cs">
-      <DependentUpon>GenericFileBrowser2.xaml</DependentUpon>
+    <Compile Include="Views\LayoutModes\DetailsLayoutBrowser.xaml.cs">
+      <DependentUpon>DetailsLayoutBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
       <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
-      <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\InteractionViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPropertiesViewModel.cs" />
@@ -977,7 +974,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LayoutModes\GenericFileBrowser2.xaml">
+    <Page Include="Views\LayoutModes\DetailsLayoutBrowser.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -986,10 +983,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PaneHolderPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1941,9 +1941,6 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Abrir ubicación de temas</value>
   </data>
-  <data name="SettingsUseNewDetailsView.Header" xml:space="preserve">
-    <value>Usar el nuevo modo de vista "Detalles"</value>
-  </data>
   <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
     <value>Nombre</value>
   </data>

@@ -576,14 +576,6 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value whether or not to enable the new list view based details view.
-        /// </summary>
-        public bool UseNewDetailsView
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         #endregion Experimental
 
@@ -707,8 +699,8 @@ namespace Files.ViewModels
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
         }
-        
-        
+
+
         public GroupOption DefaultDirectoryGroupOption
         {
             get => (GroupOption)Get((byte)GroupOption.None);
