@@ -45,6 +45,11 @@
                             <x:Double x:Key="SidebarTintOpacity">0</x:Double>
                             <x:Double x:Key="SidebarTintLuminosityOpacity">0.85</x:Double>
                             <!--  Tabs  -->
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
@@ -71,6 +76,11 @@
                             <x:Double x:Key="SidebarTintOpacity">0.15</x:Double>
                             <x:Double x:Key="SidebarTintLuminosityOpacity">0.85</x:Double>
                             <!--  Tabs  -->
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
@@ -97,6 +107,11 @@
                             <x:Double x:Key="SidebarTintOpacity">0.15</x:Double>
                             <x:Double x:Key="SidebarTintLuminosityOpacity">0.85</x:Double>
                             <!--  Tabs  -->
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <SolidColorBrush x:Key="TabSeparatorBorderBrush" Color="{StaticResource SolidBackgroundFillColorSecondary}" />

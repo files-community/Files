@@ -14,7 +14,18 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Name="Light">
+					<SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="#f3f1ef" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Name="Dark">
+					<SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="#161514" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Name="HighContrast">
+					<SolidColorBrush x:Key="SelectedTabBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+			<ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <MenuFlyout
                         x:Key="TabFlyout"
@@ -71,269 +82,39 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </ResourceDictionary>
+
                 <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
+
                 <ResourceDictionary>
-                    <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
-                        <Setter Property="VerticalAlignment" Value="Top" />
-                        <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
-                        <Setter Property="IsTabStop" Value="False" />
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="KeyboardAcceleratorPlacementMode" Value="Hidden" />
-
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="muxc:TabView">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-
-                                        <Grid
-                                            x:Name="TabContainerGrid"
-                                            Background="{TemplateBinding Background}"
-                                            XYFocusKeyboardNavigation="Enabled">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition x:Name="LeftContentColumn" Width="Auto" />
-                                                <ColumnDefinition x:Name="TabColumn" Width="Auto" />
-                                                <ColumnDefinition x:Name="AddButtonColumn" Width="Auto" />
-                                                <ColumnDefinition x:Name="RightContentColumn" Width="*" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <ContentPresenter
-                                                x:Name="LeftContentPresenter"
-                                                Grid.Column="0"
-                                                Content="{TemplateBinding TabStripHeader}"
-                                                ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" />
-
-                                            <Grid
-                                                x:Name="ShadowReceiver"
-                                                Grid.ColumnSpan="4"
-                                                Visibility="Collapsed" />
-
-                                            <primitives:TabViewListView
-                                                x:Name="TabListView"
-                                                Grid.Column="1"
-                                                Margin="4"
-                                                AllowDrop="{TemplateBinding AllowDropTabs}"
-                                                CanDragItems="{TemplateBinding CanDragTabs}"
-                                                CanReorderItems="{TemplateBinding CanReorderTabs}"
-                                                ItemTemplate="{TemplateBinding TabItemTemplate}"
-                                                ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
-                                                ItemsSource="{TemplateBinding TabItemsSource}" />
-
-                                            <Button
-                                                x:Name="AddButton"
-                                                x:Uid="HorizontalMultitaskingControlAddButton"
-                                                Grid.Column="2"
-                                                Command="{TemplateBinding AddTabButtonCommand}"
-                                                CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
-                                                Content="&#xE710;"
-                                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                                HighContrastAdjustment="None"
-                                                IsTextScaleFactorEnabled="False"
-                                                Style="{StaticResource TabViewButtonStyle}"
-                                                ToolTipService.ToolTip="New tab (Ctrl+T)"
-                                                Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}" />
-
-                                            <ContentPresenter
-                                                x:Name="RightContentPresenter"
-                                                Grid.Column="3"
-                                                HorizontalAlignment="Stretch"
-                                                Content="{TemplateBinding TabStripFooter}"
-                                                ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
-                                        </Grid>
-
-                                        <!--  We don't want this to take space on the second row in case the user isn't using tab content.  -->
-                                        <Grid
-                                            x:Name="ShadowCaster"
-                                            Grid.Row="0"
-                                            Height="10"
-                                            VerticalAlignment="Bottom"
-                                            Background="Transparent"
-                                            Visibility="Collapsed" />
-
-                                        <ContentPresenter
-                                            x:Name="TabContentPresenter"
-                                            Grid.Row="1"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}" />
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-
-                    <Style TargetType="primitives:TabViewListView">
-                        <Setter Property="VerticalAlignment" Value="Top" />
-                        <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
-                        <Setter Property="IsTabStop" Value="False" />
-                        <Setter Property="TabNavigation" Value="Once" />
-                        <Setter Property="IsSwipeEnabled" Value="False" />
-                        <Setter Property="SingleSelectionFollowsFocus" Value="False" />
-                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
-                        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
-                        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-                        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
-                        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-                        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-                        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-                        <Setter Property="ItemContainerTransitions">
-                            <Setter.Value>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition />
-                                    <ContentThemeTransition />
-                                    <ReorderThemeTransition />
-                                    <EntranceThemeTransition IsStaggeringEnabled="False" />
-                                </TransitionCollection>
-                            </Setter.Value>
-                        </Setter>
-
-                        <Setter Property="ItemsPanel">
-                            <Setter.Value>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel VerticalAlignment="Center" Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </Setter.Value>
-                        </Setter>
-
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="primitives:TabViewListView">
-                                    <Border
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{TemplateBinding CornerRadius}">
-                                        <ScrollViewer
-                                            x:Name="ScrollViewer"
-                                            Grid.Column="1"
-                                            AutomationProperties.AccessibilityView="Raw"
-                                            BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                            IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                            IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                            IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                            Style="{StaticResource TabScrollViewerStyle}"
-                                            TabNavigation="{TemplateBinding TabNavigation}"
-                                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-
-                                            <ItemsPresenter x:Name="TabsItemsPresenter" />
-                                        </ScrollViewer>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-
-                    <Style x:Name="TabScrollViewerStyle" TargetType="ScrollViewer">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ScrollViewer">
-                                    <Border
-                                        x:Name="Root"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
-
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <RepeatButton
-                                                x:Name="ScrollDecreaseButton"
-                                                Width="{ThemeResource TabViewItemScrollButtonWidth}"
-                                                Height="{ThemeResource TabViewItemScrollButtonHeight}"
-                                                Padding="{ThemeResource TabViewItemScrollButtonPadding}"
-                                                VerticalAlignment="Center"
-                                                AutomationProperties.AccessibilityView="Raw"
-                                                Background="{ThemeResource TabViewScrollButtonBackground}"
-                                                BorderThickness="1"
-                                                Content="&#xE76B;"
-                                                Delay="50"
-                                                FontFamily="Segoe MDL2 Assets"
-                                                HighContrastAdjustment="None"
-                                                Interval="100"
-                                                Style="{StaticResource RepeatButtonRevealStyle}"
-                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
-
-                                            <ScrollContentPresenter
-                                                x:Name="ScrollContentPresenter"
-                                                Grid.Column="1"
-                                                Padding="1,0,0,0"
-                                                TabFocusNavigation="Once" />
-
-                                            <RepeatButton
-                                                x:Name="ScrollIncreaseButton"
-                                                Grid.Column="2"
-                                                Width="{ThemeResource TabViewItemScrollButtonWidth}"
-                                                Height="{ThemeResource TabViewItemScrollButtonHeight}"
-                                                Padding="{ThemeResource TabViewItemScrollButtonPadding}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                AutomationProperties.AccessibilityView="Raw"
-                                                Background="{ThemeResource TabViewScrollButtonBackground}"
-                                                BorderThickness="1"
-                                                Content="&#xE76C;"
-                                                Delay="50"
-                                                FontFamily="Segoe MDL2 Assets"
-                                                HighContrastAdjustment="None"
-                                                Interval="100"
-                                                Style="{StaticResource RepeatButtonRevealStyle}"
-                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-
                     <Style x:Key="TabViewCloseButtonStyle" TargetType="Button">
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-                        <Setter Property="FontWeight" Value="Normal" />
-                        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+                        <Setter Property="FontSize" Value="{ThemeResource TabViewItemHeaderCloseFontSize}" />
                         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
                         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+                        <Setter Property="Width" Value="{ThemeResource TabViewItemHeaderCloseButtonWidth}" />
+                        <Setter Property="Height" Value="{ThemeResource TabViewItemHeaderCloseButtonHeight}" />
+                        <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderCloseButtonBackground}" />
+                        <Setter Property="Foreground" Value="{ThemeResource TabViewItemHeaderCloseButtonForeground}" />
                         <Setter Property="FocusVisualMargin" Value="-3" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
                                     <ContentPresenter
                                         x:Name="ContentPresenter"
-                                        Padding="{TemplateBinding Padding}"
                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Background="{TemplateBinding Background}"
                                         BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
                                         Content="{TemplateBinding Content}"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
                                         ContentTransitions="{TemplateBinding ContentTransitions}"
                                         CornerRadius="{TemplateBinding CornerRadius}">
                                         <VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal">
-                                                    <Storyboard>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                                    </Storyboard>
-                                                </VisualState>
+                                                <VisualState x:Name="Normal" />
                                                 <VisualState x:Name="PointerOver">
                                                     <Storyboard>
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
@@ -342,7 +123,6 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewItemHeaderCloseButtonForegroundPointerOver}" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="Pressed">
@@ -353,7 +133,6 @@
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewItemHeaderCloseButtonForegroundPressed}" />
                                                         </ObjectAnimationUsingKeyFrames>
-                                                        <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                                     </Storyboard>
                                                 </VisualState>
                                             </VisualStateGroup>
@@ -363,29 +142,69 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
-                    <Style x:Key="UndockedTabViewItemStyle" TargetType="muxc:TabViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Style x:Key="TabViewItemStyle" TargetType="muxc:TabViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
                         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+                        <Setter Property="MinHeight" Value="{ThemeResource TabViewItemMinHeight}" />
+                        <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                        <Setter Property="BorderThickness" Value="{ThemeResource TabViewItemBorderThickness}" />
+                        <Setter Property="BorderBrush" Value="{ThemeResource TabViewItemBorderBrush}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="muxc:TabViewItem">
-                                    <Grid
-                                        x:Name="LayoutRoot"
-                                        Height="{TemplateBinding Height}"
-                                        Margin="-1,0,0,0"
-                                        Padding="{TemplateBinding Padding}">
-                                        <!--  This item will cover the separator on its left side.  -->
-
+                                    <Grid x:Name="LayoutRoot" Padding="{TemplateBinding Padding}">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="LeftColumn" Width="0" />
+                                            <ColumnDefinition x:Name="LeftColumn" Width="Auto" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition x:Name="RightColumn" Width="0" />
+                                            <ColumnDefinition x:Name="RightColumn" Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RenderTransform>
                                             <ScaleTransform x:Name="LayoutRootScale" />
                                         </Grid.RenderTransform>
+
+
+                                        <Path
+                                            x:Name="LeftRadiusRenderArc"
+                                            Width="4"
+                                            Height="4"
+                                            Margin="-4,0,0,0"
+                                            VerticalAlignment="Bottom"
+                                            x:Load="False"
+                                            Data="M4 0C4 1.19469 3.47624 2.26706 2.64582 3H0C1.65685 3 3 1.65685 3 0H4Z"
+                                            Fill="{ThemeResource CardStrokeColorDefault}"
+                                            Visibility="Collapsed" />
+
+                                        <Path
+                                            x:Name="LeftRadiusRenderTriangle"
+                                            Margin="-4,0,0,0"
+                                            VerticalAlignment="Bottom"
+                                            x:Load="False"
+                                            Data="M0 4H4V0C4 2.20914 2.20914 4 0 4Z"
+                                            Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                            Visibility="Collapsed" />
+
+                                        <Path
+                                            x:Name="RightRadiusRenderArc"
+                                            Grid.Column="2"
+                                            Width="4"
+                                            Height="4"
+                                            Margin="0,0,-4,0"
+                                            VerticalAlignment="Bottom"
+                                            x:Load="False"
+                                            Data="M0 0C0 1.19469 0.523755 2.26706 1.35418 3H4C2.34315 3 1 1.65685 1 0H0Z"
+                                            Fill="{ThemeResource CardStrokeColorDefault}"
+                                            Visibility="Collapsed" />
+
+                                        <Path
+                                            x:Name="RightRadiusRenderTriangle"
+                                            Grid.Column="2"
+                                            Margin="0,0,-4,0"
+                                            VerticalAlignment="Bottom"
+                                            x:Load="False"
+                                            Data="M4 4H0V0C0 2.20914 1.79086 4 4 4Z"
+                                            Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                            Visibility="Collapsed" />
 
                                         <Border
                                             x:Name="TabSeparator"
@@ -393,17 +212,18 @@
                                             Width="1"
                                             Margin="{ThemeResource TabViewItemSeparatorMargin}"
                                             HorizontalAlignment="Right"
-                                            BorderBrush="{StaticResource SolidBackgroundFillColorQuarternary}"
+                                            BorderBrush="{ThemeResource TabViewItemSeparator}"
                                             BorderThickness="1" />
 
                                         <Grid
                                             x:Name="TabContainer"
                                             Grid.Column="1"
                                             Padding="{ThemeResource TabViewItemHeaderPadding}"
-                                            Background="Transparent"
-                                            Canvas.ZIndex="2"
+                                            Background="{ThemeResource TabViewItemHeaderBackground}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
                                             Control.IsTemplateFocusTarget="True"
-                                            CornerRadius="{TemplateBinding CornerRadius}"
+                                            CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius}"
                                             FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
 
                                             <Grid.ColumnDefinitions>
@@ -441,104 +261,98 @@
 
                                             <Button
                                                 x:Name="CloseButton"
-                                                x:Uid="HorizontalMultitaskingControlCloseButton"
                                                 Grid.Column="2"
-                                                Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
-                                                Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
                                                 Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
-                                                Background="{ThemeResource TabViewItemHeaderCloseButtonBackground}"
                                                 Content="&#xE711;"
-                                                FontSize="{ThemeResource TabViewItemHeaderCloseFontSize}"
-                                                Foreground="{ThemeResource TabViewItemHeaderCloseButtonForeground}"
                                                 HighContrastAdjustment="None"
                                                 IsTabStop="False"
                                                 IsTextScaleFactorEnabled="False"
-                                                Style="{StaticResource TabViewCloseButtonStyle}"
-                                                ToolTipService.ToolTip="Close tab (Ctrl+W)" />
+                                                Style="{ThemeResource TabViewCloseButtonStyle}" />
                                         </Grid>
 
                                         <VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabContainerFillColorSecondary}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
-                                                        <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
-                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
-                                                        <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
-                                                        <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
+                                                <VisualState x:Name="Normal" />
 
                                                 <VisualState x:Name="PointerOver">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource SystemBaseLowColor}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="ContentPresenter.FontWeight" Value="Normal" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabContainerFillColorPrimary}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderPointerOverCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderPointerOverCloseButtonForeground}" />
-                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource TabSeparatorBorderBrush}" />
+                                                        <Setter Target="TabSeparator.Opacity" Value="0" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                                 <VisualState x:Name="Pressed">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabContainerFillColorPrimary}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPressed}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderPressedCloseButtonForeground}" />
-                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource TabSeparatorBorderBrush}" />
+                                                        <Setter Target="TabSeparator.Opacity" Value="0" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                                 <VisualState x:Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabContainerFillColorPrimary}" />
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
+                                                        <Setter Target="RightRadiusRenderArc.Visibility" Value="Collapsed" />
+                                                        <Setter Target="RightRadiusRenderTriangle.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LeftRadiusRenderArc.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LeftRadiusRenderTriangle.Visibility" Value="Collapsed" />
+                                                        <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+                                                        <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
-                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
-                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource TabSeparatorBorderBrush}" />
+                                                        <Setter Target="LayoutRoot.Background" Value="Transparent" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                                 <VisualState x:Name="PointerOverSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabContainerFillColorPrimary}" />
-                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPointerOver}" />
-                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
-                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPointerOver}" />
+                                                        <Setter Target="RightRadiusRenderArc.Visibility" Value="Collapsed" />
+                                                        <Setter Target="RightRadiusRenderTriangle.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LeftRadiusRenderArc.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LeftRadiusRenderTriangle.Visibility" Value="Collapsed" />
+                                                        <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+                                                        <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
+                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
+                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
                                                         <Setter Target="LayoutRoot.Background" Value="Transparent" />
-                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource TabSeparatorBorderBrush}" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                                 <VisualState x:Name="PressedSelected">
                                                     <VisualState.Setters>
-                                                        <Setter Target="TabContainer.BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="1" />
-                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabContainerFillColorPrimary}" />
-                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundPressed}" />
-                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
-                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundPressed}" />
+                                                        <Setter Target="RightRadiusRenderArc.Visibility" Value="Collapsed" />
+                                                        <Setter Target="RightRadiusRenderTriangle.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LeftRadiusRenderArc.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LeftRadiusRenderTriangle.Visibility" Value="Collapsed" />
+                                                        <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
+                                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
+                                                        <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
+                                                        <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+                                                        <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
+                                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
+                                                        <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemIconForegroundSelected}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonBackground}" />
                                                         <Setter Target="CloseButton.Foreground" Value="{ThemeResource TabViewItemHeaderSelectedCloseButtonForeground}" />
-                                                        <Setter Target="TabSeparator.BorderBrush" Value="{ThemeResource TabSeparatorBorderBrush}" />
                                                         <Setter Target="LayoutRoot.Background" Value="Transparent" />
+                                                        <Setter Target="ContentPresenter.FontWeight" Value="SemiBold" />
                                                     </VisualState.Setters>
                                                 </VisualState>
                                             </VisualStateGroup>
@@ -550,7 +364,6 @@
                                                     <VisualState.Setters>
                                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundDisabled}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundDisabled}" />
-                                                        <Setter Target="TabContainer.BorderThickness" Value="0" />
                                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundDisabled}" />
                                                         <Setter Target="IconControl.Foreground" Value="{ThemeResource TabViewButtonForegroundDisabled}" />
                                                         <Setter Target="CloseButton.Background" Value="{ThemeResource TabViewItemHeaderDisabledCloseButtonBackground}" />
@@ -715,83 +528,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
-                    <Style x:Name="TabViewButtonStyle" TargetType="Button">
-                        <Setter Property="Background" Value="{ThemeResource TabViewButtonBackground}" />
-                        <Setter Property="Foreground" Value="{ThemeResource TabViewButtonForeground}" />
-                        <Setter Property="CornerRadius" Value="{Binding Source={ThemeResource OverlayCornerRadius}, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
-                        <Setter Property="FontSize" Value="11" />
-                        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="Margin" Value="0,4,0,4" />
-                        <Setter Property="Padding" Value="10,10,10,10" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <ContentPresenter
-                                        x:Name="ContentPresenter"
-                                        Padding="{TemplateBinding Padding}"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        AutomationProperties.AccessibilityView="Raw"
-                                        Background="{TemplateBinding Background}"
-                                        BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                                        Content="{TemplateBinding Content}"
-                                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                                        ContentTransitions="{TemplateBinding ContentTransitions}"
-                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                        FontFamily="{TemplateBinding FontFamily}"
-                                        FontSize="{TemplateBinding FontSize}"
-                                        FontWeight="SemiLight">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal">
-                                                    <Storyboard>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                                    </Storyboard>
-                                                </VisualState>
-
-                                                <VisualState x:Name="PointerOver">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewButtonForegroundPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                                    </Storyboard>
-                                                </VisualState>
-
-                                                <VisualState x:Name="Pressed">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewButtonForegroundPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                                    </Storyboard>
-                                                </VisualState>
-
-                                                <VisualState x:Name="Disabled">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewButtonBackgroundDisabled}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewButtonForegroundDisabled}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                    </ContentPresenter>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -808,12 +544,12 @@
             VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
+            Background="Transparent"
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="True"
             SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionChanged="TabStrip_SelectionChanged"
-            Style="{StaticResource DefaultTabViewStyle}"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabDragCompleted="TabStrip_TabDragCompleted"
             TabDragStarting="TabStrip_TabDragStarting"
@@ -821,23 +557,20 @@
             TabItemsChanged="HorizontalTabView_TabItemsChanged"
             TabItemsSource="{x:Bind Items, Mode=OneWay}"
             TabStripDragOver="TabStrip_TabStripDragOver"
-            TabStripDrop="TabStrip_TabStripDrop"
-            TabWidthMode="Equal">
+            TabStripDrop="TabStrip_TabStripDrop">
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Height="36"
-                        Margin="4,4"
-                        HorizontalAlignment="Stretch"
+                        Padding="2,0,2,2"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        CornerRadius="4"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
-                        Style="{StaticResource UndockedTabViewItemStyle}"
+                        Style="{ThemeResource TabViewItemStyle}"
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>

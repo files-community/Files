@@ -4,10 +4,6 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemControlBackgroundListLowBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackground" ResourceKey="SystemControlTransparentBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver" ResourceKey="SystemAltMediumLowColor" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed" ResourceKey="SystemAltMediumColor" />
             <StaticResource x:Key="TabViewItemHeaderBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemHeaderForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="TabViewItemHeaderForegroundPressed" ResourceKey="SystemControlForegroundBaseHighBrush" />
@@ -28,7 +24,6 @@
             <StaticResource x:Key="TabViewButtonForegroundPointerOver" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="TabViewButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
             <StaticResource x:Key="TabViewScrollButtonBackground" ResourceKey="SystemControlTransparentBrush" />
-            <StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlForegroundBaseLowBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackground" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackgroundPressed" ResourceKey="SystemControlBackgroundListMediumBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackgroundPointerOver" ResourceKey="SystemControlBackgroundListLowBrush" />
@@ -47,14 +42,22 @@
             <!--  Note: These theme resources below are no longer used and might be removed in a future WinUI update.  -->
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemControlBackgroundBaseMediumBrush" />
+
+            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="CardStrokeColorDefault" />
+            <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+            <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
+                <LinearGradientBrush.RelativeTransform>
+                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
+                </LinearGradientBrush.RelativeTransform>
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1.0" Color="Transparent" />
+                    <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackground" ResourceKey="SystemControlTransparentBrush" />
-            <Color x:Key="TabViewItemHeaderBackgroundSelected">#292827</Color>
-            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver" ResourceKey="SystemAltMediumLowColor" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed" ResourceKey="SystemAltMediumColor" />
             <StaticResource x:Key="TabViewItemHeaderBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemHeaderForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="TabViewItemHeaderForegroundPressed" ResourceKey="SystemControlForegroundBaseHighBrush" />
@@ -75,7 +78,6 @@
             <StaticResource x:Key="TabViewButtonForegroundPointerOver" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="TabViewButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
             <StaticResource x:Key="TabViewScrollButtonBackground" ResourceKey="SystemControlTransparentBrush" />
-            <StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlForegroundBaseLowBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackground" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackgroundPressed" ResourceKey="SystemControlBackgroundListMediumBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackgroundPointerOver" ResourceKey="SystemControlBackgroundListLowBrush" />
@@ -94,14 +96,22 @@
             <!--  Note: These theme resources below are no longer used and might be removed in a future WinUI update.  -->
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemControlBackgroundBaseMediumBrush" />
+
+            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="CardStrokeColorDefault" />
+            <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+            <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
+                <LinearGradientBrush.RelativeTransform>
+                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
+                </LinearGradientBrush.RelativeTransform>
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1.0" Color="Transparent" />
+                    <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SystemControlHighlightChromeHighBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver" ResourceKey="SystemControlHighlightChromeHighBrush" />
-            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed" ResourceKey="SystemControlHighlightChromeHighBrush" />
             <StaticResource x:Key="TabViewItemHeaderBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
             <StaticResource x:Key="TabViewItemHeaderForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="TabViewItemHeaderForegroundPressed" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
@@ -122,7 +132,6 @@
             <StaticResource x:Key="TabViewButtonForegroundPointerOver" ResourceKey="SystemControlHighlightAltBaseHighBrush" />
             <StaticResource x:Key="TabViewButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
             <StaticResource x:Key="TabViewScrollButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
-            <StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlForegroundBaseLowBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackgroundPressed" ResourceKey="SystemControlBackgroundListMediumBrush" />
             <StaticResource x:Key="TabViewItemHeaderCloseButtonBackgroundPointerOver" ResourceKey="SystemControlBackgroundListLowBrush" />
@@ -141,12 +150,26 @@
             <!--  Note: These theme resources below are no longer used and might be removed in a future WinUI update.  -->
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemControlBackgroundBaseMediumBrush" />
+
+            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="CardStrokeColorDefault" />
+            <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
+            <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
+                <LinearGradientBrush.RelativeTransform>
+                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
+                </LinearGradientBrush.RelativeTransform>
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1.0" Color="Transparent" />
+                    <GradientStop Offset="1.0" Color="{ThemeResource SystemColorHighlightColor}" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
-    <Thickness x:Key="TabViewItemHeaderPadding">12,8,10,8</Thickness>
+    <Thickness x:Key="TabViewHeaderPadding">4,8,4,0</Thickness>
+    <Thickness x:Key="TabViewItemHeaderPadding">8,3,4,3</Thickness>
+    <Thickness x:Key="TabViewSelectedItemHeaderPadding">9,3,5,4</Thickness>
 
+    <x:Double x:Key="TabViewItemMinHeight">38</x:Double>
     <x:Double x:Key="TabViewItemMaxWidth">240</x:Double>
     <x:Double x:Key="TabViewItemMinWidth">100</x:Double>
 
@@ -154,15 +177,33 @@
     <x:Double x:Key="TabViewItemHeaderIconSize">16</x:Double>
     <Thickness x:Key="TabViewItemHeaderIconMargin">0,0,10,0</Thickness>
 
+
+    <x:Double x:Key="TabViewItemHeaderCloseButtonHeight">24</x:Double>
+    <x:Double x:Key="TabViewItemHeaderCloseButtonWidth">32</x:Double>
+
     <x:Double x:Key="TabViewItemHeaderCloseButtonSize">16</x:Double>
     <x:Double x:Key="TabViewItemHeaderCloseFontSize">12</x:Double>
-    <Thickness x:Key="TabViewItemHeaderCloseMargin">10,0,0,0</Thickness>
+    <Thickness x:Key="TabViewItemHeaderCloseMargin">4,0,0,0</Thickness>
 
-    <x:Double x:Key="TabViewItemScrollButtonWidth">29</x:Double>
-    <x:Double x:Key="TabViewItemScrollButtonHeight">29</x:Double>
-    <Thickness x:Key="TabViewItemScrollButtonPadding">6,4,10,5</Thickness>
+    <x:Double x:Key="TabViewItemScrollButtonWidth">32</x:Double>
+    <x:Double x:Key="TabViewItemScrollButtonHeight">24</x:Double>
+    <x:Double x:Key="TabViewItemScrollButonFontSize">12</x:Double>
+    <Thickness x:Key="TabViewItemScrollButtonPadding">7,3,7,3</Thickness>
+    <Thickness x:Key="TabViewItemLeftScrollButtonContainerPadding">0,0,3,3</Thickness>
+    <Thickness x:Key="TabViewItemRightScrollButtonContainerPadding">3,0,0,3</Thickness>
+
+    <x:Double x:Key="TabViewItemAddButtonWidth">32</x:Double>
+    <x:Double x:Key="TabViewItemAddButtonHeight">24</x:Double>
+    <x:Double x:Key="TabViewItemAddButtonFontSize">12</x:Double>
+    <Thickness x:Key="TabViewItemAddButtonContainerPadding">3,0,0,3</Thickness>
 
     <x:Double x:Key="TabViewShadowDepth">0</x:Double>
 
-    <Thickness x:Key="TabViewItemSeparatorMargin">0,6,0,6</Thickness>
+    <Thickness x:Key="TabViewItemSeparatorMargin">0,8,0,8</Thickness>
+
+    <Thickness x:Key="TabViewItemBorderThickness">1</Thickness>
+
+    <Thickness x:Key="TabViewSelectedItemBorderThickness">1,1,1,0</Thickness>
+
+    <Thickness x:Key="TabViewSelectedItemHeaderMargin">-1,0,-1,0</Thickness>
 </ResourceDictionary>
