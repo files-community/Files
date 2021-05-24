@@ -107,6 +107,13 @@
                                     <RotateTransform />
                                 </FontIcon.RenderTransform>
                             </FontIcon>
+                            <muxc:ProgressRing
+                                x:Name="MedianOperationProgressRing"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
+                                IsIndeterminate="False"
+                                Value="{x:Bind StatusCenterViewModel.MedianOperationProgressValue, Mode=OneWay}" />
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
@@ -124,35 +131,5 @@
                 </Button>
             </Grid>
         </StackPanel>
-
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}" Value="False">
-                <Core:GoToStateAction StateName="NoOperations" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}" Value="True">
-                <Core:GoToStateAction StateName="InProgress" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="Default">
-                <VisualState x:Name="NoOperations" />
-                <VisualState x:Name="InProgress">
-                    <Storyboard>
-                        <ColorAnimation
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
-                            To="{ThemeResource SystemAccentColor}"
-                            Duration="0" />
-                        <DoubleAnimation
-                            RepeatBehavior="Forever"
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
-                            To="360"
-                            Duration="0:0:1" />
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>
