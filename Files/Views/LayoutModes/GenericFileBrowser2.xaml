@@ -634,7 +634,7 @@
                     </ListView.GroupStyle>
 
                     <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
+						<Style TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="MinHeight" Value="1" />
                             <Setter Property="Height" Value="36" />
