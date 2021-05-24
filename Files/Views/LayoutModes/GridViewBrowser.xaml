@@ -70,7 +70,7 @@
                         x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
-					<Viewbox
+                    <Viewbox
                         x:Name="FolderGlyphIcon"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -78,12 +78,12 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
-						<FontIcon
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-			                    Glyph="&#xF12B;" />
-					</Viewbox>
-					<Viewbox
+                        <FontIcon
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Glyph="&#xF12B;" />
+                    </Viewbox>
+                    <Viewbox
                         x:Name="TypeUnknownGlyph"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -223,14 +223,14 @@
                         x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
-					<FontIcon
+                    <FontIcon
                         x:Name="FolderGlyphIcon"
-			            FontSize="72"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-			            Glyph="&#xF12B;" />
-					<FontIcon
+                        FontSize="72"
+                        Glyph="&#xF12B;" />
+                    <FontIcon
                         x:Name="TypeUnknownGlyph"
                         Width="74"
                         HorizontalAlignment="Stretch"
@@ -471,13 +471,11 @@
             Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
             Visibility="Collapsed" />
 
-        <SemanticZoom
-            Padding="12,4,4,0"
-            ViewChangeStarted="SemanticZoom_ViewChangeStarted"
-            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+        <SemanticZoom ViewChangeStarted="SemanticZoom_ViewChangeStarted" Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <SemanticZoom.ZoomedInView>
                 <GridView
                     x:Name="FileList"
+                    Padding="8"
                     VerticalContentAlignment="Stretch"
                     animations:ItemsReorderAnimation.Duration="0:0:0.350"
                     behaviors:StretchedGridViewItems.FillBeforeWrap="True"
