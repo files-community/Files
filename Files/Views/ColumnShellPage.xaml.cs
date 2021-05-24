@@ -1,4 +1,4 @@
-﻿using Files.Common;
+using Files.Common;
 using Files.Dialogs;
 using Files.EventArguments;
 using Files.Extensions;
@@ -319,7 +319,7 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void ColumnShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {

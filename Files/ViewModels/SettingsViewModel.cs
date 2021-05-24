@@ -91,7 +91,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static void OpenThemesFolder()
+        public static async void OpenThemesFolder()
         {
             Frame rootFrame = Window.Current.Content as Frame;
             // Go back to main page
@@ -99,7 +99,7 @@ namespace Files.ViewModels
             {
                 rootFrame.GoBack();
             }
-            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()
