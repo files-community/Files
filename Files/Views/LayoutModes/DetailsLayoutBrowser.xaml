@@ -246,7 +246,8 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
-                            Padding="0" Height="33"
+                            Height="33"
+                            Padding="0"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
                             BorderThickness="0,0,0,1"
