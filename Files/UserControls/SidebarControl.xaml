@@ -249,19 +249,21 @@
                                     Width="8"
                                     HorizontalAlignment="Right"
                                     AllowFocusOnInteraction="True"
+                                    Background="Transparent"
                                     BorderBrush="Transparent"
-                                    BorderThickness="0,0,1,0"
                                     ManipulationCompleted="ResizeElementBorder_ManipulationCompleted"
                                     ManipulationDelta="Border_ManipulationDelta"
                                     ManipulationMode="TranslateX"
+                                    ManipulationStarted="ResizeElementBorder_ManipulationStarted"
                                     PointerCanceled="Border_PointerExited"
                                     PointerEntered="Border_PointerEntered"
                                     PointerExited="Border_PointerExited"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
                                     Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
                                     <UserControl
+                                        x:Name="ResizeElementControl"
                                         x:Uid="ResizeElementKeyboardControl"
                                         AutomationProperties.Name="Sidebar resizer"
-                                        FocusVisualPrimaryThickness="2"
                                         IsTabStop="True"
                                         KeyDown="Border_KeyDown"
                                         UseSystemFocusVisuals="True" />
@@ -981,6 +983,31 @@
                                             </Storyboard>
                                         </VisualState>
 
+                                    </VisualStateGroup>
+
+                                    <VisualStateGroup x:Name="ResizerStates">
+                                        <VisualState x:Name="ResizerNormal" />
+                                        <VisualState x:Name="ResizerPointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="ResizerPressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
                                     </VisualStateGroup>
 
                                 </VisualStateManager.VisualStateGroups>

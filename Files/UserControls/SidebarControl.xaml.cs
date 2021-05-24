@@ -639,6 +639,11 @@ namespace Files.UserControls
         /// </summary>
         double sidebarToggleManipulation = 0;
 
+        /// <summary>
+        /// true if the user is currently resizing the sidebar
+        /// </summary>
+        bool dragging;
+
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
@@ -649,7 +654,11 @@ namespace Files.UserControls
 
         private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+            if(!dragging) // keep showing pressed event if currently resizing the sidebar
+            {
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+            }
         }
 
         private void IncrementSize(double val)
@@ -685,12 +694,16 @@ namespace Files.UserControls
             if(DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
             }
         }
 
         private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             sidebarToggleManipulation = 0;
+            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+            VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+            dragging = false;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
@@ -702,6 +715,16 @@ namespace Files.UserControls
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
             Window.Current.SetTitleBar(sender as Grid);
+        }
+
+        private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            {
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
+                dragging = true;
+            }
         }
     }
 
