@@ -35,6 +35,6 @@ namespace Files.Filesystem.Cloud.Providers
                 return Array.Empty<CloudProvider>();
             }
         }
+        #pragma warning restore 1998
     }
-    #pragma warning restore 1998
 }
