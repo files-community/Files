@@ -246,7 +246,7 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
-                            Padding="0"
+                            Padding="0" Height="33"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
                             BorderThickness="0,0,0,1"
@@ -378,6 +378,7 @@
                             <TextBlock
                                 Grid.Column="8"
                                 Width="{x:Bind ColumnsViewModel.StatusColumn.Length.Value, Mode=OneWay}"
+                                Padding="8,0,0,0"
                                 VerticalAlignment="Center"
                                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                 Text="Status"
@@ -524,7 +525,10 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Tapped="ItemNameGrid_Tapped">
-                                    <TextBlock x:Name="ItemName" Text="{x:Bind ItemName, Mode=OneWay}" />
+                                    <TextBlock
+                                        x:Name="ItemName"
+                                        Text="{x:Bind ItemName, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
                                     <TextBox
                                         x:Name="ItemNameTextBox"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
@@ -540,7 +544,8 @@
                                     <TextBlock
                                         x:Name="ItemOriginalPathText"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
+                                        Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
                                 <Grid
@@ -549,7 +554,10 @@
                                     Width="{Binding ColumnsViewModel.DateDeletedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                                     HorizontalAlignment="Stretch"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
                                 <FontIcon
@@ -566,6 +574,7 @@
                                     Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind ItemDateModified, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
                                     Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
                                 <TextBlock
@@ -573,6 +582,7 @@
                                     Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind ItemType, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
                                     Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
