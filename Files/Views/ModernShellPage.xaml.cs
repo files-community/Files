@@ -301,7 +301,14 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
-                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this, App.AppSettings.SearchUnindexedItems);
+                    var search = new FolderSearch
+                    {
+                        Query = sender.Text,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        MaxItemCount = 10,
+                        SearchUnindexedItems = App.AppSettings.SearchUnindexedItems
+                    };
+                    sender.ItemsSource = await search.SearchAsync();
                 }
                 else
                 {
@@ -320,6 +327,14 @@ namespace Files.Views
 
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
+            var search = new FolderSearch
+            {
+                Query = query,
+                Folder = FilesystemViewModel.WorkingDirectory,
+                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                SearchUnindexedItems = searchUnindexedItems
+            };
+
             InstanceViewModel.CurrentSearchQuery = query;
             FilesystemViewModel.IsLoadingIndicatorActive = true;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
@@ -328,8 +343,7 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                SearchResults = await FolderSearch.SearchForUserQueryTextAsync(query, FilesystemViewModel.WorkingDirectory, this, searchUnindexedItems, -1,
-                    InstanceViewModel.FolderSettings.GetIconSize())
+                SearchResults = await search.SearchAsync(),
             });
 
             FilesystemViewModel.IsLoadingIndicatorActive = false;
