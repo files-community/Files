@@ -246,7 +246,7 @@
                                 <Grid
                                     x:Name="ResizeElementBorder"
                                     Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
-                                    Width="4"
+                                    Width="8"
                                     HorizontalAlignment="Right"
                                     AllowFocusOnInteraction="True"
                                     BorderBrush="Transparent"
