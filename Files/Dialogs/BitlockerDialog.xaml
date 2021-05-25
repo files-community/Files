@@ -15,6 +15,7 @@
     PrimaryButtonText="Unlock"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     SecondaryButtonText="Cancel"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ContentDialog.PrimaryButtonStyle>
