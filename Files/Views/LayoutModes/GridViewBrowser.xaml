@@ -508,7 +508,7 @@
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 FontSize="16"
-                                                Style="{StaticResource SubtitleTextBlock}"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{x:Bind Model.Text, Mode=OneWay}" />
 
                                             <TextBlock
