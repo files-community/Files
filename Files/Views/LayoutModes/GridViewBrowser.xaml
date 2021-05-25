@@ -585,7 +585,7 @@
                         </StackPanel>
                     </GridView.Footer>
                     <GridView.ItemContainerStyle>
-                        <Style TargetType="GridViewItem">
+                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="HorizontalAlignment" Value="Stretch" />
                         </Style>
