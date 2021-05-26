@@ -45,6 +45,10 @@ namespace Files.ViewModels
             {
                 return Constants.Browser.DetailsLayoutBrowser.DetailsViewSize; // ListView thumbnail
             }
+            if (LayoutMode == FolderLayoutModes.ColumnView)
+            {
+                return Constants.Browser.ColumnViewBrowser.ColumnViewSize; // ListView thumbnail
+            }
             else if (LayoutMode == FolderLayoutModes.TilesView)
             {
                 return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
