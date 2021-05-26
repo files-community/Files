@@ -370,15 +370,12 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
-                            <TextBlock
+                            <Button
                                 Grid.Column="8"
-                                Width="{x:Bind ColumnsViewModel.StatusColumn.Length.Value, Mode=OneWay}"
-                                Padding="12,0,0,0"
-                                VerticalAlignment="Center"
-                                Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                Text="Status"
-                                TextAlignment="Left"
-                                Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
+                                Style="{StaticResource HeaderButtonStyle}"
+                                Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}">
+                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Status" />
+                            </Button>
 
                             <controls:GridSplitter
                                 Grid.Column="9"

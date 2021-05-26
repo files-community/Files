@@ -34,11 +34,7 @@ namespace Files.ViewModels
         }
 
 
-        private ColumnViewModel statusColumn = new ColumnViewModel()
-        {
-            UserLength = new GridLength(100, GridUnitType.Pixel),
-            NormalMaxLength = 100,
-        };
+        private ColumnViewModel statusColumn = new ColumnViewModel();
 
         public ColumnViewModel StatusColumn
         {
