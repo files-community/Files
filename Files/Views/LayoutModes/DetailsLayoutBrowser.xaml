@@ -267,17 +267,17 @@
                                         Text="Date deleted column"
                                         Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                     <ToggleMenuFlyoutItem
-                                        x:Uid="DetailsViewHeaderFlyout_ShowItemType"
-                                        Click="ToggleMenuFlyoutItem_Click"
-                                        IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                        Text="Item type column"
-                                        Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-                                    <ToggleMenuFlyoutItem
                                         x:Uid="DetailsViewHeaderFlyout_ShowDateModified"
                                         Click="ToggleMenuFlyoutItem_Click"
                                         IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                         Text="Date modified column"
                                         Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                                    <ToggleMenuFlyoutItem
+                                        x:Uid="DetailsViewHeaderFlyout_ShowItemType"
+                                        Click="ToggleMenuFlyoutItem_Click"
+                                        IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                        Text="Item type column"
+                                        Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
                             <Grid.ColumnDefinitions>
