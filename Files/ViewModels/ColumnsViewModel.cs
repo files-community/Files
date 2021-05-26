@@ -17,7 +17,6 @@ namespace Files.ViewModels
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
             UserLength = new GridLength(28, GridUnitType.Pixel),
-            NormalMaxLength = 28,
         };
 
         public ColumnViewModel IconColumn
