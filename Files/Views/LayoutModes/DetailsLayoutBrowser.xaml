@@ -534,11 +534,7 @@
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        x:Name="ItemOriginalPathText"
-                                        VerticalAlignment="Center"
-                                        Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
                                 <Grid
@@ -548,39 +544,43 @@
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
-                                <FontIcon
-                                    x:Name="CloudDriveSyncStatusGlyph"
+                                <Grid
+                                    x:Name="ItemStatusGrid"
                                     Grid.Column="4"
-                                    HorizontalAlignment="Center"
-                                    AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-                                    Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
-                                    Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
-                                    Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+                                    Width="{Binding ColumnsViewModel.StatusColumn.Length, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <FontIcon
+                                        x:Name="CloudDriveSyncStatusGlyph"
+                                        HorizontalAlignment="Left"
+                                        AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
+                                        Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
+                                        Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}" />
+                                </Grid>
 
-                                <TextBlock
+                                <Grid
+                                    x:Name="ItemDateModifiedGrid"
                                     Grid.Column="5"
                                     Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+                                    HorizontalAlignment="Stretch"
+                                    Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <TextBlock Text="{x:Bind ItemDateModified, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                                </Grid>
 
-                                <TextBlock
+                                <Grid
+                                    x:Name="ItemTypeGrid"
                                     Grid.Column="6"
                                     Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind ItemType, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+                                    HorizontalAlignment="Stretch"
+                                    Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <TextBlock Text="{x:Bind ItemType, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

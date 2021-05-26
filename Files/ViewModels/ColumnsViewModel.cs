@@ -16,7 +16,7 @@ namespace Files.ViewModels
     {
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
-            UserLength = new GridLength(30, GridUnitType.Pixel),
+            UserLength = new GridLength(28, GridUnitType.Pixel),
         };
 
         public ColumnViewModel IconColumn
