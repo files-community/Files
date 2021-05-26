@@ -281,7 +281,10 @@
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="Column1" Width="52" />
+                                <ColumnDefinition
+                                    x:Name="Column1"
+                                    Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
+                                    MaxWidth="{x:Bind ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
                                     x:Name="Column2"
@@ -315,6 +318,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition x:Name="Column8" Width="0" />
                             </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Width="44" />
 
                             <Button
                                 Grid.Column="2"
@@ -431,7 +436,7 @@
                                 RightTapped="StackPanel_RightTapped"
                                 ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
@@ -442,7 +447,7 @@
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
-                                    Width="40"
+                                    Width="32"
                                     Height="Auto"
                                     HorizontalAlignment="Center"
                                     AutomationProperties.Name="File icon"

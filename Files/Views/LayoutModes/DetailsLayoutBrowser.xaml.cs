@@ -637,14 +637,14 @@ namespace Files.Views.LayoutModes
 
         private void UpdateColumnLayout()
         {
-            ColumnsViewModel.IconColumn.UserLength = new GridLength(28);
+            ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.NameColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, 28 + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
+            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column2.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
                     + Column6.ActualWidth + Column7.ActualWidth);
         }
 
