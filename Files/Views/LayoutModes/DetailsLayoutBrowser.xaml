@@ -447,6 +447,7 @@
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
+                                    Width="40"
                                     Height="Auto"
                                     HorizontalAlignment="Left"
                                     AutomationProperties.Name="File icon"
@@ -456,8 +457,8 @@
                                     <Image
                                         x:Name="Picture"
                                         Width="24"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                         x:Phase="1"
                                         Source="{x:Bind FileImage, Mode=OneWay}"
@@ -466,8 +467,8 @@
                                         x:Name="FolderGlyphIcon"
                                         Width="24"
                                         Height="24"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                                         FontSize="24"
                                         Glyph="&#xF12B;" />
