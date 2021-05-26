@@ -372,7 +372,7 @@
                             <TextBlock
                                 Grid.Column="8"
                                 Width="{x:Bind ColumnsViewModel.StatusColumn.Length.Value, Mode=OneWay}"
-                                Padding="8,0,0,0"
+                                Padding="12,0,0,0"
                                 VerticalAlignment="Center"
                                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
                                 Text="Status"
@@ -430,7 +430,6 @@
                             <Grid
                                 Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
-                                ColumnSpacing="4"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
@@ -514,6 +513,7 @@
                                 <Grid
                                     Grid.Column="1"
                                     Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Tapped="ItemNameGrid_Tapped">
@@ -531,6 +531,7 @@
                                     x:Name="ItemOriginalPathGrid"
                                     Grid.Column="2"
                                     Width="{Binding ColumnsViewModel.OriginalPathColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     x:Load="{x:Bind IsRecycleBinItem}">
                                     <TextBlock
@@ -544,6 +545,7 @@
                                     x:Name="ItemDateDeletedGrid"
                                     Grid.Column="3"
                                     Width="{Binding ColumnsViewModel.DateDeletedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     x:Load="{x:Bind IsRecycleBinItem}">
                                     <TextBlock
@@ -564,6 +566,7 @@
                                 <TextBlock
                                     Grid.Column="5"
                                     Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind ItemDateModified, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
@@ -572,6 +575,8 @@
                                 <TextBlock
                                     Grid.Column="6"
                                     Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
+                                    HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind ItemType, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
