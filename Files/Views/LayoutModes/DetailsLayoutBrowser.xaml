@@ -267,24 +267,23 @@
                                         Text="Date deleted column"
                                         Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                     <ToggleMenuFlyoutItem
-                                        x:Uid="DetailsViewHeaderFlyout_ShowItemType"
-                                        Click="ToggleMenuFlyoutItem_Click"
-                                        IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                        Text="Item type column"
-                                        Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-                                    <ToggleMenuFlyoutItem
                                         x:Uid="DetailsViewHeaderFlyout_ShowDateModified"
                                         Click="ToggleMenuFlyoutItem_Click"
                                         IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                         Text="Date modified column"
                                         Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                                    <ToggleMenuFlyoutItem
+                                        x:Uid="DetailsViewHeaderFlyout_ShowItemType"
+                                        Click="ToggleMenuFlyoutItem_Click"
+                                        IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                        Text="Item type column"
+                                        Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
                                     x:Name="Column1"
                                     Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
-                                    MinWidth="{x:Bind ColumnsViewModel.IconColumn.MinLength}"
                                     MaxWidth="{x:Bind ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
@@ -319,6 +318,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition x:Name="Column8" Width="0" />
                             </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Width="44" />
 
                             <Button
                                 Grid.Column="2"
@@ -369,15 +370,12 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
-                            <TextBlock
+                            <Button
                                 Grid.Column="8"
-                                Width="{x:Bind ColumnsViewModel.StatusColumn.Length.Value, Mode=OneWay}"
-                                Padding="8,0,0,0"
-                                VerticalAlignment="Center"
-                                Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                Text="Status"
-                                TextAlignment="Left"
-                                Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
+                                Style="{StaticResource HeaderButtonStyle}"
+                                Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}">
+                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Status" />
+                            </Button>
 
                             <controls:GridSplitter
                                 Grid.Column="9"
@@ -430,7 +428,6 @@
                             <Grid
                                 Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
-                                ColumnSpacing="4"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
@@ -447,6 +444,7 @@
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
+                                    Width="32"
                                     Height="Auto"
                                     HorizontalAlignment="Left"
                                     AutomationProperties.Name="File icon"
@@ -456,8 +454,8 @@
                                     <Image
                                         x:Name="Picture"
                                         Width="24"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                         x:Phase="1"
                                         Source="{x:Bind FileImage, Mode=OneWay}"
@@ -466,8 +464,8 @@
                                         x:Name="FolderGlyphIcon"
                                         Width="24"
                                         Height="24"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                                         FontSize="24"
                                         Glyph="&#xF12B;" />
@@ -513,6 +511,7 @@
                                 <Grid
                                     Grid.Column="1"
                                     Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="8,0,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Tapped="ItemNameGrid_Tapped">
@@ -522,6 +521,7 @@
                                         TextTrimming="CharacterEllipsis" />
                                     <TextBox
                                         x:Name="ItemNameTextBox"
+                                        VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
                                         Visibility="Collapsed" />
                                 </Grid>
@@ -530,11 +530,13 @@
                                     x:Name="ItemOriginalPathGrid"
                                     Grid.Column="2"
                                     Width="{Binding ColumnsViewModel.OriginalPathColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
                                     <TextBlock
-                                        x:Name="ItemOriginalPathText"
                                         VerticalAlignment="Center"
+                                        FontWeight="Light"
                                         Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </Grid>
@@ -543,38 +545,63 @@
                                     x:Name="ItemDateDeletedGrid"
                                     Grid.Column="3"
                                     Width="{Binding ColumnsViewModel.DateDeletedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
                                     <TextBlock
                                         VerticalAlignment="Center"
+                                        FontWeight="Light"
                                         Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
-                                <FontIcon
-                                    x:Name="CloudDriveSyncStatusGlyph"
+                                <Grid
+                                    x:Name="ItemStatusGrid"
                                     Grid.Column="4"
-                                    HorizontalAlignment="Center"
-                                    AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-                                    Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
-                                    Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
-                                    Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+                                    Width="{Binding ColumnsViewModel.StatusColumn.Length, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <FontIcon
+                                        x:Name="CloudDriveSyncStatusGlyph"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
+                                        Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
+                                        Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}" />
+                                </Grid>
 
-                                <TextBlock
+                                <Grid
+                                    x:Name="ItemDateModifiedGrid"
                                     Grid.Column="5"
                                     Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+                                    Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontWeight="Light"
+                                        Text="{x:Bind ItemDateModified, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </Grid>
 
-                                <TextBlock
+                                <Grid
+                                    x:Name="ItemTypeGrid"
                                     Grid.Column="6"
                                     Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind ItemType, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+                                    Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontWeight="Light"
+                                        Text="{x:Bind ItemType, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
