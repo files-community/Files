@@ -1669,7 +1669,7 @@
     <value>Mehr Optionen...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Netwerklaufwerk hinzufügen</value>
+    <value>Netzwerklaufwerk hinzufügen</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Verbindung trennen</value>
@@ -2063,5 +2063,116 @@
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Öffnen mit</value>
+  </data>
+  <data name="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Anordungsoptionen</value>
+  </data>
+  <data name="NavToolbarArrangementOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Anordungsoptionen</value>
+  </data>
+  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+    <value>Gruppieren nach</value>
+  </data>
+  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
+    <value>Änderungsdatum</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
+    <value>Größe</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
+    <value>Löschdatum</value>
+  </data>
+  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
+    <value>Originaler Ordner</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+    <value>Sortieren nach</value>
+  </data>
+  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
+    <value>Sortierrichtung</value>
+  </data>
+  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
+    <value>Aufsteigend</value>
+  </data>
+  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
+    <value>Absteigend</value>
+  </data>
+  <data name="ItemSizeText_Huge" xml:space="preserve">
+    <value>Riesig</value>
+  </data>
+  <data name="ItemSizeText_VeryLarge" xml:space="preserve">
+    <value>Sehr Groß</value>
+  </data>
+  <data name="ItemSizeText_Large" xml:space="preserve">
+    <value>Groß</value>
+  </data>
+  <data name="ItemSizeText_Medium" xml:space="preserve">
+    <value>Mittel</value>
+  </data>
+  <data name="ItemSizeText_Small" xml:space="preserve">
+    <value>Klein</value>
+  </data>
+  <data name="ItemSizeText_Tiny" xml:space="preserve">
+    <value>Winzig</value>
+  </data>
+  <data name="ItemTimeText_Today" xml:space="preserve">
+    <value>Heute</value>
+  </data>
+  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+    <value>Gestern</value>
+  </data>
+  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+    <value>Anfang dieser Woche</value>
+  </data>
+  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+    <value>Letzte Woche</value>
+  </data>
+  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+    <value>Diesen Monat</value>
+  </data>
+  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+    <value>Letzten Monat</value>
+  </data>
+  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+    <value>Dieses Jahr</value>
+  </data>
+  <data name="ItemTimeText_Older" xml:space="preserve">
+    <value>Älter</value>
+  </data>
+  <data name="ItemTimeText_Before" xml:space="preserve">
+    <value>Vor {0}</value>
+  </data>
+  <data name="GroupItemsCount_Singular" xml:space="preserve">
+    <value>{0} Datei</value>
+  </data>
+  <data name="GroupItemsCount_Plural" xml:space="preserve">
+    <value>{0} Dateien</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>Tab wiederherstellen</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
+    <value>Datenschutzerklärung</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
+    <value>Files Datenschutzerklärung anzeigen</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Files Datenschutzerklärung anzeigen</value>
+  </data>
+  <data name="RenameFileDialogTitle" xml:space="preserve">
+    <value>Umbenennen</value>
   </data>
 </root>
