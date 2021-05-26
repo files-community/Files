@@ -644,7 +644,7 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column2.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
+            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
                     + Column6.ActualWidth + Column7.ActualWidth);
         }
 
