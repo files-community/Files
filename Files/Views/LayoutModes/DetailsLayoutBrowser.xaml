@@ -281,9 +281,7 @@
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    x:Name="Column1"
-                                    Width="40" />
+                                <ColumnDefinition x:Name="Column1" Width="52" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
                                     x:Name="Column2"
@@ -444,7 +442,7 @@
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
-                                    Width="28"
+                                    Width="40"
                                     Height="Auto"
                                     HorizontalAlignment="Center"
                                     AutomationProperties.Name="File icon"
