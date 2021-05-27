@@ -6,7 +6,6 @@ using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
 using Files.ViewModels;
 using Files.Views;
-using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -26,8 +25,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
-using static Files.Helpers.PathNormalization;
 
 namespace Files
 {

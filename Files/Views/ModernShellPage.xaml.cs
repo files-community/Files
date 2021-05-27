@@ -2,16 +2,13 @@
 using Files.DataModels;
 using Files.Dialogs;
 using Files.EventArguments;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
-using Files.ViewModels.Pages;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -839,13 +836,10 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            
             OnNavigationParamsChanged();
-            
 
-            
             this.Loaded -= Page_Loaded;
         }
 
