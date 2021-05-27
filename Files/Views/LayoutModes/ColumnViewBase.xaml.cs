@@ -27,14 +27,16 @@ namespace Files.Views.LayoutModes
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ColumnViewBase : BaseLayout
+    public sealed partial class ColumnViewBase : Page, ILayoutMode
     {
         private DispatcherQueueTimer tapDebounceTimer;
         private ListedItem renamingItem;
         private string oldItemName;
         private TextBlock textBlock;
+        public BaseLayoutViewModel ViewModel => throw new NotImplementedException();
 
-        public ColumnViewBase() : base()
+
+        public ColumnViewBase()
         {
             this.InitializeComponent();
             CurrentColumn = this;
@@ -320,6 +322,7 @@ namespace Files.Views.LayoutModes
 
         public static ColumnViewBase CurrentColumn;
         private ListViewItem listViewItem;
+
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

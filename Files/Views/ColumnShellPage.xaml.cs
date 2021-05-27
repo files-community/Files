@@ -87,9 +87,9 @@ namespace Files.Views
 
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
         public CurrentInstanceViewModel InstanceViewModel { get; }
-        private BaseLayout contentPage = null;
+        private BaseLayoutViewModel contentPage = null;
 
-        public BaseLayout ContentPage
+        public BaseLayoutViewModel ContentPage
         {
             get
             {
@@ -715,13 +715,13 @@ namespace Files.Views
             }
         }
 
-        private async Task<BaseLayout> GetContentOrNullAsync()
+        private async Task<BaseLayoutViewModel> GetContentOrNullAsync()
         {
-            BaseLayout FrameContent = null;
+            BaseLayoutViewModel FrameContent = null;
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                FrameContent = (ItemDisplayFrame.Content as BaseLayout);
+                FrameContent = (ItemDisplayFrame.Content as BaseLayoutViewModel);
             });
             return FrameContent;
         }

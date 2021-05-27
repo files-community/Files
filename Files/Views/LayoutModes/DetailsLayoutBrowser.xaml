@@ -1,4 +1,4 @@
-<local:BaseLayout
+<Page
     x:Class="Files.Views.LayoutModes.DetailsLayoutBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -27,7 +27,7 @@
             <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <local:BaseLayout.Resources>
+    <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
@@ -153,7 +153,7 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
-    </local:BaseLayout.Resources>
+    </Page.Resources>
 
     <Grid
         x:Name="RootGrid"
@@ -736,4 +736,4 @@
                 StrokeThickness="1" />
         </Canvas>
     </Grid>
-</local:BaseLayout>
+</Page>

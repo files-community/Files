@@ -24,7 +24,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
 {
-    public sealed partial class GridViewBrowser : BaseLayout
+    public sealed partial class GridViewBrowser : Page, ILayoutMode
     {
         public string oldItemName;
 
@@ -33,11 +33,12 @@ namespace Files.Views.LayoutModes
         /// </summary>
         public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
+        public BaseLayoutViewModel ViewModel => throw new NotImplementedException();
+
         public GridViewBrowser()
-            : base()
         {
             InitializeComponent();
-            this.DataContext = this;
+            this.DataContext = ViewModel;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;

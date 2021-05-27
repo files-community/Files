@@ -1,4 +1,4 @@
-<local:BaseLayout
+<Page
     x:Class="Files.Views.LayoutModes.ColumnViewBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,7 +14,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="PageRoot"
     mc:Ignorable="d">
-    <local:BaseLayout.Resources>
+    <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
             x:Key="NegatedBoolToVisibilityConverter"
@@ -1256,7 +1256,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </local:BaseLayout.Resources>
+    </Page.Resources>
     <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <controls:BladeView x:Name="ColumnHost">
             <controls:BladeItem x:Name="FirstBlade">
@@ -1581,4 +1581,4 @@
             </controls:BladeItem>
         </controls:BladeView>
     </Grid>
-</local:BaseLayout>
+</Page>

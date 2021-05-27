@@ -507,6 +507,7 @@
     <Compile Include="Views\LayoutModes\DetailsLayoutBrowser.xaml.cs">
       <DependentUpon>DetailsLayoutBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LayoutModes\ILayoutMode.cs" />
     <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
       <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
     </Compile>

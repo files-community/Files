@@ -36,6 +36,7 @@ namespace Files.Views
             InitializeComponent();
 
             ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
+            this.DataContext = ViewModel;
             ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
         }

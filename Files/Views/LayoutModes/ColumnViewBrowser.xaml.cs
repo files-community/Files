@@ -29,7 +29,7 @@ namespace Files.Views.LayoutModes
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ColumnViewBrowser : BaseLayout
+    public sealed partial class ColumnViewBrowser : Page, ILayoutMode
     {
         private DispatcherQueueTimer tapDebounceTimer;
         private ListedItem renamingItem;
@@ -40,7 +40,9 @@ namespace Files.Views.LayoutModes
         private ListViewItem listViewItem;
         public static ColumnViewBrowser ColumnViewBrowser1;
 
-        public ColumnViewBrowser() : base()
+        public BaseLayoutViewModel ViewModel => throw new NotImplementedException();
+
+        public ColumnViewBrowser()
         {
             this.InitializeComponent();
             ColumnViewBrowser1 = this;

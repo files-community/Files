@@ -11,21 +11,7 @@ namespace Files
 {
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
-        //Interaction InteractionOperations { get; }
-
-        ItemViewModel FilesystemViewModel { get; }
-
-        CurrentInstanceViewModel InstanceViewModel { get; }
-
-        NamedPipeAsAppServiceConnection ServiceConnection { get; }
-
-        IBaseLayout SlimContentPage { get; }
-
-        Type CurrentPageType { get; }
-
         IFilesystemHelpers FilesystemHelpers { get; }
-
-        INavigationToolbar NavigationToolbar { get; }
 
         bool CanNavigateBackward { get; }
 

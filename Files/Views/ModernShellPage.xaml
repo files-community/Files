@@ -223,7 +223,8 @@
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
             Background="{ThemeResource FileBrowserBackgroundBrush}"
-            Navigated="ItemDisplayFrame_Navigated" />
+            Navigated="ItemDisplayFrame_Navigated"
+			Navigating="ItemDisplayFrame_Navigating"/>
 
         <Custom:DropShadowPanel
             x:Name="PreviewPaneDropShadowPanel"

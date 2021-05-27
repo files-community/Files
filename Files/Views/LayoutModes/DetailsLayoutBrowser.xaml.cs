@@ -27,7 +27,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
 {
-    public sealed partial class DetailsLayoutBrowser : BaseLayout
+    public sealed partial class DetailsLayoutBrowser : Page, ILayoutMode
     {
         public string oldItemName;
         
@@ -47,6 +47,8 @@ namespace Files.Views.LayoutModes
         }
 
         private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
+
+        public BaseLayoutViewModel ViewModel => throw new NotImplementedException();
 
         private DispatcherQueueTimer renameDoubleClickTimer;
         private DispatcherQueueTimer renameDoubleClickTimeoutTimer;
