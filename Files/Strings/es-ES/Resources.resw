@@ -2019,12 +2019,6 @@
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Opciones de selección</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opciones de vista</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opciones de vista</value>
-  </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Icono</value>
   </data>
@@ -2051,12 +2045,6 @@
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Abrir con</value>
-  </data>
-  <data name="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opciones de vista actual</value>
-  </data>
-  <data name="NavToolbarArrangementOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opciones de vista actual</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Agrupar por</value>
