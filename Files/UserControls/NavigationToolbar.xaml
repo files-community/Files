@@ -998,24 +998,9 @@
                     <Flyout Placement="Bottom">
                         <StackPanel Spacing="12">
                             <TextBlock
-                                x:Uid="NavToolbarDisplayOptions"
-                                FontWeight="Medium"
-                                Text="Display Options" />
-                            <StackPanel Spacing="4">
-                                <ToggleSwitch
-                                    x:Uid="NavToolbarShowHiddenItems"
-                                    Header="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
-                                <ToggleSwitch
-                                    x:Uid="NavToolbarShowFileExtensions"
-                                    Header="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                            </StackPanel>
-
-                            <TextBlock
                                 x:Uid="NavToolbarLayoutMode"
                                 FontWeight="Medium"
-                                Text="Layout Mode" />
+                                Text="Layout" />
 
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <RadioButton
@@ -1120,6 +1105,21 @@
                                         Glyph="&#xF115;" />
                                 </RadioButton>
                             </StackPanel>
+
+                            <TextBlock
+                                x:Uid="NavToolbarDisplayOptions"
+                                FontWeight="Medium"
+                                Text="Display Options" />
+                            <StackPanel Spacing="4">
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowHiddenItems"
+                                    Header="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowFileExtensions"
+                                    Header="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+                            </StackPanel>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
@@ -1150,6 +1150,7 @@
                 AutomationProperties.Name="Vertical tab strip"
                 DragEnter="VerticalTabStripInvokeButton_DragEnter"
                 IsTapEnabled="True"
+                Label="Tabs"
                 Loaded="VerticalTabStripInvokeButton_Loaded"
                 PointerEntered="Button_PointerEntered"
                 PointerExited="VerticalTabStripInvokeButton_PointerExited"
