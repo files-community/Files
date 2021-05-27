@@ -1404,9 +1404,6 @@
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue tuiles</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Disposition</value>
-  </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Options d'affichage</value>
   </data>
@@ -1988,12 +1985,6 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Options de sélection</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Options d'affichage</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Options d'affichage</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Icône de fichier</value>

@@ -1431,9 +1431,6 @@
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>平铺视图</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>布局模式</value>
-  </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>显示选项</value>
   </data>
@@ -1775,11 +1772,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>选择选项</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>显示选项</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>显示选项</value>
   </data>
 </root>

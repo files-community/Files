@@ -1422,9 +1422,6 @@
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>タイルビュー</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>レイアウトモード</value>
-  </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>表示オプション</value>
   </data>
@@ -2013,16 +2010,259 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>更新日時:</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
+    <value>フォルダを新しいタブで開く</value>
+  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選択オプション</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>オプションの選択</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>表示オプション</value>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>ファイル アイコン</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>表示オプション</value>
+  <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>元のパス</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>ファイル タイプ</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>更新日時</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>削除日時</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>サイドバーをリサイズ</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>新しいタブ (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>タブを閉じる (Ctrl+W)</value>
+  </data>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>プログラムから開く</value>
+  </data>
+  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+    <value>グループで表示</value>
+  </data>
+  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
+    <value>更新日時</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
+    <value>作成日時</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
+    <value>削除日時</value>
+  </data>
+  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
+    <value>元のフォルダ</value>
+  </data>
+  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
+    <value>タイプ</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+    <value>並べ替えて表示</value>
+  </data>
+  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
+    <value>並べ替え方向</value>
+  </data>
+  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
+    <value>昇順</value>
+  </data>
+  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
+    <value>降順</value>
+  </data>
+  <data name="ItemSizeText_Huge" xml:space="preserve">
+    <value>巨大</value>
+  </data>
+  <data name="ItemSizeText_VeryLarge" xml:space="preserve">
+    <value>特大</value>
+  </data>
+  <data name="ItemSizeText_Large" xml:space="preserve">
+    <value>大</value>
+  </data>
+  <data name="ItemSizeText_Medium" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="ItemSizeText_Small" xml:space="preserve">
+    <value>小</value>
+  </data>
+  <data name="ItemSizeText_Tiny" xml:space="preserve">
+    <value>極小</value>
+  </data>
+  <data name="ItemTimeText_Today" xml:space="preserve">
+    <value>今日</value>
+  </data>
+  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+    <value>昨日</value>
+  </data>
+  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+    <value>今週</value>
+  </data>
+  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+    <value>先週</value>
+  </data>
+  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+    <value>今月</value>
+  </data>
+  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+    <value>先月</value>
+  </data>
+  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+    <value>今年</value>
+  </data>
+  <data name="ItemTimeText_Older" xml:space="preserve">
+    <value>古い</value>
+  </data>
+  <data name="ItemTimeText_Before" xml:space="preserve">
+    <value>{0} の前</value>
+  </data>
+  <data name="GroupItemsCount_Singular" xml:space="preserve">
+    <value>{0} ファイル</value>
+  </data>
+  <data name="GroupItemsCount_Plural" xml:space="preserve">
+    <value>{0} ファイル</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>閉じたタブを再度開く</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
+    <value>プライバシーポリシー</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
+    <value>Filesのプライバシーポリシーを見る</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Filesのプライバシーポリシーを見る</value>
+  </data>
+  <data name="RenameFileDialogTitle" xml:space="preserve">
+    <value>名前を変更</value>
+  </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>削除がキャンセルされました</value>
+  </data>
+  <data name="StatusMoveCanceled" xml:space="preserve">
+    <value>移動がキャンセルされました</value>
+  </data>
+  <data name="StatusCopyCanceled" xml:space="preserve">
+    <value>コピーがキャンセルされました</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} ファイルの {1} から {2} への移動がキャンセルされました</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} ファイルの {1} から {2} への移動が {3} ファイル移動後にキャンセルされました</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} ファイルの {1} から {2} への移動が {3} ファイル移動後にキャンセルされました</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} から {2} へ移動中</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} から {2} へ移動中</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} から {2} へ移動しました</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} から {2} へ移動しました</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} から {2} へ移動に失敗しました</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} から {2} へ移動に失敗しました</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} ファイルの {1} へのコピーがキャンセルされました</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
+    <value>{1} への {0} ファイルのコピーが {2} ファイルコピー後にキャンセルされました</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
+    <value>{1} への {0} ファイルのコピーが {2} ファイルコピー後にキャンセルされました</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} へコピー中</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} へコピー中</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} へコピーしました</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} へコピーしました</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
+    <value>{1} の {0} ファイルの削除がキャンセルされました</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
+    <value>{1} の {0} ファイルの削除が {3} ファイル削除後にキャンセルされました</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
+    <value>{1} の {0} ファイルの削除が {3} ファイル削除後にキャンセルされました</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} から削除中</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} から削除中</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} から削除しました</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} から削除しました</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
+    <value>{0} ファイル {1} から削除に失敗しました</value>
+  </data>
+  <data name="StatusDeletionFailedDetailsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイル {1} から削除に失敗しました</value>
+  </data>
+  <data name="TheRecycleBin" xml:space="preserve">
+    <value>ごみ箱</value>
+  </data>
+  <data name="MoveInProgress" xml:space="preserve">
+    <value>ファイル移動中</value>
+  </data>
+  <data name="CopyInProgress.Title" xml:space="preserve">
+    <value>ファイルコピー中</value>
+  </data>
+  <data name="StatusRecycleFailed" xml:space="preserve">
+    <value>ごみ箱から元に戻す操作に失敗しました</value>
+  </data>
+  <data name="StatusRecycleCancelled" xml:space="preserve">
+    <value>ごみ箱から元に戻す操作がキャンセルされました</value>
+  </data>
+  <data name="StatusCancellingOp" xml:space="preserve">
+    <value>キャンセル中</value>
+  </data>
+  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>キャンセル</value>
   </data>
 </root>

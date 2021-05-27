@@ -753,9 +753,6 @@
   <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>타일</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>레이아웃</value>
-  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>읽기 전용</value>
   </data>
@@ -1775,11 +1772,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>선택 옵션</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>보기 옵션</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>보기 옵션</value>
   </data>
 </root>

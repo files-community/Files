@@ -1911,10 +1911,6 @@
           <target state="needs-review-translation">Tegels Weergave</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
-          <source>Layout Mode</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Lay-outmodus</target>
-        </trans-unit>
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="translated">Weergaveopties</target>
@@ -2579,8 +2575,8 @@
           <target state="new">Search unindexed items.</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgets.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Manage widgets</source>
-          <target state="new">Manage widgets</target>
+          <source>Manage Widgets</source>
+          <target state="new">Manage Widgets</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgetsManager.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Manage widgets</source>
@@ -2714,14 +2710,6 @@
           <source>Selection options</source>
           <target state="translated">Selectieopties</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Display options</source>
-          <target state="translated">Weergaveopties</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Display options</source>
-          <target state="translated">Weergaveopties</target>
-        </trans-unit>
         <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File icon</source>
           <target state="new">File icon</target>
@@ -2757,14 +2745,6 @@
         <trans-unit id="OpenItemsWithCaptionText" translate="yes" xml:space="preserve">
           <source>Open with</source>
           <target state="new">Open with</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Arrangement options</source>
-          <target state="new">Arrangement options</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Arrangement options</source>
-          <target state="new">Arrangement options</target>
         </trans-unit>
         <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
           <source>Group By</source>
@@ -3057,6 +3037,50 @@
         <trans-unit id="StatusCenterCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="new">Widgets</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabStrip.Label" translate="yes" xml:space="preserve">
+          <source>Tabs</source>
+          <target state="new">Tabs</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSelectionOptions.Label" translate="yes" xml:space="preserve">
+          <source>Select</source>
+          <target state="new">Select</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayoutOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayoutOptionsButton.Label" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneToggle.Label" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <target state="new">Preview</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <target state="new">Sort</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <target state="new">Sort</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortOptionsButton.Label" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <target state="new">Sort</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
         </trans-unit>
       </group>
     </body>

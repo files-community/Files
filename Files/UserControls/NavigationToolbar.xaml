@@ -637,7 +637,7 @@
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="44" />
         </Grid.RowDefinitions>
 
         <Grid Padding="8,0,8,0" ColumnSpacing="4">
@@ -855,19 +855,21 @@
             Grid.Row="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Background="Transparent">
+            DefaultLabelPosition="Right">
             <AppBarButton
                 x:Name="WidgetsManager"
                 x:Uid="NavToolbarWidgets"
-                Width="36"
-                Height="32"
                 x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 AccessKey="W"
                 AutomationProperties.Name="Manage widgets"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Manage widgets">
-                <FontIcon FontSize="14" Glyph="&#xF246;" />
+                Label="Widgets"
+                ToolTipService.ToolTip="Manage Widgets">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontSize="10"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Glyph="&#xF246;" />
+                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout Placement="Bottom">
                         <StackPanel Spacing="12">
@@ -900,15 +902,17 @@
             <AppBarButton
                 x:Name="SelectionOptions"
                 x:Uid="NavToolbarSelectionOptions"
-                Width="36"
-                Height="32"
                 x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="S"
                 AutomationProperties.Name="Selection options"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
+                Label="Select"
                 ToolTipService.ToolTip="Selection options">
-                <FontIcon FontSize="14" Glyph="&#xE762;" />
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontSize="10"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Glyph="&#xE762;" />
+                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <ToggleMenuFlyoutItem
@@ -958,16 +962,18 @@
             </AppBarButton>
             <AppBarButton
                 x:Name="ArrangementOptions"
-                x:Uid="NavToolbarArrangementOptionsButton"
-                Width="36"
-                Height="32"
+                x:Uid="NavToolbarSortOptionsButton"
                 x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="A"
-                AutomationProperties.Name="Arrangement options"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Arrangement options">
-                <FontIcon FontSize="14" Glyph="&#xF168;" />
+                AutomationProperties.Name="Sort"
+                Label="Sort"
+                ToolTipService.ToolTip="Sort">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontSize="10"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Glyph="&#xE174;" />
+                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
                         <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
@@ -975,39 +981,26 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton
-                x:Name="DisplayOptionsButton"
-                x:Uid="NavToolbarDisplayOptionsButton"
-                Width="36"
-                Height="32"
+                x:Name="LayoutOptionsButton"
+                x:Uid="NavToolbarLayoutOptionsButton"
                 x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="L"
-                AutomationProperties.Name="Display options"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Display options">
-                <FontIcon FontSize="14" Glyph="&#xE152;" />
+                AutomationProperties.Name="Layout"
+                Label="Layout"
+                ToolTipService.ToolTip="Layout">
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontSize="10"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Glyph="&#xE152;" />
+                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout Placement="Bottom">
                         <StackPanel Spacing="12">
                             <TextBlock
-                                x:Uid="NavToolbarDisplayOptions"
-                                FontWeight="Medium"
-                                Text="Display Options" />
-                            <StackPanel Spacing="4">
-                                <ToggleSwitch
-                                    x:Uid="NavToolbarShowHiddenItems"
-                                    Header="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
-                                <ToggleSwitch
-                                    x:Uid="NavToolbarShowFileExtensions"
-                                    Header="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                            </StackPanel>
-
-                            <TextBlock
                                 x:Uid="NavToolbarLayoutMode"
                                 FontWeight="Medium"
-                                Text="Layout Mode" />
+                                Text="Layout" />
 
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <RadioButton
@@ -1112,6 +1105,21 @@
                                         Glyph="&#xF115;" />
                                 </RadioButton>
                             </StackPanel>
+
+                            <TextBlock
+                                x:Uid="NavToolbarDisplayOptions"
+                                FontWeight="Medium"
+                                Text="Display Options" />
+                            <StackPanel Spacing="4">
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowHiddenItems"
+                                    Header="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="NavToolbarShowFileExtensions"
+                                    Header="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+                            </StackPanel>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
@@ -1119,37 +1127,41 @@
             <AppBarButton
                 x:Name="PreviewPane"
                 x:Uid="PreviewPaneToggle"
-                Width="36"
-                Height="32"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                Background="Transparent"
                 Click="PreviewPane_Click"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                Style="{StaticResource ToolBarButtonStyle}"
+                Label="Preview"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                 Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
-                <FontIcon FontSize="14" Glyph="&#xE146;" />
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontSize="10"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Glyph="&#xE146;" />
+                </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
                 x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"
-                Width="36"
-                Height="32"
                 x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
                 AccessKey="T"
                 AllowDrop="True"
                 AutomationProperties.Name="Vertical tab strip"
-                Background="Transparent"
                 DragEnter="VerticalTabStripInvokeButton_DragEnter"
                 IsTapEnabled="True"
+                Label="Tabs"
                 Loaded="VerticalTabStripInvokeButton_Loaded"
                 PointerEntered="Button_PointerEntered"
                 PointerExited="VerticalTabStripInvokeButton_PointerExited"
-                Style="{StaticResource ToolBarButtonStyle}"
                 Tapped="Button_Tapped"
                 ToolTipService.ToolTip="Open tabs">
-                <FontIcon FontSize="14" Glyph="&#xF5ED;" />
+                <AppBarButton.Icon>
+                    <FontIcon
+                        FontSize="10"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Glyph="&#xF5ED;" />
+                </AppBarButton.Icon>
                 <Button.Flyout>
                     <Flyout
                         x:Name="VerticalTabViewFlyout"

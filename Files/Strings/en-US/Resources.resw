@@ -585,8 +585,8 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Layout Mode</value>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>Layout</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Selection options</value>
@@ -1359,11 +1359,17 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Address</value>
   </data>
+  <data name="VerticalTabStrip.Label" xml:space="preserve">
+    <value>Tabs</value>
+  </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>More options</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>Select</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Status center</value>
@@ -1560,11 +1566,17 @@
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Display Options</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Display options</value>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Layout</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Display options</value>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>Preview</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
     <value>Grid View (Large)</value>
@@ -2071,7 +2083,7 @@
     <value>Show Recent Files widget</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Manage widgets</value>
+    <value>Manage Widgets</value>
   </data>
   <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
     <value>Manage widgets</value>
@@ -2172,11 +2184,14 @@
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
     <value>Sidebar resizer</value>
   </data>
-  <data name="NavToolbarArrangementOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Arrangement options</value>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Sort</value>
   </data>
-  <data name="NavToolbarArrangementOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Arrangement options</value>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>Sort</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Group By</value>
@@ -2393,5 +2408,8 @@
   </data>
   <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>Widgets</value>
   </data>
 </root>
