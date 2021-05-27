@@ -447,6 +447,7 @@
                                     Width="32"
                                     Height="Auto"
                                     HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     AutomationProperties.Name="File icon"
                                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     TabFocusNavigation="Local"
