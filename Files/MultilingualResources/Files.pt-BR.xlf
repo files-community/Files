@@ -2228,10 +2228,6 @@
           <source>Arguments</source>
           <target state="translated">Argumentos</target>
         </trans-unit>
-        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
-          <source>Layout Mode</source>
-          <target state="new">Layout Mode</target>
-        </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
           <target state="new">{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</target>
@@ -3087,6 +3083,10 @@
         <trans-unit id="NavToolbarSortOptionsButton.Label" translate="yes" xml:space="preserve">
           <source>Sort</source>
           <target state="new">Sort</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
         </trans-unit>
       </group>
     </body>

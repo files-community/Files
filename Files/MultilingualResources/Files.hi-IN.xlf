@@ -1922,10 +1922,6 @@
           <source>Tiles View (Ctrl+Shift+2)</source>
           <target state="new">Tiles View (Ctrl+Shift+2)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
-          <source>Layout Mode</source>
-          <target state="new">Layout Mode</target>
-        </trans-unit>
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">विकल्प प्रदर्शित करें</target>
@@ -3089,6 +3085,10 @@
         <trans-unit id="NavToolbarSortOptionsButton.Label" translate="yes" xml:space="preserve">
           <source>Sort</source>
           <target state="new">Sort</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
         </trans-unit>
       </group>
     </body>
