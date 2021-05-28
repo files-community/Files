@@ -444,7 +444,7 @@
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
-                                    Width="32"
+                                    Width="24"
                                     Height="Auto"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
@@ -454,7 +454,8 @@
                                     Tag="ItemImage">
                                     <Image
                                         x:Name="Picture"
-                                        Width="24"
+                                        Width="20"
+                                        Height="20"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
@@ -463,12 +464,12 @@
                                         Stretch="Uniform" />
                                     <FontIcon
                                         x:Name="FolderGlyphIcon"
-                                        Width="24"
-                                        Height="24"
+                                        Width="20"
+                                        Height="20"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                        FontSize="24"
+                                        FontSize="20"
                                         Glyph="&#xF12B;" />
                                     <FontIcon
                                         x:Name="TypeUnknownGlyph"
@@ -482,21 +483,18 @@
                                         Glyph="&#xE71B;" />
                                     <Image
                                         x:Name="IconOverlay"
-                                        Width="22"
-                                        Height="22"
-                                        Margin="2,8,8,2"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
+                                        Width="16"
+                                        Height="16"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
                                         x:Load="True"
                                         x:Phase="1"
                                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                                         Stretch="Uniform" />
                                     <Border
                                         x:Name="ShortcutGlyphElement"
-                                        Margin="2,18,18,2"
-                                        Padding="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
                                         x:Load="{x:Bind IsShortcutItem}"
                                         x:Phase="1"
                                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
@@ -504,7 +502,7 @@
                                         BorderThickness="1">
                                         <FontIcon
                                             FontFamily="{StaticResource CustomGlyph}"
-                                            FontSize="10"
+                                            FontSize="8"
                                             Glyph="&#xF10A;" />
                                     </Border>
                                 </Grid>
@@ -518,6 +516,7 @@
                                     Tapped="ItemNameGrid_Tapped">
                                     <TextBlock
                                         x:Name="ItemName"
+                                        VerticalAlignment="Center"
                                         Text="{x:Bind ItemName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                     <TextBox
