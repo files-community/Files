@@ -273,7 +273,7 @@ namespace Files.DataModels
 
                 var getImage = res.Result?.GetThumbnailAsync(
                     Windows.Storage.FileProperties.ThumbnailMode.ListView,
-                    28,
+                    24,
                     Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 
                 if(getImage != null)
