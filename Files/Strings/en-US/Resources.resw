@@ -2413,6 +2413,6 @@
     <value>Widgets</value>
   </data>
   <data name="SettingsLoadShellContextMenuItems.Header" xml:space="preserve">
-    <value>Show explorer's context menu items in Files</value>
+    <value>Show shortcut menu handlers from Windows Explorer</value>
   </data>
 </root>

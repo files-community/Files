@@ -43,7 +43,7 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsLoadShellContextMenuItems"
-                    Header="Show explorer's context menu items in Files"
+                    Header="Show shortcut menu handlers from Windows Explorer"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding LoadShellContextMenuItems, Mode=TwoWay}" />
             </StackPanel>
