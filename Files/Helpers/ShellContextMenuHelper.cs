@@ -17,7 +17,7 @@ namespace Files.Helpers
 {
     public static class ShellContextmenuHelper
     {
-        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
+        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems, bool loadShellMenuItems)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -26,7 +26,7 @@ namespace Files.Helpers
             var currentBaseLayoutItemCount = baseItems.Count;
             var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
 
-            if (connection != null)
+            if (loadShellMenuItems && connection != null)
             {
                 var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
                 {

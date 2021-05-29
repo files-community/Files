@@ -20,5 +20,22 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        private bool loadShellContextMenuItems = App.AppSettings.LoadShellContextMenuItems;
+
+        public bool LoadShellContextMenuItems
+        {
+            get
+            {
+                return loadShellContextMenuItems;
+            }
+            set
+            {
+                if (SetProperty(ref loadShellContextMenuItems, value))
+                {
+                    App.AppSettings.LoadShellContextMenuItems = value;
+                }
+            }
+        }
     }
 }

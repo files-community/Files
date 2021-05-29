@@ -2412,4 +2412,7 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
+  <data name="SettingsLoadShellContextMenuItems.Header" xml:space="preserve">
+    <value>Show explorer's context menu items in Files</value>
+  </data>
 </root>

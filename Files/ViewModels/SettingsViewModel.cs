@@ -576,6 +576,14 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to add explorer's context menu items to Files context menu.
+        /// </summary>
+        public bool LoadShellContextMenuItems
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         #endregion Experimental
 

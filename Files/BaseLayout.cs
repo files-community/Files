@@ -470,7 +470,14 @@ namespace Files
             try
             {
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-                var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
+                var items = ContextFlyoutItemHelper.GetBaseContextCommands(
+                    connection: Connection, 
+                    currentInstanceViewModel: InstanceViewModel, 
+                    itemViewModel: ParentShellPageInstance.FilesystemViewModel, 
+                    commandsViewModel: CommandsViewModel, 
+                    shiftPressed: shiftPressed,
+                    showOpenMenu: false, 
+                    loadShellMenuItems: AppSettings.LoadShellContextMenuItems);
                 BaseContextMenuFlyout.Items.Clear();
                 ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
             }
@@ -484,7 +491,16 @@ namespace Files
         {
             SelectedItemsPropertiesViewModel.CheckFileExtension();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
+            var items = ContextFlyoutItemHelper.GetItemContextCommands(
+                connection: Connection, 
+                currentInstanceViewModel: InstanceViewModel, 
+                workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, 
+                selectedItems: SelectedItems, 
+                selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, 
+                commandsViewModel: CommandsViewModel, 
+                shiftPressed: shiftPressed, 
+                showOpenMenu: false, 
+                loadShellMenuItems: AppSettings.LoadShellContextMenuItems);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
