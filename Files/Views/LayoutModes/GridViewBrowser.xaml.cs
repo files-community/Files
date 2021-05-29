@@ -31,14 +31,14 @@ namespace Files.Views.LayoutModes
         /// <summary>
         /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
         /// </summary>
-        public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+        public int GridViewItemMinWidth => ViewModel.FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
         public BaseLayoutViewModel ViewModel => throw new NotImplementedException();
 
         public GridViewBrowser()
         {
             InitializeComponent();
-            this.DataContext = ViewModel;
+            ViewModel = this.DataContext;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;

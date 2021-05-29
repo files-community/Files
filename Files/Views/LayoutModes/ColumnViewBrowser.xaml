@@ -1257,7 +1257,7 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+	<Grid x:Name="RootGrid" ContextFlyout="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).BaseContextMenuFlyout}">
         <controls:BladeView x:Name="ColumnHost">
             <controls:BladeItem x:Name="FirstBlade">
                 <Grid>
@@ -1270,13 +1270,13 @@
                         Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
                         Visibility="Collapsed" />
 
-                    <SemanticZoom ViewChangeStarted="SemanticZoom_ViewChangeStarted" Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+					<SemanticZoom ViewChangeStarted="SemanticZoom_ViewChangeStarted" Visibility="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).InstanceViewModel.FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                         <SemanticZoom.ZoomedInView>
                             <ListView
                                 x:Name="FileList"
                                 x:FieldModifier="public"
-                                AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                                CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                AllowDrop="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                CanDragItems="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 ChoosingItemContainer="FileList_ChoosingItemContainer"
                                 DoubleTapped="FileList_DoubleTapped"
                                 DragEnter="ItemsLayout_DragEnter"
@@ -1288,12 +1288,12 @@
                                 IsRightTapEnabled="True"
                                 ItemClick="FileList_ItemClick"
                                 ItemContainerStyle="{ThemeResource NormalStyle}"
-                                ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+                                ItemsSource="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).CollectionViewSource.View, Mode=OneWay}"
                                 PreviewKeyDown="FileList_PreviewKeyDown"
                                 RightTapped="FileList_RightTapped"
                                 ScrollViewer.IsScrollInertiaEnabled="True"
                                 SelectionChanged="FileList_SelectionChanged"
-                                SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+                                SelectionMode="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
 
                                 <ListView.ItemContainerTransitions>
                                     <TransitionCollection>
@@ -1491,7 +1491,7 @@
                                     <StackPanel
                                         x:Name="SearchUnindexedItemsPanel"
                                         HorizontalAlignment="Stretch"
-                                        x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+                                        x:Load="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
                                         Orientation="Vertical">
                                         <TextBlock
                                             x:Uid="SearchUnindexedItemsLabel"
@@ -1501,7 +1501,7 @@
                                             x:Name="SearchUnindexedItemsButton"
                                             x:Uid="SearchUnindexedItemsButton"
                                             HorizontalAlignment="Center"
-                                            Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+                                            Command="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).CommandsViewModel.SearchUnindexedItems}"
                                             Content="Search unindexed items." />
                                     </StackPanel>
                                 </ListView.Footer>
@@ -1511,7 +1511,7 @@
                             <ListView
                                 HorizontalAlignment="Stretch"
                                 IsItemClickEnabled="True"
-                                ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
+                                ItemsSource="{x:Bind ((local:BaseLayoutViewModel)PageRoot.DataContext).CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                                 SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="ICollectionViewGroup">
