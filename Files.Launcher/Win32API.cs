@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -39,9 +40,6 @@ namespace FilesFullTrust
             thread.Start();
             return tcs.Task;
         }
-
-        [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
-        public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] StringBuilder lpResult);
 
         public static async Task<string> GetFileAssociationAsync(string filename)
         {
@@ -291,30 +289,43 @@ namespace FilesFullTrust
             public long i64NumItems;
         }
 
-        public static void Foreground(this Process process)
+        public static IEnumerable<HWND> GetDesktopWindows()
+        {
+            HWND prevHwnd = HWND.NULL;
+            var windowsList = new List<HWND>();
+            while (true)
+            {
+                prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
+                if (prevHwnd == null || prevHwnd == HWND.NULL)
+                {
+                    break;
+                }
+                windowsList.Add(prevHwnd);
+            }
+            return windowsList;
+        }
+
+        public static void BringToForeground(IEnumerable<HWND> currentWindows)
         {
             CancellationTokenSource cts = new CancellationTokenSource();
-            cts.CancelAfter(2 * 1000);
+            cts.CancelAfter(5 * 1000);
 
             Task.Run(async () =>
             {
                 while (!cts.IsCancellationRequested)
                 {
-                    try
+                    await Task.Delay(500);
+
+                    var newWindows = GetDesktopWindows().Except(currentWindows).Where(x => User32.IsWindowVisible(x) && !User32.IsIconic(x));
+                    if (newWindows.Any())
                     {
-                        process.Refresh();
-                        if (process.MainWindowHandle != IntPtr.Zero)
+                        foreach (var newWindow in newWindows)
                         {
-                            User32.SetWindowPos(process.MainWindowHandle, User32.SpecialWindowHandles.HWND_TOPMOST,
-                                0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
-                            User32.SetWindowPos(process.MainWindowHandle, User32.SpecialWindowHandles.HWND_NOTOPMOST,
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_TOPMOST,
+                                    0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_NOTOPMOST,
                                 0, 0, 0, 0, User32.SetWindowPosFlags.SWP_SHOWWINDOW | User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
-                            break;
                         }
-                        await Task.Delay(100);
-                    }
-                    catch (InvalidOperationException)
-                    {
                         break;
                     }
                 }
