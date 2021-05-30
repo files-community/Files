@@ -83,8 +83,6 @@ namespace Files
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
             AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
-
-            StartAppCenter();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -114,23 +112,6 @@ namespace Files
                 await NetworkDrivesManager.EnumerateDrivesAsync();
                 await WSLDistroManager.EnumerateDrivesAsync();
             });
-        }
-
-        private async void StartAppCenter()
-        {
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch
-            {
-                return;
-            }
-
-            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
