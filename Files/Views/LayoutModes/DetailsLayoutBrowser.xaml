@@ -16,6 +16,7 @@
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -213,6 +214,7 @@
                     Padding="8,0,8,8"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
+                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="True"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
