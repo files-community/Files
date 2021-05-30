@@ -78,7 +78,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-            Clipboard.ContentChanged += Clipboard_ContentChanged;
+           
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -211,36 +211,13 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                Clipboard_ContentChanged(null, null);
+                if (App.InteractionViewModel != null)
+                {
+                    App.InteractionViewModel.Clipboard_ContentChanged(null, null);
+                }
             }
         }
 
-        private void Clipboard_ContentChanged(object sender, object e)
-        {
-            if (App.InteractionViewModel == null)
-            {
-                return;
-            }
-
-            try
-            {
-                // Clipboard.GetContent() will throw UnauthorizedAccessException
-                // if the app window is not in the foreground and active
-                DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
-                {
-                    App.InteractionViewModel.IsPasteEnabled = true;
-                }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
-            }
-        }
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
