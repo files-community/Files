@@ -214,46 +214,6 @@ namespace Files.ViewModels
             }
         }
 
-        #region DetailsView Column Settings
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the date column should be visible.
-        /// </summary>
-        public bool ShowDateColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the date created column should be visible.
-        /// </summary>
-        public bool ShowDateCreatedColumn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the type column should be visible.
-        /// </summary>
-        public bool ShowTypeColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the size column should be visible.
-        /// </summary>
-        public bool ShowSizeColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        #endregion DetailsView Column Settings
-
         #region CommonPaths
 
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;

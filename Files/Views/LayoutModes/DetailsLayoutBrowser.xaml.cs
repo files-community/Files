@@ -30,7 +30,7 @@ namespace Files.Views.LayoutModes
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
         public string oldItemName;
-        
+
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -255,7 +255,7 @@ namespace Files.Views.LayoutModes
             }
 
             ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth);
+                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
 
             UpdateSortIndicator();
         }
@@ -671,9 +671,11 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth);
+                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
