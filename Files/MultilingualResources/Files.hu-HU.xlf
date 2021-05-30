@@ -2623,18 +2623,6 @@
           <source>Open themes folder</source>
           <target state="translated">Téma mappa megnyitása</target>
         </trans-unit>
-        <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <target state="translated">Név</target>
-        </trans-unit>
-        <trans-unit id="FileBrowserSortOption_DateModified.Text" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">Módosítás dátuma</target>
-        </trans-unit>
-        <trans-unit id="FileBrowserSortOption_FileType.Text" translate="yes" xml:space="preserve">
-          <source>Type</source>
-          <target state="translated">Típus</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
           <target state="translated">{0} ütköző fájlnév, és {1} kimenő elem.</target>

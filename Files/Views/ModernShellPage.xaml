@@ -285,7 +285,7 @@
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 ItemDraggedOverPathItem="ModernShellPage_NavigationRequested"
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
-                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
+                MultiselectEnabled="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                 NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
                 NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand, Mode=OneWay}"
                 NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand, Mode=OneWay}"

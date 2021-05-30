@@ -2609,18 +2609,6 @@
           <source>Open themes folder</source>
           <target state="translated">テーマ フォルダを開く</target>
         </trans-unit>
-        <trans-unit id="FileBrowserSortOption_Name.Text" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <target state="translated">名前</target>
-        </trans-unit>
-        <trans-unit id="FileBrowserSortOption_DateModified.Text" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">更新日時</target>
-        </trans-unit>
-        <trans-unit id="FileBrowserSortOption_FileType.Text" translate="yes" xml:space="preserve">
-          <source>Type</source>
-          <target state="translated">タイプ</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
           <target state="translated">{0}個の競合するファイル名と、{1}個のそうでないファイルがあります</target>

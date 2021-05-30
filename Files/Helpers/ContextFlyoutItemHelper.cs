@@ -353,7 +353,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
                     Glyph = "\uE16D",
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
-                    IsEnabled = currentInstanceViewModel.CanPasteInPage && App.InteractionViewModel.IsPasteEnabled,
+                    IsEnabled = currentInstanceViewModel.CanPasteInPage && App.MainViewModel.IsPasteEnabled,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
                         Key = Windows.System.VirtualKey.V,
@@ -584,7 +584,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
                     SingleItemOnly = true,
-                    IsEnabled = App.InteractionViewModel.IsPasteEnabled,
+                    IsEnabled = App.MainViewModel.IsPasteEnabled,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
                         Key = Windows.System.VirtualKey.V,

@@ -50,7 +50,7 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
@@ -235,7 +235,7 @@ namespace Files
 
             if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
             {
-                App.InteractionViewModel.IsQuickLookEnabled = true;
+                App.MainViewModel.IsQuickLookEnabled = true;
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();

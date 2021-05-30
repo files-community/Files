@@ -515,7 +515,7 @@
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\InteractionViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPropertiesViewModel.cs" />
     <Compile Include="ViewModels\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="IShellPage.cs" />

@@ -9,11 +9,11 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
-    public class InteractionViewModel : ObservableObject
+    public class MainViewModel : ObservableObject
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public InteractionViewModel()
+        public MainViewModel()
         {
             Window.Current.SizeChanged += Current_SizeChanged;
             Clipboard.ContentChanged += Clipboard_ContentChanged;

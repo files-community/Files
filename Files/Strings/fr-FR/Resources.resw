@@ -1914,15 +1914,6 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Ouvrir l'emplacement des thèmes</value>
   </data>
-  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
-    <value>Nom</value>
-  </data>
-  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
-    <value>Date de modification</value>
-  </data>
-  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Générer un nouveau nom</value>
   </data>

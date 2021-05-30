@@ -46,7 +46,7 @@ namespace Files
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
         public static SettingsViewModel AppSettings { get; private set; }
-        public static InteractionViewModel InteractionViewModel { get; private set; }
+        public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -83,8 +83,6 @@ namespace Files
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
             AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
-
-            StartAppCenter();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -97,7 +95,7 @@ namespace Files
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
-            InteractionViewModel ??= new InteractionViewModel();
+            MainViewModel ??= new MainViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
@@ -114,23 +112,6 @@ namespace Files
                 await NetworkDrivesManager.EnumerateDrivesAsync();
                 await WSLDistroManager.EnumerateDrivesAsync();
             });
-        }
-
-        private async void StartAppCenter()
-        {
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch
-            {
-                return;
-            }
-
-            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -211,9 +192,9 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                if (App.InteractionViewModel != null)
+                if (MainViewModel != null)
                 {
-                    App.InteractionViewModel.Clipboard_ContentChanged(null, null);
+                    MainViewModel.Clipboard_ContentChanged(null, null);
                 }
             }
         }

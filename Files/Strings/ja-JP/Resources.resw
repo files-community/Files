@@ -1941,15 +1941,6 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>テーマ フォルダを開く</value>
   </data>
-  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
-    <value>名前</value>
-  </data>
-  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
-    <value>更新日時</value>
-  </data>
-  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
-    <value>タイプ</value>
-  </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>{0}個の競合するファイル名と、{1}個のそうでないファイルがあります</value>
   </data>
