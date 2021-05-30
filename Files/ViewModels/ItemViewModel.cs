@@ -52,8 +52,8 @@ namespace Files.ViewModels
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-        public FolderSettingsViewModel folderSettings = null;
+        private SettingsViewModel AppSettings => App.AppSettings;
+        private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;

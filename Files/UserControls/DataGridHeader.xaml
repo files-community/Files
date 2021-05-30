@@ -1,0 +1,90 @@
+﻿<UserControl
+    x:Class="Files.UserControls.DataGridHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ciao="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Name="HeaderButtonStyle" TargetType="Button">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Height" Value="34" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <x:String x:Key="SortIconAscending">&#xE74A;</x:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Button
+            Command="{x:Bind Command}"
+            CommandParameter="{x:Bind CommandParameter}"
+            IsEnabled="{x:Bind CanBeSorted, Mode=OneWay}"
+            Style="{StaticResource HeaderButtonStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="{x:Bind Header, Mode=OneWay}" />
+                <FontIcon
+                    x:Name="SortIcon"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Glyph="{StaticResource SortIconAscending}"
+                    RenderTransformOrigin="0.5, 0.5"
+                    Visibility="Collapsed">
+                    <FontIcon.RenderTransform>
+                        <RotateTransform />
+                    </FontIcon.RenderTransform>
+                </FontIcon>
+            </Grid>
+        </Button>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SortStates">
+                <VisualState x:Name="Unsorted" />
+                <VisualState x:Name="SortAscending">
+                    <VisualState.Setters>
+                        <Setter Target="SortIcon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="SortIcon"
+                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
+                            To="0"
+                            Duration="0:0:0.2" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="SortDescending">
+                    <VisualState.Setters>
+                        <Setter Target="SortIcon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetName="SortIcon"
+                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
+                            To="180"
+                            Duration="0:0:0.2" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>
