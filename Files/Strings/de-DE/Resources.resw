@@ -1950,15 +1950,6 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Themenordner öffnen</value>
   </data>
-  <data name="FileBrowserSortOption_Name.Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="FileBrowserSortOption_DateModified.Text" xml:space="preserve">
-    <value>Änderungsdatum</value>
-  </data>
-  <data name="FileBrowserSortOption_FileType.Text" xml:space="preserve">
-    <value>Typ</value>
-  </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Es gibt {0} Konflikte und {1} verbleibende Einträge.</value>
   </data>

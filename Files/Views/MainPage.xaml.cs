@@ -24,6 +24,7 @@ namespace Files.Views
     public sealed partial class MainPage : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         public MainPageViewModel ViewModel
         {

@@ -30,7 +30,7 @@ namespace Files.DataModels
         public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonIgnore]
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
@@ -46,7 +46,7 @@ namespace Files.DataModels
             {
                 Text = "SidebarHome".GetLocalized(),
                 Section = SectionType.Home,
-                Font = InteractionViewModel.FontName,
+                Font = MainViewModel.FontName,
                 IsDefaultLocation = true,
                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
                 Path = "Home",
@@ -57,7 +57,7 @@ namespace Files.DataModels
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
-                Font = InteractionViewModel.FontName,
+                Font = MainViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -264,7 +264,7 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = InteractionViewModel.FontName,
+                    Font = MainViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
                     IsDefaultLocation = false,

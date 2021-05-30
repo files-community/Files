@@ -46,7 +46,7 @@ namespace Files
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
         public static SettingsViewModel AppSettings { get; private set; }
-        public static InteractionViewModel InteractionViewModel { get; private set; }
+        public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -97,7 +97,7 @@ namespace Files
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
-            InteractionViewModel ??= new InteractionViewModel();
+            MainViewModel ??= new MainViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
@@ -211,9 +211,9 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                if (App.InteractionViewModel != null)
+                if (App.MainViewModel != null)
                 {
-                    App.InteractionViewModel.Clipboard_ContentChanged(null, null);
+                    App.MainViewModel.Clipboard_ContentChanged(null, null);
                 }
             }
         }

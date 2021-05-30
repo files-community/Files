@@ -74,7 +74,7 @@
                 x:Name="FullTrustStatus"
                 Width="36"
                 Height="32"
-                x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
                 AccessKey="M"
                 Background="Transparent"
                 Click="FullTrustStatus_Click"

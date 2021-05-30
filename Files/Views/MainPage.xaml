@@ -231,7 +231,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     x:FieldModifier="public"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, MainViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
                     Canvas.ZIndex="40"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
             </Grid>

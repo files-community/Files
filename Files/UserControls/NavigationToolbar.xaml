@@ -1144,7 +1144,7 @@
             <AppBarButton
                 x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"
-                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.MainViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
                 AccessKey="T"
                 AllowDrop="True"
                 AutomationProperties.Name="Vertical tab strip"
@@ -1263,7 +1263,7 @@
                             x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
                             Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
-                            IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
+                            IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                             Text="Paste"
                             Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
