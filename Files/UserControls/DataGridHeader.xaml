@@ -24,7 +24,6 @@
         </Style>
 
         <x:String x:Key="SortIconAscending">&#xE74A;</x:String>
-        <x:String x:Key="SortIconDescending">&#xE74B;</x:String>
     </UserControl.Resources>
 
     <Grid>
@@ -61,47 +60,32 @@
             <VisualStateGroup x:Name="SortStates">
                 <VisualState x:Name="Unsorted" />
                 <VisualState x:Name="SortAscending">
-                    <Storyboard
-                        AutoReverse="False"
-                        FillBehavior="HoldEnd"
-                        RepeatBehavior="0x">
+                    <Storyboard>
                         <DoubleAnimation
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="Opacity"
                             To="1"
                             Duration="0" />
                         <DoubleAnimation
-                            AutoReverse="False"
-                            FillBehavior="HoldEnd"
-                            RepeatBehavior="0x"
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
                             To="0"
-                            Duration="0:0:1" />
+                            Duration="0:0:0.2" />
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="SortDescending">
-                    <Storyboard
-                        AutoReverse="False"
-                        FillBehavior="HoldEnd"
-                        RepeatBehavior="0x">
+                    <Storyboard>
                         <DoubleAnimation
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="Opacity"
                             To="1"
                             Duration="0" />
                         <DoubleAnimation
-                            AutoReverse="False"
-                            FillBehavior="HoldEnd"
-                            RepeatBehavior="0x"
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
                             To="180"
-                            Duration="0:0:1" />
+                            Duration="0:0:0.2" />
                     </Storyboard>
-                    <VisualState.Setters>
-                        <Setter Target="SortIcon.Glyph" Value="{ThemeResource SortIconDescending}" />
-                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
