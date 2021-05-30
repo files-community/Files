@@ -190,14 +190,14 @@ namespace Files.Views.LayoutModes
             UpdateSortOptionsCommand = new RelayCommand<string>(x =>
             {
                 var val = Enum.Parse<SortOption>(x);
-                if (ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortOption == val)
+                if (FolderSettings.DirectorySortOption == val)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection = (SortDirection)(((int)ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection + 1) % 2);
+                    FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
                 }
                 else
                 {
-                    ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortOption = val;
-                    ParentShellPageInstance.FilesystemViewModel.folderSettings.DirectorySortDirection = SortDirection.Ascending;
+                    FolderSettings.DirectorySortOption = val;
+                    FolderSettings.DirectorySortDirection = SortDirection.Ascending;
                 }
             });
 
