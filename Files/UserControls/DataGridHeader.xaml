@@ -35,7 +35,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" MinWidth="32" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="{x:Bind Header, Mode=OneWay}" />
                 <FontIcon
@@ -47,8 +47,8 @@
                     FontSize="12"
                     Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                     Glyph="{StaticResource SortIconAscending}"
-                    Opacity="0"
-                    RenderTransformOrigin="0.5, 0.5">
+                    RenderTransformOrigin="0.5, 0.5"
+                    Visibility="Collapsed">
                     <FontIcon.RenderTransform>
                         <RotateTransform />
                     </FontIcon.RenderTransform>
@@ -60,12 +60,10 @@
             <VisualStateGroup x:Name="SortStates">
                 <VisualState x:Name="Unsorted" />
                 <VisualState x:Name="SortAscending">
+                    <VisualState.Setters>
+                        <Setter Target="SortIcon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
                     <Storyboard>
-                        <DoubleAnimation
-                            Storyboard.TargetName="SortIcon"
-                            Storyboard.TargetProperty="Opacity"
-                            To="1"
-                            Duration="0" />
                         <DoubleAnimation
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
@@ -74,12 +72,10 @@
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="SortDescending">
+                    <VisualState.Setters>
+                        <Setter Target="SortIcon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
                     <Storyboard>
-                        <DoubleAnimation
-                            Storyboard.TargetName="SortIcon"
-                            Storyboard.TargetProperty="Opacity"
-                            To="1"
-                            Duration="0" />
                         <DoubleAnimation
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
