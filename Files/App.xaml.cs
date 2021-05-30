@@ -192,9 +192,9 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                if (App.MainViewModel != null)
+                if (MainViewModel != null)
                 {
-                    App.MainViewModel.Clipboard_ContentChanged(null, null);
+                    MainViewModel.Clipboard_ContentChanged(null, null);
                 }
             }
         }
