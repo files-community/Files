@@ -459,9 +459,15 @@ namespace Files
             {
                 if (!IsItemSelected) // Workaround for item sometimes not getting selected
                 {
-                    ItemManipulationModel.SetSelectedItem(((sender as Microsoft.UI.Xaml.Controls.CommandBarFlyout).Target as ListViewItem).Content as ListedItem);
+                    if (((sender as Microsoft.UI.Xaml.Controls.CommandBarFlyout).Target as ListViewItem).Content is ListedItem li)
+                    {
+                        ItemManipulationModel.SetSelectedItem(li);
+                    }
                 }
-                LoadMenuItemsAsync();
+                if (IsItemSelected)
+                {
+                    LoadMenuItemsAsync();
+                }
             }
             catch (Exception error)
             {
