@@ -501,9 +501,16 @@ namespace Files.ViewModels
                 App.AppSettings.DefaultGridViewSize = prefs.GridViewSize;
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalPath &&
-                    prefs.DirectorySortOption != SortOption.DateDeleted)
+                    prefs.DirectorySortOption != SortOption.DateDeleted &&
+                    prefs.DirectorySortOption != SortOption.SyncStatus)
                 {
                     App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
+                }
+                if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
+                    prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
+                    prefs.DirectoryGroupOption != GroupOption.SyncStatus)
+                {
+                    App.AppSettings.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
                 }
                 App.AppSettings.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
                 App.AppSettings.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
