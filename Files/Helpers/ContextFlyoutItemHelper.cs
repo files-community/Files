@@ -183,20 +183,18 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByOriginalPath/Text".GetLocalized(),
-                            IsChecked = itemViewModel.IsSortedByOriginalPath,
+                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
+                            IsChecked = itemViewModel.IsSortedByDate,
+                            Command = new RelayCommand(() => itemViewModel.IsSortedByDate = true),
                             ShowInRecycleBin = true,
-                            Command = new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true),
-                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
-                            ItemType = ItemType.Toggle,
+                            ItemType = ItemType.Toggle
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
-                            IsChecked = itemViewModel.IsSortedByDateDeleted,
-                            Command = new RelayCommand(() => itemViewModel.IsSortedByDateDeleted = true),
+                            Text = "BaseLayoutContextFlyoutSortByDateCreated/Text".GetLocalized(),
+                            IsChecked = itemViewModel.IsSortedByDateCreated,
+                            Command = new RelayCommand(() => itemViewModel.IsSortedByDateCreated = true),
                             ShowInRecycleBin = true,
-                            ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin,
                             ItemType = ItemType.Toggle
                         },
                         new ContextMenuFlyoutItemViewModel()
@@ -217,27 +215,29 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
-                            IsChecked = itemViewModel.IsSortedByDate,
-                            Command = new RelayCommand(() => itemViewModel.IsSortedByDate = true),
-                            ShowInRecycleBin = true,
-                            ItemType = ItemType.Toggle
-                        },
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutSortByDateCreated/Text".GetLocalized(),
-                            IsChecked = itemViewModel.IsSortedByDateCreated,
-                            Command = new RelayCommand(() => itemViewModel.IsSortedByDateCreated = true),
-                            ShowInRecycleBin = true,
-                            ItemType = ItemType.Toggle
-                        },
-                        new ContextMenuFlyoutItemViewModel()
-                        {
                             Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedBySyncStatus,
                             Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
                             ShowInRecycleBin = false,
                             ShowInCloudDrive = true,
+                            ItemType = ItemType.Toggle
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByOriginalPath/Text".GetLocalized(),
+                            IsChecked = itemViewModel.IsSortedByOriginalPath,
+                            ShowInRecycleBin = true,
+                            Command = new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true),
+                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
+                            IsChecked = itemViewModel.IsSortedByDateDeleted,
+                            Command = new RelayCommand(() => itemViewModel.IsSortedByDateDeleted = true),
+                            ShowInRecycleBin = true,
+                            ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin,
                             ItemType = ItemType.Toggle
                         },
                         new ContextMenuFlyoutItemViewModel()
@@ -290,26 +290,6 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "NavToolbarArrangementOption_OriginalFolder/Content".GetLocalized(),
-                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder,
-                            ShowInRecycleBin = true,
-                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
-                            CommandParameter = GroupOption.OriginalFolder,
-                            ItemType = ItemType.Toggle,
-                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
-                        },
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
-                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted,
-                            ShowInRecycleBin = true,
-                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
-                            CommandParameter = GroupOption.DateDeleted,
-                            ItemType = ItemType.Toggle,
-                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
-                        },
-                        new ContextMenuFlyoutItemViewModel()
-                        {
                             Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateModified,
                             ShowInRecycleBin = true,
@@ -324,16 +304,6 @@ namespace Files.Helpers
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
                             CommandParameter = GroupOption.DateCreated,
-                            ItemType = ItemType.Toggle,
-                        },
-                        new ContextMenuFlyoutItemViewModel()
-                        {
-                            Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
-                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
-                            ShowInRecycleBin = false,
-                            ShowInCloudDrive = true,
-                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
-                            CommandParameter = GroupOption.SyncStatus,
                             ItemType = ItemType.Toggle,
                         },
                         new ContextMenuFlyoutItemViewModel()
@@ -353,6 +323,36 @@ namespace Files.Helpers
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
                             CommandParameter = GroupOption.Size,
                             ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
+                            ShowInRecycleBin = false,
+                            ShowInCloudDrive = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.SyncStatus,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "NavToolbarArrangementOption_OriginalFolder/Content".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.OriginalFolder,
+                            ItemType = ItemType.Toggle,
+                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.DateDeleted,
+                            ItemType = ItemType.Toggle,
+                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
                         },
                     }
                 },

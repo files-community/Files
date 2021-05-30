@@ -115,8 +115,8 @@
                     GroupName="SortOptionsGroup"
                     IsEnabled="{x:Bind IsPageTypeCloudDrive, Mode=OneWay}" />
                 <RadioButton
-                    x:Uid="NavToolbarArrangementOption_OriginalPath"
-                    Content="Original Path"
+                    x:Uid="NavToolbarArrangementOption_OriginalFolder"
+                    Content="Original folder"
                     GroupName="SortOptionsGroup"
                     IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
                 <RadioButton
