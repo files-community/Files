@@ -307,7 +307,7 @@
                                 <ColumnDefinition x:Name="Column8" Width="0" />
                             </Grid.ColumnDefinitions>
 
-                            <Grid Grid.Column="0" Width="28" />
+                            <Grid Grid.Column="0" />
 
                             <uc:DataGridHeader
                                 x:Name="NameHeader"
@@ -413,7 +413,7 @@
                                 RightTapped="StackPanel_RightTapped"
                                 ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
