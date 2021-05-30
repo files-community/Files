@@ -381,7 +381,8 @@
                                 x:Name="SyncStatusHeader"
                                 x:Uid="syncStatusColumn"
                                 Grid.Column="8"
-                                CanBeSorted="False"
+                                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                                CommandParameter="SyncStatus"
                                 Header="Status"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 

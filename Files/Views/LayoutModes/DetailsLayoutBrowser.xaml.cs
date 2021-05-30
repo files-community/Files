@@ -231,6 +231,7 @@ namespace Files.Views.LayoutModes
             DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
         }
 
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)

@@ -7,6 +7,7 @@
         DateCreated,
         Size,
         FileType,
+        SyncStatus,
         OriginalPath,
         DateDeleted
     }
@@ -19,6 +20,7 @@
         DateCreated,
         Size,
         FileType,
+        SyncStatus,
         OriginalFolder,
         DateDeleted
     }
