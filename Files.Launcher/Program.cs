@@ -1104,6 +1104,7 @@ namespace FilesFullTrust
         {
             var arguments = message.Get("Arguments", "");
             var workingDirectory = message.Get("WorkingDirectory", "");
+            var currentWindows = Win32API.GetDesktopWindows();
 
             try
             {
@@ -1138,6 +1139,7 @@ namespace FilesFullTrust
                 }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
+                Win32API.BringToForeground(currentWindows);
             }
             catch (Win32Exception)
             {
@@ -1150,6 +1152,7 @@ namespace FilesFullTrust
                 try
                 {
                     process.Start();
+                    Win32API.BringToForeground(currentWindows);
                 }
                 catch (Win32Exception)
                 {
@@ -1161,6 +1164,7 @@ namespace FilesFullTrust
                             if (split.Count() == 1)
                             {
                                 Process.Start(split.First());
+                                Win32API.BringToForeground(currentWindows);
                             }
                             else
                             {

@@ -289,6 +289,49 @@ namespace FilesFullTrust
             public long i64NumItems;
         }
 
+        public static IEnumerable<HWND> GetDesktopWindows()
+        {
+            HWND prevHwnd = HWND.NULL;
+            var windowsList = new List<HWND>();
+            while (true)
+            {
+                prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
+                if (prevHwnd == null || prevHwnd == HWND.NULL)
+                {
+                    break;
+                }
+                windowsList.Add(prevHwnd);
+            }
+            return windowsList;
+        }
+
+        public static void BringToForeground(IEnumerable<HWND> currentWindows)
+        {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(5 * 1000);
+
+            Task.Run(async () =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    await Task.Delay(500);
+
+                    var newWindows = GetDesktopWindows().Except(currentWindows).Where(x => User32.IsWindowVisible(x) && !User32.IsIconic(x));
+                    if (newWindows.Any())
+                    {
+                        foreach (var newWindow in newWindows)
+                        {
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_TOPMOST,
+                                    0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_NOTOPMOST,
+                                0, 0, 0, 0, User32.SetWindowPosFlags.SWP_SHOWWINDOW | User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                        }
+                        break;
+                    }
+                }
+            });
+        }
+
         // Get information from recycle bin.
         [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
         public static extern int SHQueryRecycleBin(string pszRootPath,
