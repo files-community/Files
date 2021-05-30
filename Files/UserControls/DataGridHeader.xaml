@@ -14,6 +14,7 @@
             <Setter Property="CornerRadius" Value="0" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Height" Value="34" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="Background">
