@@ -178,6 +178,10 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+            FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+            FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
+            FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+            FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
@@ -208,6 +212,25 @@ namespace Files.Views.LayoutModes
             });
         }
 
+        private void FolderSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
+        {
+            UpdateSortIndicator();
+        }
+
+        private void FolderSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
+        {
+            UpdateSortIndicator();
+        }
+
+        private void UpdateSortIndicator()
+        {
+            NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalPath ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+        }
+
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
             // This code updates which columns are hidden and which ones are shwn
@@ -233,6 +256,8 @@ namespace Files.Views.LayoutModes
 
             ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
                     + Column6.ActualWidth + Column7.ActualWidth);
+
+            UpdateSortIndicator();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -248,6 +273,8 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+            FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+            FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
         }
 

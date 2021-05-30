@@ -13,9 +13,9 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
-    xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -53,9 +53,9 @@
             <Style x:Name="HeaderButtonStyle" TargetType="Button">
                 <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
                 <Setter Property="Background">
                     <Setter.Value>
                         <SolidColorBrush Opacity="0" />
@@ -246,7 +246,7 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
-                            Height="33"
+                            Height="38"
                             Padding="0"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
@@ -321,16 +321,13 @@
 
                             <Grid Grid.Column="0" />
 
-                            <Button
+                            <uc:DataGridHeader
+                                x:Name="NameHeader"
+                                x:Uid="nameColumn"
                                 Grid.Column="2"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="Name"
-                                Style="{StaticResource HeaderButtonStyle}">
-                                <TextBlock
-                                    x:Uid="FileBrowserSortOption_Name"
-                                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Name" />
-                            </Button>
+                                Header="Name" />
 
                             <controls:GridSplitter
                                 Grid.Column="3"
@@ -338,14 +335,14 @@
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}" />
 
-                            <Button
+                            <uc:DataGridHeader
+                                x:Name="OriginalPathHeader"
+                                x:Uid="originalPathColumn"
                                 Grid.Column="4"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="OriginalPath"
-                                Style="{StaticResource HeaderButtonStyle}"
-                                Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}">
-                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Original path" />
-                            </Button>
+                                Header="Original path"
+                                Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
                                 Grid.Column="5"
@@ -354,14 +351,14 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
-                            <Button
+                            <uc:DataGridHeader
+                                x:Name="DateDeletedHeader"
+                                x:Uid="dateDeletedColumn"
                                 Grid.Column="6"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateDeleted"
-                                Style="{StaticResource HeaderButtonStyle}"
-                                Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}">
-                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Date deleted" />
-                            </Button>
+                                Header="Date deleted"
+                                Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
                                 Grid.Column="7"
@@ -370,12 +367,13 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
-                            <Button
+                            <uc:DataGridHeader
+                                x:Name="SyncStatusHeader"
+                                x:Uid="syncStatusColumn"
                                 Grid.Column="8"
-                                Style="{StaticResource HeaderButtonStyle}"
-                                Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}">
-                                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="Status" />
-                            </Button>
+                                CanBeSorted="False"
+                                Header="Status"
+                                Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
                                 Grid.Column="9"
@@ -384,17 +382,14 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
-                            <Button
+                            <uc:DataGridHeader
+                                x:Name="DateModifiedHeader"
+                                x:Uid="dateModifiedColumn"
                                 Grid.Column="10"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateModified"
-                                Style="{StaticResource HeaderButtonStyle}"
-                                Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}">
-                                <TextBlock
-                                    x:Uid="FileBrowserSortOption_DateModified"
-                                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Date modified" />
-                            </Button>
+                                Header="Date modified"
+                                Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
                                 Grid.Column="11"
@@ -403,17 +398,14 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
-                            <Button
+                            <uc:DataGridHeader
+                                x:Name="FileTypeHeader"
+                                x:Uid="typeColumn"
                                 Grid.Column="12"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileType"
-                                Style="{StaticResource HeaderButtonStyle}"
-                                Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}">
-                                <TextBlock
-                                    x:Uid="FileBrowserSortOption_FileType"
-                                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
-                                    Text="Type" />
-                            </Button>
+                                Header="Type"
+                                Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
                                 Grid.Column="13"
@@ -663,7 +655,7 @@
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="MinHeight" Value="1" />
-                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Padding" Value="0,0,12,0" />
                             <Setter Property="Height" Value="36" />
                         </Style>
                     </ListView.ItemContainerStyle>
