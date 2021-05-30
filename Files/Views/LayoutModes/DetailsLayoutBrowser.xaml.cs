@@ -181,8 +181,6 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
-            ColumnsViewModel.TotalWidth = Math.Max(800, RootGrid.Width);
-
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -212,7 +210,7 @@ namespace Files.Views.LayoutModes
 
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
-            // This code updates which colulmns are hidden and which ones are shwn
+            // This code updates which columns are hidden and which ones are shwn
             if (!e.IsTypeRecycleBin)
             {
                 ColumnsViewModel.DateDeletedColumn.Hide();
@@ -234,7 +232,7 @@ namespace Files.Views.LayoutModes
             }
 
             ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-        + Column6.ActualWidth + Column7.ActualWidth);
+                    + Column6.ActualWidth + Column7.ActualWidth);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -319,7 +319,7 @@
                                 <ColumnDefinition x:Name="Column8" Width="0" />
                             </Grid.ColumnDefinitions>
 
-                            <Grid Grid.Column="0" Width="44" />
+                            <Grid Grid.Column="0" />
 
                             <Button
                                 Grid.Column="2"
@@ -663,6 +663,7 @@
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="MinHeight" Value="1" />
+                            <Setter Property="Padding" Value="0" />
                             <Setter Property="Height" Value="36" />
                         </Style>
                     </ListView.ItemContainerStyle>
