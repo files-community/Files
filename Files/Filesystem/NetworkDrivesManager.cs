@@ -114,7 +114,7 @@ namespace Files.Filesystem
                     SidebarControl.SideBarItems.BeginBulkOperation();
 
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (section == null && this.drivesList.Any(d => d.DeviceID != "network-folder"))
+                    if (section == null)
                     {
                         section = new LocationItem()
                         {
