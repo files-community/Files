@@ -30,7 +30,6 @@
             <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2" />
-                <ResourceDictionary Source="/ResourceDictionaries/CustomHeaderStyle.xaml" />
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
