@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>피드백 제출</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>개발자에게 자세한 정보가 담긴 오류 보고서를 전송합니다</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>외부 라이센스</value>
   </data>
@@ -332,9 +329,6 @@
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>취소</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>설정</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>선택 반전</value>
@@ -693,14 +687,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>기여자</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Files에 기여해주신 분들</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>릴리즈 노트</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Files의 새로운 기능 알아보기</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>선택한 항목에 접근할 수 없습니다.{0}오류 메시지:{0}{1}</value>
@@ -824,9 +812,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>후원</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>PayPal 후원하기</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>항목을 만들 수 없습니다</value>
@@ -1305,18 +1290,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>작업 현황</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>라이센스</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>라이센스</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>웹사이트</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>웹사이트</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
@@ -1583,9 +1556,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>문서</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Files 사용 팁 &amp; 요령 알아보기</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files 문서 웹사이트 방문하기</value>

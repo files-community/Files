@@ -135,9 +135,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>प्रतिक्रिया सबमिट करें</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>डेवलपर्स को अधिक जानकारी के साथ एक समस्या रिपोर्ट भेजें</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>तृतीय पक्ष लाइसेंस</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>प्रयोगात्मक</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>सेटिंग्स</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>बारे में</value>
@@ -1004,18 +998,6 @@
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>अनिर्दिष्ट.</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>लायसेंस</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>लायसेंस</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>वेबसाइट</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>वेबसाइट</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
     <value>यहाँ छोड़ें...</value>

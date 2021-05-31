@@ -135,9 +135,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>إرسال ملاحظات</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>ارسل المشكلة للموطور بمعلومات مفصلة</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>تراخيص الطرف الثالث</value>
   </data>
@@ -170,9 +167,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>تجريبي</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>الاعدادات</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>حول التطبيق</value>
@@ -750,14 +744,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>‏‏المساهمون</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>تعرف على من ساهم في التطبيق</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>ملاحظات الإصدار</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>اكتشف اخر التحديثات في التطبيق</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>العنصر المشار إليه إما غير صالح أو لا يمكن الوصول إليه{0}رسالة خطأ{0}{1}</value>
@@ -815,9 +803,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>ادعمنا</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>ادعمنا على PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>لم نتمكن من إنشاء هذا العنصر</value>
@@ -1286,18 +1271,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>مركز الحالات</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>الترخيص</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>الترخيص</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>موقع ويب</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>موقع ويب</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>تعرف على المزيد حول تنسيقات التاريخ</value>

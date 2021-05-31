@@ -126,9 +126,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>பின்னூட்டத்தைச் சமர்ப்பி</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>உருவாக்குனர்ளுக்கு கூடுதல் தகவலுடன் ஒரு சிக்கல் அறிக்கையை அனுப்பவும்</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>மூன்றாம் தரப்பு உரிமங்கள்</value>
   </data>
@@ -143,9 +140,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>அமைப்புகள்</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>பற்றி</value>
@@ -721,14 +715,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>பங்களிப்பாளர்கள்</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>யார் Files இற்கு உதவி செய்தது என்று பார்</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>வெளியீட்டுக் குறிப்புகள்</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find out what's new in Files</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>செல்லாத உருப்படி</value>
@@ -837,9 +825,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>எங்களை PayPal இல் ஆதரவளி</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</value>
@@ -1075,18 +1060,6 @@
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>குறிப்பிடப்படாதது</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>உரிமம்</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>உரிமம்</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>வலைத்தளம்</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>வலைத்தளம்</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>தேடல் முடிவுகள்</value>

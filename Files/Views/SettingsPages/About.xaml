@@ -66,7 +66,7 @@
                         AutomationProperties.Name="Send the developers an issue report with more information"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,4"
+                            Padding="4"
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Feedback">
@@ -82,7 +82,7 @@
                         AutomationProperties.Name="Find out what's new in Files"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,4"
+                            Padding="4"
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="ReleaseNotes">
@@ -98,7 +98,7 @@
                         AutomationProperties.Name="Visit the Files documentation website"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,4"
+                            Padding="4"
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Documentation">
@@ -114,7 +114,7 @@
                         AutomationProperties.Name="View Files privacy policy"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,4"
+                            Padding="4"
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="PrivacyPolicy">
@@ -130,7 +130,7 @@
                         AutomationProperties.Name="See who contributed to Files"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,4"
+                            Padding="4"
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="Contributors">
@@ -146,7 +146,7 @@
                         AutomationProperties.Name="Support us on PayPal"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,4"
+                            Padding="4"
                             Orientation="Horizontal"
                             Spacing="14"
                             Tag="SupportUs">
