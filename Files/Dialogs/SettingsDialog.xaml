@@ -12,6 +12,7 @@
 
     <ContentDialog.Resources>
         <ResourceDictionary>
+            <x:Double x:Key="ContentDialogMaxWidth">1000</x:Double>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
@@ -26,10 +27,9 @@
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <Grid Width="1000" Height="600">
+    <Grid Width="600" Height="600">
         <muxc:NavigationView
             x:Name="SettingsPane"
-            CompactModeThresholdWidth="0"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
             IsPaneOpen="True"
@@ -37,7 +37,7 @@
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
             OpenPaneLength="200"
-            PaneDisplayMode="Auto"
+            PaneDisplayMode="Left"
             SelectionChanged="SettingsPane_SelectionChanged">
 
             <muxc:NavigationView.MenuItems>
@@ -109,9 +109,10 @@
 
             <Frame
                 x:Name="SettingsContentFrame"
-                Margin="12,0,0,0"
+                Width="Auto"
+                Margin="12,4,4,4"
                 Padding="12,0,0,0"
-                Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+                Background="{ThemeResource SubtleFillColorTertiary}"
                 CornerRadius="{StaticResource OverlayCornerRadius}" />
         </muxc:NavigationView>
     </Grid>
